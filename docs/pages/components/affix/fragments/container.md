@@ -16,7 +16,7 @@ const App = () => {
           }}
         >
           <Button appearance="primary" style={{ marginLeft: 100 }}>
-            Top 0
+            Top 0 (container)
           </Button>
         </Affix>
         <Placeholder.Paragraph rows={6} />

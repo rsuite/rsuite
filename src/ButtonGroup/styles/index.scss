@@ -1,0 +1,96 @@
+@use '../../internals/Box/styles/index' as box;
+@use '../../styles/mixins/utilities' as utils;
+
+//
+// Button groups
+// --------------------------------------------------
+
+// Make the div behave like a button
+.rs-btn-group {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle; // match .btn alignment given font-size hack above
+
+  > .rs-btn {
+    position: relative;
+
+    // Bring the "active" button to the front.
+    &:focus,
+    &:active {
+      z-index: 2;
+    }
+  }
+}
+
+// Horizontal Button remove border radius
+.rs-btn-group:not([data-vertical='true']) {
+  > .rs-btn {
+    float: inline-start;
+
+    &:not(:last-child) {
+      @include utils.border-right-radius(0);
+    }
+
+    &:not(:first-child) {
+      @include utils.border-left-radius(0);
+    }
+  }
+
+  // collapse border
+  > .rs-btn[data-appearance='ghost'] + .rs-btn[data-appearance='ghost'] {
+    margin-inline-start: -1px;
+  }
+
+  &[data-divided='true'] > .rs-btn {
+    &:not(:last-child) {
+      border-right-width: 1px;
+    }
+  }
+}
+
+// Vertical button groups
+// ----------------------
+
+.rs-btn-group[data-vertical='true'] {
+  > .rs-btn {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+
+    &:not(:last-child) {
+      @include utils.border-bottom-radius(0);
+    }
+
+    &:not(:first-child) {
+      @include utils.border-top-radius(0);
+    }
+  }
+
+  // collapse border
+  > .rs-btn[data-appearance='ghost'] + .rs-btn[data-appearance='ghost'] {
+    margin-top: -1px;
+  }
+
+  &[data-divided='true'] > .rs-btn {
+    &:not(:last-child) {
+      border-bottom-width: 1px;
+    }
+  }
+
+  &[data-block='true'] {
+    width: 100%;
+  }
+}
+
+// Justified button groups
+// ----------------------
+
+.rs-btn-group[data-justified='true'] {
+  display: flex;
+  width: 100%;
+
+  > .rs-btn {
+    flex: 1 1 1%;
+    @include utils.ellipsis-basic;
+  }
+}

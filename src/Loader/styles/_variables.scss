@@ -1,0 +1,19 @@
+// Loader variables
+:root {
+  --rs-loader-duration-fast: 0.4s;
+  --rs-loader-duration-normal: 0.6s;
+  --rs-loader-duration-slow: 0.8s;
+  --rs-loader-duration-paused: paused;
+
+  --rs-loader-size-xs: 1rem;
+  --rs-loader-size-sm: 1.125rem;
+  --rs-loader-size-md: 2.25rem;
+  --rs-loader-size-lg: 4rem;
+
+  --rs-loader-font-size-xs: var(--rs-font-size-xs);
+  --rs-loader-font-size-sm: var(--rs-font-size-sm);
+  --rs-loader-font-size-md: var(--rs-font-size-sm);
+  --rs-loader-font-size-lg: var(--rs-font-size-md);
+
+  --rs-loader-spin-ring-width: 3px;
+}

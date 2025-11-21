@@ -1,0 +1,54 @@
+$doc-nav-active-color: #34c3ff;
+$doc-nav-font-color: #272c36;
+$doc-nav-line-color: #e5e5e5;
+
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  display: block;
+  text-decoration: none;
+  color: $doc-nav-font-color;
+  font-size: 14px;
+  position: relative;
+  padding: 8px 0;
+  padding-inline-start: 20px;
+  box-sizing: border-box;
+  height: 34px;
+  line-height: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 1px;
+    height: 100%;
+    top: 0;
+    background: $doc-nav-line-color;
+  }
+  &:hover {
+    text-decoration: none;
+  }
+  &.scroll-bar-left::before {
+    inset-inline-start: 0;
+  }
+  &.scroll-bar-right::before {
+    inset-inline-end: 0;
+  }
+  &.active {
+    color: $doc-nav-active-color;
+    &::before {
+      width: 2px;
+      background: $doc-nav-active-color;
+    }
+  }
+}
+
+html[dir='rtl'] .document-nav {
+  inset-inline-start: auto !important;
+  inset-inline-end: 10px !important;
+}

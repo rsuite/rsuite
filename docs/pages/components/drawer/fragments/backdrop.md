@@ -1,27 +1,22 @@
 <!--start-code-->
 
 ```js
-import { Drawer, RadioGroup, Radio, ButtonToolbar, Button, Placeholder } from 'rsuite';
-
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
+import { Drawer, SegmentedControl, ButtonToolbar, Button, Placeholder, Text } from 'rsuite';
 
 const App = () => {
   const [backdrop, setBackdrop] = React.useState('static');
   const [open, setOpen] = React.useState(false);
   return (
     <>
-      <RadioGroup
-        name="radioList"
-        appearance="picker"
-        inline
+      <SegmentedControl
+        data={[
+          { value: 'static', label: 'static' },
+          { value: true, label: 'true' },
+          { value: false, label: 'false' }
+        ]}
         value={backdrop}
         onChange={setBackdrop}
-      >
-        <RadioLabel>Backdrop: </RadioLabel>
-        <Radio value="static">static</Radio>
-        <Radio value={true}>true</Radio>
-        <Radio value={false}>false</Radio>
-      </RadioGroup>
+      />
       <hr />
 
       <ButtonToolbar>

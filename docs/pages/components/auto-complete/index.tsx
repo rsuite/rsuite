@@ -1,6 +1,6 @@
 import React from 'react';
-import { AutoComplete, InputGroup, Stack } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import { AutoComplete, InputGroup, VStack, HStack, Text, Divider } from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
 import SearchIcon from '@rsuite/icons/Search';
 import MemberIcon from '@rsuite/icons/Member';
 import ImportGuide from '@/components/ImportGuide';
@@ -13,7 +13,16 @@ export default function Page() {
   return (
     <DefaultPage
       inDocsComponents={inDocsComponents}
-      dependencies={{ AutoComplete, InputGroup, SearchIcon, MemberIcon, Stack }}
+      dependencies={{
+        AutoComplete,
+        InputGroup,
+        SearchIcon,
+        MemberIcon,
+        VStack,
+        HStack,
+        Text,
+        Divider
+      }}
     />
   );
 }

@@ -16,16 +16,16 @@ import {
 const App = () => (
   <ButtonToolbar>
     <ButtonGroup>
-      <IconButton icon={<FaBold />} />
-      <IconButton icon={<FaItalic />} />
-      <IconButton icon={<FaUnderline />} />
-      <IconButton icon={<FaStrikethrough />} />
+      <IconButton icon={<FaBold />} toggleable />
+      <IconButton icon={<FaItalic />} toggleable />
+      <IconButton icon={<FaUnderline />} toggleable />
+      <IconButton icon={<FaStrikethrough />} toggleable />
     </ButtonGroup>
     <ButtonGroup>
-      <IconButton icon={<FaAlignLeft />} />
-      <IconButton icon={<FaAlignCenter />} />
-      <IconButton icon={<FaAlignRight />} />
-      <IconButton icon={<FaAlignJustify />} />
+      <IconButton icon={<FaAlignLeft />} toggleable />
+      <IconButton icon={<FaAlignCenter />} toggleable />
+      <IconButton icon={<FaAlignRight />} toggleable />
+      <IconButton icon={<FaAlignJustify />} toggleable />
     </ButtonGroup>
   </ButtonToolbar>
 );

@@ -1,0 +1,85 @@
+{
+  "Button": {
+    "props": {
+      "active": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "A button can show it is currently the active user selection"
+      },
+      "appearance": {
+        "type": "'default' | 'primary' | 'link' | 'subtle' | 'ghost'",
+        "isRequired": false,
+        "description": "A button can have different appearances",
+        "defaultValue": "default"
+      },
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element for this component",
+        "defaultValue": "button"
+      },
+      "block": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Spans the full width of the Button parent"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Primary content"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "btn"
+      },
+      "color": {
+        "type": "'red' | 'orange' | 'yellow' | 'green' | 'cyan' | 'blue' | 'violet'",
+        "isRequired": false,
+        "description": "A button can have different colors"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "A button can show it is currently unable to be interacted with"
+      },
+      "endIcon": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Display an icon after buttont text"
+      },
+      "href": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Providing a `href` will render an `a` element"
+      },
+      "loading": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "A button can show a loading indicator"
+      },
+      "onToggle": {
+        "type": "(active: boolean, event: MouseEvent) => void",
+        "isRequired": false,
+        "description": "Callback when the button is toggled between active and inactive states"
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "A button can have different sizes",
+        "defaultValue": "md"
+      },
+      "startIcon": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Display an icon before buttont text"
+      },
+      "toggleable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "A button can switch between active and inactive states"
+      }
+    }
+  }
+}

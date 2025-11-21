@@ -1,8 +1,7 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
-import { useUniqueId } from '../hooks';
 import MenuContext, { MenuActionTypes, MoveFocusTo } from './MenuContext';
+import { useUniqueId } from '../hooks';
 
 export interface MenuItemProps {
   /** Active the current option */
@@ -39,7 +38,9 @@ function MenuItem(props: MenuItemProps) {
   const menu = useContext(MenuContext);
 
   if (!menu) {
-    throw new Error('<MenuItem> must be rendered within a <Menu>');
+    throw new Error(
+      '<Menu.Item> must be rendered within a <Menu>, and <Menu> does not support nested <Menu>'
+    );
   }
 
   const [menuState, dispatch] = menu;
@@ -112,7 +113,7 @@ function MenuItem(props: MenuItemProps) {
     role: 'menuitem',
     // fixme Only use `aria-checked` on menuitemradio and menuitemcheckbox
     'aria-checked': selected || undefined,
-    'aria-disabled': disabled,
+    'aria-disabled': disabled || undefined,
     tabIndex: -1,
     onClick: handleClick,
     // render props
@@ -137,11 +138,5 @@ function MenuItem(props: MenuItemProps) {
 }
 
 MenuItem.displayName = 'MenuItem';
-MenuItem.propTypes = {
-  selected: PropTypes.bool,
-  disabled: PropTypes.bool,
-  children: PropTypes.func.isRequired,
-  onActivate: PropTypes.func
-};
 
 export default MenuItem;

@@ -1,11 +1,9 @@
 import React from 'react';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
-import { StandardProps } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useEventCallback } from '@/internals/hooks';
+import type { WithAsProps, HTMLPropsWithoutChange } from '@/internals/types';
 
-export interface InputSearchProps
-  extends StandardProps,
-    Omit<React.HTMLAttributes<HTMLInputElement>, 'onChange'> {
-  as?: React.ElementType | string;
+export interface InputSearchProps extends WithAsProps, HTMLPropsWithoutChange<HTMLInputElement> {
   readOnly?: boolean;
   value?: string;
   inputStyle?: React.CSSProperties;
@@ -13,7 +11,7 @@ export interface InputSearchProps
   onChange?: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const InputSearch = React.forwardRef((props: InputSearchProps, ref: React.Ref<HTMLDivElement>) => {
+const InputSearch = forwardRef<'input', InputSearchProps>((props, ref) => {
   const {
     as: Component = 'input',
     classPrefix = 'picker-search',
@@ -31,8 +29,8 @@ const InputSearch = React.forwardRef((props: InputSearchProps, ref: React.Ref<HT
     onChange?.(event?.target?.value, event);
   });
 
-  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix());
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
   return (
     <div ref={ref} className={classes} style={style}>

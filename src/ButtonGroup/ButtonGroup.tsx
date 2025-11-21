@@ -1,17 +1,19 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { oneOf } from '@/internals/propTypes';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
-import { useCustom } from '../CustomProvider';
 import ButtonGroupContext from './ButtonGroupContext';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useCustom } from '@/internals/hooks';
+import type { BasicSize } from '@/internals/types';
 
-export interface ButtonGroupProps extends WithAsProps {
+export interface ButtonGroupProps extends BoxProps {
   /** Display block buttongroups */
   block?: boolean;
 
   /** A button can show it is currently unable to be interacted with */
   disabled?: boolean;
+
+  /** Add dividing lines between buttons */
+  divided?: boolean;
 
   /** Vertical layouts of button */
   vertical?: boolean;
@@ -27,54 +29,54 @@ export interface ButtonGroupProps extends WithAsProps {
   role?: string;
 
   /** A button group can have different sizes */
-  size?: TypeAttributes.Size;
+  size?: BasicSize;
 }
 
 /**
  * The ButtonGroup component is used to group a series of buttons together in a single line or column.
  * @see https://rsuitejs.com/components/button/#button-group
  */
-const ButtonGroup: RsRefForwardingComponent<'div', ButtonGroupProps> = React.forwardRef(
-  (props: ButtonGroupProps, ref) => {
-    const { propsWithDefaults } = useCustom('ButtonGroup', props);
-    const {
-      as: Component = 'div',
-      classPrefix = 'btn-group',
-      role = 'group',
-      className,
-      children,
-      block,
-      vertical,
-      justified,
-      size,
-      ...rest
-    } = propsWithDefaults;
+const ButtonGroup = forwardRef<'div', ButtonGroupProps>((props: ButtonGroupProps, ref) => {
+  const { propsWithDefaults } = useCustom('ButtonGroup', props);
+  const {
+    as,
+    classPrefix = 'btn-group',
+    role = 'group',
+    className,
+    children,
+    disabled,
+    divided,
+    block,
+    vertical,
+    justified,
+    size,
+    ...rest
+  } = propsWithDefaults;
 
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix(size, { block, vertical, justified }));
-    const contextValue = useMemo(() => ({ size }), [size]);
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
+  const contextValue = useMemo(() => ({ size, disabled }), [disabled, size]);
 
-    return (
-      <ButtonGroupContext.Provider value={contextValue}>
-        <Component {...rest} role={role} ref={ref} className={classes}>
-          {children}
-        </Component>
-      </ButtonGroupContext.Provider>
-    );
-  }
-);
+  return (
+    <ButtonGroupContext.Provider value={contextValue}>
+      <Box
+        as={as}
+        {...rest}
+        role={role}
+        ref={ref}
+        className={classes}
+        data-size={size}
+        data-block={block}
+        data-vertical={vertical}
+        data-justified={justified}
+        data-divided={divided}
+      >
+        {children}
+      </Box>
+    </ButtonGroupContext.Provider>
+  );
+});
 
 ButtonGroup.displayName = 'ButtonGroup';
-ButtonGroup.propTypes = {
-  className: PropTypes.string,
-  as: PropTypes.elementType,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  block: PropTypes.bool,
-  vertical: PropTypes.bool,
-  justified: PropTypes.bool,
-  role: PropTypes.string,
-  size: oneOf(['lg', 'md', 'sm', 'xs'])
-};
 
 export default ButtonGroup;

@@ -1,4 +1,4 @@
-import pl from 'date-fns/locale/pl';
+import { pl } from 'date-fns/locale/pl';
 
 const DateTimeFormats = {
   sunday: 'Ndz',
@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'Otwórz',
     off: 'Zamknij'
+  },
+  Dialog: {
+    alert: 'Ostrzeżenie',
+    confirm: 'Potwierdź',
+    ok: 'OK',
+    cancel: 'Anuluj'
   }
 };

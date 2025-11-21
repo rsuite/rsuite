@@ -1,7 +1,20 @@
 import React from 'react';
-import { ButtonToolbar, Button, Whisper, Popover, Dropdown, Loader, Toggle } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
+import PlacementGrid from '@/components/PlacementGrid';
+import PlacementContainer from '@/components/PlacementContainer';
+import {
+  Menu,
+  ButtonToolbar,
+  Button,
+  Whisper,
+  Popover,
+  Loader,
+  Toggle,
+  IconButton,
+  HStack,
+  Text
+} from 'rsuite';
 
 const inDocsComponents = {
   'import-guide': () => (
@@ -16,11 +29,16 @@ export default function Page() {
       dependencies={{
         ButtonToolbar,
         Button,
+        IconButton,
         Whisper,
         Popover,
-        Dropdown,
+        Menu,
         Loader,
-        Toggle
+        Toggle,
+        Text,
+        PlacementGrid,
+        PlacementContainer,
+        HStack
       }}
     />
   );

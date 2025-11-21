@@ -14,7 +14,7 @@
 
 ```jsx
 import { Button } from 'rsuite';
-import 'rsuite/dist/rsuite.min.css';
+import 'rsuite/dist/rsuite.css';
 
 function App() {
   return <Button>Hello World</Button>;
@@ -35,7 +35,6 @@ function App() {
 如果你只需要部分组件的样式，可以按需导入组件样式。
 
 ```jsx
-// If you are using Less, import the `index.less` file.
 import 'rsuite/Button/styles/index.css';
 ```
 

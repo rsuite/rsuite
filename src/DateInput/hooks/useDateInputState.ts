@@ -11,7 +11,7 @@ import {
   lastDayOfMonth,
   isValid
 } from '@/internals/utils/date';
-import { useCustom } from '../../CustomProvider';
+import { useCustom } from '@/internals/hooks';
 import { useDateField, patternMap } from '../DateField';
 import type { Locale } from 'date-fns';
 
@@ -56,7 +56,7 @@ export function useDateInputState({ formatStr, locale, date, isControlledDate }:
         actionName = 'setMonth';
         value = addMonths(new Date(year, month), offset).getMonth() + 1;
         break;
-      case 'd':
+      case 'd': {
         actionName = 'setDay';
         const prevDate = new Date(year, month, day);
 
@@ -68,6 +68,7 @@ export function useDateInputState({ formatStr, locale, date, isControlledDate }:
           value = prevDate.getDate() === 1 ? lastDayOfMonth(prevDate).getDate() : value;
         }
         break;
+      }
       case 'H':
       case 'h':
         actionName = 'setHour';

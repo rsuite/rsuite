@@ -5,7 +5,7 @@ import { TimeRangePicker } from 'rsuite';
 
 const App = () => (
   <>
-    <TimeRangePicker placeholder="Select Time" style={{ width: 200 }} />
+    <TimeRangePicker placeholder="Select Time" w={200} />
   </>
 );
 

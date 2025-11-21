@@ -1,22 +1,23 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
+import Box, { BoxProps } from '@/internals/Box';
 import { RadioContext } from '../RadioGroup/RadioGroup';
-import { useClassNames, useControlled, useEventCallback, useUniqueId } from '@/internals/hooks';
-import { partitionHTMLProps } from '@/internals/utils';
-import { refType } from '@/internals/propTypes';
-import { useCustom } from '../CustomProvider';
-import type { WithAsProps, TypeAttributes } from '@/internals/types';
+import {
+  useStyles,
+  useCustom,
+  useControlled,
+  useEventCallback,
+  useUniqueId
+} from '@/internals/hooks';
+import { forwardRef, partitionHTMLProps } from '@/internals/utils';
+import { Color, HTMLPropsWithoutChange } from '@/internals/types';
 
-export type ValueType = string | number;
-export interface RadioProps<T = ValueType>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface RadioProps<T = string | number> extends BoxProps, HTMLPropsWithoutChange {
   /**
    * The color of the radio when checked
    *
    * @version 5.56.0
    */
-  color?: TypeAttributes.Color;
+  color?: Color;
 
   /**
    * The disable of component
@@ -84,7 +85,7 @@ export interface RadioProps<T = ValueType>
  * The `Radio` component is a simple radio button.
  * @see https://rsuitejs.com/components/radio
  */
-const Radio = React.forwardRef((props: RadioProps, ref) => {
+const Radio = forwardRef<'div', RadioProps>((props, ref) => {
   const radioContext = useContext(RadioContext);
   const { propsWithDefaults } = useCustom('Radio', props);
   const {
@@ -98,7 +99,7 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
   } = radioContext ?? {};
 
   const {
-    as: Component = 'div',
+    as,
     title,
     className,
     children,
@@ -125,8 +126,8 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
     defaultChecked || false
   );
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(color, { inline, disabled, checked }));
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
   const [htmlInputProps, restProps] = partitionHTMLProps(rest);
 
   const handleChange = useEventCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,9 +151,9 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
 
   if (plaintext) {
     return checked ? (
-      <Component {...restProps} ref={ref} className={classes}>
+      <Box as={as} ref={ref} className={classes} {...restProps}>
         {children}
-      </Component>
+      </Box>
     ) : null;
   }
 
@@ -178,7 +179,17 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
   );
 
   return (
-    <Component {...restProps} ref={ref} onClick={onClick} className={classes}>
+    <Box
+      as={as}
+      ref={ref}
+      onClick={onClick}
+      className={classes}
+      data-color={color}
+      data-checked={checked}
+      data-disabled={disabled}
+      data-inline={inline}
+      {...restProps}
+    >
       <div className={prefix`checker`}>
         {children ? (
           <label title={title}>
@@ -191,24 +202,10 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
           control
         )}
       </div>
-    </Component>
+    </Box>
   );
 });
 
 Radio.displayName = 'Radio';
-Radio.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
-  inline: PropTypes.bool,
-  disabled: PropTypes.bool,
-  checked: PropTypes.bool,
-  defaultChecked: PropTypes.bool,
-  inputProps: PropTypes.any,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  value: PropTypes.any,
-  inputRef: refType,
-  onChange: PropTypes.func
-};
+
 export default Radio;

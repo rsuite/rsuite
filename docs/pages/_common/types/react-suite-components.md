@@ -1,4 +1,4 @@
-### `ts:Components`
+#### `ts:Components`
 
 ```ts
 import type { ButtonProps } from '../Button';

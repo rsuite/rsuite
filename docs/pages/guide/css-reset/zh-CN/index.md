@@ -2,8 +2,6 @@
 
 当使用了 React Suite 后，会重置一些 HTML 元素的样式。您可以直接使用 HTML 元素进行排版，展示标题、段落、列表、链接等等。
 
-> 如果不需要这些样式，可以[配置不引入这些样式][config-reset-import]。
-
 <div id="ad-view"></div>
 
 ### `<a>`：HTML 锚元素
@@ -41,5 +39,3 @@
 是一个包含术语定义以及描述的列表，通常用于展示词汇表或者元数据 (键-值对列表)。
 
 <!--{include:`list-dl.md`}-->
-
-[config-reset-import]: /zh/guide/customization-less/#禁用-reset-相关样式引用

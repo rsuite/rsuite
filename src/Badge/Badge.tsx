@@ -1,81 +1,142 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
-import { oneOf } from '@/internals/propTypes';
-import { useCustom } from '../CustomProvider';
+import React, { useMemo } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
+import { useStyles, useCustom } from '@/internals/hooks';
+import {
+  forwardRef,
+  mergeStyles,
+  createOffsetStyles,
+  isPresetColor,
+  createColorVariables
+} from '@/internals/utils';
+import type { Color, PlacementCorners, Size } from '@/internals/types';
 
-export interface BadgeProps extends WithAsProps {
-  /** Main content */
+export interface BadgeProps extends BoxProps {
+  /**
+   * The content of the badge
+   */
   content?: React.ReactNode;
 
-  /** Max count */
+  /**
+   * The maximum value of the badge
+   */
   maxCount?: number;
 
-  /** A badge can have different colors */
-  color?: TypeAttributes.Color;
+  /**
+   * A badge can have different colors
+   */
+  color?: Color | React.CSSProperties['color'];
+
+  /**
+   * The badge will have an outline
+   * @version 6.0.0
+   */
+  outline?: boolean;
+
+  /**
+   * The placement of the badge
+   * @version 6.0.0
+   */
+  placement?: PlacementCorners;
+
+  /**
+   * If true, the Badge will have no padding, making it appear more compact and rounded.
+   */
+  compact?: boolean;
+
+  /**
+   * The shape of the wrapped element
+   * @version 6.0.0
+   */
+  shape?: 'rectangle' | 'circle';
+
+  /**
+   * A badge can have different sizes
+   */
+  size?: Size;
+
+  /**
+   * Define the horizontal and vertical offset of the badge relative to its wrapped element
+   * @version 6.0.0
+   */
+  offset?: [number | string, number | string];
+
+  /**
+   * The badge will be hidden
+   * @version 6.0.0
+   */
+  invisible?: boolean;
 }
 
 /**
  * The Badge component is usually used to mark or highlight the status or quantity of an object.
  * @see https://rsuitejs.com/components/badge
  */
-const Badge: RsRefForwardingComponent<'div', BadgeProps> = React.forwardRef(
-  (props: BadgeProps, ref) => {
-    const { propsWithDefaults } = useCustom('Badge', props);
-    const {
-      as: Component = 'div',
-      content: contentText,
-      color,
-      className,
-      classPrefix = 'badge',
-      children,
-      maxCount = 99,
-      ...rest
-    } = propsWithDefaults;
+const Badge = forwardRef<'div', BadgeProps>((props: BadgeProps, ref) => {
+  const { propsWithDefaults } = useCustom('Badge', props);
+  const {
+    as,
+    content,
+    color,
+    className,
+    classPrefix = 'badge',
+    children,
+    compact,
+    maxCount = 99,
+    offset,
+    outline = true,
+    placement = 'topEnd',
+    shape,
+    size = 'md',
+    style,
+    invisible,
+    ...rest
+  } = propsWithDefaults;
 
-    const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-    const dot = contentText === undefined || contentText === null;
-    const classes = merge(
-      className,
-      withClassPrefix(color, {
-        independent: !children,
-        wrapper: children,
-        dot
-      })
-    );
+  const { withPrefix, prefix, merge } = useStyles(classPrefix);
+  const text = typeof content === 'number' && content > maxCount ? `${maxCount}+` : content;
+  const isOneChar = useMemo(() => String(content)?.length === 1, [content]);
 
-    if (contentText === false) {
-      return React.cloneElement(children as React.ReactElement, { ref });
-    }
+  const classes = merge(className, withPrefix({ wrapper: children }));
 
-    const content =
-      typeof contentText === 'number' && contentText > maxCount ? `${maxCount}+` : contentText;
-    if (!children) {
-      return (
-        <Component {...rest} ref={ref} className={classes}>
-          {content}
-        </Component>
-      );
-    }
+  const styles = useMemo(
+    () =>
+      mergeStyles(
+        style,
+        createOffsetStyles(offset, '--rs-badge-offset'),
+        createColorVariables(color, '--rs-badge-bg')
+      ),
+    [style, offset, color]
+  );
+
+  const dataAttributes = useMemo(() => {
+    return {
+      ['data-color']: isPresetColor(color) ? color : undefined,
+      ['data-shape']: shape,
+      ['data-compact']: compact,
+      ['data-one-char']: isOneChar,
+      ['data-outline']: outline,
+      ['data-hidden']: invisible,
+      ['data-independent']: !children,
+      ['data-placement']: children ? placement : undefined,
+      ['data-size']: size
+    };
+  }, [color, shape, compact, isOneChar, outline, invisible, children, placement, size]);
+
+  if (!children) {
     return (
-      <Component {...rest} ref={ref} className={classes}>
-        {children}
-        <div className={prefix('content')}>{content}</div>
-      </Component>
+      <Box as={as} ref={ref} className={classes} style={styles} {...dataAttributes} {...rest}>
+        {text}
+      </Box>
     );
   }
-);
+  return (
+    <Box as={as} ref={ref} className={classes} style={styles} {...dataAttributes} {...rest}>
+      {children}
+      <div className={prefix('content')}>{text}</div>
+    </Box>
+  );
+});
 
 Badge.displayName = 'Badge';
-Badge.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  as: PropTypes.elementType,
-  content: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
-  maxCount: PropTypes.number,
-  color: oneOf(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'])
-};
 
 export default Badge;

@@ -1,6 +1,14 @@
 import React from 'react';
-import { Notification, Button, ButtonToolbar, SelectPicker, useToaster, Stack } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import {
+  Notification,
+  Button,
+  ButtonToolbar,
+  SelectPicker,
+  useToaster,
+  VStack,
+  Divider
+} from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {
@@ -16,8 +24,9 @@ export default function Page() {
         Button,
         ButtonToolbar,
         SelectPicker,
-        useToaster,
-        Stack
+        VStack,
+        Divider,
+        useToaster
       }}
     />
   );

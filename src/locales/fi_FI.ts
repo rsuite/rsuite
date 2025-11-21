@@ -1,4 +1,4 @@
-import fi from 'date-fns/locale/fi';
+import { fi } from 'date-fns/locale/fi';
 
 const DateTimeFormats = {
   sunday: 'Su',
@@ -90,5 +90,11 @@ export default {
   Toggle: {
     on: 'Päällä',
     off: 'Pois päältä'
+  },
+  Dialog: {
+    alert: 'Varoitus',
+    confirm: 'Vahvista',
+    ok: 'OK',
+    cancel: 'Peruuta'
   }
 };

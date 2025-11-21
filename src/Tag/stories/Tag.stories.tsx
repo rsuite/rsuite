@@ -1,7 +1,7 @@
 import type { StoryObj } from '@storybook/react';
 import Tag, { TagProps } from '../Tag';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(Tag);
 

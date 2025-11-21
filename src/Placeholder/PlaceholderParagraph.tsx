@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
-import { oneOf } from '@/internals/propTypes';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-export interface PlaceholderParagraphProps extends WithAsProps {
+import Box, { BoxProps } from '@/internals/Box';
+import { useStyles, useCustom } from '@/internals/hooks';
+import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
+export interface PlaceholderParagraphProps extends BoxProps {
   /**
    * The number of rows.
    * @default 2
@@ -45,62 +43,56 @@ export interface PlaceholderParagraphProps extends WithAsProps {
  * The `Placeholder.Paragraph` component is used to display the loading state of the block.
  * @see https://rsuitejs.com/components/placeholder
  */
-const PlaceholderParagraph: RsRefForwardingComponent<'div', PlaceholderParagraphProps> =
-  React.forwardRef((props: PlaceholderParagraphProps, ref) => {
+const PlaceholderParagraph = forwardRef<'div', PlaceholderParagraphProps>(
+  (props: PlaceholderParagraphProps, ref) => {
     const { propsWithDefaults } = useCustom('PlaceholderParagraph', props);
     const {
-      as: Component = 'div',
+      as,
       className,
-      rows = 2,
-      rowHeight = 10,
-      rowMargin = 20,
-      rowSpacing = rowMargin,
+      classPrefix = 'placeholder',
+      rows = 3,
+      rowHeight,
+      rowSpacing,
       graph,
       active,
-      classPrefix = 'placeholder',
+      style,
       ...rest
     } = propsWithDefaults;
 
-    const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+    const { merge, prefix, cssVar, withPrefix } = useStyles(classPrefix);
     const graphShape = graph === true ? 'square' : graph;
+
+    const styles = mergeStyles(
+      style,
+      cssVar('row-height', rowHeight, getCssValue),
+      cssVar('row-spacing', rowSpacing, getCssValue)
+    );
 
     const rowElements = useMemo(() => {
       const rowArr: React.ReactElement[] = [];
 
       for (let i = 0; i < rows; i++) {
-        const styles = {
-          height: rowHeight,
-          marginTop: i > 0 ? rowSpacing : Number(rowSpacing) / 2
-        };
-        rowArr.push(<div key={i} style={styles} className={prefix`row`} />);
+        rowArr.push(<div key={i} className={prefix`row`} />);
       }
       return rowArr;
-    }, [prefix, rowHeight, rowSpacing, rows]);
+    }, [prefix, rows]);
 
-    const classes = merge(className, withClassPrefix('paragraph', { active }));
-    const graphClasses = prefix('paragraph-graph', `paragraph-graph-${graphShape}`);
+    const classes = merge(className, withPrefix('paragraph'));
+    const graphClasses = prefix('paragraph-graph');
 
     return (
-      <Component {...rest} ref={ref} className={classes}>
+      <Box as={as} ref={ref} className={classes} style={styles} data-active={active} {...rest}>
         {graphShape && (
-          <div className={graphClasses}>
+          <div className={graphClasses} data-shape={graphShape}>
             <span className={prefix('paragraph-graph-inner')} />
           </div>
         )}
         <div className={prefix('paragraph-group')}>{rowElements}</div>
-      </Component>
+      </Box>
     );
-  });
+  }
+);
 
 PlaceholderParagraph.displayName = 'PlaceholderParagraph';
-PlaceholderParagraph.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  rows: PropTypes.number,
-  rowHeight: PropTypes.number,
-  rowSpacing: PropTypes.number,
-  graph: PropTypes.oneOfType([PropTypes.bool, oneOf(['circle', 'square', 'image'])]),
-  active: PropTypes.bool
-};
 
 export default PlaceholderParagraph;

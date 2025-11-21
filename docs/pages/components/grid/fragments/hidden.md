@@ -1,16 +1,22 @@
 <!--start-code-->
 
 ```js
-import { Grid, Row, Col } from 'rsuite';
+import { Grid, Row, Col, Center } from 'rsuite';
+
+const DecorativeBox = ({ children, ...rest }) => (
+  <Center bg="var(--rs-placeholder)" p={20} my={6} rounded="lg" {...rest}>
+    {children}
+  </Center>
+);
 
 const App = () => (
   <Grid fluid>
-    <Row className="show-grid">
-      <Col xsHidden xs={12}>
-        xsHidden xs={12}
+    <Row>
+      <Col span={{ md: 12 }} hidden={{ xs: true }}>
+        <DecorativeBox>hidden={`{ xs: true }`}</DecorativeBox>
       </Col>
-      <Col xs={12} xs={12}>
-        xs={12} xs={12}
+      <Col span={{ xs: 24, md: 12 }}>
+        <DecorativeBox>span={`{ xs: 24, md: 12 }`}</DecorativeBox>
       </Col>
     </Row>
   </Grid>

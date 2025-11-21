@@ -1,53 +1,46 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import Box, { BoxProps } from '@/internals/Box';
+import { useStyles } from '@/internals/hooks';
+import { forwardRef, mergeStyles } from '@/internals/utils';
 
-interface ProgressBarProps extends WithAsProps {
+interface ProgressBarProps extends BoxProps {
   vertical?: boolean;
-  rtl?: boolean;
   start?: number;
   end?: number;
 }
 
-const ProgressBar: RsRefForwardingComponent<'div', ProgressBarProps> = React.forwardRef(
-  (props: ProgressBarProps, ref) => {
-    const {
-      as: Component = 'div',
-      classPrefix = 'slider-progress-bar',
-      vertical,
-      rtl,
-      end = 0,
-      start = 0,
-      style,
-      className
-    } = props;
+const ProgressBar = forwardRef<'div', ProgressBarProps>((props, ref) => {
+  const {
+    as,
+    classPrefix = 'slider-progress-bar',
+    vertical,
+    end = 0,
+    start = 0,
+    style,
+    className,
+    ...rest
+  } = props;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withPrefix } = useStyles(classPrefix);
 
-    const sizeKey = vertical ? 'height' : 'width';
-    const dirKey = rtl ? 'right' : 'left';
-    const startKey = vertical ? 'bottom' : dirKey;
+  const sizeKey = vertical ? 'height' : 'width';
+  const startKey = vertical ? 'bottom' : 'insetInlineStart';
 
-    const styles = { ...style, [startKey]: `${start}%`, [sizeKey]: `${end - start}%` };
-    const classes = merge(className, withClassPrefix());
+  const styles = mergeStyles(style, { [startKey]: `${start}%`, [sizeKey]: `${end - start}%` });
+  const classes = merge(className, withPrefix());
 
-    return (
-      <Component ref={ref} style={styles} className={classes} data-testid="slider-progress-bar" />
-    );
-  }
-);
+  return (
+    <Box
+      as={as}
+      ref={ref}
+      style={styles}
+      className={classes}
+      data-testid="slider-progress-bar"
+      {...rest}
+    />
+  );
+});
 
 ProgressBar.displayName = 'ProgressBar';
-ProgressBar.propTypes = {
-  as: PropTypes.elementType,
-  classPrefix: PropTypes.string,
-  style: PropTypes.object,
-  className: PropTypes.string,
-  vertical: PropTypes.bool,
-  rtl: PropTypes.bool,
-  start: PropTypes.number,
-  end: PropTypes.number
-};
 
 export default ProgressBar;

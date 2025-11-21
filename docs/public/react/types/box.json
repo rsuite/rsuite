@@ -1,0 +1,42 @@
+{
+  "Box": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type for the component",
+        "defaultValue": "div"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The content of the component"
+      },
+      "className": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Additional CSS class"
+      },
+      "display": {
+        "type": "CSSProperties['display']",
+        "isRequired": false,
+        "description": "CSS display property"
+      },
+      "hideFrom": {
+        "type": "[Breakpoints][breakpoints]",
+        "isRequired": false,
+        "description": "Breakpoint above which the component is hidden with `display: none`"
+      },
+      "showFrom": {
+        "type": "[Breakpoints][breakpoints]",
+        "isRequired": false,
+        "description": "Breakpoint below which the component is hidden with `display: none`"
+      },
+      "style": {
+        "type": "CSSProperties",
+        "isRequired": false,
+        "description": "Inline style"
+      }
+    }
+  }
+}

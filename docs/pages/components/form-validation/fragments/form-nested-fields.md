@@ -1,24 +1,10 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, ButtonToolbar, Schema, Panel, FlexboxGrid } from 'rsuite';
-import JSONTree from 'react-json-tree';
+import { Form, Button, ButtonToolbar, Row, Col } from 'rsuite';
+import { SchemaModel, StringType, ObjectType, NumberType, ArrayType } from 'rsuite/Schema';
 
-const JSONView = ({ formValue, formError }) => (
-  <div style={{ marginBottom: 10 }}>
-    <Panel className="json-tree-wrapper" header={<p>formValue</p>}>
-      <JSONTree data={formValue} />
-    </Panel>
-
-    <Panel className="json-tree-wrapper" header={<p>formError</p>}>
-      <JSONTree data={formError} />
-    </Panel>
-  </div>
-);
-
-const { StringType, ObjectType, NumberType, ArrayType } = Schema.Types;
-
-const model = Schema.Model({
+const model = SchemaModel({
   name: StringType().isRequired('Name is required.'),
   address: ObjectType().shape({
     city: StringType().isRequired('City is required.'),
@@ -35,7 +21,7 @@ const TextField = React.forwardRef((props, ref) => {
   const { name, label, accepter, ...rest } = props;
   return (
     <Form.Group ref={ref}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
+      <Form.Label>{label} </Form.Label>
       <Form.Control name={name} accepter={accepter} {...rest} />
     </Form.Group>
   );
@@ -59,8 +45,8 @@ const App = () => {
   };
 
   return (
-    <FlexboxGrid>
-      <FlexboxGrid.Item colspan={12}>
+    <Row>
+      <Col span={{ xs: 24, md: 12 }}>
         <Form
           nestedField
           ref={form}
@@ -69,23 +55,25 @@ const App = () => {
           formValue={formValue}
           model={model}
         >
-          <TextField name="name" label="Name" />
-          <TextField name="address.city" label="City" />
-          <TextField name="address.postCode" label="Post Code" />
-          <TextField name="skills[0].name" label="Skill 1" />
-          <TextField name="skills[1].name" label="Skill 2" />
+          <Form.Stack>
+            <TextField name="name" label="Name" />
+            <TextField name="address.city" label="City" />
+            <TextField name="address.postCode" label="Post Code" />
+            <TextField name="skills[0].name" label="Skill 1" />
+            <TextField name="skills[1].name" label="Skill 2" />
+          </Form.Stack>
 
-          <ButtonToolbar>
+          <ButtonToolbar mt={20}>
             <Button appearance="primary" onClick={handleSubmit}>
               Check
             </Button>
           </ButtonToolbar>
         </Form>
-      </FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={12}>
+      </Col>
+      <Col hidden={{ md: true }} span={{ xs: 24, md: 12 }}>
         <JSONView formValue={formValue} formError={formError} />
-      </FlexboxGrid.Item>
-    </FlexboxGrid>
+      </Col>
+    </Row>
   );
 };
 

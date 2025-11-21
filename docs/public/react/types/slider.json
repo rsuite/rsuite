@@ -1,0 +1,245 @@
+{
+  "Slider": {
+    "props": {
+      "barClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "A css class to apply to the Bar DOM node"
+      },
+      "defaultValue": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The default value (uncontrolled)"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The disabled of component"
+      },
+      "getAriaValueText": {
+        "type": "(value: number) => string;",
+        "isRequired": false,
+        "description": "Provide a user-friendly name for the current value of the slider"
+      },
+      "graduated": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Show Ticks"
+      },
+      "handleClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "A css class to apply to the Handle node"
+      },
+      "handleStyle": {
+        "type": "CSSProperties",
+        "isRequired": false,
+        "description": "A css style to apply to the Handle node"
+      },
+      "handleTitle": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Customizing what is displayed inside a handle"
+      },
+      "keepTooltipOpen": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether `Tooltip` will always be visible even without hover"
+      },
+      "marks": {
+        "type": "[Mark][mark][]",
+        "isRequired": false,
+        "description": "Custom marks on the slider"
+      },
+      "max": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Maximum sliding range",
+        "defaultValue": "100"
+      },
+      "min": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Minimum value of sliding range",
+        "defaultValue": "0"
+      },
+      "onChange": {
+        "type": "(value: number) => void",
+        "isRequired": false,
+        "description": "Callback function that changes data"
+      },
+      "onChangeCommitted": {
+        "type": "(value: number, event) => void;",
+        "isRequired": false,
+        "description": "Callback function that is fired when the mouseup is triggered"
+      },
+      "progress": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Show sliding progress bar"
+      },
+      "renderMark": {
+        "type": "(mark: number) => ReactNode",
+        "isRequired": false,
+        "description": "Customize labels on the render ruler"
+      },
+      "renderTooltip": {
+        "type": "(value: number ) => ReactNode",
+        "isRequired": false,
+        "description": "Customize the content of the rendered Tooltip"
+      },
+      "size": {
+        "type": "[Size][size] | ",
+        "isRequired": false,
+        "description": "Specifies the size of the slider",
+        "defaultValue": "sm"
+      },
+      "step": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Slide the value of one step",
+        "defaultValue": "1"
+      },
+      "tooltip": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to show `Tooltip` when sliding",
+        "defaultValue": "true"
+      },
+      "value": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The current value (controlled)"
+      },
+      "vertical": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Vertical Slide"
+      }
+    }
+  },
+  "RangeSlider": {
+    "props": {
+      "barClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "A css class to apply to the Bar DOM node"
+      },
+      "constraint": {
+        "type": "`(value: [number, number]) => boolean`",
+        "isRequired": false,
+        "description": "Validate next value before `onChange` is triggered. Prevent `onChange` being triggered if constraint returns `false`"
+      },
+      "defaultValue": {
+        "type": "[number,number]",
+        "isRequired": false,
+        "description": "The default value (uncontrolled)"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The disabled of component"
+      },
+      "getAriaValueText": {
+        "type": "(value: number,eventKey:'start'&#124;'end') => string;",
+        "isRequired": false,
+        "description": "Provide a user-friendly name for the current value of the slider"
+      },
+      "graduated": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Show Ticks"
+      },
+      "handleClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "A css class to apply to the Handle node"
+      },
+      "handleStyle": {
+        "type": "CSSProperties",
+        "isRequired": false,
+        "description": "A css style to apply to the Handle node"
+      },
+      "handleTitle": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Customizing what is displayed inside a handle"
+      },
+      "keepTooltipOpen": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether `Tooltip` will always be visible even without hover"
+      },
+      "marks": {
+        "type": "[Mark][mark][]",
+        "isRequired": false,
+        "description": "Custom marks on the slider"
+      },
+      "max": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Maximum sliding range",
+        "defaultValue": "100"
+      },
+      "min": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Minimum value of sliding range",
+        "defaultValue": "0"
+      },
+      "onChange": {
+        "type": "(value: [number,number]) => void",
+        "isRequired": false,
+        "description": "Callback function that changes data"
+      },
+      "onChangeCommitted": {
+        "type": "(value: [number,number], event) => void;",
+        "isRequired": false,
+        "description": "Callback function that is fired when the mouseup is triggered"
+      },
+      "progress": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Show sliding progress bar"
+      },
+      "renderMark": {
+        "type": "(mark: number) => ReactNode",
+        "isRequired": false,
+        "description": "Customize labels on the render ruler"
+      },
+      "renderTooltip": {
+        "type": "(value: number ) => ReactNode",
+        "isRequired": false,
+        "description": "Customize the content of the rendered Tooltip"
+      },
+      "size": {
+        "type": "[Size][size] | ",
+        "isRequired": false,
+        "description": "Specifies the size of the slider",
+        "defaultValue": "sm"
+      },
+      "step": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Slide the value of one step",
+        "defaultValue": "1"
+      },
+      "tooltip": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to show `Tooltip` when sliding",
+        "defaultValue": "true"
+      },
+      "value": {
+        "type": "[number,number]",
+        "isRequired": false,
+        "description": "The current value (controlled)"
+      },
+      "vertical": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Vertical Slide"
+      }
+    }
+  }
+}

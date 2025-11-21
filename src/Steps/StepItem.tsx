@@ -1,11 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Check from '@rsuite/icons/Check';
 import Close from '@rsuite/icons/Close';
-import { oneOf } from '@/internals/propTypes';
-import { useClassNames } from '@/internals/hooks';
+import { forwardRef, mergeStyles } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
 import { IconProps } from '@rsuite/icons/Icon';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
 
 const STEP_STATUS_ICON: {
   [key in NonNullable<StepItemProps['status']>]: React.ReactElement | null;
@@ -41,64 +40,51 @@ export interface StepItemProps extends WithAsProps {
  *
  * @see https://rsuitejs.com/components/steps
  */
-const StepItem: RsRefForwardingComponent<'div', StepItemProps> = React.forwardRef(
-  (props: StepItemProps, ref) => {
-    const {
-      as: Component = 'div',
-      className,
-      classPrefix = 'steps-item',
-      style,
-      itemWidth,
-      status,
-      icon,
-      stepNumber,
-      description,
-      title,
-      ...rest
-    } = props;
+const StepItem = forwardRef<'div', StepItemProps>((props, ref) => {
+  const {
+    as: Component = 'div',
+    className,
+    classPrefix = 'steps-item',
+    style,
+    itemWidth,
+    status,
+    icon,
+    stepNumber,
+    description,
+    title,
+    ...rest
+  } = props;
 
-    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-    const classes = merge(
-      className,
-      withClassPrefix({ custom: icon, [`status-${status}`]: status })
-    );
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
-    const styles = { width: itemWidth, ...style };
+  const iconNode = icon ? (
+    <span className={prefix('icon')}>{icon}</span>
+  ) : (
+    <span className={prefix('icon', { [`icon-${status}`]: status })}>
+      {status ? (STEP_STATUS_ICON[status] ?? stepNumber) : stepNumber}
+    </span>
+  );
 
-    let iconNode = (
-      <span className={prefix('icon', `icon-${status}`)}>
-        {status ? STEP_STATUS_ICON[status] ?? stepNumber : stepNumber}
-      </span>
-    );
-
-    if (icon) {
-      iconNode = <span className={prefix('icon')}>{icon}</span>;
-    }
-
-    return (
-      <Component {...rest} ref={ref} className={classes} style={styles}>
-        <div className={prefix('tail')} />
-        <div className={prefix(['icon-wrapper', icon ? 'custom-icon' : ''])}>{iconNode}</div>
-        <div className={prefix('content')}>
-          {<div className={prefix('title')}>{title}</div>}
-          {description && <div className={prefix('description')}>{description}</div>}
-        </div>
-      </Component>
-    );
-  }
-);
+  return (
+    <Component
+      ref={ref}
+      className={classes}
+      style={mergeStyles({ width: itemWidth }, style)}
+      data-status={status}
+      data-custom-icon={!!icon}
+      {...rest}
+    >
+      <div className={prefix('tail')} />
+      <div className={prefix('icon-wrapper')}>{iconNode}</div>
+      <div className={prefix('content')}>
+        {<div className={prefix('title')}>{title}</div>}
+        {description && <div className={prefix('description')}>{description}</div>}
+      </div>
+    </Component>
+  );
+});
 
 StepItem.displayName = 'StepItem';
-StepItem.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  style: PropTypes.object,
-  itemWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  status: oneOf(['finish', 'wait', 'process', 'error']),
-  icon: PropTypes.object,
-  stepNumber: PropTypes.number,
-  description: PropTypes.node,
-  title: PropTypes.node
-};
 
 export default StepItem;

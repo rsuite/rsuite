@@ -33,7 +33,7 @@ return (
 
 ## Third-party routing library
 
-The navigation component of React Suite supports the `as` prop, which is used to receive the component type of a third-party routing library. Included components: `Dropdown`, `Breadcrumb`, `Nav`.
+The navigation component of React Suite supports the `as` prop, which is used to receive the component type of a third-party routing library. Included components: `Dropdown`, `Breadcrumb`,`Menu`,`Nav`.
 
 ### `next/link`
 
@@ -47,6 +47,10 @@ import Link from 'next/link';
 <Breadcrumb.Item as={Link} href="/about">
   About
 </Breadcrumb.Item>;
+
+<Menu.Item as={Link} href="/about">
+  About
+</Menu.Item>;
 
 <Dropdown.Item as={Link} href="/about">
   About

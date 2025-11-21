@@ -1,4 +1,5 @@
 import { createComponent, ComponentProps } from '@/internals/utils';
+
 export type SidenavBodyProps = ComponentProps;
 
 /**
@@ -6,6 +7,6 @@ export type SidenavBodyProps = ComponentProps;
  *
  * @see https://rsuitejs.com/components/sidenav
  */
-const SidenavBody = createComponent({ name: 'SidenavBody' });
+const SidenavBody = createComponent<'div', SidenavBodyProps>({ name: 'SidenavBody' });
 
 export default SidenavBody;

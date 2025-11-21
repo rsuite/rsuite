@@ -4,7 +4,6 @@ import { DisabledDateFunction, SelectedDatesState } from '../types';
 
 interface UseDateDisabledProps {
   shouldDisableDate?: DisabledDateFunction;
-  DEPRECATED_disabledDate?: DisabledDateFunction;
 }
 
 interface DateDisabledOptions {
@@ -17,7 +16,7 @@ interface DateDisabledOptions {
  * Returns a function that determines whether a date is disabled and is compatible with the deprecated `disabledDate` prop.
  */
 export function useDateDisabled(props: UseDateDisabledProps) {
-  const { shouldDisableDate, DEPRECATED_disabledDate } = props;
+  const { shouldDisableDate } = props;
 
   const isDateDisabled = useCallback(
     (date: Date, options: DateDisabledOptions): boolean => {
@@ -25,15 +24,12 @@ export function useDateDisabled(props: UseDateDisabledProps) {
       if (typeof shouldDisableDate === 'function') {
         return shouldDisableDate(date, selectDate, selectedDone, target);
       }
-      if (typeof DEPRECATED_disabledDate === 'function') {
-        return DEPRECATED_disabledDate(date, selectDate, selectedDone, target);
-      }
       return false;
     },
-    [shouldDisableDate, DEPRECATED_disabledDate]
+    [shouldDisableDate]
   );
 
-  if (shouldDisableDate || DEPRECATED_disabledDate) {
+  if (shouldDisableDate) {
     return isDateDisabled;
   }
 

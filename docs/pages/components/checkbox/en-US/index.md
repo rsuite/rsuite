@@ -14,6 +14,8 @@ Check boxes are usually used in groups. Allow users to select one or more values
 
 ### Disabled and read only
 
+Use the `disabled` prop to disable a checkbox or `readOnly` to make it read-only, preventing user interaction.
+
 <!--{include:`disabled.md`}-->
 
 ### Indeterminate
@@ -24,17 +26,25 @@ The `indeterminate` property sets the Checkbox to an indeterminate state, mainly
 
 ### Colors
 
+Customize checkbox colors using the `color` property. Supports preset theme colors.
+
 <!--{include:`colors.md`}-->
 
 ### Checkbox Group
 
+Use `<CheckboxGroup>` to manage a group of checkboxes. The `value` prop controls which options are selected.
+
 <!--{include:`checkbox-group.md`}-->
 
-### Checkbox Group With Horizontal Layout
+### Inline Layout
+
+Add the `inline` prop to `<CheckboxGroup>` to arrange checkboxes horizontally instead of vertically.
 
 <!--{include:`checkbox-groupinline.md`}-->
 
 ### Checkbox Group (Controlled)
+
+Manage checkbox group state with the `value` and `onChange` props for controlled component behavior.
 
 <!--{include:`checkbox-group-controlled.md`}-->
 
@@ -57,19 +67,19 @@ The `indeterminate` property sets the Checkbox to an indeterminate state, mainly
 
 ### `<Checkbox>`
 
-| Property       | Type `(default)`                                           | Description                                                              |
-| -------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------ |
-| as             | ElementType`(div)`                                         | Custom element type for the component                                    |
-| checked        | boolean                                                    | Specifies whether the checkbox is selected                               |
-| color          | [Color](#code-ts-color-code)                               | The color of the checkbox when checked or indeterminate <br/>![][5.56.0] |
-| defaultChecked | boolean                                                    | Specifies the initial state: whether or not the checkbox is selected     |
-| disabled       | boolean                                                    | Whether disabled                                                         |
-| indeterminate  | boolean                                                    | When being a checkbox , setting styles after the child part is selected  |
-| inputRef       | Ref                                                        | Ref of input element                                                     |
-| name           | string                                                     | Used for the name of the form                                            |
-| onChange       | (value: string \| number, checked: boolean, event) => void | Callback fired when checkbox is triggered and state changes              |
-| title          | string                                                     | HTML title                                                               |
-| value          | string \| number                                           | Correspond to the value of CheckboxGroup, determine whether to select    |
+| Property       | Type `(default)`                                           | Description                                                             | Version     |
+| -------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------- | ----------- |
+| as             | ElementType`(div)`                                         | Custom element type for the component                                   |             |
+| checked        | boolean                                                    | Specifies whether the checkbox is selected                              |             |
+| color          | [Color](#code-ts-color-code)                               | The color of the checkbox when checked or indeterminate                 | ![][5.56.0] |
+| defaultChecked | boolean                                                    | Specifies the initial state: whether or not the checkbox is selected    |             |
+| disabled       | boolean                                                    | Whether disabled                                                        |             |
+| indeterminate  | boolean                                                    | When being a checkbox , setting styles after the child part is selected |             |
+| inputRef       | Ref                                                        | Ref of input element                                                    |             |
+| name           | string                                                     | Used for the name of the form                                           |             |
+| onChange       | (value: string \| number, checked: boolean, event) => void | Callback fired when checkbox is triggered and state changes             |             |
+| title          | string                                                     | HTML title                                                              |             |
+| value          | string \| number                                           | Correspond to the value of CheckboxGroup, determine whether to select   |             |
 
 ### `<CheckboxGroup>`
 
@@ -81,6 +91,6 @@ The `indeterminate` property sets the Checkbox to an indeterminate state, mainly
 | onChange     | (value:string[] \| number[], event) => void | Callback fired when checkbox is triggered and state changes |
 | value        | string[] \| number[]                        | Value of checked box (Controlled)                           |
 
-<!--{include:(_common/types/color.md)}-->
+### Type Definitions
 
-[5.56.0]: https://img.shields.io/badge/>=-v5.56.0-blue
+<!--{include:(_common/types/color.md)}-->

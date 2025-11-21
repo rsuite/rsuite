@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo, useRef } from 'react';
-import PropTypes from 'prop-types';
 import getWidth from 'dom-lib/getWidth';
 import getHeight from 'dom-lib/getHeight';
 import getOffset from 'dom-lib/getOffset';
@@ -7,10 +6,11 @@ import ProgressBar from './ProgressBar';
 import Handle from './Handle';
 import Graduated from './Graduated';
 import Plaintext from '@/internals/Plaintext';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import Box, { BoxProps } from '@/internals/Box';
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
 import { precisionMath, checkValue, getPosition } from './utils';
-import type { WithAsProps, FormControlBaseProps, Offset } from '@/internals/types';
+import type { FormControlBaseProps, Size, Offset } from '@/internals/types';
 
 export interface LocaleType {
   placeholder?: string;
@@ -19,7 +19,7 @@ export interface LocaleType {
   loading?: string;
 }
 
-export interface SliderProps<T = number> extends WithAsProps, FormControlBaseProps<T> {
+export interface SliderProps<T = number> extends BoxProps, FormControlBaseProps<T> {
   /**
    * The label of the slider.
    */
@@ -69,6 +69,25 @@ export interface SliderProps<T = number> extends WithAsProps, FormControlBasePro
   /** Vertical Slide */
   vertical?: boolean;
 
+  /**
+   * If true, tooltip will always be visible  even without hover
+   */
+  keepTooltipOpen?: boolean;
+
+  /**
+   * A slider can have different sizes.
+   *
+   * @default 'sm'
+   * @version 6.0.0
+   */
+  size?: Size;
+
+  /**
+   * Custom marks on the ruler
+   * @version 6.0.0
+   */
+  marks?: { value: number; label: React.ReactNode }[];
+
   /** Customize labels on the render ruler */
   renderMark?: (mark: number) => React.ReactNode;
 
@@ -80,85 +99,55 @@ export interface SliderProps<T = number> extends WithAsProps, FormControlBasePro
 
   /** Callback function that is fired when the mouseup is triggered. */
   onChangeCommitted?: (value: T, event: React.MouseEvent) => void;
-
-  /** If true, tooltip will always be visible  even without hover */
-  keepTooltipOpen?: boolean;
 }
-
-export const sliderPropTypes = {
-  min: PropTypes.number,
-  max: PropTypes.number,
-  step: PropTypes.number,
-  value: PropTypes.number,
-  defaultValue: PropTypes.number,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  handleClassName: PropTypes.string,
-  handleTitle: PropTypes.node,
-  barClassName: PropTypes.string,
-  handleStyle: PropTypes.object,
-  disabled: PropTypes.bool,
-  plaintext: PropTypes.bool,
-  readOnly: PropTypes.bool,
-  graduated: PropTypes.bool,
-  tooltip: PropTypes.bool,
-  progress: PropTypes.bool,
-  vertical: PropTypes.bool,
-  onChange: PropTypes.func,
-  onChangeCommitted: PropTypes.func,
-  renderMark: PropTypes.func,
-  renderTooltip: PropTypes.func,
-  getAriaValueText: PropTypes.func
-};
 
 /**
  * A Slider is an interface for users to adjust a value in a specific range.
  *
  * @see https://rsuitejs.com/components/slider
  */
-const Slider = React.forwardRef((props: SliderProps, ref) => {
+const Slider = forwardRef<'div', SliderProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Slider', props);
   const {
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledby,
     'aria-valuetext': ariaValuetext,
-    as: Componnet = 'div',
-    graduated,
+    as,
     className,
-    barClassName,
-    progress,
-    vertical,
-    disabled,
-    readOnly,
-    plaintext,
     classPrefix = 'slider',
-    min = 0,
+    barClassName,
+    defaultValue = 0,
+    disabled,
+    progress,
+    graduated,
     handleClassName,
     handleStyle,
     handleTitle,
-    tooltip = true,
+    keepTooltipOpen,
+    readOnly,
     step = 1,
-    defaultValue = 0,
-    value: valueProp,
+    size = 'sm',
+    tooltip = true,
     max: maxProp = 100,
     placeholder,
+    plaintext,
+    marks,
+    min = 0,
+    vertical,
+    value: valueProp,
     getAriaValueText,
     renderTooltip,
     renderMark,
     onChange,
     onChangeCommitted,
-    keepTooltipOpen,
     ...rest
   } = propsWithDefaults;
 
   const barRef = useRef<HTMLDivElement>(null);
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const { rtl } = useCustom('Slider');
 
-  const classes = merge(
-    className,
-    withClassPrefix({ vertical, disabled, graduated, 'with-mark': renderMark, readonly: readOnly })
-  );
+  const classes = merge(className, withPrefix());
 
   const max = useMemo(
     () => precisionMath(Math.floor((maxProp - min) / step) * step + min),
@@ -214,10 +203,21 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
     (event: React.MouseEvent | React.TouchEvent) => {
       const barOffset = getOffset(barRef.current) as Offset;
       const { pageX, pageY } = getPosition(event);
-      const offset = vertical ? barOffset.top + barOffset.height - pageY : pageX - barOffset.left;
-      const offsetValue = rtl && !vertical ? barOffset.width - offset : offset;
 
-      return getValueByOffset(offsetValue) + min;
+      let offset;
+      if (vertical) {
+        // For vertical sliders, top is 0% and bottom is 100% in both LTR and RTL
+        offset = barOffset.top + barOffset.height - pageY;
+      } else {
+        // For horizontal sliders, handle RTL direction
+        offset = pageX - barOffset.left;
+        if (rtl) {
+          // In RTL, invert the offset so that dragging right decreases the value
+          offset = barOffset.width - offset;
+        }
+      }
+
+      return getValueByOffset(offset) + min;
     },
     [getValueByOffset, min, rtl, vertical]
   );
@@ -295,7 +295,19 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
   }
 
   return (
-    <Componnet {...rest} ref={ref} className={classes} role="presentation">
+    <Box
+      as={as}
+      ref={ref}
+      role="presentation"
+      className={classes}
+      data-size={size}
+      data-disabled={disabled}
+      data-readonly={readOnly}
+      data-graduated={graduated}
+      data-with-mark={renderMark ? 'true' : undefined}
+      data-direction={vertical ? 'vertical' : 'horizontal'}
+      {...rest}
+    >
       <div
         ref={barRef}
         className={merge(barClassName, prefix('bar'))}
@@ -303,12 +315,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
         data-testid="slider-bar"
       >
         {progress && (
-          <ProgressBar
-            rtl={rtl}
-            vertical={vertical}
-            start={0}
-            end={((value - min) / (max - min)) * 100}
-          />
+          <ProgressBar vertical={vertical} start={0} end={((value - min) / (max - min)) * 100} />
         )}
         {graduated && (
           <Graduated
@@ -317,6 +324,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
             max={max}
             count={count}
             value={value}
+            marks={marks}
             renderMark={renderMark}
           />
         )}
@@ -329,7 +337,6 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
         disabled={disabled}
         vertical={vertical}
         tooltip={tooltip}
-        rtl={rtl}
         value={value}
         keepTooltipOpen={keepTooltipOpen}
         renderTooltip={renderTooltip}
@@ -348,11 +355,10 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
       >
         {handleTitle}
       </Handle>
-    </Componnet>
+    </Box>
   );
 });
 
 Slider.displayName = 'Slider';
-Slider.propTypes = sliderPropTypes;
 
 export default Slider;

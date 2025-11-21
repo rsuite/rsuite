@@ -1,13 +1,14 @@
 import React from 'react';
+import Input, { InputProps } from '../Input';
 import { useCombobox } from '@/internals/Picker';
-import Input, { type InputProps } from '../Input';
+import { forwardRef } from '@/internals/utils';
 
 interface ComboboxProps extends InputProps {
   expanded?: boolean;
   focusItemValue?: string | null;
 }
 
-const Combobox = React.forwardRef((props: ComboboxProps, ref: React.Ref<HTMLInputElement>) => {
+const Combobox = forwardRef<typeof Input, ComboboxProps>((props, ref) => {
   const { id, popupType } = useCombobox();
   const { expanded, focusItemValue, ...rest } = props;
 
@@ -25,5 +26,7 @@ const Combobox = React.forwardRef((props: ComboboxProps, ref: React.Ref<HTMLInpu
     />
   );
 });
+
+Combobox.displayName = 'Combobox';
 
 export default Combobox;

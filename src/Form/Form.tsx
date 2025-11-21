@@ -1,21 +1,20 @@
-import React, { FormHTMLAttributes } from 'react';
-import PropTypes from 'prop-types';
-import { Schema, SchemaModel } from 'schema-typed';
-import FormControl from '../FormControl';
+import React, { useMemo, FormHTMLAttributes } from 'react';
+import FormControl, { FormControlComponent } from '../FormControl';
 import FormControlLabel from '../FormControlLabel';
 import FormErrorMessage from '../FormErrorMessage';
 import FormGroup from '../FormGroup';
 import FormHelpText from '../FormHelpText';
-import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
-import { useEventCallback } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
-import { FormValueProvider, FormProvider } from './FormContext';
-import { useCustom } from '../CustomProvider';
+import FormStack from '../FormStack';
+import Box from '@/internals/Box';
 import useSchemaModel from './hooks/useSchemaModel';
 import useFormValidate from './hooks/useFormValidate';
 import useFormValue from './hooks/useFormValue';
-import useFormClassNames from './hooks/useFormClassNames';
 import useFormRef, { FormInstance, FormImperativeMethods } from './hooks/useFormRef';
+import { forwardRef } from '@/internals/utils';
+import { Schema, SchemaModel } from 'schema-typed';
+import { useEventCallback, useCustom } from '@/internals/hooks';
+import { FormValueProvider, FormProvider } from './FormContext';
+import type { WithAsProps, CheckTriggerType } from '@/internals/types';
 
 export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V]?: M }>
   extends WithAsProps,
@@ -52,7 +51,7 @@ export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V
    *
    * @default 'change'
    */
-  checkTrigger?: TypeAttributes.CheckTrigger;
+  checkTrigger?: CheckTriggerType;
 
   /**
    * SchemaModel object
@@ -122,37 +121,49 @@ export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V
   onReset?: (formValue: V | null, event?: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export interface FormComponent
-  extends RsRefForwardingComponent<'form', FormProps & { ref?: React.Ref<FormInstance> }> {
-  Control: typeof FormControl;
-  ControlLabel: typeof FormControlLabel;
-  ErrorMessage: typeof FormErrorMessage;
-  Group: typeof FormGroup;
-  HelpText: typeof FormHelpText;
-}
-
 const defaultSchema = SchemaModel({});
+
+const Subcomponents = {
+  Stack: FormStack,
+  Control: FormControl as FormControlComponent,
+  Label: FormControlLabel,
+  ErrorMessage: FormErrorMessage,
+  Group: FormGroup,
+  Text: FormHelpText,
+
+  /**
+   * @deprecated Use `Form.Label` instead
+   */
+  ControlLabel: FormControlLabel,
+
+  /**
+   * @deprecated Use `Form.Text` instead
+   */
+  HelpText: FormHelpText
+};
 
 /**
  * The `Form` component is a form interface for collecting and validating user input.
  * @see https://rsuitejs.com/components/form
  */
-const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<FormInstance>) => {
+const Form = forwardRef<
+  'form',
+  FormProps & { ref?: React.Ref<FormInstance> },
+  typeof Subcomponents
+>((props, ref) => {
   const { propsWithDefaults } = useCustom('Form', props);
   const {
     checkTrigger = 'change',
-    classPrefix = 'form',
     errorFromContext = true,
     formDefaultValue = {},
     formValue: controlledFormValue,
     formError: controlledFormError,
-    fluid,
     nestedField = false,
-    layout = 'vertical',
+    fluid,
+    layout,
     model: formModel = defaultSchema,
     readOnly,
     plaintext,
-    className,
     children,
     disabled,
     onSubmit,
@@ -193,16 +204,6 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     resetErrors,
     cleanErrorForField
   } = useFormValidate(controlledFormError, formValidateProps);
-
-  const classes = useFormClassNames({
-    classPrefix,
-    className,
-    fluid,
-    layout,
-    readOnly,
-    plaintext,
-    disabled
-  });
 
   const submit = useEventCallback((event?: React.FormEvent<HTMLFormElement>) => {
     // Check the form before submitting
@@ -287,41 +288,35 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     checkFieldAsyncForNextValue
   };
 
-  return (
-    <form {...rest} ref={formRef} onSubmit={handleSubmit} onReset={handleReset} className={classes}>
-      <FormProvider value={formContextValue}>
-        <FormValueProvider value={formValue}>{children}</FormValueProvider>
-      </FormProvider>
-    </form>
-  );
-}) as unknown as FormComponent;
+  const formChild = useMemo(() => {
+    return fluid || layout ? (
+      <FormStack fluid={fluid} layout={layout}>
+        {children}
+      </FormStack>
+    ) : (
+      children
+    );
+  }, [fluid, children, layout]);
 
-Form.Control = FormControl;
-Form.ControlLabel = FormControlLabel;
-Form.ErrorMessage = FormErrorMessage;
-Form.Group = FormGroup;
-Form.HelpText = FormHelpText;
+  return (
+    <Box
+      as="form"
+      data-rs="form"
+      data-disabled={disabled}
+      data-readonly={readOnly}
+      data-plaintext={plaintext}
+      ref={formRef}
+      onSubmit={handleSubmit}
+      onReset={handleReset}
+      {...rest}
+    >
+      <FormProvider value={formContextValue}>
+        <FormValueProvider value={formValue}>{formChild}</FormValueProvider>
+      </FormProvider>
+    </Box>
+  );
+}, Subcomponents);
 
 Form.displayName = 'Form';
-Form.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  errorFromContext: PropTypes.bool,
-  layout: oneOf(['horizontal', 'vertical', 'inline']),
-  fluid: PropTypes.bool,
-  formValue: PropTypes.object,
-  formDefaultValue: PropTypes.object,
-  formError: PropTypes.object,
-  checkTrigger: oneOf(['change', 'blur', 'none']),
-  onChange: PropTypes.func,
-  onError: PropTypes.func,
-  onCheck: PropTypes.func,
-  onSubmit: PropTypes.func,
-  model: PropTypes.any,
-  readOnly: PropTypes.bool,
-  plaintext: PropTypes.bool,
-  disabled: PropTypes.bool
-};
 
 export default Form;

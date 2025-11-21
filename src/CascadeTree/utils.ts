@@ -38,7 +38,7 @@ export function getColumnsAndPaths<T extends Record<string, unknown>>(
     columns.unshift(children);
   }
 
-  for (let parent = getParent(pathTarget); !!parent; parent = getParent(parent)) {
+  for (let parent = getParent(pathTarget); parent; parent = getParent(parent)) {
     columns.unshift(getChildren(parent) ?? []);
     path.unshift(parent);
   }

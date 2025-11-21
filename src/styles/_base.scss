@@ -1,0 +1,37 @@
+/**
+ * Base styles for React Suite components
+ *
+ * This file contains foundational styles that are applied to all React Suite components.
+ * It includes box-sizing normalization and basic typography settings that ensure
+ * consistent rendering across different browsers and devices.
+ *
+ * 1. Box sizing is set to border-box for all React Suite components and their pseudo-elements
+ * 2. Basic typography and document settings are applied to the root and body elements
+ */
+
+// Apply border-box sizing to all React Suite components
+*[class*='rs-'] {
+  box-sizing: border-box;
+
+  &::before,
+  &::after {
+    box-sizing: border-box;
+  }
+}
+
+// Document-level styles
+// 1. Remove tap highlight on iOS devices
+// 2. Set base font size for rem calculations
+html {
+  -webkit-tap-highlight-color: transparent; // 1
+  font-size: 16px; // 2
+}
+
+// Base typography and document styles
+body {
+  font-family: var(--rs-font-family-base);
+  font-size: var(--rs-font-size-sm);
+  line-height: var(--rs-line-height-md);
+  color: var(--rs-text-primary);
+  background-color: var(--rs-body);
+}

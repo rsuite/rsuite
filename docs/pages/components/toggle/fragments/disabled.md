@@ -1,31 +1,35 @@
 <!--start-code-->
 
 ```js
-import { Toggle, Stack } from 'rsuite';
+import { Toggle, HStack, Divider, Text, VStack } from 'rsuite';
 
 const App = () => (
-  <>
-    <Stack spacing={10} childrenRenderMode="clone">
-      <label>Disabled: </label>
+  <VStack divider={<Divider />}>
+    <HStack align="start">
+      <Text muted w={80}>
+        Disabled
+      </Text>
       <Toggle disabled />
-      <Toggle disabled checkedChildren="Enable" unCheckedChildren="Disabled" />
-      <Toggle disabled defaultChecked checkedChildren="Enable" unCheckedChildren="Disabled" />
-    </Stack>
-    <hr />
-    <Stack spacing={10} childrenRenderMode="clone">
-      <label>Read only: </label>
+      <Toggle disabled checkedChildren="ON" unCheckedChildren="OFF" />
+      <Toggle disabled defaultChecked checkedChildren="ON" unCheckedChildren="OFF" />
+    </HStack>
+    <HStack align="start">
+      <Text muted w={80}>
+        ReadOnly
+      </Text>
       <Toggle readOnly />
-      <Toggle readOnly checkedChildren="Enable" unCheckedChildren="Disabled" />
-      <Toggle readOnly defaultChecked checkedChildren="Enable" unCheckedChildren="Disabled" />
-    </Stack>
-    <hr />
-    <Stack spacing={10} childrenRenderMode="clone">
-      <label>Plaintext: </label>
+      <Toggle readOnly checkedChildren="ON" unCheckedChildren="OFF" />
+      <Toggle readOnly defaultChecked checkedChildren="ON" unCheckedChildren="OFF" />
+    </HStack>
+    <HStack align="start">
+      <Text muted w={80}>
+        Plaintext
+      </Text>
       <Toggle plaintext />
-      <Toggle plaintext checkedChildren="Enable" unCheckedChildren="Disabled" />
-      <Toggle plaintext defaultChecked checkedChildren="Enable" unCheckedChildren="Disabled" />
-    </Stack>
-  </>
+      <Toggle plaintext checkedChildren="ON" unCheckedChildren="OFF" />
+      <Toggle plaintext defaultChecked checkedChildren="ON" unCheckedChildren="OFF" />
+    </HStack>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

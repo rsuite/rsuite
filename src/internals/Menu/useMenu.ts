@@ -39,7 +39,7 @@ export function menuReducer(state: MenuState, action: MenuAction): MenuState {
         ...state,
         open: false
       };
-    case MenuActionTypes.MoveFocus:
+    case MenuActionTypes.MoveFocus: {
       let nextActiveItemIndex = activeItemIndex;
 
       switch (action.to) {
@@ -96,6 +96,7 @@ export function menuReducer(state: MenuState, action: MenuAction): MenuState {
         ...state,
         activeItemIndex: nextActiveItemIndex
       };
+    }
     default:
       return state;
   }

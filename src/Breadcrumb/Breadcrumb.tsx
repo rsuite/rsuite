@@ -1,13 +1,11 @@
 import React, { useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
-import { ReactChildren, createComponent } from '@/internals/utils';
 import BreadcrumbItem from './BreadcrumbItem';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
-import { BreadcrumbLocale } from '../locales';
-import { useCustom } from '../CustomProvider';
+import StyledBox, { StyledBoxProps } from '@/internals/StyledBox';
+import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
+import { forwardRef, rch, createComponent } from '@/internals/utils';
+import type { BreadcrumbLocale } from '../locales';
 
-export interface BreadcrumbProps extends WithAsProps {
+export interface BreadcrumbProps extends Omit<StyledBoxProps, 'name'> {
   /**
    * The separator between each breadcrumb item.
    */
@@ -31,16 +29,21 @@ export interface BreadcrumbProps extends WithAsProps {
   ellipsis?: React.ReactNode;
 
   /**
+   * The size of the Breadcrumb.
+   */
+  size?: 'sm' | 'md' | 'lg' | number | string;
+
+  /**
    * Callback function for clicking the ellipsis.
    */
   onExpand?: (event: React.MouseEvent) => void;
 }
 
-export interface BreadcrumbComponent extends RsRefForwardingComponent<'ol', BreadcrumbProps> {
-  Item: typeof BreadcrumbItem;
-}
+const Subcomponents = {
+  Item: BreadcrumbItem
+};
 
-const Separator = createComponent({
+const Separator = createComponent<'span', React.HTMLAttributes<HTMLSpanElement>>({
   name: 'BreadcrumbSeparator',
   componentAs: 'span',
   'aria-hidden': true
@@ -50,89 +53,81 @@ const Separator = createComponent({
  * The Breadcrumb component is used to indicate the current page location and navigate.
  * @see https://rsuitejs.com/components/breadcrumb
  */
-const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps, ref) => {
-  const { propsWithDefaults } = useCustom('Breadcrumb', props);
-  const {
-    as: Component = 'nav',
-    className,
-    classPrefix = 'breadcrumb',
-    children,
-    ellipsis = '...',
-    maxItems = 5,
-    separator = '/',
-    locale,
-    onExpand,
-    ...rest
-  } = propsWithDefaults;
+const Breadcrumb = forwardRef<'ol', BreadcrumbProps, typeof Subcomponents>(
+  (props: BreadcrumbProps, ref) => {
+    const { propsWithDefaults } = useCustom('Breadcrumb', props);
+    const {
+      as = 'nav',
+      className,
+      classPrefix = 'breadcrumb',
+      children,
+      ellipsis = '...',
+      maxItems = 5,
+      separator = '/',
+      size,
+      locale,
+      onExpand,
+      ...rest
+    } = propsWithDefaults;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const [showEllipsis, setShowEllipsis] = useState(true);
+    const { merge, withPrefix } = useStyles(classPrefix);
+    const [showEllipsis, setShowEllipsis] = useState(true);
 
-  const handleClickEllipsis = useEventCallback((event: React.MouseEvent) => {
-    setShowEllipsis(false);
-    onExpand?.(event);
-  });
-
-  const content = useMemo(() => {
-    const count = ReactChildren.count(children);
-    const items = ReactChildren.mapCloneElement(children, (item, index) => {
-      const isLast = index === count - 1;
-      return {
-        ...item.props,
-        separator: isLast ? null : <Separator>{separator}</Separator>
-      };
+    const handleClickEllipsis = useEventCallback((event: React.MouseEvent) => {
+      setShowEllipsis(false);
+      onExpand?.(event);
     });
 
-    if (count > maxItems && count > 2 && showEllipsis) {
-      return [
-        ...items.slice(0, 1),
-        [
-          <BreadcrumbItem
-            role="button"
-            key="ellipsis"
-            title={locale?.expandText}
-            aria-label={locale?.expandText}
-            separator={<Separator>{separator}</Separator>}
-            onClick={handleClickEllipsis}
-          >
-            <span aria-hidden>{ellipsis}</span>
-          </BreadcrumbItem>
-        ],
-        ...items.slice(items.length - 1, items.length)
-      ];
-    }
-    return items;
-  }, [
-    children,
-    ellipsis,
-    handleClickEllipsis,
-    locale?.expandText,
-    maxItems,
-    separator,
-    showEllipsis
-  ]);
+    const content = useMemo(() => {
+      const count = rch.count(children);
+      const items = rch.mapCloneElement(children, (item, index) => {
+        const isLast = index === count - 1;
+        return {
+          ...item.props,
+          separator: isLast ? null : <Separator>{separator}</Separator>
+        };
+      });
 
-  const classes = merge(className, withClassPrefix());
+      if (count > maxItems && count > 2 && showEllipsis) {
+        return [
+          ...items.slice(0, 1),
+          [
+            <BreadcrumbItem
+              role="button"
+              key="ellipsis"
+              title={locale?.expandText}
+              aria-label={locale?.expandText}
+              separator={<Separator>{separator}</Separator>}
+              onClick={handleClickEllipsis}
+            >
+              <span aria-hidden>{ellipsis}</span>
+            </BreadcrumbItem>
+          ],
+          ...items.slice(items.length - 1, items.length)
+        ];
+      }
+      return items;
+    }, [
+      children,
+      ellipsis,
+      handleClickEllipsis,
+      locale?.expandText,
+      maxItems,
+      separator,
+      showEllipsis
+    ]);
 
-  return (
-    <Component {...rest} ref={ref} className={classes}>
-      <ol>{content}</ol>
-    </Component>
-  );
-}) as unknown as BreadcrumbComponent;
+    const classes = merge(className, withPrefix());
 
-Breadcrumb.Item = BreadcrumbItem;
+    return (
+      <StyledBox name="breadcrumb" as={as} size={size} {...rest} ref={ref} className={classes}>
+        <ol>{content}</ol>
+      </StyledBox>
+    );
+  },
+  Subcomponents
+);
+
 Breadcrumb.displayName = 'Breadcrumb';
-
-Breadcrumb.propTypes = {
-  as: PropTypes.elementType,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  ellipsis: PropTypes.node,
-  separator: PropTypes.node,
-  maxItems: PropTypes.number,
-  onExpand: PropTypes.func
-};
 
 export default Breadcrumb;

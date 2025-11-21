@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { TypeAttributes } from '@/internals/types';
+import type { CheckTriggerType } from '@/internals/types';
 import type { FieldRuleType } from './hooks/useSchemaModel';
 
 type RecordAny = Record<string, any>;
@@ -11,7 +11,7 @@ interface TrulyFormContextValue<T = RecordAny, M = any, E = { [P in keyof T]?: M
   removeFieldError: (name: string) => void;
   removeFieldRule: (name: string) => void;
   pushFieldRule: (name: string, fieldRule: FieldRuleType) => void;
-  onFieldChange: (name: string, value: any, event: React.SyntheticEvent) => void;
+  onFieldChange: (name: string, value: any, event?: React.SyntheticEvent) => void;
   checkFieldForNextValue: (
     name: string,
     nextValue: Record<string, unknown>,
@@ -24,7 +24,7 @@ interface TrulyFormContextValue<T = RecordAny, M = any, E = { [P in keyof T]?: M
 }
 
 type ExternalPropsContextValue = {
-  checkTrigger?: TypeAttributes.CheckTrigger;
+  checkTrigger?: CheckTriggerType;
   errorFromContext?: boolean;
   readOnly?: boolean;
   plaintext?: boolean;

@@ -1,12 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef, stringifyReactNode } from '@/internals/utils';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { highlightText } from './utils/highlightText';
-import { stringifyReactNode } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
 
-export interface HighlightProps extends WithAsProps {
+export interface HighlightProps extends BoxProps {
   query?: string | string[];
   renderMark?: (match: string, index: number) => React.ReactNode;
 }
@@ -25,36 +23,29 @@ function defaultRenderMark(match: string, index: number) {
  *
  * @see https://rsuitejs.com/components/highlight
  */
-const Highlight: RsRefForwardingComponent<'div', HighlightProps> = React.forwardRef(
-  (props: HighlightProps, ref) => {
-    const { propsWithDefaults } = useCustom('Highlight', props);
-    const {
-      as: Component = 'div',
-      classPrefix = 'highlight',
-      className,
-      children,
-      query,
-      renderMark = defaultRenderMark,
-      ...rest
-    } = propsWithDefaults;
+const Highlight = forwardRef<'div', HighlightProps>((props: HighlightProps, ref) => {
+  const { propsWithDefaults } = useCustom('Highlight', props);
+  const {
+    as,
+    classPrefix = 'highlight',
+    className,
+    children,
+    query,
+    renderMark = defaultRenderMark,
+    ...rest
+  } = propsWithDefaults;
 
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
-    const text = stringifyReactNode(children);
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
+  const text = stringifyReactNode(children);
 
-    return (
-      <Component ref={ref} className={classes} {...rest}>
-        {highlightText(text, { query, renderMark })}
-      </Component>
-    );
-  }
-);
+  return (
+    <Box as={as} ref={ref} className={classes} {...rest}>
+      {highlightText(text, { query, renderMark })}
+    </Box>
+  );
+});
 
 Highlight.displayName = 'Highlight';
-Highlight.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  as: PropTypes.elementType
-};
 
 export default Highlight;

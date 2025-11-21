@@ -34,4 +34,3 @@ React Suite is [MIT licensed](https://github.com/rsuite/rsuite/blob/master/LICEN
 [opencollective-svg]: https://opencollective.com/rsuite/tiers/backer.svg?avatarHeight=36
 [opencollective-home]: https://opencollective.com/rsuite
 [rsuite-stars]: https://img.shields.io/github/stars/rsuite/rsuite?style=social
-[5.71.0]: https://img.shields.io/badge/>=-v5.71.0-blue

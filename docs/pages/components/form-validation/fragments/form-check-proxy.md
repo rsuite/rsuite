@@ -1,10 +1,10 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, ButtonToolbar, Schema, Panel } from 'rsuite';
+import { Form, Button, ButtonToolbar, PasswordInput } from 'rsuite';
+import { SchemaModel, StringType } from 'rsuite/Schema';
 
-const { StringType } = Schema.Types;
-const model = Schema.Model({
+const model = SchemaModel({
   password: StringType().proxy(['confirmPassword']),
   confirmPassword: StringType().equalTo('password')
 });
@@ -13,7 +13,7 @@ function TextField(props) {
   const { name, label, accepter, ...rest } = props;
   return (
     <Form.Group controlId={`${name}-3`}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
+      <Form.Label>{label} </Form.Label>
       <Form.Control name={name} accepter={accepter} {...rest} />
     </Form.Group>
   );
@@ -21,9 +21,11 @@ function TextField(props) {
 function App() {
   return (
     <Form model={model}>
-      <TextField name="password" label="Password" />
-      <TextField name="confirmPassword" label="ConfirmPassword" />
-      <ButtonToolbar>
+      <Form.Stack>
+        <TextField name="password" label="Password" accepter={PasswordInput} />
+        <TextField name="confirmPassword" label="ConfirmPassword" accepter={PasswordInput} />
+      </Form.Stack>
+      <ButtonToolbar mt={20}>
         <Button appearance="primary" type="submit">
           Submit
         </Button>

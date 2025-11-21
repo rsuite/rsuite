@@ -1,0 +1,279 @@
+{
+  "TreePicker": {
+    "props": {
+      "appearance": {
+        "type": "'default' | 'subtle'",
+        "isRequired": false,
+        "description": "Component appearance",
+        "defaultValue": "default"
+      },
+      "block": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to take up the full width of its parent"
+      },
+      "caretAs": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom component for the caret icon"
+      },
+      "childrenKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Set the `key` of the child node of the tree node in `data`",
+        "defaultValue": "children"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "picker"
+      },
+      "cleanable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to display the clear button",
+        "defaultValue": "true"
+      },
+      "container": {
+        "type": "HTMLElement | (() => HTMLElement)",
+        "isRequired": false,
+        "description": "Sets the rendering container"
+      },
+      "data": {
+        "type": "[TreeNode][node][]",
+        "isRequired": true,
+        "description": "Data to render the tree"
+      },
+      "defaultExpandAll": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Default expand all nodes"
+      },
+      "defaultExpandItemValues": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Set the value of the default expanded node"
+      },
+      "defaultOpen": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Default open"
+      },
+      "defaultValue": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Default selected value"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to disable the component"
+      },
+      "disabledItemValues": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Set the value of the disabled node"
+      },
+      "expandItemValues": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Set the value of the expanded node (controlled)"
+      },
+      "getChildren": {
+        "type": "(node: [TreeNode][node]) => Promise&lt;[TreeNode][node]&gt;",
+        "isRequired": false,
+        "description": "Load node children data asynchronously"
+      },
+      "labelKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Set the tree node display content to the `key` in `data`",
+        "defaultValue": "label"
+      },
+      "listProps": {
+        "type": "[ListProps][listprops]",
+        "isRequired": false,
+        "description": "Properties of virtualized lists."
+      },
+      "loading": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to display a loading state indicator",
+        "defaultValue": "false"
+      },
+      "locale": {
+        "type": "PickerLocaleType",
+        "isRequired": false,
+        "description": "Localization configuration"
+      },
+      "onChange": {
+        "type": "(value:string) => void",
+        "isRequired": false,
+        "description": "Called when the tree value changes"
+      },
+      "onClean": {
+        "type": "(event) => void",
+        "isRequired": false,
+        "description": "Called when the clear button is clicked"
+      },
+      "onClose": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Called when the popup is closed"
+      },
+      "onEnter": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Called when the popup is about to open"
+      },
+      "onEntered": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Called when the popup is opened"
+      },
+      "onEntering": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Called when popup opening is in progress"
+      },
+      "onExit": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Called when the popup is about to close"
+      },
+      "onExited": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Called when the popup is closed"
+      },
+      "onExiting": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Called when popup closing is in progress"
+      },
+      "onExpand": {
+        "type": "(expandItemValues: string[], node:[TreeNode][node], concat:(data, children) => Array) => void",
+        "isRequired": false,
+        "description": "Called when the tree node expand state changes"
+      },
+      "onOpen": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Called when the popup is opened"
+      },
+      "onSearch": {
+        "type": "(searchKeyword: string, event) => void",
+        "isRequired": false,
+        "description": "Called when the search box input changes"
+      },
+      "onSelect": {
+        "type": "(node:[TreeNode][node], value: string, event) => void",
+        "isRequired": false,
+        "description": "Called when the tree node is selected"
+      },
+      "open": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Controlled open state"
+      },
+      "placeholder": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The placeholder for the component",
+        "defaultValue": "Select"
+      },
+      "placement": {
+        "type": " | 'bottomStart' | 'bottomEnd' | 'topStart' | 'topEnd' | 'leftStart' | 'leftEnd' | 'rightStart' | 'rightEnd' | 'auto' | 'autoVerticalStart' | 'autoVerticalEnd' | 'autoHorizontalStart' | 'autoHorizontalEnd'",
+        "isRequired": false,
+        "description": "The placement of the popup",
+        "defaultValue": "bottomStart"
+      },
+      "popupClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Custom class for the popup"
+      },
+      "popupStyle": {
+        "type": "CSSProperties",
+        "isRequired": false,
+        "description": "Custom style for the popup"
+      },
+      "renderExtraFooter": {
+        "type": "() => ReactNode",
+        "isRequired": false,
+        "description": "Custom render extra footer"
+      },
+      "renderTree": {
+        "type": "(tree:ReactNode) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render tree"
+      },
+      "renderTreeIcon": {
+        "type": "(node: [TreeNode][node], expanded: boolean) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render tree node icon"
+      },
+      "renderTreeNode": {
+        "type": "(node: [TreeNode][node]) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render tree node"
+      },
+      "renderValue": {
+        "type": "(value: string, node:[TreeNode][node], selected:ReactNode) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render selected value"
+      },
+      "searchable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to show the search box",
+        "defaultValue": "true"
+      },
+      "searchBy": {
+        "type": "(keyword: string, label: ReactNode, node: [TreeNode][node]) => boolean",
+        "isRequired": false,
+        "description": "Custom search method"
+      },
+      "showIndentLine": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to show the indent line"
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "A picker can have different sizes",
+        "defaultValue": "md"
+      },
+      "toggleAs": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom component for the toggle button",
+        "defaultValue": "a"
+      },
+      "treeHeight": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The height of the tree",
+        "defaultValue": "320"
+      },
+      "value": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Set the selected value"
+      },
+      "valueKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Set the tree node value to the `key` in `data`",
+        "defaultValue": "value"
+      },
+      "virtualized": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether using Virtualized List"
+      }
+    }
+  }
+}

@@ -1,47 +1,41 @@
 <!--start-code-->
 
 ```js
-import { Radio } from 'rsuite';
+import { Radio, HStack, Text, Divider, VStack } from 'rsuite';
 
 const App = () => (
-  <>
-    <Label>Disabled</Label>
-    <Radio disabled> Radio</Radio>
-    <Radio checked disabled>
-      Checked Radio
-    </Radio>
+  <VStack divider={<Divider />}>
+    <HStack spacing={20}>
+      <Text muted w={80}>
+        Disabled
+      </Text>
+      <Radio disabled> Radio</Radio>
+      <Radio checked disabled>
+        Checked Radio
+      </Radio>
+    </HStack>
 
-    <hr />
-    <Label>Read only</Label>
-    <Radio readOnly> Radio</Radio>
-    <Radio checked readOnly>
-      Checked Radio
-    </Radio>
+    <HStack spacing={20}>
+      <Text muted w={80}>
+        Read only
+      </Text>
+      <Radio readOnly> Radio</Radio>
+      <Radio checked readOnly>
+        Checked Radio
+      </Radio>
+    </HStack>
 
-    <hr />
-    <Label>Plaintext</Label>
-    <Radio plaintext> Radio</Radio>
-    <Radio checked plaintext>
-      Checked Radio
-    </Radio>
-  </>
+    <HStack spacing={20}>
+      <Text muted w={80}>
+        Plaintext
+      </Text>
+      <Radio plaintext> Radio</Radio>
+      <Radio checked plaintext>
+        Checked Radio
+      </Radio>
+    </HStack>
+  </VStack>
 );
-
-function Label({ children }) {
-  return (
-    <label
-      style={{
-        verticalAlign: 'middle',
-        display: 'inline-block',
-        marginRight: 10,
-        width: 70,
-        color: 'var(--rs-text-secondary)'
-      }}
-    >
-      {children}
-    </label>
-  );
-}
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

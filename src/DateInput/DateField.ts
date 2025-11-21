@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
-import type { Locale } from 'date-fns';
-import isValid from 'date-fns/isValid';
+import type { Locale, Month } from 'date-fns';
+import { isValid } from 'date-fns/isValid';
 import { modifyDate } from './utils';
 
 export const patternMap = {
@@ -73,26 +73,29 @@ interface Action {
 }
 
 export const useDateField = (format: string, localize: Locale['localize'], date?: Date | null) => {
-  const [dateField, dispatch] = useReducer((state: DateField, action: Action) => {
-    switch (action.type) {
-      case 'setYear':
-        return { ...state, year: action.value };
-      case 'setMonth':
-        return { ...state, month: action.value };
-      case 'setDay':
-        return { ...state, day: action.value };
-      case 'setHour':
-        return { ...state, hour: action.value };
-      case 'setMinute':
-        return { ...state, minute: action.value };
-      case 'setSecond':
-        return { ...state, second: action.value };
-      case 'setNewDate':
-        return new DateField(format, action.value);
-      default:
-        return state;
-    }
-  }, new DateField(format, date));
+  const [dateField, dispatch] = useReducer(
+    (state: DateField, action: Action) => {
+      switch (action.type) {
+        case 'setYear':
+          return { ...state, year: action.value };
+        case 'setMonth':
+          return { ...state, month: action.value };
+        case 'setDay':
+          return { ...state, day: action.value };
+        case 'setHour':
+          return { ...state, hour: action.value };
+        case 'setMinute':
+          return { ...state, minute: action.value };
+        case 'setSecond':
+          return { ...state, second: action.value };
+        case 'setNewDate':
+          return new DateField(format, action.value);
+        default:
+          return state;
+      }
+    },
+    new DateField(format, date)
+  );
 
   const toDateString = () => {
     let str = format;
@@ -105,9 +108,9 @@ export const useDateField = (format: string, localize: Locale['localize'], date?
 
       if (value !== null) {
         if (pattern === 'MMM' && typeof value === 'number') {
-          value = localize?.month(value - 1, { width: 'abbreviated' });
+          value = localize?.month((value - 1) as Month, { width: 'abbreviated' });
         } else if (pattern === 'MMMM' && typeof value === 'number') {
-          value = localize?.month(value - 1, { width: 'wide' });
+          value = localize?.month((value - 1) as Month, { width: 'wide' });
         } else if (pattern === 'aa') {
           if (typeof hour === 'number') {
             value = hour > 12 ? 'PM' : 'AM';

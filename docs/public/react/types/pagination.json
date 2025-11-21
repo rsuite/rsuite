@@ -1,0 +1,113 @@
+{
+  "Pagination": {
+    "props": {
+      "activePage": {
+        "type": "number",
+        "isRequired": true,
+        "description": "Current page number",
+        "defaultValue": "1"
+      },
+      "boundaryLinks": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Show border paging buttons 1 and pages"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "pagination-group"
+      },
+      "disabled": {
+        "type": "boolean | (eventKey: number) => boolean",
+        "isRequired": false,
+        "description": "Disabled component"
+      },
+      "ellipsis": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Displays the ellipsis"
+      },
+      "first": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Displays the first page"
+      },
+      "last": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Displays the last page"
+      },
+      "layout": {
+        "type": "LayoutType[]",
+        "isRequired": false,
+        "description": "Customize the layout of a paging component",
+        "defaultValue": "['pager']"
+      },
+      "limit": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The number of rows per page.Will use `total` and `limit` to calculate the number of pages",
+        "defaultValue": "30"
+      },
+      "limitOptions": {
+        "type": "number[]",
+        "isRequired": false,
+        "description": "Customizes the options of the rows per page select field.",
+        "defaultValue": "[30,50,100]"
+      },
+      "linkAs": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Customizes the element type for the component",
+        "defaultValue": "button"
+      },
+      "linkProps": {
+        "type": "object",
+        "isRequired": false,
+        "description": "Additional props passed as-is to the underlying link for non-active items"
+      },
+      "locale": {
+        "type": "PaginationLocale",
+        "isRequired": false,
+        "description": "Define localization settings to show component text in the user's regional language"
+      },
+      "maxButtons": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Page buttons display the maximum number of"
+      },
+      "next": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Displays the next page"
+      },
+      "onChangeLimit": {
+        "type": "(limit:number) => void;",
+        "isRequired": false,
+        "description": "Callback fired when the number of rows per page is changed"
+      },
+      "onChangePage": {
+        "type": "(page:number) => void;",
+        "isRequired": false,
+        "description": "Callback fired when the page is changed"
+      },
+      "prev": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Displays the previous page"
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "The size of the pagination component",
+        "defaultValue": "sm"
+      },
+      "total": {
+        "type": "number",
+        "isRequired": true,
+        "description": "The total number of rows. Generally obtained through the server"
+      }
+    }
+  }
+}

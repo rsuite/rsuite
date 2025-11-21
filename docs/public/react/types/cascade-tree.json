@@ -1,0 +1,95 @@
+{
+  "CascadeTree": {
+    "props": {
+      "childrenKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Set the key for children in the data structure",
+        "defaultValue": "children"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix for the component's CSS class",
+        "defaultValue": "cascader-tree"
+      },
+      "columnHeight": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Specifies the height of each column"
+      },
+      "columnWidth": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Specifies the width of each column"
+      },
+      "data": {
+        "type": "[Option][item][]",
+        "isRequired": true,
+        "description": "The data to be displayed in the component"
+      },
+      "defaultValue": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The default value for the selected items"
+      },
+      "disabledItemValues": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "An array of values for items to be disabled"
+      },
+      "getChildren": {
+        "type": "(item: [Option][item]) => Promise&lt;[Option][item][]&gt;",
+        "isRequired": false,
+        "description": "Asynchronously loads the children of a tree node"
+      },
+      "labelKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Specifies the key for labels in the data structure",
+        "defaultValue": "label"
+      },
+      "onChange": {
+        "type": "(value: string, event) => void",
+        "isRequired": false,
+        "description": "Callback triggered when the selected value changes"
+      },
+      "onSearch": {
+        "type": "(value: string, event) => void",
+        "isRequired": false,
+        "description": "Callback triggered when the search value changes"
+      },
+      "onSelect": {
+        "type": "(item: [Option][item], selectedPaths: [Option][item][], event) => void",
+        "isRequired": false,
+        "description": "Callback triggered when an item is selected"
+      },
+      "renderColumn": {
+        "type": "(childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode",
+        "isRequired": false,
+        "description": "Custom renderer for the column list"
+      },
+      "renderTreeNode": {
+        "type": "(node: ReactNode, item: [Option][item]) => ReactNode",
+        "isRequired": false,
+        "description": "Custom renderer for individual tree nodes"
+      },
+      "searchable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Determines if the search functionality is enabled"
+      },
+      "value": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The current value of selected items (for controlled usage)"
+      },
+      "valueKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Specifies the key for values in the data structure",
+        "defaultValue": "value"
+      }
+    }
+  }
+}

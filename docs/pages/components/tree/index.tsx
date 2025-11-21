@@ -1,9 +1,9 @@
 import React from 'react';
-import DefaultPage from '@/components/Page';
-import { Tree, Button, InputNumber, Panel, SelectPicker, Stack } from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
 import ImportGuide from '@/components/ImportGuide';
+import { Tree, Button, NumberInput, Panel, SelectPicker, Stack } from 'rsuite';
 import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowRight,
@@ -38,7 +38,7 @@ export default function Page() {
       inDocsComponents={inDocsComponents}
       dependencies={{
         Button,
-        InputNumber,
+        NumberInput,
         Tree,
         Panel,
         FolderFillIcon,

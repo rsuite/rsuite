@@ -1,4 +1,4 @@
-### `ts:FileType`
+#### `ts:FileType`
 
 ```ts
 interface FileType {

@@ -2,7 +2,7 @@
 
 | Property        | Type `(Default)`                                       | Description                                                                                                  |
 | --------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
-| container       | HTMLElement &#124; (() => HTMLElement)                 | Sets the rendering container                                                                                 |
+| container       | HTMLElement \| (() => HTMLElement)                     | Sets the rendering container                                                                                 |
 | controlId       | string                                                 | Set the `id` on `<Overlay>` and `aria-describedby` on `<Whisper>`                                            |
 | defaultOpen     | boolean                                                | Whether to open the overlay by default                                                                       |
 | delay           | number                                                 | Delay time (ms) Time                                                                                         |
@@ -24,48 +24,53 @@
 | open            | boolean                                                | Whether to open the overlay                                                                                  |
 | placement       | [Placement](#code-ts-placement-code) `('right')`       | Dispaly placement                                                                                            |
 | preventOverflow | boolean                                                | Prevent floating element overflow                                                                            |
-| speaker \*      | Tooltip &#124; Popover &#124; ReactElement             | Displayed component                                                                                          |
+| speaker \*      | Tooltip \| Popover \| ReactElement                     | Displayed component                                                                                          |
 | trigger         | [Trigger](#code-ts-trigger-code) `(['hover','focus'])` | Triggering events                                                                                            |
 
-### Whisper methods
+### Whisper Methods
 
-Whisper methods are available via `ref` on Whisper component.
+Whisper provides several methods available via `ref` to programmatically control the overlay display and positioning. These methods are useful when you need to manually trigger overlay actions, such as:
+
+- Showing/hiding tooltips based on business logic
+- Updating overlay position after content changes
+- Creating custom interaction logic
+
+Get the component instance using `ref`:
 
 ```jsx
 const whisperRef = useRef();
 
 <Whisper ref={whisperRef} {...}>
-  ...
+  <Button>Hover me</Button>
 </Whisper>
 ```
 
-Available methods include
+| Method         | Type Definition            | Description                                                         |
+| -------------- | -------------------------- | ------------------------------------------------------------------- |
+| open           | `(delay?: number) => void` | Manually open the overlay with an optional `delay` in milliseconds  |
+| close          | `(delay?: number) => void` | Manually close the overlay with an optional `delay` in milliseconds |
+| updatePosition | `() => void`               | Manually update the overlay position when content changes           |
 
-- open
+```jsx
+// Open overlay on button click
+<Button onClick={() => whisperRef.current?.open()}>Show Tooltip</Button>;
 
-Open a overlay.
+// Show overlay after data is loaded
+useEffect(() => {
+  if (dataLoaded) {
+    whisperRef.current?.open(300); // Show after 300ms
+  }
+}, [dataLoaded]);
 
-```ts
-open: (delay?: number) => void
+// Update overlay position when content changes
+const handleResize = useCallback(() => {
+  whisperRef.current?.updatePosition();
+}, []);
 ```
 
-- close
+### Type definitions
 
-Close a overlay.
-
-```ts
-close: (delay?: number) => void
-```
-
-- updatePosition
-
-Update overlay position
-
-```ts
-updatePosition: () => void
-```
-
-### `ts:Trigger`
+#### `ts:Trigger`
 
 ```ts
 type Trigger =

@@ -1,0 +1,52 @@
+{
+  "SegmentedControl": {
+    "props": {
+      "block": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Display as block and fit container width"
+      },
+      "data": {
+        "type": "SegmentedItemDataType[]",
+        "isRequired": false,
+        "description": "Data of segmented items"
+      },
+      "defaultValue": {
+        "type": "string | number",
+        "isRequired": false,
+        "description": "Default value"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the component is disabled"
+      },
+      "indicator": {
+        "type": "'pill' | 'underline' (`'pill'`)",
+        "isRequired": false,
+        "description": "The indicator style of the segmented control"
+      },
+      "name": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Name to use for form"
+      },
+      "onChange": {
+        "type": "(value: string | number, event) => void",
+        "isRequired": false,
+        "description": "Callback fired when the value changes"
+      },
+      "size": {
+        "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
+        "isRequired": false,
+        "description": "A segmented control can have different sizes",
+        "defaultValue": "md"
+      },
+      "value": {
+        "type": "string | number",
+        "isRequired": false,
+        "description": "Value (controlled)"
+      }
+    }
+  }
+}

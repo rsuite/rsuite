@@ -1,0 +1,64 @@
+{
+  "Steps": {
+    "props": {
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "steps"
+      },
+      "current": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Current execution steps",
+        "defaultValue": "0"
+      },
+      "currentStatus": {
+        "type": "'finish' | 'wait' | 'process' | 'error'",
+        "isRequired": false,
+        "description": "Current Execution Step Status",
+        "defaultValue": "process"
+      },
+      "small": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Small size Step Bar"
+      },
+      "vertical": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Vertical display"
+      }
+    }
+  },
+  "Steps.Item": {
+    "props": {
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "steps-item"
+      },
+      "description": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The description of Steps item"
+      },
+      "icon": {
+        "type": "Element&lt;typeof Icon&gt; ,",
+        "isRequired": false,
+        "description": "Set icon"
+      },
+      "status": {
+        "type": "'finish' | 'wait' | 'process' | 'error'",
+        "isRequired": false,
+        "description": "Step status"
+      },
+      "title": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The title of Steps item"
+      }
+    }
+  }
+}

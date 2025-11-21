@@ -5,9 +5,9 @@ import { DatePicker } from 'rsuite';
 
 const App = () => (
   <>
-    <DatePicker oneTap style={{ width: 200 }} />
+    <DatePicker oneTap w={200} />
     <hr />
-    <DatePicker oneTap format="yyyy-MM" style={{ width: 200 }} />
+    <DatePicker oneTap format="yyyy-MM" w={200} />
   </>
 );
 

@@ -27,13 +27,7 @@ const App = () => {
 
   return (
     <HStack divider={<Divider vertical style={{ height: 400 }} />} spacing={10} wrap>
-      <Calendar
-        compact
-        bordered
-        renderCell={renderCell}
-        style={{ width: 320 }}
-        onChange={setDate}
-      />
+      <Calendar compact bordered renderCell={renderCell} w={320} onChange={setDate} />
       <DayView date={date} />
     </HStack>
   );

@@ -1,4 +1,4 @@
-import hu from 'date-fns/locale/hu';
+import { hu } from 'date-fns/locale/hu';
 
 const DateTimeFormats = {
   sunday: 'V',
@@ -92,5 +92,11 @@ export default {
   Toggle: {
     on: 'Be',
     off: 'Ki'
+  },
+  Dialog: {
+    alert: 'Figyelmeztetés',
+    confirm: 'Megerősítés',
+    ok: 'OK',
+    cancel: 'Mégse'
   }
 };

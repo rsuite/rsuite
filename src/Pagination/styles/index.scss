@@ -1,0 +1,77 @@
+@use '../../internals/Box/styles/index' as box;
+@use '../../Button/styles/index' as button;
+@use '../../Button/styles/mixin' as button-mixin;
+@use '../../Divider/styles/index' as divider;
+@use '../../SelectPicker/styles/index' as select-picker;
+@use './pagination-group';
+
+//
+// Pagination (multiple pages)
+// --------------------------------------------------
+.rs-pagination {
+  display: inline-block;
+  padding-inline-start: 0;
+  margin-bottom: 0;
+  // Pagination Sizes
+  // --------------------------------------------------
+
+  &[data-size='lg'] {
+    .rs-pagination-btn {
+      min-width: 42px;
+
+      .rs-pagination-symbol {
+        height: var(--rs-line-height-plus);
+      }
+    }
+  }
+
+  &[data-size='md'] {
+    .rs-pagination-btn {
+      min-width: 36px;
+    }
+  }
+
+  &[data-size='sm'] {
+    .rs-pagination-btn {
+      min-width: 30px;
+    }
+  }
+
+  &[data-size='xs'] {
+    .rs-pagination-btn {
+      min-width: 24px;
+    }
+  }
+}
+
+.rs-pagination-btn {
+  margin: 0 2px;
+  position: relative;
+  float: inline-start; // Collapse white-space
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+
+  .rs-pagination-symbol {
+    display: flex;
+    align-items: center;
+    height: var(--rs-line-height-base);
+
+    [dir='rtl'] & {
+      transform: rotate(180deg);
+    }
+  }
+
+  @at-root .high-contrast-mode & {
+    transition: none;
+    color: var(--rs-pagination-item-text);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--rs-pagination-item-current-text);
+      text-decoration: underline;
+    }
+  }
+}

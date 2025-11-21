@@ -14,35 +14,67 @@
 
 ### 外观
 
+提供 `default` 和 `subtle` 两种外观。
+
 <!--{include:`appearance.md`}-->
 
 ### 尺寸
 
+支持 `lg`、`md`、`sm` 和 `xs` 四种尺寸。
+
 <!--{include:`size.md`}-->
 
-### 位置
+### 显示缩进线
+
+使用 `showIndentLine` 显示树形缩进线。
+
+<!--{include:`show-indent-line.md`}-->
+
+### 位置与防止溢出
+
+通过 `placement` 设置位置，`preventOverflow` 防止溢出。
 
 <!--{include:`placement.md`}-->
 
 ### 禁用与只读
 
+支持 `disabled` 禁用整个选择器，`disabledItemValues` 禁用特定选项，`readOnly` 只读状态，以及 `plaintext` 纯文本模式。
+
 <!--{include:`disabled.md`}-->
 
 ### 禁用搜索框
+
+使用 `searchable` 控制搜索功能。
 
 <!--{include:`searchable.md`}-->
 
 ### 自定义选项
 
+通过 `renderTreeNode` 自定义节点渲染。
+
 <!--{include:`custom.md`}-->
 
-### 异步
+### 异步加载
+
+使用 `getChildren` 实现子节点异步加载。
 
 <!--{include:`async.md`}-->
 
 ### 自定义页脚
 
+通过 `renderExtraFooter` 添加底部内容。
+
 <!--{include:`extra-footer.md`}-->
+
+### 只能选择叶子节点
+
+使用 `onlyLeafSelectable` 只能选择叶子节点。
+
+<!--{include:`only-leaf-selectable.md`}-->
+
+## Responsive
+
+<!--{include:<example-responsive>}-->
 
 ## 可访问性
 
@@ -81,63 +113,61 @@
 
 ### `<TreePicker>`
 
-| 属性名称                | 类型 `(默认值)`                                                                               | 描述                                    |
-| ----------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------- |
-| appearance              | 'default' \| 'subtle' `('default')`                                                           | 设置外观                                |
-| block                   | boolean                                                                                       | 是否以块级元素显示                      |
-| caretAs                 | ElementType                                                                                   | 自定义右侧箭头图标的组件                |
-| childrenKey             | string `('children')`                                                                         | 设置树节点的子节点在 `data` 中的 `key`  |
-| classPrefix             | string`('picker')`                                                                            | 组件 CSS 类的前缀                       |
-| cleanable               | boolean `(true)`                                                                              | 设置是否可以清除值                      |
-| container               | HTMLElement \| (() => HTMLElement)                                                            | 设置渲染的容器                          |
-| data \*                 | [TreeNode][node][]                                                                            | 渲染树的数据                            |
-| defaultExpandAll        | boolean                                                                                       | 默认展开所有节点                        |
-| defaultExpandItemValues | string[]                                                                                      | 设置默认展开节点的值                    |
-| defaultOpen             | boolean                                                                                       | 默认打开                                |
-| defaultValue            | string                                                                                        | 默认选中的值                            |
-| disabled                | boolean                                                                                       | 是否禁用组件                            |
-| disabledItemValues      | string[]                                                                                      | 设置禁用树节点的值                      |
-| expandItemValues        | string[]                                                                                      | 设置展开节点的值（受控）                |
-| getChildren             | (node: [TreeNode][node]) => Promise&lt;[TreeNode][node]&gt;                                   | 异步加载节点的子节点数据                |
-| ~height~                | number                                                                                        | ⚠️`[已弃用]` 使用 `treeHeight` 代替     |
-| labelKey                | string `('label')`                                                                            | 设置树节点显示内容在 `data` 中的 `key`  |
-| listProps               | [ListProps][listprops]                                                                        | 虚拟化长列表的相关属性                  |
-| loading                 | boolean `(false)`                                                                             | 是否显示一个加载中状态指示器            |
-| locale                  | [PickerLocaleType](/zh/guide/i18n/#pickers)                                                   | 本地化配置                              |
-| ~menuClassName~         | string                                                                                        | ⚠️`[已弃用]` 使用 `popupClassName` 代替 |
-| ~menuStyle~             | CSSProperties                                                                                 | ⚠️`[已弃用]` 使用 `popupStyle` 代替     |
-| onChange                | (value:string) => void                                                                        | 值改变时触发回调                        |
-| onClean                 | (event) => void                                                                               | 清空值时触发回调                        |
-| onClose                 | () => void                                                                                    | 关闭选择器的回调函数                    |
-| onEnter                 | () => void                                                                                    | 显示前动画过渡的回调                    |
-| onEntered               | () => void                                                                                    | 显示后动画过渡的回调                    |
-| onEntering              | () => void                                                                                    | 显示中动画过渡的回调                    |
-| onExit                  | () => void                                                                                    | 退出前动画过渡的回调                    |
-| onExited                | () => void                                                                                    | 退出后动画过渡的回调                    |
-| onExiting               | () => void                                                                                    | 退出中动画过渡的回调                    |
-| onExpand                | (expandItemValues: string[], node:[TreeNode][node], concat:(data, children) => Array) => void | 树节点展示时的回调                      |
-| onOpen                  | () => void                                                                                    | 打开弹出层的回调                        |
-| onSearch                | (searchKeyword:string, event) => void                                                         | 搜索回调函数                            |
-| onSelect                | (node:[TreeNode][node], value: string, event) => void                                         | 选择树节点后的回调函数                  |
-| open                    | boolean                                                                                       | 打开弹出层（受控）                      |
-| placeholder             | ReactNode `('Select')`                                                                        | 没有值时的占位内容                      |
-| placement               | [Placement](#code-ts-placement-code)`('bottomStart')`                                         | 弹出层打开位置                          |
-| popupClassName          | string                                                                                        | 设置弹出层的 CSS 类名                   |
-| popupStyle              | CSSProperties                                                                                 | 设置弹出层的样式                        |
-| renderExtraFooter       | () => ReactNode                                                                               | 自定义页脚内容                          |
-| ~renderMenu~            | (tree: ReactNode) => ReactNode                                                                | ⚠️`[已弃用]` 使用 `renderTree` 代替     |
-| renderTree              | (tree: ReactNode) => ReactNode                                                                | 自定义渲染树                            |
-| renderTreeIcon          | (node: [TreeNode][node], expanded: boolean) => ReactNode                                      | 自定义渲染图标                          |
-| renderTreeNode          | (node: [TreeNode][node]) => ReactNode                                                         | 自定义渲染树节点                        |
-| renderValue             | (value:string, node:[TreeNode][node], selectedElement:ReactNode) => ReactNode                 | 自定义渲染选中的值                      |
-| searchable              | boolean `(true)`                                                                              | 是否可以搜索                            |
-| searchBy                | (keyword: string, label: ReactNode, node: [TreeNode][node]) => boolean                        | 自定义搜索方法                          |
-| size                    | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                         | 设置组件尺寸                            |
-| toggleAs                | ElementType `('a')`                                                                           | 为组件自定义元素类型                    |
-| treeHeight              | number `(320)`                                                                                | 设置树的高度                            |
-| value                   | string                                                                                        | 设置选中节点的值                        |
-| valueKey                | string `('value')`                                                                            | 设置树节点值在 `data` 中的 `key`        |
-| virtualized             | boolean                                                                                       | 是否开启虚拟列表                        |
+| 属性名称                | 类型 `(默认值)`                                                                               | 描述                                   | 版本       |
+| ----------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------- | ---------- |
+| appearance              | 'default' \| 'subtle' `('default')`                                                           | 设置外观                               |            |
+| block                   | boolean                                                                                       | 是否以块级元素显示                     |            |
+| caretAs                 | ElementType                                                                                   | 自定义右侧箭头图标的组件               |            |
+| childrenKey             | string `('children')`                                                                         | 设置树节点的子节点在 `data` 中的 `key` |            |
+| classPrefix             | string`('picker')`                                                                            | 组件 CSS 类的前缀                      |
+| cleanable               | boolean `(true)`                                                                              | 设置是否可以清除值                     |            |
+| container               | HTMLElement \| (() => HTMLElement)                                                            | 设置渲染的容器                         |            |
+| data \*                 | [TreeNode][node][]                                                                            | 渲染树的数据                           |            |
+| defaultExpandAll        | boolean                                                                                       | 默认展开所有节点                       |            |
+| defaultExpandItemValues | string[]                                                                                      | 设置默认展开节点的值                   |
+| defaultOpen             | boolean                                                                                       | 默认打开                               |            |
+| defaultValue            | string                                                                                        | 默认选中的值                           |            |
+| disabled                | boolean                                                                                       | 是否禁用组件                           |            |
+| disabledItemValues      | string[]                                                                                      | 设置禁用树节点的值                     |            |
+| expandItemValues        | string[]                                                                                      | 设置展开节点的值（受控）               |            |
+| getChildren             | (node: [TreeNode][node]) => Promise&lt;[TreeNode][node]&gt;                                   | 异步加载节点的子节点数据               |            |
+| labelKey                | string `('label')`                                                                            | 设置树节点显示内容在 `data` 中的 `key` |            |
+| listProps               | [ListProps][listprops]                                                                        | 虚拟化长列表的相关属性                 |            |
+| loading                 | boolean `(false)`                                                                             | 是否显示一个加载中状态指示器           |            |
+| locale                  | [PickerLocaleType](/zh/guide/i18n/#pickers)                                                   | 本地化配置                             |            |
+| onChange                | (value:string) => void                                                                        | 值改变时触发回调                       |            |
+| onClean                 | (event) => void                                                                               | 清空值时触发回调                       |            |
+| onClose                 | () => void                                                                                    | 关闭选择器的回调函数                   |            |
+| onEnter                 | () => void                                                                                    | 显示前动画过渡的回调                   |            |
+| onEntered               | () => void                                                                                    | 显示后动画过渡的回调                   |            |
+| onEntering              | () => void                                                                                    | 显示中动画过渡的回调                   |            |
+| onExit                  | () => void                                                                                    | 退出前动画过渡的回调                   |            |
+| onExited                | () => void                                                                                    | 退出后动画过渡的回调                   |            |
+| onExiting               | () => void                                                                                    | 退出中动画过渡的回调                   |            |
+| onExpand                | (expandItemValues: string[], node:[TreeNode][node], concat:(data, children) => Array) => void | 树节点展示时的回调                     |            |
+| onlyLeafSelectable      | boolean                                                                                       | 是否只允许选择叶子节点                 | ![][6.0.0] |
+| onOpen                  | () => void                                                                                    | 打开弹出层的回调                       |            |
+| onSearch                | (search:string, event) => void                                                                | 搜索回调函数                           |            |
+| onSelect                | (node:[TreeNode][node], value: string, event) => void                                         | 选择树节点后的回调函数                 |            |
+| open                    | boolean                                                                                       | 打开弹出层（受控）                     |            |
+| placeholder             | ReactNode `('Select')`                                                                        | 没有值时的占位内容                     |            |
+| placement               | [Placement](#code-ts-placement-code)`('bottomStart')`                                         | 弹出层打开位置                         |            |
+| popupClassName          | string                                                                                        | 设置弹出层的 CSS 类名                  |            |
+| popupStyle              | CSSProperties                                                                                 | 设置弹出层的样式                       |            |
+| renderExtraFooter       | () => ReactNode                                                                               | 自定义页脚内容                         |            |
+| renderTree              | (tree: ReactNode) => ReactNode                                                                | 自定义渲染树                           |            |
+| renderTreeIcon          | (node: [TreeNode][node], expanded: boolean) => ReactNode                                      | 自定义渲染图标                         |            |
+| renderTreeNode          | (node: [TreeNode][node]) => ReactNode                                                         | 自定义渲染树节点                       |            |
+| renderValue             | (value:string, node:[TreeNode][node], selected:ReactNode) => ReactNode                        | 自定义渲染选中的值                     |            |
+| searchable              | boolean `(true)`                                                                              | 是否可以搜索                           |            |
+| searchBy                | (keyword: string, label: ReactNode, node: [TreeNode][node]) => boolean                        | 自定义搜索方法                         |            |
+| showIndentLine          | boolean                                                                                       | 是否显示缩进线                         |            |
+| size                    | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                         | 设置组件尺寸                           |            |
+| toggleAs                | ElementType `('a')`                                                                           | 为组件自定义元素类型                   |            |
+| treeHeight              | number `(320)`                                                                                | 设置树的高度                           |            |
+| value                   | string                                                                                        | 设置选中节点的值                       |            |
+| valueKey                | string `('value')`                                                                            | 设置树节点值在 `data` 中的 `key`       |            |
+| virtualized             | boolean                                                                                       | 是否开启虚拟列表                       |            |
 
 <!--{include:(_common/types/tree-node.md)}-->
 <!--{include:(_common/types/placement.md)}-->

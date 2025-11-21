@@ -6,34 +6,85 @@ Modal and Drawer integrations with third-party libraries.
 
 The integration of [Nice Modal](https://github.com/eBay/nice-modal-react) with React Suite's Modal/Drawer offers a lightweight and flexible customizable modal window solution.
 
-### Installation
+## Usage
+
+<div class="rs-doc-steps">
+
+<h3 class="rs-doc-step-header">Install Nice Modal</h3>
+
+<div class="rs-doc-step-body">
+
+First, install the `@ebay/nice-modal-react` dependency:
 
 ```bash
 npm install @ebay/nice-modal-react
 ```
 
-### Usage
+</div>
 
-<!--{include:(components/modal-integrations/fragments/usage-nice-modal.md)}-->
+<h3 class="rs-doc-step-header">Create a Modal Component</h3>
 
-### Examples
+<div class="rs-doc-step-body">
+
+Use `NiceModal.create` to create a reusable modal component:
+
+```tsx
+import { Modal, Button } from 'rsuite';
+import NiceModal, { useModal } from '@ebay/nice-modal-react';
+
+export const MyModal = NiceModal.create(({ id, name }) => {
+  const modal = useModal();
+  return (
+    <Modal open={modal.visible} onClose={modal.hide} onExited={modal.remove} backdrop="static">
+      <Modal.Header>
+        <Modal.Title>Hello React Suite</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        Greetings: {id}, {name}!
+      </Modal.Body>
+    </Modal>
+  );
+});
+```
+
+</div>
+
+<h3 class="rs-doc-step-header">Using the Modal</h3>
+
+<div class="rs-doc-step-body">
+
+Wrap your application with `NiceModal.Provider` and then you can show the modal from anywhere:
+
+```jsx
+import NiceModal from '@ebay/nice-modal-react';
+import { MyModal } from './MyModal';
+
+const App = () => {
+  return (
+    <NiceModal.Provider>
+      <Button
+        appearance="primary"
+        onClick={() => {
+          NiceModal.show(MyModal, { id: 'test', name: 'Nate' });
+        }}
+      >
+        Show Modal
+      </Button>
+    </NiceModal.Provider>
+  );
+};
+```
+
+</div>
+
+</div>
+
+## Examples
+
+### Modal
 
 <!--{include:`nice-modal.md`}-->
 
-## Modal Interactions
+### Drawer
 
-[React Suite Interactions](https://github.com/rsuite/interactions) provides three methods—alert, confirm, and prompt—making it as easy to use the Modal as calling native methods.
-
-### Installation
-
-```bash
-npm install @rsuite/interactions
-```
-
-### Usage
-
-<!--{include:(components/modal-integrations/fragments/usage-modal-interactions.md)}-->
-
-### Examples
-
-<!--{include:`model-interactions.md`}-->
+<!--{include:`nice-modal-drawer.md`}-->

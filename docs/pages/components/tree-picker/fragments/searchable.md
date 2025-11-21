@@ -14,7 +14,7 @@ const data = mockTreeData({
 
 const App = () => (
   <>
-    <TreePicker defaultExpandAll data={data} searchable={false} style={{ width: 246 }} />
+    <TreePicker defaultExpandAll data={data} searchable={false} w={246} />
   </>
 );
 

@@ -1,4 +1,4 @@
-import enGB from 'date-fns/locale/en-GB';
+import { enGB } from 'date-fns/locale/en-GB';
 
 const DateTimeFormats = {
   sunday: 'Su',
@@ -88,7 +88,13 @@ export default {
     expandText: 'Show path'
   },
   Toggle: {
-    on: 'Open',
-    off: 'Close'
+    on: 'ON',
+    off: 'OFF'
+  },
+  Dialog: {
+    alert: 'Alert',
+    confirm: 'Confirm',
+    ok: 'OK',
+    cancel: 'Cancel'
   }
 };

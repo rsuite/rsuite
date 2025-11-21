@@ -6,8 +6,8 @@
 
 <!--{include:<import-guide>}-->
 
-- `<Popover>` 弹出框。
-- `<Whisper>` 监听触发器，包裹被监听对象的外面，触发事件后通知到 `<Popover>` 展示出来。
+- `Popover` 弹出框。
+- `Whisper` 监听触发器，包裹被监听对象的外面，触发事件后通知到 `<Popover>` 展示出来。
 
 ## 演示
 
@@ -40,9 +40,9 @@
 
 <!--{include:`container.md`}-->
 
-### 与 Dropdown 组合使用
+### 与 `Menu` 组合使用
 
-<!--{include:`with-dropdown.md`}-->
+<!--{include:`with-menu.md`}-->
 
 ### 隐藏箭头
 

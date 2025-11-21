@@ -4,8 +4,8 @@ import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import Button, { ButtonProps } from '../Button';
 import ButtonToolbar from '../../ButtonToolbar';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../ButtonToolbar/styles/index.less';
+import '../styles/index.scss';
+import '../../ButtonToolbar/styles/index.scss';
 
 const meta = createMeta(Button);
 
@@ -122,6 +122,14 @@ export const Active: Story = {
   args: {
     ...defaultProps,
     active: true
+  }
+};
+
+export const Toggleable: Story = {
+  render: AppearanceTemplate,
+  args: {
+    ...defaultProps,
+    toggleable: true
   }
 };
 

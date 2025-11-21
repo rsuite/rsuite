@@ -6,6 +6,8 @@ export type Exclude<T, U> = T extends U ? never : T;
 
 export type Omit<T, U> = Pick<T, Exclude<keyof T, keyof U>>;
 
+export type ToArray<V> = V extends any[] ? V : V[];
+
 export type ReplaceProps<Inner extends React.ElementType, P> = Omit<
   React.ComponentPropsWithRef<Inner>,
   P

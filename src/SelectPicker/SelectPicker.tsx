@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
-import omit from 'lodash/omit';
 import SearchBox from '@/internals/SearchBox';
 import { PickerLocale } from '../locales';
-import { useClassNames, useControlled, useEventCallback } from '@/internals/hooks';
-import { createChainedFunction, mergeRefs, shallowEqual, getDataGroupBy } from '@/internals/utils';
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import {
+  forwardRef,
+  createChainedFunction,
+  mergeRefs,
+  shallowEqual,
+  getDataGroupBy
+} from '@/internals/utils';
 import {
   Listbox,
   ListItem,
@@ -15,23 +19,23 @@ import {
   PickerToggleTrigger,
   PickerPopup,
   useFocusItemValue,
-  usePickerClassName,
   useSearch,
   useToggleKeyDownEvent,
   usePickerRef,
-  pickTriggerPropKeys,
-  omitTriggerPropKeys,
+  triggerPropKeys,
   PositionChildProps,
-  listPickerPropTypes,
-  PickerHandle,
   PickerToggleProps
 } from '@/internals/Picker';
-import { oneOf } from '@/internals/propTypes';
-import { useCustom } from '../CustomProvider';
 import type { ListProps } from '@/internals/Windowing';
-import type { FormControlPickerProps, ItemDataType } from '@/internals/types';
+import type {
+  FormControlPickerProps,
+  Option,
+  ListboxProps,
+  PopupProps,
+  DeprecatedMenuProps
+} from '@/internals/types';
 
-export interface SelectProps<T> {
+export interface SelectProps<T> extends ListboxProps, PopupProps, DeprecatedMenuProps {
   /** Set group condition key in data */
   groupBy?: string;
 
@@ -47,29 +51,16 @@ export interface SelectProps<T> {
   listProps?: Partial<ListProps>;
 
   /** Custom search rules. */
-  searchBy?: (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean;
+  searchBy?: (keyword: string, label: React.ReactNode, item: Option) => boolean;
 
   /** Sort options */
   sort?: (isGroup: boolean) => (a: any, b: any) => number;
 
-  /** Customizing the Rendering Menu list */
-  renderMenu?: (menu: React.ReactNode) => React.ReactNode;
-
-  /** Custom render menuItems */
-  renderMenuItem?: (label: React.ReactNode, item: ItemDataType) => React.ReactNode;
-
-  /** Custom render menu group */
-  renderMenuGroup?: (title: React.ReactNode, item: ItemDataType) => React.ReactNode;
-
   /** Custom render selected items */
-  renderValue?: (
-    value: T,
-    item: ItemDataType<T>,
-    selectedElement: React.ReactNode
-  ) => React.ReactNode;
+  renderValue?: (value: T, item: Option<T>, selectedElement: React.ReactNode) => React.ReactNode;
 
   /** Called when the option is selected */
-  onSelect?: (value: any, item: ItemDataType<T>, event: React.SyntheticEvent) => void;
+  onSelect?: (value: any, item: Option<T>, event: React.SyntheticEvent) => void;
 
   /** Called after clicking the group title */
   onGroupTitleClick?: (event: React.SyntheticEvent) => void;
@@ -81,18 +72,9 @@ export interface SelectProps<T> {
   onClean?: (event: React.SyntheticEvent) => void;
 }
 
-export interface MultipleSelectProps<T> extends Omit<SelectProps<T>, 'renderValue'> {
-  /** Custom render selected items */
-  renderValue?: (
-    value: T[],
-    item: ItemDataType<T>[],
-    selectedElement: React.ReactNode
-  ) => React.ReactNode;
-}
-
 export interface SelectPickerProps<T = any>
   extends Omit<
-      FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,
+      FormControlPickerProps<T, PickerLocale, Option<T>>,
       'value' | 'defaultValue' | 'onChange'
     >,
     SelectProps<T>,
@@ -110,62 +92,59 @@ export interface SelectPickerProps<T = any>
 const emptyArray = [];
 
 export interface SelectPickerComponent {
-  <T>(
-    props: SelectPickerProps<T> & {
-      ref?: React.Ref<PickerHandle>;
-    }
-  ): JSX.Element | null;
+  <T>(props: SelectPickerProps<T>): React.ReactElement | null;
   displayName?: string;
-  propTypes?: React.WeakValidationMap<SelectPickerProps<any>>;
 }
 
 /**
  * The `SelectPicker` component is used to select an item from a list of data.
  * @see https://rsuitejs.com/components/select-picker/
  */
-const SelectPicker = React.forwardRef(
-  <T extends number | string>(props: SelectPickerProps<T>, ref: React.Ref<PickerHandle>) => {
+const SelectPicker = forwardRef<'div', SelectPickerProps>(
+  <T extends number | string>(props: SelectPickerProps<T>, ref) => {
     const { propsWithDefaults } = useCustom('SelectPicker', props);
     const {
-      as: Component = 'div',
       appearance = 'default',
-      data = emptyArray,
-      valueKey = 'value',
-      labelKey = 'label',
-      value: valueProp,
+      as,
+      block,
+      className,
+      cleanable = true,
       classPrefix = 'picker',
-      placeholder,
+      data = emptyArray,
       defaultValue,
       disabled,
-      cleanable = true,
-      placement = 'bottomStart',
-      menuClassName,
-      menuAutoWidth = true,
-      menuMaxHeight = 320,
-      menuStyle,
-      groupBy,
-      locale,
-      toggleAs,
-      style,
-      searchable = true,
       disabledItemValues = emptyArray,
-      virtualized,
-      listProps,
+      groupBy,
       id,
-      onGroupTitleClick,
+      labelKey = 'label',
+      listProps,
+      listboxMaxHeight = 320,
+      locale,
+      placeholder,
+      placement = 'bottomStart',
+      popupAutoWidth = true,
+      popupClassName,
+      popupStyle,
+      searchable = true,
+      style,
+      toggleAs,
+      value: valueProp,
+      valueKey = 'value',
+      virtualized,
+      sort,
       searchBy,
-      onEntered,
-      onExited,
+      renderValue,
+      renderListbox,
+      renderOptionGroup,
+      renderOption,
+      renderExtraFooter,
+      onGroupTitleClick,
+      onEnter,
+      onExit,
       onClean,
       onChange,
       onSelect,
       onSearch,
-      sort,
-      renderValue,
-      renderMenu,
-      renderMenuGroup,
-      renderMenuItem,
-      renderExtraFooter,
       ...rest
     } = propsWithDefaults;
 
@@ -191,11 +170,7 @@ const SelectPicker = React.forwardRef(
     const { searchKeyword, filteredData, resetSearch, handleSearch } = useSearch(data, {
       labelKey,
       searchBy,
-      callback: (
-        searchKeyword: string,
-        filteredData: ItemDataType[],
-        event: React.SyntheticEvent
-      ) => {
+      callback: (searchKeyword: string, filteredData: Option[], event: React.SyntheticEvent) => {
         // The first option after filtering is the focus.
         setFocusItemValue(filteredData?.[0]?.[valueKey]);
         onSearch?.(searchKeyword, event);
@@ -210,7 +185,7 @@ const SelectPicker = React.forwardRef(
     });
 
     const handleSelect = useEventCallback(
-      (value: any, item: ItemDataType<T>, event: React.SyntheticEvent) => {
+      (value: any, item: Option<T>, event: React.SyntheticEvent) => {
         onSelect?.(value, item, event);
         target.current?.focus();
       }
@@ -226,9 +201,7 @@ const SelectPicker = React.forwardRef(
       }
 
       // Find active `MenuItem` by `value`
-      const focusItem = data.find(item =>
-        shallowEqual(item[valueKey], focusItemValue)
-      ) as ItemDataType;
+      const focusItem = data.find(item => shallowEqual(item[valueKey], focusItemValue)) as Option;
 
       setValue(focusItemValue);
       handleSelect(focusItemValue, focusItem, event);
@@ -237,7 +210,7 @@ const SelectPicker = React.forwardRef(
     });
 
     const handleItemSelect = useEventCallback(
-      (value: any, item: ItemDataType, event: React.SyntheticEvent) => {
+      (value: any, item: Option, event: React.SyntheticEvent) => {
         setValue(value);
         setFocusItemValue(value);
 
@@ -269,14 +242,14 @@ const SelectPicker = React.forwardRef(
       ...rest
     });
 
-    const handleExited = useEventCallback(() => {
+    const handleExit = useEventCallback(() => {
       resetSearch();
       setActive(false);
       onSearch?.('');
       setFocusItemValue(null);
     });
 
-    const handleEntered = useEventCallback(() => {
+    const handleEnter = useEventCallback(() => {
       setActive(true);
       setFocusItemValue(value);
     });
@@ -290,7 +263,7 @@ const SelectPicker = React.forwardRef(
      */
     let hasValue = !!activeItem || (!isNil(value) && isFunction(renderValue));
 
-    const { prefix, merge } = useClassNames(classPrefix);
+    const { prefix, merge } = useStyles(classPrefix);
 
     let selectedElement: React.ReactNode = placeholder;
 
@@ -299,17 +272,16 @@ const SelectPicker = React.forwardRef(
     }
 
     if (!isNil(value) && isFunction(renderValue)) {
-      selectedElement = renderValue(value, activeItem as ItemDataType<T>, selectedElement);
+      selectedElement = renderValue(value, activeItem as Option<T>, selectedElement);
       // If renderValue returns null or undefined, hasValue is false.
       if (isNil(selectedElement)) {
         hasValue = false;
       }
     }
 
-    const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
-      const { left, top, className } = positionProps;
-      const classes = merge(className, menuClassName, prefix('select-menu'));
-      const styles = { ...menuStyle, left, top };
+    const renderPopup = (positionProps: PositionChildProps, speakerRef: any) => {
+      const { className } = positionProps;
+      const classes = merge(className, popupClassName, prefix('select-menu'));
       let items = filteredData;
 
       // Create a tree structure data when set `groupBy`
@@ -319,16 +291,16 @@ const SelectPicker = React.forwardRef(
         items = items.sort(sort(false));
       }
 
-      const menu = items.length ? (
+      const listbox = items.length ? (
         <Listbox
           listProps={listProps}
           listRef={list}
           disabledItemValues={disabledItemValues}
           valueKey={valueKey}
           labelKey={labelKey}
-          renderMenuGroup={renderMenuGroup}
-          renderMenuItem={renderMenuItem}
-          maxHeight={menuMaxHeight}
+          renderOptionGroup={renderOptionGroup}
+          renderOption={renderOption}
+          maxHeight={listboxMaxHeight}
           classPrefix={'picker-select-menu'}
           listItemClassPrefix={'picker-select-menu-item'}
           listItemAs={ListItem}
@@ -348,9 +320,9 @@ const SelectPicker = React.forwardRef(
       return (
         <PickerPopup
           ref={mergeRefs(overlay, speakerRef)}
-          autoWidth={menuAutoWidth}
+          autoWidth={popupAutoWidth}
           className={classes}
-          style={styles}
+          style={popupStyle}
           onKeyDown={onPickerKeyDown}
           target={trigger}
         >
@@ -363,76 +335,57 @@ const SelectPicker = React.forwardRef(
             />
           )}
 
-          {renderMenu ? renderMenu(menu) : menu}
+          {renderListbox ? renderListbox(listbox) : listbox}
           {renderExtraFooter?.()}
         </PickerPopup>
       );
     };
 
-    const [classes, usedClassNamePropKeys] = usePickerClassName({
-      ...props,
-      classPrefix,
-      appearance,
-      hasValue,
-      name: 'select',
-      cleanable
-    });
+    const triggerProps = {
+      ...pick(props, triggerPropKeys),
+      onEnter: createChainedFunction(handleEnter, onEnter),
+      onExit: createChainedFunction(handleExit, onExit)
+    };
 
     return (
       <PickerToggleTrigger
+        as={as}
         id={id}
-        pickerProps={pick(props, pickTriggerPropKeys)}
+        name="select"
+        block={block}
+        disabled={disabled}
+        appearance={appearance}
+        triggerProps={triggerProps}
         ref={trigger}
         placement={placement}
-        onEntered={createChainedFunction(handleEntered, onEntered)}
-        onExited={createChainedFunction(handleExited, onExited)}
         speaker={renderPopup}
+        rootRef={root}
+        style={style}
+        classPrefix={classPrefix}
+        className={className}
       >
-        <Component className={classes} style={style} ref={root}>
-          <PickerToggle
-            {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
-            ref={target}
-            appearance={appearance}
-            onClean={createChainedFunction(handleClean, onClean)}
-            onKeyDown={onPickerKeyDown}
-            as={toggleAs}
-            disabled={disabled}
-            cleanable={cleanable && !disabled}
-            hasValue={hasValue}
-            inputValue={value ?? ''}
-            focusItemValue={focusItemValue}
-            active={active}
-            placement={placement}
-          >
-            {selectedElement || locale?.placeholder}
-          </PickerToggle>
-        </Component>
+        <PickerToggle
+          ref={target}
+          appearance={appearance}
+          onClean={createChainedFunction(handleClean, onClean)}
+          onKeyDown={onPickerKeyDown}
+          as={toggleAs}
+          disabled={disabled}
+          cleanable={cleanable && !disabled}
+          hasValue={hasValue}
+          inputValue={value ?? ''}
+          focusItemValue={focusItemValue}
+          active={active}
+          placement={placement}
+          {...rest}
+        >
+          {selectedElement || locale?.placeholder}
+        </PickerToggle>
       </PickerToggleTrigger>
     );
   }
 ) as SelectPickerComponent;
 
 SelectPicker.displayName = 'SelectPicker';
-SelectPicker.propTypes = {
-  ...listPickerPropTypes,
-  locale: PropTypes.any,
-  appearance: oneOf(['default', 'subtle']),
-  menuAutoWidth: PropTypes.bool,
-  menuMaxHeight: PropTypes.number,
-  renderMenu: PropTypes.func,
-  renderMenuItem: PropTypes.func,
-  renderMenuGroup: PropTypes.func,
-  onSelect: PropTypes.func,
-  onGroupTitleClick: PropTypes.func,
-  onSearch: PropTypes.func,
-  /**
-   * group by key in `data`
-   */
-  groupBy: PropTypes.any,
-  sort: PropTypes.func,
-  searchable: PropTypes.bool,
-  virtualized: PropTypes.bool,
-  searchBy: PropTypes.func
-};
 
 export default SelectPicker;

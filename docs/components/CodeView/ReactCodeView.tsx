@@ -1,23 +1,27 @@
 import React from 'react';
-import ReactCodeView from 'react-code-view';
+import CodeView from 'react-code-view';
+import { copyButtonProps } from './HTMLRenderer';
 
 const editorProps = {
   classPrefix: 'rs',
-  buttonClassName: 'rs-btn-subtle rs-btn-icon-circle rs-btn-icon'
+  buttonClassName: 'rs-btn rs-btn-icon'
 };
 
 const afterCompile = (code: string) => {
+  // eslint-disable-next-line no-useless-escape
   return code.replace(/import\ [\*\w\,\{\}\ \n]+\ from\ ?[\."'@/\w-]+;/gi, '');
 };
 
-export default React.forwardRef((props: any, ref) => {
+export default React.forwardRef(function ReactCodeView(props: any, ref) {
   return (
-    <ReactCodeView
+    <CodeView
       {...props}
+      direction="ltr"
       ref={ref}
       theme="dark"
       editor={editorProps}
       afterCompile={afterCompile}
+      copyButtonProps={copyButtonProps}
     />
   );
 });

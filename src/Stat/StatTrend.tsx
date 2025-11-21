@@ -1,7 +1,7 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
-import { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import Box, { BoxProps } from '@/internals/Box';
+import { useStyles } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
 
 const svgProps: React.SVGProps<SVGSVGElement> = {
   xmlns: 'http://www.w3.org/2000/svg',
@@ -42,41 +42,35 @@ const ArrowEqual = (props: React.SVGProps<SVGSVGElement>) => {
   );
 };
 
-interface StatTrendProps extends WithAsProps {
+export interface StatTrendProps extends BoxProps {
   indicator?: 'up' | 'down' | 'equal';
   appearance?: 'default' | 'subtle';
 }
 
-const StatTrend: RsRefForwardingComponent<'dd', StatTrendProps> = React.forwardRef(
-  (props: StatTrendProps, ref) => {
-    const {
-      as: Component = 'span',
-      appearance = 'default',
-      classPrefix = 'stat-trend',
-      indicator = 'up',
-      className,
-      children,
-      ...rest
-    } = props;
+const StatTrend = forwardRef<'dd', StatTrendProps>((props, ref) => {
+  const {
+    as = 'span',
+    appearance = 'default',
+    classPrefix = 'stat-trend',
+    indicator = 'up',
+    className,
+    children,
+    ...rest
+  } = props;
 
-    const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix(appearance, indicator));
-    const IndicatorIcon =
-      indicator === 'up' ? ArrowUp : indicator === 'down' ? ArrowDown : ArrowEqual;
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix(appearance, indicator));
+  const IndicatorIcon =
+    indicator === 'up' ? ArrowUp : indicator === 'down' ? ArrowDown : ArrowEqual;
 
-    return (
-      <Component ref={ref} className={classes} {...rest}>
-        {children}
-        {<IndicatorIcon className={prefix('indicator')} />}
-      </Component>
-    );
-  }
-);
+  return (
+    <Box as={as} ref={ref} className={classes} {...rest}>
+      {children}
+      {<IndicatorIcon className={prefix('indicator')} />}
+    </Box>
+  );
+});
 
 StatTrend.displayName = 'StatTrend';
-StatTrend.propTypes = {
-  indicator: oneOf(['up', 'down', 'equal']),
-  appearance: oneOf(['default', 'subtle'])
-};
 
 export default StatTrend;

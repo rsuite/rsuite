@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import PanelHeader from './PanelHeader';
 import PanelBody from './PanelBody';
 import useExpanded from './hooks/useExpanded';
-import { useClassNames, useUniqueId, useEventCallback } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useCustom, useUniqueId, useEventCallback } from '@/internals/hooks';
 import { PanelGroupContext } from '../PanelGroup';
-import type { AnimationEventProps, RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import type { AnimationEventProps } from '@/internals/types';
 
-export interface PanelProps<T = string | number> extends WithAsProps, AnimationEventProps {
+export interface PanelProps<T = string | number> extends BoxProps, AnimationEventProps {
   /**
    * Show border
    */
@@ -94,124 +94,98 @@ export interface PanelProps<T = string | number> extends WithAsProps, AnimationE
  * The `Panel` component is used to display content that can be collapsed.
  * @see https://rsuitejs.com/components/panel
  */
-const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
-  (props: PanelProps, ref) => {
-    const { propsWithDefaults } = useCustom('Panel', props);
-    const {
-      as: Component = 'div',
-      bodyFill,
-      bodyProps,
-      bordered,
-      children,
-      className,
-      classPrefix = 'panel',
-      caretAs,
-      collapsible: collapsibleProp,
-      defaultExpanded,
-      disabled,
-      eventKey,
-      expanded: expandedProp,
-      header,
-      headerRole,
-      panelRole = 'region',
-      shaded,
-      scrollShadow,
-      id: idProp,
-      onEnter,
-      onEntered,
-      onEntering,
-      onExit,
-      onExited,
-      onExiting,
-      onSelect,
-      ...rest
-    } = propsWithDefaults;
+const Panel = forwardRef<'div', PanelProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('Panel', props);
+  const {
+    as,
+    bodyFill,
+    bodyProps,
+    bordered,
+    children,
+    className,
+    classPrefix = 'panel',
+    caretAs,
+    collapsible: collapsibleProp,
+    defaultExpanded,
+    disabled,
+    eventKey,
+    expanded: expandedProp,
+    header,
+    headerRole,
+    panelRole = 'region',
+    shaded,
+    scrollShadow,
+    id: idProp,
+    onEnter,
+    onEntered,
+    onEntering,
+    onExit,
+    onExited,
+    onExiting,
+    onSelect,
+    ...rest
+  } = propsWithDefaults;
 
-    const id = useUniqueId('rs-', idProp);
-    const bodyId = `${id}-panel`;
-    const buttonId = `${id}-btn`;
+  const id = useUniqueId('rs-', idProp);
+  const bodyId = `${id}-panel`;
+  const buttonId = `${id}-btn`;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const { onGroupSelect } = useContext(PanelGroupContext) || {};
-    const [expanded, setExpanded, collapsible] = useExpanded({
-      expanded: expandedProp,
-      defaultExpanded,
-      eventKey,
-      collapsible: collapsibleProp
-    });
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const { onGroupSelect } = useContext(PanelGroupContext) || {};
+  const [expanded, setExpanded, collapsible] = useExpanded({
+    expanded: expandedProp,
+    defaultExpanded,
+    eventKey,
+    collapsible: collapsibleProp
+  });
 
-    const handleSelect = useEventCallback((event: React.MouseEvent) => {
-      onSelect?.(eventKey, event);
-      onGroupSelect?.(eventKey, event);
-      setExpanded(!expanded);
-    });
+  const handleSelect = useEventCallback((event: React.MouseEvent) => {
+    onSelect?.(eventKey, event);
+    onGroupSelect?.(eventKey, event);
+    setExpanded(!expanded);
+  });
 
-    const classes = merge(
-      className,
-      withClassPrefix({ in: expanded, collapsible, bordered, shaded })
-    );
+  const classes = merge(className, withPrefix({ in: expanded, collapsible, bordered, shaded }));
 
-    return (
-      <Component {...rest} ref={ref} className={classes} id={idProp}>
-        {header && (
-          <PanelHeader
-            collapsible={collapsible}
-            expanded={expanded}
-            caretAs={caretAs}
-            role={headerRole}
-            buttonId={buttonId}
-            bodyId={bodyId}
-            disabled={disabled}
-            onClickButton={handleSelect}
-          >
-            {header}
-          </PanelHeader>
-        )}
-
-        <PanelBody
+  return (
+    <Box as={as} ref={ref} className={classes} id={idProp} {...rest}>
+      {header && (
+        <PanelHeader
           collapsible={collapsible}
           expanded={expanded}
-          bodyFill={bodyFill}
-          role={panelRole}
-          id={bodyId}
-          scrollShadow={scrollShadow}
-          labelId={buttonId}
-          onEnter={onEnter}
-          onEntering={onEntering}
-          onEntered={onEntered}
-          onExit={onExit}
-          onExiting={onExiting}
-          onExited={onExited}
-          {...bodyProps}
+          caretAs={caretAs}
+          role={headerRole}
+          buttonId={buttonId}
+          bodyId={bodyId}
+          disabled={disabled}
+          onClickButton={handleSelect}
         >
-          {children}
-        </PanelBody>
-      </Component>
-    );
-  }
-);
+          {header}
+        </PanelHeader>
+      )}
+
+      <PanelBody
+        collapsible={collapsible}
+        expanded={expanded}
+        bodyFill={bodyFill}
+        role={panelRole}
+        id={bodyId}
+        scrollShadow={scrollShadow}
+        labelId={buttonId}
+        onEnter={onEnter}
+        onEntering={onEntering}
+        onEntered={onEntered}
+        onExit={onExit}
+        onExiting={onExiting}
+        onExited={onExited}
+        {...bodyProps}
+      >
+        {children}
+      </PanelBody>
+    </Box>
+  );
+});
 
 Panel.displayName = 'Panel';
-Panel.propTypes = {
-  collapsible: PropTypes.bool,
-  bordered: PropTypes.bool,
-  shaded: PropTypes.bool,
-  bodyFill: PropTypes.bool,
-  header: PropTypes.any,
-  defaultExpanded: PropTypes.bool,
-  expanded: PropTypes.bool,
-  eventKey: PropTypes.any,
-  panelRole: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  onSelect: PropTypes.func,
-  onEnter: PropTypes.func,
-  onEntering: PropTypes.func,
-  onEntered: PropTypes.func,
-  onExit: PropTypes.func,
-  onExiting: PropTypes.func,
-  onExited: PropTypes.func,
-  className: PropTypes.string
-};
 
 export default Panel;

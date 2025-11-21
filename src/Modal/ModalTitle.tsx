@@ -1,38 +1,31 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
+import Box from '@/internals/Box';
 import { ModalContext } from './ModalContext';
-import { useClassNames } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
 import type { ComponentProps } from '@/internals/utils';
-import type { RsRefForwardingComponent } from '@/internals/types';
 
 export type ModalTitleProps = ComponentProps;
 
-const ModalTitle: RsRefForwardingComponent<'h4', ComponentProps> = React.forwardRef(
-  (props: ComponentProps, ref) => {
-    const { as: Component = 'h4', classPrefix = 'modal-title', className, role, ...rest } = props;
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
+const ModalTitle = forwardRef<'h4', ComponentProps>((props, ref) => {
+  const { as = 'h4', classPrefix = 'modal-title', className, role, ...rest } = props;
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
-    const context = useContext(ModalContext);
+  const context = useContext(ModalContext);
 
-    return (
-      <Component
-        id={context ? `${context.dialogId}-title` : undefined}
-        {...rest}
-        role={role}
-        ref={ref}
-        className={classes}
-      />
-    );
-  }
-);
+  return (
+    <Box
+      as={as}
+      id={context ? `${context.dialogId}-title` : undefined}
+      {...rest}
+      role={role}
+      ref={ref}
+      className={classes}
+    />
+  );
+});
 
 ModalTitle.displayName = 'Modal.Title';
-ModalTitle.propTypes = {
-  as: PropTypes.elementType,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node
-};
 
 export default ModalTitle;

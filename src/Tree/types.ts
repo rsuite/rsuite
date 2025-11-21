@@ -1,4 +1,4 @@
-import type { StandardProps } from '@/internals/types';
+import type { BaseBoxProps } from '@/internals/Box';
 import type { ListProps } from '@/internals/Windowing';
 import type { TreeNode } from '@/internals/Tree/types';
 
@@ -83,6 +83,8 @@ export interface TreeDragProps<T = Record<string, any>> {
   onDrop?: (dropData: DropData<T>, e: React.DragEvent) => void;
 }
 
+export type WithTreeDragProps<P> = P & TreeDragProps;
+
 /**
  * Represents the base props for the Tree component.
  *
@@ -92,7 +94,7 @@ export interface TreeDragProps<T = Record<string, any>> {
 /**
  * Represents the props for the Tree component.
  */
-export interface TreeViewBaseProps<V = string | number, T = TreeNode> extends StandardProps {
+export interface TreeViewBaseProps<V = string | number, T = TreeNode> extends BaseBoxProps {
   /**
    * The height of the tree.
    */
@@ -176,13 +178,6 @@ export interface TreeViewBaseProps<V = string | number, T = TreeNode> extends St
    * @returns Whether the item matches the search criteria.
    */
   searchBy?: (keyword: string, label: React.ReactNode, item: any) => boolean;
-
-  /**
-   * Callback function called after the value has been changed.
-   * @param value - The new value.
-   * @param event - The event object.
-   */
-  onChange?: (value: V, event: React.SyntheticEvent) => void;
 }
 
 export interface TreeExtraProps<T = TreeNode> {

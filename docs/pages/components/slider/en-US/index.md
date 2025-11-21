@@ -1,13 +1,13 @@
 # Slider
 
-A Slider component for displaying current value
+A Slider component for selecting a value or range within a given interval.
 
 ## Import
 
 <!--{include:<import-guide>}-->
 
-- `<Slider>` Slide input controls.
-- `<RangeSlider>` Slide range input controls.
+- `Slider` Single value slider control.
+- `RangeSlider` Dual value range slider control.
 
 ## Examples
 
@@ -17,37 +17,63 @@ A Slider component for displaying current value
 
 ### Progress
 
+Display the progress bar of the current value with the `progress` prop.
+
 <!--{include:`progress.md`}-->
 
 ### Graduated
 
+Show tick marks with the `graduated` prop.
+
 <!--{include:`graduated.md`}-->
 
+### Graduated with marks
+
+Customize tick marks with the `marks` prop.
+
+<!--{include:`marks.md`}-->
+
+### Size
+
+Support multiple sizes via the `size` prop.
+
+<!--{include:`size.md`}-->
+
 ### Vertical
+
+Set the slider to vertical orientation with the `vertical` prop.
 
 <!--{include:`vertical.md`}-->
 
 ### Disabled and read only
 
+Set the slider to disabled or read only with the `disabled` or `readOnly` props.
+
 <!--{include:`disabled.md`}-->
 
-### Show value (Controlled)
+### Controlled value
+
+Controlled usage with the `value` prop and callback functions.
 
 <!--{include:`value.md`}-->
 
 ### Constraint
 
-Limit starting value to be no greater than 25 and ending value to be no smaller than 35.
+Customize value constraints with the `constraint` prop.
 
 <!--{include:`constraint.md`}-->
 
-### Custom
+### Custom handle
+
+Customize the handle content and style with the `handleTitle` and `handleClassName` props.
 
 <!--{include:`custom.md`}-->
 
-### Size
+### Keep tooltip open
 
-<!--{include:`size.md`}-->
+Keep the tooltip always visible with the `keepTooltipOpen` prop.
+
+<!--{include:`keep-tooltip-open.md`}-->
 
 ## Accessibility
 
@@ -88,51 +114,69 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 
 ### `<Slider>`
 
-| Property          | Type `(Default)`                | Description                                                      |
-| ----------------- | ------------------------------- | ---------------------------------------------------------------- |
-| barClassName      | string                          | A css class to apply to the Bar DOM node                         |
-| defaultValue      | number                          | The default value (uncontrolled)                                                    |
-| disabled          | boolean                         | The disabled of component                                        |
-| getAriaValueText  | (value: number) => string;      | Provide a user-friendly name for the current value of the slider |
-| graduated         | boolean                         | Show Ticks                                                       |
-| handleClassName   | string                          | A css class to apply to the Handle node                          |
-| handleStyle       | CSSProperties                   | A css style to apply to the Handle node                          |
-| handleTitle       | ReactNode                       | Customizing what is displayed inside a handle                    |
-| max               | number`(100)`                   | Maximum sliding range                                            |
-| min               | number`(0)`                     | Minimum value of sliding range                                   |
-| onChange          | (value: number) => void         | Callback function that changes data                              |
-| onChangeCommitted | (value: number, event) => void; | Callback function that is fired when the mouseup is triggered    |
-| progress          | boolean                         | Show sliding progress bar                                        |
-| renderMark        | (mark: number) => ReactNode     | Customize labels on the render ruler                             |
-| renderTooltip     | (value: number ) => ReactNode   | Customize the content of the rendered Tooltip                    |
-| step              | number`(1)`                     | Slide the value of one step                                      |
-| tooltip           | boolean`(true)`                 | Whether to show `Tooltip` when sliding                           |
-| keepTooltipOpen   | boolean`(false)`                | Whether `Tooltip` will always be visible   even without hover    |
-| value             | number                          | The current value (controlled)                                               |
-| vertical          | boolean                         | Vertical Slide                                                   |
+| Property          | Type                            | Description                                                      | Version    |
+| ----------------- | ------------------------------- | ---------------------------------------------------------------- | ---------- |
+| barClassName      | string                          | A css class to apply to the Bar DOM node                         |            |
+| defaultValue      | number                          | The default value (uncontrolled)                                 |            |
+| disabled          | boolean                         | The disabled of component                                        |            |
+| getAriaValueText  | (value: number) => string;      | Provide a user-friendly name for the current value of the slider |            |
+| graduated         | boolean                         | Show Ticks                                                       |            |
+| handleClassName   | string                          | A css class to apply to the Handle node                          |            |
+| handleStyle       | CSSProperties                   | A css style to apply to the Handle node                          |            |
+| handleTitle       | ReactNode                       | Customizing what is displayed inside a handle                    |            |
+| keepTooltipOpen   | boolean                         | Whether `Tooltip` will always be visible even without hover      |            |
+| marks             | [Mark][mark][]                  | Custom marks on the slider                                       | ![][6.0.0] |
+| max               | number`(100)`                   | Maximum sliding range                                            |            |
+| min               | number`(0)`                     | Minimum value of sliding range                                   |            |
+| onChange          | (value: number) => void         | Callback function that changes data                              |            |
+| onChangeCommitted | (value: number, event) => void; | Callback function that is fired when the mouseup is triggered    |            |
+| progress          | boolean                         | Show sliding progress bar                                        |            |
+| renderMark        | (mark: number) => ReactNode     | Customize labels on the render ruler                             |            |
+| renderTooltip     | (value: number ) => ReactNode   | Customize the content of the rendered Tooltip                    |            |
+| size              | [Size][size] \| `('sm')`        | Specifies the size of the slider                                 | ![][6.0.0] |
+| step              | number`(1)`                     | Slide the value of one step                                      |            |
+| tooltip           | boolean`(true)`                 | Whether to show `Tooltip` when sliding                           |            |
+| value             | number                          | The current value (controlled)                                   |            |
+| vertical          | boolean                         | Vertical Slide                                                   |            |
 
 ### `<RangeSlider>`
 
-| Property          | Type `(Default)`                                       | Description                                                                                                          |
-| ----------------- | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
-| barClassName      | string                                                 | A css class to apply to the Bar DOM node                                                                             |
-| constraint        | `(value: [number, number]) => boolean`                 | Validate next value before `onChange` is triggered. Prevent `onChange` being triggered if constraint returns `false` |
-| defaultValue      | [number,number]                                        | The default value (uncontrolled)                                                                                                        |
-| disabled          | boolean                                                | The disabled of component                                                                                            |
-| getAriaValueText  | (value: number,eventKey:'start'&#124;'end') => string; | Provide a user-friendly name for the current value of the slider                                                     |
-| graduated         | boolean                                                | Show Ticks                                                                                                           |
-| handleClassName   | string                                                 | A css class to apply to the Handle node                                                                              |
-| handleStyle       | CSSProperties                                          | A css style to apply to the Handle node                                                                              |
-| handleTitle       | ReactNode                                              | Customizing what is displayed inside a handle                                                                        |
-| max               | number`(100)`                                          | Maximum sliding range                                                                                                |
-| min               | number`(0)`                                            | Minimum value of sliding range                                                                                       |
-| onChange          | (value: [number,number]) => void                       | Callback function that changes data                                                                                  |
-| onChangeCommitted | (value: [number,number], event) => void;               | Callback function that is fired when the mouseup is triggered                                                        |
-| progress          | boolean                                                | Show sliding progress bar                                                                                            |
-| renderMark        | (mark: number) => ReactNode                            | Customize labels on the render ruler                                                                                 |
-| renderTooltip     | (value: number ) => ReactNode                          | Customize the content of the rendered Tooltip                                                                        |
-| step              | number`(1)`                                            | Slide the value of one step                                                                                          |
-| tooltip           | boolean`(true)`                                        | Whether to show `Tooltip` when sliding
-| keepTooltipOpen   | boolean`(false)`                                        | Whether `Tooltip` will always be visible   even without hover                                                                               |
-| value             | [number,number]                                        | The current value (controlled)                                                                                                   |
-| vertical          | boolean                                                | Vertical Slide                                                                                                       |
+| Property          | Type `(Default)`                                       | Description                                                                                                          | Version    |
+| ----------------- | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- | ---------- |
+| barClassName      | string                                                 | A css class to apply to the Bar DOM node                                                                             |            |
+| constraint        | `(value: [number, number]) => boolean`                 | Validate next value before `onChange` is triggered. Prevent `onChange` being triggered if constraint returns `false` |            |
+| defaultValue      | [number,number]                                        | The default value (uncontrolled)                                                                                     |            |
+| disabled          | boolean                                                | The disabled of component                                                                                            |            |
+| getAriaValueText  | (value: number,eventKey:'start'&#124;'end') => string; | Provide a user-friendly name for the current value of the slider                                                     |            |
+| graduated         | boolean                                                | Show Ticks                                                                                                           |            |
+| handleClassName   | string                                                 | A css class to apply to the Handle node                                                                              |            |
+| handleStyle       | CSSProperties                                          | A css style to apply to the Handle node                                                                              |            |
+| handleTitle       | ReactNode                                              | Customizing what is displayed inside a handle                                                                        |            |
+| keepTooltipOpen   | boolean                                                | Whether `Tooltip` will always be visible even without hover                                                          |            |
+| marks             | [Mark][mark][]                                         | Custom marks on the slider                                                                                           | ![][6.0.0] |
+| max               | number`(100)`                                          | Maximum sliding range                                                                                                |            |
+| min               | number`(0)`                                            | Minimum value of sliding range                                                                                       |            |
+| onChange          | (value: [number,number]) => void                       | Callback function that changes data                                                                                  |            |
+| onChangeCommitted | (value: [number,number], event) => void;               | Callback function that is fired when the mouseup is triggered                                                        |            |
+| progress          | boolean                                                | Show sliding progress bar                                                                                            |            |
+| renderMark        | (mark: number) => ReactNode                            | Customize labels on the render ruler                                                                                 |            |
+| renderTooltip     | (value: number ) => ReactNode                          | Customize the content of the rendered Tooltip                                                                        |            |
+| size              | [Size][size] \| `('sm')`                               | Specifies the size of the slider                                                                                     | ![][6.0.0] |
+| step              | number`(1)`                                            | Slide the value of one step                                                                                          |            |
+| tooltip           | boolean`(true)`                                        | Whether to show `Tooltip` when sliding                                                                               |            |
+| value             | [number,number]                                        | The current value (controlled)                                                                                       |            |
+| vertical          | boolean                                                | Vertical Slide                                                                                                       |            |
+
+<!--{include:(_common/types/size.md)}-->
+
+[size]: #code-ts-size-code
+[mark]: #code-ts-mark-code
+
+### `ts:Mark`
+
+```ts
+interface Mark {
+  value: number;
+  label?: React.ReactNode;
+}
+```

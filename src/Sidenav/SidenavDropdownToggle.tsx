@@ -1,16 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
+import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
 import Button from '../Button';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
 import SidenavItem from './SidenavItem';
-import { oneOf } from '@/internals/propTypes';
+import { forwardRef } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
+import type { WithAsProps, PlacementCorners } from '@/internals/types';
 
 export interface SidenavDropdownToggleProps extends WithAsProps {
   noCaret?: boolean;
   renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
-  placement?: TypeAttributes.Placement8;
+  placement?: PlacementCorners;
 }
 
 /**
@@ -22,49 +21,32 @@ export interface SidenavDropdownToggleProps extends WithAsProps {
  *   </Nav.Menu>
  * </Nav>
  */
-const SidenavDropdownToggle: RsRefForwardingComponent<typeof Button, SidenavDropdownToggleProps> =
-  React.forwardRef((props: SidenavDropdownToggleProps, ref) => {
+const SidenavDropdownToggle = forwardRef<typeof Button, SidenavDropdownToggleProps>(
+  (props, ref) => {
     const {
       as: Component = SidenavItem,
+      classPrefix = 'sidenav-dropdown-toggle',
       className,
-      classPrefix = 'dropdown-toggle',
       renderToggle,
       children,
       noCaret,
       ...rest
     } = props;
 
-    const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ 'no-caret': noCaret }));
+    const { prefix, merge, withPrefix } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix());
 
     const toggle = (
-      <Component {...rest} ref={ref} className={classes} tooltip={children}>
-        {children}
-        {!noCaret && <ArrowDownLineIcon className={prefix('caret')} />}
+      <Component className={classes} ref={ref} tooltip={children} {...rest}>
+        <span className={prefix('title')}>{children}</span>
+        {!noCaret && <ArrowRightLineIcon className={prefix('caret')} />}
       </Component>
     );
 
     return renderToggle ? renderToggle(rest, ref) : toggle;
-  });
+  }
+);
 
 SidenavDropdownToggle.displayName = 'Sidenav.Dropdown.Toggle';
-SidenavDropdownToggle.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  noCaret: PropTypes.bool,
-  as: PropTypes.elementType,
-  renderToggle: PropTypes.func,
-  placement: oneOf([
-    'bottomStart',
-    'bottomEnd',
-    'topStart',
-    'topEnd',
-    'leftStart',
-    'rightStart',
-    'leftEnd',
-    'rightEnd'
-  ])
-};
 
 export default SidenavDropdownToggle;

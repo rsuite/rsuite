@@ -19,7 +19,7 @@ const App = () => (
   <ButtonToolbar>
     <CustomDropdown title="Hover" trigger="hover" />
     <CustomDropdown title="Click" trigger="click" />
-    <CustomDropdown title="Right Click" trigger="contextMenu" />
+    <CustomDropdown title="ContextMenu" trigger="contextMenu" />
     <CustomDropdown title="Click and Hover" trigger={['click', 'hover']} />
   </ButtonToolbar>
 );

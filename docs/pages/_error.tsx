@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { useApp } from '@/components/AppContext';
+import { useApp } from '@/hooks/useApp';
 
 interface ErrorProps {
   statusCode: number;
@@ -17,7 +17,9 @@ function Error({ statusCode = 404 }: ErrorProps) {
           <Link href={language === 'en' ? '/en/' : '/'}>{locales?.common.goHomePage}</Link>
         </div>
       </div>
-      <style jsx>{`
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         .error-wrapper {
           position: absolute;
           width: 480px;
@@ -44,7 +46,9 @@ function Error({ statusCode = 404 }: ErrorProps) {
           cursor: pointer;
           padding: 10px 0;
         }
-      `}</style>
+      `
+        }}
+      />
     </>
   );
 }

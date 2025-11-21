@@ -3,18 +3,19 @@ import type { StoryObj } from '@storybook/react';
 import Form from '../Form';
 import Input, { InputProps } from '../../Input';
 import Button from '../../Button';
+import HStack from '../../Stack/HStack';
 import ButtonToolbar from '../../ButtonToolbar';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Input/styles/index.less';
-import '../../Button/styles/index.less';
-import '../../ButtonToolbar/styles/index.less';
-import '../../FormErrorMessage/styles/index.less';
-import '../../FormControl/styles/index.less';
-import '../../FormControlLabel/styles/index.less';
-import '../../FormHelpText/styles/index.less';
-import '../../FormGroup/styles/index.less';
-import '../../Tooltip/styles/index.less';
+import '../styles/index.scss';
+import '../../Input/styles/index.scss';
+import '../../Button/styles/index.scss';
+import '../../ButtonToolbar/styles/index.scss';
+import '../../FormErrorMessage/styles/index.scss';
+import '../../FormControl/styles/index.scss';
+import '../../FormControlLabel/styles/index.scss';
+import '../../FormHelpText/styles/index.scss';
+import '../../FormGroup/styles/index.scss';
+import '../../Tooltip/styles/index.scss';
 
 const meta = createMeta(Form);
 
@@ -22,9 +23,9 @@ interface TextareaProps extends InputProps {
   rows?: number;
 }
 
-const Textarea = React.forwardRef((props: TextareaProps, ref: any) => (
-  <Input {...props} as="textarea" ref={ref} />
-));
+const Textarea = React.forwardRef(function Textarea(props: TextareaProps, ref: any) {
+  return <Input {...props} as="textarea" ref={ref} />;
+});
 
 export default {
   title: 'Components/Form',
@@ -43,8 +44,10 @@ const defaultArgs = {
       </Form.Group>
       <Form.Group controlId="email">
         <Form.ControlLabel>Email</Form.ControlLabel>
-        <Form.Control name="email" type="email" />
-        <Form.HelpText tooltip>Email is required</Form.HelpText>
+        <HStack>
+          <Form.Control name="email" type="email" />
+          <Form.HelpText tooltip>Email is required</Form.HelpText>
+        </HStack>
       </Form.Group>
       <Form.Group controlId="password">
         <Form.ControlLabel>Password</Form.ControlLabel>

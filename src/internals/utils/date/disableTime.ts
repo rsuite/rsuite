@@ -1,8 +1,10 @@
+import { useCallback } from 'react';
 import pick from 'lodash/pick';
-import getHours from 'date-fns/getHours';
-import getMinutes from 'date-fns/getMinutes';
-import getSeconds from 'date-fns/getSeconds';
-import { TimeProp } from './types';
+import { getHours } from 'date-fns/getHours';
+import { getMinutes } from 'date-fns/getMinutes';
+import { getSeconds } from 'date-fns/getSeconds';
+import { type calendarOnlyProps, type PlainDate, type PlainDateTime, TimeProp } from './types';
+import type { TimeDropdownProps } from '../../../Calendar/TimeDropdown';
 
 interface CalendarProps {
   [TimeProp.DisabledHours]?: (hours: number, date: Date) => boolean;
@@ -23,6 +25,8 @@ const SECONDS_PATTERN = /(Seconds?)/;
  * @param props - The calendar props.
  * @param date - The date to check.
  * @returns Whether the time is disabled.
+ *
+ * @deprecated Use {@link useIsDateTimeDisabled} which handles PlainDateTime instead.
  */
 export function disableTime(props: CalendarProps, date: Date): boolean {
   if (!date) {
@@ -55,3 +59,32 @@ export function disableTime(props: CalendarProps, date: Date): boolean {
 }
 
 export default disableTime;
+
+/**
+ * Whether a datetime is allowed, based on the `hide*` and `disabled*` props.
+ */
+export function useIsDateTimeDisabled(
+  timeDropdownProps: Pick<TimeDropdownProps, (typeof calendarOnlyProps)[number]>
+): (dateTime: PlainDateTime) => boolean {
+  return useCallback(
+    (dateTime: PlainDateTime) => {
+      const calendarProps = timeDropdownProps;
+      const mapProps = new Map(Object.entries(calendarProps));
+      const date: PlainDate = pick(dateTime, ['year', 'month', 'day']);
+
+      return Array.from(mapProps.keys()).some(key => {
+        if (HOURS_PATTERN.test(key)) {
+          return mapProps.get(key)?.(dateTime.hour, date);
+        }
+        if (MINUTES_PATTERN.test(key)) {
+          return mapProps.get(key)?.(dateTime.minute, date);
+        }
+        if (SECONDS_PATTERN.test(key)) {
+          return mapProps.get(key)?.(dateTime.second, date);
+        }
+        return false;
+      });
+    },
+    [timeDropdownProps]
+  );
+}

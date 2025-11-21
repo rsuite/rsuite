@@ -6,7 +6,7 @@ import { Divider, Placeholder } from 'rsuite';
 const App = () => (
   <>
     <Placeholder.Paragraph type="media" />
-    <Divider />
+    <Divider spacing="md" />
     <Placeholder.Paragraph type="media" />
   </>
 );

@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Pagination, Toggle, SelectPicker, TagPicker, InputNumber } from 'rsuite';
+import { Pagination, Toggle, SelectPicker, TagPicker, NumberInput } from 'rsuite';
 
 const Switch = ({ label, checked, onChange }) => {
   return (
@@ -32,68 +32,71 @@ const App = () => {
   return (
     <>
       <div>
-        <Switch label="first" checked={first} onChange={setFirst} />
-        <Switch label="last" checked={last} onChange={setLast} />
-        <Switch label="prev" checked={prev} onChange={setPrev} />
-        <Switch label="next" checked={next} onChange={setNext} />
-
-        <Switch label="ellipsis" checked={ellipsis} onChange={setEllipsis} />
-        <Switch label="boundaryLinks" checked={boundaryLinks} onChange={setBoundaryLinks} />
+        <HStack spacing={16} wrap>
+          <Switch label="first" checked={first} onChange={setFirst} />
+          <Switch label="last" checked={last} onChange={setLast} />
+          <Switch label="prev" checked={prev} onChange={setPrev} />
+          <Switch label="next" checked={next} onChange={setNext} />
+          <Switch label="ellipsis" checked={ellipsis} onChange={setEllipsis} />
+          <Switch label="boundaryLinks" checked={boundaryLinks} onChange={setBoundaryLinks} />
+        </HStack>
         <hr />
-        <span>
-          size：
-          <SelectPicker
-            value={size}
-            onChange={setSize}
-            cleanable={false}
-            searchable={false}
-            data={[
-              { value: 'xs', label: 'xs' },
-              { value: 'sm', label: 'sm' },
-              { value: 'md', label: 'md' },
-              { value: 'lg', label: 'lg' }
-            ]}
-          />
-        </span>
+        <HStack spacing={16} wrap>
+          <HStack>
+            size：
+            <SelectPicker
+              value={size}
+              onChange={setSize}
+              cleanable={false}
+              searchable={false}
+              data={[
+                { value: 'xs', label: 'xs' },
+                { value: 'sm', label: 'sm' },
+                { value: 'md', label: 'md' },
+                { value: 'lg', label: 'lg' }
+              ]}
+            />
+          </HStack>
 
-        <span style={{ marginLeft: 20 }}>
-          limit：
-          <SelectPicker
-            value={limit}
-            onChange={setLimit}
-            cleanable={false}
-            searchable={false}
-            data={limitOptions.map(key => ({ value: key, label: key }))}
-          />
-        </span>
+          <HStack>
+            limit：
+            <SelectPicker
+              value={limit}
+              onChange={setLimit}
+              cleanable={false}
+              searchable={false}
+              data={limitOptions.map(key => ({ value: key, label: key }))}
+            />
+          </HStack>
 
-        <span style={{ marginLeft: 20 }}>
-          maxButtons：
-          <InputNumber
-            style={{ width: 80, display: 'inline-flex' }}
-            value={maxButtons}
-            max={10}
-            min={1}
-            onChange={value => {
-              setMaxButtons(parseInt(value));
-            }}
-          />
-        </span>
+          <HStack>
+            maxButtons：
+            <NumberInput
+              w={80}
+              value={maxButtons}
+              max={10}
+              min={1}
+              onChange={value => {
+                setMaxButtons(parseInt(value));
+              }}
+            />
+          </HStack>
 
-        <span style={{ marginLeft: 20 }}>
-          total：
-          <InputNumber
-            style={{ width: 80, display: 'inline-flex' }}
-            value={total}
-            min={0}
-            onChange={value => {
-              setTotal(parseInt(value));
-            }}
-          />
-        </span>
+          <HStack>
+            total：
+            <NumberInput
+              w={80}
+              value={total}
+              min={0}
+              onChange={value => {
+                setTotal(parseInt(value));
+              }}
+            />
+          </HStack>
+        </HStack>
 
         <hr />
-        <span>
+        <HStack>
           layout：
           <TagPicker
             value={layout}
@@ -109,7 +112,7 @@ const App = () => {
               { value: 'skip', label: 'skip' }
             ]}
           />
-        </span>
+        </HStack>
       </div>
 
       <hr />

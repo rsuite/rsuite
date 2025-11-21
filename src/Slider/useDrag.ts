@@ -18,7 +18,7 @@ const useDrag = (props: DragProps) => {
   const tooltipRef = useRef<HTMLDivElement>(null);
   const { tooltip, disabled, onDragMove, onDragEnd, onDragStart, keepTooltipOpen } = props;
   const [active, setActive] = useState(false);
-  const moveTracker = useRef<PointerMoveTracker | null>();
+  const moveTracker = useRef<PointerMoveTracker>(null);
 
   // Release the move event
   const releaseMoves = useCallback(() => {
@@ -31,8 +31,9 @@ const useDrag = (props: DragProps) => {
 
     if (tooltip && tooltipElement) {
       const width = getWidth(tooltipElement);
+
       // Set the position of the tooltip
-      addStyle(tooltipElement, 'left', `-${width / 2}px`);
+      addStyle(tooltipElement, '--rs-tooltip-offset', `-${width / 2}px`);
     }
   }, [tooltip]);
 

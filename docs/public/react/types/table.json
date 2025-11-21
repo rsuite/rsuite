@@ -1,0 +1,352 @@
+{
+  "Table": {
+    "props": {
+      "affixHeader": {
+        "type": "boolean | number",
+        "isRequired": false,
+        "description": "Affix the table header to the specified location on the page"
+      },
+      "affixHorizontalScrollbar": {
+        "type": "boolean | number",
+        "isRequired": false,
+        "description": "Affix the table horizontal scrollbar to the specified position on the page"
+      },
+      "autoHeight": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The height of the table will be automatically expanded according to the number of data rows, and no vertical scroll bar will appear"
+      },
+      "bordered": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Show border"
+      },
+      "cellBordered": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Show cell border"
+      },
+      "children": {
+        "type": "(components: { Cell, HeaderCell, Column, ColumnGroup }) => ReactNode | ReactNode",
+        "isRequired": false,
+        "description": "Render props that receives parameterized Cell, HeaderCell, Column, ColumnGroup components - [making typescript usage more convenient](https://github.com/rsuite/rsuite-table#type-safety)"
+      },
+      "data": {
+        "type": "object[]",
+        "isRequired": true,
+        "description": "Table data"
+      },
+      "defaultExpandAllRows": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Expand all nodes By default"
+      },
+      "defaultExpandedRowKeys": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Specify the default expanded row by `rowkey`"
+      },
+      "defaultSortType": {
+        "type": "'desc' | 'asc'",
+        "isRequired": false,
+        "description": "Sort type"
+      },
+      "expandedRowKeys": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Specify the default expanded row by `rowkey` (Controlled)"
+      },
+      "fillHeight": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Force the height of the table to be equal to the height of its parent container. Cannot be used together with autoHeight."
+      },
+      "headerHeight": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Table Header Height",
+        "defaultValue": "40"
+      },
+      "height": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Table height",
+        "defaultValue": "200"
+      },
+      "hover": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The row of the table has a mouseover effect",
+        "defaultValue": "true"
+      },
+      "isTree": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Show as Tree table"
+      },
+      "loading": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Show loading"
+      },
+      "locale": {
+        "type": "TableLocaleType",
+        "isRequired": false,
+        "description": "Define localization settings to show component text in the user's regional language"
+      },
+      "maxHeight": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Maximum height"
+      },
+      "minHeight": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Minimum height",
+        "defaultValue": "0"
+      },
+      "onDataUpdated": {
+        "type": "(nextData: object[], scrollTo: (coord: { x: number; y: number }) => void) => void",
+        "isRequired": false,
+        "description": "Callback after table data update."
+      },
+      "onExpandChange": {
+        "type": "(expanded:boolean, rowData:object) => void",
+        "isRequired": false,
+        "description": "Tree table, the callback function in the expanded node"
+      },
+      "onRowClick": {
+        "type": "(rowData:object) => void",
+        "isRequired": false,
+        "description": "Click the callback function after the row and return to `rowDate`"
+      },
+      "onScroll": {
+        "type": "(scrollX:object, scrollY:object) => void",
+        "isRequired": false,
+        "description": "Callback function for scroll bar scrolling"
+      },
+      "onSortColumn": {
+        "type": "(dataKey:string, sortType:string) => void",
+        "isRequired": false,
+        "description": "Click the callback function of the sort sequence to return the value `sortColumn`, `sortType`"
+      },
+      "renderEmpty": {
+        "type": "(info: ReactNode) => ReactNode",
+        "isRequired": false,
+        "description": "Customized data is empty display content"
+      },
+      "renderLoading": {
+        "type": "(loading: ReactNode) => ReactNode",
+        "isRequired": false,
+        "description": "Customize the display content in the data load"
+      },
+      "renderRow": {
+        "type": "(children?: ReactNode, rowData?: RowDataType) => ReactNode",
+        "isRequired": false,
+        "description": "Custom row element"
+      },
+      "renderRowExpanded": {
+        "type": "(rowDate?: Object) => ReactNode",
+        "isRequired": false,
+        "description": "Customize what you can do to expand a zone"
+      },
+      "renderTreeToggle": {
+        "type": "(icon:node, rowData:object, expanded:boolean) => ReactNode",
+        "isRequired": false,
+        "description": "Tree table, the callback function in the expanded node"
+      },
+      "rowClassName": {
+        "type": "string | (rowData:object, rowIndex:number) => string",
+        "isRequired": false,
+        "description": "Add an optional extra class name to row"
+      },
+      "rowExpandedHeight": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Set the height of an expandable area",
+        "defaultValue": "100"
+      },
+      "rowHeight": {
+        "type": "(rowData:object) => number, number",
+        "isRequired": false,
+        "description": "Row height",
+        "defaultValue": "46"
+      },
+      "rowKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Each row corresponds to the unique `key` in `data`",
+        "defaultValue": "key"
+      },
+      "shouldUpdateScroll": {
+        "type": "boolean | (event)=>({x,y})",
+        "isRequired": false,
+        "description": "Use the return value of `shouldUpdateScroll` to determine whether to update the scroll after the table size is updated",
+        "defaultValue": "true"
+      },
+      "showHeader": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Display header",
+        "defaultValue": "true"
+      },
+      "sortColumn": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Sort column name"
+      },
+      "sortType": {
+        "type": "'desc' | 'asc'",
+        "isRequired": false,
+        "description": "Sort type (Controlled)"
+      },
+      "virtualized": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Effectively render large tabular data"
+      },
+      "width": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Table width"
+      },
+      "wordWrap": {
+        "type": "boolean | 'break-all' | 'break-word' | 'keep-all'",
+        "isRequired": false,
+        "description": "Whether to appear line breaks where text overflows its content box"
+      }
+    }
+  },
+  "Table.Column": {
+    "props": {
+      "align": {
+        "type": "'left' | 'center' | 'right'",
+        "isRequired": false,
+        "description": "Alignment"
+      },
+      "colSpan": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Merges column cells to merge when the `dataKey` value for the merged column is `null` or `undefined`."
+      },
+      "fixed": {
+        "type": "boolean | 'left' | 'right'",
+        "isRequired": false,
+        "description": "Fixed column"
+      },
+      "flexGrow": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Set the column width automatically adjusts, when set `flexGrow` cannot set `resizable` and `width` property"
+      },
+      "fullText": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to display the full text of the cell content when the mouse is hovered"
+      },
+      "minWidth": {
+        "type": "number",
+        "isRequired": false,
+        "description": "When you use `flexGrow`, you can set a minimum width by `minwidth`",
+        "defaultValue": "200"
+      },
+      "onResize": {
+        "type": "(columnWidth?: number, dataKey?: string) => void",
+        "isRequired": false,
+        "description": "Callback after column width change"
+      },
+      "resizable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Customizable Resize Column width"
+      },
+      "rowSpan": {
+        "type": "(rowData: any) => number",
+        "isRequired": false,
+        "description": "Merges rows on the specified column."
+      },
+      "sortable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Sortable"
+      },
+      "treeCol": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "A column of a tree."
+      },
+      "verticalAlign": {
+        "type": "'top' | 'middle' | 'bottom'",
+        "isRequired": false,
+        "description": "Vertical alignment"
+      },
+      "width": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Column width"
+      }
+    }
+  },
+  "Table.ColumnGroup": {
+    "props": {
+      "align": {
+        "type": "'left' | 'center' | 'right'",
+        "isRequired": false,
+        "description": "Alignment"
+      },
+      "fixed": {
+        "type": "boolean, 'left', 'right'",
+        "isRequired": false,
+        "description": "Fixed column group"
+      },
+      "groupHeaderHeight": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The height of the header of the merged cell group. The default value is 50% of the table `headerHeight`"
+      },
+      "header": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Group header"
+      },
+      "verticalAlign": {
+        "type": "'top' | 'middle' | 'bottom'",
+        "isRequired": false,
+        "description": "Vertical alignment"
+      }
+    }
+  },
+  "Table.HeaderCell": {
+    "props": {
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The table column header displays the content"
+      },
+      "renderSortIcon": {
+        "type": "(sortType?: 'desc' | 'asc' ) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render sort icons on column headers"
+      }
+    }
+  },
+  "Table.Cell": {
+    "props": {
+      "dataKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Data binding `key`, but also a sort of `key`"
+      },
+      "rowData": {
+        "type": "object",
+        "isRequired": false,
+        "description": "Row data"
+      },
+      "rowIndex": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Row number"
+      }
+    }
+  }
+}

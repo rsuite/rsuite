@@ -1,0 +1,73 @@
+import React from 'react';
+import Calendar from '../Calendar';
+import { describe, expect, it, vi } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { parseISO } from 'date-fns';
+import { testStandardProps } from '@test/cases';
+
+describe('DateRangePicker - Calendar', () => {
+  testStandardProps(<Calendar index={0} />);
+
+  it('Should render a div with "rs-calendar" class', () => {
+    const { container } = render(<Calendar onChangeCalendarMonth={() => 1} index={0} />);
+    expect(container.firstChild).to.have.class('rs-calendar');
+    expect(container.firstChild).to.have.tagName('DIV');
+  });
+
+  it('Should output a date', () => {
+    render(
+      <Calendar
+        calendarDateRange={[parseISO('2017-08'), parseISO('2017-09')]}
+        index={0}
+        onChangeCalendarMonth={() => 1}
+        format="yyyy-MM"
+      />
+    );
+
+    expect(screen.getByText('2017-08')).to.exist;
+  });
+
+  it('Should call `onChangeCalendarMonth` callback', () => {
+    const onChangeCalendarMonth = vi.fn();
+    render(
+      <Calendar
+        calendarDateRange={[parseISO('2017-08'), parseISO('2017-09')]}
+        index={0}
+        onChangeCalendarMonth={onChangeCalendarMonth}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Previous month' }));
+    expect(onChangeCalendarMonth).toHaveBeenCalled();
+  });
+
+  it('Should call `onChangeCalendarMonth` callback', () => {
+    const onChangeCalendarMonth = vi.fn();
+    render(
+      <Calendar
+        calendarDateRange={[parseISO('2017-08'), parseISO('2017-10')]}
+        index={0}
+        onChangeCalendarMonth={onChangeCalendarMonth}
+      />
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
+    expect(onChangeCalendarMonth).toHaveBeenCalled();
+  });
+
+  it('Should call `onChangeCalendarMonth` callback', () => {
+    const onChangeCalendarMonth = vi.fn();
+    const { container } = render(
+      <Calendar
+        calendarDateRange={[parseISO('2017-08'), parseISO('2017-10')]}
+        index={0}
+        onChangeCalendarMonth={onChangeCalendarMonth}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
+
+    fireEvent.click(container.querySelector('.rs-calendar-month-dropdown-cell') as HTMLElement);
+
+    expect(onChangeCalendarMonth).toHaveBeenCalled();
+  });
+});

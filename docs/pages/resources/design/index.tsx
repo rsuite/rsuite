@@ -1,8 +1,8 @@
 import React from 'react';
+import Page from '@/components/layout/Page';
 import { Panel, Row, Col } from 'rsuite';
-import Page from '@/components/Page';
-import { ResourcesDesign, ResourcesFigma, ResourcesSketch } from '@/components/SvgIcons';
-import { useApp } from '@/components/AppContext';
+import { ResourcesDesign, ResourcesFigma, ResourcesSketch } from '@/components/icons';
+import { useApp } from '@/hooks/useApp';
 
 interface CardProps {
   header: React.ReactNode;
@@ -33,7 +33,7 @@ const Card = (props: CardProps) => {
   );
 };
 
-export default () => {
+export default function Index() {
   const { locales } = useApp();
 
   const resources = [
@@ -76,4 +76,4 @@ export default () => {
       </Row>
     </Page>
   );
-};
+}

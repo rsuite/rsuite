@@ -22,11 +22,11 @@ const App = () => {
   const locale = data.find(item => item.key === localeKey);
   return (
     <CustomProvider locale={locale.value}>
-      <Stack divider={<Divider vertical style={{ height: 400 }} />} spacing={40}>
+      <Stack divider={<Divider vertical h={400} />} spacing={40}>
         <Stack direction="column" alignItems="flex-start" spacing={20}>
           <DatePicker showWeekNumbers />
           <TimePicker />
-          <Calendar showWeekNumbers compact style={{ width: 300 }} />
+          <Calendar showWeekNumbers compact w={300} />
         </Stack>
         <Stack direction="column" alignItems="flex-start" spacing={30}>
           <SelectPicker

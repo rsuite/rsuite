@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { VStack, HStack, Button } from 'rsuite';
 import Link from 'next/link';
-import DefaultPage from '@/components/Page';
-import { generatePalette } from 'rsuite/styles/plugins/palette';
-import { useApp } from '@/components/AppContext';
+import DefaultPage from '@/components/layout/Page';
+import { getPalette } from '@/utils/palette';
+import { useApp } from '@/hooks/useApp';
 import { ColorMeta, ColorGroup, ColorModal } from '@/components/ColorPalette';
 import ThemeGroup from '@/components/ThemeGroup';
 import { MdPalette } from 'react-icons/md';
 import Icon from '@rsuite/icons/Icon';
 import grayLight from './color-light-gray.json';
 import grayDark from './color-dark-gray.json';
+import styles from './index.module.scss';
 
 const lightColorMap = {
   blue: '#59afff',
@@ -48,20 +49,20 @@ function getColourful(theme: string) {
   if (theme === 'dark') {
     return Object.entries(darkColorMap).map(([name, value]) => ({
       name,
-      colors: generatePalette(value, name)
+      colors: getPalette(value)
     }));
   }
 
   if (theme === 'high-contrast') {
     return Object.entries(highContrastColorMap).map(([name, value]) => ({
       name,
-      colors: generatePalette(value, name)
+      colors: getPalette(value)
     }));
   }
 
   return Object.entries(lightColorMap).map(([name, value]) => ({
     name,
-    colors: generatePalette(value, name)
+    colors: getPalette(value)
   }));
 }
 
@@ -94,7 +95,7 @@ export default function Page() {
 
   return (
     <DefaultPage hidePageNav>
-      <HStack justifyContent="center" className="color-header" spacing={10}>
+      <HStack justify="center" className={styles['color-header']} spacing={10}>
         <ThemeGroup />
         <Button
           startIcon={<Icon as={MdPalette} />}

@@ -1,6 +1,6 @@
 import React from 'react';
 import Stack, { StackProps } from './Stack';
-import { RsRefForwardingComponent } from '@/internals/types';
+import { forwardRef } from '@/internals/utils';
 
 export interface HStackProps extends Omit<StackProps, 'direction'> {
   /**
@@ -9,26 +9,17 @@ export interface HStackProps extends Omit<StackProps, 'direction'> {
   reverse?: boolean;
 }
 
-export interface StackComponent extends RsRefForwardingComponent<'div', HStackProps> {
-  Item: typeof Stack.Item;
-}
+const Subcomponents = {
+  Item: Stack.Item
+};
 
-const HStack: StackComponent = React.forwardRef((props: HStackProps, ref) => {
-  const { reverse, spacing = 6, childrenRenderMode = 'clone', ...rest } = props;
+const HStack = forwardRef<'div', HStackProps, typeof Subcomponents>((props, ref) => {
+  const { reverse, ...rest } = props;
   const direction = reverse ? 'row-reverse' : 'row';
 
-  return (
-    <Stack
-      spacing={spacing}
-      childrenRenderMode={childrenRenderMode}
-      {...rest}
-      direction={direction}
-      ref={ref}
-    />
-  );
-}) as unknown as StackComponent;
+  return <Stack {...rest} direction={direction} ref={ref} />;
+}, Subcomponents);
 
 HStack.displayName = 'HStack';
-HStack.Item = Stack.Item;
 
 export default HStack;

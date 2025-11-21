@@ -28,4 +28,15 @@ const SchemaTyped = {
   }
 };
 
+export {
+  SchemaModel as Model,
+  StringType,
+  NumberType,
+  ArrayType,
+  DateType,
+  ObjectType,
+  BooleanType,
+  MixedType
+};
+
 export default SchemaTyped;

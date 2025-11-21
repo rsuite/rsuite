@@ -1,0 +1,62 @@
+@use '../../internals/Box/styles/index' as box;
+@use '../../internals/CloseButton/styles/index' as close-button;
+@use '../../styles/mixins/utilities' as utils;
+@use '../../styles/mixins/color-modes' as color-modes;
+@use 'variables';
+
+//
+// Tags
+// --------------------------------------------------
+
+.rs-tag {
+  // Base styles
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  gap: var(--rs-tag-spacing);
+  border-radius: var(--rs-tag-border-radius);
+  padding: var(--rs-tag-padding, var(--rs-tag-padding-md));
+  font-size: var(--rs-tag-font-size, var(--rs-tag-font-size-md));
+  line-height: var(--rs-tag-line-height, var(--rs-tag-line-height-md));
+  background-color: var(--rs-tag-bg);
+  color: var(--rs-tag-text, var(--rs-text-primary));
+
+  // Close icon
+  &-icon-close {
+    padding: 0;
+  }
+
+  // Size variants
+  @each $size in (lg, md, sm) {
+    &[data-size='#{$size}'] {
+      --rs-tag-padding: var(--rs-tag-padding-#{$size});
+      --rs-tag-font-size: var(--rs-tag-font-size-#{$size});
+      --rs-tag-line-height: var(--rs-tag-line-height-#{$size});
+    }
+  }
+
+  // Colorful tags
+  @each $color
+    in (
+      'primary',
+      'secondary',
+      'success',
+      'warning',
+      'error',
+      'info',
+      'dark',
+      'cyan',
+      'violet',
+      'orange',
+      'yellow',
+      'green',
+      'red',
+      'blue'
+    )
+  {
+    &[data-color='#{$color}'] {
+      --rs-tag-bg: var(--rs-#{$color}-500);
+      --rs-tag-text: #fff;
+    }
+  }
+}

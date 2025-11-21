@@ -1,13 +1,14 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
 import Table, { TableProps, ColumnProps } from '../';
-import { createMeta } from '@/storybook/utils';
-import { mockUsers } from '@/storybook/mocks';
 import IconButton from '../../IconButton';
 import EditIcon from '@rsuite/icons/Edit';
 import { colspanData, rowspanData } from './mock-data';
-import '../styles/index.less';
-import '../../IconButton/styles/index.less';
+import { createMeta } from '@/storybook/utils';
+import { mockUsers } from '@/storybook/mocks';
+import type { StoryObj } from '@storybook/react';
+
+import '../styles/index.scss';
+import '../../IconButton/styles/index.scss';
 
 const { Column, ColumnGroup, Cell, HeaderCell } = Table;
 const CompactCell = props => <Table.Cell {...props} style={{ padding: 4 }} />;
@@ -20,8 +21,6 @@ export default {
   title: 'Components/Table'
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore Expression produces a union type that is too complex to represent.
 type Story = StoryObj<typeof meta>;
 
 const data = mockUsers(20);

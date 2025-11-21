@@ -12,17 +12,31 @@ const renderMenu = ({ onClose, left, top, className }, ref) => {
   };
   return (
     <Popover ref={ref} className={className} style={{ left, top }} full>
-      <Dropdown.Menu onSelect={handleSelect}>
-        <Dropdown.Menu title="New File">
-          <Dropdown.Item eventKey={1}>New File</Dropdown.Item>
-          <Dropdown.Item eventKey={2}>New File with Current Profile</Dropdown.Item>
-        </Dropdown.Menu>
-        <Dropdown.Item eventKey={3}>Download As...</Dropdown.Item>
-        <Dropdown.Item eventKey={4}>Export PDF</Dropdown.Item>
-        <Dropdown.Item eventKey={5}>Export HTML</Dropdown.Item>
-        <Dropdown.Item eventKey={6}>Settings</Dropdown.Item>
-        <Dropdown.Item eventKey={7}>About</Dropdown.Item>
-      </Dropdown.Menu>
+      <Menu onSelect={handleSelect}>
+        <Menu.Item eventKey={1} shortcut="⌘ N">
+          New File
+        </Menu.Item>
+        <Menu.Item eventKey={2} shortcut="⌘ ⇧ N">
+          New File with Current Profile
+        </Menu.Item>
+        <Menu.Separator />
+        <Menu.Item eventKey={3} shortcut="⌘ ⇧ S">
+          Download As...
+        </Menu.Item>
+        <Menu.Item eventKey={4} shortcut="⌘ ⇧ E">
+          Export PDF
+        </Menu.Item>
+        <Menu.Item eventKey={5} shortcut="⌘ ⇧ H">
+          Export HTML
+        </Menu.Item>
+        <Menu.Separator />
+        <Menu.Item eventKey={6} shortcut="⌘ ,">
+          Settings
+        </Menu.Item>
+        <Menu.Item eventKey={7} shortcut="⌘ I">
+          About
+        </Menu.Item>
+      </Menu>
     </Popover>
   );
 };

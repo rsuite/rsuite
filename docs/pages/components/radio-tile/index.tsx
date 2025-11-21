@@ -9,7 +9,7 @@ import {
   VscRepoClone,
   VscFile
 } from 'react-icons/vsc';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
 const sandboxDependencies = {

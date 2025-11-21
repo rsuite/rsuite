@@ -1,6 +1,6 @@
 import React from 'react';
-import { Form, Button, Checkbox, CheckboxGroup } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import { Form, Button, Checkbox, CheckboxGroup, HStack, VStack } from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {
@@ -11,7 +11,7 @@ export default function Page() {
   return (
     <DefaultPage
       inDocsComponents={inDocsComponents}
-      dependencies={{ Form, Button, Checkbox, CheckboxGroup }}
+      dependencies={{ Form, Button, Checkbox, CheckboxGroup, HStack, VStack }}
     />
   );
 }

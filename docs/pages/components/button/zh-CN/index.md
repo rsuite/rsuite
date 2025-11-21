@@ -6,7 +6,7 @@
 
 <!--{include:<import-guide>}-->
 
-- `<Button>` 是组件中最基础的元素，可以快速创建一个带样式的按钮。
+- `Button` 是组件中最基础的元素，可以快速创建一个带样式的按钮。
 
 ## 演示
 
@@ -52,6 +52,12 @@
 
 <!--{include:`active.md`}-->
 
+### 可切换
+
+按钮可以在激活和非激活状态之间切换。
+
+<!--{include:`toggleable.md`}-->
+
 ### 加载中状态
 
 <!--{include:`loading.md`}-->
@@ -70,21 +76,23 @@
 
 ### `<Button>`
 
-| 属性名称    | 类型 `(默认值)`                                      | 描述                       |
-| ----------- | ---------------------------------------------------- | -------------------------- |
-| active      | boolean                                              | 激活状态                   |
-| appearance  | [Appearance](#code-ts-appearance-code) `('default')` | 设置外观                   |
-| as          | ElementType `('button')`                             | 为组件自定义元素类型       |
-| block       | boolean                                              | 显示为块级元素             |
-| children    | ReactNode                                            | 组件的内容                 |
-| classPrefix | string `('btn')`                                     | 组件 CSS 类的前缀          |
-| color       | [Color](#code-ts-color-code)                         | 设置颜色                   |
-| disabled    | boolean                                              | 禁用                       |
-| endIcon     | ReactNode                                            | 在按钮文字之后显示一个图标 |
-| href        | string                                               | 按钮跳转链接               |
-| loading     | boolean                                              | 按钮可以显示加载指示器     |
-| size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                | 设置按钮尺寸               |
-| startIcon   | ReactNode                                            | 在按钮文字之前显示一个图标 |
+| 属性名称    | 类型 `(默认值)`                                      | 描述                       | 版本       |
+| ----------- | ---------------------------------------------------- | -------------------------- | ---------- |
+| active      | boolean                                              | 激活状态                   |            |
+| appearance  | [Appearance](#code-ts-appearance-code) `('default')` | 设置外观                   |            |
+| as          | ElementType `('button')`                             | 为组件自定义元素类型       |            |
+| block       | boolean                                              | 显示为块级元素             |            |
+| children    | ReactNode                                            | 组件的内容                 |            |
+| classPrefix | string `('btn')`                                     | 组件 CSS 类的前缀          |            |
+| color       | [Color](#code-ts-color-code)                         | 设置颜色                   |            |
+| disabled    | boolean                                              | 禁用                       |            |
+| endIcon     | ReactNode                                            | 在按钮文字之后显示一个图标 |            |
+| href        | string                                               | 按钮跳转链接               |            |
+| loading     | boolean                                              | 按钮可以显示加载指示器     |            |
+| onToggle    | (event: React.MouseEvent, active: boolean) => void   | 切换状态时的回调           | ![][6.0.0] |
+| size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                | 设置按钮尺寸               |            |
+| startIcon   | ReactNode                                            | 在按钮文字之前显示一个图标 |            |
+| toggleable  | boolean                                              | 可切换状态                 | ![][6.0.0] |
 
 <!--{include:(_common/types/appearance.md)}-->
 <!--{include:(_common/types/color.md)}-->

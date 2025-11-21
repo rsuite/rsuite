@@ -1,6 +1,8 @@
 import PaginationGroup from './PaginationGroup';
 
+// export types
 export type { PaginationGroupProps as PaginationProps } from './PaginationGroup';
-export type { PaginationProps as BasePaginationProps } from './Pagination';
-export type { PaginationButtonProps } from './PaginationButton';
+
+// export components
+export { PaginationGroup as Pagination };
 export default PaginationGroup;

@@ -1,0 +1,38 @@
+:root {
+  --rs-btn-size-xs: 1.5rem; // 24px
+  --rs-btn-size-sm: 1.875rem; // 30px
+  --rs-btn-size-md: 2.25rem; // 36px
+  --rs-btn-size-lg: 2.625rem; // 42px
+
+  --rs-btn-font-size-xs: var(--rs-font-size-xs);
+  --rs-btn-font-size-sm: var(--rs-font-size-sm);
+  --rs-btn-font-size-md: var(--rs-font-size-sm);
+  --rs-btn-font-size-lg: var(--rs-font-size-md);
+
+  --rs-btn-line-height-xs: 1.25rem;
+  --rs-btn-line-height-sm: 1.25rem;
+  --rs-btn-line-height-md: 1.25rem;
+  --rs-btn-line-height-lg: 1.375rem;
+
+  --rs-btn-padding-inline-xs: calc(var(--rs-spacing) * 2);
+  --rs-btn-padding-inline-sm: calc(var(--rs-spacing) * 2.5);
+  --rs-btn-padding-inline-md: calc(var(--rs-spacing) * 3);
+  --rs-btn-padding-inline-lg: calc(var(--rs-spacing) * 3.5);
+  --rs-btn-padding-block-xs: calc(var(--rs-spacing) / 2);
+  --rs-btn-padding-block-sm: calc(var(--rs-spacing) * 1.25);
+  --rs-btn-padding-block-md: calc(var(--rs-spacing) * 2);
+  --rs-btn-padding-block-lg: calc(var(--rs-spacing) * 2.5);
+
+  --rs-btn-icon-size-xs: 0.75rem; // 12px
+  --rs-btn-icon-size-sm: 1rem; // 16px
+  --rs-btn-icon-size-md: 1rem; // 16px
+  --rs-btn-icon-size-lg: 1.25rem; // 20px
+
+  --rs-btn-ghost-border-width: 1px;
+  --rs-btn-loading-spin-default-diameter: 18px;
+  --rs-btn-loading-spin-xs-diameter: 16px;
+  --rs-btn-loading-spin-ring-wide: 3px;
+  --rs-btn-font-weight: normal;
+  --rs-btn-transition: color 0.15s ease-out, background-color 0.15s ease-out;
+  --rs-btn-icon-gap: 5px;
+}

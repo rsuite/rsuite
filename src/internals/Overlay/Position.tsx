@@ -6,35 +6,36 @@ import React, {
   useCallback,
   useImperativeHandle
 } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import getContainer from 'dom-lib/getContainer';
 import ownerDocument from 'dom-lib/ownerDocument';
-import removeClass from 'dom-lib/removeClass';
 import on from 'dom-lib/on';
-import addClass from 'dom-lib/addClass';
 import addStyle from 'dom-lib/addStyle';
-import { ResizeObserver } from '@juggle/resize-observer';
 import isElement from '../../DOMHelper/isElement';
-import positionUtils, { PositionType } from './positionUtils';
-import { getDOMNode } from '../utils';
-import { CursorPosition, TypeAttributes } from '@/internals/types';
+import { calcPosition } from './utils/position';
+import { ResizeObserver } from '@juggle/resize-observer';
+import { getDOMNode, kebabPlace } from '../utils';
 import { useUpdateEffect } from '../hooks';
+import type { Placement } from '@/internals/types';
+import type { CursorPosition, PositionType, PositionChildProps } from './types';
 
-export interface PositionChildProps {
-  className: string;
-  left?: number;
-  top?: number;
-  arrowOffsetLeft?: number;
-  arrowOffsetTop?: number;
-}
+const CSS_POSITION_X = '--rs-position-x';
+const CSS_POSITION_Y = '--rs-position-y';
+
+export const getPositionStyle = (x?: number, y?: number) => {
+  return {
+    [CSS_POSITION_X]: x !== undefined ? `${x}px` : undefined,
+    [CSS_POSITION_Y]: y !== undefined ? `${y}px` : undefined
+  };
+};
 
 export interface PositionProps {
-  children: (props: PositionChildProps, ref: React.RefObject<HTMLElement>) => React.ReactElement;
-  className?: string;
+  children: (
+    props: PositionChildProps,
+    ref: React.RefObject<HTMLElement | null>
+  ) => React.ReactElement;
   container?: HTMLElement | (() => HTMLElement | null) | null;
   containerPadding?: number;
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
   preventOverflow?: boolean;
   triggerTarget?: React.RefObject<any>;
   followCursor?: boolean;
@@ -43,7 +44,7 @@ export interface PositionProps {
 
 const usePosition = (
   props: PositionProps,
-  ref: React.RefObject<HTMLElement>
+  ref: React.RefObject<HTMLElement | null>
 ): [PositionType, (placementChanged?: any) => void] => {
   const {
     placement = 'right',
@@ -57,9 +58,10 @@ const usePosition = (
 
   const containerRef = useRef<Element | null>(null);
   const lastTargetRef = useRef<Element | null>(null);
-  const overlayResizeObserver = useRef<ResizeObserver>();
+  const overlayResizeObserver = useRef<ResizeObserver>(null);
 
   const defaultPosition = {
+    placement,
     positionLeft: 0,
     positionTop: 0,
     arrowOffsetLeft: undefined,
@@ -68,7 +70,7 @@ const usePosition = (
   const [position, setPosition] = useState<PositionType>(defaultPosition);
   const utils = useMemo(
     () =>
-      positionUtils({
+      calcPosition({
         placement,
         preventOverflow,
         padding: containerPadding
@@ -99,7 +101,7 @@ const usePosition = (
 
       const overlay = getDOMNode(ref.current);
       const containerElement = getContainer(
-        typeof container === 'function' ? container() : container ?? (null as any),
+        typeof container === 'function' ? container() : (container ?? (null as any)),
         ownerDocument(ref.current).body
       ) as HTMLElement;
 
@@ -111,12 +113,11 @@ const usePosition = (
       );
 
       if (forceUpdateDOM && overlay) {
-        const preClassName = overlay?.className?.match(/(placement-\S+)/)?.[0];
-        removeClass(overlay, preClassName);
-        if (posi.positionClassName) {
-          addClass(overlay, posi.positionClassName);
+        addStyle(overlay, getPositionStyle(posi.positionLeft, posi.positionTop));
+
+        if (posi.placement) {
+          overlay.dataset.placement = kebabPlace(posi.placement);
         }
-        addStyle(overlay, { left: `${posi.positionLeft}px`, top: `${posi.positionTop}px` });
       } else {
         setPosition(posi);
       }
@@ -172,12 +173,11 @@ export interface PositionInstance {
  * @private
  */
 const Position = React.forwardRef((props: PositionProps, ref) => {
-  const { children, className, followCursor, cursorPosition } = props;
+  const { children, followCursor, cursorPosition } = props;
   const childRef = React.useRef<HTMLElement>(null);
 
   const [position, updatePosition] = usePosition(props, childRef);
-  const { positionClassName, arrowOffsetLeft, arrowOffsetTop, positionLeft, positionTop } =
-    position;
+  const { arrowOffsetLeft, arrowOffsetTop, positionLeft, positionTop, placement } = position;
 
   useImperativeHandle(ref, () => ({
     get child() {
@@ -193,7 +193,7 @@ const Position = React.forwardRef((props: PositionProps, ref) => {
 
   if (typeof children === 'function') {
     const childProps = {
-      className: classNames(className, positionClassName),
+      placement,
       arrowOffsetLeft,
       arrowOffsetTop,
       left: positionLeft,
@@ -207,14 +207,5 @@ const Position = React.forwardRef((props: PositionProps, ref) => {
 });
 
 Position.displayName = 'Position';
-Position.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.func.isRequired,
-  container: PropTypes.oneOfType([PropTypes.func, PropTypes.any]),
-  containerPadding: PropTypes.number,
-  placement: PropTypes.any,
-  preventOverflow: PropTypes.bool,
-  triggerTarget: PropTypes.any
-};
 
 export default Position;

@@ -1,4 +1,4 @@
-import ptBR from 'date-fns/locale/pt-BR';
+import { ptBR } from 'date-fns/locale/pt-BR';
 
 const DateTimeFormats = {
   sunday: 'Do',
@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'Ligado',
     off: 'Desligado'
+  },
+  Dialog: {
+    alert: 'Alerta',
+    confirm: 'Confirmar',
+    ok: 'OK',
+    cancel: 'Cancelar'
   }
 };

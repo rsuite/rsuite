@@ -1,4 +1,8 @@
 import useMediaQuery from './useMediaQuery';
 
-export type { Query } from './useMediaQuery';
+// export types
+export type { Query } from './types';
+
+// export hooks
+export { useMediaQuery };
 export default useMediaQuery;

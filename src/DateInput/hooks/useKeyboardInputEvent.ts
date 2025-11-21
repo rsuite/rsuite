@@ -36,6 +36,7 @@ export function useKeyboardInputEvent({
         // Allow numeric keys to be entered
         onSegmentValueChangeWithNumericKeys?.(event);
         event.preventDefault();
+        break;
 
       case key.match(/[a-z]/)?.[0]:
         // Determine whether the Ctrl or Command key is pressed, does not affect user copy and paste

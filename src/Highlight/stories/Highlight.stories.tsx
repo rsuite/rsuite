@@ -2,7 +2,7 @@ import React from 'react';
 import type { StoryObj, Meta } from '@storybook/react';
 import Highlight from '../Highlight';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(Highlight) as Meta<typeof Highlight>;
 

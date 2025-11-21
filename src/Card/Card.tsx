@@ -1,14 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import CardHeader from './CardHeader';
 import CardBody from './CardBody';
 import CardFooter from './CardFooter';
-import { useCustom } from '../CustomProvider';
-import { useClassNames } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
+import { useStyles, useCustom } from '@/internals/hooks';
 
-export interface CardProps extends WithAsProps {
+export interface CardProps extends BoxProps {
   /**
    * Show border
    */
@@ -35,16 +33,16 @@ export interface CardProps extends WithAsProps {
   size?: 'lg' | 'md' | 'sm';
 }
 
-interface CardComponent extends RsRefForwardingComponent<'div', CardProps> {
-  Header: typeof CardHeader;
-  Body: typeof CardBody;
-  Footer: typeof CardFooter;
-}
+const Subcomponents = {
+  Header: CardHeader,
+  Body: CardBody,
+  Footer: CardFooter
+};
 
-const Card: CardComponent = React.forwardRef((props: CardProps, ref) => {
+const Card = forwardRef<'div', CardProps, typeof Subcomponents>((props: CardProps, ref) => {
   const { propsWithDefaults } = useCustom('Card', props);
   const {
-    as: Component = 'div',
+    as,
     bordered = true,
     classPrefix = 'card',
     className,
@@ -57,35 +55,27 @@ const Card: CardComponent = React.forwardRef((props: CardProps, ref) => {
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(
-    className,
-    withClassPrefix(direction, size, {
-      bordered,
-      shaded: shaded === true,
-      ['shaded-hover']: shaded === 'hover'
-    })
-  );
-  const styles = { ...style, '--rs-card-width': typeof width === 'number' ? `${width}px` : width };
+  const { merge, withPrefix, cssVar } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
+  const styles = mergeStyles(style, cssVar('width', width, getCssValue));
 
   return (
-    <Component ref={ref} className={classes} style={styles} {...rest}>
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      style={styles}
+      data-size={size}
+      data-direction={direction}
+      data-bordered={bordered}
+      data-shaded={shaded}
+      {...rest}
+    >
       {children}
-    </Component>
+    </Box>
   );
-}) as unknown as CardComponent;
+}, Subcomponents);
 
 Card.displayName = 'Card';
-Card.Header = CardHeader;
-Card.Body = CardBody;
-Card.Footer = CardFooter;
-
-Card.propTypes = {
-  bordered: PropTypes.bool,
-  shaded: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['hover'])]),
-  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  direction: oneOf(['row', 'column']),
-  size: oneOf(['lg', 'md', 'sm'])
-};
 
 export default Card;

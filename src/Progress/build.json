@@ -1,6 +1,0 @@
-{
-  "components": {
-    "ProgressLine": "Progress/ProgressLine",
-    "ProgressCircle": "Progress/ProgressCircle"
-  }
-}

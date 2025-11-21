@@ -1,19 +1,22 @@
 import React, { useRef, useMemo } from 'react';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
-import { useClassNames, useEventCallback, useToggleCaret } from '@/internals/hooks';
-import { mergeRefs } from '@/internals/utils';
-import { RsRefForwardingComponent, TypeAttributes, DataItemValue } from '@/internals/types';
-import Plaintext from '../Plaintext';
-import { IconProps } from '@rsuite/icons/Icon';
-import Stack from '../../Stack';
 import PickerIndicator from './PickerIndicator';
 import PickerLabel from './PickerLabel';
+import Plaintext from '../Plaintext';
+import Stack from '../../Stack';
 import useCombobox from './hooks/useCombobox';
+import { useStyles, useEventCallback, useToggleCaret } from '@/internals/hooks';
+import { forwardRef, mergeRefs } from '@/internals/utils';
+import { triggerPropKeys } from './PickerToggleTrigger';
+import type { IconProps } from '@rsuite/icons/Icon';
+import type { Placement, OptionValue } from '@/internals/types';
+import { omit } from 'lodash';
 
-export interface PickerToggleProps<T = DataItemValue> extends ToggleButtonProps {
+export interface PickerToggleProps<T = OptionValue> extends ToggleButtonProps {
   active?: boolean;
   hasValue?: boolean;
   cleanable?: boolean;
+  countable?: boolean;
   caret?: boolean;
   /**
    * Custom caret component
@@ -25,7 +28,7 @@ export interface PickerToggleProps<T = DataItemValue> extends ToggleButtonProps 
    */
   caretAs?: React.ElementType;
   disabled?: boolean;
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
   readOnly?: boolean;
   plaintext?: boolean;
   tabIndex?: number;
@@ -40,127 +43,136 @@ export interface PickerToggleProps<T = DataItemValue> extends ToggleButtonProps 
   onClean?: (event: React.MouseEvent) => void;
 }
 
-const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerToggleProps> =
-  React.forwardRef((props: PickerToggleProps, ref) => {
-    const {
-      active,
-      as: Component = ToggleButton,
-      classPrefix = 'picker-toggle',
-      children,
-      caret = true,
-      className,
-      disabled,
-      readOnly,
-      plaintext,
-      hasValue,
-      loading = false,
-      cleanable,
-      tabIndex = 0,
-      inputValue: inputValueProp,
-      focusItemValue,
-      onClean,
-      placement = 'bottomStart',
-      caretComponent,
-      caretAs = caretComponent,
-      label,
-      name,
-      ...rest
-    } = props;
+const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, ref) => {
+  const {
+    active,
+    as: Component = ToggleButton,
+    classPrefix = 'picker-toggle',
+    children,
+    caret = true,
+    className,
+    disabled,
+    readOnly,
+    plaintext,
+    hasValue,
+    loading = false,
+    cleanable,
+    countable,
+    tabIndex = 0,
+    inputValue: inputValueProp,
+    focusItemValue,
+    placement = 'bottomStart',
+    caretComponent,
+    caretAs = caretComponent,
+    label,
+    name,
+    size,
+    onClean,
+    ...rest
+  } = props;
 
-    const combobox = useRef<HTMLDivElement>(null);
-    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-    const { id, labelId, popupType } = useCombobox();
+  const combobox = useRef<HTMLDivElement>(null);
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
+  const { id, labelId, popupType } = useCombobox();
 
-    const inputValue = useMemo(() => {
-      if (typeof inputValueProp === 'number' || typeof inputValueProp === 'string') {
-        return inputValueProp;
-      } else if (Array.isArray(inputValueProp)) {
-        return inputValueProp.join(',');
-      }
-
-      return '';
-    }, [inputValueProp]);
-
-    const classes = merge(className, withClassPrefix({ active }));
-
-    const handleClean = useEventCallback((event: React.MouseEvent<HTMLElement>) => {
-      event.stopPropagation();
-      onClean?.(event);
-      combobox.current?.focus();
-    });
-
-    const ToggleCaret = useToggleCaret(placement);
-    const Caret = caretAs ?? ToggleCaret;
-
-    if (plaintext) {
-      return (
-        <Plaintext ref={ref} localeKey="notSelected">
-          {hasValue ? children : null}
-        </Plaintext>
-      );
+  const inputValue = useMemo(() => {
+    if (typeof inputValueProp === 'number' || typeof inputValueProp === 'string') {
+      return inputValueProp;
+    } else if (Array.isArray(inputValueProp)) {
+      return inputValueProp.join(',');
     }
 
-    const showCleanButton = cleanable && hasValue && !readOnly;
+    return '';
+  }, [inputValueProp]);
 
-    return (
-      <Component
-        role="combobox"
-        id={id}
-        aria-haspopup={popupType}
-        aria-expanded={active}
-        aria-disabled={disabled}
-        aria-controls={`${id}-${popupType}`}
-        aria-labelledby={labelId}
-        aria-describedby={`${id}-describe`}
-        aria-activedescendant={active && focusItemValue ? `${id}-opt-${focusItemValue}` : undefined}
-        {...rest}
-        ref={mergeRefs(combobox, ref)}
-        disabled={disabled}
-        tabIndex={disabled ? undefined : tabIndex}
-        className={classes}
-      >
-        <Stack>
-          {label && (
-            <Stack.Item>
-              <PickerLabel as="span" className={prefix('label')} id={labelId}>
-                {label}
-              </PickerLabel>
-            </Stack.Item>
-          )}
-          <Stack.Item grow={1} style={{ overflow: 'hidden' }}>
-            <input
-              readOnly
-              aria-hidden={true}
-              tabIndex={-1}
-              data-testid="picker-toggle-input"
-              name={name}
-              value={inputValue}
-              className={prefix('textbox', 'read-only')}
-              style={{ pointerEvents: 'none' }}
-            />
-            {children ? (
-              <span
-                className={prefix(hasValue ? 'value' : 'placeholder')}
-                id={`${id}-describe`}
-                data-testid="picker-describe"
-              >
-                {children}
-              </span>
-            ) : null}
-          </Stack.Item>
-          <Stack.Item className={prefix`indicator`}>
-            <PickerIndicator
-              as={React.Fragment}
-              loading={loading}
-              caretAs={caret ? Caret : null}
-              onClose={handleClean}
-              showCleanButton={showCleanButton}
-            />
-          </Stack.Item>
-        </Stack>
-      </Component>
-    );
+  const classes = merge(className, withPrefix());
+
+  const handleClean = useEventCallback((event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    onClean?.(event);
+    combobox.current?.focus();
   });
+
+  const ToggleCaret = useToggleCaret(placement);
+  const Caret = caretAs ?? ToggleCaret;
+
+  if (plaintext) {
+    return (
+      <Plaintext ref={ref} localeKey="notSelected">
+        {hasValue ? children : null}
+      </Plaintext>
+    );
+  }
+
+  const showCleanButton = cleanable && hasValue && !readOnly;
+
+  return (
+    <Component
+      role="combobox"
+      id={id}
+      size={size}
+      aria-haspopup={popupType}
+      aria-expanded={active}
+      aria-disabled={disabled}
+      aria-controls={id ? `${id}-${popupType}` : undefined}
+      aria-labelledby={labelId}
+      aria-describedby={id ? `${id}-describe` : undefined}
+      aria-activedescendant={active && focusItemValue ? `${id}-opt-${focusItemValue}` : undefined}
+      data-has-value={hasValue}
+      data-cleanable={cleanable}
+      data-countable={countable}
+      data-size={size}
+      data-readonly={readOnly}
+      data-active={active}
+      ref={mergeRefs(combobox, ref)}
+      disabled={disabled}
+      tabIndex={disabled ? undefined : tabIndex}
+      className={classes}
+      {...omit(rest, triggerPropKeys)}
+    >
+      <Stack className={prefix('stack')}>
+        {label && (
+          <Stack.Item>
+            <PickerLabel as="span" className={prefix('label')} id={labelId}>
+              {label}
+            </PickerLabel>
+          </Stack.Item>
+        )}
+        <Stack.Item grow={1} overflow="hidden">
+          <input
+            readOnly
+            aria-hidden={true}
+            tabIndex={-1}
+            data-testid="picker-toggle-input"
+            name={name}
+            value={inputValue}
+            className={prefix('textbox')}
+            style={{ pointerEvents: 'none' }}
+          />
+          {children ? (
+            <span
+              className={prefix(hasValue ? 'value' : 'placeholder')}
+              id={`${id}-describe`}
+              data-testid="picker-describe"
+            >
+              {children}
+            </span>
+          ) : null}
+        </Stack.Item>
+        <Stack.Item className={prefix`indicator`}>
+          <PickerIndicator
+            size={size}
+            as={React.Fragment}
+            loading={loading}
+            caretAs={caret ? Caret : null}
+            onClose={handleClean}
+            showCleanButton={showCleanButton}
+          />
+        </Stack.Item>
+      </Stack>
+    </Component>
+  );
+});
 
 PickerToggle.displayName = 'PickerToggle';
 

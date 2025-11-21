@@ -19,7 +19,7 @@ const App = () => (
       data={data}
       appearance="default"
       placeholder="Default"
-      style={{ width: 246 }}
+      w={246}
     />
     <hr />
     <TreePicker
@@ -27,7 +27,7 @@ const App = () => (
       data={data}
       appearance="subtle"
       placeholder="Subtle"
-      style={{ width: 246 }}
+      w={246}
     />
   </>
 );

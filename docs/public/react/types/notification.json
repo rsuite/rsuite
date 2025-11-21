@@ -1,0 +1,37 @@
+{
+  "Notification": {
+    "props": {
+      "children": {
+        "type": "ReactNode",
+        "isRequired": true,
+        "description": "The description of the message box"
+      },
+      "closable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The remove button is displayed."
+      },
+      "header": {
+        "type": "string",
+        "isRequired": true,
+        "description": "The title of the message box"
+      },
+      "onClose": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback after the message is removed"
+      },
+      "placement": {
+        "type": " | 'bottomStart' | 'bottomEnd' | 'topStart' | 'topEnd' | 'leftStart' | 'leftEnd' | 'rightStart' | 'rightEnd' | 'auto' | 'autoVerticalStart' | 'autoVerticalEnd' | 'autoHorizontalStart' | 'autoHorizontalEnd'",
+        "isRequired": false,
+        "description": "The placement of the message box.",
+        "defaultValue": "topCenter"
+      },
+      "type": {
+        "type": "'info' | 'success' | 'warning' | 'error'",
+        "isRequired": false,
+        "description": "The type of the message box."
+      }
+    }
+  }
+}

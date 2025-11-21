@@ -1,10 +1,9 @@
 import React from 'react';
 import Collapse from '../Animation/Collapse';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps, AnimationEventProps } from '@/internals/types';
 import ScrollView from '@/internals/ScrollView';
-
-interface PanelBodyProps
+import { useStyles } from '@/internals/hooks';
+import type { WithAsProps, AnimationEventProps } from '@/internals/types';
+export interface PanelBodyProps
   extends WithAsProps,
     AnimationEventProps,
     React.HTMLAttributes<HTMLDivElement> {
@@ -39,8 +38,8 @@ const PanelBody = (props: PanelBodyProps) => {
     ...rest
   } = props;
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-  const bodyClasses = merge(className, withClassPrefix({ fill: bodyFill }));
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
+  const bodyClasses = merge(className, withPrefix({ fill: bodyFill }));
 
   const renderBody = (bodyProps?: React.HTMLAttributes<HTMLDivElement>) => {
     return (

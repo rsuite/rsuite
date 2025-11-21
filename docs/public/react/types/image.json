@@ -1,0 +1,66 @@
+{
+  "Image": {
+    "props": {
+      "bordered": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "An image may appear with border"
+      },
+      "circle": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "An image may appear as a circle"
+      },
+      "fallbackSrc": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The fallback image when the src fails to load"
+      },
+      "fit": {
+        "type": "CSSProperties['objectFit']",
+        "isRequired": false,
+        "description": "It maps to CSS `object-fit` property"
+      },
+      "height": {
+        "type": "number | string",
+        "isRequired": false,
+        "description": "The height of the image"
+      },
+      "placeholder": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The placeholder to display when the image is loading"
+      },
+      "position": {
+        "type": "CSSProperties['objectPosition']",
+        "isRequired": false,
+        "description": "It maps to CSS `object-position` property"
+      },
+      "rounded": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "An image may appear rounded"
+      },
+      "shaded": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether there is a shadow"
+      },
+      "src": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The image source"
+      },
+      "width": {
+        "type": "number | string",
+        "isRequired": false,
+        "description": "The width of the image"
+      },
+      "zoomed": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to zoom in when the mouse hovers over the image"
+      }
+    }
+  }
+}

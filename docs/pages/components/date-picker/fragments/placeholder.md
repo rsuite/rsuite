@@ -5,7 +5,7 @@ import { DatePicker } from 'rsuite';
 
 const App = () => (
   <>
-    <DatePicker placeholder="Select Date" style={{ width: 200 }} />
+    <DatePicker placeholder="Select Date" w={200} />
   </>
 );
 

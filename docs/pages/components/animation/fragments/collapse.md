@@ -1,25 +1,24 @@
 <!--start-code-->
 
 ```js
-import { Animation, Button } from 'rsuite';
+import { Animation, Button, Card } from 'rsuite';
 
-const Panel = React.forwardRef((props, ref) => (
-  <div
+const AnimatedPanel = React.forwardRef((props, ref) => (
+  <Card
     {...props}
     ref={ref}
-    style={{
-      background: '#000',
-      width: 100,
-      height: 88,
-      display: 'inline-block',
-      overflow: 'hidden'
-    }}
+    shaded
+    bordered={false}
+    w={240}
+    h={120}
+    c="white"
+    bg="linear-gradient(45deg, #4CAF50, #2196F3)"
   >
     <div>
-      <p>Panel</p>
-      <p>Content Content Content</p>
+      <Card.Header>Collapse Animation</Card.Header>
+      <Card.Body w={240}>Demonstrates vertical and horizontal collapse transitions.</Card.Body>
     </div>
-  </div>
+  </Card>
 ));
 
 const App = () => {
@@ -27,18 +26,28 @@ const App = () => {
   const onChange = () => setShow(!show);
 
   return (
-    <div className="row">
-      <Button onClick={onChange}>collapse</Button>
-      <hr />
-      <Animation.Collapse in={show}>
-        {(props, ref) => <Panel {...props} ref={ref} />}
-      </Animation.Collapse>
+    <div>
+      <Button appearance="primary" onClick={onChange}>
+        Toggle Collapse
+      </Button>
 
-      <div style={{ width: 100, marginLeft: 10, display: 'inline-block' }}>
-        <Animation.Collapse in={show} dimension="width">
-          {(props, ref) => <Panel {...props} ref={ref} />}
-        </Animation.Collapse>
-      </div>
+      <hr />
+
+      <HStack spacing={16} alignItems="flex-start">
+        <VStack w={240}>
+          <Text>Vertical Collapse</Text>
+          <Animation.Collapse in={show}>
+            {(props, ref) => <AnimatedPanel {...props} ref={ref} />}
+          </Animation.Collapse>
+        </VStack>
+
+        <VStack w={240}>
+          <Text>Horizontal Collapse</Text>
+          <Animation.Collapse in={show} dimension="width">
+            {(props, ref) => <AnimatedPanel {...props} ref={ref} />}
+          </Animation.Collapse>
+        </VStack>
+      </HStack>
     </div>
   );
 };

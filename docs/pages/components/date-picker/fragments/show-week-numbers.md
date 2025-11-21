@@ -5,7 +5,7 @@ import { DatePicker } from 'rsuite';
 
 const App = () => (
   <>
-    <DatePicker showWeekNumbers style={{ width: 200 }} />
+    <DatePicker showWeekNumbers w={200} />
   </>
 );
 ReactDOM.render(<App />, document.getElementById('root'));

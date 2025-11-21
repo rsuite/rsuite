@@ -52,8 +52,6 @@ Card is a container component for displaying data, which can contain multiple ch
 
 ### `<Card>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property    | Type`(Default)`      | Description                            |
 | ----------- | -------------------- | -------------------------------------- |
 | as          | ElementType `(div)`  | HTML tag of the component              |

@@ -1,30 +1,27 @@
 <!--start-code-->
 
 ```js
-import { TimePicker, Stack } from 'rsuite';
+import { TimePicker, HStack, VStack, Text } from 'rsuite';
 
 const App = () => (
-  <>
-    <Row title="24 hours">
+  <VStack>
+    <HStack>
+      <Text muted w={80}>
+        24 hours
+      </Text>
       <TimePicker format="HH:mm" />
-    </Row>
+    </HStack>
 
-    <Row title="12 hours">
+    <HStack>
+      <Text muted w={80}>
+        12 hours
+      </Text>
       <TimePicker format="hh:mm aa" showMeridiem />
-    </Row>
-  </>
+    </HStack>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-const Row = ({ children, title }) => {
-  return (
-    <div>
-      <label style={{ width: 80, display: 'inline-block', marginTop: 10 }}>{title}</label>
-      {children}
-    </div>
-  );
-};
 ```
 
 <!--end-code-->

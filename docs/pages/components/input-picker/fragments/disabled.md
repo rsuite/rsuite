@@ -1,41 +1,48 @@
 <!--start-code-->
 
 ```js
-import { InputPicker, VStack, HStack } from 'rsuite';
+import { InputPicker, VStack, HStack, Text, Divider } from 'rsuite';
 
 const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
   item => ({ label: item, value: item })
 );
+
 const App = () => (
-  <VStack spacing={16}>
+  <VStack divider={<Divider />}>
     <HStack>
-      <Label>Disabled: </Label>
-      <InputPicker disabled data={data} defaultValue={'Julia'} style={{ width: 160 }} />
+      <Text muted w={100}>
+        Disabled
+      </Text>
+      <InputPicker disabled data={data} defaultValue={'Julia'} w={200} />
     </HStack>
     <HStack>
-      <Label> Disabled option: </Label>
+      <Text muted w={100}>
+        Disabled option
+      </Text>
       <InputPicker
         data={data}
         defaultValue={'Julia'}
         disabledItemValues={['Eugenia', 'Bryan', 'Lloyd']}
-        style={{ width: 160 }}
+        w={200}
       />
     </HStack>
     <HStack>
-      <Label>Read only: </Label>
-      <InputPicker readOnly data={data} defaultValue={'Julia'} style={{ width: 160 }} />
+      <Text muted w={100}>
+        ReadOnly
+      </Text>
+      <InputPicker readOnly data={data} defaultValue={'Julia'} w={200} />
     </HStack>
 
     <HStack>
-      <Label>Plaintext: </Label>
-      <InputPicker plaintext data={data} defaultValue={'Julia'} style={{ width: 160 }} />
+      <Text muted w={100}>
+        Plaintext
+      </Text>
+      <InputPicker plaintext data={data} defaultValue={'Julia'} w={200} />
     </HStack>
   </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-const Label = ({ style, ...rest }) => <label style={{ width: 120, ...style }} {...rest} />;
 ```
 
 <!--end-code-->

@@ -6,11 +6,11 @@
 
 <!--{include:<import-guide>}-->
 
-- `<Animation.Fade>`
-- `<Animation.Collapse>`
-- `<Animation.Bounce>`
-- `<Animation.Slide>`
-- `<Animation.Transition>`
+- `Animation.Fade` Fade animation.
+- `Animation.Collapse` Collapse animation.
+- `Animation.Bounce` Bounce animation.
+- `Animation.Slide` Slide animation.
+- `Animation.Transition` Custom animation.
 
 ## Examples
 
@@ -44,8 +44,6 @@ enteringClassName="custom-entering"
 <!--{include:`transition.md`}-->
 
 ## Props
-
-<!--{include:(_common/types/placement4.md)}-->
 
 ### `<Animation.Fade>`
 
@@ -145,3 +143,5 @@ enteringClassName="custom-entering"
 | timeout           | number`(1000)`                       | Animation transition delay time                                   |
 | transitionAppear  | boolean                              | Turn on transitions when initially displayed                      |
 | unmountOnExit     | boolean                              | Unmount component on exit                                         |
+
+<!--{include:(_common/types/placement4.md)}-->

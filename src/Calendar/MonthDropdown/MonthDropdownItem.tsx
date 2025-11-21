@@ -1,61 +1,47 @@
-import React, { useMemo } from 'react';
-import { setMonth, setYear } from '@/internals/utils/date';
-import { useClassNames, useEventCallback } from '@/internals/hooks';
-import { composeFunctions } from '@/internals/utils';
-import { useCustom } from '../../CustomProvider';
+import React, { useCallback } from 'react';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { useCalendar } from '../hooks';
-import { getAriaLabel } from '../utils';
-import type { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
+import type { WithAsProps } from '@/internals/types';
+import type { PlainYearMonth } from '@/internals/utils/date/types';
+import { useGetAriaLabelForMonth } from '../utils/getAriaLabel';
 
 export interface MonthDropdownItemProps extends WithAsProps {
-  month?: number;
-  year?: number;
+  yearMonth: PlainYearMonth;
   active?: boolean;
   disabled?: boolean;
 }
 
-const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps> = React.forwardRef(
+const MonthDropdownItem = forwardRef<'div', MonthDropdownItemProps>(
   (props: MonthDropdownItemProps, ref) => {
     const {
       as: Component = 'div',
       className,
       classPrefix = 'calendar-month-dropdown-cell',
+      yearMonth,
       active,
       disabled,
-      month = 0,
-      year,
       ...rest
     } = props;
 
-    const { date, onChangeMonth: onSelect, locale: overrideLocale } = useCalendar();
-    const { getLocale, formatDate } = useCustom('Calendar');
-    const { formattedMonthPattern: formatStr } = getLocale('Calendar', overrideLocale);
-
-    const currentMonth = useMemo(() => {
-      if (year && month) {
-        return composeFunctions(
-          d => setYear(d, year),
-          d => setMonth(d, month - 1)
-        )(date);
-      }
-      return date;
-    }, [date, month, year]);
+    const { onChangeMonth } = useCalendar();
+    const formatMonth = useFormatMonth();
+    const getAriaLabelForMonth = useGetAriaLabelForMonth();
 
     const handleClick = useEventCallback((event: React.MouseEvent) => {
       if (disabled) {
         return;
       }
 
-      onSelect?.(currentMonth, event);
+      onChangeMonth?.(yearMonth, event);
     });
 
-    const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ active }), { disabled });
-    const ariaLabel = currentMonth ? getAriaLabel(currentMonth, formatStr, formatDate) : '';
+    const { prefix, merge, withPrefix } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix({ active }), { disabled });
+    const ariaLabel = getAriaLabelForMonth(yearMonth);
 
     return (
       <Component
-        key={month}
         role="gridcell"
         aria-selected={active}
         aria-disabled={disabled}
@@ -66,7 +52,7 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
         onClick={handleClick}
         {...rest}
       >
-        <span className={prefix('content')}>{formatDate(currentMonth, 'MMM')}</span>
+        <span className={prefix('content')}>{formatMonth(yearMonth)}</span>
       </Component>
     );
   }
@@ -74,3 +60,12 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
 MonthDropdownItem.displayName = 'MonthDropdownItem';
 
 export default MonthDropdownItem;
+
+function useFormatMonth(): (month: PlainYearMonth) => string {
+  const { formatDate } = useCustom('Calendar');
+
+  return useCallback(
+    (month: PlainYearMonth) => formatDate(new Date(month.year, month.month - 1, 1), 'MMM'),
+    [formatDate]
+  );
+}

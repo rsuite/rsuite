@@ -1,4 +1,4 @@
-import fr from 'date-fns/locale/fr';
+import { fr } from 'date-fns/locale/fr';
 
 const DateTimeFormats = {
   sunday: 'Di',
@@ -86,5 +86,11 @@ export default {
   Toggle: {
     on: 'Ouvrir',
     off: 'Fermer'
+  },
+  Dialog: {
+    alert: 'Alerte',
+    confirm: 'Confirmer',
+    ok: 'OK',
+    cancel: 'Annuler'
   }
 };

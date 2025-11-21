@@ -1,16 +1,16 @@
 import React, { useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
 import remove from 'lodash/remove';
 import Plaintext from '@/internals/Plaintext';
-import { useClassNames, useControlled } from '@/internals/hooks';
-import { shallowEqual } from '@/internals/utils';
-import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '@/internals/types';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef, shallowEqual } from '@/internals/utils';
+import { useStyles, useControlled, useCustom } from '@/internals/hooks';
 import { CheckboxGroupContext } from './CheckboxGroupContext';
-import { useCustom } from '../CustomProvider';
-import type { ValueType } from '../Checkbox';
+import type { FormControlBaseProps } from '@/internals/types';
 
-export interface CheckboxGroupProps<V = ValueType[]> extends WithAsProps, FormControlBaseProps<V> {
+export interface CheckboxGroupProps<V = (string | number)[]>
+  extends BoxProps,
+    FormControlBaseProps<V> {
   /** Used for the name of the form */
   name?: string;
 
@@ -25,89 +25,73 @@ export interface CheckboxGroupProps<V = ValueType[]> extends WithAsProps, FormCo
  * The `CheckboxGroup` component is used for selecting multiple options which are unrelated.
  * @see https://rsuitejs.com/components/checkbox/#checkbox-group
  */
-const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React.forwardRef(
-  (props: CheckboxGroupProps, ref) => {
-    const { propsWithDefaults } = useCustom('CheckboxGroup', props);
-    const {
-      as: Component = 'div',
-      className,
+const CheckboxGroup = forwardRef<'div', CheckboxGroupProps>((props: CheckboxGroupProps, ref) => {
+  const { propsWithDefaults } = useCustom('CheckboxGroup', props);
+  const {
+    as,
+    className,
+    inline,
+    children,
+    name,
+    value: valueProp,
+    defaultValue,
+    classPrefix = 'checkbox-group',
+    disabled,
+    readOnly,
+    plaintext,
+    onChange,
+    ...rest
+  } = propsWithDefaults;
+
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
+  const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
+
+  const handleChange = useCallback(
+    (itemValue: any, itemChecked: boolean, event: React.SyntheticEvent) => {
+      const nextValue = cloneDeep(value) || [];
+
+      if (itemChecked) {
+        nextValue.push(itemValue);
+      } else {
+        remove(nextValue, i => shallowEqual(i, itemValue));
+      }
+
+      setValue(nextValue);
+      onChange?.(nextValue, event);
+    },
+    [onChange, setValue, value]
+  );
+
+  const contextValue = useMemo(
+    () => ({
       inline,
-      children,
       name,
-      value: valueProp,
-      defaultValue,
-      classPrefix = 'checkbox-group',
-      disabled,
+      value,
       readOnly,
+      disabled,
       plaintext,
-      onChange,
-      ...rest
-    } = propsWithDefaults;
+      controlled: isControlled,
+      onChange: handleChange
+    }),
+    [disabled, handleChange, inline, isControlled, name, plaintext, readOnly, value]
+  );
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ inline }));
-    const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
-
-    const handleChange = useCallback(
-      (itemValue: any, itemChecked: boolean, event: React.SyntheticEvent) => {
-        const nextValue = cloneDeep(value) || [];
-
-        if (itemChecked) {
-          nextValue.push(itemValue);
-        } else {
-          remove(nextValue, i => shallowEqual(i, itemValue));
-        }
-
-        setValue(nextValue);
-        onChange?.(nextValue, event);
-      },
-      [onChange, setValue, value]
-    );
-
-    const contextValue = useMemo(
-      () => ({
-        inline,
-        name,
-        value,
-        readOnly,
-        disabled,
-        plaintext,
-        controlled: isControlled,
-        onChange: handleChange
-      }),
-      [disabled, handleChange, inline, isControlled, name, plaintext, readOnly, value]
-    );
-
-    return (
-      <CheckboxGroupContext.Provider value={contextValue}>
-        {plaintext ? (
-          <Plaintext ref={ref} localeKey="notSelected" {...rest}>
-            {value?.length ? children : null}
-          </Plaintext>
-        ) : (
-          <Component {...rest} ref={ref} role="group" className={classes}>
-            {children}
-          </Component>
-        )}
-      </CheckboxGroupContext.Provider>
-    );
-  }
-);
+  return (
+    <CheckboxGroupContext.Provider value={contextValue}>
+      {plaintext ? (
+        <Plaintext ref={ref} localeKey="notSelected" {...rest}>
+          {value?.length ? children : null}
+        </Plaintext>
+      ) : (
+        <Box as={as} {...rest} ref={ref} role="group" className={classes} data-inline={inline}>
+          {children}
+        </Box>
+      )}
+    </CheckboxGroupContext.Provider>
+  );
+});
 
 CheckboxGroup.displayName = 'CheckboxGroup';
-CheckboxGroup.propTypes = {
-  as: PropTypes.elementType,
-  name: PropTypes.string,
-  className: PropTypes.string,
-  inline: PropTypes.bool,
-  value: PropTypes.array,
-  defaultValue: PropTypes.array,
-  onChange: PropTypes.func,
-  children: PropTypes.array,
-  classPrefix: PropTypes.string,
-  readOnly: PropTypes.bool,
-  disabled: PropTypes.bool,
-  plaintext: PropTypes.bool
-};
 
 export default CheckboxGroup;

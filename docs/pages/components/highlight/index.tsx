@@ -1,6 +1,6 @@
 import React from 'react';
-import { Highlight, Input, List } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import { Highlight, Input, List, Box } from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
 const inDocsComponents = {
@@ -9,6 +9,9 @@ const inDocsComponents = {
 
 export default function Page() {
   return (
-    <DefaultPage inDocsComponents={inDocsComponents} dependencies={{ Highlight, Input, List }} />
+    <DefaultPage
+      inDocsComponents={inDocsComponents}
+      dependencies={{ Highlight, Input, List, Box }}
+    />
   );
 }

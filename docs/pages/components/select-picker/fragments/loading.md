@@ -11,11 +11,11 @@ const App = () => (
   <>
     <div style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
       <SelectPicker data={data} loading />
-      <SelectPicker data={data} loading style={{ width: 200 }} />
+      <SelectPicker data={data} loading w={200} />
     </div>
     <div style={{ display: 'flex', gap: 10 }}>
       <SelectPicker label="User" data={data} loading />
-      <SelectPicker label="User" data={data} loading style={{ width: 200 }} />
+      <SelectPicker label="User" data={data} loading w={200} />
     </div>
   </>
 );

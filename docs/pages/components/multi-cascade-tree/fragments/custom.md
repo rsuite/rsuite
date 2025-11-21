@@ -1,8 +1,8 @@
 <!--start-code-->
 
 ```js
-import { MultiCascadeTree } from 'rsuite';
 import AdminIcon from '@rsuite/icons/Admin';
+import { MultiCascadeTree, HStack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const headers = ['Job Area', 'Job Type', 'Name'];
@@ -38,9 +38,9 @@ const App = () => (
     columnWidth={180}
     renderTreeNode={(node, item) => {
       return (
-        <>
+        <HStack>
           <AdminIcon /> {node}
-        </>
+        </HStack>
       );
     }}
     renderColumn={(childNodes, { layer }) => {

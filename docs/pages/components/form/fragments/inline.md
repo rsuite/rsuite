@@ -1,38 +1,27 @@
 <!--start-code-->
 
 ```js
-import { Form, Button } from 'rsuite';
+import EyeCloseIcon from '@rsuite/icons/EyeClose';
+import VisibleIcon from '@rsuite/icons/Visible';
+import { Form, Button, HStack, InputGroup, Input, PasswordInput } from 'rsuite';
 
 const App = () => (
   <>
     <Form layout="inline">
       <Form.Group controlId="username-7">
-        <Form.ControlLabel>Username</Form.ControlLabel>
-        <Form.Control name="username" style={{ width: 160 }} />
-        <Form.HelpText tooltip>Required</Form.HelpText>
+        <Form.Label>Username</Form.Label>
+        <HStack>
+          <Form.Control name="username" w={200} />
+          <Form.Text tooltip>Required</Form.Text>
+        </HStack>
       </Form.Group>
 
       <Form.Group controlId="password-7">
-        <Form.ControlLabel>Password</Form.ControlLabel>
-        <Form.Control name="password" type="password" autoComplete="off" style={{ width: 160 }} />
+        <Form.Label>Password</Form.Label>
+        <Form.Control name="password" type="password" autoComplete="off" accepter={PasswordInput} />
       </Form.Group>
 
-      <Button>Login</Button>
-    </Form>
-    <hr />
-
-    <Form layout="inline">
-      <Form.Group controlId="username-8">
-        <Form.ControlLabel>Username</Form.ControlLabel>
-        <Form.Control placeholder="Username" name="username" />
-      </Form.Group>
-
-      <Form.Group controlId="password-8">
-        <Form.ControlLabel>Username</Form.ControlLabel>
-        <Form.Control placeholder="Password" name="password" type="password" autoComplete="off" />
-      </Form.Group>
-
-      <Button>Login</Button>
+      <Button appearance="primary">Login</Button>
     </Form>
   </>
 );

@@ -1,15 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import StatLabel from './StatLabel';
 import StatValue from './StatValue';
 import StatValueUnit from './StatValueUnit';
 import StatHelpText from './StatHelpText';
 import StatTrend from './StatTrend';
-import { useClassNames } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
-import type { WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useCustom } from '@/internals/hooks';
 
-export interface StatProps extends WithAsProps {
+export interface StatProps extends BoxProps {
   /**
    * Add a border to the component.
    */
@@ -21,18 +20,18 @@ export interface StatProps extends WithAsProps {
   icon?: React.ReactNode;
 }
 
-interface StatComponent extends RsRefForwardingComponent<'div', StatProps> {
-  Label: typeof StatLabel;
-  Value: typeof StatValue;
-  Trend: typeof StatTrend;
-  ValueUnit: typeof StatValueUnit;
-  HelpText: typeof StatHelpText;
-}
+const Subcomponents = {
+  Label: StatLabel,
+  Value: StatValue,
+  Trend: StatTrend,
+  ValueUnit: StatValueUnit,
+  HelpText: StatHelpText
+};
 
-const Stat: StatComponent = React.forwardRef((props: StatProps, ref) => {
+const Stat = forwardRef<'div', StatProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Stat', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'stat',
     className,
     children,
@@ -40,27 +39,17 @@ const Stat: StatComponent = React.forwardRef((props: StatProps, ref) => {
     icon,
     ...rest
   } = propsWithDefaults;
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ bordered }));
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ bordered }));
 
   return (
-    <Component className={classes} ref={ref} {...rest}>
+    <Box as={as} className={classes} ref={ref} {...rest}>
       {icon && <div className={prefix('icon')}>{icon}</div>}
       <dl className={prefix('body')}>{children}</dl>
-    </Component>
+    </Box>
   );
-}) as unknown as StatComponent;
+}, Subcomponents);
 
 Stat.displayName = 'Stat';
-Stat.propTypes = {
-  bordered: PropTypes.bool,
-  icon: PropTypes.node
-};
-
-Stat.Label = StatLabel;
-Stat.Value = StatValue;
-Stat.Trend = StatTrend;
-Stat.ValueUnit = StatValueUnit;
-Stat.HelpText = StatHelpText;
 
 export default Stat;

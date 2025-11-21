@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import getTransitionEnd from 'dom-lib/getTransitionEnd';
 import on from 'dom-lib/on';
 import classNames from 'classnames';
@@ -7,7 +6,7 @@ import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
 import { getDOMNode } from '@/internals/utils';
 import { AnimationEventProps } from '@/internals/types';
-import { getAnimationEnd, animationPropTypes } from './utils';
+import { getAnimationEnd } from './utils';
 
 export enum STATUS {
   UNMOUNTED = 0,
@@ -55,30 +54,33 @@ interface TransitionState {
   status?: number;
 }
 
-export const transitionPropTypes = {
-  ...animationPropTypes,
-  animation: PropTypes.bool,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  className: PropTypes.string,
-  in: PropTypes.bool,
-  unmountOnExit: PropTypes.bool,
-  transitionAppear: PropTypes.bool,
-  timeout: PropTypes.number,
-
-  exitedClassName: PropTypes.string,
-  exitingClassName: PropTypes.string,
-  enteredClassName: PropTypes.string,
-  enteringClassName: PropTypes.string
-};
-
 type EventToken = { off: () => void };
+
+const transitionProps = [
+  'onEnter',
+  'onEntering',
+  'onEntered',
+  'onExit',
+  'onExiting',
+  'onExited',
+  'animation',
+  'children',
+  'className',
+  'in',
+  'unmountOnExit',
+  'transitionAppear',
+  'timeout',
+  'exitedClassName',
+  'exitingClassName',
+  'enteredClassName',
+  'enteringClassName'
+];
 
 /**
  * A Transition component for animation.
  * @see https://rsuitejs.com/components/animation/#transition
  */
 class Transition extends React.Component<TransitionProps, TransitionState> {
-  static propTypes = transitionPropTypes;
   static displayName = 'Transition';
   static defaultProps = {
     timeout: 1000
@@ -297,7 +299,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
       ...rest
     } = this.props;
 
-    const childProps: any = omit(rest, Object.keys(transitionPropTypes));
+    const childProps: any = omit(rest, transitionProps);
 
     let transitionClassName;
     if (status === STATUS.EXITED) {

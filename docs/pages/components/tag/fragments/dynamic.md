@@ -29,9 +29,8 @@ const App = () => {
     if (typing) {
       return (
         <Input
-          className="tag-input"
           size="xs"
-          style={{ width: 70 }}
+          w={70}
           value={inputValue}
           onChange={setInputValue}
           onBlur={addTag}
@@ -41,13 +40,7 @@ const App = () => {
     }
 
     return (
-      <IconButton
-        className="tag-add-btn"
-        onClick={handleButtonClick}
-        icon={<PlusIcon />}
-        appearance="ghost"
-        size="xs"
-      />
+      <IconButton onClick={handleButtonClick} icon={<PlusIcon />} appearance="ghost" size="xs" />
     );
   };
   return (

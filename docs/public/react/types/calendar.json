@@ -1,0 +1,67 @@
+{
+  "Calendar": {
+    "props": {
+      "bordered": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Show border"
+      },
+      "cellClassName": {
+        "type": "(date: Date) => string | undefined",
+        "isRequired": false,
+        "description": "Custom cell classes base on it's date"
+      },
+      "compact": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Display a compact calendar"
+      },
+      "defaultValue": {
+        "type": "Date",
+        "isRequired": false,
+        "description": "The default value (uncontrolled)"
+      },
+      "isoWeek": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "[ISO 8601 standard][ISO-8601], each calendar week begins on Monday and Sunday on the seventh day"
+      },
+      "locale": {
+        "type": "DateTimeFormats",
+        "isRequired": false,
+        "description": "Locale configuration"
+      },
+      "monthDropdownProps": {
+        "type": "[MonthDropdownProps][month-dropdown-props]",
+        "isRequired": false,
+        "description": "Props for the month dropdown"
+      },
+      "onChange": {
+        "type": "(date: Date) => void",
+        "isRequired": false,
+        "description": "Callback fired before the value changed"
+      },
+      "onSelect": {
+        "type": "(date: Date) => void",
+        "isRequired": false,
+        "description": "Callback fired before the date selected"
+      },
+      "renderCell": {
+        "type": "(date: Date) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render calendar cells"
+      },
+      "value": {
+        "type": "Date",
+        "isRequired": false,
+        "description": "The current value (controlled)"
+      },
+      "weekStart": {
+        "type": "0 | 1 | 2 | 3 | 4 | 5 | 6",
+        "isRequired": false,
+        "description": "The index of the first day of the week (0 - Sunday). If `isoWeek` is `true`, the value of `weekStart` is ignored",
+        "defaultValue": "0"
+      }
+    }
+  }
+}

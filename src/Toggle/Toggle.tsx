@@ -1,21 +1,23 @@
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
 import Plaintext from '@/internals/Plaintext';
 import Loader from '../Loader';
-import { useClassNames, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
-import { partitionHTMLProps } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
-import { useCustom } from '../CustomProvider';
-import type { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import Box, { BoxProps } from '@/internals/Box';
+import {
+  useStyles,
+  useControlled,
+  useUniqueId,
+  useEventCallback,
+  useCustom
+} from '@/internals/hooks';
+import { forwardRef, partitionHTMLProps } from '@/internals/utils';
+import type { SanitizedInputProps, Color, Size } from '@/internals/types';
 import type { ToggleLocale } from '../locales';
 
-export interface ToggleProps
-  extends WithAsProps,
-    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'onChange'> {
+export interface ToggleProps extends Omit<BoxProps, 'height' | 'width'>, SanitizedInputProps {
   /**
    * The color of the toggle.
    */
-  color?: TypeAttributes.Color;
+  color?: Color;
 
   /**
    * Whether to disabled toggle
@@ -60,12 +62,23 @@ export interface ToggleProps
   /**
    * The size of the toggle
    */
-  size?: Omit<TypeAttributes.Size, 'xs'>;
+  size?: Size;
 
   /**
    * Custom locale
    */
   locale?: ToggleLocale;
+
+  /**
+   * The label of the toggle switch
+   */
+  label?: React.ReactNode;
+
+  /**
+   * The placement of the label
+   * @version 6.0.0
+   */
+  labelPlacement?: 'start' | 'end';
 
   /**
    * Called when the state of the toggle changes
@@ -78,13 +91,10 @@ export interface ToggleProps
  *
  * @see https://rsuitejs.com/components/toggle
  */
-const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
-  HTMLLabelElement,
-  ToggleProps
->((props, ref) => {
+const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Toggle', props);
   const {
-    as: Component = 'span',
+    as = 'label',
     disabled,
     readOnly,
     loading = false,
@@ -97,8 +107,10 @@ const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
     classPrefix = 'toggle',
     checked: checkedProp,
     defaultChecked,
-    size,
+    size = 'md',
     locale,
+    label = children,
+    labelPlacement = 'end',
     onChange,
     ...rest
   } = propsWithDefaults;
@@ -106,14 +118,14 @@ const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
   const inputRef = useRef<HTMLInputElement>(null);
   const [checked, setChecked] = useControlled(checkedProp, defaultChecked);
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(size, color, { checked, disabled, loading }));
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({}));
   const inner = checked ? checkedChildren : unCheckedChildren;
-  const label = checked ? locale?.on : locale?.off;
+  const innerLabel = checked ? locale?.on : locale?.off;
 
   const labelId = useUniqueId('rs-label');
   const innerId = inner ? labelId + '-inner' : undefined;
-  const labelledby = children ? labelId : innerId;
+  const labelledby = label ? labelId : innerId;
 
   const [htmlInputProps, restProps] = partitionHTMLProps(rest);
 
@@ -128,11 +140,22 @@ const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
   });
 
   if (plaintext) {
-    return <Plaintext>{inner || label}</Plaintext>;
+    return <Plaintext>{inner || innerLabel}</Plaintext>;
   }
 
   return (
-    <label ref={ref} className={classes} {...restProps}>
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      data-placement={labelPlacement}
+      data-color={color}
+      data-size={size}
+      data-checked={checked}
+      data-loading={loading}
+      data-disabled={disabled}
+      {...restProps}
+    >
       <input
         {...htmlInputProps}
         ref={inputRef}
@@ -147,44 +170,26 @@ const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
         aria-checked={checked}
         aria-disabled={disabled}
         aria-labelledby={labelledby}
-        aria-label={labelledby ? undefined : label}
+        aria-label={labelledby ? undefined : innerLabel}
         aria-busy={loading || undefined}
       />
-      <Component className={prefix('presentation')}>
-        <span className={prefix('inner')} id={innerId}>
-          {inner}
-        </span>
+      <span className={prefix('track')}>
+        {inner && (
+          <span className={prefix('inner')} id={innerId}>
+            {inner}
+          </span>
+        )}
         {loading && <Loader className={prefix('loader')} />}
-      </Component>
-      {children && (
+      </span>
+      {label && (
         <span className={prefix('label')} id={labelId}>
-          {children}
+          {label}
         </span>
       )}
-    </label>
+    </Box>
   );
 });
 
 Toggle.displayName = 'Toggle';
-Toggle.propTypes = {
-  disabled: PropTypes.bool,
-  readOnly: PropTypes.bool,
-  plaintext: PropTypes.bool,
-  checked: PropTypes.bool,
-  defaultChecked: PropTypes.bool,
-  checkedChildren: PropTypes.node,
-  unCheckedChildren: PropTypes.node,
-  loading: PropTypes.bool,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  onChange: PropTypes.func,
-  as: PropTypes.elementType,
-  size: oneOf(['sm', 'md', 'lg']),
-  locale: PropTypes.shape({
-    on: PropTypes.string,
-    off: PropTypes.string
-  })
-};
 
 export default Toggle;

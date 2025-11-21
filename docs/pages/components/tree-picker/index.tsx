@@ -1,13 +1,13 @@
 import React from 'react';
-import { TreePicker, Button, VStack, HStack } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
-
+import Simulation from '@/components/Simulation';
+import PlacementContainer from '@/components/PlacementContainer';
+import { TreePicker, Button, VStack, HStack, Loader, Box, Text, Divider } from 'rsuite';
 import {
   importFakerString,
   mockAsyncData,
@@ -27,7 +27,8 @@ const sandboxDependencies = {
 };
 
 const inDocsComponents = {
-  'import-guide': () => <ImportGuide components={['TreePicker']} />
+  'import-guide': () => <ImportGuide components={['TreePicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="tree-picker" />
 };
 
 export default function Page() {
@@ -39,11 +40,15 @@ export default function Page() {
         Button,
         VStack,
         HStack,
-        SpinnerIcon,
         PeoplesIcon,
         AdminIcon,
         FolderFillIcon,
         PageIcon,
+        Loader,
+        Box,
+        Text,
+        Divider,
+        PlacementContainer,
         mockTreeData,
         mockAsyncData
       }}

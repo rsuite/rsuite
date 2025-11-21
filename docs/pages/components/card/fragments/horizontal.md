@@ -13,7 +13,11 @@ const App = () => {
         style={{ objectFit: 'cover' }}
       />
       <VStack spacing={2}>
-        <Card.Header as="h5">Cream</Card.Header>
+        <Card.Header>
+          <Text size="lg" bold>
+            Cream
+          </Text>
+        </Card.Header>
         <Card.Body>
           Meet Shadow, a spirited little explorer with a heart full of adventure! This charming pup
           loves to roam the fields, soaking up the sights and sounds of nature.

@@ -1,0 +1,64 @@
+{
+  "Badge": {
+    "props": {
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The wrapped component"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "badge"
+      },
+      "color": {
+        "type": "'red' | 'orange' | 'yellow' | 'green' | 'cyan' | 'blue' | 'violet' | CSSProperties['color']",
+        "isRequired": false,
+        "description": "Set the color of the badge"
+      },
+      "compact": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to use compact mode"
+      },
+      "content": {
+        "type": "number | ReactNode",
+        "isRequired": false,
+        "description": "The content of the badge"
+      },
+      "invisible": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the badge is invisible"
+      },
+      "maxCount": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Max count number（Only valid if `content` is type number）",
+        "defaultValue": "99"
+      },
+      "offset": {
+        "type": "[number,number] | [string, string]",
+        "isRequired": false,
+        "description": "Define the horizontal and vertical offset of the badge relative to its wrapped element"
+      },
+      "outline": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to use outline mode",
+        "defaultValue": "true"
+      },
+      "placement": {
+        "type": "PlacementCorners",
+        "isRequired": false,
+        "description": "Set the position of the badge in the wrapped element"
+      },
+      "shape": {
+        "type": "'rectangle' | 'circle'",
+        "isRequired": false,
+        "description": "The shape of the wrapped element"
+      }
+    }
+  }
+}

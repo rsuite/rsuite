@@ -1,5 +1,6 @@
 import Affix from './Affix';
-import type { AffixProps } from './Affix';
 
-export type { AffixProps };
+export type { AffixProps } from './Affix';
+
+export { Affix };
 export default Affix;

@@ -1,14 +1,26 @@
-import { VStack, HStack, Text, Modal, ModalProps, Button, Tooltip, Whisper, Divider } from 'rsuite';
-import classNames from 'classnames';
-import useClipboard from '@/utils/useClipboard';
-import { tinycolor } from 'rsuite/styles/plugins/palette';
 import React from 'react';
+import classNames from 'classnames';
+import useClipboard from '@/hooks/useClipboard';
+import tinycolor from 'tinycolor2';
+import {
+  VStack,
+  HStack,
+  Text,
+  Modal,
+  ModalProps,
+  Button,
+  Tooltip,
+  Whisper,
+  Divider,
+  Box
+} from 'rsuite';
+import styles from './ColorPalette.module.scss';
 
 export interface ColorMeta {
   hex?: string;
   rgb?: string;
   hls?: string;
-  level: string;
+  level: string | number;
   cssVar: string;
 }
 
@@ -16,14 +28,24 @@ interface ColorBoxProps {
   color: ColorMeta;
   inverse: boolean;
   useCssVar?: boolean;
+  className?: string;
   onClick: (event: React.MouseEvent) => void;
 }
 
-export const Box = ({ color, inverse, onClick, useCssVar, ...rest }: ColorBoxProps) => {
+export const ColorBox = ({
+  color,
+  inverse,
+  onClick,
+  useCssVar,
+  className,
+  ...rest
+}: ColorBoxProps) => {
   const colorVal = useCssVar ? `var(${color.cssVar})` : color.hex;
 
   return (
-    <VStack className={classNames('color-box', { inverse })}>
+    <VStack
+      className={classNames(styles['color-box'], { [styles['inverse']]: inverse }, className)}
+    >
       <button {...rest} style={{ backgroundColor: colorVal }} onClick={onClick} />
     </VStack>
   );
@@ -33,24 +55,34 @@ interface ColorGroupProps {
   colors: ColorMeta[];
   name?: string;
   useCssVar?: boolean;
+  className?: string;
+  colorboxClassName?: string;
   onShowColor?: (color: ColorMeta, event: React.MouseEvent) => void;
 }
 
-export const ColorGroup = ({ colors, name, useCssVar, onShowColor }: ColorGroupProps) => {
+export const ColorGroup = ({
+  colors,
+  name,
+  useCssVar,
+  className,
+  colorboxClassName,
+  onShowColor
+}: ColorGroupProps) => {
   return (
-    <HStack className="color-box-row">
+    <HStack className={classNames(styles['color-box-row'], className)}>
       {name && (
-        <Text className="color-box-row-title" size="lg" muted>
+        <Text className={styles['color-box-row-title']} size="lg" muted>
           {name}
         </Text>
       )}
 
       {colors.map((color, index) => (
-        <Box
+        <ColorBox
           key={index}
           color={color}
           inverse={index > 5}
           useCssVar={useCssVar}
+          className={colorboxClassName}
           onClick={event => {
             onShowColor?.(color, event);
           }}
@@ -60,31 +92,32 @@ export const ColorGroup = ({ colors, name, useCssVar, onShowColor }: ColorGroupP
   );
 };
 
-const Property = ({ name, value, cssVar }: { name: string; value: string; cssVar?: boolean }) => {
+const Property = ({
+  name,
+  value,
+  previewColor
+}: {
+  name: string;
+  value: string;
+  previewColor?: string;
+}) => {
   const { copyToClipboard, copied } = useClipboard();
+
   return (
-    <HStack className="color-property">
-      <Text className="color-property-name" muted>
+    <HStack className={styles['color-property']}>
+      <Text className={styles['color-property-name']} muted>
         {name}
       </Text>
       <Whisper speaker={<Tooltip>{copied ? 'Copied' : 'Click to copy'}</Tooltip>} placement="top">
         <Button
           appearance="subtle"
           size="xs"
-          className="color-property-value"
+          className={styles['color-property-value']}
           onClick={() => {
             copyToClipboard(value);
           }}
         >
-          <span
-            style={{
-              width: 10,
-              height: 10,
-              display: 'inline-block',
-              marginRight: 5,
-              backgroundColor: cssVar ? `var(${value})` : value
-            }}
-          />
+          <Box w={10} h={10} bg={previewColor ? previewColor : value} mr={5} />
           {value}
         </Button>
       </Whisper>
@@ -118,10 +151,10 @@ export const ColorModal = (props: ColorModalProps) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="color-preview" style={{ backgroundColor: colorVal }}></div>
+        <Box className={styles['color-preview']} bg={colorVal}></Box>
         <Divider />
         <VStack>
-          <Property name="CSS var name" value={color.cssVar} cssVar />
+          <Property name="CSS var name" value={color.cssVar} previewColor={rgb} />
           <Property name="HEX color" value={hex} />
           <Property name="RGB color" value={rgb} />
           <Property name="HSL color" value={hls} />

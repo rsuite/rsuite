@@ -1,11 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Button, { ButtonProps } from '../Button';
-import { IconProps } from '@rsuite/icons/Icon';
-import { RsRefForwardingComponent } from '@/internals/types';
-import { oneOf } from '@/internals/propTypes';
-import { useClassNames } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useCustom } from '@/internals/hooks';
+import type { IconProps } from '@rsuite/icons/Icon';
 
 export interface IconButtonProps extends ButtonProps {
   /** Set the icon */
@@ -15,41 +12,37 @@ export interface IconButtonProps extends ButtonProps {
   circle?: boolean;
 
   /** The placement of icon */
-  placement?: 'left' | 'right';
+  placement?: 'left' | 'right' | 'start' | 'end';
 }
 
 /**
  * The `IconButton` component is used to specify a button with icon.
  * @see https://rsuitejs.com/components/button
  */
-const IconButton: RsRefForwardingComponent<
-  typeof Button,
-  IconButtonProps & {
-    ref?: React.Ref<HTMLElement>;
-  }
-> = React.forwardRef((props: IconButtonProps, ref) => {
+const IconButton = forwardRef<typeof Button, IconButtonProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('IconButton', props);
   const {
-    icon,
-    placement = 'left',
-    children,
     circle,
-    classPrefix = 'btn-icon',
+    children,
     className,
+    classPrefix = 'btn-icon',
+    placement = 'start',
+    icon,
     ...rest
   } = propsWithDefaults;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const classes = merge(
-    className,
-    withClassPrefix(`placement-${placement}`, {
-      circle,
-      'with-text': typeof children !== 'undefined'
-    })
-  );
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
   return (
-    <Button {...rest} ref={ref} className={classes}>
+    <Button
+      {...rest}
+      ref={ref}
+      className={classes}
+      data-shape={circle ? 'circle' : undefined}
+      data-placement={placement}
+      data-with-text={typeof children !== 'undefined' || undefined}
+    >
       {icon}
       {children}
     </Button>
@@ -57,13 +50,5 @@ const IconButton: RsRefForwardingComponent<
 });
 
 IconButton.displayName = 'IconButton';
-IconButton.propTypes = {
-  className: PropTypes.string,
-  icon: PropTypes.any,
-  classPrefix: PropTypes.string,
-  circle: PropTypes.bool,
-  children: PropTypes.node,
-  placement: oneOf(['left', 'right'])
-};
 
 export default IconButton;

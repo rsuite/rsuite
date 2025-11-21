@@ -3,7 +3,7 @@ import type { StoryObj } from '@storybook/react';
 import Tree from '../';
 import { createMeta } from '@/storybook/utils';
 import { mockTreeData, mockAsyncData } from '@/storybook/mocks';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const data = mockTreeData({
   limits: [3, 3, 4],

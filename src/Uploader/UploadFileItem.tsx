@@ -1,16 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import Attachment from '@rsuite/icons/Attachment';
 import Reload from '@rsuite/icons/Reload';
 import CloseButton from '@/internals/CloseButton';
-import { oneOf } from '@/internals/propTypes';
-import { useClassNames } from '@/internals/hooks';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
 import { previewFile } from './utils/previewFile';
 import type { FileType } from './Uploader';
-import type { WithAsProps } from '@/internals/types';
 import type { UploaderLocale } from '../locales';
 
-export interface UploadFileItemProps extends WithAsProps {
+export interface UploadFileItemProps extends BoxProps {
   file: FileType;
   listType?: 'text' | 'picture-text' | 'picture';
   disabled?: boolean;
@@ -50,9 +49,9 @@ export const formatSize = (size = 0): string => {
   return `${size}B`;
 };
 
-const UploadFileItem = React.forwardRef<HTMLDivElement, UploadFileItemProps>((props, ref) => {
+const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
   const {
-    as: Component = 'div',
+    as,
     disabled,
     allowReupload = true,
     file,
@@ -70,11 +69,13 @@ const UploadFileItem = React.forwardRef<HTMLDivElement, UploadFileItemProps>((pr
     ...rest
   } = props;
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-  const classes = merge(
-    className,
-    withClassPrefix(listType, { disabled, 'has-error': file.status === 'error' })
-  );
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
+  const dataAttributes = {
+    'data-type': listType,
+    'data-disabled': disabled,
+    'data-has-error': file.status === 'error'
+  };
 
   const [previewImage, setPreviewImage] = useState(file.url ? file.url : null);
 
@@ -280,55 +281,47 @@ const UploadFileItem = React.forwardRef<HTMLDivElement, UploadFileItemProps>((pr
     );
   };
 
+  const boxProps = {
+    as,
+    ref,
+    className: classes,
+    ...dataAttributes,
+    ...rest
+  };
+
   if (listType === 'picture') {
     return (
-      <Component {...rest} ref={ref} className={classes}>
+      <Box {...boxProps}>
         {renderIcon()}
         {renderPreview()}
         {renderErrorStatus()}
         {renderRemoveButton()}
-      </Component>
+      </Box>
     );
   }
 
   if (listType === 'picture-text') {
     return (
-      <Component {...rest} ref={ref} className={classes}>
+      <Box {...boxProps}>
         {renderIcon()}
         {renderPreview()}
         {renderFilePanel()}
         {renderProgressBar()}
         {renderRemoveButton()}
-      </Component>
+      </Box>
     );
   }
 
   return (
-    <Component {...rest} ref={ref} className={classes}>
+    <Box {...boxProps}>
       {renderIcon()}
       {renderFilePanel()}
       {renderProgressBar()}
       {renderRemoveButton()}
-    </Component>
+    </Box>
   );
 });
 
 UploadFileItem.displayName = 'UploadFileItem';
-UploadFileItem.propTypes = {
-  locale: PropTypes.any,
-  file: PropTypes.object.isRequired,
-  listType: oneOf(['text', 'picture-text', 'picture'] as const),
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-  maxPreviewFileSize: PropTypes.number,
-  classPrefix: PropTypes.string,
-  removable: PropTypes.bool,
-  allowReupload: PropTypes.bool,
-  renderFileInfo: PropTypes.func,
-  renderThumbnail: PropTypes.func,
-  onCancel: PropTypes.func,
-  onPreview: PropTypes.func,
-  onReupload: PropTypes.func
-};
 
 export default UploadFileItem;

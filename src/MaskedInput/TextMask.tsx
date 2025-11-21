@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import omit from 'lodash/omit';
-import PropTypes from 'prop-types';
 import createTextMaskInputElement from './createTextMaskInputElement';
-import { MaskType, MaskFunctionType, ConfigType } from './types';
 import { mergeRefs } from '@/internals/utils';
+import type { MaskType, MaskFunctionType, ConfigType } from './types';
 
 /**
  * https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#guide
@@ -69,7 +68,7 @@ const TextMask = React.forwardRef((props: TextMaskProps, ref: React.Ref<HTMLInpu
   } = props;
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const textMaskInputElement = useRef<{ update: (value?: string | number) => void }>();
+  const textMaskInputElement = useRef<{ update: (value?: string | number) => void }>(null);
 
   const initTextMask = useCallback(() => {
     textMaskInputElement.current = createTextMaskInputElement({
@@ -101,16 +100,5 @@ const TextMask = React.forwardRef((props: TextMaskProps, ref: React.Ref<HTMLInpu
 });
 
 TextMask.displayName = 'TextMask';
-TextMask.propTypes = {
-  render: PropTypes.func,
-  onChange: PropTypes.func,
-  mask: PropTypes.oneOfType([PropTypes.array, PropTypes.func, PropTypes.bool]).isRequired,
-  guide: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  pipe: PropTypes.func,
-  placeholderChar: PropTypes.string,
-  keepCharPositions: PropTypes.bool,
-  showMask: PropTypes.bool
-};
 
 export default TextMask;
