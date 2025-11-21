@@ -163,7 +163,7 @@ module.exports = {
     config.plugins.push(
       new MiniCssExtractPlugin({
         experimentalUseImportModule: true, // isWebpack5
-        filename: 'static/css/[name].css',
+        filename: `static/css/[name]-${BUILD_ID}.css`,
         chunkFilename: 'static/css/[contenthash].css',
         ignoreOrder: true // Ignore CSS order warnings
       })
