@@ -5,7 +5,7 @@ import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import { Breadcrumb, Dropdown, HStack } from 'rsuite';
 
 const App = () => (
-  <Breadcrumb>
+  <Breadcrumb aria-label="breadcrumb">
     <Breadcrumb.Item>Home</Breadcrumb.Item>
     <Breadcrumb.Item>
       <Dropdown

@@ -11,4 +11,10 @@ describe('Breadcrumb styles', () => {
 
     expect(container.firstChild).to.have.style('padding', '0px');
   });
+
+  it('Should have correct default size', () => {
+    const { container } = render(<Breadcrumb />);
+
+    expect(container.firstChild).to.have.style('font-size', '14px');
+  });
 });

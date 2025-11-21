@@ -5,6 +5,7 @@ import { Breadcrumb } from 'rsuite';
 
 const App = () => (
   <Breadcrumb
+    aria-label="breadcrumb"
     maxItems={5}
     onExpand={() => {
       console.log('call onExpand');

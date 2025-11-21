@@ -6,7 +6,7 @@ import { Breadcrumb, VStack } from 'rsuite';
 import { MdArrowRightAlt } from 'react-icons/md';
 
 const BreadcrumbBox = ({ separator }) => (
-  <Breadcrumb separator={separator}>
+  <Breadcrumb aria-label="breadcrumb" separator={separator}>
     <Breadcrumb.Item as={Link} href="/">
       Home
     </Breadcrumb.Item>
