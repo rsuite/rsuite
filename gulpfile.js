@@ -80,6 +80,12 @@ function copyDocs() {
   return gulp.src(['./README.md', './CHANGELOG.md', './LICENSE']).pipe(gulp.dest(libRoot));
 }
 
+function copyScssFiles() {
+  return gulp
+    .src([`${srcRoot}/**/*.scss`])
+    .pipe(gulp.dest(libRoot));
+}
+
 function createPkgFile(done) {
   delete pkg.devDependencies;
   delete pkg.files;
@@ -87,6 +93,8 @@ function createPkgFile(done) {
   pkg.main = 'cjs/index.js';
   pkg.module = 'esm/index.js';
   pkg.typings = 'esm/index.d.ts';
+  pkg.sass = 'styles/index.scss';
+  pkg.style = 'dist/rsuite.css';
   pkg.scripts = {
     prepublishOnly: 'node ../scripts/validate-builds.js'
   };
@@ -104,6 +112,6 @@ exports.dev = gulp.series(clean, buildCjs, watch);
 exports.build = gulp.series(
   clean,
   gulp.parallel(buildCjs, buildEsm),
-  gulp.parallel(copyTypescriptDeclarationFiles, copyDocs, createPkgFile),
+  gulp.parallel(copyTypescriptDeclarationFiles, copyDocs, copyScssFiles, createPkgFile),
   buildDirectories
 );
