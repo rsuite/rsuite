@@ -107,6 +107,15 @@ const filesToEnsureExistence: string[] = [
   // Validate css
   ...styledComponents.map(i => `lib/${i}/styles/index.css`),
 
+  // Validate scss
+  'lib/styles/index.scss',
+  'lib/styles/components.scss',
+  'lib/styles/_variables.scss',
+  'lib/styles/_base.scss',
+  'lib/styles/_css-reset.scss',
+  'lib/styles/_themes.scss',
+  ...styledComponents.map(i => `lib/${i}/styles/index.scss`),
+
   // Validate components
   ...flattenProxyResources({ resources: components }),
 
@@ -164,6 +173,51 @@ describe('Build Validation Tests', () => {
       expect(/@\/internals/.test(content), `File ${file} should not include @/internals`).toBe(
         false
       );
+    });
+  });
+
+  it('Should have correct sass field in package.json', () => {
+    const pkgPath = path.join(projectRoot, 'lib/package.json');
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+
+    expect(pkg.sass).toBe('styles/index.scss');
+    expect(pkg.style).toBe('dist/rsuite.css');
+
+    // Verify the sass entry point exists
+    const sassEntryPath = path.join(projectRoot, 'lib', pkg.sass);
+    expect(
+      fs.existsSync(sassEntryPath),
+      `SCSS entry point ${pkg.sass} should exist at ${sassEntryPath}`
+    ).toBe(true);
+  });
+
+  it('Should include all SCSS source files', () => {
+    const scssFiles = glob.sync('lib/**/*.scss', { cwd: projectRoot });
+
+    expect(scssFiles.length).toBeGreaterThan(0); // Ensure SCSS files are copied
+
+    // Check that main SCSS files exist
+    const mainScssFiles = [
+      'lib/styles/index.scss',
+      'lib/styles/components.scss',
+      'lib/styles/_variables.scss',
+      'lib/styles/_base.scss',
+      'lib/styles/_css-reset.scss',
+      'lib/styles/_themes.scss'
+    ];
+
+    mainScssFiles.forEach(file => {
+      const fullPath = path.join(projectRoot, file);
+      expect(fs.existsSync(fullPath), `Main SCSS file ${file} should exist`).toBe(true);
+    });
+
+    // Check that component SCSS files exist for styled components
+    styledComponents.forEach(component => {
+      const scssPath = path.join(projectRoot, `lib/${component}/styles/index.scss`);
+      expect(
+        fs.existsSync(scssPath),
+        `Component SCSS file for ${component} should exist at ${scssPath}`
+      ).toBe(true);
     });
   });
 });
