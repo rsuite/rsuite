@@ -99,6 +99,8 @@ Customize a select all function.
 
 - <kbd>↓</kbd> - Move focus to the next option.
 - <kbd>↑</kbd> - Move focus to the previous option.
+- <kbd>Home</kbd> - Move focus to the first option.
+- <kbd>End</kbd> - Move focus to the last option.
 - <kbd>Enter</kbd> - Select the focused option.
 - <kbd>Esc</kbd> - Close the listbox.
 
