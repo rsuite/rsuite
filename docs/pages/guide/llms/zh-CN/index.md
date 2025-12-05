@@ -8,19 +8,10 @@ React Suite 提供了 LLMs.txt 格式的综合文档，帮助 AI 编程助手有
 
 ## 可用文档
 
-React Suite 提供了一个综合的 LLMs.txt 文件，包括：
+以下文件可供使用：
 
-- **组件文档**：所有 React Suite 组件的完整 API 参考
-- **使用示例**：展示如何使用组件的实际示例
-- **TypeScript 定义**：完整的类型信息，提供更好的代码补全
-- **最佳实践**：推荐的模式和方法
-- **样式指南**：关于主题和自定义的信息
-
-### 访问文档
-
-LLMs.txt 文档可在以下位置获取：
-
-- **主要文档**：[llms.txt](/llms.txt)
+- [/llms.txt](/llms.txt): 主要的 LLMs.txt 文件，包含所有文档页面的链接
+- [/llms-full.txt](/llms-full.txt): React Suite 的完整文档
 
 ## 与 AI 编程工具配合使用
 
