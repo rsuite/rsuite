@@ -132,6 +132,166 @@ describe('CheckTree', () => {
       expect(onSelect).not.toHaveBeenCalled();
     });
 
+    it('Should render children of disabled node as disabled', () => {
+      const onSelect = vi.fn();
+      render(
+        <CheckTree
+          data={data}
+          disabledItemValues={['Master']}
+          onSelect={onSelect}
+          defaultExpandAll
+        />
+      );
+
+      // Parent node should be disabled
+      expect(screen.getByRole('treeitem', { name: 'Master' })).to.have.attribute('aria-disabled');
+
+      // Children nodes should also be disabled
+      expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.attribute('aria-disabled');
+      expect(screen.getByRole('treeitem', { name: 'tester1' })).to.have.attribute('aria-disabled');
+      expect(screen.getByRole('treeitem', { name: 'tester2' })).to.have.attribute('aria-disabled');
+      expect(screen.getByRole('treeitem', { name: 'tester3' })).to.have.attribute('aria-disabled');
+
+      // Clicking on children should not trigger onSelect
+      fireEvent.click(screen.getByRole('checkbox', { name: 'tester0' }));
+      expect(onSelect).not.toHaveBeenCalled();
+
+      fireEvent.click(screen.getByRole('checkbox', { name: 'tester1' }));
+      expect(onSelect).not.toHaveBeenCalled();
+    });
+
+    it('Should not check disabled children when parent is checked', () => {
+      const onChange = vi.fn();
+      const testData = [
+        {
+          label: 'Parent',
+          value: 'parent',
+          children: [
+            { label: 'Child 1', value: 'child1' },
+            { label: 'Child 2', value: 'child2' },
+            { label: 'Child 3', value: 'child3' }
+          ]
+        }
+      ];
+
+      render(
+        <CheckTree
+          data={testData}
+          disabledItemValues={['child2']}
+          onChange={onChange}
+          defaultExpandAll
+        />
+      );
+
+      // Click parent node to check it
+      fireEvent.click(screen.getByRole('checkbox', { name: 'Parent' }));
+
+      // Should check parent and non-disabled children, but not disabled child2
+      expect(onChange).toHaveBeenCalledWith(['parent', 'child1', 'child3'], expect.anything());
+    });
+
+    it('Should not check disabled grandchildren when grandparent is checked', () => {
+      const onChange = vi.fn();
+      const testData = [
+        {
+          label: 'Node 2',
+          value: '2',
+          children: [
+            {
+              label: 'Node 2-1',
+              value: '2-1',
+              children: [
+                {
+                  label: 'Node 2-1-1',
+                  value: '2-1-1'
+                },
+                {
+                  label: 'Node 2-1-2',
+                  value: '2-1-2'
+                }
+              ]
+            },
+            {
+              label: 'Node 2-2',
+              value: '2-2'
+            }
+          ]
+        }
+      ];
+
+      render(
+        <CheckTree
+          data={testData}
+          disabledItemValues={['2-1-1', '2-1-2']}
+          onChange={onChange}
+          defaultExpandAll
+        />
+      );
+
+      // Click Node 2 to check it
+      fireEvent.click(screen.getByRole('checkbox', { name: 'Node 2' }));
+
+      // Should check Node 2, 2-1, and 2-2, but NOT the disabled grandchildren 2-1-1 and 2-1-2
+      expect(onChange).toHaveBeenCalledWith(['2', '2-1', '2-2'], expect.anything());
+    });
+
+    it('Should allow parent to be checked when all children are disabled', () => {
+      const onChange = vi.fn();
+      const testData = [
+        {
+          label: 'Node 2',
+          value: '2',
+          children: [
+            {
+              label: 'Node 2-1',
+              value: '2-1',
+              children: [
+                {
+                  label: 'Node 2-1-1',
+                  value: '2-1-1'
+                },
+                {
+                  label: 'Node 2-1-2',
+                  value: '2-1-2'
+                }
+              ]
+            },
+            {
+              label: 'Node 2-2',
+              value: '2-2'
+            }
+          ]
+        }
+      ];
+
+      render(
+        <CheckTree
+          data={testData}
+          disabledItemValues={['2-1-1', '2-1-2']}
+          onChange={onChange}
+          defaultExpandAll
+        />
+      );
+
+      // Click Node 2-1 directly (which has all children disabled)
+      fireEvent.click(screen.getByRole('checkbox', { name: 'Node 2-1' }));
+
+      // Should check only Node 2-1, not its disabled children
+      expect(onChange).toHaveBeenCalledWith(['2-1'], expect.anything());
+
+      // Node 2-1 should be checkable (not disabled) even though all its children are disabled
+      expect(screen.getByRole('treeitem', { name: 'Node 2-1' })).to.have.attribute(
+        'aria-disabled',
+        'false'
+      );
+
+      // Node 2-1 should be checked after clicking
+      expect(screen.getByRole('treeitem', { name: 'Node 2-1' })).to.have.attribute(
+        'aria-checked',
+        'true'
+      );
+    });
+
     it('Should not render the checkbox when the item is uncheckable', () => {
       const onSelect = vi.fn();
 

@@ -43,6 +43,11 @@ interface UseFlattenTreeOptions {
   uncheckableItemValues?: any[];
 
   /**
+   * An array of item values that should be disabled.
+   */
+  disabledItemValues?: any[];
+
+  /**
    * A callback function that will be called when the tree nodes change.
    * It receives a map of the tree nodes.
    */
@@ -60,6 +65,7 @@ function useFlattenTree(data: TreeNode[], options: UseFlattenTreeOptions) {
     valueKey,
     childrenKey,
     uncheckableItemValues = [],
+    disabledItemValues = [],
     cascade,
     multiple,
     callback
@@ -74,6 +80,34 @@ function useFlattenTree(data: TreeNode[], options: UseFlattenTreeOptions) {
       // Reset values to false
       Object.keys(flattenedNodes.current).forEach((refKey: string) => {
         const node = flattenedNodes.current[refKey];
+
+        // Check if this node or any of its parents is disabled
+        const isNodeDisabled = disabledItemValues.some((disabledValue: any) =>
+          shallowEqual(node[valueKey], disabledValue)
+        );
+
+        let hasDisabledParent = false;
+        let currentNode = node;
+        while (currentNode.parent && !hasDisabledParent) {
+          const parentRefKey = currentNode.parent.refKey;
+          if (parentRefKey && flattenedNodes.current[parentRefKey]) {
+            const parentValue = flattenedNodes.current[parentRefKey][valueKey];
+            if (
+              disabledItemValues.some((disabledValue: any) =>
+                shallowEqual(parentValue, disabledValue)
+              )
+            ) {
+              hasDisabledParent = true;
+            }
+          }
+          currentNode = currentNode.parent;
+        }
+
+        // Skip disabled nodes - they should not be affected by cascade or value changes
+        if (isNodeDisabled || hasDisabledParent) {
+          return;
+        }
+
         if (cascade && !isNil(node.parent) && !isNil(node.parent.refKey)) {
           node.check = flattenedNodes.current[node.parent.refKey].check;
         } else {
@@ -90,7 +124,7 @@ function useFlattenTree(data: TreeNode[], options: UseFlattenTreeOptions) {
         });
       });
     },
-    [cascade, uncheckableItemValues, valueKey]
+    [cascade, uncheckableItemValues, disabledItemValues, valueKey]
   );
 
   const flattenTreeData = useCallback(
