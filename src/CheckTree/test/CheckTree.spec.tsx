@@ -301,6 +301,105 @@ describe('CheckTree', () => {
     });
   });
 
+  describe('Indeterminate state', () => {
+    it('Should set indeterminate state on parent node when some children are checked', () => {
+      // Test data with parent and children
+      const treeData = [
+        {
+          label: 'Parent',
+          value: 'parent',
+          children: [
+            { label: 'Child 1', value: 'child1' },
+            { label: 'Child 2', value: 'child2' },
+            { label: 'Child 3', value: 'child3' }
+          ]
+        }
+      ];
+
+      render(<CheckTree data={treeData} value={['child1']} defaultExpandAll />);
+
+      const parentCheckbox = screen.getByRole('checkbox', { name: 'Parent' });
+
+      // Parent should have aria-checked="mixed" for accessibility
+      expect(parentCheckbox).to.have.attribute('aria-checked', 'mixed');
+
+      // Parent checkbox should have indeterminate property set for screen reader support
+      expect((parentCheckbox as HTMLInputElement).indeterminate).to.be.true;
+    });
+
+    it('Should not set indeterminate state when all children are checked', () => {
+      const treeData = [
+        {
+          label: 'Parent',
+          value: 'parent',
+          children: [
+            { label: 'Child 1', value: 'child1' },
+            { label: 'Child 2', value: 'child2' }
+          ]
+        }
+      ];
+
+      render(<CheckTree data={treeData} value={['parent', 'child1', 'child2']} defaultExpandAll />);
+
+      const parentCheckbox = screen.getByRole('checkbox', { name: 'Parent' });
+
+      // Parent should be fully checked, not indeterminate
+      expect(parentCheckbox).to.have.attribute('aria-checked', 'true');
+      expect((parentCheckbox as HTMLInputElement).indeterminate).to.be.false;
+    });
+
+    it('Should not set indeterminate state when no children are checked', () => {
+      const treeData = [
+        {
+          label: 'Parent',
+          value: 'parent',
+          children: [
+            { label: 'Child 1', value: 'child1' },
+            { label: 'Child 2', value: 'child2' }
+          ]
+        }
+      ];
+
+      render(<CheckTree data={treeData} value={[]} defaultExpandAll />);
+
+      const parentCheckbox = screen.getByRole('checkbox', { name: 'Parent' });
+
+      // Parent should be unchecked, not indeterminate
+      expect(parentCheckbox).to.have.attribute('aria-checked', 'false');
+      expect((parentCheckbox as HTMLInputElement).indeterminate).to.be.false;
+    });
+
+    it('Should update indeterminate state when children selection changes', () => {
+      const treeData = [
+        {
+          label: 'Parent',
+          value: 'parent',
+          children: [
+            { label: 'Child 1', value: 'child1' },
+            { label: 'Child 2', value: 'child2' }
+          ]
+        }
+      ];
+
+      const { rerender } = render(<CheckTree data={treeData} value={[]} defaultExpandAll />);
+
+      const parentCheckbox = screen.getByRole('checkbox', { name: 'Parent' });
+
+      // Initially unchecked
+      expect((parentCheckbox as HTMLInputElement).indeterminate).to.be.false;
+
+      // Select one child - should become indeterminate
+      rerender(<CheckTree data={treeData} value={['child1']} defaultExpandAll />);
+      expect((parentCheckbox as HTMLInputElement).indeterminate).to.be.true;
+
+      // Select all children - should not be indeterminate
+      rerender(
+        <CheckTree data={treeData} value={['parent', 'child1', 'child2']} defaultExpandAll />
+      );
+      expect((parentCheckbox as HTMLInputElement).indeterminate).to.be.false;
+    });
+  });
+
   describe('Accessibility - Keyboard interactions', () => {
     it('Should focus the next item when pressing the down arrow key', () => {
       render(<CheckTree data={data} />);
