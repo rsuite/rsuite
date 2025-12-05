@@ -1,6 +1,7 @@
 import React from 'react';
 import SafeAnchor from '@/internals/SafeAnchor';
 import Box, { BoxProps } from '@/internals/Box';
+import { extractBoxProps, omitBoxProps } from '@/internals/Box/utils';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 
@@ -48,7 +49,7 @@ export interface BreadcrumbItemProps extends BoxProps {
 const BreadcrumbItem = forwardRef<'a', BreadcrumbItemProps>(
   (props: BreadcrumbItemProps, ref: React.Ref<any>) => {
     const {
-      wrapperAs = 'li',
+      wrapperAs: WrapperComponent = 'li',
       href,
       as: Component = href ? SafeAnchor : 'span',
       classPrefix = 'breadcrumb-item',
@@ -66,20 +67,23 @@ const BreadcrumbItem = forwardRef<'a', BreadcrumbItemProps>(
     const { merge, withPrefix } = useStyles(classPrefix);
     const classes = merge(className, withPrefix());
 
+    // Separate BoxProps for wrapper and other props for inner component
+    const boxProps = extractBoxProps(rest);
+    const componentProps = omitBoxProps(rest);
+
     return (
       <Box
-        as={wrapperAs}
+        as={WrapperComponent}
         style={style}
         className={classes}
-        ref={ref}
         data-active={active}
-        {...rest}
+        {...boxProps}
       >
         {icon}
         {active ? (
           <span>{children}</span>
         ) : (
-          <Component href={href} title={title} target={target}>
+          <Component ref={ref} href={href} title={title} target={target} {...componentProps}>
             {children}
           </Component>
         )}
