@@ -10,6 +10,8 @@ import {
   getFocusableItems,
   getActiveItem,
   focusPreviousItem,
+  focusFirstItem,
+  focusLastItem,
   focusCurrentItem,
   focusTreeNode,
   handleLeftArrow,
@@ -117,12 +119,34 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
     });
   });
 
+  const handleHomeKey = useEventCallback(() => {
+    const focusProps = getFocusProps();
+    const focusedValue = focusFirstItem(focusProps);
+
+    if (focusedValue) {
+      setFocusItemValue(focusedValue);
+      onFocused?.(focusedValue);
+    }
+  });
+
+  const handleEndKey = useEventCallback(() => {
+    const focusProps = getFocusProps();
+    const focusedValue = focusLastItem(focusProps);
+
+    if (focusedValue) {
+      setFocusItemValue(focusedValue);
+      onFocused?.(focusedValue);
+    }
+  });
+
   const onTreeKeydown = useEventCallback((event: React.KeyboardEvent<any>) => {
     onMenuKeyDown(event, {
       down: () => handleFocusItem(KEY_VALUES.DOWN),
       up: () => handleFocusItem(KEY_VALUES.UP),
       left: rtl ? handleRightArrowEvent : handleLeftArrowEvent,
-      right: rtl ? handleLeftArrowEvent : handleRightArrowEvent
+      right: rtl ? handleLeftArrowEvent : handleRightArrowEvent,
+      home: handleHomeKey,
+      end: handleEndKey
     });
   });
 

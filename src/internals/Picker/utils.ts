@@ -51,6 +51,8 @@ export interface KeyboardEvents {
   esc?: React.KeyboardEventHandler;
   right?: React.KeyboardEventHandler;
   left?: React.KeyboardEventHandler;
+  home?: React.KeyboardEventHandler;
+  end?: React.KeyboardEventHandler;
 }
 
 /**
@@ -59,7 +61,7 @@ export interface KeyboardEvents {
  * @param events Event callback functions
  */
 export function onMenuKeyDown(event: React.KeyboardEvent, events: KeyboardEvents) {
-  const { down, up, enter, del, esc, right, left } = events;
+  const { down, up, enter, del, esc, right, left, home, end } = events;
   switch (event.key) {
     // down
     case KEY_VALUES.DOWN:
@@ -92,6 +94,16 @@ export function onMenuKeyDown(event: React.KeyboardEvent, events: KeyboardEvents
     // right arrow
     case KEY_VALUES.RIGHT:
       right?.(event);
+      break;
+    // home
+    case KEY_VALUES.HOME:
+      home?.(event);
+      event.preventDefault();
+      break;
+    // end
+    case KEY_VALUES.END:
+      end?.(event);
+      event.preventDefault();
       break;
     default:
   }
