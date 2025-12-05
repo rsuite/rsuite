@@ -10,8 +10,8 @@ React Suite provides comprehensive documentation in LLMs.txt format to help AI c
 
 The following files are available:
 
-- [/llms.txt](/llms.txt): The main LLMs.txt file with links to all documentation pages
-- [/llms-full.txt](/llms-full.txt): The complete documentation for React Suite
+- [/llms.txt](/llms.txt): The main LLMs.txt file with links to all documentation pages (~9KB)
+- [/llms-full.txt](/llms-full.txt): The complete documentation for React Suite (~1.4MB)
 
 ## Using with AI Coding Tools
 

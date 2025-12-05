@@ -10,8 +10,8 @@ React Suite 提供了 LLMs.txt 格式的综合文档，帮助 AI 编程助手有
 
 以下文件可供使用：
 
-- [/llms.txt](/llms.txt): 主要的 LLMs.txt 文件，包含所有文档页面的链接
-- [/llms-full.txt](/llms-full.txt): React Suite 的完整文档
+- [/llms.txt](/llms.txt): 主要的 LLMs.txt 文件，包含所有文档页面的链接（约 9KB）
+- [/llms-full.txt](/llms-full.txt): React Suite 的完整文档（约 1.4MB）
 
 ## 与 AI 编程工具配合使用
 
