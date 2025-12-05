@@ -45,7 +45,7 @@ const data = [
 ];
 
 const App = () => (
-  <CheckTree data={data} disabledItemValues={['1', '2', '2-1-1', '2-1-2']} defaultExpandAll />
+  <CheckTree data={data} disabledItemValues={['1', '2-1-1', '2-1-2']} defaultExpandAll />
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

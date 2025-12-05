@@ -150,7 +150,8 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   const { getCheckedValues } = useTreeCheckState({
     cascade,
     flattenedNodes,
-    uncheckableItemValues
+    uncheckableItemValues,
+    disabledItemValues
   });
 
   const handleSearchCallback = (value: string, _data, event: React.SyntheticEvent) => {
@@ -177,7 +178,8 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   const transformation = useVirtualizedTreeData(flattenedNodes, filteredData, {
     cascade,
     expandItemValues,
-    searchKeyword: keyword
+    searchKeyword: keyword,
+    disabledItemValues
   });
 
   /**
@@ -189,7 +191,12 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
       return transformation().filter(item => item.visible);
     }
 
-    return getFormattedTree(flattenedNodes, filteredData, { childrenKey, cascade })
+    return getFormattedTree(flattenedNodes, filteredData, {
+      childrenKey,
+      cascade,
+      disabledItemValues,
+      valueKey
+    })
       .map(node => render?.(node, 1))
       .filter(item => item);
   };

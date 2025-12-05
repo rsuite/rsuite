@@ -35,6 +35,7 @@ const CheckTree = forwardRef<'div', CheckTreeProps>((props, ref: React.Ref<HTMLD
     defaultExpandAll = false,
     defaultExpandItemValues = [],
     uncheckableItemValues,
+    disabledItemValues,
     expandItemValues: controlledExpandItemValues,
     childrenKey = 'children',
     labelKey = 'label',
@@ -71,6 +72,7 @@ const CheckTree = forwardRef<'div', CheckTreeProps>((props, ref: React.Ref<HTMLD
   const flattenedNodes = useFlattenTree(treeData, {
     ...itemDataKeys,
     uncheckableItemValues,
+    disabledItemValues,
     multiple: true,
     cascade,
     value
@@ -107,6 +109,7 @@ const CheckTree = forwardRef<'div', CheckTreeProps>((props, ref: React.Ref<HTMLD
         loadingNodeValues={loadingNodeValues}
         flattenedNodes={flattenedNodes}
         uncheckableItemValues={uncheckableItemValues}
+        disabledItemValues={disabledItemValues}
         expandItemValues={expandItemValues}
         onChange={handleChange}
         onExpand={handleExpandTreeNode}
