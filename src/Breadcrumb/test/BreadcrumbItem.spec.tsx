@@ -49,13 +49,13 @@ describe('Breadcrumb.Item', () => {
   });
 
   it('Should apply `id` to the anchor element', () => {
-    const { container } = render(
+    render(
       <Breadcrumb.Item href="#" id="test-link-id">
         Crumb
       </Breadcrumb.Item>
     );
 
-    expect(container.firstChild).to.have.id('test-link-id');
+    expect(screen.getByText('Crumb')).to.have.id('test-link-id');
   });
 
   it('Should apply `href` attribute to the anchor element', () => {
@@ -119,5 +119,63 @@ describe('Breadcrumb.Item', () => {
     render(<Breadcrumb.Item icon={<CustomIcon />}>Crumb</Breadcrumb.Item>);
 
     expect(screen.getByText('icon')).to.exist;
+  });
+
+  it('Should forward props correctly to custom component when using `as`', () => {
+    // Simulate a react-router Link component
+    const CustomLink = React.forwardRef<
+      HTMLAnchorElement,
+      { to: string; children: React.ReactNode; className?: string }
+    >((props, ref) => {
+      return (
+        <a ref={ref} href={props.to} className={props.className} data-custom-link="true">
+          {props.children}
+        </a>
+      );
+    });
+
+    render(
+      <Breadcrumb.Item as={CustomLink} to="/test-path">
+        Crumb
+      </Breadcrumb.Item>
+    );
+
+    const link = screen.getByText('Crumb');
+    expect(link).to.have.attribute('href', '/test-path');
+    expect(link).to.have.attribute('data-custom-link', 'true');
+  });
+
+  it('Should not forward props to wrapper element', () => {
+    const CustomLink = React.forwardRef<
+      HTMLAnchorElement,
+      { to: string; children: React.ReactNode }
+    >((props, ref) => {
+      return (
+        <a ref={ref} href={props.to}>
+          {props.children}
+        </a>
+      );
+    });
+
+    const { container } = render(
+      <Breadcrumb.Item as={CustomLink} to="/test-path">
+        Crumb
+      </Breadcrumb.Item>
+    );
+
+    // The wrapper (li) should not have the 'to' attribute
+    expect(container.firstChild).to.not.have.attribute('to');
+  });
+
+  it('Should support BoxProps on wrapper element', () => {
+    const { container } = render(
+      <Breadcrumb.Item href="#" padding={10} marginTop={20}>
+        Crumb
+      </Breadcrumb.Item>
+    );
+
+    const wrapper = container.firstChild as HTMLElement;
+    // BoxProps should be applied to the wrapper element
+    expect(wrapper).to.have.attribute('data-rs', 'box');
   });
 });
