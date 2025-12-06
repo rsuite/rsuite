@@ -277,13 +277,22 @@ class LLMSGenerator {
 
   /**
    * Clean markdown content for better LLM consumption
+   * Note: This is called AFTER resolveIncludes, so all include directives are already processed
    */
   cleanMarkdownContent(content) {
     // Clean up excessive whitespace
     content = content.replace(/\n\s*\n\s*\n/g, '\n\n');
 
-    // Remove HTML comments (except include directives which are handled separately)
-    content = content.replace(/<!--(?!\{include:)[\s\S]*?-->/g, '');
+    // Remove all HTML comments
+    // Since this function is called after resolveIncludes (line 357), all <!--{include:...}-->
+    // directives have already been processed and replaced with actual content.
+    // Therefore, we can safely remove ALL remaining HTML comments without exceptions.
+    // Using a loop to ensure complete removal and address security scanning concerns.
+    let prev;
+    do {
+      prev = content;
+      content = content.replace(/<!--[\s\S]*?-->/gs, '');
+    } while (content !== prev);
 
     // Clean up version badges
     content = content.replace(/!\[\][\d.]+]/g, '');
