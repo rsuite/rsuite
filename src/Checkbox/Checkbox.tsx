@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useRef } from 'react';
+import React, { useContext, useMemo } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import {
   useControlled,
@@ -8,6 +8,7 @@ import {
   useUniqueId
 } from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps, mergeRefs } from '@/internals/utils';
+import { useIndeterminateCheckbox } from './hooks/useIndeterminateCheckbox';
 import { CheckboxGroupContext } from '../CheckboxGroup';
 import type { Color, HTMLPropsWithoutChange } from '@/internals/types';
 
@@ -186,7 +187,7 @@ const Checkbox = forwardRef<'div', CheckboxProps>((props: CheckboxProps, ref) =>
     htmlInputProps[controlled ? 'checked' : 'defaultChecked'] = checked;
   }
 
-  const checkboxRef = useRef<HTMLInputElement>(null);
+  const checkboxRef = useIndeterminateCheckbox(indeterminate);
 
   const handleChange = useEventCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const nextChecked = event.target.checked;
