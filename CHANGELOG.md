@@ -1,3 +1,14 @@
+## [6.0.1](https://github.com/rsuite/rsuite/compare/v6.0.0...v6.0.1) (2025-12-07)
+
+
+### Bug Fixes
+
+* **Panel:** change PanelHeader default element from Heading to div for better semantics ([#4453](https://github.com/rsuite/rsuite/issues/4453)) ([a0726d6](https://github.com/rsuite/rsuite/commit/a0726d6937a8029d5dd8c02b4b022ae25068d05d))
+* **panel:** handle fragment header children safely ([#4454](https://github.com/rsuite/rsuite/issues/4454)) ([3c6f491](https://github.com/rsuite/rsuite/commit/3c6f49139565d2d6303b4d3e8f92200234ef7105))
+* **picker:** separate pickerType from name prop to fix data-picker attribute ([#4452](https://github.com/rsuite/rsuite/issues/4452)) ([fcfd229](https://github.com/rsuite/rsuite/commit/fcfd22903229e98341e8844953f1cd218b6e27a6)), closes [#4440](https://github.com/rsuite/rsuite/issues/4440) [#4440](https://github.com/rsuite/rsuite/issues/4440)
+
+
+
 # [6.0.0](https://github.com/rsuite/rsuite/compare/v5.83.3...v6.0.0) (2025-11-21)
 
 ## Features
