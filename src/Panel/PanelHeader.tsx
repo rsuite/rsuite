@@ -6,7 +6,7 @@ import { useStyles } from '@/internals/hooks';
 
 export interface PanelHeaderProps
   extends BoxProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'color'> {
+    Omit<React.HTMLAttributes<HTMLDivElement | HTMLHeadingElement>, 'color'> {
   caretAs?: React.ElementType;
   collapsible?: boolean;
   disabled?: boolean;
