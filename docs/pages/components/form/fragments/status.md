@@ -153,7 +153,7 @@ const App = () => {
             data={tree}
             block
           />
-          <FormField name="multi-picker" accepter={MultiCascader} data={tree} block />
+          <FormField name="multi-picker" label="MultiCascader" accepter={MultiCascader} data={tree} block />
           <FormField name="date-picker" label="DatePicker" accepter={DatePicker} />
           <FormField name="date-range-picker" label="DateRangePicker" accepter={DateRangePicker} />
           <FormField name="rate" label="Rate" accepter={Rate} />
