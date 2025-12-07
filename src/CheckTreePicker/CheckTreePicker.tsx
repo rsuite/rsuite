@@ -329,7 +329,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
     <PickerToggleTrigger
       as={as}
       id={id}
-      name="check-tree"
+      pickerType="check-tree"
       block={block}
       disabled={disabled}
       appearance={appearance}

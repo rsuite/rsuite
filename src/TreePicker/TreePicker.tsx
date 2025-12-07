@@ -294,7 +294,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
     <PickerToggleTrigger
       as={as}
       id={id}
-      name="tree"
+      pickerType="tree"
       block={block}
       disabled={disabled}
       appearance={appearance}
