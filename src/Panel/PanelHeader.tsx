@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import AccordionButton from './AccordionButton';
 import Box, { BoxProps } from '@/internals/Box';
 import { useStyles } from '@/internals/hooks';
+import { isFragment } from '@/internals/utils';
 
 export interface PanelHeaderProps
   extends BoxProps,
@@ -38,8 +39,8 @@ const PanelHeader = (props: PanelHeaderProps) => {
 
   let headerElement: React.ReactNode;
 
-  if (!isValidElement(children) || Array.isArray(children)) {
-    headerElement = <span className={prefix('title')}>{children}</span>;
+  if (!isValidElement(children) || Array.isArray(children) || isFragment(children)) {
+    headerElement = <div className={prefix('title')}>{children}</div>;
   } else {
     const className = merge(prefix('title'), get(children, 'props.className'));
     headerElement = cloneElement<any>(children, { className });

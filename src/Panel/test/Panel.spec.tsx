@@ -280,5 +280,26 @@ describe('Panel', () => {
 
       expect(screen.getByText('Test Header')).to.exist;
     });
+
+    it('Should handle React.Fragment as children', () => {
+      render(
+        <PanelHeader data-testid="panel-header">
+          <>
+            <div>Fragment</div>
+            <p>Content</p>
+          </>
+        </PanelHeader>
+      );
+
+      const titleWrapper = screen.getByTestId('panel-header').querySelector('.rs-panel-title');
+
+      // Fragment content should be wrapped by a div.rs-panel-title
+      expect(titleWrapper).to.exist;
+      expect(titleWrapper).to.have.tagName('div');
+      expect(titleWrapper).to.have.class('rs-panel-title');
+      // Ensure children of Fragment are rendered inside wrapper
+      expect(titleWrapper).to.contain.text('Fragment');
+      expect(titleWrapper).to.contain.text('Content');
+    });
   });
 });
