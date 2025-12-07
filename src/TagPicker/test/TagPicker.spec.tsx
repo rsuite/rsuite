@@ -504,4 +504,12 @@ describe('TagPicker', () => {
       expect(document.activeElement).to.have.text('Eugenia');
     });
   });
+
+  it('Should have data-picker="tag" attribute even when name prop is provided', () => {
+    render(<TagPicker data={[]} name="customName" />);
+    const picker = screen.getByTestId('picker');
+
+    expect(picker).to.have.attr('data-picker', 'tag');
+    expect(picker).to.have.attr('name', 'customName');
+  });
 });

@@ -124,20 +124,38 @@ const App = () => {
             <Radio value="HTML5">HTML5</Radio>
           </FormField>
           <FormField name="slider" label="Slider" accepter={Slider} label="Level" />
-          <FormField name="check" label="CheckPicker" accepter={CheckPicker} data={data} block />
-          <FormField name="select" label="SelectPicker" accepter={SelectPicker} data={data} block />
-          <FormField name="tag" label="TagPicker" accepter={TagPicker} data={data} block />
-          <FormField name="input" label="InputPicker" accepter={InputPicker} data={data} block />
-          <FormField name="cascader" label="Cascader" accepter={Cascader} data={tree} block />
           <FormField
-            name="multi"
-            label="MultiCascader"
-            accepter={MultiCascader}
+            name="check-picker"
+            label="CheckPicker"
+            accepter={CheckPicker}
+            data={data}
+            block
+          />
+          <FormField
+            name="select-picker"
+            label="SelectPicker"
+            accepter={SelectPicker}
+            data={data}
+            block
+          />
+          <FormField name="tag-picker" label="TagPicker" accepter={TagPicker} data={data} block />
+          <FormField
+            name="input-picker"
+            label="InputPicker"
+            accepter={InputPicker}
+            data={data}
+            block
+          />
+          <FormField
+            name="cascader-picker"
+            label="Cascader"
+            accepter={Cascader}
             data={tree}
             block
           />
-          <FormField name="date" label="DatePicker" accepter={DatePicker} />
-          <FormField name="date-range" label="DateRangePicker" accepter={DateRangePicker} />
+          <FormField name="multi-picker" accepter={MultiCascader} data={tree} block />
+          <FormField name="date-picker" label="DatePicker" accepter={DatePicker} />
+          <FormField name="date-range-picker" label="DateRangePicker" accepter={DateRangePicker} />
           <FormField name="rate" label="Rate" accepter={Rate} />
         </Form.Stack>
       </Form>
