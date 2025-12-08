@@ -464,8 +464,8 @@ describe('Rate', () => {
 
       // Hover and click the third star
       if (stars && stars[2] && starsBefore && starsBefore[2]) {
-        userEvent.hover(starsBefore[2]);
-        userEvent.click(stars[2]);
+        await userEvent.hover(starsBefore[2]);
+        await userEvent.click(stars[2]);
       }
 
       // Check that form onChange is called with updated value
