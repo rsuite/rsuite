@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import Heart from '@rsuite/icons/Heart';
 import Star from '@rsuite/icons/Star';
 import Rate from '../Rate';
+import Form from '../../Form';
 import { describe, expect, it, vi } from 'vitest';
 import { render, act, screen, fireEvent } from '@testing-library/react';
 import { testStandardProps, testStyleProps } from '@test/cases';
@@ -417,6 +418,59 @@ describe('Rate', () => {
       );
 
       expect(screen.getByTestId('content')).to.have.text('Not selected');
+    });
+  });
+
+  it('Should apply size styles even when name prop is provided', () => {
+    const { container } = render(<Rate size="xs" name="customName" />);
+    const rate = container.querySelector('.rs-rate') as HTMLElement;
+
+    // Check that the size CSS variable is set correctly
+    expect(rate?.style.getPropertyValue('--rs-rate-size')).to.equal('var(--rs-rate-size-xs)');
+  });
+
+  describe('Form integration', () => {
+    it('Should work correctly with Form.Control', () => {
+      const formRef = React.createRef<any>();
+      const { container } = render(
+        <Form ref={formRef}>
+          <Form.Control name="rating" accepter={Rate} size="xs" />
+        </Form>
+      );
+
+      const rate = container.querySelector('.rs-rate') as HTMLElement;
+
+      // Check that the Rate component is rendered
+      expect(rate).to.exist;
+
+      // Check that size styles are applied correctly even when used with Form.Control
+      expect(rate?.style.getPropertyValue('--rs-rate-size')).to.equal('var(--rs-rate-size-xs)');
+
+      // Check that data-name attribute is set
+      expect(rate).to.have.attr('data-name', 'rating');
+    });
+
+    it('Should update form value when Rate changes in Form.Control', async () => {
+      const onChangeSpy = vi.fn();
+      const { container } = render(
+        <Form formDefaultValue={{ rating: 0 }} onChange={onChangeSpy}>
+          <Form.Control name="rating" accepter={Rate} />
+        </Form>
+      );
+
+      const rate = container.querySelector('.rs-rate') as HTMLElement;
+      const stars = rate?.querySelectorAll('.rs-rate-character');
+      const starsBefore = rate?.querySelectorAll('.rs-rate-character-before');
+
+      // Hover and click the third star
+      if (stars && stars[2] && starsBefore && starsBefore[2]) {
+        userEvent.hover(starsBefore[2]);
+        userEvent.click(stars[2]);
+      }
+
+      // Check that form onChange is called with updated value
+      expect(onChangeSpy).toHaveBeenCalled();
+      expect(onChangeSpy.mock.calls[0][0].rating).to.equal(3);
     });
   });
 });

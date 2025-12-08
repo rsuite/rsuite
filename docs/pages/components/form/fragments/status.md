@@ -34,36 +34,35 @@ const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'].map(item =
 }));
 
 const defaultFormValue = {
-  input: '',
-  checkbox: [],
-  radio: '',
-  slider: 0,
-  datePicker: null,
-  dateRangePicker: null,
-  checkPicker: [],
-  selectPicker: '',
-  tagPicker: [],
-  inputPicker: '',
-  cascader: '',
-  multiCascader: [],
-  rate: 0,
-  enable: false
+  'field-input': '',
+  'field-checkbox': [],
+  'field-radio': '',
+  'field-slider': 0,
+  'field-check-picker': [],
+  'field-select-picker': '',
+  'field-tag-picker': [],
+  'field-input-picker': '',
+  'field-cascader-picker': '',
+  'field-multi-picker': [],
+  'field-date-picker': null,
+  'field-date-range-picker': null,
+  'field-rating': 0
 };
 
 const initFormValue = {
-  input: 'A suite of React components, sensible UI design, and a friendly development experience.',
-  checkbox: ['Node.js', 'CSS3', 'HTML5'],
-  radio: 'HTML5',
-  slider: 10,
-  datePicker: new Date(),
-  dateRangePicker: [new Date(), new Date()],
-  checkPicker: ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'],
-  selectPicker: 'Eugenia',
-  tagPicker: ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'],
-  inputPicker: 'Eugenia',
-  cascader: '1-1-2',
-  multiCascader: ['1-1-2', '1-1-3'],
-  rate: 2
+  'field-input': 'A suite of React components, sensible UI design, and a friendly development experience.',
+  'field-checkbox': ['Node.js', 'CSS3', 'HTML5'],
+  'field-radio': 'HTML5',
+  'field-slider': 10,
+  'field-check-picker': ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'],
+  'field-select-picker': 'Eugenia',
+  'field-tag-picker': ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'],
+  'field-input-picker': 'Eugenia',
+  'field-cascader-picker': '1-1-2',
+  'field-multi-picker': ['1-1-2', '1-1-3'],
+  'field-date-picker': new Date(),
+  'field-date-range-picker': [new Date(), new Date()],
+  'field-rating': 2
 };
 
 const FormField = ({ name, label, text, ...props }) => (
@@ -108,55 +107,61 @@ const App = () => {
         onChange={formValue => setFormValue(formValue)}
       >
         <Form.Stack fluid spacing={20}>
-          <FormField name="input" label="Input" text="This is a input" />
-          <FormField name="checkbox" label="Checkbox" accepter={CheckboxGroup} inline>
+          <FormField name="field-input" label="Input" text="This is a input" />
+          <FormField name="field-checkbox" label="Checkbox" accepter={CheckboxGroup} inline>
             <Checkbox value="Node.js">Node.js</Checkbox>
             <Checkbox value="Webpack">Webpack</Checkbox>
             <Checkbox value="CSS3">CSS3</Checkbox>
             <Checkbox value="Javascript">Javascript</Checkbox>
             <Checkbox value="HTML5">HTML5</Checkbox>
           </FormField>
-          <FormField name="radio" label="Radio" accepter={RadioGroup} inline>
+          <FormField name="field-radio" label="Radio" accepter={RadioGroup} inline>
             <Radio value="Node.js">Node.js</Radio>
             <Radio value="Webpack">Webpack</Radio>
             <Radio value="CSS3">CSS3</Radio>
             <Radio value="Javascript">Javascript</Radio>
             <Radio value="HTML5">HTML5</Radio>
           </FormField>
-          <FormField name="slider" label="Slider" accepter={Slider} label="Level" />
+          <FormField name="field-slider" label="Slider" accepter={Slider} label="Level" />
           <FormField
-            name="check-picker"
+            name="field-check-picker"
             label="CheckPicker"
             accepter={CheckPicker}
             data={data}
             block
           />
           <FormField
-            name="select-picker"
+            name="field-select-picker"
             label="SelectPicker"
             accepter={SelectPicker}
             data={data}
             block
           />
-          <FormField name="tag-picker" label="TagPicker" accepter={TagPicker} data={data} block />
+          <FormField name="field-tag-picker" label="TagPicker" accepter={TagPicker} data={data} block />
           <FormField
-            name="input-picker"
+            name="field-input-picker"
             label="InputPicker"
             accepter={InputPicker}
             data={data}
             block
           />
           <FormField
-            name="cascader-picker"
+            name="field-cascader-picker"
             label="Cascader"
             accepter={Cascader}
             data={tree}
             block
           />
-          <FormField name="multi-picker" label="MultiCascader" accepter={MultiCascader} data={tree} block />
-          <FormField name="date-picker" label="DatePicker" accepter={DatePicker} />
-          <FormField name="date-range-picker" label="DateRangePicker" accepter={DateRangePicker} />
-          <FormField name="rate" label="Rate" accepter={Rate} />
+          <FormField
+            name="field-multi-picker"
+            label="MultiCascader"
+            accepter={MultiCascader}
+            data={tree}
+            block
+          />
+          <FormField name="field-date-picker" label="DatePicker" accepter={DatePicker} />
+          <FormField name="field-date-range-picker" label="DateRangePicker" accepter={DateRangePicker} />
+          <FormField name="field-rating" label="Rate" accepter={Rate} size="xs" />
         </Form.Stack>
       </Form>
     </Panel>
