@@ -1,24 +1,31 @@
 import type { StoryObj } from '@storybook/react';
-import NumberInput from '../NumberInput';
+import TimeRangePicker from '../TimeRangePicker';
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.scss';
 
-const meta = createMeta(NumberInput);
+const meta = createMeta(TimeRangePicker);
 
 export default {
-  title: 'Components/NumberInput',
+  title: 'Components/TimeRangePicker',
   ...meta
 };
 
 type Story = StoryObj<typeof meta>;
 
 const defaultArgs = {
-  style: { width: 200 }
+  style: { width: 260 }
 };
 
 export const Default: Story = {
   args: {
     ...defaultArgs
+  }
+};
+
+export const WithMeridiem: Story = {
+  args: {
+    ...defaultArgs,
+    showMeridiem: true
   }
 };
 
@@ -32,36 +39,36 @@ export const Disabled: Story = {
 export const Readonly: Story = {
   args: {
     ...defaultArgs,
-    readOnly: true,
-    defaultValue: 10
+    readOnly: true
   }
 };
 
 export const Plaintext: Story = {
   args: {
     ...defaultArgs,
-    plaintext: true
+    plaintext: true,
+    defaultValue: [new Date(), new Date()] as any
   }
 };
 
-export const Size: Story = {
+export const WithCharacter: Story = {
   args: {
     ...defaultArgs,
-    size: 'lg'
+    character: ' to '
   }
 };
 
-export const Step: Story = {
+export const NoHeader: Story = {
   args: {
     ...defaultArgs,
-    step: 0.1
+    showHeader: false
   }
 };
 
-export const MinMax: Story = {
+export const CustomFormat: Story = {
   args: {
     ...defaultArgs,
-    min: 0,
-    max: 10
+    format: 'HH:mm',
+    placeholder: 'Select time range'
   }
 };

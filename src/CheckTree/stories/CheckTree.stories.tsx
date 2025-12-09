@@ -54,3 +54,18 @@ export const Async: Story = {
     getChildren: fetchNodes as any
   }
 };
+
+export const Searchable: Story = {
+  args: {
+    ...defaultArgs,
+    searchable: true,
+    placeholder: 'Search nodes...'
+  }
+};
+
+export const DefaultExpandAll: Story = {
+  args: {
+    ...defaultArgs,
+    defaultExpandAll: true
+  }
+};

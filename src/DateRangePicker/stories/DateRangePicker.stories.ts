@@ -77,3 +77,26 @@ export const HideHeader: Story = {
     showHeader: false
   }
 };
+
+export const OneTap: Story = {
+  args: {
+    ...defaultArgs,
+    oneTap: true
+  }
+};
+
+export const WithRanges: Story = {
+  args: {
+    ...defaultArgs,
+    ranges: [
+      {
+        label: 'Today',
+        value: [new Date(), new Date()]
+      },
+      {
+        label: 'Last 7 days',
+        value: [new Date(Date.now() - 6 * 24 * 60 * 60 * 1000), new Date()]
+      }
+    ]
+  }
+};

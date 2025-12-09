@@ -1,6 +1,7 @@
 import React from 'react';
 import type { StoryObj } from '@storybook/react';
 import Breadcrumb from '../Breadcrumb';
+import HomeIcon from '@rsuite/icons/legacy/Home';
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.scss';
 
@@ -45,5 +46,47 @@ export const WithExpand: Story = {
       <Breadcrumb.Item key={6}>Item F</Breadcrumb.Item>
     ],
     maxItems: 5
+  }
+};
+
+export const WithActive: Story = {
+  args: {
+    children: [
+      <Breadcrumb.Item key="1">Home</Breadcrumb.Item>,
+      <Breadcrumb.Item key="2">Components</Breadcrumb.Item>,
+      <Breadcrumb.Item key="3" active>
+        Breadcrumb
+      </Breadcrumb.Item>
+    ]
+  }
+};
+
+export const WithLinks: Story = {
+  args: {
+    children: [
+      <Breadcrumb.Item key="1" href="/">
+        Home
+      </Breadcrumb.Item>,
+      <Breadcrumb.Item key="2" href="/components">
+        Components
+      </Breadcrumb.Item>,
+      <Breadcrumb.Item key="3" active>
+        Breadcrumb
+      </Breadcrumb.Item>
+    ]
+  }
+};
+
+export const WithIcons: Story = {
+  args: {
+    children: [
+      <Breadcrumb.Item key="1" icon={<HomeIcon />}>
+        Home
+      </Breadcrumb.Item>,
+      <Breadcrumb.Item key="2">Components</Breadcrumb.Item>,
+      <Breadcrumb.Item key="3" active>
+        Breadcrumb
+      </Breadcrumb.Item>
+    ]
   }
 };

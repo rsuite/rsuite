@@ -61,3 +61,10 @@ export const Subtle: Story = {
     appearance: 'subtle'
   }
 };
+
+export const Collapsed: Story = {
+  args: {
+    ...defaultArgs,
+    expanded: false
+  }
+};

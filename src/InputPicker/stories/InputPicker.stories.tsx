@@ -86,3 +86,21 @@ export const Group: Story = {
     groupBy: 'role'
   }
 };
+
+export const Searchable: Story = {
+  args: {
+    ...defaultArgs,
+    searchable: true,
+    placeholder: 'Search options...'
+  }
+};
+
+export const Block: Story = {
+  args: {
+    ...defaultArgs,
+    block: true,
+    style: {
+      width: 320
+    }
+  }
+};
