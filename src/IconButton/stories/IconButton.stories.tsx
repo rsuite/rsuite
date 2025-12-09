@@ -139,3 +139,10 @@ export const Size: Story = {
     ...defaultProps
   }
 };
+
+export const Circle: Story = {
+  args: {
+    ...defaultProps,
+    circle: true
+  }
+};

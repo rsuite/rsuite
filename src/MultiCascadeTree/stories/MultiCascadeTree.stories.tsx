@@ -101,3 +101,11 @@ export const AsyncLoadData: Story = {
     }
   }
 };
+
+export const Searchable: Story = {
+  args: {
+    ...defaultArgs,
+    searchable: true,
+    placeholder: 'Search in tree...'
+  }
+};

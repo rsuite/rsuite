@@ -79,3 +79,21 @@ export const Size: Story = {
     size: 'lg'
   }
 };
+
+export const Searchable: Story = {
+  args: {
+    ...defaultArgs,
+    searchable: true,
+    placeholder: 'Search in tree...'
+  }
+};
+
+export const Block: Story = {
+  args: {
+    ...defaultArgs,
+    block: true,
+    style: {
+      width: 300
+    }
+  }
+};

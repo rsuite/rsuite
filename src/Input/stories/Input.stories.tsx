@@ -8,6 +8,7 @@ import { createMeta } from '@/storybook/utils';
 import '../styles/index.scss';
 import '../../InputGroup/styles/index.scss';
 import '../../Stack/styles/index.scss';
+import '../../Button/styles/index.scss';
 
 const meta = createMeta(Input);
 
@@ -35,61 +36,75 @@ export const Disabled: Story = {
   }
 };
 
-export const Readnly: Story = {
+export const Readonly: Story = {
   args: {
     ...defaultArgs,
-    readOnly: true
+    readOnly: true,
+    defaultValue: 'Readonly value'
   }
 };
 
 export const Plaintext: Story = {
   args: {
     ...defaultArgs,
-    plaintext: true
+    plaintext: true,
+    defaultValue: 'Plaintext value'
   }
 };
 
-export const Size: Story = {
+export const WithPlaceholder: Story = {
   args: {
     ...defaultArgs,
-    size: 'lg'
+    placeholder: 'Enter your text here...'
   }
+};
+
+export const Sizes: Story = {
+  render: () => (
+    <Stack spacing={10} direction="column" alignItems="flex-start">
+      <Input size="xs" placeholder="Extra Small" style={{ width: 200 }} />
+      <Input size="sm" placeholder="Small" style={{ width: 200 }} />
+      <Input size="md" placeholder="Medium (default)" style={{ width: 200 }} />
+      <Input size="lg" placeholder="Large" style={{ width: 200 }} />
+    </Stack>
+  )
 };
 
 export const Textarea: Story = {
   args: {
     ...defaultArgs,
-    as: 'textarea'
+    as: 'textarea',
+    rows: 5
   }
 };
 
 export const InputGroupAddon: Story = {
   render: props => (
     <Stack spacing={10} direction="column" alignItems="flex-start">
-      <InputGroup>
+      <InputGroup style={{ width: 300 }}>
         <InputGroup.Addon> @</InputGroup.Addon>
-        <Input {...props} />
+        <Input {...props} placeholder="username" />
       </InputGroup>
 
-      <InputGroup>
-        <Input {...props} />
+      <InputGroup style={{ width: 300 }}>
+        <Input {...props} placeholder="domain" />
         <InputGroup.Addon>.com</InputGroup.Addon>
       </InputGroup>
 
-      <InputGroup>
+      <InputGroup style={{ width: 300 }}>
         <InputGroup.Addon>$</InputGroup.Addon>
-        <Input {...props} />
+        <Input {...props} placeholder="amount" />
         <InputGroup.Addon>.00</InputGroup.Addon>
       </InputGroup>
 
-      <InputGroup>
-        <Input {...props} />
+      <InputGroup style={{ width: 300 }}>
+        <Input {...props} placeholder="from" />
         <InputGroup.Addon>to</InputGroup.Addon>
-        <Input {...props} />
+        <Input {...props} placeholder="to" />
       </InputGroup>
 
-      <InputGroup>
-        <Input {...props} />
+      <InputGroup style={{ width: 300 }}>
+        <Input {...props} placeholder="Search" />
         <InputGroup.Addon>
           <SearchIcon />
         </InputGroup.Addon>
@@ -104,30 +119,30 @@ export const InputGroupAddon: Story = {
 export const InputGroupInside: Story = {
   render: props => (
     <Stack spacing={10} direction="column" alignItems="flex-start">
-      <InputGroup inside>
+      <InputGroup inside style={{ width: 300 }}>
         <InputGroup.Addon> @</InputGroup.Addon>
-        <Input {...props} />
+        <Input {...props} placeholder="username" />
       </InputGroup>
 
-      <InputGroup inside>
-        <Input {...props} />
+      <InputGroup inside style={{ width: 300 }}>
+        <Input {...props} placeholder="domain" />
         <InputGroup.Addon>.com</InputGroup.Addon>
       </InputGroup>
 
-      <InputGroup inside>
+      <InputGroup inside style={{ width: 300 }}>
         <InputGroup.Addon>$</InputGroup.Addon>
-        <Input {...props} />
+        <Input {...props} placeholder="amount" />
         <InputGroup.Addon>.00</InputGroup.Addon>
       </InputGroup>
 
-      <InputGroup inside>
-        <Input {...props} />
+      <InputGroup inside style={{ width: 300 }}>
+        <Input {...props} placeholder="from" />
         <InputGroup.Addon>to</InputGroup.Addon>
-        <Input {...props} />
+        <Input {...props} placeholder="to" />
       </InputGroup>
 
-      <InputGroup inside>
-        <Input {...props} />
+      <InputGroup inside style={{ width: 300 }}>
+        <Input {...props} placeholder="Search" />
         <InputGroup.Addon>
           <SearchIcon />
         </InputGroup.Addon>
@@ -137,4 +152,29 @@ export const InputGroupInside: Story = {
   args: {
     ...defaultArgs
   }
+};
+
+export const InputGroupWithButton: Story = {
+  render: () => (
+    <Stack spacing={10} direction="column" alignItems="flex-start">
+      <InputGroup style={{ width: 300 }}>
+        <Input placeholder="Search..." />
+        <InputGroup.Button>
+          <SearchIcon />
+        </InputGroup.Button>
+      </InputGroup>
+
+      <InputGroup style={{ width: 300 }}>
+        <Input placeholder="Enter URL" />
+        <InputGroup.Button appearance="primary">Go</InputGroup.Button>
+      </InputGroup>
+
+      <InputGroup style={{ width: 300 }}>
+        <InputGroup.Button>
+          <SearchIcon />
+        </InputGroup.Button>
+        <Input placeholder="Search with button on left" />
+      </InputGroup>
+    </Stack>
+  )
 };

@@ -42,10 +42,25 @@ export const Default: Story = {
   }
 };
 
+export const BodyFill: Story = {
+  args: {
+    ...defaultArgs,
+    bordered: true,
+    bodyFill: true
+  }
+};
+
 export const Bordered: Story = {
   args: {
     ...defaultArgs,
     bordered: true
+  }
+};
+
+export const Disabled: Story = {
+  args: {
+    ...defaultArgs,
+    disabled: true
   }
 };
 

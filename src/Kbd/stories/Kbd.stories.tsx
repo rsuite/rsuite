@@ -1,3 +1,4 @@
+import React from 'react';
 import type { StoryObj } from '@storybook/react';
 import Kbd from '../Kbd';
 import { createMeta } from '@/storybook/utils';
@@ -27,5 +28,15 @@ export const Sizes: Story = {
   args: {
     ...defaultArgs,
     size: 'lg'
+  }
+};
+
+export const Combination: Story = {
+  args: {
+    children: (
+      <>
+        <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> + <Kbd>P</Kbd>
+      </>
+    )
   }
 };

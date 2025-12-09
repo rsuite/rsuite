@@ -54,3 +54,20 @@ export const HideControls: Story = {
     showControls: false
   }
 };
+
+export const Controlled: Story = {
+  render: props => {
+    const [value, setValue] = React.useState<string | Date | null>('Edit me');
+    return (
+      <InlineEdit
+        {...props}
+        value={value as any}
+        onChange={next => setValue(next as any)}
+        defaultValue={undefined}
+      />
+    );
+  },
+  args: {
+    ...defaultProps
+  }
+};

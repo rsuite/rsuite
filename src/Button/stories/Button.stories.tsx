@@ -156,10 +156,45 @@ export const Size: Story = {
   }
 };
 
-export const WithIcons = {
+export const WithIcons: Story = {
   render: AppearanceTemplate,
   args: {
     ...defaultProps,
     startIcon: <AddOutlineIcon />
+  }
+};
+
+export const WithEndIcon: Story = {
+  render: AppearanceTemplate,
+  args: {
+    ...defaultProps,
+    endIcon: <AddOutlineIcon />
+  }
+};
+
+export const WithBothIcons: Story = {
+  render: AppearanceTemplate,
+  args: {
+    ...defaultProps,
+    startIcon: <AddOutlineIcon />,
+    endIcon: <AddOutlineIcon />
+  }
+};
+
+export const IconOnly: Story = {
+  args: {
+    ...defaultProps,
+    children: <AddOutlineIcon />,
+    circle: true
+  }
+};
+
+export const AsLink: Story = {
+  args: {
+    ...defaultProps,
+    as: 'a',
+    href: 'https://rsuitejs.com',
+    appearance: 'link',
+    children: 'RSuite Website'
   }
 };
