@@ -49,6 +49,8 @@ async function createConfig() {
     },
     test: {
       include: [testPatterns],
+      // Exclude SSR tests from browser mode - they run in separate workspace project
+      exclude: ['**/*.ssr.spec.{ts,tsx}'],
       setupFiles: ['vitest.setup.ts'],
       coverage: {
         provider: 'istanbul',
