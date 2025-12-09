@@ -102,7 +102,8 @@ describe('SSR Integration', () => {
       // Manually add styles that Box would add during rendering
       // In real SSR, this would happen via useStyled hook during renderToString
       // but since effects don't run in renderToString, we simulate it
-      // Using a realistic class name pattern that matches useStyled's generated classes (rs-{prefix}-{hash})
+      // Note: The specific class name doesn't matter for this test - we're testing
+      // that StyleManager correctly routes styles to the collector when one is set
       StyleManager.addRule(
         '.rs-box-abc123',
         '--rs-box-width: 200px; width: var(--rs-box-width); --rs-box-height: 100px; height: var(--rs-box-height);'
