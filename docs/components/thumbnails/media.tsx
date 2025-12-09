@@ -5,16 +5,18 @@ import React from 'react';
  */
 export const Avatar: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle
-      cx="40"
-      cy="40"
-      r="20"
+    <rect
+      x="10"
+      y="16"
+      width="60"
+      height="48"
+      rx="4"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
-    <circle cx="40" cy="35" r="7" fill="var(--rs-thumbnail-color-primary)" />
-    <path d="M25 55C30 45 50 45 55 55" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <circle cx="40" cy="34" r="8" fill="var(--rs-thumbnail-color-primary)" />
+    <path d="M26 54C26 46 32 46 40 46C48 46 54 46 54 54" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
 
@@ -23,68 +25,17 @@ export const Avatar: React.FC = () => (
  */
 export const Icon: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect
-      x="15"
-      y="15"
-      width="20"
-      height="20"
-      rx="4"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <path
-      d="M20 25H30M25 20V30"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
+    <rect x="16" y="16" width="20" height="20" rx="4" fill="var(--rs-thumbnail-bg-secondary)" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <path d="M22 26H30M26 22V30" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" strokeLinecap="round" />
 
-    <rect
-      x="45"
-      y="15"
-      width="20"
-      height="20"
-      rx="4"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <circle cx="55" cy="25" r="5" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <rect x="44" y="16" width="20" height="20" rx="4" fill="var(--rs-thumbnail-bg-secondary)" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <circle cx="54" cy="26" r="4" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
 
-    <rect
-      x="15"
-      y="45"
-      width="20"
-      height="20"
-      rx="4"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <path
-      d="M20 55L30 55"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
+    <rect x="16" y="44" width="20" height="20" rx="4" fill="var(--rs-thumbnail-bg-secondary)" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <path d="M22 54H30" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" strokeLinecap="round" />
 
-    <rect
-      x="45"
-      y="45"
-      width="20"
-      height="20"
-      rx="4"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <path
-      d="M50 50L60 60M60 50L50 60"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
+    <rect x="44" y="44" width="20" height="20" rx="4" fill="var(--rs-thumbnail-bg-secondary)" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <path d="M49 49L59 59M59 49L49 59" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
 
@@ -94,17 +45,17 @@ export const Icon: React.FC = () => (
 export const Image: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="20"
-      width="50"
-      height="40"
+      x="10"
+      y="16"
+      width="60"
+      height="48"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
-    <circle cx="30" cy="35" r="5" fill="var(--rs-thumbnail-color-primary)" />
-    <path d="M15 50L30 40L40 50L65 35" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
-    <path d="M40 50L50 45L65 55" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <circle cx="30" cy="32" r="6" fill="var(--rs-thumbnail-color-primary)" />
+    <path d="M10 52L26 40L40 50L60 36L70 42" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" strokeLinejoin="round" />
+    <path d="M40 64L50 56L70 64" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" strokeLinejoin="round" />
   </svg>
 );

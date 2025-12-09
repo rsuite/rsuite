@@ -7,98 +7,60 @@ import React from 'react';
  */
 export const DisclosureAccordion: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* First panel - expanded */}
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="15"
-      rx="4"
+      x="10"
+      y="16"
+      width="60"
+      height="14"
+      rx="2"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-    <line
-      x1="25"
-      y1="22.5"
-      x2="40"
-      y2="22.5"
+    <path
+      d="M60 19L64 23L60 27"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="1.5"
       strokeLinecap="round"
+      strokeLinejoin="round"
     />
-
-    {/* Indicator for expanded panel */}
-    <circle
-      cx="53"
-      cy="22.5"
-      r="3"
-      fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="0.5"
-    />
-
-    {/* Second panel - collapsed */}
     <rect
-      x="15"
-      y="32.5"
-      width="50"
-      height="15"
-      rx="4"
-      fill="transparent"
+      x="10"
+      y="34"
+      width="60"
+      height="14"
+      rx="2"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-    <line
-      x1="25"
-      y1="40"
-      x2="40"
-      y2="40"
+    <path
+      d="M60 37L64 41L60 45"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="1.5"
       strokeLinecap="round"
+      strokeLinejoin="round"
     />
-
-    {/* Indicator for collapsed panel */}
-    <circle
-      cx="53"
-      cy="40"
-      r="3"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-    />
-
-    {/* Third panel - collapsed */}
     <rect
-      x="15"
-      y="50"
-      width="50"
-      height="15"
-      rx="4"
-      fill="transparent"
+      x="10"
+      y="52"
+      width="60"
+      height="14"
+      rx="2"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-    <line
-      x1="25"
-      y1="57.5"
-      x2="40"
-      y2="57.5"
+    <path
+      d="M60 55L64 59L60 63"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="1.5"
       strokeLinecap="round"
+      strokeLinejoin="round"
     />
-
-    {/* Indicator for collapsed panel */}
-    <circle
-      cx="53"
-      cy="57.5"
-      r="3"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-    />
+    <rect x="16" y="21" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="16" y="39" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+    <rect x="16" y="57" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
   </svg>
 );
 
@@ -108,90 +70,24 @@ export const DisclosureAccordion: React.FC = () => (
 export const Tabs: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="25"
-      width="50"
-      height="40"
+      x="10"
+      y="28"
+      width="60"
+      height="36"
       rx="4"
-      fill="transparent"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-    <rect
-      x="15"
-      y="15"
-      width="15"
-      height="10"
-      rx="4 4 0 0"
-      fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="30"
-      y="15"
-      width="15"
-      height="10"
-      rx="4 4 0 0"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="45"
-      y="15"
-      width="15"
-      height="10"
-      rx="4 4 0 0"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <line
-      x1="22.5"
-      y1="20"
-      x2="22.5"
-      y2="20"
-      stroke="white"
-      strokeWidth="3"
-      strokeLinecap="round"
-    />
-    <line
-      x1="37.5"
-      y1="20"
-      x2="37.5"
-      y2="20"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="3"
-      strokeLinecap="round"
-    />
-    <line
-      x1="52.5"
-      y1="20"
-      x2="52.5"
-      y2="20"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="3"
-      strokeLinecap="round"
-    />
-    <line
-      x1="25"
-      y1="40"
-      x2="55"
-      y2="40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="25"
-      y1="50"
-      x2="45"
-      y2="50"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
+    <path d="M10 28H70" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <path d="M10 40H70" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+
+    <path d="M10 28V20C10 17.7909 11.7909 16 14 16H26C28.2091 16 30 17.7909 30 20V28" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <path d="M30 28V22C30 19.7909 31.7909 18 34 18H46C48.2091 18 50 19.7909 50 22V28" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" opacity="0.5" />
+    <path d="M50 28V22C50 19.7909 51.7909 18 54 18H66C68.2091 18 70 19.7909 70 22V28" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" opacity="0.5" />
+
+    <rect x="16" y="46" width="32" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="16" y="54" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
   </svg>
 );
 
@@ -201,50 +97,19 @@ export const Tabs: React.FC = () => (
 export const VisuallyHidden: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="30"
-      width="50"
-      height="20"
+      x="10"
+      y="28"
+      width="60"
+      height="24"
       rx="4"
-      fill="transparent"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeDasharray="3 2"
+      strokeWidth="2"
+      strokeDasharray="4 4"
     />
-    <circle
-      cx="40"
-      cy="40"
-      r="10"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeDasharray="3 2"
-    />
-    <path
-      d="M30 40L50 40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeDasharray="3 2"
-    />
-    <path
-      d="M40 30L40 50"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeDasharray="3 2"
-    />
-    <path
-      d="M30 30L50 50"
-      stroke="var(--rs-thumbnail-color-high)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <path
-      d="M50 30L30 50"
-      stroke="var(--rs-thumbnail-color-high)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
+    <path d="M25 40L35 40" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <circle cx="40" cy="40" r="8" fill="none" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <path d="M45 40L55 40" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <path d="M34 34L46 46" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
   </svg>
 );
