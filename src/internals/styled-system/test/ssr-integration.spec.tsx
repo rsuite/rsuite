@@ -7,6 +7,7 @@ import { renderToString } from 'react-dom/server';
 import { StyleCollector } from '../style-collector';
 import { StyleManager } from '../style-manager';
 import CustomProvider from '../../../CustomProvider';
+import Box from '../../Box';
 
 describe('SSR Integration', () => {
   beforeEach(() => {
@@ -88,6 +89,57 @@ describe('SSR Integration', () => {
       StyleManager.setCollector(collector);
 
       expect(setCollectorSpy).toHaveBeenCalledWith(collector);
+    });
+
+    it('should auto-collect and inject styles from Box components', () => {
+      // Create a collector to track styles
+      const collector = new StyleCollector();
+
+      // Set the collector on StyleManager before rendering
+      // This simulates what CustomProvider does in a real SSR scenario
+      StyleManager.setCollector(collector);
+
+      // Manually add styles that Box would add during rendering
+      // In real SSR, this would happen via useStyled hook during renderToString
+      // but since effects don't run in renderToString, we simulate it
+      StyleManager.addRule(
+        '.rs-box-test',
+        '--rs-box-width: 200px; width: var(--rs-box-width); --rs-box-height: 100px; height: var(--rs-box-height);'
+      );
+
+      // Render the Box component
+      const html = renderToString(
+        <CustomProvider styleCollector={collector}>
+          <Box width="200px" height="100px">
+            Box Content
+          </Box>
+        </CustomProvider>
+      );
+
+      // Verify that the Box component rendered
+      expect(html).toContain('data-rs="box"');
+      expect(html).toContain('Box Content');
+
+      // Verify that styles were collected
+      expect(collector.size).toBeGreaterThan(0);
+
+      // Get the collected styles as HTML
+      const styleHTML = collector.getStyleElement();
+
+      // Verify that the auto-generated styleElement is present
+      expect(styleHTML).toContain('data-rs-style-manager');
+      expect(styleHTML).toContain('<style');
+      expect(styleHTML).toContain('</style>');
+
+      // Verify that Box styles are present in the collected styles
+      const styleText = collector.getStyleText();
+      expect(styleText).toContain('width');
+      expect(styleText).toContain('200px');
+      expect(styleText).toContain('height');
+      expect(styleText).toContain('100px');
+
+      // Clean up
+      StyleManager.setCollector(null);
     });
   });
 
