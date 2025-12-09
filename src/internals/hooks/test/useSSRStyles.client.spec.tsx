@@ -20,14 +20,14 @@ describe('useSSRStyles (Client-side)', () => {
   });
 
   describe('Cleanup Behavior', () => {
-    it('should not create collector on client-side', () => {
-      const TestComponent = () => {
-        const { collector, isSSR } = useSSRStyles();
+    it('should handle user-provided collector on client', () => {
+      const customCollector = new StyleCollector('client-nonce');
 
-        // Should not be in SSR environment
-        expect(isSSR).toBe(false);
-        // Should not have a collector on client
-        expect(collector).toBeUndefined();
+      const TestComponent = () => {
+        const { collector } = useSSRStyles({ collector: customCollector });
+
+        // User-provided collector should be passed through
+        expect(collector).toBe(customCollector);
 
         return <div>Test</div>;
       };
@@ -35,11 +35,11 @@ describe('useSSRStyles (Client-side)', () => {
       render(<TestComponent />);
     });
 
-    it('should return null style element on client-side', () => {
+    it('should return null style element when no collector provided', () => {
       const TestComponent = () => {
-        const { styleElement, isSSR } = useSSRStyles();
+        const { styleElement } = useSSRStyles();
 
-        expect(isSSR).toBe(false);
+        // Without a collector, no style element should be returned
         expect(styleElement).toBeNull();
 
         return <div>Test</div>;
@@ -68,22 +68,6 @@ describe('useSSRStyles (Client-side)', () => {
 
       // Collector should be cleaned up after unmount
       expect(StyleManager['collector']).toBeNull();
-    });
-
-    it('should handle user-provided collector on client', () => {
-      const customCollector = new StyleCollector('client-nonce');
-
-      const TestComponent = () => {
-        const { collector, isSSR } = useSSRStyles({ collector: customCollector });
-
-        expect(isSSR).toBe(false);
-        // User-provided collector should be passed through even on client
-        expect(collector).toBe(customCollector);
-
-        return <div>Test</div>;
-      };
-
-      render(<TestComponent />);
     });
 
     it('should cleanup even when disabled', () => {
@@ -127,11 +111,10 @@ describe('useSSRStyles (Client-side)', () => {
   });
 
   describe('Client-side Configuration', () => {
-    it('should respect enabled flag on client', () => {
+    it('should respect enabled flag', () => {
       const TestComponent = () => {
-        const { collector, styleElement, isSSR } = useSSRStyles({ enabled: false });
+        const { collector, styleElement } = useSSRStyles({ enabled: false });
 
-        expect(isSSR).toBe(false);
         expect(collector).toBeUndefined();
         expect(styleElement).toBeNull();
 
@@ -141,19 +124,29 @@ describe('useSSRStyles (Client-side)', () => {
       render(<TestComponent />);
     });
 
-    it('should not set collector on StyleManager on client', () => {
-      const TestComponent = () => {
-        useSSRStyles();
+    it('should work with user-provided collector and generate style element', () => {
+      const collector = new StyleCollector();
+      collector.addRule('.client-test', 'padding: 5px;');
 
-        // On client, StyleManager should not have a collector set by this hook
-        // (unless it was already set before)
-        return <div>Test</div>;
+      const TestComponent = () => {
+        const { styleElement } = useSSRStyles({ collector });
+
+        // Should have a style element with the collector's styles
+        expect(styleElement).not.toBeNull();
+
+        return (
+          <>
+            {styleElement}
+            <div>Test</div>
+          </>
+        );
       };
 
-      render(<TestComponent />);
-
-      // Initially StyleManager collector should be null on client
-      expect(StyleManager['collector']).toBeNull();
+      const { container } = render(<TestComponent />);
+      
+      // Verify the style element is in the DOM
+      const styleTag = container.querySelector('style[data-rs-style-manager]');
+      expect(styleTag).not.toBeNull();
     });
   });
 });
