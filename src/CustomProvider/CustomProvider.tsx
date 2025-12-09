@@ -47,20 +47,19 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
   // Use user-provided collector or auto-created one
   const styleCollector = userStyleCollector || autoCollector;
 
-  const value = useMemo(
-    () => ({
-      classPrefix,
-      theme,
-      toasters,
-      disableRipple,
-      components,
-      toastContainer,
-      csp,
-      styleCollector,
-      ...rest
-    }),
-    [classPrefix, theme, disableRipple, components, toastContainer, csp, styleCollector, rest]
-  );
+  // Note: We don't use useMemo here because `rest` contains spread props (locale, rtl, formatDate, parseDate)
+  // which are new object references on every render, making memoization ineffective.
+  const value = {
+    classPrefix,
+    theme,
+    toasters,
+    disableRipple,
+    components,
+    toastContainer,
+    csp,
+    styleCollector,
+    ...rest
+  };
 
   const iconContext = useMemo(
     () => ({ classPrefix: iconClassPrefix, csp, disableInlineStyles }),
