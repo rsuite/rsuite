@@ -60,3 +60,6 @@ lib/
 
 # generated
 docs/public/examples
+
+# test screenshots
+**/__screenshots__/
