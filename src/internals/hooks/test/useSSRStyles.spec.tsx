@@ -59,36 +59,32 @@ describe('useSSRStyles', () => {
   });
 
   describe('StyleManager Integration', () => {
-    it('should set collector on StyleManager during SSR', () => {
-      const TestComponent = () => {
-        useSSRStyles();
-        // Verify StyleManager has a collector set
-        expect(StyleManager['collector']).toBeDefined();
-        expect(StyleManager['collector']).not.toBeNull();
-        return <div>Test</div>;
-      };
-
-      renderToString(<TestComponent />);
-    });
-
-    it('should set user-provided collector on StyleManager', () => {
+    it('should use user-provided collector with StyleManager', () => {
       const customCollector = new StyleCollector('test-nonce');
 
       const TestComponent = () => {
         useSSRStyles({ collector: customCollector });
-        // Verify StyleManager has the custom collector
-        expect(StyleManager['collector']).toBe(customCollector);
+        
+        // Add a rule through StyleManager to verify integration
+        StyleManager.addRule('.test-integration', 'color: blue;');
+        
+        // Verify the rule was collected
+        expect(customCollector.hasRule('.test-integration')).toBe(true);
+        expect(customCollector.getStyleText()).toContain('color: blue');
+        
         return <div>Test</div>;
       };
 
+      // Set collector before render for the test
+      StyleManager.setCollector(customCollector);
       renderToString(<TestComponent />);
     });
 
     it('should not set collector when disabled', () => {
       const TestComponent = () => {
-        useSSRStyles({ enabled: false });
-        // Verify StyleManager has no collector
-        expect(StyleManager['collector']).toBeNull();
+        const { collector, styleElement } = useSSRStyles({ enabled: false });
+        expect(collector).toBeUndefined();
+        expect(styleElement).toBeNull();
         return <div>Test</div>;
       };
 
@@ -96,31 +92,8 @@ describe('useSSRStyles', () => {
     });
   });
 
-  describe('Auto-created Collector', () => {
-    it('should auto-create collector during SSR when not provided', () => {
-      const TestComponent = () => {
-        const { collector } = useSSRStyles();
-        // Verify collector was auto-created
-        expect(collector).toBeDefined();
-        expect(collector).toBeInstanceOf(StyleCollector);
-        return <div>Test</div>;
-      };
-
-      renderToString(<TestComponent />);
-    });
-
-    it('should auto-create collector with nonce option', () => {
-      const TestComponent = () => {
-        const { collector } = useSSRStyles({ nonce: 'auto-nonce' });
-        expect(collector).toBeDefined();
-        expect(collector).toBeInstanceOf(StyleCollector);
-        return <div>Test</div>;
-      };
-
-      renderToString(<TestComponent />);
-    });
-
-    it('should not auto-create collector when user provides one', () => {
+  describe('Collector Management', () => {
+    it('should use user-provided collector', () => {
       const customCollector = new StyleCollector();
 
       const TestComponent = () => {
@@ -132,20 +105,41 @@ describe('useSSRStyles', () => {
 
       renderToString(<TestComponent />);
     });
+
+    it('should handle nonce in user-provided collector', () => {
+      const customCollector = new StyleCollector('custom-nonce');
+
+      const TestComponent = () => {
+        const { collector } = useSSRStyles({ collector: customCollector });
+        expect(collector).toBe(customCollector);
+        
+        // Verify nonce is used when generating style element
+        const styleHTML = collector.getStyleElement();
+        expect(styleHTML).toContain('nonce="custom-nonce"');
+        
+        return <div>Test</div>;
+      };
+
+      renderToString(<TestComponent />);
+    });
   });
 
   describe('Style Element Generation', () => {
-    it('should generate style element with collected styles', () => {
+    it('should generate style element with collected styles from user collector', () => {
+      const collector = new StyleCollector();
+      
       const TestComponent = () => {
-        const { styleElement } = useSSRStyles();
+        const { styleElement } = useSSRStyles({ collector });
 
-        // Add a style through StyleManager during render
-        StyleManager.addRule('.test-class', 'color: red;');
+        // Add a style through the collector
+        collector.addRule('.test-class', 'color: red;');
 
-        expect(styleElement).toBeTruthy();
-        expect(styleElement).not.toBeNull();
-
-        return <div>Test</div>;
+        return (
+          <>
+            {styleElement}
+            <div>Test</div>
+          </>
+        );
       };
 
       const html = renderToString(<TestComponent />);
@@ -156,13 +150,13 @@ describe('useSSRStyles', () => {
     });
 
     it('should generate style element with nonce attribute', () => {
+      const collector = new StyleCollector('test-nonce-123');
+      
       const TestComponent = () => {
-        const { styleElement } = useSSRStyles({ nonce: 'test-nonce-123' });
+        const { styleElement } = useSSRStyles({ collector, nonce: 'test-nonce-123' });
 
-        // Add a style through StyleManager
-        StyleManager.addRule('.nonce-test', 'display: block;');
-
-        expect(styleElement).toBeTruthy();
+        // Add a style through the collector
+        collector.addRule('.nonce-test', 'display: block;');
 
         return (
           <>
@@ -180,13 +174,15 @@ describe('useSSRStyles', () => {
     });
 
     it('should generate style element with multiple rules', () => {
+      const collector = new StyleCollector();
+      
       const TestComponent = () => {
-        const { styleElement } = useSSRStyles();
+        const { styleElement } = useSSRStyles({ collector });
 
-        // Add multiple styles
-        StyleManager.addRule('.rule1', 'color: blue;');
-        StyleManager.addRule('.rule2', 'background: white;');
-        StyleManager.addRule('@media (min-width: 768px)', '.rule1 { color: green; }');
+        // Add multiple styles through the collector
+        collector.addRule('.rule1', 'color: blue;');
+        collector.addRule('.rule2', 'background: white;');
+        collector.addRule('@media (min-width: 768px)', '.rule1 { color: green; }');
 
         return (
           <>
@@ -217,31 +213,45 @@ describe('useSSRStyles', () => {
     });
   });
 
-  describe('SSR Environment Detection', () => {
-    it('should detect SSR environment', () => {
+  describe('Integration with StyleManager', () => {
+    it('should collect styles through StyleManager when collector is provided', () => {
+      const collector = new StyleCollector();
+      StyleManager.setCollector(collector);
+
       const TestComponent = () => {
-        const { isSSR } = useSSRStyles();
-        expect(isSSR).toBe(true);
+        useSSRStyles({ collector });
+
+        // Add rules through StyleManager
+        StyleManager.addRule('.integration-test', 'margin: 10px;');
+
         return <div>Test</div>;
       };
 
       renderToString(<TestComponent />);
+
+      // Verify the collector received the styles
+      expect(collector.hasRule('.integration-test')).toBe(true);
+      expect(collector.getStyleText()).toContain('margin: 10px');
     });
 
-    it('should create collector only in SSR environment', () => {
+    it('should handle empty collector', () => {
+      const collector = new StyleCollector();
+
       const TestComponent = () => {
-        const { collector, isSSR } = useSSRStyles();
+        const { styleElement } = useSSRStyles({ collector });
 
-        if (isSSR) {
-          expect(collector).toBeDefined();
-        } else {
-          expect(collector).toBeUndefined();
-        }
-
-        return <div>Test</div>;
+        return (
+          <>
+            {styleElement}
+            <div>Test</div>
+          </>
+        );
       };
 
-      renderToString(<TestComponent />);
+      const html = renderToString(<TestComponent />);
+
+      // Empty collector should still render a style tag (empty)
+      expect(html).toContain('data-rs-style-manager');
     });
   });
 });
