@@ -98,8 +98,8 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
 
   const { csp } = useContext(CustomContext);
 
-  // Generate a stable unique ID based on CSS variables content
-  // Using useMemo ensures the ID updates when cssVars change
+  // Generate a stable ID based on CSS variables content
+  // Components with identical CSS variables will share the same ID and styles
   // This ensures SSR/CSR consistency - same props = same ID
   const componentId = useMemo(() => {
     const stableId = generateStableId(cssVars, prefix);
