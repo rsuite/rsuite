@@ -1,33 +1,30 @@
 import React from 'react';
 
 /**
- * Badge
+ * Badge component thumbnail
  */
 export const Badge: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
       x="20"
-      y="25"
-      width="30"
-      height="30"
+      y="26"
+      width="32"
+      height="32"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-    <circle cx="46" cy="25" r="10" fill="var(--rs-red-500)" stroke="white" strokeWidth="2" />
-    <text x="46" y="29" fontSize="10" textAnchor="middle" fill="transparent" fontWeight="bold">
-      5
-    </text>
+    <circle cx="54" cy="24" r="8" fill="var(--rs-red-500)" stroke="var(--rs-bg-card)" strokeWidth="2" />
   </svg>
 );
 
 /**
- * Loader
+ * Loader component thumbnail
  */
 export const Loader: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="40" cy="40" r="20" stroke="var(--rs-primary-200)" strokeWidth="4" />
+    <circle cx="40" cy="40" r="20" stroke="var(--rs-thumbnail-bg-secondary)" strokeWidth="4" />
     <path
       d="M40 20C51.0457 20 60 28.9543 60 40"
       stroke="var(--rs-thumbnail-color-primary)"
@@ -38,217 +35,133 @@ export const Loader: React.FC = () => (
 );
 
 /**
- * Message
+ * Message component thumbnail
  */
 export const Message: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
       x="10"
-      y="25"
+      y="24"
       width="60"
-      height="30"
+      height="32"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="2"
-    />
-    <circle
-      cx="25"
-      cy="40"
-      r="8"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <line
-      x1="40"
-      y1="35"
-      x2="60"
-      y2="35"
-      stroke="var(--rs-primary-300)"
       strokeWidth="2"
-      strokeLinecap="round"
     />
-    <line
-      x1="40"
-      y1="45"
-      x2="55"
-      y2="45"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
+    <circle cx="22" cy="40" r="6" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="34" y="34" width="28" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="34" y="42" width="20" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
   </svg>
 );
 
 /**
- * Notification
+ * Notification component thumbnail
  */
 export const Notification: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="50"
+      x="14"
+      y="16"
+      width="52"
+      height="48"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="2"
-    />
-    <rect
-      x="20"
-      y="20"
-      width="40"
-      height="10"
-      rx="2"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <line
-      x1="20"
-      y1="40"
-      x2="60"
-      y2="40"
-      stroke="var(--rs-primary-300)"
       strokeWidth="2"
-      strokeLinecap="round"
     />
-    <line
-      x1="20"
-      y1="50"
-      x2="50"
-      y2="50"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
+    <rect x="20" y="24" width="28" height="6" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <path d="M20 38H58" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" />
+    <path d="M20 46H58" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" />
+    <path d="M20 54H48" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" />
   </svg>
 );
 
 /**
- * Progress
+ * Progress component thumbnail
  */
 export const Progress: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="35"
-      width="50"
-      height="10"
-      rx="5"
+      x="10"
+      y="36"
+      width="60"
+      height="8"
+      rx="4"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-    <rect x="15" y="35" width="30" height="10" rx="5" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="14" y="38" width="30" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
   </svg>
 );
 
 /**
- * Placeholder
+ * Placeholder component thumbnail
  */
 export const Placeholder: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="50"
+      x="10"
+      y="16"
+      width="60"
+      height="48"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeDasharray="4 2"
+      strokeWidth="2"
+      strokeDasharray="4 4"
     />
+    <rect x="16" y="24" width="48" height="8" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.3" />
+    <rect x="16" y="38" width="48" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.2" />
+    <rect x="16" y="46" width="36" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.2" />
+    <rect x="16" y="54" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.2" />
+  </svg>
+);
+
+/**
+ * Toaster component thumbnail
+ */
+export const Toaster: React.FC = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="20"
-      y="20"
-      width="40"
-      height="10"
-      rx="2"
+      x="16"
+      y="16"
+      width="48"
+      height="20"
+      rx="4"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
+      strokeWidth="2"
     />
     <rect
-      x="20"
-      y="35"
-      width="40"
-      height="5"
-      rx="2"
+      x="22"
+      y="36"
+      width="36"
+      height="12"
+      rx="4"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
+      strokeWidth="2"
+      opacity="0.6"
     />
     <rect
-      x="20"
-      y="45"
-      width="30"
-      height="5"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
-    <rect
-      x="20"
-      y="55"
+      x="30"
+      y="48"
       width="20"
-      height="5"
-      rx="2"
+      height="12"
+      rx="4"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
+      strokeWidth="2"
+      opacity="0.3"
     />
   </svg>
 );
 
 /**
- * Toaster
+ * ProgressCircle component thumbnail
  */
-export const Toaster: React.FC = () => (
-  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect
-      x="15"
-      y="15"
-      width="50"
-      height="20"
-      rx="4"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="25"
-      y="35"
-      width="30"
-      height="15"
-      rx="4"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeDasharray="2 1"
-    />
-    <rect
-      x="35"
-      y="50"
-      width="10"
-      height="15"
-      rx="2"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeDasharray="2 1"
-    />
-  </svg>
-);
-
 export const ProgressCircle: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle
@@ -256,19 +169,15 @@ export const ProgressCircle: React.FC = () => (
       cy="40"
       r="20"
       stroke="var(--rs-thumbnail-bg-secondary)"
-      strokeWidth="5"
+      strokeWidth="4"
       fill="transparent"
     />
-
     <path
-      d="M 40,40 m 0,-20 a 20,20 0 1 1 0,40 a 20,20 0 1 1 0,-40"
+      d="M40 20C51.0457 20 60 28.9543 60 40C60 51.0457 51.0457 60 40 60"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="5"
+      strokeWidth="4"
       strokeLinecap="round"
-      strokeDasharray="125.6 188.4"
       fill="transparent"
     />
-
-    <circle cx="40" cy="40" r="12" fill="var(--rs-thumbnail-bg)" />
   </svg>
 );

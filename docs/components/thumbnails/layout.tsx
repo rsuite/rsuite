@@ -1,35 +1,25 @@
 import React from 'react';
 
 /**
- * Box 组件缩略图
+ * Box component thumbnail
  */
 export const Box: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="50"
+      x="16"
+      y="16"
+      width="48"
+      height="48"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="2"
-    />
-    <rect
-      x="25"
-      y="25"
-      width="30"
-      height="30"
-      rx="2"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
   </svg>
 );
 
 /**
- * Center 组件缩略图
+ * Center component thumbnail
  */
 export const Center: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -41,145 +31,62 @@ export const Center: React.FC = () => (
       rx="4"
       fill="var(--rs-thumbnail-bg)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeDasharray="4 2"
+      strokeWidth="2"
+      strokeDasharray="4 4"
     />
     <rect
-      x="25"
-      y="25"
-      width="30"
-      height="30"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      x="28"
+      y="28"
+      width="24"
+      height="24"
+      rx="4"
+      fill="var(--rs-thumbnail-color-primary)"
     />
-    <line
-      x1="40"
-      y1="10"
-      x2="40"
-      y2="25"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
-    <line
-      x1="40"
-      y1="55"
-      x2="40"
-      y2="70"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
-    <line
-      x1="10"
-      y1="40"
-      x2="25"
-      y2="40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
-    <line
-      x1="55"
-      y1="40"
-      x2="70"
-      y2="40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
+    <path d="M40 10V28" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeDasharray="2 2" />
+    <path d="M40 52V70" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeDasharray="2 2" />
+    <path d="M10 40H28" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeDasharray="2 2" />
+    <path d="M52 40H70" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeDasharray="2 2" />
   </svg>
 );
 
 /**
- * Divider 组件缩略图
+ * Divider component thumbnail
  */
 export const Divider: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect
-      x="15"
-      y="20"
-      width="50"
-      height="10"
-      rx="2"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
-    <line
-      x1="15"
-      y1="40"
-      x2="65"
-      y2="40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="2"
-    />
-    <rect
-      x="15"
-      y="50"
-      width="50"
-      height="10"
-      rx="2"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
+    <rect x="20" y="24" width="40" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+    <path d="M10 40H70" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <rect x="20" y="52" width="40" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
   </svg>
 );
 
 /**
- * Frame 组件缩略图
+ * Frame component thumbnail
  */
 export const Frame: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
       x="10"
-      y="10"
+      y="12"
       width="60"
-      height="60"
+      height="56"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
-    <rect
-      x="10"
-      y="10"
-      width="60"
-      height="12"
-      rx="4"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="10"
-      y="58"
-      width="60"
-      height="12"
-      rx="4"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="10"
-      y="22"
-      width="15"
-      height="36"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
+    <path d="M10 24H70" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <path d="M10 56H70" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <path d="M26 24V56" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <rect x="14" y="16" width="20" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="30" y="28" width="20" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="30" y="36" width="30" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+    <rect x="30" y="44" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
   </svg>
 );
 
 /**
- * Grid 组件缩略图
+ * Grid component thumbnail
  */
 export const Grid: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -189,56 +96,52 @@ export const Grid: React.FC = () => (
       width="60"
       height="60"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeDasharray="4 2"
+      strokeWidth="2"
+      strokeDasharray="4 4"
     />
     <rect
-      x="15"
-      y="15"
-      width="25"
-      height="25"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="45"
-      y="15"
+      x="16"
+      y="16"
       width="20"
-      height="25"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="15"
-      y="45"
-      width="15"
       height="20"
       rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      fill="var(--rs-thumbnail-color-primary)"
+      opacity="0.8"
     />
     <rect
-      x="35"
-      y="45"
-      width="30"
+      x="44"
+      y="16"
+      width="20"
       height="20"
       rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      fill="var(--rs-thumbnail-color-primary)"
+      opacity="0.6"
+    />
+    <rect
+      x="16"
+      y="44"
+      width="20"
+      height="20"
+      rx="2"
+      fill="var(--rs-thumbnail-color-primary)"
+      opacity="0.4"
+    />
+    <rect
+      x="44"
+      y="44"
+      width="20"
+      height="20"
+      rx="2"
+      fill="var(--rs-thumbnail-color-primary)"
+      opacity="0.2"
     />
   </svg>
 );
 
 /**
- * Stack 组件缩略图
+ * Stack component thumbnail
  */
 export const Stack: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -248,40 +151,13 @@ export const Stack: React.FC = () => (
       width="60"
       height="60"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeDasharray="4 2"
+      strokeWidth="2"
+      strokeDasharray="4 4"
     />
-    <rect
-      x="20"
-      y="15"
-      width="40"
-      height="15"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="20"
-      y="35"
-      width="40"
-      height="10"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="20"
-      y="50"
-      width="40"
-      height="15"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
+    <rect x="20" y="20" width="40" height="10" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="20" y="35" width="40" height="10" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.6" />
+    <rect x="20" y="50" width="40" height="10" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.3" />
   </svg>
 );
