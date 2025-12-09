@@ -1,5 +1,4 @@
 import React from 'react';
-import isEmpty from 'lodash/isEmpty';
 import { forwardRef } from '@/internals/utils/react/forwardRef';
 import { extractBoxProps, omitBoxProps } from './utils';
 import { useStyled, getCSSVariables, CSSSystemProps } from '@/internals/styled-system';
@@ -27,7 +26,12 @@ const Box = forwardRef<'div', BoxProps>((props, ref) => {
   const boxProps = extractBoxProps(rest);
   const domProps = omitBoxProps(rest);
   const boxCSSVars = getCSSVariables(boxProps, '--rs-box-');
-  const isBox = !isEmpty(boxCSSVars) || showFrom || hideFrom;
+
+  // Check if this is a Box based on props, not runtime calculation
+  // This ensures SSR and client render consistency
+  // Use Object.keys().length instead of isEmpty for more explicit check
+  const hasBoxProps = Object.keys(boxProps).length > 0;
+  const isBox = hasBoxProps || showFrom || hideFrom;
 
   const styled = useStyled({
     cssVars: boxCSSVars,

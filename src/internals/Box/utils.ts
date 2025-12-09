@@ -1,6 +1,5 @@
 import camelCase from 'lodash/camelCase';
 import { cssSystemPropAlias } from '@/internals/styled-system';
-import { isCSSProperty } from '@/internals/utils';
 
 const getUsedPropKeys = () => {
   const propSet = new Set<string>();
@@ -29,9 +28,10 @@ export const extractBoxProps = (props: Record<string, any>): Record<string, any>
   Object.keys(props).forEach(key => {
     if (boxPropKeys.includes(key) && props[key] !== undefined) {
       boxProps[key] = props[key];
-    } else if (isCSSProperty(key)) {
-      boxProps[key] = props[key];
     }
+    // Note: We intentionally don't use isCSSProperty here because it returns false
+    // during SSR (!canUseDOM), which would cause SSR/CSR inconsistency.
+    // Box props should be explicitly defined in cssSystemPropAlias.
   });
 
   return boxProps;

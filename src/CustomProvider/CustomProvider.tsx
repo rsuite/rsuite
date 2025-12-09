@@ -1,6 +1,7 @@
 import React, { useRef, useMemo } from 'react';
 import IconProvider from '@rsuite/icons/IconProvider';
 import { usePortal, useIsomorphicLayoutEffect } from '@/internals/hooks';
+import { useSSRStyles } from '@/internals/hooks/useSSRStyles';
 import { getClassNamePrefix, prefix } from '@/internals/utils';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
 import { CustomContext, CustomProviderProps } from '@/internals/Provider/CustomContext';
@@ -29,6 +30,7 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
     disableRipple,
     csp,
     disableInlineStyles,
+    styleCollector: userStyleCollector,
     ...rest
   } = props;
   const toasters = useRef(new Map<string, ToastContainerInstance>());
@@ -36,9 +38,28 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
   const dialogContainerRef = useRef<DialogContainerInstance>(null);
   const { Portal } = usePortal({ container: toastContainer, waitMount: true });
 
+  // 🔥 Automatic SSR style collection
+  const { collector: autoCollector, styleElement } = useSSRStyles({
+    collector: userStyleCollector,
+    nonce: csp?.nonce
+  });
+
+  // Use user-provided collector or auto-created one
+  const styleCollector = userStyleCollector || autoCollector;
+
   const value = useMemo(
-    () => ({ classPrefix, theme, toasters, disableRipple, components, toastContainer, ...rest }),
-    [classPrefix, theme, disableRipple, components, toastContainer, rest]
+    () => ({
+      classPrefix,
+      theme,
+      toasters,
+      disableRipple,
+      components,
+      toastContainer,
+      csp,
+      styleCollector,
+      ...rest
+    }),
+    [classPrefix, theme, disableRipple, components, toastContainer, csp, styleCollector, rest]
   );
 
   const iconContext = useMemo(
@@ -67,6 +88,8 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
 
   return (
     <CustomContext.Provider value={contextValue}>
+      {/* 🔥 Auto-inject SSR styles */}
+      {styleElement}
       <IconProvider value={iconContext}>
         {children}
         <Portal>

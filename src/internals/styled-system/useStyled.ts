@@ -1,5 +1,5 @@
 import isEmpty from 'lodash/isEmpty';
-import { CSSProperties, useId, useContext } from 'react';
+import { CSSProperties, useContext, useRef } from 'react';
 import { useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { isCSSProperty } from '@/internals/utils';
 import { CustomContext } from '@/internals/Provider/CustomContext';
@@ -7,6 +7,28 @@ import { breakpointValues, isResponsiveValue } from './responsive';
 import { cssSystemPropAlias } from './css-alias';
 import { StyleManager } from './style-manager';
 import type { Breakpoints, WithResponsive, ResponsiveValue } from '@/internals/types';
+
+/**
+ * Generate a stable hash-based ID for SSR/CSR consistency
+ * The ID is based on the content of CSS variables, ensuring the same
+ * variables always produce the same ID on both server and client
+ */
+function generateStableId(cssVars: Record<string, any>, prefix: string): string {
+  // Create a stable hash based on CSS variables content
+  const varsKey = JSON.stringify(cssVars);
+  const input = `${prefix}-${varsKey}`;
+
+  // Simple but effective hash function
+  let hash = 0;
+  for (let i = 0; i < input.length; i++) {
+    const char = input.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+
+  // Convert to base36 for shorter IDs
+  return Math.abs(hash).toString(36);
+}
 
 interface UseStyledOptions {
   /**
@@ -76,9 +98,15 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
 
   const { csp } = useContext(CustomContext);
 
-  // Generate a unique ID for this component instance
-  const uniqueId = useId().replace(/:/g, '');
-  const componentId = `rs-${prefix}-${uniqueId}`;
+  // Generate a stable unique ID for this component instance
+  // Use useRef with lazy initialization to ensure the ID is only generated once
+  // ID is based on cssVars content to ensure SSR/CSR consistency
+  const componentIdRef = useRef<string | undefined>(undefined);
+  if (!componentIdRef.current) {
+    const stableId = generateStableId(cssVars, prefix);
+    componentIdRef.current = `rs-${prefix}-${stableId}`;
+  }
+  const componentId = componentIdRef.current;
 
   // Only apply styling if enabled and there are CSS variables
   const shouldApplyStyles = enabled && !isEmpty(cssVars);
