@@ -41,5 +41,20 @@ describe('useSSRStyles', () => {
 
       renderToString(<TestComponent />);
     });
+
+    it('should accept nonce option', () => {
+      const customCollector = new StyleCollector('custom-nonce');
+
+      const TestComponent = () => {
+        const { collector } = useSSRStyles({
+          collector: customCollector,
+          nonce: 'test-nonce'
+        });
+        expect(collector).toBe(customCollector);
+        return <div>Test</div>;
+      };
+
+      renderToString(<TestComponent />);
+    });
   });
 });

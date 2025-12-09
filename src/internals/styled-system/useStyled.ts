@@ -1,5 +1,5 @@
 import isEmpty from 'lodash/isEmpty';
-import { CSSProperties, useContext, useRef } from 'react';
+import { CSSProperties, useContext, useMemo } from 'react';
 import { useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { isCSSProperty } from '@/internals/utils';
 import { CustomContext } from '@/internals/Provider/CustomContext';
@@ -98,15 +98,13 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
 
   const { csp } = useContext(CustomContext);
 
-  // Generate a stable unique ID for this component instance
-  // Use useRef with lazy initialization to ensure the ID is only generated once
-  // ID is based on cssVars content to ensure SSR/CSR consistency
-  const componentIdRef = useRef<string | undefined>(undefined);
-  if (!componentIdRef.current) {
+  // Generate a stable unique ID based on CSS variables content
+  // Using useMemo ensures the ID updates when cssVars change
+  // This ensures SSR/CSR consistency - same props = same ID
+  const componentId = useMemo(() => {
     const stableId = generateStableId(cssVars, prefix);
-    componentIdRef.current = `rs-${prefix}-${stableId}`;
-  }
-  const componentId = componentIdRef.current;
+    return `rs-${prefix}-${stableId}`;
+  }, [cssVars, prefix]);
 
   // Only apply styling if enabled and there are CSS variables
   const shouldApplyStyles = enabled && !isEmpty(cssVars);

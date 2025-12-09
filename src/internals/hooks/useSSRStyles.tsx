@@ -88,25 +88,31 @@ export function useSSRStyles(options: UseSSRStylesOptions = {}): UseSSRStylesRes
     return undefined;
   }, [userCollector, enabled, isSSR, nonce]);
 
-  // Set collector to StyleManager
-  useEffect(() => {
-    if (collector) {
-      StyleManager.setCollector(collector);
+  // Synchronously set collector to StyleManager during SSR
+  // This must happen before rendering so child components can use it
+  if (isSSR && collector) {
+    StyleManager.setCollector(collector);
+  }
 
-      // Cleanup: remove collector when component unmounts
+  // On client, cleanup collector on unmount
+  useEffect(() => {
+    if (!isSSR) {
       return () => {
         StyleManager.setCollector(null);
       };
     }
-  }, [collector]);
+  }, [isSSR]);
 
   // Generate style element for SSR
+  // Note: This returns a placeholder that will be replaced with actual styles
+  // after all components have rendered and added their styles to the collector
   const styleElement = useMemo(() => {
     if (!isSSR || !collector) {
       return null;
     }
 
     // Return style element with collected styles
+    // The collector will be populated as child components render
     return (
       <style
         data-rs-style-manager
