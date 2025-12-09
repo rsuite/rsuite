@@ -4,7 +4,7 @@ import { forwardRef, mergeStyles, getSizeStyle, getColorStyle } from '@/internal
 import type { Size, Color } from '@/internals/types';
 
 export interface StyledBoxProps extends BoxProps {
-  /** Name of the Box */
+  /** Component identifier for CSS variable generation */
   name: string;
 
   /** Size of the Box */
@@ -15,8 +15,12 @@ export interface StyledBoxProps extends BoxProps {
 }
 
 const StyledBox = forwardRef<'div', StyledBoxProps>((props, ref) => {
-  const { as, color, name, style, size, ...rest } = props;
-  const boxStyle = mergeStyles(style, getSizeStyle(size, name), getColorStyle(color, name));
+  const { as, color, name: componentName, style, size, ...rest } = props;
+  const boxStyle = mergeStyles(
+    style,
+    getSizeStyle(size, componentName),
+    getColorStyle(color, componentName)
+  );
 
   return <Box as={as} ref={ref} style={boxStyle} {...rest} />;
 });

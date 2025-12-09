@@ -14,6 +14,9 @@ import type { Color, FormControlBaseProps, Size } from '@/internals/types';
 export interface RateProps<T = number>
   extends Omit<StyledBoxProps, 'name'>,
     FormControlBaseProps<T> {
+  /** Element type to render as */
+  as?: React.ElementType;
+
   /** Whether to allow semi selection */
   allowHalf?: boolean;
 
@@ -34,6 +37,13 @@ export interface RateProps<T = number>
 
   /** Maximum rate */
   max?: number;
+
+  /**
+   * The name of the form control.
+   * Used for form integration and does not affect the internal component styling.
+   * @private Internal use only - extracted from props to prevent conflicts with StyledBox
+   */
+  name?: string;
 
   /** Vertical Rate half */
   vertical?: boolean;
@@ -58,6 +68,7 @@ const Rate = forwardRef<'ul', RateProps>((props, ref) => {
     classPrefix = 'rate',
     disabled,
     max = 5,
+    name,
     readOnly,
     vertical,
     size,
@@ -171,6 +182,7 @@ const Rate = forwardRef<'ul', RateProps>((props, ref) => {
       onMouseLeave={handleMouseLeave}
       data-disabled={disabled}
       data-readonly={readOnly}
+      data-name={name}
       {...rest}
     >
       {starStates.map((status, index) => (
