@@ -19,7 +19,7 @@ import { useLayoutEffect, useRef } from 'react';
  */
 export function useIndeterminateCheckbox(
   indeterminate?: boolean
-): React.RefObject<HTMLInputElement | null> {
+): React.MutableRefObject<HTMLInputElement | null> {
   const ref = useRef<HTMLInputElement | null>(null);
 
   useLayoutEffect(() => {
