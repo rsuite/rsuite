@@ -153,7 +153,7 @@ describe('useSSRStyles', () => {
       const collector = new StyleCollector('test-nonce-123');
       
       const TestComponent = () => {
-        const { styleElement } = useSSRStyles({ collector, nonce: 'test-nonce-123' });
+        const { styleElement } = useSSRStyles({ collector });
 
         // Add a style through the collector
         collector.addRule('.nonce-test', 'display: block;');
@@ -168,7 +168,7 @@ describe('useSSRStyles', () => {
 
       const html = renderToString(<TestComponent />);
 
-      // Verify nonce is in the rendered HTML
+      // Verify nonce from the collector is in the rendered HTML
       expect(html).toContain('nonce="test-nonce-123"');
       expect(html).toContain('data-rs-style-manager');
     });
