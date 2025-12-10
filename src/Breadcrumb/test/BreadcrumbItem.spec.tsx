@@ -145,6 +145,32 @@ describe('Breadcrumb.Item', () => {
     expect(link).to.have.attribute('data-custom-link', 'true');
   });
 
+  it('Should not use custom component when item is active', () => {
+    // Simulate a react-router Link component
+    const CustomLink = React.forwardRef<
+      HTMLAnchorElement,
+      { to: string; children: React.ReactNode }
+    >((props, ref) => {
+      return (
+        <a ref={ref} href={props.to} data-custom-link="true">
+          {props.children}
+        </a>
+      );
+    });
+
+    render(
+      <Breadcrumb.Item as={CustomLink} to="/test-path" active>
+        Crumb
+      </Breadcrumb.Item>
+    );
+
+    const element = screen.getByText('Crumb');
+    // When active, should render as a span, not the custom component
+    expect(element).to.have.tagName('SPAN');
+    expect(element).to.not.have.attribute('href');
+    expect(element).to.not.have.attribute('data-custom-link');
+  });
+
   it('Should not forward props to wrapper element', () => {
     const CustomLink = React.forwardRef<
       HTMLAnchorElement,
