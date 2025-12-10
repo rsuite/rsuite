@@ -63,6 +63,7 @@ const getSvgForComponent = (componentId: string): React.ReactNode => {
     textarea: <thumbnails.Textarea />,
     'check-tree': <thumbnails.CheckTree />,
     'multi-cascade-tree': <thumbnails.MultiCascadeTree />,
+    'segmented-control': <thumbnails.SegmentedControl />,
 
     // Data Pickers components
     cascader: <thumbnails.Cascader />,
@@ -111,6 +112,8 @@ const getSvgForComponent = (componentId: string): React.ReactNode => {
     'dom-helper': <thumbnails.DOMHelper />,
     'use-media-query': <thumbnails.Hooks />,
     'use-breakpoint-value': <thumbnails.Hooks />,
+    'use-dialog': <thumbnails.Hooks />,
+    'use-toaster': <thumbnails.Hooks />,
 
     // Status components
     badge: <thumbnails.Badge />,

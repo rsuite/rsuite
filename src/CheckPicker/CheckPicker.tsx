@@ -364,7 +364,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
         as={as}
         id={id}
         multiple
-        name="check"
+        pickerType="check"
         block={block}
         disabled={disabled}
         appearance={appearance}

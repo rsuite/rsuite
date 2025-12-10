@@ -1060,7 +1060,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
     return (
       <PickerToggleTrigger
         as={as}
-        name="date-range"
+        pickerType="date-range"
         classPrefix={classPrefix}
         className={merge(className, { [prefix('error')]: invalidValue })}
         block={block}

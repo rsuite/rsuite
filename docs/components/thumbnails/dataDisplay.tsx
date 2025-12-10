@@ -6,56 +6,59 @@ import React from 'react';
 export const Accordion: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="15"
-      rx="4"
+      x="10"
+      y="16"
+      width="60"
+      height="14"
+      rx="2"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
     <path
-      d="M55 22.5L50 17.5L45 22.5"
+      d="M60 19L64 23L60 27"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <rect
-      x="15"
-      y="32.5"
-      width="50"
-      height="15"
-      rx="4"
-      fill="transparent"
+      x="10"
+      y="34"
+      width="60"
+      height="14"
+      rx="2"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
     <path
-      d="M45 40L50 45L55 40"
+      d="M60 37L64 41L60 45"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <rect
-      x="15"
-      y="50"
-      width="50"
-      height="15"
-      rx="4"
-      fill="transparent"
+      x="10"
+      y="52"
+      width="60"
+      height="14"
+      rx="2"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
     <path
-      d="M45 57.5L50 62.5L55 57.5"
+      d="M60 55L64 59L60 63"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
+    <rect x="16" y="21" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="16" y="39" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+    <rect x="16" y="57" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
   </svg>
 );
 
@@ -70,35 +73,17 @@ export const Carousel: React.FC = () => (
       width="60"
       height="40"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
-    <rect
-      x="20"
-      y="30"
-      width="40"
-      height="20"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <circle cx="35" cy="55" r="2" fill="var(--rs-primary-300)" />
-    <circle cx="40" cy="55" r="2" fill="var(--rs-thumbnail-color-primary)" />
-    <circle cx="45" cy="55" r="2" fill="var(--rs-primary-300)" />
-    <path
-      d="M15 40L5 40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <path
-      d="M65 40L75 40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
+    <circle cx="34" cy="52" r="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.3" />
+    <circle cx="40" cy="52" r="2" fill="var(--rs-thumbnail-color-primary)" />
+    <circle cx="46" cy="52" r="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.3" />
+    <path d="M16 40L20 36" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" />
+    <path d="M16 40L20 44" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" />
+    <path d="M64 40L60 36" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" />
+    <path d="M64 40L60 44" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" />
   </svg>
 );
 
@@ -108,66 +93,26 @@ export const Carousel: React.FC = () => (
 export const List: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="50"
+      x="10"
+      y="10"
+      width="60"
+      height="60"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-    <line
-      x1="15"
-      y1="30"
-      x2="65"
-      y2="30"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-    />
-    <line
-      x1="15"
-      y1="45"
-      x2="65"
-      y2="45"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-    />
-    <line
-      x1="15"
-      y1="60"
-      x2="65"
-      y2="60"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-    />
-    <circle cx="25" cy="22.5" r="3" fill="var(--rs-thumbnail-color-primary)" />
-    <line
-      x1="35"
-      y1="22.5"
-      x2="55"
-      y2="22.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <circle cx="25" cy="37.5" r="3" fill="var(--rs-thumbnail-color-primary)" />
-    <line
-      x1="35"
-      y1="37.5"
-      x2="55"
-      y2="37.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <circle cx="25" cy="52.5" r="3" fill="var(--rs-thumbnail-color-primary)" />
-    <line
-      x1="35"
-      y1="52.5"
-      x2="55"
-      y2="52.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
+    <path d="M10 30H70" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <path d="M10 50H70" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+
+    <circle cx="20" cy="20" r="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="28" y="18" width="32" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+
+    <circle cx="20" cy="40" r="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="28" y="38" width="32" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+
+    <circle cx="20" cy="60" r="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="28" y="58" width="32" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
   </svg>
 );
 
@@ -176,34 +121,16 @@ export const List: React.FC = () => (
  */
 export const Timeline: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <line x1="30" y1="15" x2="30" y2="65" stroke="var(--rs-primary-300)" strokeWidth="2" />
-    <circle cx="30" cy="20" r="5" fill="var(--rs-thumbnail-color-primary)" />
-    <line
-      x1="35"
-      y1="20"
-      x2="60"
-      y2="20"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <circle cx="30" cy="40" r="5" fill="var(--rs-thumbnail-color-primary)" />
-    <line
-      x1="35"
-      y1="40"
-      x2="55"
-      y2="40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <circle cx="30" cy="60" r="5" fill="var(--rs-thumbnail-color-primary)" />
-    <line
-      x1="35"
-      y1="60"
-      x2="50"
-      y2="60"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
+    <line x1="28" y1="16" x2="28" y2="64" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" opacity="0.3" />
+
+    <circle cx="28" cy="20" r="4" fill="var(--rs-thumbnail-bg-secondary)" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <rect x="40" y="18" width="32" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+
+    <circle cx="28" cy="40" r="4" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="40" y="38" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+
+    <circle cx="28" cy="60" r="4" fill="var(--rs-thumbnail-bg-secondary)" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <rect x="40" y="58" width="20" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
   </svg>
 );
 
@@ -213,35 +140,19 @@ export const Timeline: React.FC = () => (
 export const Panel: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="50"
-      rx="4"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="2"
-    />
-    <rect
-      x="15"
-      y="15"
-      width="50"
-      height="15"
+      x="10"
+      y="16"
+      width="60"
+      height="48"
       rx="4"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-    <line
-      x1="25"
-      y1="22.5"
-      x2="55"
-      y2="22.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <line x1="25" y1="40" x2="55" y2="40" stroke="var(--rs-primary-300)" strokeWidth="1.5" />
-    <line x1="25" y1="50" x2="45" y2="50" stroke="var(--rs-primary-300)" strokeWidth="1.5" />
+    <path d="M10 32H70" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <rect x="18" y="22" width="20" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="18" y="40" width="44" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+    <rect x="18" y="50" width="30" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
   </svg>
 );
 
@@ -250,40 +161,19 @@ export const Panel: React.FC = () => (
  */
 export const Card: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Simple card without header/footer */}
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="50"
+      x="16"
+      y="16"
+      width="48"
+      height="48"
       rx="4"
-      fill="transparent"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-
-    {/* Card content */}
-    <line
-      x1="25"
-      y1="25"
-      x2="55"
-      y2="25"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <line x1="25" y1="35" x2="45" y2="35" stroke="var(--rs-primary-300)" strokeWidth="1.5" />
-
-    {/* Card image/content area */}
-    <rect
-      x="25"
-      y="42"
-      width="30"
-      height="15"
-      rx="2"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-    />
+    <rect x="22" y="46" width="36" height="12" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.1" />
+    <rect x="22" y="22" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="22" y="30" width="16" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
   </svg>
 );
 
@@ -292,72 +182,19 @@ export const Card: React.FC = () => (
  */
 export const Stat: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Stat card container */}
     <rect
-      x="15"
+      x="10"
       y="20"
-      width="50"
+      width="60"
       height="40"
       rx="4"
-      fill="transparent"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-
-    {/* Title */}
-    <line
-      x1="20"
-      y1="30"
-      x2="40"
-      y2="30"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
-    {/* Main statistic area - represented by a bold line */}
-    <line
-      x1="20"
-      y1="42"
-      x2="35"
-      y2="42"
-      stroke="var(--rs-thumbnail-color-high)"
-      strokeWidth="3"
-      strokeLinecap="round"
-    />
-
-    {/* Secondary info */}
-    <line
-      x1="40"
-      y1="42"
-      x2="55"
-      y2="42"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
-    {/* Divider */}
-    <line
-      x1="20"
-      y1="50"
-      x2="55"
-      y2="50"
-      stroke="var(--rs-thumbnail-bg-secondary)"
-      strokeWidth="1"
-      strokeLinecap="round"
-    />
-
-    {/* Bottom content */}
-    <line
-      x1="20"
-      y1="55"
-      x2="50"
-      y2="55"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
+    <rect x="18" y="28" width="20" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+    <rect x="18" y="38" width="28" height="6" rx="3" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="18" y="50" width="44" height="2" rx="1" fill="var(--rs-thumbnail-color-primary)" opacity="0.2" />
   </svg>
 );
 
@@ -367,37 +204,16 @@ export const Stat: React.FC = () => (
 export const Tag: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="20"
-      y="30"
-      width="40"
-      height="20"
-      rx="10"
+      x="14"
+      y="28"
+      width="52"
+      height="24"
+      rx="4"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-    <line
-      x1="30"
-      y1="40"
-      x2="45"
-      y2="40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <circle
-      cx="55"
-      cy="40"
-      r="3"
-      fill="transparent"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <path
-      d="M53 38L57 42M57 38L53 42"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-      strokeLinecap="round"
-    />
+    <rect x="22" y="38" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <path d="M52 36L56 40L52 44" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );

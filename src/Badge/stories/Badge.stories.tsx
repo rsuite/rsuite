@@ -50,3 +50,30 @@ export const WithChildren: Story = {
     children: 'Inbox'
   }
 };
+
+export const Invisible: Story = {
+  args: {
+    ...defaultArgs,
+    content: 5,
+    invisible: true,
+    children: 'Hidden Badge'
+  }
+};
+
+export const Placement: Story = {
+  args: {
+    ...defaultArgs,
+    content: 'NEW',
+    placement: 'topEnd',
+    children: 'Notification'
+  }
+};
+
+export const Compact: Story = {
+  args: {
+    ...defaultArgs,
+    content: 999,
+    compact: true,
+    children: 'Messages'
+  }
+};

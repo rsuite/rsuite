@@ -50,3 +50,24 @@ export const Subtle: Story = {
     appearance: 'subtle'
   }
 };
+
+export const WithContent: Story = {
+  args: {
+    children: (
+      <Navbar>
+        <Navbar.Brand>RSuite</Navbar.Brand>
+        <Nav>
+          <Nav.Item active>Home</Nav.Item>
+          <Nav.Item>News</Nav.Item>
+          <Nav.Item>Products</Nav.Item>
+        </Nav>
+        <Navbar.Content>
+          <Nav>
+            <Nav.Item>Login</Nav.Item>
+            <Nav.Item>Sign Up</Nav.Item>
+          </Nav>
+        </Navbar.Content>
+      </Navbar>
+    )
+  }
+};

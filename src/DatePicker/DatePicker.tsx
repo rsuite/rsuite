@@ -674,7 +674,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   return (
     <PickerToggleTrigger
       as={as}
-      name="date"
+      pickerType="date"
       classPrefix={classPrefix}
       className={merge(className, { [prefix('error')]: invalidValue })}
       block={block}

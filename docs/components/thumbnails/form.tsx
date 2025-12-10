@@ -6,45 +6,19 @@ import React from 'react';
 export const Form: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="50"
+      x="10"
+      y="10"
+      width="60"
+      height="60"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
-    <rect
-      x="20"
-      y="20"
-      width="40"
-      height="10"
-      rx="2"
-      fill="transparent"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="20"
-      y="35"
-      width="40"
-      height="10"
-      rx="2"
-      fill="transparent"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="20"
-      y="50"
-      width="15"
-      height="10"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
+    <rect x="18" y="18" width="44" height="8" rx="2" fill="none" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <rect x="18" y="32" width="44" height="8" rx="2" fill="none" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <rect x="18" y="46" width="44" height="8" rx="2" fill="none" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <rect x="42" y="58" width="20" height="6" rx="2" fill="var(--rs-thumbnail-color-primary)" />
   </svg>
 );
 
@@ -54,46 +28,20 @@ export const Form: React.FC = () => (
 export const FormValidation: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="50"
+      x="10"
+      y="10"
+      width="60"
+      height="60"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="20"
-      y="20"
-      width="40"
-      height="10"
-      rx="2"
-      fill="transparent"
-      stroke="var(--rs-red-500)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="20"
-      y="35"
-      width="40"
-      height="10"
-      rx="2"
-      fill="transparent"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="20"
-      y="50"
-      width="15"
-      height="10"
-      rx="2"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-    <line x1="20" y1="33" x2="35" y2="33" stroke="var(--rs-red-500)" strokeWidth="1.5" />
+    <rect x="18" y="18" width="44" height="8" rx="2" fill="none" stroke="var(--rs-red-500)" strokeWidth="1.5" />
+    <path d="M18 29H38" stroke="var(--rs-red-500)" strokeWidth="1.5" strokeLinecap="round" />
+
+    <rect x="18" y="34" width="44" height="8" rx="2" fill="none" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <rect x="42" y="58" width="20" height="6" rx="2" fill="var(--rs-thumbnail-color-primary)" />
   </svg>
 );
 
@@ -103,80 +51,23 @@ export const FormValidation: React.FC = () => (
 export const Schema: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="50"
+      x="10"
+      y="10"
+      width="60"
+      height="60"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="20"
-      y="20"
-      width="40"
-      height="10"
-      rx="2"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
+      strokeWidth="2"
     />
-    <rect
-      x="20"
-      y="35"
-      width="40"
-      height="10"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-    />
-    <rect
-      x="20"
-      y="50"
-      width="40"
-      height="10"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-    />
-    <path
-      d="M25 25L30 25L35 25"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <path
-      d="M25 40L30 40L35 40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <path
-      d="M25 55L30 55L35 55"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <path
-      d="M45 25L50 25L55 25"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <path
-      d="M45 40L50 40L55 40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <path
-      d="M45 55L50 55L55 55"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
+
+    <rect x="18" y="20" width="8" height="8" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <path d="M30 24H58" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" />
+
+    <rect x="18" y="36" width="8" height="8" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <path d="M30 40H58" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" />
+
+    <rect x="18" y="52" width="8" height="8" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <path d="M30 56H58" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" />
   </svg>
 );

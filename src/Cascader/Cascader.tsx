@@ -424,7 +424,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
       <PickerToggleTrigger
         as={as}
         id={id}
-        name="cascader"
+        pickerType="cascader"
         block={block}
         disabled={disabled}
         appearance={appearance}

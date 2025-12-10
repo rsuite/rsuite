@@ -5,32 +5,26 @@ import React from 'react';
  */
 export const PasswordInput: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Outer input box */}
     <rect
-      x="15"
-      y="30"
-      width="50"
-      height="20"
+      x="10"
+      y="28"
+      width="60"
+      height="24"
       rx="4"
-      fill="transparent"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
-    {/* Password dots */}
-    <circle cx="26" cy="40" r="2" fill="var(--rs-thumbnail-color-primary)" />
-    <circle cx="34" cy="40" r="2" fill="var(--rs-thumbnail-color-primary)" />
-    <circle cx="42" cy="40" r="2" fill="var(--rs-thumbnail-color-primary)" />
-    {/* Eye icon (simple) */}
-    <ellipse
-      cx="55"
-      cy="40"
-      rx="5"
-      ry="3"
+    <circle cx="20" cy="40" r="3" fill="var(--rs-thumbnail-color-primary)" />
+    <circle cx="30" cy="40" r="3" fill="var(--rs-thumbnail-color-primary)" />
+    <circle cx="40" cy="40" r="3" fill="var(--rs-thumbnail-color-primary)" />
+    <path
+      d="M54 40C54 40 57 36 60 36C63 36 66 40 66 40C66 40 63 44 60 44C57 44 54 40 54 40Z"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="1.5"
       fill="none"
     />
-    <circle cx="55" cy="40" r="1.2" fill="var(--rs-thumbnail-color-primary)" />
+    <circle cx="60" cy="40" r="1.5" fill="var(--rs-thumbnail-color-primary)" />
   </svg>
 );
 
@@ -40,17 +34,17 @@ export const PasswordInput: React.FC = () => (
 export const Checkbox: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="25"
-      y="25"
-      width="30"
-      height="30"
+      x="24"
+      y="24"
+      width="32"
+      height="32"
       rx="4"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
     <path
-      d="M32 40L38 46L50 34"
+      d="M32 40L38 46L48 34"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="3"
       strokeLinecap="round"
@@ -67,12 +61,12 @@ export const Radio: React.FC = () => (
     <circle
       cx="40"
       cy="40"
-      r="15"
+      r="16"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
-    <circle cx="40" cy="40" r="6" fill="var(--rs-thumbnail-color-primary)" />
+    <circle cx="40" cy="40" r="8" fill="var(--rs-thumbnail-color-primary)" />
   </svg>
 );
 
@@ -82,23 +76,17 @@ export const Radio: React.FC = () => (
 export const Input: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="30"
-      width="50"
-      height="20"
+      x="10"
+      y="28"
+      width="60"
+      height="24"
       rx="4"
-      fill="transparent"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
-    <line
-      x1="20"
-      y1="40"
-      x2="30"
-      y2="40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="2"
-    />
+    <rect x="18" y="38" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="62" y="36" width="2" height="8" rx="1" fill="var(--rs-thumbnail-color-primary)" />
   </svg>
 );
 
@@ -108,40 +96,20 @@ export const Input: React.FC = () => (
 export const Textarea: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
+      x="10"
       y="20"
-      width="50"
+      width="60"
       height="40"
       rx="4"
-      fill="transparent"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
-    {/* Simulate multiple lines of text */}
-    <line
-      x1="20"
-      y1="32"
-      x2="55"
-      y2="32"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <line
-      x1="20"
-      y1="40"
-      x2="55"
-      y2="40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <line
-      x1="20"
-      y1="48"
-      x2="45"
-      y2="48"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
+    <rect x="18" y="30" width="30" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="18" y="40" width="44" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="18" y="50" width="20" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <path d="M62 52L66 56" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" />
+    <path d="M58 56L66 56L66 48" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
@@ -151,52 +119,20 @@ export const Textarea: React.FC = () => (
 export const NumberInput: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="30"
-      width="50"
-      height="20"
+      x="10"
+      y="28"
+      width="60"
+      height="24"
       rx="4"
-      fill="transparent"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
-    <text x="25" y="44" fill="var(--rs-thumbnail-color-primary)" fontSize="14" fontWeight="bold">
-      123
-    </text>
-
-    {/* Up/Down arrows */}
-    <rect
-      x="55"
-      y="30"
-      width="10"
-      height="20"
-      rx="2"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-    />
-    <path
-      d="M58 35L60 33L62 35"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M58 45L60 47L62 45"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <line
-      x1="55"
-      y1="40"
-      x2="65"
-      y2="40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="0.5"
-    />
+    <rect x="18" y="38" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <path d="M56 28V52" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <path d="M56 40H70" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <path d="M60 35L63 32L66 35" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M60 45L63 48L66 45" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
@@ -206,22 +142,20 @@ export const NumberInput: React.FC = () => (
 export const Toggle: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="20"
-      y="30"
-      width="40"
-      height="20"
-      rx="10"
+      x="16"
+      y="28"
+      width="48"
+      height="24"
+      rx="12"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
     <circle
-      cx="50"
+      cx="52"
       cy="40"
       r="8"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="white"
-      strokeWidth="1.5"
     />
   </svg>
 );
@@ -232,41 +166,28 @@ export const Toggle: React.FC = () => (
 export const AutoComplete: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="20"
-      width="50"
-      height="15"
+      x="10"
+      y="16"
+      width="60"
+      height="24"
       rx="4"
-      fill="transparent"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
     <rect
-      x="15"
-      y="35"
-      width="50"
-      height="25"
+      x="10"
+      y="44"
+      width="60"
+      height="28"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="1.5"
     />
-    <line
-      x1="20"
-      y1="45"
-      x2="40"
-      y2="45"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <line
-      x1="20"
-      y1="55"
-      x2="35"
-      y2="55"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
+    <rect x="18" y="26" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="18" y="52" width="30" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+    <rect x="18" y="60" width="40" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
   </svg>
 );
 
@@ -275,29 +196,13 @@ export const AutoComplete: React.FC = () => (
  */
 export const Slider: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <line
-      x1="15"
-      y1="40"
-      x2="65"
-      y2="40"
-      stroke="var(--rs-primary-200)"
-      strokeWidth="4"
-      strokeLinecap="round"
-    />
-    <line
-      x1="15"
-      y1="40"
-      x2="35"
-      y2="40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="4"
-      strokeLinecap="round"
-    />
+    <rect x="10" y="38" width="60" height="4" rx="2" fill="var(--rs-thumbnail-bg-secondary)" />
+    <rect x="10" y="38" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
     <circle
-      cx="35"
+      cx="34"
       cy="40"
       r="8"
-      fill="transparent"
+      fill="var(--rs-thumbnail-bg)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
@@ -310,33 +215,19 @@ export const Slider: React.FC = () => (
 export const InlineEdit: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="30"
-      width="50"
-      height="20"
+      x="10"
+      y="28"
+      width="60"
+      height="24"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeDasharray="2 1"
+      strokeWidth="2"
+      strokeDasharray="4 4"
     />
-    <line
-      x1="20"
-      y1="40"
-      x2="40"
-      y2="40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
+    <rect x="18" y="38" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
     <path
-      d="M50 35L55 35L55 40L60 40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M50 45L55 45L55 40L60 40"
+      d="M52 35L62 35M62 35V45M62 35L52 45"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="1.5"
       strokeLinecap="round"
@@ -351,22 +242,25 @@ export const InlineEdit: React.FC = () => (
 export const Rate: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
-      d="M20 40L23 46L30 47L25 52L26 59L20 56L14 59L15 52L10 47L17 46L20 40Z"
-      fill="var(--rs-yellow-500)"
-      stroke="var(--rs-yellow-700)"
-      strokeWidth="1"
-    />
-    <path
-      d="M40 40L43 46L50 47L45 52L46 59L40 56L34 59L35 52L30 47L37 46L40 40Z"
-      fill="var(--rs-yellow-500)"
-      stroke="var(--rs-yellow-700)"
-      strokeWidth="1"
-    />
-    <path
-      d="M60 40L63 46L70 47L65 52L66 59L60 56L54 59L55 52L50 47L57 46L60 40Z"
-      fill="var(--rs-thumbnail-bg)"
+      d="M20 30L23.5 37L31 38L25.5 43.5L27 51L20 47.5L13 51L14.5 43.5L9 38L16.5 37L20 30Z"
+      fill="var(--rs-thumbnail-color-primary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
+      strokeWidth="1.5"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M40 30L43.5 37L51 38L45.5 43.5L47 51L40 47.5L33 51L34.5 43.5L29 38L36.5 37L40 30Z"
+      fill="var(--rs-thumbnail-color-primary)"
+      stroke="var(--rs-thumbnail-color-primary)"
+      strokeWidth="1.5"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M60 30L63.5 37L71 38L65.5 43.5L67 51L60 47.5L53 51L54.5 43.5L49 38L56.5 37L60 30Z"
+      fill="none"
+      stroke="var(--rs-thumbnail-color-primary)"
+      strokeWidth="1.5"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -377,47 +271,33 @@ export const Rate: React.FC = () => (
 export const TagInput: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="30"
-      width="50"
-      height="20"
+      x="10"
+      y="28"
+      width="60"
+      height="24"
       rx="4"
-      fill="transparent"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="20"
-      y="35"
-      width="15"
-      height="10"
-      rx="5"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
+      strokeWidth="2"
+    />
+    <rect
+      x="16"
+      y="34"
+      width="20"
+      height="12"
+      rx="3"
+      fill="var(--rs-thumbnail-color-primary)"
     />
     <rect
       x="40"
-      y="35"
-      width="15"
-      height="10"
-      rx="5"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
+      y="34"
+      width="20"
+      height="12"
+      rx="3"
+      fill="var(--rs-thumbnail-color-primary)"
     />
-    <path
-      d="M30 40L25 40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-      strokeLinecap="round"
-    />
-    <path
-      d="M50 40L45 40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-      strokeLinecap="round"
-    />
+    <path d="M28 40L32 40" stroke="var(--rs-thumbnail-bg-secondary)" strokeWidth="1.5" strokeLinecap="round" />
+    <path d="M52 40L56 40" stroke="var(--rs-thumbnail-bg-secondary)" strokeWidth="1.5" strokeLinecap="round" />
   </svg>
 );
 
@@ -427,28 +307,22 @@ export const TagInput: React.FC = () => (
 export const Uploader: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="50"
+      x="16"
+      y="16"
+      width="48"
+      height="48"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeDasharray="4 2"
+      strokeWidth="2"
+      strokeDasharray="4 4"
     />
     <path
-      d="M40 25L40 45M30 35L40 25L50 35"
+      d="M40 28V52M30 38L40 28L50 38"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-    />
-    <path
-      d="M25 55L55 55"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="2"
-      strokeLinecap="round"
     />
   </svg>
 );
@@ -459,63 +333,30 @@ export const Uploader: React.FC = () => (
 export const RadioTile: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="25"
-      width="20"
-      height="30"
+      x="12"
+      y="24"
+      width="24"
+      height="32"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
     <rect
-      x="45"
-      y="25"
-      width="20"
-      height="30"
+      x="44"
+      y="24"
+      width="24"
+      height="32"
       rx="4"
-      fill="transparent"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
+      strokeDasharray="4 2"
     />
-    <circle cx="20" cy="30" r="2" fill="var(--rs-thumbnail-color-primary)" />
-    <circle cx="50" cy="30" r="2" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1" />
-    <line
-      x1="20"
-      y1="40"
-      x2="30"
-      y2="40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="20"
-      y1="45"
-      x2="25"
-      y2="45"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="50"
-      y1="40"
-      x2="60"
-      y2="40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="50"
-      y1="45"
-      x2="55"
-      y2="45"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
+    <circle cx="24" cy="34" r="3" fill="var(--rs-thumbnail-color-primary)" />
+    <circle cx="56" cy="34" r="3" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <rect x="18" y="44" width="12" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="50" y="44" width="12" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
   </svg>
 );
 
@@ -524,106 +365,23 @@ export const RadioTile: React.FC = () => (
  */
 export const CascadeTree: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Single panel with divider */}
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="50"
+      x="10"
+      y="16"
+      width="60"
+      height="48"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-
-    {/* Vertical divider line */}
-    <line
-      x1="40"
-      y1="15"
-      x2="40"
-      y2="65"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
-
-    {/* First level items (left side) */}
-    <line
-      x1="20"
-      y1="25"
-      x2="35"
-      y2="25"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <rect
-      x="20"
-      y="32"
-      width="15"
-      height="8"
-      rx="2"
-      fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-thumbnail-color-high)"
-      strokeWidth="1"
-    />
-    <line
-      x1="20"
-      y1="45"
-      x2="35"
-      y2="45"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="20"
-      y1="55"
-      x2="30"
-      y2="55"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
-    {/* Second level items (right side) */}
-    <line
-      x1="45"
-      y1="25"
-      x2="60"
-      y2="25"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <rect
-      x="45"
-      y="32"
-      width="15"
-      height="8"
-      rx="2"
-      fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-thumbnail-color-high)"
-      strokeWidth="1"
-    />
-    <line
-      x1="45"
-      y1="45"
-      x2="60"
-      y2="45"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="45"
-      y1="55"
-      x2="55"
-      y2="55"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
+    <line x1="40" y1="16" x2="40" y2="64" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <rect x="16" y="24" width="16" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="16" y="34" width="12" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+    <rect x="16" y="44" width="14" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+    <rect x="46" y="24" width="16" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+    <rect x="46" y="34" width="12" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="46" y="44" width="14" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
   </svg>
 );
 
@@ -632,111 +390,36 @@ export const CascadeTree: React.FC = () => (
  */
 export const Tree: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Tree container */}
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="50"
+      x="10"
+      y="16"
+      width="60"
+      height="48"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="var(--rs-thumbnail-bg-secondary)"
+      stroke="var(--rs-thumbnail-color-primary)"
+      strokeWidth="2"
+    />
+    <circle cx="20" cy="28" r="3" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="28" y="26" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+
+    <circle cx="28" cy="40" r="3" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="36" y="38" width="20" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+
+    <circle cx="28" cy="52" r="3" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="36" y="50" width="20" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+
+    <path
+      d="M20 31V40H25"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="1.5"
+      fill="none"
     />
-
-    {/* Root node */}
-    <circle cx="22.5" cy="24.5" r="2" fill="var(--rs-thumbnail-color-primary)" />
-    <line
-      x1="30"
-      y1="24.5"
-      x2="45"
-      y2="24.5"
+    <path
+      d="M20 40V52H25"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
-    {/* First child level */}
-    <circle cx="27.5" cy="34.5" r="2" fill="var(--rs-thumbnail-color-primary)" />
-    <line
-      x1="35"
-      y1="34.5"
-      x2="50"
-      y2="34.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
-    {/* Second child */}
-    <circle cx="27.5" cy="44.5" r="2" fill="var(--rs-thumbnail-color-primary)" />
-    <line
-      x1="35"
-      y1="44.5"
-      x2="50"
-      y2="44.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
-    {/* Grandchild */}
-    <circle cx="32.5" cy="54.5" r="2" fill="var(--rs-thumbnail-color-primary)" />
-    <line
-      x1="40"
-      y1="54.5"
-      x2="55"
-      y2="54.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
-    {/* Connection lines */}
-    <line
-      x1="22.5"
-      y1="27"
-      x2="22.5"
-      y2="54.5"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
-    <line
-      x1="22.5"
-      y1="34.5"
-      x2="25.5"
-      y2="34.5"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
-    <line
-      x1="22.5"
-      y1="44.5"
-      x2="25.5"
-      y2="44.5"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
-    <line
-      x1="27.5"
-      y1="47"
-      x2="27.5"
-      y2="54.5"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
-    <line
-      x1="27.5"
-      y1="54.5"
-      x2="30.5"
-      y2="54.5"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
+      fill="none"
     />
   </svg>
 );
@@ -746,147 +429,45 @@ export const Tree: React.FC = () => (
  */
 export const CheckTree: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Tree container */}
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="50"
+      x="10"
+      y="16"
+      width="60"
+      height="48"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
+    <rect x="18" y="26" width="6" height="6" rx="1" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="30" y="27" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
 
-    {/* Root node with checkbox */}
+    <rect x="26" y="38" width="6" height="6" rx="1" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="38" y="39" width="20" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+
     <rect
-      x="20"
-      y="22"
-      width="5"
-      height="5"
+      x="26"
+      y="50"
+      width="6"
+      height="6"
       rx="1"
-      fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-thumbnail-color-high)"
-      strokeWidth="0.5"
-    />
-    <line
-      x1="30"
-      y1="24.5"
-      x2="45"
-      y2="24.5"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="1.5"
-      strokeLinecap="round"
     />
+    <rect x="38" y="51" width="20" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
 
-    {/* First child level with checkboxes */}
-    <rect
-      x="25"
-      y="32"
-      width="5"
-      height="5"
-      rx="1"
-      fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-thumbnail-color-high)"
-      strokeWidth="0.5"
-    />
-    <line
-      x1="35"
-      y1="34.5"
-      x2="50"
-      y2="34.5"
+    <path
+      d="M21 32V41H26"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="1.5"
-      strokeLinecap="round"
+      fill="none"
     />
-
-    {/* Second child with unchecked box */}
-    <rect
-      x="25"
-      y="42"
-      width="5"
-      height="5"
-      rx="1"
-      fill="transparent"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="0.5"
-    />
-    <line
-      x1="35"
-      y1="44.5"
-      x2="50"
-      y2="44.5"
+    <path
+      d="M21 41V53H26"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
-    {/* Grandchild with unchecked box */}
-    <rect
-      x="30"
-      y="52"
-      width="5"
-      height="5"
-      rx="1"
-      fill="transparent"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="0.5"
-    />
-    <line
-      x1="40"
-      y1="54.5"
-      x2="55"
-      y2="54.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
-    {/* Connection lines */}
-    <line
-      x1="22.5"
-      y1="27"
-      x2="22.5"
-      y2="54.5"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
-    <line
-      x1="22.5"
-      y1="34.5"
-      x2="25"
-      y2="34.5"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
-    <line
-      x1="22.5"
-      y1="44.5"
-      x2="25"
-      y2="44.5"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
-    <line
-      x1="27.5"
-      y1="47"
-      x2="27.5"
-      y2="54.5"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
-    <line
-      x1="27.5"
-      y1="54.5"
-      x2="30"
-      y2="54.5"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
+      fill="none"
     />
   </svg>
 );
@@ -896,203 +477,70 @@ export const CheckTree: React.FC = () => (
  */
 export const MultiCascadeTree: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Single panel with divider */}
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="50"
+      x="10"
+      y="16"
+      width="60"
+      height="48"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
+    <line x1="40" y1="16" x2="40" y2="64" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
 
-    {/* Vertical divider line */}
-    <line
-      x1="40"
-      y1="15"
-      x2="40"
-      y2="65"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="1"
-      strokeDasharray="2 1"
-    />
+    {/* Left Panel */}
+    <rect x="14" y="24" width="6" height="6" rx="1" fill="none" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <rect x="24" y="25" width="12" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
 
-    {/* First level items with checkboxes (left side) */}
+    <rect x="14" y="36" width="6" height="6" rx="1" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="24" y="37" width="12" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+
+    <rect x="14" y="48" width="6" height="6" rx="1" fill="none" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <rect x="24" y="49" width="12" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+
+    {/* Right Panel */}
+    <rect x="44" y="24" width="6" height="6" rx="1" fill="none" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <rect x="54" y="25" width="12" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+
+    <rect x="44" y="36" width="6" height="6" rx="1" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="54" y="37" width="12" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+
+    <rect x="44" y="48" width="6" height="6" rx="1" fill="none" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" />
+    <rect x="54" y="49" width="12" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+  </svg>
+);
+
+/**
+ * SegmentedControl component thumbnail
+ */
+export const SegmentedControl: React.FC = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="20"
-      y="22"
-      width="5"
-      height="5"
-      rx="1"
-      fill="transparent"
+      x="10"
+      y="28"
+      width="60"
+      height="24"
+      rx="4"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="0.5"
+      strokeWidth="2"
     />
-    <line
-      x1="28"
-      y1="24.5"
-      x2="35"
-      y2="24.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
     <rect
-      x="20"
+      x="14"
       y="32"
-      width="5"
-      height="5"
-      rx="1"
+      width="24"
+      height="16"
+      rx="2"
       fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-thumbnail-color-high)"
-      strokeWidth="0.5"
     />
-    <path
-      d="M21 34L22 35L24 33"
-      stroke="white"
-      strokeWidth="0.75"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <line
-      x1="28"
-      y1="34.5"
-      x2="35"
-      y2="34.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
     <rect
-      x="20"
-      y="42"
-      width="5"
-      height="5"
-      rx="1"
-      fill="transparent"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="0.5"
-    />
-    <line
-      x1="28"
-      y1="44.5"
-      x2="35"
-      y2="44.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
-    <rect
-      x="20"
-      y="52"
-      width="5"
-      height="5"
-      rx="1"
-      fill="transparent"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="0.5"
-    />
-    <line
-      x1="28"
-      y1="54.5"
-      x2="35"
-      y2="54.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
-    {/* Second level items with checkboxes (right side) */}
-    <rect
-      x="45"
-      y="22"
-      width="5"
-      height="5"
-      rx="1"
-      fill="transparent"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="0.5"
-    />
-    <line
-      x1="53"
-      y1="24.5"
-      x2="60"
-      y2="24.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
-    <rect
-      x="45"
+      x="42"
       y="32"
-      width="5"
-      height="5"
-      rx="1"
-      fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-thumbnail-color-high)"
-      strokeWidth="0.5"
-    />
-    <path
-      d="M46 34L47 35L49 33"
-      stroke="white"
-      strokeWidth="0.75"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <line
-      x1="53"
-      y1="34.5"
-      x2="60"
-      y2="34.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
-    <rect
-      x="45"
-      y="42"
-      width="5"
-      height="5"
-      rx="1"
-      fill="transparent"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="0.5"
-    />
-    <line
-      x1="53"
-      y1="44.5"
-      x2="60"
-      y2="44.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
-    <rect
-      x="45"
-      y="52"
-      width="5"
-      height="5"
-      rx="1"
-      fill="transparent"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="0.5"
-    />
-    <line
-      x1="53"
-      y1="54.5"
-      x2="60"
-      y2="54.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
+      width="24"
+      height="16"
+      rx="2"
+      fill="none"
     />
   </svg>
 );
@@ -1102,46 +550,49 @@ export const MultiCascadeTree: React.FC = () => (
  */
 export const PinInput: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* PinInput segments */}
     <rect
       x="10"
-      y="30"
-      width="12"
-      height="20"
+      y="28"
+      width="14"
+      height="24"
       rx="4"
-      fill="transparent"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
     <rect
-      x="25"
-      y="30"
-      width="12"
-      height="20"
+      x="28"
+      y="28"
+      width="14"
+      height="24"
       rx="4"
-      fill="transparent"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
     <rect
-      x="40"
-      y="30"
-      width="12"
-      height="20"
+      x="46"
+      y="28"
+      width="14"
+      height="24"
       rx="4"
-      fill="transparent"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
     <rect
-      x="55"
-      y="30"
-      width="12"
-      height="20"
+      x="64"
+      y="28"
+      width="14"
+      height="24"
       rx="4"
-      fill="transparent"
+      fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
       strokeWidth="2"
     />
+    <circle cx="17" cy="40" r="2" fill="var(--rs-thumbnail-color-primary)" />
+    <circle cx="35" cy="40" r="2" fill="var(--rs-thumbnail-color-primary)" />
+    <circle cx="53" cy="40" r="2" fill="var(--rs-thumbnail-color-primary)" />
+    <circle cx="71" cy="40" r="2" fill="var(--rs-thumbnail-color-primary)" />
   </svg>
 );

@@ -199,4 +199,12 @@ describe('TagInput', () => {
     expect(onTagRemove).toHaveBeenCalledTimes(1);
     expect(onTagRemove).toHaveBeenCalledWith('New tag', expect.any(Object));
   });
+
+  it('Should have data-picker="tag" attribute even when name prop is provided', () => {
+    render(<TagInput name="customName" />);
+    const picker = screen.getByTestId('picker');
+
+    expect(picker).to.have.attr('data-picker', 'tag');
+    expect(picker).to.have.attr('name', 'customName');
+  });
 });

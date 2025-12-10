@@ -83,6 +83,12 @@ const defaultArgs: CardGroupProps = {
   )
 };
 
+export const Default: Story = {
+  args: {
+    ...defaultArgs
+  }
+};
+
 export const Columns: Story = {
   args: {
     ...defaultArgs,

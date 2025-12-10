@@ -46,3 +46,21 @@ export const PlacementRight: Story = {
     placement: 'right'
   }
 };
+
+export const Autoplay: Story = {
+  args: {
+    ...defaultArgs,
+    autoplay: true
+  }
+};
+
+export const Vertical: Story = {
+  args: {
+    ...defaultArgs,
+    vertical: true,
+    style: {
+      width: 300,
+      height: 400
+    }
+  }
+};

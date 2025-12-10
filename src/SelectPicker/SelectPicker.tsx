@@ -351,7 +351,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       <PickerToggleTrigger
         as={as}
         id={id}
-        name="select"
+        pickerType="select"
         block={block}
         disabled={disabled}
         appearance={appearance}

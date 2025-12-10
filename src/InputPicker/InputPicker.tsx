@@ -681,7 +681,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     <PickerToggleTrigger
       id={id}
       multiple={multi}
-      name={multi ? 'tag' : 'input'}
+      pickerType={multi ? 'tag' : 'input'}
       block={block}
       disabled={disabled}
       appearance={appearance}

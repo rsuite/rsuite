@@ -372,7 +372,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
       <PickerToggleTrigger
         as={as}
         id={id}
-        name="multi-cascader"
+        pickerType="multi-cascader"
         block={block}
         disabled={disabled}
         appearance={appearance}

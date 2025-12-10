@@ -41,6 +41,8 @@ export interface PickerToggleTriggerProps
   name?: string;
   /** Controls the open state of the picker */
   open?: boolean;
+  /** Picker type identifier for data-picker attribute */
+  pickerType?: string;
   /** Additional properties for the picker */
   triggerProps: any;
   /** Placement of the component */
@@ -114,6 +116,7 @@ export const PickerToggleTrigger = React.forwardRef(
       id,
       multiple,
       name,
+      pickerType,
       triggerProps,
       placement,
       popupType = 'listbox',
@@ -164,7 +167,8 @@ export const PickerToggleTrigger = React.forwardRef(
             className={classes}
             style={style}
             ref={rootRef}
-            data-picker={name}
+            name={name}
+            data-picker={pickerType}
             data-appearance={appearance}
             data-size={size}
             data-disabled={disabled || undefined}

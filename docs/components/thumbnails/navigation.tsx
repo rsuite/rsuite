@@ -11,63 +11,22 @@ export const Affix: React.FC = () => (
       width="60"
       height="60"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeDasharray="4 2"
+      strokeWidth="2"
+      strokeDasharray="4 4"
     />
     <rect
-      x="20"
-      y="20"
-      width="40"
-      height="15"
+      x="16"
+      y="16"
+      width="48"
+      height="14"
       rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      fill="var(--rs-thumbnail-color-primary)"
     />
-    <line
-      x1="10"
-      y1="20"
-      x2="15"
-      y2="20"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="10"
-      y1="35"
-      x2="15"
-      y2="35"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="65"
-      y1="20"
-      x2="70"
-      y2="20"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="65"
-      y1="35"
-      x2="70"
-      y2="35"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <path
-      d="M25 27.5L35 27.5M45 27.5L55 27.5"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
+    <path d="M16 40H64" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeDasharray="2 2" />
+    <path d="M16 50H64" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeDasharray="2 2" />
+    <path d="M16 60H64" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeDasharray="2 2" />
   </svg>
 );
 
@@ -76,51 +35,13 @@ export const Affix: React.FC = () => (
  */
 export const Breadcrumb: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* First item */}
-    <rect
-      x="5"
-      y="25"
-      width="18"
-      height="25"
-      rx="4"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
+    <rect x="10" y="34" width="16" height="12" rx="2" fill="var(--rs-thumbnail-bg-secondary)" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <path d="M30 36L34 40L30 44" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 
-    {/* First separator */}
-    <text x="28" y="42" fontSize="16" textAnchor="middle" fill="var(--rs-gray-500)">
-      ›
-    </text>
+    <rect x="38" y="34" width="16" height="12" rx="2" fill="var(--rs-thumbnail-bg-secondary)" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <path d="M58 36L62 40L58 44" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 
-    {/* Second item */}
-    <rect
-      x="32"
-      y="25"
-      width="18"
-      height="25"
-      rx="4"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-
-    {/* Second separator */}
-    <text x="55" y="42" fontSize="16" textAnchor="middle" fill="var(--rs-gray-500)">
-      ›
-    </text>
-
-    {/* Third item */}
-    <rect
-      x="59"
-      y="25"
-      width="18"
-      height="25"
-      rx="4"
-      fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-thumbnail-color-high)"
-      strokeWidth="1.5"
-    />
+    <rect x="66" y="34" width="12" height="12" rx="2" fill="var(--rs-thumbnail-color-primary)" />
   </svg>
 );
 
@@ -129,70 +50,30 @@ export const Breadcrumb: React.FC = () => (
  */
 export const Dropdown: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Dropdown button */}
     <rect
-      x="20"
-      y="15"
-      width="40"
-      height="15"
+      x="16"
+      y="16"
+      width="48"
+      height="20"
       rx="4"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
+    <path d="M54 24L50 28L46 24" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 
-    {/* Dropdown arrow */}
-    <path
-      d="M52 22.5L50 19.5L54 19.5"
-      fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-
-    {/* Dropdown menu */}
     <rect
-      x="20"
-      y="30"
-      width="40"
-      height="35"
+      x="16"
+      y="40"
+      width="48"
+      height="28"
       rx="4"
-      fill="transparent"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-
-    {/* Menu items */}
-    <rect x="22" y="32" width="36" height="8" rx="2" fill="var(--rs-thumbnail-bg)" />
-    <line
-      x1="25"
-      y1="36"
-      x2="55"
-      y2="36"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-
-    <line
-      x1="25"
-      y1="45"
-      x2="55"
-      y2="45"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="25"
-      y1="54"
-      x2="45"
-      y2="54"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
+    <rect x="22" y="46" width="36" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="22" y="56" width="28" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
   </svg>
 );
 
@@ -201,27 +82,8 @@ export const Dropdown: React.FC = () => (
  */
 export const Link: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Link text */}
-    <text
-      x="40"
-      y="40"
-      fontSize="12"
-      textAnchor="middle"
-      fill="var(--rs-thumbnail-color-primary)"
-      textDecoration="underline"
-    >
-      Visit Page
-    </text>
-
-    {/* Underline */}
-    <line
-      x1="20"
-      y1="42"
-      x2="60"
-      y2="42"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-    />
+    <rect x="20" y="38" width="40" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <path d="M20 48H60" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
   </svg>
 );
 
@@ -231,53 +93,20 @@ export const Link: React.FC = () => (
 export const Menu: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
-      x="15"
-      y="15"
-      width="50"
-      height="50"
-      rx="4"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect
-      x="15"
-      y="15"
-      width="50"
-      height="10"
+      x="10"
+      y="10"
+      width="60"
+      height="60"
       rx="4"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-    <line
-      x1="20"
-      y1="35"
-      x2="60"
-      y2="35"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="20"
-      y1="45"
-      x2="60"
-      y2="45"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="20"
-      y1="55"
-      x2="60"
-      y2="55"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <rect x="20" y="25" width="10" height="5" rx="1" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="18" y="22" width="24" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <path d="M62 24L58 28L62 32" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+
+    <rect x="18" y="38" width="44" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+    <rect x="18" y="54" width="36" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
   </svg>
 );
 
@@ -286,67 +115,24 @@ export const Menu: React.FC = () => (
  */
 export const Nav: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 32H70" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" opacity="0.3" />
+
+    <rect x="16" y="24" width="16" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <path d="M16 32H32" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+
+    <rect x="40" y="24" width="12" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+    <rect x="60" y="24" width="14" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+
     <rect
       x="10"
-      y="20"
+      y="38"
       width="60"
-      height="10"
-      rx="2"
-      fill="var(--rs-thumbnail-bg)"
+      height="28"
+      rx="4"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect x="15" y="20" width="15" height="10" rx="2" fill="var(--rs-thumbnail-color-primary)" />
-    <rect
-      x="35"
-      y="20"
-      width="15"
-      height="10"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-    />
-    <rect
-      x="55"
-      y="20"
-      width="10"
-      height="10"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-    />
-    <rect
-      x="10"
-      y="35"
-      width="60"
-      height="25"
-      rx="2"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeDasharray="2 1"
-    />
-    <line
-      x1="20"
-      y1="45"
-      x2="60"
-      y2="45"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-      strokeLinecap="round"
-      strokeDasharray="2 1"
-    />
-    <line
-      x1="20"
-      y1="55"
-      x2="50"
-      y2="55"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-      strokeLinecap="round"
-      strokeDasharray="2 1"
+      strokeWidth="2"
+      strokeDasharray="4 4"
     />
   </svg>
 );
@@ -358,45 +144,28 @@ export const Navbar: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect
       x="10"
-      y="15"
+      y="16"
       width="60"
-      height="15"
-      rx="2"
+      height="16"
+      rx="4"
       fill="var(--rs-thumbnail-bg-secondary)"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-    <rect x="15" y="17.5" width="15" height="10" rx="1" fill="var(--rs-thumbnail-color-primary)" />
-    <rect
-      x="35"
-      y="17.5"
-      width="10"
-      height="10"
-      rx="1"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-    />
-    <rect
-      x="50"
-      y="17.5"
-      width="10"
-      height="10"
-      rx="1"
-      fill="var(--rs-thumbnail-bg)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1"
-    />
+    <rect x="16" y="22" width="12" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="48" y="22" width="8" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+    <rect x="60" y="22" width="4" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+
     <rect
       x="10"
-      y="35"
+      y="38"
       width="60"
-      height="30"
-      rx="2"
-      fill="var(--rs-thumbnail-bg)"
+      height="28"
+      rx="4"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeDasharray="2 1"
+      strokeWidth="2"
+      strokeDasharray="4 4"
     />
   </svg>
 );
@@ -412,75 +181,16 @@ export const Sidenav: React.FC = () => (
       width="60"
       height="60"
       rx="4"
-      fill="var(--rs-thumbnail-bg)"
+      fill="none"
       stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
+      strokeWidth="2"
     />
-    <rect
-      x="10"
-      y="10"
-      width="20"
-      height="60"
-      rx="4"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <rect x="10" y="10" width="20" height="10" rx="4" fill="var(--rs-thumbnail-color-primary)" />
-    <line
-      x1="15"
-      y1="30"
-      x2="25"
-      y2="30"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="15"
-      y1="40"
-      x2="25"
-      y2="40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="15"
-      y1="50"
-      x2="25"
-      y2="50"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="40"
-      y1="25"
-      x2="60"
-      y2="25"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="40"
-      y1="35"
-      x2="55"
-      y2="35"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <line
-      x1="40"
-      y1="45"
-      x2="50"
-      y2="45"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
+    <path d="M30 10V70" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+
+    <rect x="16" y="20" width="8" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" />
+    <rect x="16" y="30" width="8" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+    <rect x="16" y="40" width="8" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
+    <rect x="16" y="60" width="8" height="4" rx="2" fill="var(--rs-thumbnail-color-primary)" opacity="0.5" />
   </svg>
 );
 
@@ -489,52 +199,15 @@ export const Sidenav: React.FC = () => (
  */
 export const Steps: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle
-      cx="20"
-      cy="40"
-      r="10"
-      fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-thumbnail-color-high)"
-      strokeWidth="1.5"
-    />
-    <text x="20" y="44" fontSize="12" textAnchor="middle" fill="transparent" fontWeight="bold">
-      1
-    </text>
-    <line
-      x1="30"
-      y1="40"
-      x2="40"
-      y2="40"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="2"
-    />
-    <circle
-      cx="50"
-      cy="40"
-      r="10"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <text
-      x="50"
-      y="44"
-      fontSize="12"
-      textAnchor="middle"
-      fill="var(--rs-thumbnail-color-primary)"
-      fontWeight="bold"
-    >
-      2
-    </text>
-    <line
-      x1="60"
-      y1="40"
-      x2="70"
-      y2="40"
-      stroke="var(--rs-primary-300)"
-      strokeWidth="2"
-      strokeDasharray="2 1"
-    />
+    <circle cx="20" cy="40" r="10" fill="var(--rs-thumbnail-color-primary)" />
+    <path d="M16 40L19 43L24 37" stroke="var(--rs-thumbnail-bg-secondary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+
+    <path d="M30 40H40" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+
+    <circle cx="50" cy="40" r="9" fill="var(--rs-thumbnail-bg-secondary)" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <path d="M50 36V44M46 40H54" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" strokeLinecap="round" />
+
+    <path d="M60 40H70" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" strokeDasharray="2 2" />
   </svg>
 );
 
@@ -543,101 +216,14 @@ export const Steps: React.FC = () => (
  */
 export const Pagination: React.FC = () => (
   <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Left arrow button */}
-    <rect
-      x="10"
-      y="30"
-      width="10"
-      height="20"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <polyline
-      points="16,35 12,40 16,45"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      fill="none"
-    />
+    <rect x="10" y="28" width="12" height="24" rx="2" fill="none" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <path d="M17 36L13 40L17 44" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 
-    {/* Page buttons */}
-    <rect
-      x="25"
-      y="30"
-      width="10"
-      height="20"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <text
-      x="30"
-      y="44"
-      fontSize="12"
-      textAnchor="middle"
-      fill="var(--rs-thumbnail-color-primary)"
-      fontWeight="bold"
-    >
-      1
-    </text>
+    <rect x="26" y="28" width="12" height="24" rx="2" fill="var(--rs-thumbnail-color-primary)" />
 
-    <rect
-      x="40"
-      y="30"
-      width="10"
-      height="20"
-      rx="2"
-      fill="var(--rs-thumbnail-color-primary)"
-      stroke="var(--rs-thumbnail-color-high)"
-      strokeWidth="1.5"
-    />
-    <text x="45" y="44" fontSize="12" textAnchor="middle" fill="transparent" fontWeight="bold">
-      2
-    </text>
+    <rect x="42" y="28" width="12" height="24" rx="2" fill="none" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
 
-    <rect
-      x="55"
-      y="30"
-      width="10"
-      height="20"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <text
-      x="60"
-      y="44"
-      fontSize="12"
-      textAnchor="middle"
-      fill="var(--rs-thumbnail-color-primary)"
-      fontWeight="bold"
-    >
-      3
-    </text>
-
-    {/* Right arrow button */}
-    <rect
-      x="70"
-      y="30"
-      width="10"
-      height="20"
-      rx="2"
-      fill="var(--rs-thumbnail-bg-secondary)"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-    />
-    <polyline
-      points="74,35 78,40 74,45"
-      stroke="var(--rs-thumbnail-color-primary)"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      fill="none"
-    />
+    <rect x="58" y="28" width="12" height="24" rx="2" fill="none" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="2" />
+    <path d="M63 36L67 40L63 44" stroke="var(--rs-thumbnail-color-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );

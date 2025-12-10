@@ -1,6 +1,7 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 import Panel from '../Panel';
+import PanelHeader from '../PanelHeader';
 import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
@@ -74,6 +75,13 @@ describe('Panel', () => {
     render(<Panel header={<a data-testid="custom-header">abc</a>} />);
 
     expect(screen.getByTestId('custom-header')).to.exist;
+  });
+
+  it('Should render header as div by default', () => {
+    render(<Panel header="Panel title" data-testid="panel" />);
+    const header = screen.getByText('Panel title').closest('.rs-panel-header');
+
+    expect(header).to.have.tagName('div');
   });
 
   it('Should custom a indicator', () => {
@@ -243,6 +251,55 @@ describe('Panel', () => {
 
       fireEvent.click(screen.getByRole('button'));
       expect(screen.getByRole('button')).to.have.attribute('aria-expanded', 'false');
+    });
+  });
+
+  describe('PanelHeader', () => {
+    it('Should render as div element by default', () => {
+      render(<PanelHeader data-testid="panel-header">Header content</PanelHeader>);
+      const header = screen.getByTestId('panel-header');
+
+      expect(header).to.have.tagName('div');
+      expect(header).to.have.class('rs-panel-header');
+    });
+
+    it('Should allow custom element type via as prop', () => {
+      render(
+        <PanelHeader as="header" data-testid="panel-header">
+          Header content
+        </PanelHeader>
+      );
+      const header = screen.getByTestId('panel-header');
+
+      expect(header).to.have.tagName('header');
+      expect(header).to.have.class('rs-panel-header');
+    });
+
+    it('Should render children correctly', () => {
+      render(<PanelHeader>Test Header</PanelHeader>);
+
+      expect(screen.getByText('Test Header')).to.exist;
+    });
+
+    it('Should handle React.Fragment as children', () => {
+      render(
+        <PanelHeader data-testid="panel-header">
+          <>
+            <div>Fragment</div>
+            <p>Content</p>
+          </>
+        </PanelHeader>
+      );
+
+      const titleWrapper = screen.getByTestId('panel-header').querySelector('.rs-panel-title');
+
+      // Fragment content should be wrapped by a div.rs-panel-title
+      expect(titleWrapper).to.exist;
+      expect(titleWrapper).to.have.tagName('div');
+      expect(titleWrapper).to.have.class('rs-panel-title');
+      // Ensure children of Fragment are rendered inside wrapper
+      expect(titleWrapper).to.contain.text('Fragment');
+      expect(titleWrapper).to.contain.text('Content');
     });
   });
 });

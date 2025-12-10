@@ -40,3 +40,26 @@ export const Inline: Story = {
     inline: true
   }
 };
+
+export const DefaultValue: Story = {
+  args: {
+    ...defaultArgs,
+    defaultValue: ['1', '2']
+  }
+};
+
+export const Disabled: Story = {
+  args: {
+    children: [
+      <Checkbox key="1" value="1">
+        Option 1
+      </Checkbox>,
+      <Checkbox key="2" value="2" disabled>
+        Option 2 (Disabled)
+      </Checkbox>,
+      <Checkbox key="3" value="3">
+        Option 3
+      </Checkbox>
+    ]
+  }
+};

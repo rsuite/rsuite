@@ -29,10 +29,11 @@ export const Disabled: Story = {
   }
 };
 
-export const Readnly: Story = {
+export const Readonly: Story = {
   args: {
     ...defaultArgs,
-    readOnly: true
+    readOnly: true,
+    defaultValue: 10
   }
 };
 

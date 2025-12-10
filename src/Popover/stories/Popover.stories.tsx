@@ -78,7 +78,7 @@ export const Trigger: Story = {
   }
 };
 
-export const HideRrrowIndicator: Story = {
+export const HideArrowIndicator: Story = {
   render: props => (
     <Whisper placement="top" trigger="hover" speaker={<Popover {...props} />}>
       <button>Hover Me</button>
