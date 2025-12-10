@@ -62,17 +62,13 @@ import Link from 'next/link';
 ```jsx
 import { Link } from 'react-router-dom';
 
-const NavLink = React.forwardRef(({ href, children, ...rest }, ref) => (
-  <Link ref={ref} to={href} {...rest}>
-    {children}
-  </Link>
-));
+<Breadcrumb.Item as={Link} to="/home">
+  首页
+</Breadcrumb.Item>
 
-return (
-  <Nav.Item as={NavLink} href="/">
-    Home
-  </Nav.Item>
-);
+<Nav.Item as={Link} to="/about">
+  关于
+</Nav.Item>
 ```
 
 ## 注意事项
