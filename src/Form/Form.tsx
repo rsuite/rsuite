@@ -215,7 +215,7 @@ const Form = forwardRef<
   const reset = useEventCallback((event?: React.FormEvent<HTMLFormElement>) => {
     resetErrors();
     const resetValue = resetFormValue();
-    if (resetValue !== null) {
+    if (resetValue) {
       onChange?.(resetValue);
     }
     onReset?.(resetValue, event);
