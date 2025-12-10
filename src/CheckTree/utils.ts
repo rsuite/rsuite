@@ -1,12 +1,14 @@
 import { isNil, isUndefined } from 'lodash';
 import { CheckTreeProps, ValueType } from './CheckTree';
 import { CHECK_STATE, CheckStateType } from '@/internals/constants';
-import { attachParent } from '@/internals/utils';
+import { attachParent, shallowEqual } from '@/internals/utils';
 import { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 import { formatNodeRefKey } from '../Tree/utils';
 
 /**
  * Retrieves the children of a given parent node from a flattened node map.
+ * Filters out uncheckable children.
+ * Note: Does NOT filter disabled children - disabled children are still considered in check state calculations
  */
 function getChildrenByFlattenNodes(nodes: TreeNodeMap, parent: TreeNode) {
   if (!isNil(parent.refKey) && isNil(nodes[parent.refKey])) {
@@ -20,12 +22,18 @@ function getChildrenByFlattenNodes(nodes: TreeNodeMap, parent: TreeNode) {
 
 /**
  * Checks if every child of a given parent node is checked.
+ * Disabled children are ignored in this check.
  */
 export function isEveryChildChecked(
   parent: TreeNode,
-  options: { nodes: TreeNodeMap; childrenKey: string }
+  options: {
+    nodes: TreeNodeMap;
+    childrenKey: string;
+    disabledItemValues?: any[];
+    valueKey?: string;
+  }
 ): boolean {
-  const { nodes, childrenKey } = options;
+  const { nodes, childrenKey, disabledItemValues = [], valueKey = 'value' } = options;
   if (isNil(parent.refKey) || isNil(nodes[parent.refKey])) {
     return false;
   }
@@ -36,10 +44,22 @@ export function isEveryChildChecked(
     return nodes[parent.refKey].check ?? false;
   }
 
-  return children.every(child => {
+  // Filter out disabled children
+  const enabledChildren = children.filter(child => {
+    const isDisabled = getDisabledState(nodes, child, { disabledItemValues, valueKey });
+    return !isDisabled;
+  });
+
+  // If all children are disabled, return the parent's own check state
+  if (enabledChildren.length === 0) {
+    return nodes[parent.refKey].check ?? false;
+  }
+
+  // Check if all enabled children are checked
+  return enabledChildren.every(child => {
     if (child?.[childrenKey]?.length > 0) {
       // fix: #3559
-      return isEveryChildChecked(child, { nodes, childrenKey });
+      return isEveryChildChecked(child, { nodes, childrenKey, disabledItemValues, valueKey });
     }
 
     return !isNil(child.refKey) && nodes[child.refKey].check;
@@ -48,19 +68,28 @@ export function isEveryChildChecked(
 
 /**
  * Checks if any child node is checked.
+ * Disabled children are ignored in this check.
  */
 export function isSomeChildChecked(
   nodes: TreeNodeMap,
   parent: TreeNode,
-  childrenKey: string
+  childrenKey: string,
+  disabledItemValues: any[] = [],
+  valueKey: string = 'value'
 ): boolean {
   if (!isNil(parent.refKey) && isNil(nodes[parent.refKey])) {
     return false;
   }
   const children = getChildrenByFlattenNodes(nodes, parent);
   return children.some(child => {
+    // Skip disabled children
+    const isDisabled = getDisabledState(nodes, child, { disabledItemValues, valueKey });
+    if (isDisabled) {
+      return false; // Disabled children don't count as "some checked"
+    }
+
     if (child?.[childrenKey]?.length > 0) {
-      return isSomeChildChecked(nodes, child, childrenKey);
+      return isSomeChildChecked(nodes, child, childrenKey, disabledItemValues, valueKey);
     }
     return !isNil(child.refKey) && nodes[child.refKey].check;
   });
@@ -130,16 +159,18 @@ export function isNodeUncheckable(
 export function getFormattedTree(
   nodes: TreeNodeMap,
   data: any[],
-  props: Required<Pick<CheckTreeProps, 'childrenKey' | 'cascade'>>
+  props: Required<
+    Pick<CheckTreeProps, 'childrenKey' | 'cascade' | 'disabledItemValues' | 'valueKey'>
+  >
 ) {
-  const { childrenKey, cascade } = props;
+  const { childrenKey, cascade, disabledItemValues, valueKey } = props;
   return data.map((node: any) => {
     const formatted: any = { ...node };
     const curNode = nodes[node.refKey];
 
     if (curNode) {
       const checkState = !isUndefined(cascade)
-        ? getNodeCheckState(curNode, { cascade, nodes, childrenKey })
+        ? getNodeCheckState(curNode, { cascade, nodes, childrenKey, disabledItemValues, valueKey })
         : undefined;
 
       formatted.check = curNode.check;
@@ -160,6 +191,7 @@ export function getFormattedTree(
 
 /**
  * Determines the disabled state of a tree node.
+ * If a parent node is disabled, all its children should also be disabled.
  */
 export function getDisabledState(
   nodes: TreeNodeMap,
@@ -171,9 +203,31 @@ export function getDisabledState(
     return false;
   }
 
-  return disabledItemValues.some(
-    (value: any) => node.refKey && nodes[node.refKey][valueKey] === value
+  // Check if the current node is disabled
+  const isCurrentNodeDisabled = disabledItemValues.some(
+    (value: any) => node.refKey && shallowEqual(nodes[node.refKey][valueKey], value)
   );
+
+  if (isCurrentNodeDisabled) {
+    return true;
+  }
+
+  // Check if any parent node is disabled
+  let currentNode = node;
+  while (currentNode.parent) {
+    const parentNode = currentNode.parent;
+    const parentRefKey = parentNode.refKey;
+    if (
+      !isNil(parentRefKey) &&
+      !isNil(nodes[parentRefKey]) &&
+      disabledItemValues.some((value: any) => shallowEqual(nodes[parentRefKey][valueKey], value))
+    ) {
+      return true;
+    }
+    currentNode = parentNode;
+  }
+
+  return false;
 }
 
 /**
@@ -206,13 +260,15 @@ interface NodeCheckStateOptions {
   nodes: TreeNodeMap;
   cascade: boolean;
   childrenKey: string;
+  disabledItemValues?: any[];
+  valueKey?: string;
 }
 
 /**
  * Calculates the check state of a node in a check tree.
  */
 export function getNodeCheckState(node: TreeNode, options: NodeCheckStateOptions): CheckStateType {
-  const { nodes, cascade, childrenKey } = options;
+  const { nodes, cascade, childrenKey, disabledItemValues = [], valueKey = 'value' } = options;
 
   if (node.refKey === undefined) {
     return CHECK_STATE.UNCHECK;
@@ -227,14 +283,14 @@ export function getNodeCheckState(node: TreeNode, options: NodeCheckStateOptions
     return node.check ? CHECK_STATE.CHECK : CHECK_STATE.UNCHECK;
   }
 
-  if (isEveryChildChecked(node, { nodes, childrenKey })) {
+  if (isEveryChildChecked(node, { nodes, childrenKey, disabledItemValues, valueKey })) {
     nodes[node.refKey].checkAll = true;
     nodes[node.refKey].check = true;
 
     return CHECK_STATE.CHECK;
   }
 
-  if (isSomeChildChecked(nodes, node, childrenKey)) {
+  if (isSomeChildChecked(nodes, node, childrenKey, disabledItemValues, valueKey)) {
     nodes[node.refKey].checkAll = false;
     return CHECK_STATE.INDETERMINATE;
   }

@@ -26,6 +26,7 @@ function useVirtualizedTreeData(
     expandItemValues: (string | number)[];
     cascade?: boolean;
     searchKeyword?: string;
+    disabledItemValues?: (string | number)[];
   }
 ) {
   const { childrenKey, valueKey } = useItemDataKeys();
@@ -34,7 +35,7 @@ function useVirtualizedTreeData(
    * Formats the virtualized tree data.
    */
   return useCallback((): TreeNode[] => {
-    const { cascade, searchKeyword, expandItemValues } = options;
+    const { cascade, searchKeyword, expandItemValues, disabledItemValues = [] } = options;
 
     return UNSAFE_flattenTree(data, childrenKey, (node: any) => {
       let formatted = {};
@@ -58,7 +59,13 @@ function useVirtualizedTreeData(
       }
       if (curNode) {
         const checkState = !isUndefined(cascade)
-          ? getNodeCheckState(curNode, { cascade, nodes, childrenKey })
+          ? getNodeCheckState(curNode, {
+              cascade,
+              nodes,
+              childrenKey,
+              disabledItemValues,
+              valueKey
+            })
           : undefined;
         formatted = {
           ...node,

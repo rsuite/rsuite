@@ -157,6 +157,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
   const flattenedNodes = useFlattenTree(treeData, {
     ...itemDataKeys,
     uncheckableItemValues,
+    disabledItemValues,
     multiple: true,
     cascade,
     value
