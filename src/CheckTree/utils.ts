@@ -1,7 +1,7 @@
 import { isNil, isUndefined } from 'lodash';
 import { CheckTreeProps, ValueType } from './CheckTree';
 import { CHECK_STATE, CheckStateType } from '@/internals/constants';
-import { attachParent } from '@/internals/utils';
+import { attachParent, shallowEqual } from '@/internals/utils';
 import { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 import { formatNodeRefKey } from '../Tree/utils';
 
@@ -163,7 +163,7 @@ export function getFormattedTree(
     Pick<CheckTreeProps, 'childrenKey' | 'cascade' | 'disabledItemValues' | 'valueKey'>
   >
 ) {
-  const { childrenKey, cascade, disabledItemValues = [], valueKey = 'value' } = props;
+  const { childrenKey, cascade, disabledItemValues, valueKey } = props;
   return data.map((node: any) => {
     const formatted: any = { ...node };
     const curNode = nodes[node.refKey];
@@ -205,7 +205,7 @@ export function getDisabledState(
 
   // Check if the current node is disabled
   const isCurrentNodeDisabled = disabledItemValues.some(
-    (value: any) => node.refKey && nodes[node.refKey][valueKey] === value
+    (value: any) => node.refKey && shallowEqual(nodes[node.refKey][valueKey], value)
   );
 
   if (isCurrentNodeDisabled) {
@@ -220,7 +220,7 @@ export function getDisabledState(
     if (
       !isNil(parentRefKey) &&
       !isNil(nodes[parentRefKey]) &&
-      disabledItemValues.some((value: any) => nodes[parentRefKey][valueKey] === value)
+      disabledItemValues.some((value: any) => shallowEqual(nodes[parentRefKey][valueKey], value))
     ) {
       return true;
     }

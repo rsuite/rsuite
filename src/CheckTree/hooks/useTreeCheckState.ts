@@ -41,7 +41,14 @@ function useTreeCheckState(props: Props) {
     }
   );
 
-  // Helper function to check if any descendant is disabled
+  /**
+   * Recursively checks if a node has any disabled descendants.
+   * This is used to determine if a parent node's checkAll state should be true.
+   * If any descendant is disabled, checkAll must be false because not all descendants can be checked.
+   * @param nodes - The flattened tree node map
+   * @param node - The node to check for disabled descendants
+   * @returns true if any descendant (at any depth) is disabled, false otherwise
+   */
   const hasDisabledDescendant = useEventCallback((nodes: TreeNodeMap, node: TreeNode): boolean => {
     if (!node[childrenKey] || !node[childrenKey].length) {
       return false;
@@ -101,8 +108,10 @@ function useTreeCheckState(props: Props) {
         if (!isNil(currentNode.parent) && !isNil(currentNode.parent.refKey)) {
           const parentNode = nodes[currentNode.parent.refKey];
           if (currentNode.check) {
-            // If current node's checkAll is true, it should be represented by its parent
-            // Don't add it individually
+            // Optimization: When a parent node is checked with checkAll=true, it represents
+            // the entire checked subtree. If the current node also has checkAll=true and its
+            // parent is checked, skip adding this node's value to avoid redundant representation.
+            // The parent's value already implies all descendants are checked.
             if (currentNode.checkAll && parentNode.check) {
               continue;
             }
