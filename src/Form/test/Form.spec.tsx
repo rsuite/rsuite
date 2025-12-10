@@ -2,9 +2,10 @@ import React from 'react';
 import Form from '../Form';
 import FormControl from '../../FormControl';
 import CustomProvider from '../../CustomProvider';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
+import { FormInstance } from '../hooks/useFormRef';
 
 describe('Form', () => {
   testStandardProps(<Form />, {
@@ -98,5 +99,29 @@ describe('Form', () => {
     );
 
     expect(screen.getByRole('form')).to.have.contain('.rs-form-stack-vertical');
+  });
+
+  it('Should call onChange when reset() is called on controlled form', () => {
+    const formRef = React.createRef<FormInstance>();
+    const defaultValue = { name: 'default', email: 'default@test.com' };
+    const onChange = vi.fn();
+
+    render(
+      <Form
+        ref={formRef}
+        formDefaultValue={defaultValue}
+        formValue={{ name: 'changed', email: 'changed@test.com' }}
+        onChange={onChange}
+      >
+        <FormControl name="name" />
+        <FormControl name="email" />
+      </Form>
+    );
+
+    // Reset the form
+    formRef.current?.reset();
+
+    // onChange should be called with the default values
+    expect(onChange).toHaveBeenCalledWith(defaultValue);
   });
 });
