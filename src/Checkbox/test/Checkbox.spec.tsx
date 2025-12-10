@@ -95,6 +95,8 @@ describe('Checkbox', () => {
     expect(container.firstChild).to.have.attr('data-checked', 'mixed');
     expect(screen.getByRole('checkbox')).to.be.not.checked;
     expect(screen.getByRole('checkbox')).to.have.attribute('aria-checked', 'mixed');
+    // Verify that the native input element has indeterminate property set
+    expect((screen.getByRole('checkbox') as HTMLInputElement).indeterminate).to.be.true;
   });
 
   it('Should have a value', () => {
