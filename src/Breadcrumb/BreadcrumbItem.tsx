@@ -49,7 +49,7 @@ export interface BreadcrumbItemProps extends BoxProps {
 const BreadcrumbItem = forwardRef<'a', BreadcrumbItemProps>(
   (props: BreadcrumbItemProps, ref: React.Ref<any>) => {
     const {
-      wrapperAs: WrapperComponent = 'li',
+      wrapperAs: Wrapper = 'li',
       href,
       as: Component = href ? SafeAnchor : 'span',
       classPrefix = 'breadcrumb-item',
@@ -72,13 +72,7 @@ const BreadcrumbItem = forwardRef<'a', BreadcrumbItemProps>(
     const componentProps = omitBoxProps(rest);
 
     return (
-      <Box
-        as={WrapperComponent}
-        style={style}
-        className={classes}
-        data-active={active}
-        {...boxProps}
-      >
+      <Box as={Wrapper} style={style} className={classes} data-active={active} {...boxProps}>
         {icon}
         {active ? (
           <span>{children}</span>
