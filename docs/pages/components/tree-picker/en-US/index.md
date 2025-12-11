@@ -104,6 +104,8 @@ Use `onlyLeafSelectable` to control the selection of leaf nodes.
 - <kbd>↑</kbd> - Move focus to the previous tree node.
 - <kbd>→</kbd> - Expand the focused tree node if it is collapsed.
 - <kbd>←</kbd> - Collapse the focused tree node if it is expanded.
+- <kbd>Home</kbd> - Move focus to the first tree node.
+- <kbd>End</kbd> - Move focus to the last tree node.
 - <kbd>Enter</kbd> - Select the focused tree node.
 - <kbd>Esc</kbd> - Close the tree.
 

@@ -455,6 +455,36 @@ describe('CheckTree', () => {
       expect(treeItems[0]).to.have.attribute('aria-checked', 'true');
     });
 
+    it('Should focus the first visible item when pressing the Home key', () => {
+      render(<CheckTree data={data} defaultExpandAll />);
+      const tree = screen.getByRole('tree');
+      const treeItems = screen.getAllByRole('treeitem');
+
+      // First focus on a middle item
+      fireEvent.keyDown(tree, { key: 'ArrowDown' });
+      fireEvent.keyDown(tree, { key: 'ArrowDown' });
+      fireEvent.keyDown(tree, { key: 'ArrowDown' });
+
+      // Then press Home to go to first item
+      fireEvent.keyDown(tree, { key: 'Home' });
+
+      expect(treeItems[0]).to.have.focus;
+    });
+
+    it('Should focus the last visible item when pressing the End key', () => {
+      render(<CheckTree data={data} defaultExpandAll />);
+      const tree = screen.getByRole('tree');
+      const treeItems = screen.getAllByRole('treeitem');
+
+      // First focus on first item
+      fireEvent.keyDown(tree, { key: 'ArrowDown' });
+
+      // Then press End to go to last item
+      fireEvent.keyDown(tree, { key: 'End' });
+
+      expect(treeItems[treeItems.length - 1]).to.have.focus;
+    });
+
     describe('With virtualized', () => {
       it('Should focus the next item when pressing the down arrow key', () => {
         render(<CheckTree data={data} virtualized defaultExpandAll />);
@@ -503,6 +533,35 @@ describe('CheckTree', () => {
         fireEvent.keyDown(tree, { key: 'Enter' });
 
         expect(screen.getAllByRole('treeitem')[0]).to.have.attribute('aria-checked', 'true');
+      });
+
+      it('Should focus the first visible item when pressing the Home key', () => {
+        render(<CheckTree data={data} virtualized defaultExpandAll />);
+        const tree = screen.getByRole('tree');
+
+        // First focus on a middle item
+        fireEvent.keyDown(tree, { key: 'ArrowDown' });
+        fireEvent.keyDown(tree, { key: 'ArrowDown' });
+        fireEvent.keyDown(tree, { key: 'ArrowDown' });
+
+        // Then press Home to go to first item
+        fireEvent.keyDown(tree, { key: 'Home' });
+
+        expect(screen.getAllByRole('treeitem')[0]).to.have.focus;
+      });
+
+      it('Should focus the last visible item when pressing the End key', () => {
+        render(<CheckTree data={data} virtualized defaultExpandAll />);
+        const tree = screen.getByRole('tree');
+
+        // First focus on first item
+        fireEvent.keyDown(tree, { key: 'ArrowDown' });
+
+        // Then press End to go to last item
+        fireEvent.keyDown(tree, { key: 'End' });
+
+        const treeItems = screen.getAllByRole('treeitem');
+        expect(treeItems[treeItems.length - 1]).to.have.focus;
       });
     });
   });

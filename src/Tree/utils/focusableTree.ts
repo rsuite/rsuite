@@ -135,6 +135,42 @@ export const focusPreviousItem = (props: FocusItemProps) => {
 };
 
 /**
+ * Focuses on the first item in a tree.
+ */
+export const focusFirstItem = (props: FocusItemProps) => {
+  const { focusableItems, treeNodesRefs, valueKey } = props;
+
+  if (focusableItems.length === 0) {
+    return;
+  }
+
+  const firstItem = focusableItems[0];
+  const value = firstItem[valueKey];
+
+  focusTreeNode(firstItem.refKey, treeNodesRefs);
+
+  return value;
+};
+
+/**
+ * Focuses on the last item in a tree.
+ */
+export const focusLastItem = (props: FocusItemProps) => {
+  const { focusableItems, treeNodesRefs, valueKey } = props;
+
+  if (focusableItems.length === 0) {
+    return;
+  }
+
+  const lastItem = focusableItems[focusableItems.length - 1];
+  const value = lastItem[valueKey];
+
+  focusTreeNode(lastItem.refKey, treeNodesRefs);
+
+  return value;
+};
+
+/**
  * Returns the index of the first visible node in the tree that matches the given value.
  */
 const getScrollToIndex = (nodes: readonly TreeNode[], value: string | number, valueKey: string) => {
