@@ -1,3 +1,23 @@
+# [6.1.0](https://github.com/rsuite/rsuite/compare/v6.0.1...v6.1.0) (2025-12-11)
+
+
+### Bug Fixes
+
+* **Breadcrumb:** forward props correctly when using as prop in BreadcrumbItem ([#4450](https://github.com/rsuite/rsuite/issues/4450)) ([1c39f37](https://github.com/rsuite/rsuite/commit/1c39f37d2b1081434a2db7e4c32f184fd8581990)), closes [#4427](https://github.com/rsuite/rsuite/issues/4427) [#4463](https://github.com/rsuite/rsuite/issues/4463)
+* **Checkbox:** set indeterminate property for screen reader support ([#4448](https://github.com/rsuite/rsuite/issues/4448)) ([0bcdd9e](https://github.com/rsuite/rsuite/commit/0bcdd9ed488b297c73f3b67d1f6b77f16e39c4d2)), closes [#4345](https://github.com/rsuite/rsuite/issues/4345)
+* **CheckTree:** allow parent nodes to be selected when all children are disabled ([#4446](https://github.com/rsuite/rsuite/issues/4446)) ([63e76e4](https://github.com/rsuite/rsuite/commit/63e76e47c5cff9197f1a1131e2e9a888a1fe60f6)), closes [#4346](https://github.com/rsuite/rsuite/issues/4346)
+* **Form:** call onChange when reset() is invoked on controlled form  ([#4444](https://github.com/rsuite/rsuite/issues/4444)) ([acb0e59](https://github.com/rsuite/rsuite/commit/acb0e595788bed2769b3cf57da9a5f9ca40f4e79)), closes [#4394](https://github.com/rsuite/rsuite/issues/4394)
+* **rate:** prevent name prop from overriding internal component styling ([#4455](https://github.com/rsuite/rsuite/issues/4455)) ([f803d01](https://github.com/rsuite/rsuite/commit/f803d01e7be28745fa40f17f4eee66c2b5e0d22d))
+
+
+### Features
+
+* **build:** export SCSS source files to npm package ([#4445](https://github.com/rsuite/rsuite/issues/4445)) ([edac8e6](https://github.com/rsuite/rsuite/commit/edac8e65e4877b82d11f24d0565f3cc411fd5956)), closes [#4437](https://github.com/rsuite/rsuite/issues/4437)
+* **DateInput:** support AM/PM toggle with 'a' and 'p' keys ([#4443](https://github.com/rsuite/rsuite/issues/4443)) ([d56468c](https://github.com/rsuite/rsuite/commit/d56468cad2e5880e605d1d05deaa223e2f2103f9))
+* **Tree:** add Home and End keyboard support for accessibility ([#4449](https://github.com/rsuite/rsuite/issues/4449)) ([9f54089](https://github.com/rsuite/rsuite/commit/9f54089666eaaffb24998256f4dd8b0561d6c638)), closes [#4344](https://github.com/rsuite/rsuite/issues/4344)
+
+
+
 ## [6.0.1](https://github.com/rsuite/rsuite/compare/v6.0.0...v6.0.1) (2025-12-07)
 
 
