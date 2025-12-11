@@ -4,6 +4,7 @@ import type { ReactSuiteComponents } from './types';
 import type { ToastContainerInstance } from '../../toaster/ToastContainer';
 import type { DialogContainerInstance } from '../../useDialog/DialogContainer';
 import type { Locale } from '../../locales';
+import type { StyleCollector } from '../styled-system/style-collector';
 
 export interface CustomValue<T = Locale> {
   /**
@@ -132,6 +133,21 @@ export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>>
    * @internal
    */
   dialogContainer?: RefObject<DialogContainerInstance | null>;
+
+  /**
+   * Style collector for SSR
+   * When set, styles will be collected instead of injected into the DOM
+   * @internal
+   */
+  styleCollector?: StyleCollector;
+
+  /**
+   * Force SSR mode (useful for testing)
+   * When true, will enable SSR style collection even in browser environment
+   * @default false
+   * @internal
+   */
+  forceSSR?: boolean;
 }
 
 export const CustomContext = React.createContext<CustomProviderProps>({});
