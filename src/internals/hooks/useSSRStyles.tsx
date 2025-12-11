@@ -94,15 +94,9 @@ export function useSSRStyles(options: UseSSRStylesOptions = {}): UseSSRStylesRes
   // Detect SSR environment (stable across renders)
   const isSSR = useMemo(() => forceSSR || typeof window === 'undefined', [forceSSR]);
 
-  // Check if SSR styles already exist in the DOM (client-side only)
-  const hasSSRStyles = useMemo(() => {
-    if (typeof window === 'undefined') return false;
-    return !!document.querySelector('[data-rs-style-manager]');
-  }, []);
-
   // Create or use provided collector
   const collector = useMemo(() => {
-    // If user provided a collector, use it
+    // If user provided a collector, always use it (both SSR and client)
     if (userCollector) {
       return userCollector;
     }
@@ -112,19 +106,14 @@ export function useSSRStyles(options: UseSSRStylesOptions = {}): UseSSRStylesRes
       return undefined;
     }
 
-    // On client: if SSR styles already exist, don't create a new collector
-    // This prevents duplicate style collection after hydration
-    if (!isSSR && hasSSRStyles) {
-      return undefined;
-    }
-
-    // Auto-create collector during SSR or when forceSSR is enabled
+    // Only auto-create collector during SSR or when forceSSR is enabled
+    // On client: don't auto-create collector to avoid duplicate style collection
     if (isSSR) {
       return new StyleCollector(nonce);
     }
 
     return undefined;
-  }, [userCollector, enabled, isSSR, nonce, hasSSRStyles]);
+  }, [userCollector, enabled, isSSR, nonce]);
 
   // Synchronously set collector to StyleManager during SSR
   // This must happen before rendering so child components can use it

@@ -26,6 +26,15 @@ export const StyleManager = {
    */
   init(options?: { nonce?: string }) {
     if (!this.styleElement && typeof document !== 'undefined') {
+      // Check if SSR styles already exist in the DOM
+      // If they do, don't create a new style element to avoid duplicates
+      const existingSSRStyles = document.querySelector('[data-rs-style-manager]');
+      if (existingSSRStyles) {
+        // SSR styles exist, don't create a new element
+        // Client-side dynamic styles are not needed when SSR styles are present
+        return null;
+      }
+
       this.styleElement = document.createElement('style');
       this.styleElement.setAttribute('data-rs-style-manager', '');
 
