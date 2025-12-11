@@ -121,17 +121,18 @@ class MyDocument extends Document {
         )
       });
 
+    // This triggers rendering and populates the collector
     const initialProps = await Document.getInitialProps(ctx);
+
+    // Extract styles AFTER rendering is complete
+    const styles = extractStyleHTML(collector);
 
     return {
       ...initialProps,
       styles: (
         <>
           {initialProps.styles}
-          <style
-            data-rs-style-manager
-            dangerouslySetInnerHTML={extractStyleHTML(collector)}
-          />
+          <style data-rs-style-manager dangerouslySetInnerHTML={styles} />
         </>
       )
     };
