@@ -27,6 +27,11 @@
         "isRequired": false,
         "description": "Rotate icon"
       },
+      "size": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Icon size (sets both width and height)"
+      },
       "spin": {
         "type": "boolean",
         "isRequired": false,

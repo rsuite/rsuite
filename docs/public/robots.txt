@@ -1,0 +1,12 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+
+# Host
+Host: https://rsuitejs.com
+
+# Sitemaps
+Sitemap: https://rsuitejs.com/sitemap.xml

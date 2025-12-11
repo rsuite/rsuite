@@ -58,6 +58,12 @@
         "type": "'rectangle' | 'circle'",
         "isRequired": false,
         "description": "The shape of the wrapped element"
+      },
+      "size": {
+        "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
+        "isRequired": false,
+        "description": "Set the size of the badge",
+        "defaultValue": "md"
       }
     }
   }
