@@ -397,6 +397,39 @@ describe('DateRangeInput', () => {
       });
     });
 
+    it('Should toggle AM/PM by typing "a" key', () => {
+      testContinuousKeyPress({
+        format: 'aa',
+        defaultValue: [new Date('2023-10-01 13:00:00'), null],
+        keySequences: [
+          { key: 'a', expected: 'AM ~ aa' },
+          { key: 'a', expected: 'AM ~ aa' } // Should remain AM when already AM
+        ]
+      });
+    });
+
+    it('Should toggle AM/PM by typing "p" key', () => {
+      testContinuousKeyPress({
+        format: 'aa',
+        defaultValue: [new Date('2023-10-01 01:00:00'), null],
+        keySequences: [
+          { key: 'p', expected: 'PM ~ aa' },
+          { key: 'p', expected: 'PM ~ aa' } // Should remain PM when already PM
+        ]
+      });
+    });
+
+    it('Should toggle AM/PM with "a" and "p" keys in full format', () => {
+      testContinuousKeyPress({
+        format: 'HH:mm aa',
+        defaultValue: [new Date('2023-10-01 13:30:00'), null],
+        keySequences: [
+          { key: '{arrowright}{arrowright}a', expected: '01:30 AM ~ HH:mm aa' },
+          { key: '{arrowright}{arrowright}p', expected: '13:30 PM ~ HH:mm aa' }
+        ]
+      });
+    });
+
     it('Should show correct AM/PM by changing the hour', () => {
       testContinuousKeyPress({
         format: 'HH aa',

@@ -191,6 +191,27 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
     }
   });
 
+  const onAmPmToggle = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
+    const input = event.target as HTMLInputElement;
+    const key = event.key.toLowerCase();
+
+    // Only handle 'a' or 'p' keys when the selected pattern is 'a' (AM/PM)
+    if (selectedState.selectedPattern === 'a' && (key === 'a' || key === 'p')) {
+      const currentHour = dateField.hour || 0;
+      const isAM = currentHour < 12;
+      const isPM = currentHour >= 12;
+
+      // Toggle AM/PM based on the key pressed
+      // 'a' key -> set to AM, 'p' key -> set to PM
+      if ((key === 'a' && isPM) || (key === 'p' && isAM)) {
+        const state = getInputSelectedState({ ...keyPressOptions, input });
+        setSelectedState(state);
+        setDateOffset('a', 1, date => handleChange(date, event));
+        setSelectionRange(state.selectionStart, state.selectionEnd);
+      }
+    }
+  });
+
   const handleClick = useEventCallback((event: React.MouseEvent<HTMLInputElement>) => {
     const input = event.target as HTMLInputElement;
     const state = getInputSelectedState({ ...keyPressOptions, input });
@@ -222,6 +243,7 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
     onSegmentValueChange,
     onSegmentValueChangeWithNumericKeys,
     onSegmentValueRemove,
+    onAmPmToggle,
     onKeyDown
   });
 
