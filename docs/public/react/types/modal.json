@@ -17,6 +17,11 @@
         "isRequired": false,
         "description": "Add an optional extra class name to .modal-backdrop It could end up looking like class=\"modal-backdrop foo-modal-backdrop in\"."
       },
+      "bodyFill": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Remove default padding from the dialog and body so the content can occupy the full height. Useful for creating custom layouts with full-width/height content."
+      },
       "centered": {
         "type": "boolean",
         "isRequired": false,

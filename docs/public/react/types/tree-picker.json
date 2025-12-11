@@ -157,6 +157,11 @@
         "isRequired": false,
         "description": "Called when the tree node expand state changes"
       },
+      "onlyLeafSelectable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether only leaf nodes can be selected"
+      },
       "onOpen": {
         "type": "() => void",
         "isRequired": false,

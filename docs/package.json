@@ -19,7 +19,8 @@
     "generate-theme-css-vars": "node ./scripts/generate-theme-css-vars.js",
     "generate-llms-txt": "node ./scripts/generate-llms-txt.js",
     "generate-llms-full": "node ./scripts/generate-llms-full-txt.js",
-    "generate-types": "node ./scripts/generate-types.js"
+    "generate-types": "node ./scripts/generate-types.js",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@docsearch/react": "^3.2.1",
@@ -79,6 +80,7 @@
     "highlight.js": "^11.9.0",
     "markdown-loader": "2.0.2",
     "mini-css-extract-plugin": "^2.1.0",
+    "next-sitemap": "^4.2.3",
     "postcss": "^8.4.31",
     "postcss-loader": "^4.2.0",
     "postcss-merge-rules": "^7.0.5",
