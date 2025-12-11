@@ -31,6 +31,7 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
     csp,
     disableInlineStyles,
     styleCollector: userStyleCollector,
+    forceSSR,
     ...rest
   } = props;
   const toasters = useRef(new Map<string, ToastContainerInstance>());
@@ -41,7 +42,8 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
   // 🔥 Automatic SSR style collection
   const { collector: autoCollector, styleElement } = useSSRStyles({
     collector: userStyleCollector,
-    nonce: csp?.nonce
+    nonce: csp?.nonce,
+    forceSSR
   });
 
   // Use user-provided collector or auto-created one
@@ -87,8 +89,6 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
 
   return (
     <CustomContext.Provider value={contextValue}>
-      {/* 🔥 Auto-inject SSR styles */}
-      {styleElement}
       <IconProvider value={iconContext}>
         {children}
         <Portal>
@@ -107,6 +107,26 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
           <DialogContainer ref={dialogContainerRef} />
         </Portal>
       </IconProvider>
+      {/*
+        🔥 SSR styles are rendered AFTER children so all styles are collected first.
+
+        ⚠️ IMPORTANT: In production SSR, DO NOT rely on this auto-rendered styleElement!
+        Instead, use the rsuite/ssr API to manually extract styles and inject them into <head>:
+
+        import { renderWithStyles } from 'rsuite/ssr';
+
+        const { html, styles } = renderWithStyles((collector) =>
+          renderToString(
+            <CustomProvider styleCollector={collector}>
+              <App />
+            </CustomProvider>
+          )
+        );
+
+        Then inject `styles` into your HTML <head> tag.
+        See: /src/internals/Box/test/ssr-usage-example.md
+      */}
+      {styleElement}
     </CustomContext.Provider>
   );
 }

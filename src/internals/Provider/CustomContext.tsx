@@ -140,6 +140,14 @@ export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>>
    * @internal
    */
   styleCollector?: StyleCollector;
+
+  /**
+   * Force SSR mode (useful for testing)
+   * When true, will enable SSR style collection even in browser environment
+   * @default false
+   * @internal
+   */
+  forceSSR?: boolean;
 }
 
 export const CustomContext = React.createContext<CustomProviderProps>({});

@@ -1,4 +1,5 @@
 import isEmpty from 'lodash/isEmpty';
+import canUseDOM from 'dom-lib/canUseDOM';
 import { CSSProperties, useContext, useMemo } from 'react';
 import { useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { isCSSProperty } from '@/internals/utils';
@@ -7,6 +8,9 @@ import { breakpointValues, isResponsiveValue } from './responsive';
 import { cssSystemPropAlias } from './css-alias';
 import { StyleManager } from './style-manager';
 import type { Breakpoints, WithResponsive, ResponsiveValue } from '@/internals/types';
+
+// Detect SSR environment
+const isSSR = !canUseDOM;
 
 /**
  * Generate a stable hash-based ID for SSR/CSR consistency
@@ -109,10 +113,8 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
   // Only apply styling if enabled and there are CSS variables
   const shouldApplyStyles = enabled && !isEmpty(cssVars);
 
-  // Apply CSS variables through StyleManager
-  useIsomorphicLayoutEffect(() => {
-    if (!shouldApplyStyles) return;
-
+  // Helper function to generate and add CSS rules
+  const addStylesToManager = (nonce?: string) => {
     // Create base CSS rules for the variables
     let baseVarRules = '';
     let basePropRules = '';
@@ -166,7 +168,7 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
     const baseCssRules = baseVarRules + basePropRules;
 
     // Add the base rule to the style manager
-    StyleManager.addRule(`.${componentId}`, baseCssRules, { nonce: csp?.nonce });
+    StyleManager.addRule(`.${componentId}`, baseCssRules, { nonce });
 
     // Process responsive variables
     if (!isEmpty(responsiveVars)) {
@@ -234,11 +236,27 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
           StyleManager.addRule(
             `@media (min-width: ${minWidth}px)`,
             `.${componentId} { ${rules} }`,
-            { nonce: csp?.nonce }
+            { nonce }
           );
         }
       });
     }
+  };
+
+  // SSR or when collector is set: Synchronously add styles during render
+  // This must happen during render, not in an effect, because effects don't run during SSR
+  // Also applies when user manually sets a collector (for SSR testing in browser environment)
+  const hasCollector = StyleManager.collector != null;
+  if ((isSSR || hasCollector) && shouldApplyStyles) {
+    addStylesToManager(csp?.nonce);
+  }
+
+  // Client: Apply CSS variables through StyleManager using effect
+  useIsomorphicLayoutEffect(() => {
+    // Skip if collector is set (already handled above synchronously) or if styles shouldn't be applied
+    if (StyleManager.collector != null || !shouldApplyStyles) return;
+
+    addStylesToManager(csp?.nonce);
 
     return () => {
       // Clean up rules when component unmounts
