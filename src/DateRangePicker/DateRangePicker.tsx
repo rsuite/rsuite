@@ -654,6 +654,12 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       const nextCalendarDate = Array.from(calendarDateRange) as DateRange;
       nextCalendarDate[index] = date;
 
+      // If allowSameMonth is true, the start and end dates should be the same
+      if (allowSameMonth) {
+        nextCalendarDate[0] = date;
+        nextCalendarDate[1] = date;
+      }
+
       setCalendarDateRange({
         dateRange: nextCalendarDate,
         calendarKey,
