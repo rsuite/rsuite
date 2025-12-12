@@ -4,35 +4,31 @@ const HtmlwebpackPlugin = require('html-webpack-plugin');
 
 const config = {
   devServer: {
-    disableHostCheck: true,
     historyApiFallback: true,
     compress: true,
     host: '0.0.0.0',
-    port: 3100
+    port: 3100,
+    hot: true
   },
   entry: {
     app: './src/index.js'
   },
   output: {
-    filename: '[name].bundle.js?[hash]',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/'
+    publicPath: '/',
+    clean: true
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        use: ['babel-loader?babelrc']
+        exclude: /node_modules/,
+        use: ['babel-loader']
       },
       {
-        test: /\.(less|css)$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader
-          },
-          'css-loader',
-          'less-loader?javascriptEnabled=true'
-        ]
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
   },
@@ -42,8 +38,7 @@ const config = {
       inject: true
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css'
+      filename: '[name].css'
     })
   ]
 };
