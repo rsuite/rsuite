@@ -1,37 +1,30 @@
 module.exports = [
   // Add support for native node modules
   {
-    test: /\.node$/,
-    use: 'node-loader'
+    test: /native_modules[/\\].+\.node$/,
+    use: 'node-loader',
   },
   {
-    test: /\.(m?js|node)$/,
+    test: /[/\\]node_modules[/\\].+\.(m?js|node)$/,
     parser: { amd: false },
     use: {
       loader: '@vercel/webpack-asset-relocator-loader',
       options: {
-        outputAssetBase: 'native_modules'
-      }
-    }
+        outputAssetBase: 'native_modules',
+      },
+    },
   },
+  // Babel loader for JSX and modern JavaScript
   {
-    test: /\.js$/,
-    use: ['babel-loader?babelrc']
-  }
-  // Put your webpack loader rules in this array.  This is where you would put
-  // your ts-loader configuration for instance:
-  /**
-   * Typescript Example:
-   *
-   * {
-   *   test: /\.tsx?$/,
-   *   exclude: /(node_modules|.webpack)/,
-   *   loaders: [{
-   *     loader: 'ts-loader',
-   *     options: {
-   *       transpileOnly: true
-   *     }
-   *   }]
-   * }
-   */
+    test: /\.jsx?$/,
+    exclude: /node_modules/,
+    use: {
+      loader: 'babel-loader',
+    },
+  },
+  // CSS loader
+  {
+    test: /\.css$/,
+    use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+  },
 ];

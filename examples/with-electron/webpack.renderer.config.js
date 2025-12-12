@@ -1,31 +1,21 @@
-/* eslint-disable */
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const webpack = require('webpack');
-const rules = require('./webpack.rules');
-/* eslint-enable */
-
-rules.push({
-  test: /\.(less|css)$/,
-  use: [
-    {
-      loader: MiniCssExtractPlugin.loader
-    },
-    'css-loader',
-    {
-      loader: 'less-loader',
-      options: {
-        lessOptions: {
-          javascriptEnabled: true
-        }
-      }
-    }
-  ]
-});
+// Renderer process uses different rules (no asset-relocator-loader)
+const rules = [
+  // Babel loader for JSX and modern JavaScript
+  {
+    test: /\.jsx?$/,
+    exclude: /node_modules/,
+    use: 'babel-loader',
+  },
+  // CSS loader
+  {
+    test: /\.css$/,
+    use: ['style-loader', 'css-loader'],
+  },
+];
 
 module.exports = {
-  // Put your normal webpack config below here
   module: {
-    rules
+    rules,
   },
-  plugins: [new MiniCssExtractPlugin(), new webpack.ProgressPlugin({ profile: false })]
+  target: 'web',
 };
