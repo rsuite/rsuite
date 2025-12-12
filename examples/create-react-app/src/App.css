@@ -1,0 +1,59 @@
+@import './Logo/Logo.css';
+
+.app-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  transition: background-color 0.3s ease;
+}
+
+.rs-theme-dark .app-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.rs-theme-light .app-header {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.welcome-panel {
+  max-width: 600px;
+  padding: 48px 40px;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.rs-theme-dark .welcome-panel {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rs-theme-light .welcome-panel {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.welcome-panel:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.welcome-panel code {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.rs-theme-dark .welcome-panel code {
+  background: rgba(255, 255, 255, 0.1);
+  color: #61dafb;
+}
+
+.rs-theme-light .welcome-panel code {
+  background: rgba(0, 0, 0, 0.05);
+  color: #d63384;
+}
