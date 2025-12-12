@@ -1,8 +1,8 @@
 {
   "name": "with-electron",
-  "productName": "with-electron",
+  "productName": "React Suite Electron Example",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "A modern desktop application example with React Suite and Electron",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
@@ -11,86 +11,37 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
-  "keywords": [
-    "Rsuite",
-    "Electron",
-    "React",
-    "Example"
-  ],
-  "license": "MIT",
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "with-electron"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ],
-      "plugins": [
-        [
-          "@electron-forge/plugin-webpack",
-          {
-            "mainConfig": "./webpack.main.config.js",
-            "renderer": {
-              "config": "./webpack.renderer.config.js",
-              "entryPoints": [
-                {
-                  "html": "./src/renderer/home/index.html",
-                  "js": "./src/renderer/home/renderer.js",
-                  "name": "home",
-                  "preload": {
-                    "js": "./src/renderer/home/preload.js"
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      ]
-    }
+  "keywords": [],
+  "author": {
+    "name": "simonguo",
+    "email": "simonguo.2009@gmail.com"
   },
+  "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.19.3",
-    "@babel/preset-env": "^7.19.3",
-    "@babel/preset-react": "^7.18.6",
-    "@electron-forge/cli": "^6.0.0-beta.66",
-    "@electron-forge/maker-deb": "^6.0.0-beta.66",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.66",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.66",
-    "@electron-forge/maker-zip": "^6.0.0-beta.66",
-    "@electron-forge/plugin-webpack": "^6.0.0-beta.66",
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
+    "@babel/preset-react": "^7.28.5",
+    "@electron-forge/cli": "^7.10.2",
+    "@electron-forge/maker-deb": "^7.10.2",
+    "@electron-forge/maker-rpm": "^7.10.2",
+    "@electron-forge/maker-squirrel": "^7.10.2",
+    "@electron-forge/maker-zip": "^7.10.2",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.10.2",
+    "@electron-forge/plugin-fuses": "^7.10.2",
+    "@electron-forge/plugin-webpack": "^7.10.2",
+    "@electron/fuses": "^1.8.0",
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
-    "babel-loader": "^8.2.5",
-    "css-loader": "^6.7.1",
-    "css-minimizer-webpack-plugin": "^5.0.0",
-    "electron": "21.0.1",
-    "less": "^3.11.1",
-    "less-loader": "^6.1.0",
-    "mini-css-extract-plugin": "^2.6.1",
-    "node-loader": "^2.0.0",
-    "style-loader": "^3.3.1"
+    "babel-loader": "^10.0.0",
+    "css-loader": "^6.11.0",
+    "electron": "^33.2.0",
+    "node-loader": "^2.1.0",
+    "style-loader": "^3.3.4"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "rsuite": "^5.28.1"
+    "@rsuite/icons": "^1.4.0",
+    "electron-squirrel-startup": "^1.0.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "rsuite": "^6.1.0"
   }
 }
