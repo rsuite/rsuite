@@ -1,10 +1,20 @@
 import React from 'react';
-import { Button, CustomProvider, Container, Stack, Toggle } from 'rsuite';
+import {
+  Button,
+  CustomProvider,
+  Container,
+  Stack,
+  Toggle,
+  Heading,
+  Text,
+  Panel,
+  ButtonToolbar
+} from 'rsuite';
 import { Icon } from '@rsuite/icons';
-import { FaMoon, FaSun } from 'react-icons/fa';
+import { FaMoon, FaSun, FaGithub, FaBook } from 'react-icons/fa';
 import Logo from './Logo';
-import './App.less';
-import 'rsuite/styles/index.less';
+import './App.css';
+import 'rsuite/dist/rsuite.min.css';
 
 function App() {
   const [theme, setTheme] = React.useState('dark');
@@ -17,32 +27,56 @@ function App() {
     <CustomProvider theme={theme}>
       <Container className="app">
         <header className="app-header">
-          <Logo />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
+          <Panel bordered shaded className="welcome-panel">
+            <Stack direction="column" spacing={20} alignItems="center">
+              <Logo />
+              
+              <Heading level={2}>Welcome to React Suite</Heading>
+              
+              <Text muted size="lg" align="center">
+                A suite of React components, sensible UI design, and a friendly development experience.
+              </Text>
 
-          <Toggle
-            checked={theme === 'light'}
-            checkedChildren={<Icon as={FaSun} style={{ fontSize: 16 }} />}
-            unCheckedChildren={<Icon as={FaMoon} style={{ fontSize: 16 }} />}
-            onChange={toggleTheme}
-          />
+              <Stack spacing={10} alignItems="center">
+                <Text muted>Theme:</Text>
+                <Toggle
+                  size="lg"
+                  checked={theme === 'light'}
+                  checkedChildren={<Icon as={FaSun} style={{ fontSize: 18 }} />}
+                  unCheckedChildren={<Icon as={FaMoon} style={{ fontSize: 18 }} />}
+                  onChange={toggleTheme}
+                />
+              </Stack>
 
-          <Stack spacing={10}>
-            <Button
-              appearance="primary"
-              href="https://rsuitejs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn React Suite
-            </Button>
+              <ButtonToolbar>
+                <Button
+                  appearance="primary"
+                  size="lg"
+                  href="https://rsuitejs.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  startIcon={<Icon as={FaBook} />}
+                >
+                  Documentation
+                </Button>
 
-            <Button href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-              Learn React
-            </Button>
-          </Stack>
+                <Button
+                  appearance="subtle"
+                  size="lg"
+                  href="https://github.com/rsuite/rsuite"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  startIcon={<Icon as={FaGithub} />}
+                >
+                  GitHub
+                </Button>
+              </ButtonToolbar>
+
+              <Text size="sm" muted>
+                Edit <code>src/App.js</code> and save to reload.
+              </Text>
+            </Stack>
+          </Panel>
         </header>
       </Container>
     </CustomProvider>
