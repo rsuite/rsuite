@@ -16,21 +16,21 @@
     "format": "prettier --write \"**/*.{js,jsx,json,md}\""
   },
   "dependencies": {
-    "gatsby": "^5.13.2",
-    "gatsby-image": "^3.11.0",
-    "less": "^3.11.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "rsuite": "^5.21.0"
+    "gatsby": "^5.13.7",
+    "gatsby-plugin-image": "^3.13.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.4.0",
+    "rsuite": "^6.1.0",
+    "@rsuite/icons": "^1.4.0"
   },
   "devDependencies": {
-    "gatsby-plugin-less": "^6.24.0",
-    "gatsby-plugin-manifest": "^4.24.0",
-    "gatsby-plugin-react-helmet": "^5.24.0",
-    "gatsby-plugin-sharp": "^4.25.1",
-    "gatsby-source-filesystem": "^4.24.0",
-    "gatsby-starter-default": "^1.0.0",
-    "gatsby-transformer-sharp": "^4.24.0",
-    "prettier": "^2.7.1"
+    "gatsby-plugin-manifest": "^5.13.1",
+    "gatsby-plugin-react-helmet": "^6.13.1",
+    "gatsby-plugin-sharp": "^5.13.1",
+    "gatsby-source-filesystem": "^5.13.1",
+    "gatsby-transformer-sharp": "^5.13.1",
+    "prettier": "^3.4.2",
+    "react-helmet": "^6.1.0"
   }
 }
