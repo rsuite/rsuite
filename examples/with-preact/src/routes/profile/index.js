@@ -1,32 +1,39 @@
-import { useEffect, useState } from 'preact/hooks';
-import style from './style.css';
-import { Message, Button } from 'rsuite';
+import React from 'react';
+import PageLayout from '../../components/PageLayout';
 
 // Note: `user` comes from the URL, courtesy of our router
 const Profile = ({ user }) => {
-  const [time, setTime] = useState(Date.now());
-  const [count, setCount] = useState(10);
-
-  useEffect(() => {
-    let timer = setInterval(() => setTime(Date.now()), 1000);
-    return () => clearInterval(timer);
-  }, []);
+  const cards = [
+    {
+      title: 'Docs',
+      href: 'https://rsuitejs.com/guide/introduction/',
+      description: 'Find in-depth information about RSuite.'
+    },
+    {
+      title: 'Components',
+      href: 'https://rsuitejs.com/components/overview/',
+      description: 'Browse all components and examples.'
+    },
+    {
+      title: 'Preact',
+      href: 'https://preactjs.com/',
+      description: 'Fast 3kB alternative to React with the same modern API.'
+    },
+    {
+      title: 'Vite',
+      href: 'https://vite.dev/guide/',
+      description: 'Get the most out of Vite with Preact.'
+    }
+  ];
 
   return (
-    <div class={style.profile}>
-      <Message showIcon type="info" description="Preact with RSuite UI." />
-      <h1>Profile: {user}</h1>
-      <p>This is the user profile for a user named {user}.</p>
-
-      <div>Current time: {new Date(time).toLocaleString()}</div>
-
-      <p>
-        <Button appearance="ghost" onClick={() => void setCount(prev => prev + 1)}>
-          Click Me
-        </Button>
-        Clicked {count} times.
-      </p>
-    </div>
+    <PageLayout
+      activeKey="profile"
+      codePath="src/routes/profile/index.js"
+      title={`Profile: ${user}`}
+      subtitle="A simple client-side page with RSuite components"
+      cards={cards}
+    />
   );
 };
 
