@@ -1,13 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { HashRouter } from 'react-router-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 
-import 'rsuite/styles/index.less';
+import 'rsuite/dist/rsuite-no-reset.min.css';
+import './styles.css';
 
-ReactDOM.render(
-  <HashRouter>
-    <App />
-  </HashRouter>,
-  document.getElementById('root')
-);
+createRoot(document.getElementById('root')).render(<App />);

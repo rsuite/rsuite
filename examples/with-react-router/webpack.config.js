@@ -1,39 +1,35 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-require-imports */
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 
 const config = {
   devServer: {
-    disableHostCheck: true,
     historyApiFallback: true,
-    compress: true,
     host: '0.0.0.0',
-    port: 3100
+    port: 3100,
+    allowedHosts: 'all'
   },
   entry: {
     app: './src/index.js'
   },
   output: {
-    filename: '[name].bundle.js?[hash]',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/'
+  },
+  resolve: {
+    extensions: ['.js']
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        use: ['babel-loader?babelrc']
+        exclude: /node_modules/,
+        loader: 'babel-loader'
       },
       {
-        test: /\.(less|css)$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader
-          },
-          'css-loader',
-          'less-loader?javascriptEnabled=true'
-        ]
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
       }
     ]
   },
@@ -41,10 +37,6 @@ const config = {
     new HtmlwebpackPlugin({
       template: 'src/index.html',
       inject: true
-    }),
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css'
     })
   ]
 };
