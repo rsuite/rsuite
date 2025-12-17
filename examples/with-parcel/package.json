@@ -2,7 +2,6 @@
   "name": "with-parcel",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html"
@@ -11,13 +10,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@parcel/transformer-less": "^2.7.0",
-    "parcel": "^2.7.0",
-    "process": "^0.11.10"
+    "parcel": "^2.13.0"
   },
   "dependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "rsuite": "^5.28.1"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "rsuite": "^6.1.0"
   }
 }
