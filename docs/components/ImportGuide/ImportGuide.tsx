@@ -13,7 +13,8 @@ const unstyledComponents = [
   'locales',
   'MaskedInput',
   'Col',
-  'Row'
+  'Row',
+  'ssr'
 ];
 
 type CommandType = 'main' | 'individual';
