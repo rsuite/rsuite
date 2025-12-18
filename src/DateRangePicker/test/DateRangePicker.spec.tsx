@@ -1178,6 +1178,24 @@ describe('DateRangePicker', () => {
       expect(screen.getByRole('button', { name: 'Select time' })).to.have.text('01:01');
       expect(screen.getByTestId('daterange-header')).to.have.class('rs-picker-tab-active-start');
     });
+    it('Should not jump to current month after selecting start date', () => {
+      render(
+        <DateRangePicker
+          showOneCalendar
+          open
+          defaultCalendarValue={[new Date('2024-01-15'), new Date('2024-01-15')]}
+        />
+      );
+
+      expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Jan 2024');
+      expect(screen.queryByTestId('calendar-start')).to.be.exist;
+
+      fireEvent.click(screen.getByRole('gridcell', { name: '15 Jan 2024' }));
+
+      expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Jan 2024');
+      expect(screen.queryByTestId('calendar-start')).to.be.not.exist;
+      expect(screen.queryByTestId('calendar-end')).to.be.exist;
+    });
   });
 
   describe('Customize value', () => {
