@@ -1,3 +1,14 @@
+## [6.1.1](https://github.com/rsuite/rsuite/compare/v6.1.0...v6.1.1) (2025-12-18)
+
+
+### Bug Fixes
+
+* date range picker not jumping to current day when selecting outside current calendar ([#4465](https://github.com/rsuite/rsuite/issues/4465)) ([eb0823c](https://github.com/rsuite/rsuite/commit/eb0823cb0d26a5e0894de9a9c914a7974a9024c7))
+* docs/package.json & docs/package-lock.json to reduce vulnerabilities ([#4481](https://github.com/rsuite/rsuite/issues/4481)) ([843f1e9](https://github.com/rsuite/rsuite/commit/843f1e9797c82fe2a8b71f6ca336c51bb1e6408d))
+* **webpack:** add react-dom/client external for UMD builds ([#4467](https://github.com/rsuite/rsuite/issues/4467)) ([30504c3](https://github.com/rsuite/rsuite/commit/30504c368c4b80af50e274267e1d661c56969b79))
+
+
+
 # [6.1.0](https://github.com/rsuite/rsuite/compare/v6.0.1...v6.1.0) (2025-12-11)
 
 
