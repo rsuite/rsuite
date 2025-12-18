@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CustomProvider } from 'rsuite';
-import 'rsuite/dist/rsuite.min.css';
+import 'rsuite/dist/rsuite-no-reset.min.css';
 import './globals.css';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

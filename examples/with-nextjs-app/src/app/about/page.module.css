@@ -29,8 +29,8 @@
   position: relative;
   margin: 0;
   padding: 1rem;
-  background-color: rgba(var(--callout-rgb), 0.5);
-  border: 1px solid rgba(var(--callout-border-rgb), 0.3);
+  background-color: rgb(var(--callout-rgb) / 50%);
+  border: 1px solid rgb(var(--callout-border-rgb) / 30%);
   border-radius: var(--border-radius);
 }
 
@@ -75,11 +75,12 @@
 .logo {
   position: relative;
 }
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
-    background: rgba(var(--card-rgb), 0.1);
-    border: 1px solid rgba(var(--card-border-rgb), 0.15);
+    background: rgb(var(--card-rgb) / 10%);
+    border: 1px solid rgb(var(--card-border-rgb) / 15%);
   }
 
   .card:hover span {
@@ -94,7 +95,7 @@
 }
 
 /* Mobile */
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .content {
     padding: 4rem;
   }
@@ -130,11 +131,11 @@
     padding: 2rem 1rem 1.4rem;
     border-radius: 0;
     border: none;
-    border-bottom: 1px solid rgba(var(--callout-border-rgb), 0.25);
+    border-bottom: 1px solid rgb(var(--callout-border-rgb) / 25%);
     background: linear-gradient(
       to bottom,
-      rgba(var(--background-start-rgb), 1),
-      rgba(var(--callout-rgb), 0.5)
+      rgb(var(--background-start-rgb) / 100%),
+      rgb(var(--callout-rgb) / 50%)
     );
     background-clip: padding-box;
     backdrop-filter: blur(24px);
@@ -152,7 +153,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .vercelLogo {
+  .vercel-logo {
     filter: invert(1);
   }
 
@@ -165,6 +166,7 @@
   from {
     transform: rotate(360deg);
   }
+
   to {
     transform: rotate(0deg);
   }
