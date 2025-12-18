@@ -1,30 +1,31 @@
 {
+  "name": "examples-with-remix",
   "private": true,
-  "sideEffects": false,
+  "type": "module",
   "scripts": {
-    "build": "remix build",
-    "dev": "remix dev",
-    "start": "remix-serve build",
-    "typecheck": "tsc"
+    "build": "react-router build",
+    "dev": "react-router dev",
+    "start": "react-router-serve ./build/server/index.js",
+    "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@remix-run/node": "^1.13.0",
-    "@remix-run/react": "^1.13.0",
-    "@remix-run/serve": "^1.13.0",
-    "isbot": "^3.6.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "rsuite": "^5.28.0"
+    "@react-router/node": "7.10.1",
+    "@react-router/serve": "7.10.1",
+    "isbot": "^5.1.31",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-router": "7.10.1",
+    "rsuite": "^6.1.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "^1.13.0",
-    "@remix-run/eslint-config": "^1.13.0",
-    "@types/react": "^18.0.25",
-    "@types/react-dom": "^18.0.8",
-    "eslint": "^8.27.0",
-    "typescript": "^4.8.4"
-  },
-  "engines": {
-    "node": ">=14"
+    "@react-router/dev": "7.10.1",
+    "@tailwindcss/vite": "^4.1.13",
+    "@types/node": "^22",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "tailwindcss": "^4.1.13",
+    "typescript": "^5.9.2",
+    "vite": "^6.4.0",
+    "vite-tsconfig-paths": "^5.1.4"
   }
 }

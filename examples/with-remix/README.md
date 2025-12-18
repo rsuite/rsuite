@@ -1,20 +1,41 @@
-# Remix example
+# RSuite + Remix Example
 
-## How to use
+This example shows how to use **RSuite** in a **Remix** app (built on **React Router v7**) with a layout aligned to the `with-nextjs-pages` example.
 
-Download the example:
+## Pages
 
-```
-curl https://codeload.github.com/rsuite/rsuite/tar.gz/master | tar -xz --strip=2 rsuite-master/examples/with-remix
-cd with-remix
-```
+- `/`
+  - Home page with Remix + RSuite branding
+- `/rsuite`
+  - RSuite page (logo-only center) + helpful links
 
-Install it and run:
+## Features
 
-```
+- **Remix app runtime** (React Router v7)
+- **RSuite** integrated (CSS included)
+- **Vite** dev server
+- Simple, consistent layout via `PageLayout`
+
+## Getting Started
+
+Install dependencies:
+
+```bash
 npm install
+```
+
+Start dev server:
+
+```bash
 npm run dev
-# or
-pnpm install
-npm run dev
+```
+
+Open:
+
+- http://localhost:5173
+
+## Build
+
+```bash
+npm run build
 ```
