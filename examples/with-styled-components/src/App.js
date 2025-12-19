@@ -1,19 +1,19 @@
 import React from 'react';
-import Button from 'rsuite/Button';
-import ButtonToolbar from 'rsuite/ButtonToolbar';
+import { Button, ButtonToolbar, Panel } from 'rsuite';
 import StyledButton from './StyledButton';
-
-import 'rsuite/ButtonToolbar/styles/index.less';
-import 'rsuite/button/styles/index.less';
 
 function App() {
   return (
-    <div style={{ padding: 100 }}>
-      <ButtonToolbar>
-        <Button>Default button</Button>
-        <StyledButton>Button with styled-components</StyledButton>
-        <StyledButton appearance="primary">Button with styled-components</StyledButton>
-      </ButtonToolbar>
+    <div style={{ minHeight: '100vh', padding: 24 }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <Panel bordered header="Buttons" style={{ marginBottom: 16 }}>
+          <ButtonToolbar>
+            <Button>Default</Button>
+            <StyledButton>Styled</StyledButton>
+            <StyledButton appearance="primary">Styled Primary</StyledButton>
+          </ButtonToolbar>
+        </Panel>
+      </div>
     </div>
   );
 }
