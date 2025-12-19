@@ -3,9 +3,12 @@
     "outDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": true,
-    "module": "commonjs",
-    "target": "es5",
-    "jsx": "react"
+    "module": "esnext",
+    "target": "es2018",
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler",
+    "lib": ["dom", "es2018"],
+    "skipLibCheck": true
   },
   "include": ["./src/**/*"]
 }
