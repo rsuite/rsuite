@@ -1,11 +1,11 @@
-import { DateRangePicker, Heading } from 'rsuite';
+import { DateRangePicker, Heading, Box } from 'rsuite';
 
 const CustomDateRangePicker = () => {
   return (
-    <div>
+    <Box mt={10}>
       <Heading level={3}>Custom DateRangePicker</Heading>
-      <DateRangePicker placement="auto" />
-    </div>
+      <DateRangePicker mt={10} placement="auto" />
+    </Box>
   );
 };
 
