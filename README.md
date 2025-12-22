@@ -71,13 +71,14 @@ More guides on how to get started are available [here](https://rsuitejs.com/guid
 
 It's the https://rsuitejs.com website for the latest version of React Suite. For older versions head over here:
 
+- [5.x documentation](https://v5.rsuitejs.com/)
 - [4.x documentation](https://v4.rsuitejs.com/)
 - [3.x documentation](https://v3.rsuitejs.com/)
 
-The previous major version 4.x will no longer receive new features,
-and it is recommended to upgrade to the latest 5.x releases.
-Bug fixes for 4.x are still being supported for a period of time,
-and security fixes are supported until 6.x is in progress.
+The previous major version 5.x will no longer receive new features,
+and it is recommended to upgrade to the latest 6.x releases.
+Bug fixes for 5.x are still being supported for a period of time,
+and security fixes are supported until 7.x is in progress.
 
 ## Framework Guides
 
