@@ -28,7 +28,7 @@
     padding-inline: 3.125rem;
 
     @media (max-width: vars.$screen-md) {
-      padding-inline: var(--rs-spacing);
+      padding-inline: 20px;
     }
 
     .logo {

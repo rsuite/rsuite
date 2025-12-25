@@ -10,7 +10,8 @@
   padding: 60px 20px;
 
   @media (max-width: vars.$screen-md) {
-    padding: 120px 20px 40px;
+    min-height: auto;
+    padding: 100px 20px 60px;
   }
 }
 
@@ -37,10 +38,10 @@
 
 .hero-bg-gradient {
   position: absolute;
-  top: -50%;
-  left: -10%;
-  width: 120%;
-  height: 120%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: radial-gradient(circle at 30% 50%, rgba(101, 148, 237, 0.1) 0%, transparent 50%),
               radial-gradient(circle at 70% 50%, rgba(236, 80, 96, 0.08) 0%, transparent 50%);
   pointer-events: none;
@@ -204,6 +205,10 @@
 
   @media (max-width: vars.$screen-md) {
     max-width: 320px;
+  }
+
+  @media (max-width: vars.$screen-sm) {
+    display: none;
   }
 }
 

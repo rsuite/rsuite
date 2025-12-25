@@ -40,8 +40,8 @@ function ColorCards(props: { container: ModalProps['container'] }) {
       <ColorGroup
         colors={colors}
         useCssVar
-        className={styles['color-box-row']}
-        colorboxClassName={styles['color-box']}
+        className={styles['theme-color-row']}
+        colorboxClassName={styles['theme-color-box']}
         onShowColor={(color, event) => {
           const colorVal = getComputedStyle(event.target as HTMLElement).backgroundColor;
 
