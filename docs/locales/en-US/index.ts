@@ -2,6 +2,8 @@ export default {
   id: 'en-US',
   common: {
     home: 'Home',
+    homeTitle: 'React Suite - Enterprise React UI Component Library',
+    homeDescription: 'React Suite is a comprehensive suite of React components for building enterprise applications. Features 80+ components, responsive design, dark mode, internationalization, accessibility support, and TypeScript-ready. Free and open source.',
     search: 'Search',
     resume:
       'Free enterprise React UI suite. A unified design system and a rich component library enhance developer productivity.',

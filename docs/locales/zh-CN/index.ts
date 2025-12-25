@@ -2,6 +2,8 @@ export default {
   id: 'zh-CN',
   common: {
     home: '首页',
+    homeTitle: 'React Suite - 企业级 React UI 组件库',
+    homeDescription: 'React Suite 是一套为企业应用构建的全面的 React 组件库。提供 80+ 精心设计的组件，支持响应式设计、深色模式、国际化、无障碍访问和 TypeScript。免费开源，适用于中后台系统、管理平台、数据可视化等场景。',
     search: '搜索',
     resume: '免费的企业级 React UI 套件。统一的设计系统和丰富的组件库提升开发者的生产力。',
     bio: '一套 React 组件库，专为企业级产品设计',
@@ -139,7 +141,7 @@ export default {
     ecosystemQuickStartDesc: '支持 Vite、Next.js、CRA 等更多构建工具，提供完整的项目模板',
     ecosystemQuickStartLink: '查看文档',
     ecosystemDesignResources: '设计资源',
-    ecosystemDesignResourcesDesc: 'Figma 设计系统、主题调色板工具、20 0+ 组件图标',
+    ecosystemDesignResourcesDesc: 'Figma 设计系统、主题调色板工具、200+ 组件图标',
     ecosystemDesignResourcesLink: '获取资源',
     ecosystemMcpServer: 'MCP 服务器',
     ecosystemMcpServerDesc: '模型上下文协议服务器，无缝集成 AI 助手',

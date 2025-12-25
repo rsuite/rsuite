@@ -97,12 +97,19 @@
   height: 8px;
   background: var(--rs-primary-500);
   border-radius: 50%;
-  animation: pulse 2s ease-in-out infinite;
+  animation: glow 2s ease-in-out infinite;
+  flex-shrink: 0;
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(0.9); }
+@keyframes glow {
+  0%, 100% { 
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(var(--rs-primary-rgb, 101, 148, 237), 0.4);
+  }
+  50% { 
+    opacity: 0.8;
+    box-shadow: 0 0 0 4px rgba(var(--rs-primary-rgb, 101, 148, 237), 0);
+  }
 }
 
 .hero-title {

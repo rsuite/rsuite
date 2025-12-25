@@ -24,7 +24,7 @@ function HomePage() {
 
   return (
     <>
-      <Head title={locales?.common?.home} description={locales?.common?.resume}></Head>
+      <Head title={locales?.common?.homeTitle} description={locales?.common?.homeDescription}></Head>
       <div className={styles['page-home']}>
         <MainNav hideToggle />
         <PageToolbar />
