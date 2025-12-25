@@ -1,0 +1,241 @@
+@use '../../styles/variables' as vars;
+
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 60px 20px;
+
+  @media (max-width: vars.$screen-md) {
+    padding: 120px 20px 40px;
+  }
+}
+
+.hero-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  margin-bottom: 60px;
+
+  @media (max-width: vars.$screen-md) {
+    flex-direction: column;
+    gap: 40px;
+  }
+}
+
+.hero-bg-gradient {
+  position: absolute;
+  top: -50%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle at 30% 50%, rgba(101, 148, 237, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 70% 50%, rgba(236, 80, 96, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  opacity: var(--rs-state-hover-bg-opacity, 1);
+}
+
+.hero-grid-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(var(--rs-border-primary) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rs-border-primary) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.15;
+  pointer-events: none;
+
+  :global(.rs-theme-high-contrast) & {
+    opacity: 0.06;
+  }
+}
+
+.hero-text {
+  flex: 1;
+  max-width: 600px;
+
+  @media (max-width: vars.$screen-md) {
+    text-align: center;
+    max-width: 100%;
+  }
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  background: var(--rs-state-hover-bg);
+  border: 1px solid var(--rs-border-primary);
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--rs-text-secondary);
+  margin-bottom: 32px;
+  box-shadow: var(--rs-shadow-overlay);
+  backdrop-filter: blur(10px);
+}
+
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--rs-primary-500);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.9); }
+}
+
+.hero-title {
+  font-size: 72px;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 28px;
+  font-family: 'Raleway', 'Hiragino Sans GB', sans-serif;
+  letter-spacing: -0.02em;
+  color: var(--rs-text-primary);
+
+  @media (max-width: vars.$screen-xl) {
+    font-size: 64px;
+  }
+
+  @media (max-width: vars.$screen-lg) {
+    font-size: 64px;
+  }
+
+  @media (max-width: vars.$screen-md) {
+    font-size: 48px;
+  }
+
+  @media (max-width: vars.$screen-sm) {
+    font-size: 36px;
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #6594ED 0%, #EC5060 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  display: inline-block;
+}
+
+.hero-subtitle {
+  font-size: 20px;
+  color: var(--rs-text-secondary);
+  margin-bottom: 40px;
+  line-height: 1.7;
+
+  @media (max-width: vars.$screen-md) {
+    font-size: 18px;
+    margin-bottom: 36px;
+  }
+}
+
+.hero-actions {
+  margin-bottom: 40px;
+
+  @media (max-width: vars.$screen-md) {
+    justify-content: center;
+  }
+
+  :global(.rs-btn) {
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.hero-badges {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+
+  a img {
+    height: 20px;
+    width: auto;
+    display: block;
+  }
+
+  @media (max-width: vars.$screen-md) {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+.hero-visual {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: vars.$screen-lg) {
+    max-width: 380px;
+  }
+
+  @media (max-width: vars.$screen-md) {
+    max-width: 320px;
+  }
+}
+
+.logo-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 450px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: vars.$screen-lg) {
+    max-width: 380px;
+    height: 380px;
+  }
+
+  @media (max-width: vars.$screen-md) {
+    max-width: 320px;
+    height: 320px;
+  }
+}
+
+.rsuite-logo {
+  position: absolute;
+  z-index: 2;
+  filter: drop-shadow(0 10px 30px rgba(101, 148, 237, 0.25));
+}
+
+.react-logo {
+  width: 100%;
+  height: 100%;
+  opacity: 0.85;
+}

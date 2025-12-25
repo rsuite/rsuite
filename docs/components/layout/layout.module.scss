@@ -36,14 +36,14 @@
     }
 
     .link {
-      color: var(--rs-gray-600);
+      color: var(--rs-text-secondary);
       text-decoration: none;
       transition: color 0.2s;
       display: block;
       margin-bottom: 8px;
 
       &:hover {
-        color: var(--rs-primary-color);
+        color: var(--rs-primary-500);
         text-decoration: none;
       }
     }
@@ -53,10 +53,11 @@
       margin-bottom: 16px;
       font-size: 16px;
       font-weight: 600;
+      color: var(--rs-text-primary);
     }
 
     .description {
-      color: var(--rs-gray-600);
+      color: var(--rs-text-secondary);
       max-width: 400px;
     }
 

@@ -118,7 +118,7 @@ export const PageFooter = () => {
       <Divider className={styles.divider} />
 
       <HStack justify="space-between" wrap spacing={16}>
-        <Text muted>Built with ❤️ by the React Suite team and community contributors</Text>
+        <Text muted>{locales?.home?.ctaFooter}</Text>
         <HStack>
           <VercelBanner />
         </HStack>
