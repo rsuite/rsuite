@@ -35,6 +35,7 @@ interface PreviewProps {
 function ColorCards(props: { container: ModalProps['container'] }) {
   const { container } = props;
   const [color, setColor] = useState<ColorMeta | null>(null);
+  const { locales } = useApp();
   return (
     <>
       <ColorGroup
@@ -53,7 +54,7 @@ function ColorCards(props: { container: ModalProps['container'] }) {
       <ColorModal
         color={color}
         open={!!color}
-        title={`Primary Color`}
+        title={locales?.home?.themePrimaryColor}
         onClose={() => setColor(null)}
         container={container}
       />
@@ -137,6 +138,7 @@ function Preview({ themeColor }: PreviewProps) {
 
 function CopyButton({ color }: { color: string }) {
   const { copyToClipboard, copied } = useClipboard();
+  const { locales } = useApp();
 
   const handleCopy = useCallback(
     (eventKey: string) => {
@@ -155,15 +157,16 @@ function CopyButton({ color }: { color: string }) {
   );
 
   return (
-    <Dropdown title={copied ? 'Copied' : 'Copy'} onSelect={handleCopy}>
-      <Dropdown.Item eventKey="css">Copy CSS Variable</Dropdown.Item>
-      <Dropdown.Item eventKey="scss">Copy SCSS Variable</Dropdown.Item>
+    <Dropdown title={copied ? locales?.home?.themeCopied : locales?.home?.themeCopy} onSelect={handleCopy}>
+      <Dropdown.Item eventKey="css">{locales?.home?.themeCopyCss}</Dropdown.Item>
+      <Dropdown.Item eventKey="scss">{locales?.home?.themeCopyScss}</Dropdown.Item>
     </Dropdown>
   );
 }
 
 function ThemeSection() {
   const [color, setColor] = useState('#3498FF');
+  const { locales } = useApp();
 
   const handleChangeComplete = useCallback(({ hex: color }) => {
     setColor(color);
@@ -173,10 +176,10 @@ function ThemeSection() {
     <section className={styles['theme-section']} id="theme">
       <Grid fluid>
         <div className={styles['section-header']}>
-          <div className={styles['section-badge']}>Theme Customization</div>
-          <h2 className={styles['section-title']}>Design Your Palette</h2>
+          <div className={styles['section-badge']}>{locales?.home?.themeBadge}</div>
+          <h2 className={styles['section-title']}>{locales?.home?.themeTitle}</h2>
           <p className={styles['section-description']}>
-            Customize your brand colors with our powerful theming system and see changes in real-time
+            {locales?.home?.themeSubtitle}
           </p>
           
           <div className={styles['color-controls']}>
