@@ -2,8 +2,7 @@ import React from 'react';
 import Link from '@/components/Link';
 import { Grid } from 'rsuite';
 import { RiLayoutGridFill } from 'react-icons/ri';
-import { IoColorPalette } from 'react-icons/io5';
-import { HiTranslate } from 'react-icons/hi';
+import { IoColorPalette, IoEarthSharp } from 'react-icons/io5';
 import { MdAccessibility } from 'react-icons/md';
 import { useApp } from '@/hooks/useApp';
 import styles from './FeaturesSection.module.scss';
@@ -41,7 +40,7 @@ function FeaturesSection() {
             </Link>
           </div>
           <div className={styles['feature-card']}>
-            <HiTranslate className={styles['feature-icon']} />
+            <IoEarthSharp className={styles['feature-icon']} />
             <div className={styles['feature-number']}>03</div>
             <h3>{locales?.home?.feature3Title}</h3>
             <p>{locales?.home?.feature3Desc}</p>
