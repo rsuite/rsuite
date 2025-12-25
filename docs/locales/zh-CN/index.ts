@@ -2,6 +2,8 @@ export default {
   id: 'zh-CN',
   common: {
     home: '首页',
+    homeTitle: 'React Suite - 企业级 React UI 组件库',
+    homeDescription: 'React Suite 是一套为企业应用构建的全面的 React 组件库。提供 80+ 精心设计的组件，支持响应式设计、深色模式、国际化、无障碍访问和 TypeScript。免费开源，适用于中后台系统、管理平台、数据可视化等场景。',
     search: '搜索',
     resume: '免费的企业级 React UI 套件。统一的设计系统和丰富的组件库提升开发者的生产力。',
     bio: '一套 React 组件库，专为企业级产品设计',
@@ -80,6 +82,77 @@ export default {
     about: '关于',
     community: '社区',
     help: '帮助'
+  },
+  home: {
+    // HeroSection
+    heroBadge: 'React Suite · 企业级 UI 组件库',
+    heroTitle1: '构建优雅的',
+    heroTitle2: '企业级应用',
+    heroSubtitle: '一套 React 组件库，合理的 UI 设计，友好的开发体验。',
+
+    // FeaturesSection
+    featuresBadge: '核心特性',
+    featuresTitle: '为什么选择 React Suite',
+    featuresSubtitle: '专为企业应用设计，提供完整解决方案',
+    feature1Title: '丰富的组件库',
+    feature1Desc: '80+ 精心设计的组件，涵盖表单、数据展示、导航、反馈等更多场景',
+    feature1Link: '浏览组件',
+    feature2Title: '灵活的主题定制',
+    feature2Desc: '基于 CSS 变量的主题系统，支持暗黑模式，轻松定制品牌色',
+    feature2Link: '主题指南',
+    feature3Title: '国际化',
+    feature3Desc: '内置多语言支持，构建全球化应用',
+    feature3Link: '了解更多',
+    feature4Title: '无障碍访问',
+    feature4Desc: '遵循 WAI-ARIA 标准，确保所有用户都能访问',
+    feature4Link: '查看指南',
+
+    // CodeSection
+    codeBadge: '响应式设计',
+    codeTitle: '自适应布局',
+    codeSubtitle: '构建响应式应用，在所有设备和屏幕尺寸上无缝运行',
+    codeMobileFirst: '移动优先',
+    codeMobileFirstDesc: '为移动设备优化，支持触摸交互',
+    codeFlexibleGrid: '灵活网格',
+    codeFlexibleGridDesc: '强大的 24 列网格系统，适应任何布局',
+    codeAdaptiveComponents: '自适应组件',
+    codeAdaptiveComponentsDesc: '自动适应不同屏幕尺寸',
+    codeDevicePreview: '设备预览',
+    codeDevicePreviewDesc: '在桌面、平板和手机上测试布局',
+
+    // ThemeSection
+    themeBadge: '主题定制',
+    themeTitle: '设计你的色板',
+    themeSubtitle: '使用我们强大的主题系统定制你的品牌色，实时查看效果',
+    themeDynamicTheming: '动态主题',
+    themeDynamicThemingDesc: '即时更改所有组件的主色调',
+    themeCssVariables: 'CSS 变量',
+    themeCssVariablesDesc: '现代 CSS 自定义属性，灵活样式定制',
+    themeColorPalette: '色板生成',
+    themeColorPaletteDesc: '从你的品牌色自动生成 10 个色阶',
+    themeExportReady: '导出就绪',
+    themeExportReadyDesc: '一键复制 CSS 或 SCSS 变量',
+
+    // EcosystemSection
+    ecosystemBadge: '生态系统',
+    ecosystemTitle: '完整的开发生态',
+    ecosystemSubtitle: '从设计到开发，为你的项目提供全面的工具和资源',
+    ecosystemQuickStart: '快速开始',
+    ecosystemQuickStartDesc: '支持 Vite、Next.js、CRA 等更多构建工具，提供完整的项目模板',
+    ecosystemQuickStartLink: '查看文档',
+    ecosystemDesignResources: '设计资源',
+    ecosystemDesignResourcesDesc: 'Figma 设计系统、主题调色板工具、200+ 组件图标',
+    ecosystemDesignResourcesLink: '获取资源',
+    ecosystemMcpServer: 'MCP 服务器',
+    ecosystemMcpServerDesc: '模型上下文协议服务器，无缝集成 AI 助手',
+    ecosystemMcpServerLink: '了解更多',
+
+    // CTASection
+    ctaBadge: '开始使用',
+    ctaTitle: '准备好构建惊艳的 UI 了吗？',
+    ctaSubtitle: '加入数千名开发者，使用 React Suite 构建企业级应用',
+    ctaGithub: 'GitHub',
+    ctaFooter: '由 React Suite 团队和社区贡献者用 ❤️ 构建'
   },
   components: {
     noComponent: '没有找到想要的组件？',

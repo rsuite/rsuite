@@ -2,6 +2,8 @@ export default {
   id: 'en-US',
   common: {
     home: 'Home',
+    homeTitle: 'React Suite - Enterprise React UI Component Library',
+    homeDescription: 'React Suite is a comprehensive suite of React components for building enterprise applications. Features 80+ components, responsive design, dark mode, internationalization, accessibility support, and TypeScript-ready. Free and open source.',
     search: 'Search',
     resume:
       'Free enterprise React UI suite. A unified design system and a rich component library enhance developer productivity.',
@@ -81,6 +83,77 @@ export default {
     about: 'About',
     community: 'Community',
     help: 'Help'
+  },
+  home: {
+    // HeroSection
+    heroBadge: 'React Suite · Enterprise-grade UI Components',
+    heroTitle1: 'Build elegant',
+    heroTitle2: 'enterprise applications',
+    heroSubtitle: 'A suite of React components, sensible UI design, and a friendly development experience.',
+
+    // FeaturesSection
+    featuresBadge: 'Core Features',
+    featuresTitle: 'Why React Suite',
+    featuresSubtitle: 'Designed for enterprise applications with a complete solution',
+    feature1Title: 'Rich Component Library',
+    feature1Desc: '80+ carefully designed components covering forms, data display, navigation, feedback and more',
+    feature1Link: 'Browse Components',
+    feature2Title: 'Flexible Theming',
+    feature2Desc: 'CSS variable-based theme system with dark mode support for easy brand customization',
+    feature2Link: 'Theme Guide',
+    feature3Title: 'Internationalization',
+    feature3Desc: 'Built-in multi-language support for building global applications',
+    feature3Link: 'Learn More',
+    feature4Title: 'Accessibility',
+    feature4Desc: 'Follows WAI-ARIA standards to ensure accessibility for all users',
+    feature4Link: 'View Guide',
+
+    // CodeSection
+    codeBadge: 'Responsive Design',
+    codeTitle: 'Adaptive Layouts',
+    codeSubtitle: 'Build responsive applications that work seamlessly across all devices and screen sizes',
+    codeMobileFirst: 'Mobile First',
+    codeMobileFirstDesc: 'Optimized for mobile devices with touch-friendly interactions',
+    codeFlexibleGrid: 'Flexible Grid',
+    codeFlexibleGridDesc: 'Powerful 24-column grid system for any layout',
+    codeAdaptiveComponents: 'Adaptive Components',
+    codeAdaptiveComponentsDesc: 'Automatically adjust to different screen sizes',
+    codeDevicePreview: 'Device Preview',
+    codeDevicePreviewDesc: 'Test your layouts on desktop, tablet, and mobile',
+
+    // ThemeSection
+    themeBadge: 'Theme Customization',
+    themeTitle: 'Design Your Palette',
+    themeSubtitle: 'Customize your brand colors with our powerful theming system and see changes in real-time',
+    themeDynamicTheming: 'Dynamic Theming',
+    themeDynamicThemingDesc: 'Change primary colors instantly across all components',
+    themeCssVariables: 'CSS Variables',
+    themeCssVariablesDesc: 'Modern CSS custom properties for flexible styling',
+    themeColorPalette: 'Color Palette',
+    themeColorPaletteDesc: 'Automatically generate 10 shades from your brand color',
+    themeExportReady: 'Export Ready',
+    themeExportReadyDesc: 'Copy CSS or SCSS variables with one click',
+
+    // EcosystemSection
+    ecosystemBadge: 'Ecosystem',
+    ecosystemTitle: 'Complete Development Ecosystem',
+    ecosystemSubtitle: 'From design to development, comprehensive tools and resources for your projects',
+    ecosystemQuickStart: 'Quick Start',
+    ecosystemQuickStartDesc: 'Support for Vite, Next.js, CRA and more build tools with complete project templates',
+    ecosystemQuickStartLink: 'View Docs',
+    ecosystemDesignResources: 'Design Resources',
+    ecosystemDesignResourcesDesc: 'Figma design system, theme palette tool, 200+ component icons',
+    ecosystemDesignResourcesLink: 'Get Resources',
+    ecosystemMcpServer: 'MCP Server',
+    ecosystemMcpServerDesc: 'Model Context Protocol server for seamless AI assistant integration',
+    ecosystemMcpServerLink: 'Learn More',
+
+    // CTASection
+    ctaBadge: 'Get Started',
+    ctaTitle: 'Ready to Build Amazing UI?',
+    ctaSubtitle: 'Join thousands of developers building enterprise applications with React Suite',
+    ctaGithub: 'GitHub',
+    ctaFooter: 'Built with ❤️ by the React Suite team and community contributors'
   },
   components: {
     noComponent: "Can't find the component you want? ",

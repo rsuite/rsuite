@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import {
   ButtonToolbar,
@@ -73,14 +73,13 @@ interface AdminFrameProps {
 function AdminFrame(props: AdminFrameProps) {
   const { loading } = props;
   const [expand, setExpand] = useState(false);
-  const rootRef = useRef();
 
   const containerClasses = classNames(styles['page-container'], {
     [styles['container-full']]: !expand
   });
 
   return (
-    <Container className={styles['rs-admin-frame']} ref={rootRef}>
+    <Container className={styles['rs-admin-frame']} >
       <Sidebar
         style={{ display: 'flex', flexDirection: 'column' }}
         width={expand ? 260 : 56}
@@ -146,7 +145,7 @@ function AdminFrame(props: AdminFrameProps) {
 
               <Divider />
               <HStack>
-                <DatePicker container={() => rootRef.current} /> <Input />
+                <DatePicker /> <Input />
               </HStack>
               <Divider />
 
