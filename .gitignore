@@ -56,7 +56,3 @@ node_modules
 
 # build
 lib/
-
-
-# generated
-docs/public/examples

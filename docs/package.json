@@ -8,7 +8,7 @@
     "clear": "rimraf ./.next && rimraf ./out ",
     "dev": "npm run generate-examples && next dev",
     "dev:styles": "cross-env STYLE_DEBUG=STYLE npm run dev",
-    "prebuild": "npm run clear && npm run generate-llms-txt && npm run generate-llms-full && npm run generate-types",
+    "prebuild": "npm run clear && npm run generate-llms-txt && npm run generate-llms-full && npm run generate-types && npm run generate-page-md",
     "build": "npm run generate-examples && next build",
     "build:next": "NODE_OPTIONS=--max_old_space_size=8192 next build",
     "start": "next start",
@@ -19,6 +19,7 @@
     "generate-theme-css-vars": "node ./scripts/generate-theme-css-vars.js",
     "generate-llms-txt": "node ./scripts/generate-llms-txt.js",
     "generate-llms-full": "node ./scripts/generate-llms-full-txt.js",
+    "generate-page-md": "node ./scripts/generate-page-md.js",
     "generate-types": "node ./scripts/generate-types.js",
     "postbuild": "next-sitemap"
   },
