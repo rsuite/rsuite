@@ -3,3 +3,5 @@ node_modules
 /public/css/theme-*.css
 /public/llms.txt
 /public/llms-full.txt
+/public/examples
+/public/page-md

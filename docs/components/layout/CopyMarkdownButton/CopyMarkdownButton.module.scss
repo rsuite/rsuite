@@ -1,0 +1,13 @@
+@use '../../../styles/variables' as vars;
+
+.copy-markdown-button {
+  position: absolute;
+  top: 20px;
+  right: 6px;
+  z-index: 10;
+
+  // Hide on mobile devices
+  @media (max-width: vars.$screen-md) {
+    display: none;
+  }
+}

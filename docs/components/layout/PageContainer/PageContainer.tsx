@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import canUseDOM from 'dom-lib/canUseDOM';
 import PageToolbar from '../PageToolbar';
+import CopyMarkdownButton from '../CopyMarkdownButton';
 import { Content as PageContent, Nav as PageNav } from '@rsuite/document-nav';
 import { Row, Col, Box } from 'rsuite';
 import { useApp } from '@/hooks/useApp';
@@ -35,12 +36,32 @@ export default function PageContainer(props: ContainerProps) {
     [styles['hide-page-nav']]: hidePageNav
   });
 
+  // Extract page info from routerId
+  const getPageInfo = () => {
+    if (!routerId) return null;
+
+    const parts = routerId.split('/').filter(Boolean);
+    if (parts.length < 2) return null;
+
+    const [category, pageName] = parts;
+
+    // Only show copy button for these categories
+    if (['components', 'guide', 'resources'].includes(category)) {
+      return { category, pageName };
+    }
+
+    return null;
+  };
+
+  const pageInfo = getPageInfo();
+
   return (
     <>
       <PageToolbar designHash={designHash} routerId={routerId} />
       <div className={styles['page-main']}>
         <Row {...rest} className={classes} data-key={ssrDone ? 'client' : 'server'}>
           <Col span={24} className={styles['main-container']}>
+            {pageInfo && <CopyMarkdownButton category={pageInfo.category} pageName={pageInfo.pageName} />}
             <PageContent>{children}</PageContent>
           </Col>
         </Row>
