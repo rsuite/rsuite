@@ -344,7 +344,13 @@ describe('DatePicker', () => {
   it('Should call `onChangeCalendarDate` callback when click month', () => {
     const onChangeCalendarDate = vi.fn();
 
-    render(<DatePicker onChangeCalendarDate={onChangeCalendarDate} defaultOpen />);
+    render(
+      <DatePicker
+        onChangeCalendarDate={onChangeCalendarDate}
+        defaultOpen
+        defaultValue={new Date('2023-09-01')}
+      />
+    );
 
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
     fireEvent.click(screen.getByRole('gridcell', { name: 'Oct 2023' }));
