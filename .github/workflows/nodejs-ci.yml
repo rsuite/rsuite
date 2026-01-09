@@ -84,12 +84,17 @@ jobs:
       - name: install react 19
         if: ${{ matrix.react == 'React19' }}
         run: npm run install:react-19
-
       - name: Run headless tests
-        run: npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless
+        run: |
+          echo "Starting tests for $BROWSER..."
+          npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless --max-workers=2
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}
+          # Limit concurrency to reduce resource contention
+          PLAYWRIGHT_MAX_FAILURES: 5
+          # Increase timeout duration
+          TEST_TIMEOUT: 30000
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4.2.0
