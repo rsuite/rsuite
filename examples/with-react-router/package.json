@@ -8,7 +8,7 @@
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^6.28.0",
+    "react-router-dom": "^6.30.3",
     "rsuite": "^6.1.0"
   },
   "devDependencies": {
