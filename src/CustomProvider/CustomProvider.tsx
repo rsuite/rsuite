@@ -22,11 +22,9 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
   const {
     children,
     classPrefix = getClassNamePrefix(),
-    components,
     iconClassPrefix = classPrefix,
     theme,
     toastContainer = defaultToasterContainer,
-    disableRipple,
     csp,
     disableInlineStyles,
     ...rest
@@ -37,8 +35,8 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
   const { Portal } = usePortal({ container: toastContainer, waitMount: true });
 
   const value = useMemo(
-    () => ({ classPrefix, theme, toasters, disableRipple, components, toastContainer, ...rest }),
-    [classPrefix, theme, disableRipple, components, toastContainer, rest]
+    () => ({ classPrefix, csp, theme, toasters, toastContainer, ...rest }),
+    [classPrefix, csp, theme, toastContainer, rest]
   );
 
   const iconContext = useMemo(
