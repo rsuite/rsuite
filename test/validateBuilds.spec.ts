@@ -76,7 +76,8 @@ const unstyledComponents: string[] = [
   'internals',
   'CustomProvider',
   'locales',
-  'MaskedInput'
+  'MaskedInput',
+  'ssr'
 ];
 
 const styledComponents: string[] = components.filter(

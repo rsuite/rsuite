@@ -1,6 +1,7 @@
 import React, { useRef, useMemo } from 'react';
 import IconProvider from '@rsuite/icons/IconProvider';
 import { usePortal, useIsomorphicLayoutEffect } from '@/internals/hooks';
+import { useSSRStyles } from '@/internals/hooks/useSSRStyles';
 import { getClassNamePrefix, prefix } from '@/internals/utils';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
 import { CustomContext, CustomProviderProps } from '@/internals/Provider/CustomContext';
@@ -29,6 +30,8 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
     disableRipple,
     csp,
     disableInlineStyles,
+    styleCollector: userStyleCollector,
+    forceSSR,
     ...rest
   } = props;
   const toasters = useRef(new Map<string, ToastContainerInstance>());
@@ -36,10 +39,29 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
   const dialogContainerRef = useRef<DialogContainerInstance>(null);
   const { Portal } = usePortal({ container: toastContainer, waitMount: true });
 
-  const value = useMemo(
-    () => ({ classPrefix, theme, toasters, disableRipple, components, toastContainer, ...rest }),
-    [classPrefix, theme, disableRipple, components, toastContainer, rest]
-  );
+  // 🔥 Automatic SSR style collection
+  const { collector: autoCollector, styleElement } = useSSRStyles({
+    collector: userStyleCollector,
+    nonce: csp?.nonce,
+    forceSSR
+  });
+
+  // Use user-provided collector or auto-created one
+  const styleCollector = userStyleCollector || autoCollector;
+
+  // Note: We don't use useMemo here because `rest` contains spread props (locale, rtl, formatDate, parseDate)
+  // which are new object references on every render, making memoization ineffective.
+  const value = {
+    classPrefix,
+    theme,
+    toasters,
+    disableRipple,
+    components,
+    toastContainer,
+    csp,
+    styleCollector,
+    ...rest
+  };
 
   const iconContext = useMemo(
     () => ({ classPrefix: iconClassPrefix, csp, disableInlineStyles }),
@@ -85,6 +107,26 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
           <DialogContainer ref={dialogContainerRef} />
         </Portal>
       </IconProvider>
+      {/*
+        🔥 SSR styles are rendered AFTER children so all styles are collected first.
+
+        ⚠️ IMPORTANT: In production SSR, DO NOT rely on this auto-rendered styleElement!
+        Instead, use the rsuite/ssr API to manually extract styles and inject them into <head>:
+
+        import { renderWithStyles } from 'rsuite/ssr';
+
+        const { html, styles } = renderWithStyles((collector) =>
+          renderToString(
+            <CustomProvider styleCollector={collector}>
+              <App />
+            </CustomProvider>
+          )
+        );
+
+        Then inject `styles` into your HTML <head> tag.
+        See: /src/internals/Box/test/ssr-usage-example.md
+      */}
+      {styleElement}
     </CustomContext.Provider>
   );
 }

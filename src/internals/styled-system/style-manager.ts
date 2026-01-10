@@ -1,9 +1,14 @@
+import type { StyleCollector } from './style-collector';
+
 /**
  * StyleManager - A utility for managing CSS styles dynamically
  *
  * This manager creates and maintains a single style element in the document head
  * and provides methods to add, update, and remove CSS rules.
  * Supports CSP nonce for Content Security Policy compliance.
+ *
+ * For SSR: When a StyleCollector is set, styles are collected during server rendering
+ * instead of being injected into the DOM.
  */
 
 // Global style sheet manager
@@ -11,6 +16,7 @@ export const StyleManager = {
   styleElement: null as HTMLStyleElement | null,
   styleMap: new Map<string, string>(),
   nonce: undefined as string | undefined,
+  collector: null as StyleCollector | null,
 
   /**
    * Initialize the style element if it doesn't exist
@@ -20,6 +26,15 @@ export const StyleManager = {
    */
   init(options?: { nonce?: string }) {
     if (!this.styleElement && typeof document !== 'undefined') {
+      // Check if SSR styles already exist in the DOM
+      // If they do, don't create a new style element to avoid duplicates
+      const existingSSRStyles = document.querySelector('[data-rs-style-manager]');
+      if (existingSSRStyles) {
+        // SSR styles exist, don't create a new element
+        // Client-side dynamic styles are not needed when SSR styles are present
+        return null;
+      }
+
       this.styleElement = document.createElement('style');
       this.styleElement.setAttribute('data-rs-style-manager', '');
 
@@ -49,6 +64,14 @@ export const StyleManager = {
   },
 
   /**
+   * Set the style collector for SSR
+   * @param collector - StyleCollector instance or null to disable
+   */
+  setCollector(collector: StyleCollector | null): void {
+    this.collector = collector;
+  },
+
+  /**
    * Add a CSS rule to the style sheet
    * @param selector - CSS selector
    * @param cssText - CSS properties and values
@@ -56,6 +79,13 @@ export const StyleManager = {
    * @param options.nonce - CSP nonce to apply to the style element
    */
   addRule(selector: string, cssText: string, options?: { nonce?: string }): void {
+    // If collector is set (SSR mode), collect styles instead of injecting
+    if (this.collector) {
+      this.collector.addRule(selector, cssText);
+      return;
+    }
+
+    // Client-side: inject into DOM
     this.init(options);
     if (!this.styleMap.has(selector) || this.styleMap.get(selector) !== cssText) {
       this.styleMap.set(selector, cssText);
@@ -68,6 +98,13 @@ export const StyleManager = {
    * @param selector - CSS selector to remove
    */
   removeRule(selector: string): void {
+    // If collector is set (SSR mode), remove from collector
+    if (this.collector) {
+      this.collector.removeRule(selector);
+      return;
+    }
+
+    // Client-side: remove from DOM
     if (this.styleMap.has(selector)) {
       this.styleMap.delete(selector);
       this.updateStyles();
