@@ -3,9 +3,8 @@ import { Button, ButtonGroup, Menu, Popover, IconButton, Whisper } from 'rsuite'
 import Link from '@/components/Link';
 import { FaMarkdown, FaCheck } from 'react-icons/fa';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
-import { MdOpenInNew } from 'react-icons/md';
-import { SiOpenai } from 'react-icons/si';
-import { TbFileText } from 'react-icons/tb';
+import { SiOpenai, SiAnthropic, SiVercel } from 'react-icons/si';
+import { BsFiletypeTxt } from 'react-icons/bs';
 import useClipboard from '@/hooks/useClipboard';
 import styles from './CopyMarkdownButton.module.scss';
 
@@ -38,23 +37,58 @@ export default function CopyMarkdownButton({ category, pageName }: CopyMarkdownB
       onClose?.();
     };
 
+    const mdUrl =
+      typeof window !== 'undefined'
+        ? `${window.location.origin}/page-md/${category}/${pageName}.md`
+        : '';
+    const prompt = `I’m looking at this rsuite documentation: ${mdUrl}\nHelp me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.`;
+    const encodedPrompt = encodeURIComponent(prompt);
+
     return (
       <Popover ref={ref} className={className} style={{ left, top }} full>
         <Menu onSelect={handleSelect}>
           <Menu.Item
             eventKey="view"
-            icon={<MdOpenInNew />}
+            icon={<FaMarkdown />}
             as="a"
             href={`/page-md/${category}/${pageName}.md`}
             target="_blank"
           >
-            Open markdown file
+            View as Markdown
+          </Menu.Item>
+          <Menu.Separator />
+          <Menu.Item
+            eventKey="chatgpt"
+            icon={<SiOpenai />}
+            as="a"
+            href={`https://chatgpt.com/?q=${encodedPrompt}`}
+            target="_blank"
+          >
+            Open in ChatGPT
+          </Menu.Item>
+          <Menu.Item
+            eventKey="claude"
+            icon={<SiAnthropic />}
+            as="a"
+            href={`https://claude.ai/new?q=${encodedPrompt}`}
+            target="_blank"
+          >
+            Open in Claude
+          </Menu.Item>
+          <Menu.Item
+            eventKey="v0"
+            icon={<SiVercel />}
+            as="a"
+            href={`https://v0.dev/?q=${encodedPrompt}`}
+            target="_blank"
+          >
+            Open in v0
           </Menu.Item>
           <Menu.Separator />
           <Menu.Item eventKey="mcp" icon={<SiOpenai />} as={Link} href={`/guide/mcp-server`}>
             Use MCP Server
           </Menu.Item>
-          <Menu.Item eventKey="llm" icon={<TbFileText />} as={Link} href="/guide/llms">
+          <Menu.Item eventKey="llm" icon={<BsFiletypeTxt />} as={Link} href="/guide/llms">
             Use LLMs.txt
           </Menu.Item>
         </Menu>
