@@ -53,6 +53,12 @@ If there is an error loading the src of the avatar, there are 2 fallbacks:
 
 <!--{include:`badge.md`}-->
 
+### Integration with Next.js Image
+
+To leverage Next.js's image optimization and caching, you can pass the `next/image` component as a child of the `Avatar` component.
+
+<!--{include:`nextjs-image.md`}-->
+
 ## Props
 
 ### `<Avatar>`
