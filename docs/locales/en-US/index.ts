@@ -26,6 +26,7 @@ export default {
     useNextApp: 'Next.js (App)',
     useNextPages: 'Next.js (Pages)',
     useVite: 'Vite',
+    useTailwindCss: 'Tailwind CSS',
     officialThemes: 'Themes',
     cssVariables: 'CSS Variables',
     cssReset: 'CSS Reset',

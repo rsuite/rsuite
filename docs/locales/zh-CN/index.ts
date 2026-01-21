@@ -25,6 +25,7 @@ export default {
     useNextApp: 'Next.js (App)',
     useNextPages: 'Next.js (Pages)',
     useVite: 'Vite',
+    useTailwindCss: 'Tailwind CSS',
     officialThemes: '主题',
     cssVariables: 'CSS 变量',
     cssReset: 'CSS 重置',
