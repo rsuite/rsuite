@@ -137,6 +137,10 @@ export default function usePages(): MenuItem[] {
               name: locales?.common?.cssReset
             },
             {
+              id: 'use-tailwind-css',
+              name: locales?.common?.useTailwindCss
+            },
+            {
               id: 'i18n',
               name: locales?.common?.i18n
             },
