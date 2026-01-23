@@ -15,6 +15,7 @@
   align-items: center;
   width: 100%;
   gap: calc(var(--rs-spacing) * 3);
+  font-size: var(--rs-font-size-sm);
 
   &:where([data-status='active']) {
     .rs-progress-line-stroke {
