@@ -1,3 +1,13 @@
+## [6.1.2](https://github.com/rsuite/rsuite/compare/v6.1.1...v6.1.2) (2026-01-28)
+
+
+### Bug Fixes
+
+* add csp value in CustomProvider ([#4499](https://github.com/rsuite/rsuite/issues/4499)) ([42319c8](https://github.com/rsuite/rsuite/commit/42319c8031af8a27d46d5c7b7c72dda1da2849c5))
+* **styles:** move html/body styles to css-reset and use CSS variable ([#4517](https://github.com/rsuite/rsuite/issues/4517)) ([e461d80](https://github.com/rsuite/rsuite/commit/e461d80ec2e5bf7b6fffd4edfbda0a76982c4aa4)), closes [#4466](https://github.com/rsuite/rsuite/issues/4466)
+
+
+
 ## [6.1.1](https://github.com/rsuite/rsuite/compare/v6.1.0...v6.1.1) (2025-12-18)
 
 
