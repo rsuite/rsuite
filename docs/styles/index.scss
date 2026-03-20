@@ -1,10 +1,22 @@
-@use '@rsuite-styles' as rsuite;
+@use 'sass:meta';
 @use './variables' as vars;
-
-/** Base **/
 @use './markdown';
 @use './document-nav';
 @use './carbonads';
 
 /** Components **/
 @use './components';
+
+// Declare layer order explicitly so that:
+//   theme < rsuite < components < utilities
+// rsuite has its own CSS reset, so we skip Tailwind Preflight (base layer).
+@layer theme, rsuite, components, utilities;
+
+@layer rsuite {
+  @include meta.load-css('@rsuite-styles');
+}
+
+// Import only theme + utilities from Tailwind, skip Preflight (base) to avoid
+// resetting SVG display, padding, margin etc. that break the docs layout.
+@import 'tailwindcss/theme';
+@import 'tailwindcss/utilities';
