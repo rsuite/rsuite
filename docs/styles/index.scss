@@ -18,5 +18,5 @@
 
 // Import only theme + utilities from Tailwind, skip Preflight (base) to avoid
 // resetting SVG display, padding, margin etc. that break the docs layout.
-@import 'tailwindcss/theme';
-@import 'tailwindcss/utilities';
+@import url('tailwindcss/theme');
+@import url('tailwindcss/utilities');

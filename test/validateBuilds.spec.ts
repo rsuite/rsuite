@@ -191,6 +191,10 @@ describe('Build Validation Tests', () => {
         expect(css, `${component}/styles/index.css should contain @layer rsuite`).toContain(
           '@layer rsuite {'
         );
+        expect(
+          css.trimEnd(),
+          `${component}/styles/index.css should end with closing brace`
+        ).toMatch(/}\s*$/);
       }
     });
   });

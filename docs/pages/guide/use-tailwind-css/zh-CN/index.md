@@ -56,20 +56,21 @@ module.exports = {
 从 v6.1.x 开始，所有 React Suite CSS 都被包裹在 `@layer rsuite { ... }` 中。这提供了自动的优先级控制：
 
 - **Tailwind 工具类自动优先**：`@layer utilities` 比 `@layer rsuite` 优先级更高，因此 Tailwind 类会自动覆盖 rsuite 样式，无需 `!important`。
-- **导入顺序无关紧要**：`@layer` 控制优先级与源码顺序无关，不需要担心 CSS 文件的加载顺序。
+- **先加载 rsuite CSS 即可保证顺序**：Layer 的优先级取决于首次出现的顺序，先加载 rsuite CSS 可确保 `rsuite` 在前（低优先级），`utilities` 在后（高优先级）。如果希望完全不依赖导入顺序，可以显式声明层级顺序。
 
 ```tsx
-// 两种导入顺序都可以
 import 'rsuite/dist/rsuite-no-reset.min.css';
 import './globals.css'; // 包含 Tailwind CSS 的文件
 ```
 
-如果需要更精细的控制，可以显式声明层级顺序：
+如需完全不依赖导入顺序，在 CSS 文件顶部添加显式层级声明：
 
 ```css
 /* 优先级：theme（最低）→ rsuite → components → utilities（最高） */
 @layer theme, rsuite, components, utilities;
 ```
+
+有了这个声明，rsuite 和 Tailwind CSS 的导入顺序就不再影响优先级。
 
 > **注意：** 如果您使用的是 v6.1.x 之前的版本，可能仍然需要 `!important` 修饰符或注意导入顺序。参见下面的[样式覆盖](#样式覆盖)部分。
 
@@ -79,6 +80,7 @@ import './globals.css'; // 包含 Tailwind CSS 的文件
 
 ```css
 /* globals.css */
+@layer theme, rsuite, components, utilities;
 @import 'tailwindcss/theme';
 @import 'tailwindcss/utilities';
 

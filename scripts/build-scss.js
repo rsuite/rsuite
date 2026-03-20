@@ -49,8 +49,8 @@ async function compileScss(
   let css = postcssResult.css;
 
   // Wrap CSS in @layer rsuite { ... } for better integration with utility-first
-  // CSS frameworks like Tailwind CSS. Styles inside @layer have lower specificity
-  // than unlayered styles, making it easy for users to override with utility classes.
+  // CSS frameworks like Tailwind CSS. @layer adjusts cascade order (layer priority)
+  // relative to unlayered styles, making it easier for users to override with utilities.
   if (wrapInLayer) {
     // Extract @charset declarations — they must appear before @layer at the top of the file
     let charset = '';

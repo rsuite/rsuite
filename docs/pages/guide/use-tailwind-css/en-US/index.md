@@ -56,20 +56,21 @@ module.exports = {
 Starting from v6.1.x, all React Suite CSS is wrapped in `@layer rsuite { ... }`. This provides automatic priority control:
 
 - **Tailwind utilities automatically win**: `@layer utilities` has higher priority than `@layer rsuite`, so Tailwind classes override rsuite styles without needing `!important`.
-- **Import order doesn't matter**: `@layer` controls priority regardless of source order, so you don't need to worry about which CSS file is loaded first.
+- **Import order is safe when rsuite CSS loads first**: Since layer order is determined by first appearance, loading rsuite CSS before Tailwind ensures `rsuite` is declared first (lower priority) and `utilities` second (higher priority). If you want to be order-independent, declare the layer order explicitly in your CSS.
 
 ```tsx
-// Both import orders work fine
 import 'rsuite/dist/rsuite-no-reset.min.css';
 import './globals.css'; // Your Tailwind CSS file
 ```
 
-If you need finer control, you can declare layer order explicitly:
+To make it fully order-independent, add an explicit layer order declaration at the top of your CSS:
 
 ```css
 /* Priority: theme (lowest) → rsuite → components → utilities (highest) */
 @layer theme, rsuite, components, utilities;
 ```
+
+With this declaration, the import order of rsuite and Tailwind CSS no longer matters.
 
 > **Note:** If you're using a version prior to v6.1.x, you may still need the `!important` modifier or careful import ordering. See the [Style Overriding](#style-overriding) section below.
 
@@ -79,6 +80,7 @@ Here is a recommended setup for your project's global CSS file:
 
 ```css
 /* globals.css */
+@layer theme, rsuite, components, utilities;
 @import 'tailwindcss/theme';
 @import 'tailwindcss/utilities';
 
