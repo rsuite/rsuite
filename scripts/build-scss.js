@@ -16,7 +16,7 @@ const componentOutDir = 'lib';
 async function compileScss(
   input,
   output,
-  { minify = false, sassOptions = {}, optimizeComponent = false } = {}
+  { minify = false, sassOptions = {}, optimizeComponent = false, wrapInLayer = false } = {}
 ) {
   const sassResult = sass.compile(input, {
     style: minify ? 'compressed' : 'expanded',
@@ -46,8 +46,24 @@ async function compileScss(
     map: false
   });
 
+  let css = postcssResult.css;
+
+  // Wrap CSS in @layer rsuite { ... } for better integration with utility-first
+  // CSS frameworks like Tailwind CSS. Styles inside @layer have lower specificity
+  // than unlayered styles, making it easy for users to override with utility classes.
+  if (wrapInLayer) {
+    // Extract @charset declarations — they must appear before @layer at the top of the file
+    let charset = '';
+    css = css.replace(/^@charset\s+[^;]+;\s*/m, match => {
+      charset = match.trimEnd() + '\n';
+      return '';
+    });
+
+    css = `${charset}@layer rsuite {\n${css.trimStart()}\n}\n`;
+  }
+
   await fs.ensureDir(path.dirname(output));
-  await fs.writeFile(output, postcssResult.css);
+  await fs.writeFile(output, css);
 
   console.log(`✔ Built: ${output}`);
 }
@@ -60,17 +76,18 @@ async function compileScss(
 // - dist/rsuite-no-reset.min.css
 async function buildMainStyles() {
   const variants = [
-    // Standard versions
-    ['index.scss', 'rsuite.css'],
-    ['index.scss', 'rsuite.min.css', true],
-    // Versions without reset styles
-    ['components.scss', 'rsuite-no-reset.css', false],
-    ['components.scss', 'rsuite-no-reset.min.css', true]
+    // Standard versions (with @layer rsuite wrapper)
+    ['index.scss', 'rsuite.css', false, {}, true],
+    ['index.scss', 'rsuite.min.css', true, {}, true],
+    // Versions without reset styles (with @layer rsuite wrapper)
+    ['components.scss', 'rsuite-no-reset.css', false, {}, true],
+    ['components.scss', 'rsuite-no-reset.min.css', true, {}, true]
   ];
 
-  for (const [src, out, minify = false, variables = {}] of variants) {
+  for (const [src, out, minify = false, variables = {}, wrapInLayer = false] of variants) {
     await compileScss(path.join('src/styles', src), path.join(outDir, out), {
       minify,
+      wrapInLayer,
       sassOptions: {
         variables
       }
@@ -86,7 +103,8 @@ const buildComponentStyles = async () => {
     const outputFile = file.replace('src/', `${componentOutDir}/`).replace(/\.scss$/, '.css');
     await compileScss(file, outputFile, {
       minify: false,
-      optimizeComponent: true // Enable optimization for component styles,
+      optimizeComponent: true,
+      wrapInLayer: true
     });
   }
 };

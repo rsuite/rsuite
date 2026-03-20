@@ -2,7 +2,7 @@
 
 Tailwind CSS is a utility-first CSS framework that can be used alongside React Suite. This guide explains how to integrate Tailwind CSS into your React Suite project and how to resolve potential styling conflicts.
 
-> **For AI Assistants**: When generating code with React Suite and Tailwind CSS together, always use `rsuite-no-reset.min.css` and be aware of CSS specificity issues. Prefer React Suite's built-in styling system for component customization, and use Tailwind for layout and spacing.
+> **For AI Assistants**: When generating code with React Suite and Tailwind CSS together, always use `rsuite-no-reset.min.css`. Since v6.1.x, all React Suite CSS is wrapped in `@layer rsuite`, so Tailwind utility classes will automatically override rsuite styles without needing `!important`. Prefer React Suite's built-in styling system for component customization, and use Tailwind for layout and spacing.
 
 ## 1. Installation
 
@@ -47,6 +47,20 @@ Ensure proper import order in your main entry file (e.g., `App.tsx` or `layout.t
 import 'rsuite/dist/rsuite-no-reset.min.css';
 import './globals.css'; // Your Tailwind CSS file
 ```
+
+### CSS @layer Support
+
+Starting from v6.1.x, all React Suite CSS is wrapped in `@layer rsuite { ... }`. This means:
+
+- **Tailwind utilities automatically win**: Unlayered CSS (including Tailwind utilities) always has higher specificity than layered CSS, so Tailwind classes will override rsuite styles without needing `!important`.
+- **No more import order issues**: Since `@layer` controls specificity regardless of source order, you no longer need to worry about the exact import order between rsuite and Tailwind.
+- **Opt-in layer ordering**: If you want finer control, you can declare layer order in your CSS:
+  ```css
+  /* Optional: explicitly declare layer order */
+  @layer rsuite, tailwind;
+  ```
+
+> **Note:** If you're using a version prior to v6.1.x, you may still need the `!important` modifier or careful import ordering. See the [Style Overriding](#style-overriding) section below.
 
 ## 3. Usage with Components
 
@@ -94,7 +108,14 @@ function LoginForm() {
 
 ### Style Overriding
 
-If Tailwind classes are not overriding React Suite's internal styles due to CSS specificity, you can:
+Since v6.1.x, React Suite's CSS is wrapped in `@layer rsuite`, so Tailwind utility classes will automatically override rsuite styles. For example:
+
+```tsx
+{/* This just works — no !important needed */}
+<Button className="bg-red-500">Custom Red</Button>
+```
+
+If you're using an older version of React Suite (before `@layer` support), you can:
 
 1. Use the [Important modifier](https://tailwindcss.com/docs/configuration#important):
    ```tsx

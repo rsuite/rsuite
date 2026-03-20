@@ -2,7 +2,7 @@
 
 Tailwind CSS 是一个功能类优先的 CSS 框架,可以与 React Suite 结合使用。本指南介绍了如何将 Tailwind CSS 集成到 React Suite 项目中,以及如何解决潜在的样式冲突。
 
-> **给 AI 助手的提示**: 在同时使用 React Suite 和 Tailwind CSS 生成代码时,始终使用 `rsuite-no-reset.min.css`,并注意 CSS 优先级问题。优先使用 React Suite 的内置样式系统进行组件定制,使用 Tailwind 处理布局和间距。
+> **给 AI 助手的提示**: 在同时使用 React Suite 和 Tailwind CSS 生成代码时,始终使用 `rsuite-no-reset.min.css`。从 v6.1.x 开始，所有 React Suite CSS 都包裹在 `@layer rsuite` 中，因此 Tailwind 工具类会自动覆盖 rsuite 样式，无需使用 `!important`。优先使用 React Suite 的内置样式系统进行组件定制,使用 Tailwind 处理布局和间距。
 
 ## 1. 安装
 
@@ -47,6 +47,20 @@ module.exports = {
 import 'rsuite/dist/rsuite-no-reset.min.css';
 import './globals.css'; // 包含 Tailwind CSS 的文件
 ```
+
+### CSS @layer 支持
+
+从 v6.1.x 开始，所有 React Suite CSS 都被包裹在 `@layer rsuite { ... }` 中。这意味着：
+
+- **Tailwind 工具类自动优先**：未分层的 CSS（包括 Tailwind 工具类）始终比分层 CSS 具有更高的优先级，因此 Tailwind 类会自动覆盖 rsuite 样式，无需使用 `!important`。
+- **不再需要关注导入顺序**：由于 `@layer` 控制优先级与源码顺序无关，您不再需要担心 rsuite 和 Tailwind 之间的确切导入顺序。
+- **可选的层级排序**：如果需要更精细的控制，可以在 CSS 中声明层级顺序：
+  ```css
+  /* 可选：显式声明层级顺序 */
+  @layer rsuite, tailwind;
+  ```
+
+> **注意：** 如果您使用的是 v6.1.x 之前的版本，您可能仍然需要 `!important` 修饰符或注意导入顺序。参见下面的[样式覆盖](#样式覆盖)部分。
 
 ## 3. 在组件中使用
 
@@ -94,7 +108,14 @@ function LoginForm() {
 
 ### 样式覆盖
 
-如果由于 CSS 优先级问题导致 Tailwind 类无法覆盖 React Suite 的内部样式，您可以：
+从 v6.1.x 开始，React Suite 的 CSS 被包裹在 `@layer rsuite` 中，因此 Tailwind 工具类会自动覆盖 rsuite 样式。例如：
+
+```tsx
+{/* 直接生效 — 无需 !important */}
+<Button className="bg-red-500">自定义红色</Button>
+```
+
+如果您使用的是较旧版本的 React Suite（不支持 `@layer`），您可以：
 
 1. 使用 [Important 修饰符](https://tailwindcss.com/docs/configuration#important):
    ```tsx
