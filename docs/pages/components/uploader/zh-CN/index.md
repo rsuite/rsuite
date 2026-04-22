@@ -80,8 +80,8 @@
 
 继承 [Button](/zh/components/button/) 组件的 Props。
 
-| 属性名称           | 类型 `(默认值)`                                                                                                      | 描述                                                                                                                          |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| 属性名称           | 类型 `(默认值)`                                                                                                      | 描述                                                                                                                          | 版本        |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | accept             | string                                                                                                               | 接受上传的文件类型，详见：[HTML attribute: accept](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)       |
 | action \*          | string                                                                                                               | 文件上传地址, 必选                                                                                                            |
 | autoUpload         | boolean `(true)`                                                                                                     | 选择文件后自动上传                                                                                                            |
@@ -105,7 +105,7 @@
 | onError            | (reason: Object, file: [FileType][file]) => void                                                                     | 上传出现错误的回调函数                                                                                                        |
 | onPreview          | (file: [FileType][file], event) => void                                                                              | 在文件列表中，点击已上传的文件的回调函数                                                                                      |
 | onProgress         | (percent: number, file: [FileType][file]) => void                                                                    | 上传进度发生变化的回调函数                                                                                                    |
-| onCompletion       | (completedFiles: [FileType][file][], failedFiles: [FileType][file][]) => void                                        | 当前批次所有文件上传完成（无论成功或失败）后的回调函数                                                                        |
+| onCompletion       | (completedFiles: [FileType][file][], failedFiles: [FileType][file][]) => void                                        | 当前批次所有文件上传完成（无论成功或失败）后的回调函数                                                                        | ![][6.1.3]  |
 | onRemove           | (file: [FileType][file]) => void                                                                                     | 在文件列表中，点击删除一个文件的回调函数                                                                                      |
 | onReupload         | (file: [FileType][file]) => void                                                                                     | 在文件列表中，对上传失败的文件，点击重新上传的回调函数                                                                        |
 | onSuccess          | (response: Object, file: [FileType][file]) => void                                                                   | 上传成功后的回调函数                                                                                                          |
