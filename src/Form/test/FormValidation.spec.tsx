@@ -1450,4 +1450,131 @@ describe('Form Validation', () => {
       expect(onAddRule).toHaveBeenCalledWith(formValue.email, formValue);
     });
   });
+
+  describe('resolver prop', () => {
+    it('Should return false from check() when sync resolver finds errors', () => {
+      const resolver = vi.fn(() => ({ errors: { name: 'Name is required' } }));
+      const ref = React.createRef<FormInstance>();
+      render(
+        <Form ref={ref} resolver={resolver} formDefaultValue={{ name: '' }}>
+          <FormControl name="name" />
+        </Form>
+      );
+
+      expect(ref.current?.check()).to.be.false;
+      expect(resolver).toHaveBeenCalledWith({ name: '' });
+    });
+
+    it('Should return true from check() when sync resolver returns no errors', () => {
+      const resolver = vi.fn(() => ({ errors: {} }));
+      const ref = React.createRef<FormInstance>();
+      render(
+        <Form ref={ref} resolver={resolver} formDefaultValue={{ name: 'John' }}>
+          <FormControl name="name" />
+        </Form>
+      );
+
+      expect(ref.current?.check()).to.be.true;
+    });
+
+    it('Should call onError with errors from sync resolver', () => {
+      const resolver = vi.fn(() => ({ errors: { name: 'Name is required' } }));
+      const onError = vi.fn();
+      const ref = React.createRef<FormInstance>();
+      render(
+        <Form ref={ref} resolver={resolver} onError={onError} formDefaultValue={{ name: '' }}>
+          <FormControl name="name" />
+        </Form>
+      );
+
+      act(() => {
+        ref.current?.check();
+      });
+
+      expect(onError).toHaveBeenCalledWith({ name: 'Name is required' });
+    });
+
+    it('Should resolve to false from checkAsync() when async resolver finds errors', async () => {
+      const resolver = vi.fn(async () => ({ errors: { name: 'Name is required' } }));
+      const ref = React.createRef<FormInstance>();
+      render(
+        <Form ref={ref} resolver={resolver} formDefaultValue={{ name: '' }}>
+          <FormControl name="name" />
+        </Form>
+      );
+
+      const result = await ref.current?.checkAsync();
+      expect(result?.hasError).to.be.true;
+      expect(result?.formError).to.deep.equal({ name: 'Name is required' });
+    });
+
+    it('Should resolve to true from checkAsync() when async resolver returns no errors', async () => {
+      const resolver = vi.fn(async () => ({ errors: {} }));
+      const ref = React.createRef<FormInstance>();
+      render(
+        <Form ref={ref} resolver={resolver} formDefaultValue={{ name: 'John' }}>
+          <FormControl name="name" />
+        </Form>
+      );
+
+      const result = await ref.current?.checkAsync();
+      expect(result?.hasError).to.be.false;
+    });
+
+    it('Should call onSubmit only when async resolver passes validation', async () => {
+      const onSubmit = vi.fn();
+      const resolver = vi.fn(async (formValue: any) => ({
+        errors: formValue.name ? {} : { name: 'Name is required' }
+      }));
+
+      render(
+        <Form resolver={resolver} onSubmit={onSubmit} formDefaultValue={{ name: 'John' }}>
+          <FormControl name="name" />
+          <Button type="submit">Submit</Button>
+        </Form>
+      );
+
+      fireEvent.click(screen.getByRole('button'));
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledWith({ name: 'John' }, expect.anything());
+      });
+    });
+
+    it('Should not call onSubmit when async resolver fails validation', async () => {
+      const onSubmit = vi.fn();
+      const resolver = vi.fn(async () => ({ errors: { name: 'Name is required' } }));
+
+      render(
+        <Form resolver={resolver} onSubmit={onSubmit} formDefaultValue={{ name: '' }}>
+          <FormControl name="name" />
+          <Button type="submit">Submit</Button>
+        </Form>
+      );
+
+      fireEvent.click(screen.getByRole('button'));
+
+      await waitFor(() => {
+        expect(onSubmit).not.toHaveBeenCalled();
+      });
+    });
+
+    it('Should validate field on change using sync resolver', async () => {
+      const resolver = vi.fn((formValue: any) => ({
+        errors: formValue.name === '' ? { name: 'Name is required' } : {}
+      }));
+
+      render(
+        <Form resolver={resolver} formDefaultValue={{ name: 'John' }}>
+          <FormControl name="name" data-testid="name-input" />
+        </Form>
+      );
+
+      fireEvent.change(screen.getByTestId('name-input'), { target: { value: '' } });
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).to.exist;
+      });
+    });
+  });
 });

@@ -4,6 +4,7 @@ import set from 'lodash/set';
 import { useControlled, useEventCallback } from '@/internals/hooks';
 import { nameToPath } from '../../useFormControl/utils/nameToPath';
 import type { CheckResult } from 'schema-typed';
+import type { Resolver } from '../resolvers';
 
 export interface FormErrorProps {
   formValue: any;
@@ -11,10 +12,11 @@ export interface FormErrorProps {
   onCheck?: (formError: any) => void;
   onError?: (formError: any) => void;
   nestedField?: boolean;
+  resolver?: Resolver;
 }
 
 export default function useFormValidate(_formError: any, props: FormErrorProps) {
-  const { formValue, getCombinedModel, onCheck, onError, nestedField } = props;
+  const { formValue, getCombinedModel, onCheck, onError, nestedField, resolver } = props;
   const [realFormError, setFormError] = useControlled(_formError, {});
   const checkOptions = { nestedObject: nestedField };
 
@@ -24,9 +26,38 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
   /**
    * Validate the form data and return a boolean.
    * The error message after verification is returned in the callback.
+   *
+   * When a `resolver` is provided and the resolver returns a Promise (async resolver),
+   * this method cannot resolve the result synchronously. In that case it returns `false`
+   * immediately and you should use `checkAsync()` instead.
    * @param callback
    */
   const check = useEventCallback((callback?: (formError: any) => void) => {
+    if (resolver) {
+      const result = resolver(formValue || {});
+
+      // Async resolver: cannot handle synchronously
+      if (result instanceof Promise) {
+        if (process.env.NODE_ENV !== 'production') {
+          console.warn(
+            '[rsuite] The `resolver` provided to <Form> returns a Promise. ' +
+              'Use `checkAsync()` or rely on `onSubmit` for async validation.'
+          );
+        }
+        return false;
+      }
+
+      const { errors } = result;
+      const hasError = Object.keys(errors).length > 0;
+      setFormError(errors);
+      onCheck?.(errors);
+      callback?.(errors);
+      if (hasError) {
+        onError?.(errors);
+      }
+      return !hasError;
+    }
+
     const formError = {};
     let errorCount = 0;
     const model = getCombinedModel();
@@ -72,6 +103,40 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
       nextValue: Record<string, unknown>,
       callback?: (checkResult: unknown) => void
     ) => {
+      if (resolver) {
+        const result = resolver(nextValue);
+
+        if (result instanceof Promise) {
+          if (process.env.NODE_ENV !== 'production') {
+            console.warn(
+              '[rsuite] The `resolver` provided to <Form> returns a Promise. ' +
+                'Use `checkAsync()` or `checkForFieldAsync()` for async validation.'
+            );
+          }
+          return false;
+        }
+
+        const { errors } = result;
+        const fieldError = errors[fieldName];
+        const hasFieldError = fieldError !== undefined && fieldError !== null && fieldError !== '';
+        // Merge resolver errors with existing errors, clearing fields that now pass
+        const nextFormError = { ...realFormError, ...errors };
+        // Remove errors for fields that are no longer invalid
+        Object.keys(nextFormError).forEach(key => {
+          if (errors[key] === undefined || errors[key] === null || errors[key] === '') {
+            delete nextFormError[key];
+          }
+        });
+
+        setFormError(nextFormError);
+        onCheck?.(nextFormError);
+        callback?.(fieldError !== undefined ? { hasError: hasFieldError, errorMessage: fieldError } : { hasError: false });
+        if (Object.keys(nextFormError).length > 0) {
+          onError?.(nextFormError);
+        }
+        return !hasFieldError;
+      }
+
       const model = getCombinedModel();
       const resultOfCurrentField = model.checkForField(fieldName, nextValue, checkOptions);
       let nextFormError = {
@@ -135,6 +200,18 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
    * Check form data asynchronously and return a Promise
    */
   const checkAsync = useEventCallback(() => {
+    if (resolver) {
+      return Promise.resolve(resolver(formValue || {})).then(({ errors }) => {
+        const hasError = Object.keys(errors).length > 0;
+        onCheck?.(errors);
+        setFormError(errors);
+        if (hasError) {
+          onError?.(errors);
+        }
+        return { hasError, formError: errors };
+      });
+    }
+
     const promises: Promise<CheckResult>[] = [];
     const keys: string[] = [];
     const model = getCombinedModel();
@@ -166,7 +243,31 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
     });
   });
 
-  const checkFieldAsyncForNextValue = useEventCallback((fieldName, nextValue) => {
+  const checkFieldAsyncForNextValue = useEventCallback((fieldName: string, nextValue: any) => {
+    if (resolver) {
+      return Promise.resolve(resolver(nextValue)).then(({ errors }) => {
+        const fieldError = errors[fieldName];
+        const hasFieldError = fieldError !== undefined && fieldError !== null && fieldError !== '';
+        const nextFormError = { ...realFormError };
+        // Merge: update all keys from errors, remove those that now pass
+        Object.keys({ ...realFormError, ...errors }).forEach(key => {
+          if (errors[key] !== undefined && errors[key] !== null && errors[key] !== '') {
+            nextFormError[key] = errors[key];
+          } else {
+            delete nextFormError[key];
+          }
+        });
+
+        onCheck?.(nextFormError);
+        setFormError(nextFormError);
+        if (Object.keys(nextFormError).length > 0) {
+          onError?.(nextFormError);
+        }
+
+        return { hasError: hasFieldError, errorMessage: fieldError };
+      });
+    }
+
     const model = getCombinedModel();
     return model
       .checkForFieldAsync(fieldName, nextValue, checkOptions)
