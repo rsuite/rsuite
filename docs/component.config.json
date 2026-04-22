@@ -382,6 +382,12 @@
         "icon": "MdOutlineIntegrationInstructions"
       },
       {
+        "id": "form-resolvers",
+        "name": "Resolvers",
+        "title": "验证解析器",
+        "icon": "MdOutlineIntegrationInstructions"
+      },
+      {
         "id": "schema",
         "name": "schema-typed",
         "title": "数据模型",

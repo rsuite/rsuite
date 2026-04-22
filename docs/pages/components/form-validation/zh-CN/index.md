@@ -152,3 +152,4 @@ return (
 
 - [与 Formik 集成](/zh/components/form-formik/)
 - [与 React Hook Form 集成](/zh/components/form-react-hook-form/)
+- [与第三方验证解析器集成 (Yup、Zod、Joi、AJV、Valibot…)](/zh/components/form-resolvers/)
