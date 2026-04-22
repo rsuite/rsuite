@@ -89,24 +89,10 @@
     min-height: var(--rs-time-line-tail-min-height);
   }
 
-  // When reversed, the first item (newest) should have its tail extending upward
-  &-reverse &-item:first-child &-item-tail {
-    top: auto;
-    bottom: calc(var(--rs-time-line-dot-center-gap) + var(--rs-time-line-dot-side-length));
-    height: calc(var(--rs-time-line-dot-center-gap) + var(--rs-time-line-dot-side-length));
-  }
-
   @at-root #{$root}-reverse#{$root}-endless #{$root}-item:first-child #{$root}-item-tail {
     top: calc(var(--rs-time-line-dot-center-gap) - var(--rs-time-line-tail-min-height));
     bottom: auto;
     height: var(--rs-time-line-tail-min-height);
-  }
-
-  // When reversed, the last item (oldest) has a top gap like the normal first item
-  &-reverse &-item:last-child &-item-tail {
-    top: var(--rs-time-line-dot-center-gap);
-    bottom: 0;
-    height: auto;
   }
 
   &-item:only-child &-item-tail {
