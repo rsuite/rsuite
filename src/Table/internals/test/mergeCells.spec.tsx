@@ -1,0 +1,118 @@
+import React from 'react';
+import { describe, expect, it } from 'vitest';
+import { render } from '@testing-library/react';
+import mergeCells from '../utils/mergeCells';
+import Cell from '../Cell';
+import HeaderCell from '../HeaderCell';
+
+describe('mergeCells', () => {
+  function makeCell(props: Record<string, any> = {}) {
+    return React.cloneElement(<Cell dataKey="x" />, { width: 100, left: 0, ...props });
+  }
+
+  function makeHeaderCell(props: Record<string, any> = {}) {
+    return React.cloneElement(<HeaderCell />, {
+      width: 100,
+      left: 0,
+      isHeaderCell: true,
+      ...props
+    });
+  }
+
+  it('Should return cells unchanged when no colSpan or groupCount', () => {
+    const cells = [makeCell(), makeCell(), makeCell()];
+    const result = mergeCells(cells);
+    expect(result).to.have.length(3);
+  });
+
+  it('Should merge cells by colSpan when adjacent cell value is null', () => {
+    const data = { a: null, b: 'hello' };
+    // colSpan=2, so cell[i] + cell[i+0..1] are all scanned.
+    // Width formula: start=80, j=0 adds cells[0].width=80→160, j=1 adds cells[1].width=80→240
+    const cells = [
+      makeCell({ colSpan: 2, width: 80, rowData: data, dataKey: 'a' }),
+      makeCell({ width: 80, rowData: data, dataKey: 'a' }),
+      makeCell({ width: 80, rowData: data, dataKey: 'b' })
+    ];
+
+    const result = mergeCells(cells) as React.ReactElement[];
+
+    // The second cell should be removed (marked removed=true)
+    expect(result[1].props.removed).to.equal(true);
+    // First cell accumulates: initial 80 + j=0 delta 80 + j=1 delta 80 = 240
+    expect(result[0].props.width).to.equal(240);
+  });
+
+  it('Should not merge cells when value is not null', () => {
+    const data = { a: 'value' };
+    const cells = [
+      makeCell({ colSpan: 2, width: 80, rowData: data, dataKey: 'a' }),
+      makeCell({ width: 80, rowData: data, dataKey: 'a' })
+    ];
+
+    const result = mergeCells(cells) as React.ReactElement[];
+
+    // No merging because 'a' has a value — width stays as initial=80
+    expect(result[0].props.width).to.equal(80);
+    expect(result[1].props.removed).to.not.equal(true);
+  });
+
+  it('Should merge header cells using colSpan when children is null', () => {
+    const cells = [
+      makeHeaderCell({ colSpan: 2, width: 80, children: null }),
+      makeHeaderCell({ width: 80, children: null })
+    ];
+
+    const result = mergeCells(cells) as React.ReactElement[];
+
+    // initial 80 + j=0 adds 80 + j=1 adds 80 = 240
+    expect(result[0].props.width).to.equal(240);
+    expect(result[1].props.removed).to.equal(true);
+  });
+
+  it('Should not merge header cells when children is provided', () => {
+    const cells = [
+      makeHeaderCell({ colSpan: 2, width: 80, children: 'Header' }),
+      makeHeaderCell({ width: 80, children: 'Header2' })
+    ];
+
+    const result = mergeCells(cells) as React.ReactElement[];
+
+    expect(result[0].props.width).to.equal(80);
+  });
+
+  it('Should handle groupCount and wrap in ColumnGroup for header', () => {
+    // groupCount=2: j=0 keeps nextWidth, j=1 adds nextCellWidth and marks cells[1] as removed
+    const cells = [
+      makeHeaderCell({
+        groupCount: 2,
+        groupHeader: 'Group',
+        groupAlign: 'center',
+        groupVerticalAlign: 'middle',
+        groupHeaderHeight: 20,
+        width: 100,
+        children: <span>col1</span>,
+        dataKey: 'col1',
+        sortable: false
+      }),
+      makeHeaderCell({
+        width: 120,
+        children: <span>col2</span>,
+        dataKey: 'col2',
+        sortable: false
+      })
+    ];
+
+    const result = mergeCells(cells) as React.ReactElement[];
+
+    // The group cell is added, but cells[1] (removed=true) is also pushed by the outer loop.
+    expect(result).to.have.length(2);
+    // Width of group cell should be 100 + 120 = 220
+    expect(result[0].props.width).to.equal(220);
+    // Second cell should be marked removed
+    expect(result[1].props.removed).to.equal(true);
+    // Children of cells[0] should contain a ColumnGroup header
+    const { container } = render(<>{result[0]}</>);
+    expect(container.querySelector('.rs-column-group-header')).to.exist;
+  });
+});
