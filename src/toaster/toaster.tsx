@@ -37,6 +37,16 @@ export interface Toaster {
 const containers = new Map<string, React.RefObject<ToastContainerInstance | null>>();
 
 /**
+ * Track in-progress container creation promises keyed by `${containerId}_${placement}`.
+ * This prevents duplicate containers from being created when `push` is called multiple
+ * times synchronously (e.g. inside a loop) before the first container has mounted.
+ */
+const pendingContainerPromises = new Map<
+  string,
+  Promise<React.RefObject<ToastContainerInstance | null>>
+>();
+
+/**
  * Create a container instance.
  * @param placement
  * @param props
@@ -44,7 +54,9 @@ const containers = new Map<string, React.RefObject<ToastContainerInstance | null
 async function createContainer(placement: PlacementType, props: GetInstancePropsType) {
   const [container, containerId] = await ToastContainer.getInstance(props);
 
-  containers.set(`${containerId}_${placement}`, container);
+  const key = `${containerId}_${placement}`;
+  containers.set(key, container);
+  pendingContainerPromises.delete(key);
 
   return container;
 }
@@ -72,11 +84,29 @@ toaster.push = (message: React.ReactNode, options: ToastContainerProps = {}) => 
     if (existedContainer) {
       return existedContainer.current?.push(message, restOptions);
     }
+
+    // A container creation for this placement may already be in progress (e.g. when `push`
+    // is called multiple times synchronously in a loop). Reuse that promise instead of
+    // creating a second container.
+    const pendingPromise = pendingContainerPromises.get(`${containerElementId}_${placement}`);
+    if (pendingPromise) {
+      return pendingPromise.then(ref => ref.current?.push(message, restOptions));
+    }
   }
 
   const newOptions = { ...options, container: containerElement, placement };
 
-  return createContainer(placement, newOptions).then(ref => {
+  const containerPromise = createContainer(placement, newOptions);
+
+  // `render()` inside `createContainer` runs synchronously and assigns `RSUITE_TOASTER_ID`
+  // to the container element before the async part begins. Register the pending promise
+  // immediately so that any subsequent synchronous `push` calls can chain onto it.
+  const assignedId = containerElement ? containerElement[RSUITE_TOASTER_ID] : null;
+  if (assignedId) {
+    pendingContainerPromises.set(`${assignedId}_${placement}`, containerPromise);
+  }
+
+  return containerPromise.then(ref => {
     return ref.current?.push(message, restOptions);
   });
 };
