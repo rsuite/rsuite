@@ -73,8 +73,7 @@ const Timeline = forwardRef<'div', TimelineProps, typeof SubcomponentsAndStaticM
         {orderedChildren.map((child: any, domIndex: number) => {
           const logicalIndex = reverse ? count - 1 - domIndex : domIndex;
           return React.cloneElement(child, {
-            key: domIndex,
-            last: domIndex + 1 === count,
+            last: logicalIndex + 1 === count,
             INTERNAL_active: isItemActive(logicalIndex, count),
             align
           });
