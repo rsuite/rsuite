@@ -196,7 +196,7 @@ describe('internals/hooks/useRootClose', () => {
     expect(onRootClose).not.toHaveBeenCalled();
   });
 
-  it('Should call onRootClose when onRootClose is undefined (no error)', () => {
+  it('Should not throw error when onRootClose is undefined', () => {
     expect(() => {
       const { getByTestId } = render(<TestComponent onRootClose={undefined} />);
 
