@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // List all React Suite components available via the public docs API.
-const BASE_URL = process.env.RSUITE_BASE_URL || 'https://rsuitejs.com';
+const BASE_URL = (process.env.RSUITE_BASE_URL || 'https://rsuitejs.com').replace(/\/+$/, '');
 
 async function main() {
   const res = await fetch(`${BASE_URL}/api/types/index`);
@@ -14,7 +14,8 @@ async function main() {
     if (typeof c === 'string') {
       console.log(c);
     } else if (c && typeof c === 'object') {
-      console.log(c.id || c.name);
+      const name = c.id || c.name;
+      if (name) console.log(name);
     }
   }
   console.error(`\n${components.length} components.`);

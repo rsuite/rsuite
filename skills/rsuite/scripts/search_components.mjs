@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Search React Suite components by name substring.
 // Usage: node search_components.mjs picker
-const BASE_URL = process.env.RSUITE_BASE_URL || 'https://rsuitejs.com';
+const BASE_URL = (process.env.RSUITE_BASE_URL || 'https://rsuitejs.com').replace(/\/+$/, '');
 
 async function main() {
   const query = (process.argv[2] || '').toLowerCase();

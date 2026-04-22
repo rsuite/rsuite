@@ -2,7 +2,7 @@
 // Fetch props for a specific React Suite component.
 // Usage: node get_component_props.mjs DatePicker
 //        node get_component_props.mjs date-picker
-const BASE_URL = process.env.RSUITE_BASE_URL || 'https://rsuitejs.com';
+const BASE_URL = (process.env.RSUITE_BASE_URL || 'https://rsuitejs.com').replace(/\/+$/, '');
 
 function toKebabCase(value) {
   return value
@@ -40,7 +40,7 @@ async function main() {
     process.exit(1);
   }
   const id = await resolveComponentId(name);
-  const res = await fetch(`${BASE_URL}/api/types/${id}`);
+  const res = await fetch(`${BASE_URL}/api/types/${encodeURIComponent(id)}`);
   if (!res.ok) {
     console.error(`Component "${name}" (resolved as "${id}") not found (${res.status}).`);
     process.exit(1);

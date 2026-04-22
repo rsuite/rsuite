@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // List all React Suite custom hooks.
-const BASE_URL = process.env.RSUITE_BASE_URL || 'https://rsuitejs.com';
+const BASE_URL = (process.env.RSUITE_BASE_URL || 'https://rsuitejs.com').replace(/\/+$/, '');
 
 async function main() {
   const res = await fetch(`${BASE_URL}/api/types/index`);
