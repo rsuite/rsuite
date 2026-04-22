@@ -1,3 +1,3 @@
-import { ColumnGroup } from 'rsuite-table';
+import { ColumnGroup } from './internals';
 
 export default ColumnGroup;
