@@ -74,6 +74,8 @@ const myResolver = formValue => {
 
 [class-validator](https://github.com/typestack/class-validator) allows you to use decorator-based validation in TypeScript classes.
 
+> **Note:** This example requires TypeScript with `experimentalDecorators` and `emitDecoratorMetadata` enabled in `tsconfig.json`.
+
 <!--{include:`class-validator.md`}-->
 
 ### io-ts

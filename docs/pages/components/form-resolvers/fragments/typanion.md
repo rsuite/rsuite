@@ -2,12 +2,23 @@
 
 ```js
 import { Form, Button, Input } from 'rsuite';
-import { makeValidator, t } from 'typanion';
+import { makeValidator, isObject, isString, isNumber, applyCascade } from 'typanion';
+
+const isMinLength = n =>
+  makeValidator({
+    test: (v, ctx) => {
+      if (v.length < n) {
+        ctx.errors.push(`${ctx.p}: Must be at least ${n} characters`);
+        return false;
+      }
+      return true;
+    }
+  });
 
 const isEmail = makeValidator({
-  test: (value, errors) => {
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-      errors.push('Invalid email address');
+  test: (v, ctx) => {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
+      ctx.errors.push(`${ctx.p}: Invalid email address`);
       return false;
     }
     return true;
@@ -15,33 +26,32 @@ const isEmail = makeValidator({
 });
 
 const isAdult = makeValidator({
-  test: (value, errors) => {
-    if (Number(value) < 18) {
-      errors.push('Must be at least 18');
+  test: (v, ctx) => {
+    if (Number(v) < 18) {
+      ctx.errors.push(`${ctx.p}: Must be at least 18`);
       return false;
     }
     return true;
   }
 });
 
-const schema = t.isObject({
-  username: t.isString(),
-  email: t.cascade(t.isString(), isEmail()),
-  age: t.cascade(t.isNumber(), isAdult())
+const schema = isObject({
+  username: applyCascade(isString(), [isMinLength(3)]),
+  email: applyCascade(isString(), [isEmail]),
+  age: applyCascade(isNumber(), [isAdult])
 });
 
 const typanionResolver = schema => formValue => {
-  const errors = {};
-  const coerced = { ...formValue, age: Number(formValue.age) };
   const fieldErrors = [];
-  const valid = schema(coerced, { errors: fieldErrors });
+  const valid = schema(
+    { ...formValue, age: Number(formValue.age) },
+    { errors: fieldErrors, coerce: false }
+  );
   if (valid) return { errors: {} };
+  const errors = {};
   fieldErrors.forEach(err => {
-    const match = err.match(/At ([^:]+): (.*)/);
-    if (match) {
-      const field = match[1].replace(/^\.|^>/, '');
-      if (!errors[field]) errors[field] = match[2];
-    }
+    const match = err.match(/^\.(\w+):\s*(.*)/);
+    if (match && !errors[match[1]]) errors[match[1]] = match[2];
   });
   return { errors };
 };

@@ -2,14 +2,12 @@
 
 ```js
 import { Form, Button, Input } from 'rsuite';
-import {
-  IsEmail,
-  IsNotEmpty,
-  Min,
-  MinLength,
-  validateSync
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, Min, MinLength, validateSync } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
+
+// Note: class-validator uses TypeScript decorators.
+// This example requires a TypeScript project with
+// experimentalDecorators and emitDecoratorMetadata enabled.
 
 class UserDto {
   @IsNotEmpty({ message: 'Required' })

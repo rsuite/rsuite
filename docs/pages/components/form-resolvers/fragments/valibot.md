@@ -2,7 +2,7 @@
 
 ```js
 import { Form, Button, Input } from 'rsuite';
-import { v } from 'valibot';
+import * as v from 'valibot';
 
 const schema = v.object({
   username: v.pipe(
