@@ -4,7 +4,7 @@ import Column from '../Column';
 import HeaderCell from '../HeaderCell';
 import Cell from '../Cell';
 import { render, act } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 describe('useCellDescriptor', () => {
   let cellDescriptor;
@@ -95,5 +95,116 @@ describe('useCellDescriptor', () => {
 
     act(() => setWidthOfFirstColumn(420));
     expect(cellDescriptor.bodyCells[0].props.width).to.equal(420);
+  });
+
+  it('Should handle sortColumn callback', () => {
+    const onSortColumn = vi.fn();
+    let descriptor: any;
+
+    const SortTestComponent = () => {
+      const columns = useMemo(
+        () => [
+          <Column width={100} key="col1" sortable>
+            <HeaderCell>Header 1</HeaderCell>
+            <Cell dataKey="key1"></Cell>
+          </Column>
+        ],
+        []
+      );
+
+      const d = useCellDescriptor({
+        children: columns,
+        showHeader: true,
+        headerHeight: 100,
+        tableRef: {},
+        tableWidth: {},
+        scrollX: {},
+        minScrollX: {},
+        mouseAreaRef: {},
+        sortColumn: 'key1',
+        sortType: 'asc',
+        onSortColumn
+      } as any);
+
+      useEffect(() => {
+        descriptor = d;
+      }, [d]);
+
+      return null;
+    };
+
+    render(<SortTestComponent />);
+
+    const { headerCells } = descriptor;
+    const { onSortColumn: handleSort } = headerCells[0].props;
+
+    act(() => handleSort('key1'));
+
+    expect(onSortColumn).toHaveBeenCalledWith('key1', 'desc');
+  });
+
+  it('Should return empty cells when children is not provided', () => {
+    let descriptor: any;
+
+    const EmptyTestComponent = () => {
+      const d = useCellDescriptor({
+        children: null,
+        showHeader: true,
+        headerHeight: 100,
+        tableRef: {},
+        tableWidth: {},
+        scrollX: {},
+        minScrollX: {},
+        mouseAreaRef: {}
+      } as any);
+
+      useEffect(() => {
+        descriptor = d;
+      }, [d]);
+
+      return null;
+    };
+
+    render(<EmptyTestComponent />);
+
+    expect(descriptor.headerCells).to.have.length(0);
+    expect(descriptor.bodyCells).to.have.length(0);
+  });
+
+  it('Should set hasCustomTreeCol when treeCol is true', () => {
+    let descriptor: any;
+
+    const TreeTestComponent = () => {
+      const columns = useMemo(
+        () => [
+          <Column width={100} key="col1" treeCol>
+            <HeaderCell>Header 1</HeaderCell>
+            <Cell dataKey="key1"></Cell>
+          </Column>
+        ],
+        []
+      );
+
+      const d = useCellDescriptor({
+        children: columns,
+        showHeader: true,
+        headerHeight: 100,
+        tableRef: {},
+        tableWidth: {},
+        scrollX: {},
+        minScrollX: {},
+        mouseAreaRef: {}
+      } as any);
+
+      useEffect(() => {
+        descriptor = d;
+      }, [d]);
+
+      return null;
+    };
+
+    render(<TreeTestComponent />);
+
+    expect(descriptor.hasCustomTreeCol).to.equal(true);
   });
 });

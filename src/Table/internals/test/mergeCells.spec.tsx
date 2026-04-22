@@ -11,7 +11,7 @@ describe('mergeCells', () => {
   }
 
   function makeHeaderCell(props: Record<string, any> = {}) {
-    return React.cloneElement(<HeaderCell />, {
+    return React.cloneElement(<HeaderCell>header</HeaderCell>, {
       width: 100,
       left: 0,
       isHeaderCell: true,
@@ -35,7 +35,7 @@ describe('mergeCells', () => {
       makeCell({ width: 80, rowData: data, dataKey: 'b' })
     ];
 
-    const result = mergeCells(cells) as React.ReactElement[];
+    const result = mergeCells(cells) as React.ReactElement<any>[];
 
     // The second cell should be removed (marked removed=true)
     expect(result[1].props.removed).to.equal(true);
@@ -50,7 +50,7 @@ describe('mergeCells', () => {
       makeCell({ width: 80, rowData: data, dataKey: 'a' })
     ];
 
-    const result = mergeCells(cells) as React.ReactElement[];
+    const result = mergeCells(cells) as React.ReactElement<any>[];
 
     // No merging because 'a' has a value — width stays as initial=80
     expect(result[0].props.width).to.equal(80);
@@ -63,7 +63,7 @@ describe('mergeCells', () => {
       makeHeaderCell({ width: 80, children: null })
     ];
 
-    const result = mergeCells(cells) as React.ReactElement[];
+    const result = mergeCells(cells) as React.ReactElement<any>[];
 
     // initial 80 + j=0 adds 80 + j=1 adds 80 = 240
     expect(result[0].props.width).to.equal(240);
@@ -76,7 +76,7 @@ describe('mergeCells', () => {
       makeHeaderCell({ width: 80, children: 'Header2' })
     ];
 
-    const result = mergeCells(cells) as React.ReactElement[];
+    const result = mergeCells(cells) as React.ReactElement<any>[];
 
     expect(result[0].props.width).to.equal(80);
   });
@@ -103,7 +103,7 @@ describe('mergeCells', () => {
       })
     ];
 
-    const result = mergeCells(cells) as React.ReactElement[];
+    const result = mergeCells(cells) as React.ReactElement<any>[];
 
     // The group cell is added, but cells[1] (removed=true) is also pushed by the outer loop.
     expect(result).to.have.length(2);

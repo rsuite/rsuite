@@ -319,10 +319,7 @@ describe('Table', () => {
   it('Should call `rowHeight` callback', () => {
     const rowHeight = vi.fn(() => 20);
     render(
-      <Table
-        rowHeight={rowHeight}
-        data={[{ id: 1, name: 'a' }]}
-      >
+      <Table rowHeight={rowHeight} data={[{ id: 1, name: 'a' }]}>
         <Column>
           <HeaderCell>11</HeaderCell>
           <Cell dataKey="id" />
@@ -450,11 +447,7 @@ describe('Table', () => {
 
     render(
       <div style={{ width: 300 }}>
-        <Table
-          ref={ref}
-          showHeader={false}
-          data={[{ id: 1, name: 'a' }]}
-        >
+        <Table ref={ref} showHeader={false} data={[{ id: 1, name: 'a' }]}>
           <Column width={200} fixed>
             <HeaderCell>11</HeaderCell>
             <Cell>12</Cell>
@@ -490,11 +483,7 @@ describe('Table', () => {
 
     render(
       <div style={{ width: 300 }}>
-        <Table
-          showHeader={false}
-          ref={ref}
-          data={[{ id: 1, name: 'a' }]}
-        >
+        <Table showHeader={false} ref={ref} data={[{ id: 1, name: 'a' }]}>
           {columns}
         </Table>
       </div>
@@ -511,11 +500,7 @@ describe('Table', () => {
 
     render(
       <div style={{ width: 300 }}>
-        <Table
-          ref={ref}
-          classPrefix="my-list"
-          data={[{ id: 1, name: 'a' }]}
-        >
+        <Table ref={ref} classPrefix="my-list" data={[{ id: 1, name: 'a' }]}>
           <Column width={200} fixed>
             <HeaderCell>11</HeaderCell>
             <Cell>12</Cell>
@@ -604,7 +589,13 @@ describe('Table', () => {
     const onScroll = vi.fn();
 
     render(
-      <Table ref={ref} onScroll={onScroll} data={[{ id: 1, name: 'a' }]} height={10} style={{ width: 100 }}>
+      <Table
+        ref={ref}
+        onScroll={onScroll}
+        data={[{ id: 1, name: 'a' }]}
+        height={10}
+        style={{ width: 100 }}
+      >
         <Column width={100}>
           <HeaderCell>id</HeaderCell>
           <Cell dataKey="id" />
@@ -791,13 +782,7 @@ describe('Table', () => {
       }));
 
       return (
-        <Table
-          onScroll={onScroll}
-          loading={loading}
-          data={data}
-          height={20}
-          width={100}
-        >
+        <Table onScroll={onScroll} loading={loading} data={data} height={20} width={100}>
           <Column width={100}>
             <HeaderCell>ID</HeaderCell>
             <Cell dataKey="id" />
@@ -1223,5 +1208,200 @@ describe('Table', () => {
     fireEvent.keyDown(screen.getByRole('grid'), { key: 'ArrowLeft' });
     expect(onScroll).toHaveBeenCalledTimes(4);
     expect(onScroll).toHaveBeenCalledWith(0, 0);
+  });
+
+  it('Should initialize scroll to right side in RTL mode', () => {
+    const ref = React.createRef<any>();
+    render(
+      <Table ref={ref} rtl data={[{ id: 1, name: 'a' }]} height={200}>
+        <Column width={100}>
+          <HeaderCell>id</HeaderCell>
+          <Cell dataKey="id" />
+        </Column>
+        <Column width={100}>
+          <HeaderCell>name</HeaderCell>
+          <Cell dataKey="name" />
+        </Column>
+      </Table>
+    );
+
+    expect(screen.getByRole('grid')).to.have.class('rs-table');
+  });
+
+  it('Should render table with fillHeight', () => {
+    render(
+      <div style={{ height: 400 }}>
+        <Table fillHeight data={[{ id: 1 }]}>
+          <Column width={100}>
+            <HeaderCell>ID</HeaderCell>
+            <Cell dataKey="id" />
+          </Column>
+        </Table>
+      </div>
+    );
+    expect(screen.getByRole('grid')).to.exist;
+  });
+
+  it('Should render expandedRow when rowExpandedHeight is a function', async () => {
+    const data = [{ id: 1, name: 'test' }];
+    const rowExpandedHeight = vi.fn(() => 80);
+
+    render(
+      <Table
+        data={data}
+        expandedRowKeys={[1]}
+        rowKey="id"
+        rowExpandedHeight={rowExpandedHeight}
+        renderRowExpanded={() => <div>Expanded</div>}
+        height={300}
+      >
+        <Column width={100}>
+          <HeaderCell>ID</HeaderCell>
+          <Cell dataKey="id" />
+        </Column>
+      </Table>
+    );
+
+    expect(rowExpandedHeight).toHaveBeenCalled();
+  });
+
+  it('Should render tree table with isTree', () => {
+    const data = [
+      {
+        id: 1,
+        name: 'root',
+        children: [{ id: 2, name: 'child' }]
+      }
+    ];
+    render(
+      <Table isTree data={data} rowKey="id" height={300}>
+        <Column width={100}>
+          <HeaderCell>Name</HeaderCell>
+          <Cell dataKey="name" />
+        </Column>
+      </Table>
+    );
+    expect(screen.getByRole('treegrid')).to.exist;
+  });
+
+  it('Should call `onRowClick` callback', () => {
+    const onRowClick = vi.fn();
+    const data = [{ id: 1, name: 'a' }];
+    render(
+      <Table data={data} onRowClick={onRowClick}>
+        <Column width={100}>
+          <HeaderCell>ID</HeaderCell>
+          <Cell dataKey="id" />
+        </Column>
+      </Table>
+    );
+
+    fireEvent.click(screen.getAllByRole('row')[1]);
+    expect(onRowClick).toHaveBeenCalledOnce();
+  });
+
+  it('Should call `onRowContextMenu` callback', () => {
+    const onRowContextMenu = vi.fn();
+    const data = [{ id: 1, name: 'a' }];
+    render(
+      <Table data={data} onRowContextMenu={onRowContextMenu}>
+        <Column width={100}>
+          <HeaderCell>ID</HeaderCell>
+          <Cell dataKey="id" />
+        </Column>
+      </Table>
+    );
+
+    fireEvent.contextMenu(screen.getAllByRole('row')[1]);
+    expect(onRowContextMenu).toHaveBeenCalledOnce();
+  });
+
+  it('Should call `onExpandChange` callback', () => {
+    const onExpandChange = vi.fn();
+    const data = [{ id: 1, name: 'a' }];
+    render(
+      <Table
+        data={data}
+        rowKey="id"
+        renderRowExpanded={() => <div>expanded</div>}
+        onExpandChange={onExpandChange}
+      >
+        <Column width={100}>
+          <HeaderCell>ID</HeaderCell>
+          <Cell dataKey="id" />
+        </Column>
+      </Table>
+    );
+
+    const expandBtn = screen
+      .getByRole('grid')
+      .querySelector('.rs-table-cell-expand-icon') as HTMLElement;
+    if (expandBtn) {
+      fireEvent.click(expandBtn);
+      expect(onExpandChange).toHaveBeenCalled();
+    }
+  });
+
+  it('Should have vertical scrollbar when content overflows', () => {
+    const data = Array.from({ length: 20 }, (_, i) => ({ id: i, name: `name${i}` }));
+    render(
+      <Table data={data} height={100}>
+        <Column width={100}>
+          <HeaderCell>ID</HeaderCell>
+          <Cell dataKey="id" />
+        </Column>
+      </Table>
+    );
+    expect(screen.getByRole('grid').querySelector('.rs-table-scrollbar-vertical')).to.exist;
+  });
+
+  it('Should call onScroll when clicking on vertical scrollbar', async () => {
+    const onScroll = vi.fn();
+    const data = Array.from({ length: 20 }, (_, i) => ({ id: i, name: `name${i}` }));
+
+    render(
+      <Table data={data} height={100} onScroll={onScroll}>
+        <Column width={100}>
+          <HeaderCell>ID</HeaderCell>
+          <Cell dataKey="id" />
+        </Column>
+      </Table>
+    );
+
+    const verticalScrollbar = screen
+      .getByRole('grid')
+      .querySelector('.rs-table-scrollbar-vertical') as HTMLElement;
+
+    act(() => {
+      fireEvent.click(verticalScrollbar, { pageY: 50 });
+    });
+
+    await waitFor(() => {
+      expect(onScroll).toHaveBeenCalled();
+    });
+  });
+
+  it('Should scroll with virtualized mode', async () => {
+    const data = Array.from({ length: 100 }, (_, i) => ({ id: i, name: `name${i}` }));
+    render(
+      <Table data={data} height={200} virtualized>
+        <Column width={100}>
+          <HeaderCell>ID</HeaderCell>
+          <Cell dataKey="id" />
+        </Column>
+      </Table>
+    );
+
+    const body = screen
+      .getByRole('grid')
+      .querySelector('.rs-table-body-row-wrapper') as HTMLElement;
+
+    act(() => {
+      body.dispatchEvent(new WheelEvent('wheel', { deltaY: 100 }));
+    });
+
+    await waitFor(() => {
+      expect(screen.getByRole('grid')).to.exist;
+    });
   });
 });

@@ -15,9 +15,7 @@ describe('Cell', () => {
     testClassNameProp(<Cell />, 'custom-class', undefined);
     testClassPrefixProp(<Cell />, undefined);
     it('Should accept custom style', () => {
-      const { container } = render(
-        <Cell data-testid="element" style={{ fontSize: '12px' }} />
-      );
+      const { container } = render(<Cell data-testid="element" style={{ fontSize: '12px' }} />);
       expect((container.firstChild as Element)?.querySelector('.rs-cell-content')).to.have.style(
         'font-size',
         '12px'

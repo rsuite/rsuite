@@ -1,8 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import {
-  requestAnimationTimeout,
-  cancelAnimationTimeout
-} from '../utils/requestAnimationTimeout';
+import { requestAnimationTimeout, cancelAnimationTimeout } from '../utils/requestAnimationTimeout';
 
 describe('requestAnimationTimeout', () => {
   it('Should call callback after the delay', async () => {

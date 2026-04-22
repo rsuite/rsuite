@@ -170,5 +170,66 @@ describe('Scrollbar', () => {
     // Should be clamped to 0
     expect(screen.getByRole('button').style.transform).to.equal('translate3d(0px, 0px, 0px)');
   });
-});
 
+  it('Should remove pressed class after mouse up on drag end', async () => {
+    await act(async () => {
+      render(<Scrollbar length={100} scrollLength={1000} />);
+    });
+
+    await act(async () => {
+      fireEvent.mouseDown(screen.getByRole('button'));
+    });
+
+    expect(screen.getByRole('scrollbar')).to.have.class('rs-scrollbar-pressed');
+
+    await act(async () => {
+      fireEvent.mouseUp(document.body);
+    });
+
+    expect(screen.getByRole('scrollbar')).to.not.have.class('rs-scrollbar-pressed');
+  });
+
+  it('Should call onScroll when dragging the scrollbar handle', async () => {
+    const onScroll = vi.fn();
+
+    await act(async () => {
+      render(<Scrollbar length={200} scrollLength={1000} onScroll={onScroll} />);
+    });
+
+    const handle = screen.getByRole('button');
+
+    // mousedown on the handle to capture mouse moves via DOMMouseMoveTracker (listens on document.body)
+    await act(async () => {
+      fireEvent.mouseDown(handle, { clientX: 0, clientY: 0, buttons: 1 });
+    });
+
+    // DOMMouseMoveTracker registers mousemove on document.body
+    await act(async () => {
+      fireEvent.mouseMove(document.body, { clientX: 30, clientY: 0, buttons: 1 });
+      // Wait for requestAnimationFrame to fire didMouseMove
+      await new Promise(resolve => requestAnimationFrame(resolve));
+    });
+
+    // onScroll callback should be called from handleDragMove
+    expect(onScroll).toHaveBeenCalled();
+  });
+
+  it('Should reset scroll bar position to a specific value', async () => {
+    const ref = React.createRef<ScrollbarInstance>();
+
+    await act(async () => {
+      render(<Scrollbar length={200} scrollLength={1000} ref={ref} />);
+    });
+
+    await act(async () => {
+      ref.current?.onWheelScroll(100);
+    });
+
+    // reset to half
+    await act(async () => {
+      ref.current?.resetScrollBarPosition(50);
+    });
+
+    expect(screen.getByRole('button').style.transform).to.equal('translate3d(50px, 0px, 0px)');
+  });
+});

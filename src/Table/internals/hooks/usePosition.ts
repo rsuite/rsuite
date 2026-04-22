@@ -72,11 +72,7 @@ const usePosition = (props: PositionProps) => {
               'transition-timing-function': bezier.current
             }
           : {};
-          setCssPosition.current(
-          wheelStyle,
-          fixedCell ? 0 : scrollX.current,
-          scrollY.current
-        );
+        setCssPosition.current(wheelStyle, fixedCell ? 0 : scrollX.current, scrollY.current);
         addStyle(wheelWrapperRef.current, wheelStyle);
       }
     },
