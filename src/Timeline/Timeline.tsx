@@ -15,7 +15,10 @@ export interface TimelineProps extends BoxProps {
   /** Timeline endless **/
   endless?: boolean;
 
-  /** Reverse the order of Timeline items **/
+  /**
+   * Reverse the order of Timeline items
+   * @version 6.2.0
+   **/
   reverse?: boolean;
 
   /**
