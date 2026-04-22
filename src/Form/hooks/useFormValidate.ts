@@ -24,6 +24,28 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
   realFormErrorRef.current = realFormError;
 
   /**
+   * Returns true when an error value is considered non-empty (i.e. the field has an error).
+   */
+  const isValidError = (error: any): boolean =>
+    error !== undefined && error !== null && error !== '';
+
+  /**
+   * Merges resolver errors into the current form error state, removing entries that
+   * are no longer invalid according to the latest resolver result.
+   */
+  const mergeResolverErrors = (current: any, resolverErrors: any): any => {
+    const next = { ...current };
+    Object.keys({ ...current, ...resolverErrors }).forEach(key => {
+      if (isValidError(resolverErrors[key])) {
+        next[key] = resolverErrors[key];
+      } else {
+        delete next[key];
+      }
+    });
+    return next;
+  };
+
+  /**
    * Validate the form data and return a boolean.
    * The error message after verification is returned in the callback.
    *
@@ -118,19 +140,14 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
 
         const { errors } = result;
         const fieldError = errors[fieldName];
-        const hasFieldError = fieldError !== undefined && fieldError !== null && fieldError !== '';
+        const hasFieldError = isValidError(fieldError);
         // Merge resolver errors with existing errors, clearing fields that now pass
-        const nextFormError = { ...realFormError, ...errors };
-        // Remove errors for fields that are no longer invalid
-        Object.keys(nextFormError).forEach(key => {
-          if (errors[key] === undefined || errors[key] === null || errors[key] === '') {
-            delete nextFormError[key];
-          }
-        });
+        const nextFormError = mergeResolverErrors(realFormError, errors);
 
         setFormError(nextFormError);
         onCheck?.(nextFormError);
-        callback?.(fieldError !== undefined ? { hasError: hasFieldError, errorMessage: fieldError } : { hasError: false });
+        const callbackResult = { hasError: hasFieldError, errorMessage: fieldError };
+        callback?.(hasFieldError ? callbackResult : { hasError: false });
         if (Object.keys(nextFormError).length > 0) {
           onError?.(nextFormError);
         }
@@ -247,16 +264,8 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
     if (resolver) {
       return Promise.resolve(resolver(nextValue)).then(({ errors }) => {
         const fieldError = errors[fieldName];
-        const hasFieldError = fieldError !== undefined && fieldError !== null && fieldError !== '';
-        const nextFormError = { ...realFormError };
-        // Merge: update all keys from errors, remove those that now pass
-        Object.keys({ ...realFormError, ...errors }).forEach(key => {
-          if (errors[key] !== undefined && errors[key] !== null && errors[key] !== '') {
-            nextFormError[key] = errors[key];
-          } else {
-            delete nextFormError[key];
-          }
-        });
+        const hasFieldError = isValidError(fieldError);
+        const nextFormError = mergeResolverErrors(realFormError, errors);
 
         onCheck?.(nextFormError);
         setFormError(nextFormError);
