@@ -83,6 +83,12 @@ export default function usePages(): MenuItem[] {
               name: locales?.common?.mcpServer,
               tag: 'New',
               tagColor: 'green'
+            },
+            {
+              id: 'skills',
+              name: locales?.common?.skills,
+              tag: 'New',
+              tagColor: 'green'
             }
           ]
         },
