@@ -89,10 +89,17 @@
     min-height: var(--rs-time-line-tail-min-height);
   }
 
+  // reverse+endless: newest item (first-child) gets an upward-extending tail above its dot
   @at-root #{$root}-reverse#{$root}-endless #{$root}-item:first-child #{$root}-item-tail {
     top: calc(var(--rs-time-line-dot-center-gap) - var(--rs-time-line-tail-min-height));
     bottom: auto;
     height: var(--rs-time-line-tail-min-height);
+  }
+
+  // reverse+endless: oldest item (last-child) should have a clipped tail, not an extending one
+  @at-root #{$root}-reverse#{$root}-endless #{$root}-item:last-child #{$root}-item-tail {
+    height: calc(var(--rs-time-line-dot-center-gap) + var(--rs-time-line-dot-side-length));
+    min-height: 0;
   }
 
   &-item:only-child &-item-tail {
