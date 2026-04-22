@@ -1,3 +1,12 @@
+## [6.1.3](https://github.com/rsuite/rsuite/compare/v6.1.2...v6.1.3) (2026-04-22)
+
+
+### Bug Fixes
+
+* **TimeDropdown:** guard +12 hour offset on showMeridiem in 24h mode ([#4566](https://github.com/rsuite/rsuite/issues/4566)) ([338828f](https://github.com/rsuite/rsuite/commit/338828fd5096477e3b7ed0c6cbebf71d142a17ca)), closes [#4526](https://github.com/rsuite/rsuite/issues/4526)
+
+
+
 ## [6.1.2](https://github.com/rsuite/rsuite/compare/v6.1.1...v6.1.2) (2026-01-28)
 
 
