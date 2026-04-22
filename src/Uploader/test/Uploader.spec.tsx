@@ -138,6 +138,97 @@ describe('Uploader', () => {
     expect(onRemove).toHaveBeenCalledTimes(1);
   });
 
+  it('Should call `onCompletion` when all files finish uploading', () => {
+    const onCompletion = vi.fn();
+    const ref = React.createRef<any>();
+
+    const xhrMocks: any[] = [];
+    const OriginalXHR = window.XMLHttpRequest;
+    window.XMLHttpRequest = vi.fn(() => {
+      const xhrMock = {
+        open: vi.fn(),
+        send: vi.fn(),
+        setRequestHeader: vi.fn(),
+        upload: {},
+        readyState: 0,
+        status: 200,
+        responseText: '{}',
+        response: '{}',
+        withCredentials: false,
+        timeout: 0,
+        onload: null as any,
+        onerror: null as any,
+        ontimeout: null as any
+      };
+      xhrMocks.push(xhrMock);
+      return xhrMock;
+    }) as any;
+
+    render(<Uploader ref={ref} name="file" action="" onCompletion={onCompletion} />);
+
+    ref.current.start({ blobFile: new File(['foo'], 'foo.txt'), fileKey: 'a', status: 'inited' });
+    ref.current.start({ blobFile: new File(['bar'], 'bar.txt'), fileKey: 'b', status: 'inited' });
+
+    // Simulate first file success
+    xhrMocks[0].onload(new Event('load'));
+    expect(onCompletion).not.toHaveBeenCalled();
+
+    // Simulate second file success
+    xhrMocks[1].onload(new Event('load'));
+    expect(onCompletion).toHaveBeenCalledTimes(1);
+
+    const [completedFiles, failedFiles] = onCompletion.mock.calls[0];
+    expect(completedFiles).to.have.length(2);
+    expect(failedFiles).to.have.length(0);
+
+    window.XMLHttpRequest = OriginalXHR;
+  });
+
+  it('Should call `onCompletion` with failed files when uploads fail', () => {
+    const onCompletion = vi.fn();
+    const ref = React.createRef<any>();
+
+    const xhrMocks: any[] = [];
+    const OriginalXHR = window.XMLHttpRequest;
+    window.XMLHttpRequest = vi.fn(() => {
+      const xhrMock = {
+        open: vi.fn(),
+        send: vi.fn(),
+        setRequestHeader: vi.fn(),
+        upload: {},
+        readyState: 0,
+        status: 200,
+        responseText: '{}',
+        response: '{}',
+        withCredentials: false,
+        timeout: 0,
+        onload: null as any,
+        onerror: null as any,
+        ontimeout: null as any
+      };
+      xhrMocks.push(xhrMock);
+      return xhrMock;
+    }) as any;
+
+    render(<Uploader ref={ref} name="file" action="" onCompletion={onCompletion} />);
+
+    ref.current.start({ blobFile: new File(['foo'], 'foo.txt'), fileKey: 'a', status: 'inited' });
+    ref.current.start({ blobFile: new File(['bar'], 'bar.txt'), fileKey: 'b', status: 'inited' });
+
+    // Simulate first file success
+    xhrMocks[0].onload(new Event('load'));
+    // Simulate second file error
+    xhrMocks[1].onerror(new Event('error'));
+
+    expect(onCompletion).toHaveBeenCalledTimes(1);
+
+    const [completedFiles, failedFiles] = onCompletion.mock.calls[0];
+    expect(completedFiles).to.have.length(1);
+    expect(failedFiles).to.have.length(1);
+
+    window.XMLHttpRequest = OriginalXHR;
+  });
+
   it('Should apply appearance', () => {
     render(<Uploader action="" appearance="primary" color="red" />);
 
