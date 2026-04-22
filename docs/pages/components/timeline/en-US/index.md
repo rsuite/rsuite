@@ -36,6 +36,12 @@ Two preset values are provided for convenience.
 
 <!--{include:`endless.md`}-->
 
+### Reverse
+
+Reverse the order of Timeline items, so the newest item appears at the top.
+
+<!--{include:`reverse.md`}-->
+
 ### Custom Icon
 
 <!--{include:`custom.md`}-->
@@ -52,6 +58,7 @@ Two preset values are provided for convenience.
 | classPrefix  | string `('timeline')`                               | The prefix of the component CSS class                |
 | endless      | boolean                                             | Timeline endless                                     |
 | isItemActive | (index: number, totalItemsCount: number) => boolean | Determine whether an item should be marked as active |
+| reverse      | boolean                                             | Reverse the order of Timeline items                  |
 
 ### `<Timeline.Item>`
 

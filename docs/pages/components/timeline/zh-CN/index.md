@@ -36,6 +36,12 @@
 
 <!--{include:`endless.md`}-->
 
+### 反向排列
+
+反转时间轴条目的顺序，使最新的条目显示在顶部。
+
+<!--{include:`reverse.md`}-->
+
 ### 自定义图标
 
 <!--{include:`custom.md`}-->
@@ -52,6 +58,7 @@
 | classPrefix  | string `('timeline')`                               | 组件 CSS 类的前缀                      |
 | endless      | boolean                                             | 时间轴无止境的                         |
 | isItemActive | (index: number, totalItemsCount: number) => boolean | 确定某个条目是否应当被标记为“激活”状态 |
+| reverse      | boolean                                             | 反转时间轴条目的顺序                   |
 
 ### `<Timeline.Item>`
 
