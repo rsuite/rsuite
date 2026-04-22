@@ -132,7 +132,7 @@ React Suite exposes CSS variables prefixed with `--rs-`. Override them in your r
 }
 ```
 
-Switch themes at runtime through `CustomProvider theme="light" | "dark" | "high-contrast"`.
+Switch themes at runtime through `CustomProvider`; the `theme` prop accepts `"light"`, `"dark"`, or `"high-contrast"`.
 
 See the full variable list at <https://rsuitejs.com/guide/css-variables>.
 

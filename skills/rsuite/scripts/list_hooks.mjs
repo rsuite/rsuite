@@ -11,7 +11,12 @@ async function main() {
   const data = await res.json();
   const hooks = data?.hooks || [];
   for (const h of hooks) {
-    console.log(h.id || h.name);
+    if (typeof h === 'string') {
+      console.log(h);
+    } else if (h && typeof h === 'object') {
+      const name = h.id || h.name;
+      if (name) console.log(name);
+    }
   }
   console.error(`\n${hooks.length} hooks.`);
 }

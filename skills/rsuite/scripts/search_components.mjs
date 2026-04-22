@@ -16,9 +16,10 @@ async function main() {
   }
   const data = await res.json();
   const components = data?.components || [];
-  const matches = components.filter(c => (c.id || c.name || '').toLowerCase().includes(query));
+  const getId = c => (typeof c === 'string' ? c : c?.id || c?.name || '');
+  const matches = components.filter(c => getId(c).toLowerCase().includes(query));
   for (const c of matches) {
-    console.log(c.id || c.name);
+    console.log(getId(c));
   }
   console.error(`\n${matches.length} matches for "${query}".`);
 }

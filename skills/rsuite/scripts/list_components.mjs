@@ -11,7 +11,11 @@ async function main() {
   const data = await res.json();
   const components = data?.components || [];
   for (const c of components) {
-    console.log(c.id || c.name);
+    if (typeof c === 'string') {
+      console.log(c);
+    } else if (c && typeof c === 'object') {
+      console.log(c.id || c.name);
+    }
   }
   console.error(`\n${components.length} components.`);
 }
