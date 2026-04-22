@@ -178,8 +178,8 @@ describe('Uploader', () => {
     expect(onCompletion).toHaveBeenCalledTimes(1);
 
     const [completedFiles, failedFiles] = onCompletion.mock.calls[0];
-    expect(completedFiles).to.have.length(2);
-    expect(failedFiles).to.have.length(0);
+    expect(completedFiles).toHaveLength(2);
+    expect(failedFiles).toHaveLength(0);
 
     window.XMLHttpRequest = OriginalXHR;
   });
@@ -223,8 +223,8 @@ describe('Uploader', () => {
     expect(onCompletion).toHaveBeenCalledTimes(1);
 
     const [completedFiles, failedFiles] = onCompletion.mock.calls[0];
-    expect(completedFiles).to.have.length(1);
-    expect(failedFiles).to.have.length(1);
+    expect(completedFiles).toHaveLength(1);
+    expect(failedFiles).toHaveLength(1);
 
     window.XMLHttpRequest = OriginalXHR;
   });

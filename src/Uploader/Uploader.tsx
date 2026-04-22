@@ -427,9 +427,6 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
    * @param file
    */
   const handleUploadFile = useEventCallback((file: FileType) => {
-    if (uploadingCount.current === 0) {
-      uploadResults.current = { completed: [], failed: [] };
-    }
     uploadingCount.current++;
 
     const { xhr, data: uploadData } = ajaxUpload({
