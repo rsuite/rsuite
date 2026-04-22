@@ -25,6 +25,11 @@ import { MonthDropdownProps } from './types';
 import type { PlainDate, PlainTime, PlainYearMonth } from '@/internals/utils/date/types';
 import { isEveryDayInMonth, toPlainDateTime } from '@/internals/utils/date/plainDate';
 import { useIsDateTimeDisabled } from '@/internals/utils/date/disableTime';
+import {
+  getJalaliYearMonth,
+  jalaliYearMonthToGregorianDate,
+  isEveryJalaliDayInMonth
+} from '@/internals/utils/date/jalali';
 
 export interface CalendarProps
   extends WithAsProps,
@@ -256,6 +261,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
   const { calendarState, reset, handlers } = useCalendarState({
     defaultState,
     calendarDate,
+    calendarSystem: locale?.calendarSystem,
     onMoveForward,
     onMoveBackward,
     onToggleTimeDropdown,
@@ -271,9 +277,12 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
 
   const isMonthDisabled = useCallback(
     (yearMonth: PlainYearMonth) => {
+      if (locale?.calendarSystem === 'jalali') {
+        return isEveryJalaliDayInMonth(yearMonth, isDateDisabled);
+      }
       return isEveryDayInMonth(yearMonth, isDateDisabled);
     },
-    [isDateDisabled]
+    [isDateDisabled, locale?.calendarSystem]
   );
 
   const handleCloseDropdown = useEventCallback(() => reset());
@@ -302,8 +311,12 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
   const handleChangeMonth = useEventCallback(
     (yearMonth: PlainYearMonth, event: React.MouseEvent) => {
       reset();
-      // Call `onChangeMonth` with the first day in the month
-      onChangeMonth?.(new Date(yearMonth.year, yearMonth.month - 1, 1), event);
+      // When using Jalali calendar, convert Jalali yearMonth to Gregorian date
+      const gregorianDate =
+        locale?.calendarSystem === 'jalali'
+          ? jalaliYearMonthToGregorianDate(yearMonth)
+          : new Date(yearMonth.year, yearMonth.month - 1, 1);
+      onChangeMonth?.(gregorianDate, event);
     }
   );
 
@@ -366,8 +379,11 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
   } satisfies CalendarContextValue;
 
   const currentViewingMonth = useMemo(() => {
+    if (locale?.calendarSystem === 'jalali') {
+      return getJalaliYearMonth(calendarDate);
+    }
     return { year: calendarDate.getFullYear(), month: calendarDate.getMonth() + 1 };
-  }, [calendarDate]);
+  }, [calendarDate, locale?.calendarSystem]);
 
   return (
     <CalendarProvider value={contextValue}>

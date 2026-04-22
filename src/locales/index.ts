@@ -51,4 +51,11 @@ export type ToggleLocale = PickKeys<typeof defaultLocale.Toggle>;
 
 export interface CalendarLocale extends PickKeys<typeof defaultLocale.Calendar> {
   dateLocale?: DateFnsLocale;
+
+  /**
+   * The calendar system to use.
+   * - `'gregorian'` (default): Standard Gregorian calendar
+   * - `'jalali'`: Persian/Solar Hijri (Jalali) calendar, used in Iran
+   */
+  calendarSystem?: 'gregorian' | 'jalali';
 }
