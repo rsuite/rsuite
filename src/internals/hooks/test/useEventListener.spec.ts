@@ -90,4 +90,22 @@ describe('internals/hooks/useEventListener', () => {
 
     document.body.removeChild(target);
   });
+
+  it('Should not throw when eventTarget is null', () => {
+    expect(() => {
+      const { unmount } = renderHook(() =>
+        useEventListener(null as unknown as EventTarget, 'click', vi.fn())
+      );
+      unmount();
+    }).not.toThrow();
+  });
+
+  it('Should not throw when eventTarget function returns null', () => {
+    expect(() => {
+      const { unmount } = renderHook(() =>
+        useEventListener(() => null as unknown as EventTarget, 'click', vi.fn())
+      );
+      unmount();
+    }).not.toThrow();
+  });
 });

@@ -123,4 +123,86 @@ describe('internals/hooks/useRootClose', () => {
 
     expect(onRootClose).not.toHaveBeenCalled();
   });
+
+  it('Should not call onRootClose on right-click outside', () => {
+    const onRootClose = vi.fn();
+
+    const { getByTestId } = render(<TestComponent onRootClose={onRootClose} />);
+
+    act(() => {
+      fireEvent.mouseDown(getByTestId('outside'), { button: 2 });
+    });
+
+    expect(onRootClose).not.toHaveBeenCalled();
+  });
+
+  it('Should not call onRootClose on middle-click outside', () => {
+    const onRootClose = vi.fn();
+
+    const { getByTestId } = render(<TestComponent onRootClose={onRootClose} />);
+
+    act(() => {
+      fireEvent.mouseDown(getByTestId('outside'), { button: 1 });
+    });
+
+    expect(onRootClose).not.toHaveBeenCalled();
+  });
+
+  it('Should not call onRootClose on Ctrl+click outside', () => {
+    const onRootClose = vi.fn();
+
+    const { getByTestId } = render(<TestComponent onRootClose={onRootClose} />);
+
+    act(() => {
+      fireEvent.mouseDown(getByTestId('outside'), { ctrlKey: true });
+    });
+
+    expect(onRootClose).not.toHaveBeenCalled();
+  });
+
+  it('Should not call onRootClose on Meta+click outside', () => {
+    const onRootClose = vi.fn();
+
+    const { getByTestId } = render(<TestComponent onRootClose={onRootClose} />);
+
+    act(() => {
+      fireEvent.mouseDown(getByTestId('outside'), { metaKey: true });
+    });
+
+    expect(onRootClose).not.toHaveBeenCalled();
+  });
+
+  it('Should not call onRootClose when alt key is held during click', () => {
+    const onRootClose = vi.fn();
+
+    const { getByTestId } = render(<TestComponent onRootClose={onRootClose} />);
+
+    act(() => {
+      fireEvent.mouseDown(getByTestId('outside'), { altKey: true });
+    });
+
+    expect(onRootClose).not.toHaveBeenCalled();
+  });
+
+  it('Should not call onRootClose when shift key is held during click', () => {
+    const onRootClose = vi.fn();
+
+    const { getByTestId } = render(<TestComponent onRootClose={onRootClose} />);
+
+    act(() => {
+      fireEvent.mouseDown(getByTestId('outside'), { shiftKey: true });
+    });
+
+    expect(onRootClose).not.toHaveBeenCalled();
+  });
+
+  it('Should call onRootClose when onRootClose is undefined (no error)', () => {
+    expect(() => {
+      const { getByTestId } = render(<TestComponent onRootClose={undefined} />);
+
+      act(() => {
+        fireEvent.mouseDown(getByTestId('outside'));
+      });
+    }).not.toThrow();
+  });
 });
