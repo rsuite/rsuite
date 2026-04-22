@@ -56,3 +56,6 @@ node_modules
 
 # build
 lib/
+
+# test screenshots (visual regression baselines generated at runtime)
+**/__screenshots__/
