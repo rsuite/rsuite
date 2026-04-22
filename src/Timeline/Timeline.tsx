@@ -15,6 +15,9 @@ export interface TimelineProps extends BoxProps {
   /** Timeline endless **/
   endless?: boolean;
 
+  /** Reverse the order of Timeline items **/
+  reverse?: boolean;
+
   /**
    * Whether an item is active (with highlighted dot).
    *
@@ -48,6 +51,7 @@ const Timeline = forwardRef<'div', TimelineProps, typeof SubcomponentsAndStaticM
       className,
       align = 'left',
       endless,
+      reverse,
       isItemActive = ACTIVE_LAST,
       ...rest
     } = propsWithDefaults;
@@ -58,16 +62,23 @@ const Timeline = forwardRef<'div', TimelineProps, typeof SubcomponentsAndStaticM
 
     const classes = merge(
       className,
-      withPrefix(`align-${align}`, { endless, 'with-time': withTime })
+      withPrefix(`align-${align}`, { endless, 'with-time': withTime, reverse })
     );
+
+    const childrenArray = React.Children.toArray(children);
+    const orderedChildren = reverse ? [...childrenArray].reverse() : childrenArray;
 
     return (
       <Box as={as} ref={ref} className={classes} {...rest}>
-        {rch.mapCloneElement(children, (_child: any, index: number) => ({
-          last: index + 1 === count,
-          INTERNAL_active: isItemActive(index, count),
-          align
-        }))}
+        {orderedChildren.map((child: any, domIndex: number) => {
+          const logicalIndex = reverse ? count - 1 - domIndex : domIndex;
+          return React.cloneElement(child, {
+            key: domIndex,
+            last: domIndex + 1 === count,
+            INTERNAL_active: isItemActive(logicalIndex, count),
+            align
+          });
+        })}
       </Box>
     );
   },

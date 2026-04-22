@@ -82,4 +82,52 @@ describe('Timeline', () => {
       expect(screen.getByTestId('last-item')).to.have.class('rs-timeline-item-active');
     });
   });
+
+  describe('reverse', () => {
+    it('Should add rs-timeline-reverse class when reverse is true', () => {
+      const { container } = render(<Timeline reverse />);
+      expect(container.firstChild).to.have.class('rs-timeline-reverse');
+    });
+
+    it('Should render items in reverse order', () => {
+      const { container } = render(
+        <Timeline reverse>
+          <Timeline.Item>First item</Timeline.Item>
+          <Timeline.Item>Second item</Timeline.Item>
+          <Timeline.Item>Third item</Timeline.Item>
+        </Timeline>
+      );
+      const items = container.querySelectorAll('.rs-timeline-item');
+      expect(items[0]).to.have.text('Third item');
+      expect(items[1]).to.have.text('Second item');
+      expect(items[2]).to.have.text('First item');
+    });
+
+    it('Should mark the last logical item (first in DOM) as active by default when reverse is true', () => {
+      render(
+        <Timeline reverse>
+          <Timeline.Item>First item</Timeline.Item>
+          <Timeline.Item>Second item</Timeline.Item>
+          <Timeline.Item data-testid="last-item">Third item</Timeline.Item>
+        </Timeline>
+      );
+      // Third item is now first in DOM, and should be active (it's the logical last item)
+      const items = screen.getAllByRole('listitem');
+      expect(items[0]).to.have.class('rs-timeline-item-active');
+    });
+
+    it('Should call isItemActive with logical (original) index when reverse is true', () => {
+      const isItemActive = (index: number) => index === 0;
+      render(
+        <Timeline reverse isItemActive={isItemActive}>
+          <Timeline.Item data-testid="first-item">First item</Timeline.Item>
+          <Timeline.Item>Second item</Timeline.Item>
+          <Timeline.Item>Third item</Timeline.Item>
+        </Timeline>
+      );
+      // First item (logical index 0) should be active; in DOM it's the last element
+      const items = screen.getAllByRole('listitem');
+      expect(items[2]).to.have.class('rs-timeline-item-active');
+    });
+  });
 });
