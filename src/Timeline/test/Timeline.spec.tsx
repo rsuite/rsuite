@@ -129,5 +129,11 @@ describe('Timeline', () => {
       const items = screen.getAllByRole('listitem');
       expect(items[2]).to.have.class('rs-timeline-item-active');
     });
+
+    it('Should support reverse and endless together', () => {
+      const { container } = render(<Timeline reverse endless />);
+      expect(container.firstChild).to.have.class('rs-timeline-reverse');
+      expect(container.firstChild).to.have.class('rs-timeline-endless');
+    });
   });
 });
