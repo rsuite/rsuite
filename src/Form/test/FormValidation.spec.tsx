@@ -1839,7 +1839,12 @@ describe('Form Validation', () => {
       const ref = React.createRef<FormInstance>();
 
       render(
-        <Form ref={ref} model={model} formDefaultValue={{ name: 'valid@email.com' }} onCheck={onCheck}>
+        <Form
+          ref={ref}
+          model={model}
+          formDefaultValue={{ name: 'valid@email.com' }}
+          onCheck={onCheck}
+        >
           <FormControl name="name" />
         </Form>
       );
