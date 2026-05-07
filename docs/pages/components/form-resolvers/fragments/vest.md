@@ -29,11 +29,12 @@ const suite = create((formValue = {}, currentField) => {
 });
 
 const vestResolver = suite => formValue => {
-  const result = suite(formValue);
+  const result = suite.run(formValue);
   const errors = {};
-  Object.keys(result.tests).forEach(field => {
+  const fieldErrors = result.getErrors();
+  Object.keys(fieldErrors).forEach(field => {
     if (result.hasErrors(field)) {
-      errors[field] = result.getErrors(field)[0];
+      errors[field] = fieldErrors[field][0];
     }
   });
   return { errors };

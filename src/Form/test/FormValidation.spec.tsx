@@ -1559,6 +1559,44 @@ describe('Form Validation', () => {
       });
     });
 
+    it('Should call onSubmit when sync resolver passes validation', async () => {
+      const onSubmit = vi.fn();
+      const resolver = vi.fn((formValue: any) => ({
+        errors: formValue.name ? {} : { name: 'Name is required' }
+      }));
+
+      render(
+        <Form resolver={resolver} onSubmit={onSubmit} formDefaultValue={{ name: 'John' }}>
+          <FormControl name="name" />
+          <Button type="submit">Submit</Button>
+        </Form>
+      );
+
+      fireEvent.click(screen.getByRole('button'));
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledWith({ name: 'John' }, expect.anything());
+      });
+    });
+
+    it('Should not call onSubmit when sync resolver fails validation', async () => {
+      const onSubmit = vi.fn();
+      const resolver = vi.fn(() => ({ errors: { name: 'Name is required' } }));
+
+      render(
+        <Form resolver={resolver} onSubmit={onSubmit} formDefaultValue={{ name: '' }}>
+          <FormControl name="name" />
+          <Button type="submit">Submit</Button>
+        </Form>
+      );
+
+      fireEvent.click(screen.getByRole('button'));
+
+      await waitFor(() => {
+        expect(onSubmit).not.toHaveBeenCalled();
+      });
+    });
+
     it('Should validate field on change using sync resolver', async () => {
       const resolver = vi.fn((formValue: any) => ({
         errors: formValue.name === '' ? { name: 'Name is required' } : {}
@@ -1704,6 +1742,24 @@ describe('Form Validation', () => {
       expect(result?.errorMessage).to.equal('Name is required');
     });
 
+    it('Should validate field on change using async resolver when checkAsync is true', async () => {
+      const resolver = vi.fn(async (formValue: any) => ({
+        errors: formValue.name === '' ? { name: 'Name is required' } : {}
+      }));
+
+      render(
+        <Form resolver={resolver} formDefaultValue={{ name: 'John' }}>
+          <FormControl name="name" data-testid="name-input" checkAsync />
+        </Form>
+      );
+
+      fireEvent.change(screen.getByTestId('name-input'), { target: { value: '' } });
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).to.exist;
+      });
+    });
+
     it('Should pass callback to check() when sync resolver is used', () => {
       const resolver = vi.fn(() => ({ errors: { name: 'Name is required' } }));
       const callback = vi.fn();
@@ -1718,6 +1774,20 @@ describe('Form Validation', () => {
       ref.current?.check(callback);
 
       expect(callback).toHaveBeenCalledWith({ name: 'Name is required' });
+    });
+
+    it('Should use resolver instead of model for check()', () => {
+      const resolver = vi.fn(() => ({ errors: {} }));
+      const ref = React.createRef<FormInstance>();
+
+      render(
+        <Form ref={ref} model={model} resolver={resolver} formDefaultValue={{ name: 'invalid' }}>
+          <FormControl name="name" />
+        </Form>
+      );
+
+      expect(ref.current?.check()).to.be.true;
+      expect(resolver).toHaveBeenCalledWith({ name: 'invalid' });
     });
   });
 

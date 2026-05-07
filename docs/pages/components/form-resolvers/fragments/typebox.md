@@ -10,21 +10,32 @@ const ajv = new Ajv({ allErrors: true });
 addFormats(ajv);
 
 const schema = Type.Object({
-  username: Type.String({ minLength: 3, errorMessage: 'Username must be at least 3 characters' }),
-  email: Type.String({ format: 'email', errorMessage: 'Invalid email address' }),
-  age: Type.Number({ minimum: 18, errorMessage: 'Must be at least 18' })
+  username: Type.String({ minLength: 3 }),
+  email: Type.String({ format: 'email' }),
+  age: Type.Number({ minimum: 18 })
 });
 
 const validate = ajv.compile(schema);
 
 const typeBoxResolver = validate => formValue => {
-  const valid = validate({ ...formValue, age: Number(formValue.age) });
+  const values = { ...formValue, age: formValue.age === '' ? undefined : Number(formValue.age) };
+  const valid = validate(values);
   if (valid) return { errors: {} };
   const errors = {};
   (validate.errors || []).forEach(err => {
     const field = err.instancePath.replace('/', '') || err.params?.missingProperty;
     if (field && !errors[field]) {
-      errors[field] = err.message;
+      if (err.keyword === 'minLength') {
+        errors[field] = 'Username must be at least 3 characters';
+      } else if (err.keyword === 'format') {
+        errors[field] = 'Invalid email address';
+      } else if (field === 'age' && err.keyword === 'required') {
+        errors[field] = 'Required';
+      } else if (err.keyword === 'minimum') {
+        errors[field] = 'Must be at least 18';
+      } else {
+        errors[field] = err.message;
+      }
     }
   });
   return { errors };

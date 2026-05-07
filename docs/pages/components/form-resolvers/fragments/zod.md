@@ -14,7 +14,7 @@ const zodResolver = schema => formValue => {
   const result = schema.safeParse(formValue);
   if (result.success) return { errors: {} };
   const errors = {};
-  result.error.errors.forEach(err => {
+  result.error.issues.forEach(err => {
     if (err.path.length) errors[err.path[0]] = err.message;
   });
   return { errors };

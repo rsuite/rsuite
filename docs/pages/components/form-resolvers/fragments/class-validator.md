@@ -5,22 +5,14 @@ import { Form, Button, Input } from 'rsuite';
 import { IsEmail, IsNotEmpty, Min, MinLength, validateSync } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 
-// Note: class-validator uses TypeScript decorators.
-// This example requires a TypeScript project with
-// experimentalDecorators and emitDecoratorMetadata enabled.
+class UserDto {}
 
-class UserDto {
-  @IsNotEmpty({ message: 'Required' })
-  @MinLength(3, { message: 'Username must be at least 3 characters' })
-  username;
-
-  @IsNotEmpty({ message: 'Required' })
-  @IsEmail({}, { message: 'Invalid email address' })
-  email;
-
-  @Min(18, { message: 'Must be at least 18' })
-  age;
-}
+IsNotEmpty({ message: 'Required' })(UserDto.prototype, 'username');
+MinLength(3, { message: 'Username must be at least 3 characters' })(UserDto.![1778146938782](image/class-validator/1778146938782.png), 'username');
+IsNotEmpty({ message: 'Required' })(UserDto.prototype, 'email');
+IsEmail({}, { message: 'Invalid email address' })(UserDto.prototype, 'email');
+IsNotEmpty({ message: 'Required' })(UserDto.prototype, 'age');
+Min(18, { message: 'Must be at least 18' })(UserDto.prototype, 'age');
 
 const classValidatorResolver = Dto => formValue => {
   const instance = plainToInstance(Dto, { ...formValue, age: Number(formValue.age) });

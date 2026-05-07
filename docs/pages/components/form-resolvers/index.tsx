@@ -11,10 +11,11 @@ import { create, test, enforce, only } from 'vest';
 import * as v from 'valibot';
 import * as t from 'io-ts';
 import { isLeft } from 'fp-ts/Either';
-import { PathReporter } from 'io-ts/PathReporter';
 import { makeValidator, isObject, isString, isNumber, applyCascade } from 'typanion';
 import { Type } from '@sinclair/typebox';
 import nopeModule from 'nope-validator';
+import { IsEmail, IsNotEmpty, Min, MinLength, validateSync } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
 
 const sandboxDependencies = {
   yup: '^1.3.3',
@@ -23,13 +24,15 @@ const sandboxDependencies = {
   ajv: '^8.12.0',
   'ajv-formats': '^3.0.1',
   superstruct: '^2.0.2',
-  vest: '^5.0.0',
+  vest: '^6.3.2',
   valibot: '^0.30.0',
   'io-ts': '^2.2.21',
   'fp-ts': '^2.16.2',
   typanion: '^3.14.0',
   '@sinclair/typebox': '^0.32.0',
-  'nope-validator': '^0.9.0'
+  'nope-validator': '^0.9.0',
+  'class-validator': '^0.14.0',
+  'class-transformer': '^0.5.1'
 };
 
 export default function Page() {
@@ -65,7 +68,6 @@ export default function Page() {
         // io-ts
         t,
         isLeft,
-        PathReporter,
         // typanion
         makeValidator,
         isObject,
@@ -75,7 +77,14 @@ export default function Page() {
         // TypeBox
         Type,
         // nope
-        nope: nopeModule
+        nope: nopeModule,
+        // class-validator
+        IsEmail,
+        IsNotEmpty,
+        Min,
+        MinLength,
+        validateSync,
+        plainToInstance
       }}
       sandboxDependencies={sandboxDependencies}
     />

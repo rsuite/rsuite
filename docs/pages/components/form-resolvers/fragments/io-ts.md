@@ -4,32 +4,73 @@
 import { Form, Button, Input } from 'rsuite';
 import * as t from 'io-ts';
 import { isLeft } from 'fp-ts/Either';
-import { PathReporter } from 'io-ts/PathReporter';
 
 const isEmailFormat = value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-const Email = new t.Type(
-  'Email',
+const Username = new t.Type(
+  'Username',
   t.string.is,
-  (input, context) =>
-    t.string.validate(input, context).chain(s =>
-      isEmailFormat(s) ? t.success(s) : t.failure(input, context, 'Invalid email address')
-    ),
+  (input, context) => {
+    const result = t.string.validate(input, context);
+    if (isLeft(result)) {
+      return result;
+    }
+    if (!result.right) {
+      return t.failure(input, context, 'Required');
+    }
+    return result.right.length >= 3
+      ? t.success(result.right)
+      : t.failure(input, context, 'Username must be at least 3 characters');
+  },
   t.identity
 );
 
+const Email = new t.Type(
+  'Email',
+  t.string.is,
+  (input, context) => {
+    const result = t.string.validate(input, context);
+    if (isLeft(result)) {
+      return result;
+    }
+    if (!result.right) {
+      return t.failure(input, context, 'Required');
+    }
+    return isEmailFormat(result.right)
+      ? t.success(result.right)
+      : t.failure(input, context, 'Invalid email address');
+  },
+  t.identity
+);
+
+const Age = new t.Type(
+  'Age',
+  value => typeof value === 'number' && !Number.isNaN(value),
+  (input, context) => {
+    if (input === '') {
+      return t.failure(input, context, 'Required');
+    }
+    const value = Number(input);
+    if (Number.isNaN(value)) {
+      return t.failure(input, context, 'Age must be a number');
+    }
+    return value >= 18 ? t.success(value) : t.failure(input, context, 'Must be at least 18');
+  },
+  String
+);
+
 const schema = t.type({
-  username: t.string,
+  username: Username,
   email: Email,
-  age: t.number
+  age: Age
 });
 
 const ioTsResolver = codec => formValue => {
-  const result = codec.decode({ ...formValue, age: Number(formValue.age) });
+  const result = codec.decode(formValue);
   if (!isLeft(result)) return { errors: {} };
   const errors = {};
-  PathReporter.report(result).forEach(msg => {
-    const match = msg.match(/Invalid value .* supplied to .*\/(\w+)/);
-    if (match) errors[match[1]] = msg;
+  result.left.forEach(error => {
+    const field = error.context[error.context.length - 1].key;
+    errors[field] = error.message || 'Invalid value';
   });
   return { errors };
 };

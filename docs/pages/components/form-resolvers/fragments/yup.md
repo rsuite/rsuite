@@ -7,12 +7,15 @@ import * as Yup from 'yup';
 const validationSchema = Yup.object().shape({
   username: Yup.string().min(3, 'Username must be at least 3 characters').required('Required'),
   email: Yup.string().email('Invalid email address').required('Required'),
-  age: Yup.number().min(18, 'Must be at least 18').required('Required')
+  age: Yup.number()
+    .transform((value, originalValue) => (originalValue === '' ? undefined : value))
+    .min(18, 'Must be at least 18')
+    .required('Required')
 });
 
-const yupResolver = schema => async formValue => {
+const yupResolver = schema => formValue => {
   try {
-    await schema.validate(formValue, { abortEarly: false });
+    schema.validateSync(formValue, { abortEarly: false });
     return { errors: {} };
   } catch (err) {
     const errors = {};

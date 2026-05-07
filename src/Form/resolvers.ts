@@ -50,7 +50,7 @@ export interface ResolverResult<E = Record<string, any>> {
  *   const result = schema.safeParse(formValue);
  *   if (result.success) return { errors: {} };
  *   const errors: Record<string, string> = {};
- *   result.error.errors.forEach(err => {
+ *   result.error.issues.forEach(err => {
  *     if (err.path.length) errors[err.path[0]] = err.message;
  *   });
  *   return { errors };

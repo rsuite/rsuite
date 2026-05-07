@@ -74,7 +74,7 @@ const myResolver = formValue => {
 
 [class-validator](https://github.com/typestack/class-validator) 允许您在 TypeScript 类中使用基于装饰器的验证。
 
-> **注意：** 此示例需要 TypeScript 项目并在 `tsconfig.json` 中启用 `experimentalDecorators` 和 `emitDecoratorMetadata`。
+> **注意：** class-validator 通常与 TypeScript 装饰器一起使用。此在线示例使用等价的 JavaScript 装饰器函数调用，以便可以在浏览器中运行。
 
 <!--{include:`class-validator.md`}-->
 
