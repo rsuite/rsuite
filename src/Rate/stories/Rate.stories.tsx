@@ -12,8 +12,6 @@ export default {
   title: 'Components/Rate'
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore: Expression produces a union type that is too complex to represent
 type Story = StoryObj<typeof meta>;
 
 const defaultArgs: RateProps = {

@@ -1029,7 +1029,7 @@ const Table = React.forwardRef(
               top,
               rowIndex: index,
               width: rowWidth,
-              depth: rowData[TREE_DEPTH],
+              depth: (rowData as any)[TREE_DEPTH],
               height: nextRowHeight,
               cellHeight
             };
@@ -1077,7 +1077,7 @@ const Table = React.forwardRef(
             const rowProps = {
               key: index,
               rowIndex: index,
-              depth: rowData[TREE_DEPTH],
+              depth: (rowData as any)[TREE_DEPTH],
               top: index * nextRowHeight,
               width: rowWidth,
               height: nextRowHeight,

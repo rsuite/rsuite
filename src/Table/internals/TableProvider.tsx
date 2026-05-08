@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { setCssPosition, isRTL } from './utils';
+import { setCssPosition as defaultSetCssPosition, isRTL } from './utils';
 
 /**
  * Callback function type for translating DOM position.
@@ -29,7 +29,14 @@ export interface TableContextProps {
 export const TableContext = React.createContext<TableContextProps>({} as TableContextProps);
 
 export const TableProvider = (props: React.PropsWithChildren<Partial<TableContextProps>>) => {
-  const { children, rtl = isRTL(), hasCustomTreeCol = false, isTree, classPrefix } = props;
+  const {
+    children,
+    rtl = isRTL(),
+    hasCustomTreeCol = false,
+    isTree,
+    classPrefix,
+    setCssPosition = defaultSetCssPosition
+  } = props;
   const value = useMemo(
     () => ({
       setCssPosition,
@@ -38,7 +45,7 @@ export const TableProvider = (props: React.PropsWithChildren<Partial<TableContex
       isTree,
       classPrefix
     }),
-    [rtl, hasCustomTreeCol, isTree, classPrefix]
+    [rtl, hasCustomTreeCol, isTree, classPrefix, setCssPosition]
   );
 
   return <TableContext.Provider value={value}>{children}</TableContext.Provider>;

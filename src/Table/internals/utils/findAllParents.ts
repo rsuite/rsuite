@@ -7,12 +7,12 @@ import type { RowDataType, RowKeyType } from '../types';
  */
 function findAllParents<Row extends RowDataType, Key>(node: Row, rowKey: RowKeyType): Key[] {
   const parents: Key[] = [];
-  let current = node[PARENT_KEY];
+  let current = (node as any)[PARENT_KEY];
 
   // Iterate up through the parent chain and add each parent to the result array
   while (current) {
     parents.push(current[rowKey]);
-    current = current[PARENT_KEY];
+    current = (current as any)[PARENT_KEY];
   }
   return parents;
 }

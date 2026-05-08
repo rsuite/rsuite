@@ -24,8 +24,8 @@ const filterTreeData = <Row extends RowDataType, Key>(
 
       // FIXME This function is supposed to be pure.
       //       Don't mutate rowData in-place!
-      (rowData as Record<string, unknown>)[EXPANDED_KEY] = expanded;
-      (rowData as Record<string, unknown>)[TREE_DEPTH] = parents.length;
+      (rowData as any)[EXPANDED_KEY] = expanded;
+      (rowData as any)[TREE_DEPTH] = parents.length;
 
       return expanded;
     }
