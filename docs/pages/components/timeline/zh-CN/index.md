@@ -36,6 +36,12 @@
 
 <!--{include:`endless.md`}-->
 
+### 反向排列
+
+反转时间轴条目的顺序，使最新的条目显示在顶部。
+
+<!--{include:`reverse.md`}-->
+
 ### 自定义图标
 
 <!--{include:`custom.md`}-->
@@ -44,14 +50,15 @@
 
 ### `<Timeline>`
 
-| 属性名称     | 类型`(默认值)`                                      | 描述                                   |
-| ------------ | --------------------------------------------------- | -------------------------------------- |
-| align        | 'left' \| 'right' \| 'alternate' `('left')`         | 时间轴内容的对齐方式                   |
-| as           | ElementType `('ul')`                                | 为组件自定义元素类型                   |
-| children \*  | Timeline.Item[]                                     | 组件的内容                             |
-| classPrefix  | string `('timeline')`                               | 组件 CSS 类的前缀                      |
-| endless      | boolean                                             | 时间轴无止境的                         |
-| isItemActive | (index: number, totalItemsCount: number) => boolean | 确定某个条目是否应当被标记为“激活”状态 |
+| 属性名称     | 类型`(默认值)`                                      | 描述                                   | 版本        |
+| ------------ | --------------------------------------------------- | -------------------------------------- | ----------- |
+| align        | 'left' \| 'right' \| 'alternate' `('left')`         | 时间轴内容的对齐方式                   |             |
+| as           | ElementType `('ul')`                                | 为组件自定义元素类型                   |             |
+| children \*  | Timeline.Item[]                                     | 组件的内容                             |             |
+| classPrefix  | string `('timeline')`                               | 组件 CSS 类的前缀                      |             |
+| endless      | boolean                                             | 时间轴无止境的                         |             |
+| isItemActive | (index: number, totalItemsCount: number) => boolean | 确定某个条目是否应当被标记为”激活”状态 |             |
+| reverse      | boolean                                             | 反转时间轴条目的顺序                   | ![][6.2.0]  |
 
 ### `<Timeline.Item>`
 
