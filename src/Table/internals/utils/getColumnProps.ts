@@ -19,7 +19,14 @@ import type { ColumnProps } from '../Column';
 export default function getColumnProps<Row extends RowDataType>(
   column: React.ReactElement<any>
 ): ColumnProps<Row> {
-  const columnDefaultProps = column['type']?.['render']?.()?.props || {};
+  let columnDefaultProps = {};
+
+  try {
+    columnDefaultProps = column['type']?.['render']?.()?.props || {};
+  } catch {
+    // If the render function can't be called outside React context
+    // (e.g. it uses hooks), fall back to column.props only.
+  }
 
   return { ...columnDefaultProps, ...column?.props };
 }

@@ -10,6 +10,7 @@ import isSupportTouchEvent from '../utils/isSupportTouchEvent';
 import flushSync from '../utils/flushSync';
 import defer from '../utils/defer';
 import { requestAnimationTimeout, cancelAnimationTimeout } from '../utils/requestAnimationTimeout';
+import type { AnimationFrameHandle } from '../utils/requestAnimationTimeout';
 import { SCROLLBAR_WIDTH, TRANSITION_DURATION, BEZIER } from '../constants';
 import type { ScrollbarInstance } from '../Scrollbar';
 import type { ListenerCallback, RowDataType } from '../types';
@@ -119,7 +120,7 @@ const useScrollListener = (props: ScrollListenerProps) => {
   const [isScrolling, setScrolling] = useState(false);
   const touchX = useRef(0);
   const touchY = useRef(0);
-  const disableEventsTimeoutId = useRef<KeyframeAnimationOptions | null>(null);
+  const disableEventsTimeoutId = useRef<AnimationFrameHandle | null>(null);
   const isTouching = useRef(false);
 
   // The start time within the inertial sliding range.
@@ -350,8 +351,9 @@ const useScrollListener = (props: ScrollListenerProps) => {
         );
 
         onWheel(0, delta, { duration, bezier });
-        onTouchEnd?.(event);
       }
+
+      onTouchEnd?.(event);
     },
     [onWheel, onTouchEnd, scrollY]
   );
@@ -395,7 +397,10 @@ const useScrollListener = (props: ScrollListenerProps) => {
 
       // The value is a value of the theoretical scroll position of the table,
       // and the scrollY coordinate value and the value of the scroll bar position are calculated by value.
-      return [-value, (value / contentHeight.current) * (height - headerHeight)];
+      return [
+        -value,
+        contentHeight.current ? (value / contentHeight.current) * (height - headerHeight) : 0
+      ];
     },
     [autoHeight, contentHeight, getTableHeight, headerHeight]
   );
@@ -413,7 +418,7 @@ const useScrollListener = (props: ScrollListenerProps) => {
     // The maximum range of scrolling value is judged.
     value = Math.min(value, Math.max(0, contentWidth.current - tableWidth.current));
 
-    return [-value, (value / contentWidth.current) * tableWidth.current];
+    return [-value, contentWidth.current ? (value / contentWidth.current) * tableWidth.current : 0];
   };
 
   const onScrollTop = (top = 0) => {
