@@ -108,25 +108,26 @@
 
 ### `<Form>`
 
-| 名称             | 类型 `(默认值)`                                       | 描述                                         |
-| ---------------- | ----------------------------------------------------- | -------------------------------------------- |
-| checkTrigger     | 'change' \| 'blur' \| 'none' `('change')`             | 定义何时触发表单校验                         |
-| disabled         | boolean `(false)`                                     | 禁用整个表单                                 |
-| errorFromContext | boolean `(true)`                                      | 默认从 Context 获取 Form.Control 的错误提示  |
-| fluid            | boolean                                               | 使表单控件在垂直布局中 100% 撑满容器         |
-| formDefaultValue | object                                                | 表单的初始默认值（非受控组件）               |
-| formError        | object                                                | 表单的错误信息                               |
-| formValue        | object                                                | 表单的值（受控组件）                         |
-| layout           | 'horizontal' \| 'vertical' \| 'inline' `('vertical')` | 表单布局方式                                 |
-| model            | Schema                                                | SchemaModel 实例对象                         |
-| nestedField      | boolean `(false)`                                     | 支持表单数据嵌套                             |
-| onChange         | (formValue: object, event) => void                    | 数据改变时的回调函数                         |
-| onCheck          | (formError: object) => void                           | 数据校验时的回调函数                         |
-| onError          | (formError: object) => void                           | 校验出错时的回调函数                         |
-| onReset          | (formValue: object, event?: FormEvent) => void        | 表单重置时的回调函数                         |
-| onSubmit         | (formValue: object, event?: FormEvent) => void        | 提交表单时的回调函数，仅在数据校验通过后触发 |
-| plaintext        | boolean `(false)`                                     | 将表单显示为纯文本                           |
-| readOnly         | boolean `(false)`                                     | 将表单设置为只读                             |
+| 名称             | 类型 `(默认值)`                                       | 描述                                         | 版本        |
+| ---------------- | ----------------------------------------------------- | -------------------------------------------- | ----------- |
+| checkTrigger     | 'change' \| 'blur' \| 'none' `('change')`             | 定义何时触发表单校验                         |             |
+| disabled         | boolean `(false)`                                     | 禁用整个表单                                 |             |
+| errorFromContext | boolean `(true)`                                      | 默认从 Context 获取 Form.Control 的错误提示  |             |
+| fluid            | boolean                                               | 使表单控件在垂直布局中 100% 撑满容器         |             |
+| formDefaultValue | object                                                | 表单的初始默认值（非受控组件）               |             |
+| formError        | object                                                | 表单的错误信息                               |             |
+| formValue        | object                                                | 表单的值（受控组件）                         |             |
+| layout           | 'horizontal' \| 'vertical' \| 'inline' `('vertical')` | 表单布局方式                                 |             |
+| model            | Schema                                                | SchemaModel 实例对象                         |             |
+| nestedField      | boolean `(false)`                                     | 支持表单数据嵌套                             |             |
+| onChange         | (formValue: object, event) => void                    | 数据改变时的回调函数                         |             |
+| onCheck          | (formError: object) => void                           | 数据校验时的回调函数                         |             |
+| onError          | (formError: object) => void                           | 校验出错时的回调函数                         |             |
+| onReset          | (formValue: object, event?: FormEvent) => void        | 表单重置时的回调函数                         |             |
+| onSubmit         | (formValue: object, event?: FormEvent) => void        | 提交表单时的回调函数，仅在数据校验通过后触发 |             |
+| plaintext        | boolean `(false)`                                     | 将表单显示为纯文本                           |             |
+| readOnly         | boolean `(false)`                                     | 将表单设置为只读                             |             |
+| resolver         | [Resolver](#code-ts-resolver-code)                    | 用于第三方 Schema 库的校验解析器，优先级高于 `model` | ![][6.2.0] |
 
 ### `<Form.Stack>`
 
@@ -205,6 +206,19 @@
 Schema 依赖于 [schema-typed](https://github.com/rsuite/schema-typed#schema-typed) 库，用于定义数据模型。
 
 <!--{include:(_common/types/placement-error-message.md)}-->
+
+#### `ts:Resolver`
+
+```ts
+interface ResolverResult<E = Record<string, any>> {
+  errors: E;
+}
+
+type Resolver<V = Record<string, any>, E = Record<string, any>> = (
+  formValue: V,
+  context?: any
+) => ResolverResult<E> | Promise<ResolverResult<E>>;
+```
 
 ## Hooks
 

@@ -60,6 +60,21 @@ export const Endless: Story = {
   }
 };
 
+export const Reverse: Story = {
+  args: {
+    ...defaultArgs,
+    reverse: true
+  }
+};
+
+export const ReverseEndless: Story = {
+  args: {
+    ...defaultArgs,
+    reverse: true,
+    endless: true
+  }
+};
+
 export const CustomIcon: Story = {
   args: {
     ...defaultArgs,

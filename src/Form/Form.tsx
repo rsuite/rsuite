@@ -15,6 +15,7 @@ import { Schema, SchemaModel } from 'schema-typed';
 import { useEventCallback, useCustom } from '@/internals/hooks';
 import { FormValueProvider, FormProvider } from './FormContext';
 import type { WithAsProps, CheckTriggerType } from '@/internals/types';
+import type { Resolver } from './resolvers';
 
 export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V]?: M }>
   extends WithAsProps,
@@ -59,6 +60,43 @@ export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V
    * @see https://github.com/rsuite/schema-typed
    */
   model?: Schema;
+
+  /**
+   * A resolver function for integrating third-party validation libraries such as
+   * Yup, Zod, AJV, Joi, Valibot, etc.
+   *
+   * When provided, the `resolver` takes precedence over the `model` prop for
+   * form-level validation (`check` / `checkAsync`).  Field-level inline `rule`
+   * props on `<Form.Control>` components are still respected.
+   *
+   * The resolver receives the current form values and must return (or resolve to)
+   * a `{ errors }` object where each key is a field name and each value is an
+   * error message or error object.  An empty `errors` object means the form is valid.
+   *
+   * **Note:** If the resolver is asynchronous, form-level sync validation
+   * (`check()`) will return `false` and log a warning. Use `checkAsync()` or
+   * rely on the `onSubmit` callback (which always awaits the resolver).
+   *
+   * @example
+   * ```tsx
+   * import * as yup from 'yup';
+   *
+   * const schema = yup.object({ name: yup.string().email().required() });
+   * const resolver = async (formValue) => {
+   *   try {
+   *     await schema.validate(formValue, { abortEarly: false });
+   *     return { errors: {} };
+   *   } catch (e) {
+   *     const errors = {};
+   *     e.inner.forEach(err => { if (err.path) errors[err.path] = err.message; });
+   *     return { errors };
+   *   }
+   * };
+   *
+   * <Form resolver={resolver} onSubmit={handleSubmit}>…</Form>
+   * ```
+   */
+  resolver?: Resolver<V>;
 
   /**
    * Make the form readonly
@@ -162,6 +200,7 @@ const Form = forwardRef<
     fluid,
     layout,
     model: formModel = defaultSchema,
+    resolver,
     readOnly,
     plaintext,
     children,
@@ -188,7 +227,8 @@ const Form = forwardRef<
     getCombinedModel,
     onCheck,
     onError,
-    nestedField
+    nestedField,
+    resolver
   };
 
   const {
@@ -206,6 +246,17 @@ const Form = forwardRef<
   } = useFormValidate(controlledFormError, formValidateProps);
 
   const submit = useEventCallback((event?: React.FormEvent<HTMLFormElement>) => {
+    if (resolver) {
+      // When a resolver is provided, always use the async validation path so that
+      // both sync and async resolvers are handled correctly.
+      checkAsync().then(({ hasError }) => {
+        if (!hasError) {
+          onSubmit?.(formValue, event);
+        }
+      });
+      return;
+    }
+
     // Check the form before submitting
     if (check()) {
       onSubmit?.(formValue, event);

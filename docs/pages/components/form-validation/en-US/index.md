@@ -152,3 +152,4 @@ The `useFormControl` hook allows you to create custom form fields that integrate
 
 - [With Formik Integration](/components/form-formik/)
 - [With React Hook Form Integration](/components/form-react-hook-form/)
+- [With Third-Party Validation Resolvers (Yup, Zod, Joi, AJV, Valibot…)](/components/form-resolvers/)

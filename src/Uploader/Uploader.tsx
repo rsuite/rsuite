@@ -158,6 +158,9 @@ export interface UploaderProps
   /** In the file list, click the callback function to delete a file */
   onRemove?: (file: FileType) => void;
 
+  /** Callback function called when all files in the current upload batch have finished (succeeded or failed) */
+  onCompletion?: (completedFiles: FileType[], failedFiles: FileType[]) => void;
+
   /** Custom render file information */
   renderFileInfo?: (file: FileType, fileElement: React.ReactNode) => React.ReactNode;
 
@@ -305,6 +308,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
     onError,
     onProgress,
     onReupload,
+    onCompletion,
     ...rest
   } = propsWithDefaults;
 
@@ -314,6 +318,12 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const xhrs = useRef({});
   const trigger = useRef<UploadTriggerInstance>(null);
+
+  const uploadingCount = useRef(0);
+  const uploadResults = useRef<{ completed: FileType[]; failed: FileType[] }>({
+    completed: [],
+    failed: []
+  });
 
   const [fileList, dispatch] = useFileList(fileListProp || defaultFileList);
 
@@ -354,8 +364,15 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
       };
       updateFileStatus(nextFile);
       onSuccess?.(response, nextFile, event, xhr);
+
+      uploadingCount.current--;
+      uploadResults.current.completed.push(nextFile);
+      if (uploadingCount.current === 0) {
+        onCompletion?.(uploadResults.current.completed, uploadResults.current.failed);
+        uploadResults.current = { completed: [], failed: [] };
+      }
     },
-    [onSuccess, updateFileStatus]
+    [onCompletion, onSuccess, updateFileStatus]
   );
 
   /**
@@ -373,8 +390,15 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
       };
       updateFileStatus(nextFile);
       onError?.(status, nextFile, event, xhr);
+
+      uploadingCount.current--;
+      uploadResults.current.failed.push(nextFile);
+      if (uploadingCount.current === 0) {
+        onCompletion?.(uploadResults.current.completed, uploadResults.current.failed);
+        uploadResults.current = { completed: [], failed: [] };
+      }
     },
-    [onError, updateFileStatus]
+    [onCompletion, onError, updateFileStatus]
   );
 
   /**
@@ -432,9 +456,16 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
       const checkState = shouldUpload?.(file);
 
       if (checkState instanceof Promise) {
+        uploadingCount.current++;
         checkState.then(res => {
           if (res) {
             handleUploadFile(file);
+          } else {
+            uploadingCount.current--;
+            if (uploadingCount.current === 0) {
+              onCompletion?.(uploadResults.current.completed, uploadResults.current.failed);
+              uploadResults.current = { completed: [], failed: [] };
+            }
           }
         });
         return;
@@ -443,6 +474,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
       }
 
       if (file.status === 'inited') {
+        uploadingCount.current++;
         handleUploadFile(file);
       }
     });
@@ -499,6 +531,12 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
 
     if (xhrs.current?.[file.fileKey]?.readyState !== 4) {
       xhrs.current[file.fileKey]?.abort();
+      uploadingCount.current--;
+      uploadResults.current.failed.push(file);
+      if (uploadingCount.current === 0) {
+        onCompletion?.(uploadResults.current.completed, uploadResults.current.failed);
+        uploadResults.current = { completed: [], failed: [] };
+      }
     }
 
     dispatch({ type: 'remove', fileKey });
@@ -509,6 +547,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   });
 
   const handleReupload = useEventCallback((file: FileType) => {
+    uploadingCount.current++;
     autoUpload && handleUploadFile(file);
     onReupload?.(file);
   });
@@ -517,6 +556,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   const start = useCallback(
     (file?: FileType) => {
       if (file) {
+        uploadingCount.current++;
         handleUploadFile(file);
         return;
       }
