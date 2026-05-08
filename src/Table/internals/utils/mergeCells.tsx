@@ -91,9 +91,11 @@ function mergeCells(cells) {
     } else if (colSpan) {
       // If there is a colSpan attribute, go to its next Cell.
       // Determine whether the value is null or undefined, then merge this cell.
+      // Start from j=1 to avoid marking the base cell as removed.
 
       let nextWidth = width;
-      for (let j = 0; j < colSpan; j += 1) {
+      let mergedCount = 0;
+      for (let j = 1; j < colSpan; j += 1) {
         const nextCell = cells[i + j];
         if (nextCell) {
           const {
@@ -111,6 +113,7 @@ function mergeCells(cells) {
 
           if ((rowData && isNil(cellText)) || (isHeaderCell && isNil(children))) {
             nextWidth += colSpanWidth;
+            mergedCount += 1;
             cells[i + j] = cloneCell(nextCell, {
               removed: true
             });
@@ -121,7 +124,7 @@ function mergeCells(cells) {
       nextCells.push(
         cloneCell(cells[i], {
           width: nextWidth,
-          'aria-colspan': nextWidth > width ? colSpan : undefined
+          'aria-colspan': mergedCount > 0 ? colSpan : undefined
         })
       );
       continue;

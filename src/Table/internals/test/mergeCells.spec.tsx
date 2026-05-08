@@ -27,8 +27,9 @@ describe('mergeCells', () => {
 
   it('Should merge cells by colSpan when adjacent cell value is null', () => {
     const data = { a: null, b: 'hello' };
-    // colSpan=2, so cell[i] + cell[i+0..1] are all scanned.
-    // Width formula: start=80, j=0 adds cells[0].width=80→160, j=1 adds cells[1].width=80→240
+    // colSpan=2: base cell is NOT scanned (j starts from 1).
+    // Only j=1 (adjacent cell) adds its width if nil.
+    // Width: initial 80 + j=1 delta 80 = 160
     const cells = [
       makeCell({ colSpan: 2, width: 80, rowData: data, dataKey: 'a' }),
       makeCell({ width: 80, rowData: data, dataKey: 'a' }),
@@ -37,10 +38,12 @@ describe('mergeCells', () => {
 
     const result = mergeCells(cells) as React.ReactElement<any>[];
 
-    // The second cell should be removed (marked removed=true)
+    // The adjacent cell should be removed (marked removed=true)
     expect(result[1].props.removed).to.equal(true);
-    // First cell accumulates: initial 80 + j=0 delta 80 + j=1 delta 80 = 240
-    expect(result[0].props.width).to.equal(240);
+    // First cell accumulates: initial 80 + j=1 delta 80 = 160
+    expect(result[0].props.width).to.equal(160);
+    // aria-colspan should be set since cells were merged
+    expect(result[0].props['aria-colspan']).to.equal(2);
   });
 
   it('Should not merge cells when value is not null', () => {
@@ -65,9 +68,10 @@ describe('mergeCells', () => {
 
     const result = mergeCells(cells) as React.ReactElement<any>[];
 
-    // initial 80 + j=0 adds 80 + j=1 adds 80 = 240
-    expect(result[0].props.width).to.equal(240);
+    // Base cell is preserved (not scanned). initial 80 + j=1 adds 80 = 160
+    expect(result[0].props.width).to.equal(160);
     expect(result[1].props.removed).to.equal(true);
+    expect(result[0].props['aria-colspan']).to.equal(2);
   });
 
   it('Should not merge header cells when children is provided', () => {
@@ -78,6 +82,25 @@ describe('mergeCells', () => {
 
     const result = mergeCells(cells) as React.ReactElement<any>[];
 
+    expect(result[0].props.width).to.equal(80);
+  });
+
+  it('Should not remove base cell when adjacent cell has content', () => {
+    // When the base cell has nil content but adjacent cell has content,
+    // the base cell should still be preserved (not removed).
+    const data = { a: null, b: 'hello' };
+    const cells = [
+      makeCell({ colSpan: 2, width: 80, rowData: data, dataKey: 'a' }),
+      makeCell({ width: 80, rowData: data, dataKey: 'b' })
+    ];
+
+    const result = mergeCells(cells) as React.ReactElement<any>[];
+
+    // Base cell should NOT be removed
+    expect(result[0].props.removed).not.to.equal(true);
+    // Adjacent cell should NOT be removed (it has content)
+    expect(result[1].props.removed).not.to.equal(true);
+    // Width unchanged since adjacent cell was not merged
     expect(result[0].props.width).to.equal(80);
   });
 

@@ -9,7 +9,7 @@ const useUpdateLayoutEffect: typeof useEffect = (effect, deps) => {
       isMounting.current = false;
       return;
     }
-    effect();
+    return effect();
   }, deps);
 };
 

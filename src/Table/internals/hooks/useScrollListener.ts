@@ -258,11 +258,21 @@ const useScrollListener = (props: ScrollListenerProps) => {
     const transitionCSS = ['transition-duration', 'transition-timing-function'];
 
     if (!virtualized && wheelElement) {
-      // Get the current translate position.
-      const matrix = window.getComputedStyle(wheelElement).getPropertyValue('transform');
-      const offsetY = Math.round(+matrix.split(')')[0].split(', ')[5]);
+      // Get the current translate position from the computed transform.
+      // Handles both matrix (2D) and matrix3d (3D) formats.
+      const transform = window.getComputedStyle(wheelElement).getPropertyValue('transform');
 
-      setScrollY(offsetY);
+      if (transform && transform !== 'none') {
+        const values = transform.match(/matrix(?:3d)?\(([^)]+)\)/)?.[1];
+        if (values) {
+          const parts = values.split(/,\s*/).map(Number);
+          // For matrix3d, Y translation is the 14th value (index 13)
+          // For matrix, Y translation is the 6th value (index 5)
+          const offsetY = Math.round(parts.length === 16 ? parts[13] : parts[5]);
+
+          setScrollY(offsetY);
+        }
+      }
     }
 
     if (wheelElement) {
