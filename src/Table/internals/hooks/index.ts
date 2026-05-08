@@ -1,10 +1,9 @@
 // Hooks
-export { default as useUpdateEffect } from './useUpdateEffect';
+export { useUpdateEffect, useIsomorphicLayoutEffect } from '@/internals/hooks';
+export { default as useControlled } from './useControlled';
 export { default as useUpdateLayoutEffect } from './useUpdateLayoutEffect';
-export { default as useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
 export { default as useMount } from './useMount';
 export { default as useClassNames } from './useClassNames';
-export { default as useControlled } from './useControlled';
 export { default as useCellDescriptor } from './useCellDescriptor';
 export { default as useTableDimension } from './useTableDimension';
 export { default as useTableRows } from './useTableRows';

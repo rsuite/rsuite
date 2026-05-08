@@ -1,4 +1,4 @@
-export { default as prefix } from './prefix';
+export { prefix, mergeRefs } from '@/internals/utils';
 export { default as getTotalByColumns } from './getTotalByColumns';
 export { default as mergeCells } from './mergeCells';
 export { default as toggleClass } from './toggleClass';
@@ -11,7 +11,6 @@ export { default as findAllParents } from './findAllParents';
 export { default as shouldShowRowByExpanded } from './shouldShowRowByExpanded';
 export { default as resetLeftForCells } from './resetLeftForCells';
 export { default as isNumberOrTrue } from './isNumberOrTrue';
-export { default as mergeRefs } from './mergeRefs';
 export { cancelAnimationTimeout, requestAnimationTimeout } from './requestAnimationTimeout';
 export { default as isSupportTouchEvent } from './isSupportTouchEvent';
 export { default as convertToFlex } from './convertToFlex';

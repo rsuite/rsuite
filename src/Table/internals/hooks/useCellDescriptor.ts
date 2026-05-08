@@ -8,7 +8,7 @@ import useControlled from './useControlled';
 import getTableColumns from '../utils/getTableColumns';
 import getTotalByColumns from '../utils/getTotalByColumns';
 import getColumnProps from '../utils/getColumnProps';
-import useUpdateEffect from './useUpdateEffect';
+import { useUpdateEffect } from '@/internals/hooks';
 import flushSync from '../utils/flushSync';
 import useMount from './useMount';
 import { ColumnProps } from '../Column';

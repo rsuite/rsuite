@@ -1,5 +1,5 @@
 import { EffectCallback } from 'react';
-import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect';
+import { useIsomorphicLayoutEffect } from '@/internals/hooks';
 
 const useMount = (effect: EffectCallback) => {
   useIsomorphicLayoutEffect(effect, []);

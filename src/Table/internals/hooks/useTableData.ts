@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import useUpdateEffect from './useUpdateEffect';
+import { useUpdateEffect } from '@/internals/hooks';
 import flattenData from '../utils/flattenData';
 import findAllParents from '../utils/findAllParents';
 import shouldShowRowByExpanded from '../utils/shouldShowRowByExpanded';

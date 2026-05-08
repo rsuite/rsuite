@@ -4,7 +4,7 @@ import scrollLeft from 'dom-lib/scrollLeft';
 import scrollTop from 'dom-lib/scrollTop';
 import on from 'dom-lib/on';
 import removeStyle from 'dom-lib/removeStyle';
-import useUpdateEffect from './useUpdateEffect';
+import { useUpdateEffect } from '@/internals/hooks';
 import useMount from './useMount';
 import isSupportTouchEvent from '../utils/isSupportTouchEvent';
 import flushSync from '../utils/flushSync';

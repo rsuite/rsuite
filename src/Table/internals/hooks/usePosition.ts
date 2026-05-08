@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from 'react';
 import addStyle, { CSSProperty } from 'dom-lib/addStyle';
 import toggleClass from '../utils/toggleClass';
-import useUpdateEffect from './useUpdateEffect';
+import { useUpdateEffect } from '@/internals/hooks';
 import isSupportTouchEvent from '../utils/isSupportTouchEvent';
 import defer from '../utils/defer';
 import { SCROLLBAR_WIDTH } from '../constants';

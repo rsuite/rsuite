@@ -1,5 +1,5 @@
 import React from 'react';
-import { isFragment } from './react-is';
+import { isFragment } from '@/internals/utils';
 
 export const flattenChildren = (
   children: React.ReactNode | React.ReactNode[],

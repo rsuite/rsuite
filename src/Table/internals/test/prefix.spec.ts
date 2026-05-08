@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { prefix } from '../utils/prefix';
-import prefixCurried from '../utils/prefix';
+import { prefix } from '@/internals/utils';
+import prefixCurried from '@/internals/utils/style-sheet/prefix';
 
 describe('prefix', () => {
   it('Should return empty string when pre is empty', () => {

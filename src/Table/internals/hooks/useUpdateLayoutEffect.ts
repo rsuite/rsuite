@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect';
+import { useIsomorphicLayoutEffect } from '@/internals/hooks';
 
 const useUpdateLayoutEffect: typeof useEffect = (effect, deps) => {
   const isMounting = useRef(true);

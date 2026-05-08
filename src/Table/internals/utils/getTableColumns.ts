@@ -1,7 +1,7 @@
 import React from 'react';
 import flatten from 'lodash/flatten';
 import ColumnGroup from '../ColumnGroup';
-import { isFragment } from './react-is';
+import { isFragment } from '@/internals/utils';
 
 /**
  * Get the columns ReactElement array.

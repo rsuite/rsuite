@@ -5,7 +5,7 @@ import removeStyle from 'dom-lib/removeStyle';
 import on from 'dom-lib/on';
 import toggleClass from '../utils/toggleClass';
 import isNumberOrTrue from '../utils/isNumberOrTrue';
-import useUpdateEffect from './useUpdateEffect';
+import { useUpdateEffect } from '@/internals/hooks';
 import type { ListenerCallback, ElementOffset } from '../types';
 import type { ScrollbarInstance } from '../Scrollbar';
 

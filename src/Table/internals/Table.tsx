@@ -12,7 +12,7 @@ import Cell, { InnerCellProps } from './Cell';
 import HeaderCell, { HeaderCellProps } from './HeaderCell';
 import Column, { ColumnProps } from './Column';
 import ColumnGroup from './ColumnGroup';
-import { isElement } from './utils/react-is';
+
 import { flattenChildren } from './utils/children';
 import { getTranslateDOMPositionXY } from 'dom-lib/translateDOMPositionXY';
 import {
@@ -378,12 +378,12 @@ const Table = React.forwardRef(
 
     // Check for the existence of fixed columns in all column properties.
     const shouldFixedColumn = children.some(
-      child => isElement(child) && (child as React.ReactElement<any>)?.props?.fixed
+      child => React.isValidElement(child) && (child as React.ReactElement<any>)?.props?.fixed
     );
 
     // Check all column properties for the existence of rowSpan.
     const shouldRowSpanColumn = children.some(
-      child => isElement(child) && (child as React.ReactElement<any>)?.props?.rowSpan
+      child => React.isValidElement(child) && (child as React.ReactElement<any>)?.props?.rowSpan
     );
 
     const visibleRows = useRef<React.ReactNode[]>([]);

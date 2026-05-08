@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import useTable from './useTable';
 import { useCallback } from 'react';
-import { prefix as addPrefix } from '../utils/prefix';
+import { prefix as addPrefix } from '@/internals/utils';
 
 export type ClassValue =
   | string
