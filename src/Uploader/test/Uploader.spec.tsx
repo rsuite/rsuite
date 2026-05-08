@@ -3,7 +3,7 @@ import Uploader from '../Uploader';
 import Button from '../../Button';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 
 describe('Uploader', () => {
@@ -225,6 +225,171 @@ describe('Uploader', () => {
     const [completedFiles, failedFiles] = onCompletion.mock.calls[0];
     expect(completedFiles).toHaveLength(1);
     expect(failedFiles).toHaveLength(1);
+
+    window.XMLHttpRequest = OriginalXHR;
+  });
+
+  it('Should call `onCompletion` when a file is removed mid-upload', () => {
+    const onCompletion = vi.fn();
+    const ref = React.createRef<any>();
+
+    const xhrMocks: any[] = [];
+    const OriginalXHR = window.XMLHttpRequest;
+    window.XMLHttpRequest = vi.fn(() => {
+      const xhrMock = {
+        open: vi.fn(),
+        send: vi.fn(),
+        setRequestHeader: vi.fn(),
+        upload: {},
+        readyState: 0,
+        status: 200,
+        responseText: '{}',
+        response: '{}',
+        withCredentials: false,
+        timeout: 0,
+        onload: null as any,
+        onerror: null as any,
+        ontimeout: null as any,
+        abort: vi.fn()
+      };
+      xhrMocks.push(xhrMock);
+      return xhrMock;
+    }) as any;
+
+    const fileA = {
+      blobFile: new File(['foo'], 'foo.txt'),
+      fileKey: 'a',
+      status: 'inited' as const,
+      name: 'foo.txt'
+    };
+    const fileB = {
+      blobFile: new File(['bar'], 'bar.txt'),
+      fileKey: 'b',
+      status: 'inited' as const,
+      name: 'bar.txt'
+    };
+
+    render(
+      <Uploader
+        ref={ref}
+        name="file"
+        action=""
+        onCompletion={onCompletion}
+        defaultFileList={[fileA, fileB]}
+        autoUpload={false}
+      />
+    );
+
+    // Start batch upload
+    ref.current.start();
+
+    // Two XHRs should have been created
+    expect(xhrMocks).toHaveLength(2);
+
+    // Simulate first file success
+    xhrMocks[0].onload(new Event('load'));
+    expect(onCompletion).not.toHaveBeenCalled();
+
+    // Remove the second file mid-upload
+    userEvent.click(screen.getByRole('button', { name: 'Remove file: bar.txt' }));
+
+    expect(onCompletion).toHaveBeenCalledTimes(1);
+
+    const [completedFiles, failedFiles] = onCompletion.mock.calls[0];
+    expect(completedFiles).toHaveLength(1);
+    expect(failedFiles).toHaveLength(1);
+
+    window.XMLHttpRequest = OriginalXHR;
+  });
+
+  it('Should not call `onCompletion` prematurely when shouldUpload returns a Promise', async () => {
+    const onCompletion = vi.fn();
+    const ref = React.createRef<any>();
+
+    let resolveBar: (v: boolean) => void;
+    const shouldUpload = vi.fn((file: any) => {
+      if (file.name === 'bar.txt') {
+        return new Promise<boolean>(resolve => {
+          resolveBar = resolve;
+        });
+      }
+      return true;
+    });
+
+    const xhrMocks: any[] = [];
+    const OriginalXHR = window.XMLHttpRequest;
+    window.XMLHttpRequest = vi.fn(() => {
+      const xhrMock = {
+        open: vi.fn(),
+        send: vi.fn(),
+        setRequestHeader: vi.fn(),
+        upload: {},
+        readyState: 0,
+        status: 200,
+        responseText: '{}',
+        response: '{}',
+        withCredentials: false,
+        timeout: 0,
+        onload: null as any,
+        onerror: null as any,
+        ontimeout: null as any,
+        abort: vi.fn()
+      };
+      xhrMocks.push(xhrMock);
+      return xhrMock;
+    }) as any;
+
+    const fileA = {
+      blobFile: new File(['foo'], 'foo.txt'),
+      fileKey: 'a',
+      status: 'inited' as const,
+      name: 'foo.txt'
+    };
+    const fileB = {
+      blobFile: new File(['bar'], 'bar.txt'),
+      fileKey: 'b',
+      status: 'inited' as const,
+      name: 'bar.txt'
+    };
+
+    render(
+      <Uploader
+        ref={ref}
+        name="file"
+        action=""
+        onCompletion={onCompletion}
+        shouldUpload={shouldUpload}
+        defaultFileList={[fileA, fileB]}
+        autoUpload={false}
+      />
+    );
+
+    // Start batch upload
+    ref.current.start();
+
+    // File A starts immediately (shouldUpload returns true sync)
+    // File B waits for shouldUpload promise to resolve
+    expect(xhrMocks).toHaveLength(1);
+
+    // Complete file A - should NOT trigger onCompletion since file B hasn't started
+    xhrMocks[0].onload(new Event('load'));
+    expect(onCompletion).not.toHaveBeenCalled();
+
+    // Resolve file B's shouldUpload
+    await act(async () => {
+      resolveBar!(true);
+    });
+
+    // File B has now started
+    expect(xhrMocks).toHaveLength(2);
+
+    // Complete file B
+    xhrMocks[1].onload(new Event('load'));
+    expect(onCompletion).toHaveBeenCalledTimes(1);
+
+    const [completedFiles, failedFiles] = onCompletion.mock.calls[0];
+    expect(completedFiles).toHaveLength(2);
+    expect(failedFiles).toHaveLength(0);
 
     window.XMLHttpRequest = OriginalXHR;
   });

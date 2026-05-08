@@ -427,8 +427,6 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
    * @param file
    */
   const handleUploadFile = useEventCallback((file: FileType) => {
-    uploadingCount.current++;
-
     const { xhr, data: uploadData } = ajaxUpload({
       name,
       timeout,
@@ -458,9 +456,16 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
       const checkState = shouldUpload?.(file);
 
       if (checkState instanceof Promise) {
+        uploadingCount.current++;
         checkState.then(res => {
           if (res) {
             handleUploadFile(file);
+          } else {
+            uploadingCount.current--;
+            if (uploadingCount.current === 0) {
+              onCompletion?.(uploadResults.current.completed, uploadResults.current.failed);
+              uploadResults.current = { completed: [], failed: [] };
+            }
           }
         });
         return;
@@ -469,6 +474,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
       }
 
       if (file.status === 'inited') {
+        uploadingCount.current++;
         handleUploadFile(file);
       }
     });
@@ -525,6 +531,12 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
 
     if (xhrs.current?.[file.fileKey]?.readyState !== 4) {
       xhrs.current[file.fileKey]?.abort();
+      uploadingCount.current--;
+      uploadResults.current.failed.push(file);
+      if (uploadingCount.current === 0) {
+        onCompletion?.(uploadResults.current.completed, uploadResults.current.failed);
+        uploadResults.current = { completed: [], failed: [] };
+      }
     }
 
     dispatch({ type: 'remove', fileKey });
@@ -535,6 +547,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   });
 
   const handleReupload = useEventCallback((file: FileType) => {
+    uploadingCount.current++;
     autoUpload && handleUploadFile(file);
     onReupload?.(file);
   });
@@ -543,6 +556,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   const start = useCallback(
     (file?: FileType) => {
       if (file) {
+        uploadingCount.current++;
         handleUploadFile(file);
         return;
       }
