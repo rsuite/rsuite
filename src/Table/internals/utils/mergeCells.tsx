@@ -124,7 +124,7 @@ function mergeCells(cells) {
       nextCells.push(
         cloneCell(cells[i], {
           width: nextWidth,
-          'aria-colspan': mergedCount > 0 ? colSpan : undefined
+          'aria-colspan': mergedCount > 0 ? mergedCount + 1 : undefined
         })
       );
       continue;

@@ -104,6 +104,27 @@ describe('mergeCells', () => {
     expect(result[0].props.width).to.equal(80);
   });
 
+  it('Should set aria-colspan to actual merged count, not original colSpan', () => {
+    // colSpan=3 but only 1 adjacent cell (j=1) has nil data.
+    // j=2 has content, so it is NOT merged.
+    // aria-colspan should be mergedCount + 1 = 2, not colSpan=3.
+    const data = { a: null, b: 'hello' };
+    const cells = [
+      makeCell({ colSpan: 3, width: 80, rowData: data, dataKey: 'a' }),
+      makeCell({ width: 80, rowData: data, dataKey: 'a' }),
+      makeCell({ width: 80, rowData: data, dataKey: 'b' })
+    ];
+
+    const result = mergeCells(cells) as React.ReactElement<any>[];
+
+    // Only j=1 was merged (nil), j=2 has content so stays
+    expect(result[0].props.width).to.equal(160);
+    // aria-colspan should reflect actual span (1 base + 1 merged = 2)
+    expect(result[0].props['aria-colspan']).to.equal(2);
+    // j=2 cell should NOT be removed (it has content)
+    expect(result[2].props.removed).not.to.equal(true);
+  });
+
   it('Should handle groupCount and wrap in ColumnGroup for header', () => {
     // groupCount=2: j=0 keeps nextWidth, j=1 adds nextCellWidth and marks cells[1] as removed
     const cells = [

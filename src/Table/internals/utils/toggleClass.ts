@@ -14,10 +14,7 @@ export default (node: HTMLElement | HTMLElement[], className: string, condition:
     return;
   }
 
-  if (
-    Array.isArray(node) ||
-    Object.prototype.hasOwnProperty.call(Object.getPrototypeOf(node), 'length')
-  ) {
+  if (Array.isArray(node) || node instanceof NodeList || node instanceof HTMLCollection) {
     node = node as HTMLElement[];
     Array.from(node).forEach(item => {
       toggleClass(item, className, condition);

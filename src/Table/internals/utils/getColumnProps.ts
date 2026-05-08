@@ -22,7 +22,7 @@ export default function getColumnProps<Row extends RowDataType>(
   let columnDefaultProps = {};
 
   try {
-    columnDefaultProps = column['type']?.['render']?.()?.props || {};
+    columnDefaultProps = column['type']?.['render']?.(column.props, null)?.props || {};
   } catch {
     // If the render function can't be called outside React context
     // (e.g. it uses hooks), fall back to column.props only.
