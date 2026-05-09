@@ -29,6 +29,7 @@ const filterTreeData = <Row extends RowDataType, Key>(
 
       return expanded;
     }
+    return true;
   });
 };
 
