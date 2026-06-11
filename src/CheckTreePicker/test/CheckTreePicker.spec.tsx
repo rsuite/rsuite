@@ -835,4 +835,42 @@ describe('CheckTreePicker', () => {
       expect(screen.getByText('Custom No Results Message')).to.exist;
     });
   });
+
+  describe('Regression: Infinite loop prevention', () => {
+    it('Should render without infinite loop when using cascade with defaultExpandAll', () => {
+      const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);
+
+      // This should render without "Maximum update depth exceeded"
+      const { container } = render(<CheckTreePicker data={data} defaultExpandAll cascade />);
+
+      expect(container.firstChild).to.exist;
+    });
+
+    it('Should render without infinite loop when using defaultExpandAll, cascade and async onOpen', async () => {
+      const App = () => {
+        const [data, setData] = React.useState<any>([]);
+
+        return (
+          <CheckTreePicker
+            data={data}
+            defaultExpandAll
+            cascade
+            onOpen={() => {
+              setData(mockTreeData([['Parent', 'Child1', ['Grandchild1', 'Grandchild2']]]));
+            }}
+          />
+        );
+      };
+
+      const { container } = render(<App />);
+
+      fireEvent.click(screen.getByRole('combobox'));
+
+      await waitFor(() => {
+        expect(screen.getByRole('tree')).to.exist;
+      });
+
+      expect(container.firstChild).to.exist;
+    });
+  });
 });

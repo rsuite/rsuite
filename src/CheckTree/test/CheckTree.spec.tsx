@@ -762,4 +762,65 @@ describe('CheckTree', () => {
       expect(onSearch).toHaveBeenCalled();
     });
   });
+
+  describe('Regression: Infinite loop prevention', () => {
+    it('Should render without infinite loop when using cascade with defaultExpandAll', () => {
+      const treeData = [
+        {
+          label: 'Parent',
+          value: 'parent',
+          children: [
+            { label: 'Child 1', value: 'child1' },
+            { label: 'Child 2', value: 'child2' }
+          ]
+        }
+      ];
+
+      const { container } = render(<CheckTree data={treeData} defaultExpandAll cascade />);
+
+      expect(container.firstChild).to.exist;
+      expect(screen.getByRole('tree')).to.exist;
+    });
+
+    it('Should maintain correct check state with defaultExpandAll and cascade after value change', () => {
+      const treeData = [
+        {
+          label: 'Parent',
+          value: 'parent',
+          children: [
+            { label: 'Child 1', value: 'child1' },
+            { label: 'Child 2', value: 'child2' }
+          ]
+        }
+      ];
+
+      render(<CheckTree data={treeData} defaultExpandAll cascade defaultValue={['child1']} />);
+
+      // Parent should be indeterminate (mixed) since only one child is checked
+      const parentCheckbox = screen.getByRole('checkbox', { name: 'Parent' });
+      expect(parentCheckbox).to.have.attribute('aria-checked', 'mixed');
+    });
+
+    // Regression test for the async load fix (#3973) that originally introduced the infinite loop
+    it('Should update check state after async loading children', async () => {
+      const data = [{ label: 'async', value: 'async', children: [] }];
+
+      const fetchNodes = () => {
+        return new Promise<any>(resolve => {
+          setTimeout(() => resolve([{ label: 'children', value: 'children' }]), 500);
+        });
+      };
+
+      render(<CheckTree data={data} value={['async']} getChildren={fetchNodes} />);
+
+      fireEvent.click(screen.getByRole('button', { name: 'Expand async' }));
+
+      expect(screen.getByRole('checkbox', { name: 'async' })).to.be.checked;
+
+      await waitFor(() => {
+        expect(screen.getByRole('checkbox', { name: 'async' })).to.be.checked;
+        expect(screen.getByRole('checkbox', { name: 'children' })).to.be.checked;
+      });
+    });
+  });
 });
