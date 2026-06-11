@@ -258,4 +258,12 @@ describe('AutoComplete', () => {
 
     expect(screen.getByTestId('test').querySelector('input')).to.have.attribute('name', 'username');
   });
+
+  it('Should expose input element via inputRef', () => {
+    const ref = React.createRef<HTMLInputElement>();
+
+    render(<AutoComplete data={data} inputRef={ref} />);
+
+    expect(ref.current).to.be.instanceOf(HTMLInputElement);
+  });
 });
