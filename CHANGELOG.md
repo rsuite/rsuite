@@ -1,3 +1,12 @@
+## [6.2.1](https://github.com/rsuite/rsuite/compare/v6.2.0...v6.2.1) (2026-06-12)
+
+
+### Bug Fixes
+
+* **picker:** hide caret when clear button is shown ([#4581](https://github.com/rsuite/rsuite/issues/4581)) ([d52842b](https://github.com/rsuite/rsuite/commit/d52842b0c6444bc6765595899e3f9917de52af7a))
+
+
+
 # [6.2.0](https://github.com/rsuite/rsuite/compare/v6.1.3...v6.2.0) (2026-06-12)
 
 
