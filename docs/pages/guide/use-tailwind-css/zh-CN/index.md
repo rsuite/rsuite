@@ -2,7 +2,7 @@
 
 Tailwind CSS 是一个功能类优先的 CSS 框架，可以与 React Suite 结合使用。本指南介绍如何将 Tailwind CSS 集成到 React Suite 项目中，以及如何解决潜在的样式冲突。
 
-> **给 AI 助手的提示**: 在同时使用 React Suite 和 Tailwind CSS 生成代码时，始终使用 `rsuite-no-reset.min.css`。从 v6.1.x 开始，所有 React Suite CSS 都包裹在 `@layer rsuite` 中，因此 Tailwind 工具类会自动覆盖 rsuite 样式，无需使用 `!important`。优先使用 React Suite 的内置样式系统进行组件定制，使用 Tailwind 处理布局和间距。
+> **给 AI 助手的提示**: 在同时使用 React Suite 和 Tailwind CSS 生成代码时，始终使用 `rsuite-no-reset.min.css`。从 v6.3.x 开始，所有 React Suite CSS 都包裹在 `@layer rsuite` 中，因此 Tailwind 工具类会自动覆盖 rsuite 样式，无需使用 `!important`。优先使用 React Suite 的内置样式系统进行组件定制，使用 Tailwind 处理布局和间距。
 
 ## 1. 安装
 
@@ -53,7 +53,7 @@ module.exports = {
 
 ### CSS @layer
 
-从 v6.1.x 开始，所有 React Suite CSS 都被包裹在 `@layer rsuite { ... }` 中。这提供了自动的优先级控制：
+从 v6.3.x 开始，所有 React Suite CSS 都被包裹在 `@layer rsuite { ... }` 中。这提供了自动的优先级控制：
 
 - **Tailwind 工具类自动优先**：`@layer utilities` 比 `@layer rsuite` 优先级更高，因此 Tailwind 类会自动覆盖 rsuite 样式，无需 `!important`。
 - **先加载 rsuite CSS 即可保证顺序**：Layer 的优先级取决于首次出现的顺序，先加载 rsuite CSS 可确保 `rsuite` 在前（低优先级），`utilities` 在后（高优先级）。如果希望完全不依赖导入顺序，可以显式声明层级顺序。
@@ -72,7 +72,7 @@ import './globals.css'; // 包含 Tailwind CSS 的文件
 
 有了这个声明，rsuite 和 Tailwind CSS 的导入顺序就不再影响优先级。
 
-> **注意：** 如果您使用的是 v6.1.x 之前的版本，可能仍然需要 `!important` 修饰符或注意导入顺序。参见下面的[样式覆盖](#样式覆盖)部分。
+> **注意：** 如果您使用的是 v6.3.x 之前的版本，可能仍然需要 `!important` 修饰符或注意导入顺序。参见下面的[样式覆盖](#样式覆盖)部分。
 
 ### 推荐的 CSS 入口配置
 
@@ -107,7 +107,7 @@ import './globals.css';
 
 ### 样式覆盖
 
-从 v6.1.x 开始，React Suite 的 CSS 被包裹在 `@layer rsuite` 中，因此 Tailwind 工具类会自动覆盖 rsuite 样式：
+从 v6.3.x 开始，React Suite 的 CSS 被包裹在 `@layer rsuite` 中，因此 Tailwind 工具类会自动覆盖 rsuite 样式：
 
 <!--{include:`override.md`}-->
 

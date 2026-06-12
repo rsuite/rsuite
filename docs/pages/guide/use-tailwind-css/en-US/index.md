@@ -2,7 +2,7 @@
 
 Tailwind CSS is a utility-first CSS framework that can be used alongside React Suite. This guide explains how to integrate Tailwind CSS into your React Suite project and how to resolve potential styling conflicts.
 
-> **For AI Assistants**: When generating code with React Suite and Tailwind CSS together, always use `rsuite-no-reset.min.css`. Since v6.1.x, all React Suite CSS is wrapped in `@layer rsuite`, so Tailwind utility classes will automatically override rsuite styles without needing `!important`. Prefer React Suite's built-in styling system for component customization, and use Tailwind for layout and spacing.
+> **For AI Assistants**: When generating code with React Suite and Tailwind CSS together, always use `rsuite-no-reset.min.css`. Since v6.3.x, all React Suite CSS is wrapped in `@layer rsuite`, so Tailwind utility classes will automatically override rsuite styles without needing `!important`. Prefer React Suite's built-in styling system for component customization, and use Tailwind for layout and spacing.
 
 ## 1. Installation
 
@@ -53,7 +53,7 @@ module.exports = {
 
 ### CSS @layer
 
-Starting from v6.1.x, all React Suite CSS is wrapped in `@layer rsuite { ... }`. This provides automatic priority control:
+Starting from v6.3.x, all React Suite CSS is wrapped in `@layer rsuite { ... }`. This provides automatic priority control:
 
 - **Tailwind utilities automatically win**: `@layer utilities` has higher priority than `@layer rsuite`, so Tailwind classes override rsuite styles without needing `!important`.
 - **Import order is safe when rsuite CSS loads first**: Since layer order is determined by first appearance, loading rsuite CSS before Tailwind ensures `rsuite` is declared first (lower priority) and `utilities` second (higher priority). If you want to be order-independent, declare the layer order explicitly in your CSS.
@@ -72,7 +72,7 @@ To make it fully order-independent, add an explicit layer order declaration at t
 
 With this declaration, the import order of rsuite and Tailwind CSS no longer matters.
 
-> **Note:** If you're using a version prior to v6.1.x, you may still need the `!important` modifier or careful import ordering. See the [Style Overriding](#style-overriding) section below.
+> **Note:** If you're using a version prior to v6.3.x, you may still need the `!important` modifier or careful import ordering. See the [Style Overriding](#style-overriding) section below.
 
 ### Recommended CSS Entry Point
 
@@ -107,7 +107,7 @@ You can use Tailwind utility classes directly on React Suite components using th
 
 ### Style Overriding
 
-Since v6.1.x, React Suite's CSS is wrapped in `@layer rsuite`, so Tailwind utility classes will automatically override rsuite styles:
+Since v6.3.x, React Suite's CSS is wrapped in `@layer rsuite`, so Tailwind utility classes will automatically override rsuite styles:
 
 <!--{include:`override.md`}-->
 
