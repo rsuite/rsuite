@@ -40,31 +40,26 @@ const PickerIndicator = ({
       );
     }
 
-    const caret = caretAs && (
-      <Icon as={caretAs} className={prefix('caret-icon')} data-testid="caret" />
-    );
-    const cleanButton = showCleanButton && !disabled && (
-      <CloseButton
-        className={prefix('clean')}
-        tabIndex={-1}
-        locale={{ closeLabel: clear }}
-        onClick={onClose}
-      />
-    );
-
-    if (caret && cleanButton) {
+    if (showCleanButton && !disabled) {
       return (
-        <>
-          {caret}
-          {cleanButton}
-        </>
+        <CloseButton
+          className={prefix('clean')}
+          tabIndex={-1}
+          locale={{ closeLabel: clear }}
+          onClick={onClose}
+        />
       );
     }
 
-    return cleanButton || caret || null;
+    return caretAs && <Icon as={caretAs} className={prefix('caret-icon')} data-testid="caret" />;
   };
 
-  const props = Component === InputGroup.Addon ? { disabled } : undefined;
+  const props =
+    Component === InputGroup.Addon
+      ? { className: prefix('toggle-indicator'), disabled }
+      : Component === React.Fragment
+        ? undefined
+        : { className: prefix('toggle-indicator') };
 
   return <Component {...props}>{addon()}</Component>;
 };

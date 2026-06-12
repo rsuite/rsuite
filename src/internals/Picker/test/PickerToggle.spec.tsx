@@ -129,11 +129,11 @@ describe('<PickerToggle>', () => {
     expect(screen.getByTestId('caret')).to.have.class('rs-picker-caret-icon');
   });
 
-  it('Should show both caret icon and clean button when it has value', () => {
+  it('Should not show caret icon when it has value', () => {
     render(<Toggle hasValue cleanable />);
 
     expect(screen.getByRole('button', { name: /clear/i })).to.exist;
-    expect(screen.getByRole('combobox')).to.have.contain('.rs-picker-caret-icon');
+    expect(screen.getByRole('combobox')).to.not.have.contain('.rs-picker-caret-icon');
   });
 
   describe('Placement', () => {
