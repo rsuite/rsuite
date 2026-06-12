@@ -109,6 +109,7 @@
       @include utils.ellipsis-basic;
 
       flex: 1 1 auto;
+      min-width: 0;
     }
 
     &-size {
@@ -169,6 +170,7 @@
 .rs-uploader[data-list-type='picture'] {
   display: inline-flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: var(--rs-uploader-item-spacing);
 
   .rs-uploader-trigger-btn {
@@ -213,6 +215,7 @@
 
   .rs-uploader-file-items {
     display: inline-flex;
+    flex-wrap: wrap;
     gap: var(--rs-uploader-item-spacing);
   }
 
