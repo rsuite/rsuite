@@ -862,15 +862,13 @@ describe('CheckTreePicker', () => {
         );
       };
 
-      const { container } = render(<App />);
+      render(<App />);
 
       fireEvent.click(screen.getByRole('combobox'));
 
       await waitFor(() => {
-        expect(screen.getByRole('tree')).to.exist;
+        expect(screen.getAllByRole('treeitem')).to.have.length.greaterThan(0);
       });
-
-      expect(container.firstChild).to.exist;
     });
   });
 });

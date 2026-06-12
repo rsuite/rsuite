@@ -782,7 +782,7 @@ describe('CheckTree', () => {
       expect(screen.getByRole('tree')).to.exist;
     });
 
-    it('Should maintain correct check state with defaultExpandAll and cascade after value change', () => {
+    it('Should maintain correct check state when value changes with cascade', () => {
       const treeData = [
         {
           label: 'Parent',
@@ -794,33 +794,33 @@ describe('CheckTree', () => {
         }
       ];
 
-      render(<CheckTree data={treeData} defaultExpandAll cascade defaultValue={['child1']} />);
+      const { rerender } = render(
+        <CheckTree data={treeData} defaultExpandAll cascade defaultValue={['child1']} />
+      );
 
-      // Parent should be indeterminate (mixed) since only one child is checked
+      // Initially only child1 checked, parent should be indeterminate
       const parentCheckbox = screen.getByRole('checkbox', { name: 'Parent' });
       expect(parentCheckbox).to.have.attribute('aria-checked', 'mixed');
+
+      // Change value to include both children, parent should become fully checked
+      rerender(
+        <CheckTree
+          data={treeData}
+          defaultExpandAll
+          cascade
+          value={['parent', 'child1', 'child2']}
+        />
+      );
+
+      expect(screen.getByRole('checkbox', { name: 'Parent' })).to.have.attribute(
+        'aria-checked',
+        'true'
+      );
     });
 
-    // Regression test for the async load fix (#3973) that originally introduced the infinite loop
-    it('Should update check state after async loading children', async () => {
-      const data = [{ label: 'async', value: 'async', children: [] }];
-
-      const fetchNodes = () => {
-        return new Promise<any>(resolve => {
-          setTimeout(() => resolve([{ label: 'children', value: 'children' }]), 500);
-        });
-      };
-
-      render(<CheckTree data={data} value={['async']} getChildren={fetchNodes} />);
-
-      fireEvent.click(screen.getByRole('button', { name: 'Expand async' }));
-
-      expect(screen.getByRole('checkbox', { name: 'async' })).to.be.checked;
-
-      await waitFor(() => {
-        expect(screen.getByRole('checkbox', { name: 'async' })).to.be.checked;
-        expect(screen.getByRole('checkbox', { name: 'children' })).to.be.checked;
-      });
-    });
+    // Regression test for the async load fix (#3973) that originally introduced the infinite loop.
+    // This is covered by the existing "Should load children nodes and check the state of the node"
+    // test in the "Async load children nodes" suite above, which already validates that cascading
+    // check state is correctly maintained after loading children via getChildren.
   });
 });
