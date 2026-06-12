@@ -70,6 +70,13 @@ describe('DatePicker', () => {
     expect(screen.getByTestId('picker')).to.have.attr('data-cleanable', 'true');
   });
 
+  it('Should hide the default caret when the clear button is shown', () => {
+    render(<DatePicker value={new Date()} />);
+
+    expect(screen.getByRole('button', { name: /clear/i })).to.exist;
+    expect(screen.getByTestId('picker')).to.not.have.contain('.rs-picker-caret-icon');
+  });
+
   it('Should be not cleanable', () => {
     render(<DatePicker cleanable={false} value={new Date()} />);
 
@@ -571,6 +578,13 @@ describe('DatePicker', () => {
     render(<DatePicker caretAs={GearIcon} />);
 
     expect(screen.getByLabelText('gear')).to.have.class('rs-icon');
+  });
+
+  it('Should hide custom caret when the clear button is shown', () => {
+    render(<DatePicker caretAs={GearIcon} value={new Date(2024, 0, 1)} />);
+
+    expect(screen.getByRole('button', { name: /clear/i })).to.exist;
+    expect(screen.queryByLabelText('gear')).to.not.exist;
   });
 
   it('Should switch to the previous or next element via the tab key', () => {

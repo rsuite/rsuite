@@ -103,6 +103,13 @@ describe('DateRangePicker', () => {
     expect(screen.getByTestId('picker')).to.have.attr('data-cleanable', 'true');
   });
 
+  it('Should hide the default caret when the clear button is shown', () => {
+    render(<DateRangePicker value={[new Date(), new Date()]} />);
+
+    expect(screen.getByRole('button', { name: /clear/i })).to.exist;
+    expect(screen.getByTestId('picker')).to.not.have.contain('.rs-picker-caret-icon');
+  });
+
   it('Should output custom value with time', () => {
     const value = [new Date(2019, 10, 11, 1, 0, 0), new Date(2019, 10, 12, 1, 0, 0)] as [
       Date,
@@ -445,12 +452,13 @@ describe('DateRangePicker', () => {
     expect(screen.getByLabelText('gear')).to.have.class('rs-icon');
   });
 
-  it('Should render custom caret when value is set', () => {
+  it('Should hide custom caret when the clear button is shown', () => {
     render(
       <DateRangePicker caretAs={GearIcon} value={[new Date(2024, 0, 1), new Date(2024, 1, 1)]} />
     );
 
-    expect(screen.getByLabelText('gear')).to.have.class('rs-icon');
+    expect(screen.getByRole('button', { name: /clear/i })).to.exist;
+    expect(screen.queryByLabelText('gear')).to.not.exist;
   });
 
   it('Should render a custom calendar title', () => {

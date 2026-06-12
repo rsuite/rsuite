@@ -367,6 +367,9 @@
 
   // Picker clear button
   .rs-picker-clean {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     color: var(--rs-text-secondary);
     transition: 0.2s color linear;
     cursor: pointer;
