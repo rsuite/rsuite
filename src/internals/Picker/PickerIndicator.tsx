@@ -39,17 +39,29 @@ const PickerIndicator = ({
         />
       );
     }
-    if (showCleanButton && !disabled) {
+
+    const caret = caretAs && (
+      <Icon as={caretAs} className={prefix('caret-icon')} data-testid="caret" />
+    );
+    const cleanButton = showCleanButton && !disabled && (
+      <CloseButton
+        className={prefix('clean')}
+        tabIndex={-1}
+        locale={{ closeLabel: clear }}
+        onClick={onClose}
+      />
+    );
+
+    if (caret && cleanButton) {
       return (
-        <CloseButton
-          className={prefix('clean')}
-          tabIndex={-1}
-          locale={{ closeLabel: clear }}
-          onClick={onClose}
-        />
+        <>
+          {caret}
+          {cleanButton}
+        </>
       );
     }
-    return caretAs && <Icon as={caretAs} className={prefix('caret-icon')} data-testid="caret" />;
+
+    return cleanButton || caret || null;
   };
 
   const props = Component === InputGroup.Addon ? { disabled } : undefined;

@@ -445,6 +445,14 @@ describe('DateRangePicker', () => {
     expect(screen.getByLabelText('gear')).to.have.class('rs-icon');
   });
 
+  it('Should render custom caret when value is set', () => {
+    render(
+      <DateRangePicker caretAs={GearIcon} value={[new Date(2024, 0, 1), new Date(2024, 1, 1)]} />
+    );
+
+    expect(screen.getByLabelText('gear')).to.have.class('rs-icon');
+  });
+
   it('Should render a custom calendar title', () => {
     render(
       <DateRangePicker

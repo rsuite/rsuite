@@ -762,4 +762,65 @@ describe('CheckTree', () => {
       expect(onSearch).toHaveBeenCalled();
     });
   });
+
+  describe('Regression: Infinite loop prevention', () => {
+    it('Should render without infinite loop when using cascade with defaultExpandAll', () => {
+      const treeData = [
+        {
+          label: 'Parent',
+          value: 'parent',
+          children: [
+            { label: 'Child 1', value: 'child1' },
+            { label: 'Child 2', value: 'child2' }
+          ]
+        }
+      ];
+
+      const { container } = render(<CheckTree data={treeData} defaultExpandAll cascade />);
+
+      expect(container.firstChild).to.exist;
+      expect(screen.getByRole('tree')).to.exist;
+    });
+
+    it('Should maintain correct check state when value changes with cascade', () => {
+      const treeData = [
+        {
+          label: 'Parent',
+          value: 'parent',
+          children: [
+            { label: 'Child 1', value: 'child1' },
+            { label: 'Child 2', value: 'child2' }
+          ]
+        }
+      ];
+
+      const { rerender } = render(
+        <CheckTree data={treeData} defaultExpandAll cascade defaultValue={['child1']} />
+      );
+
+      // Initially only child1 checked, parent should be indeterminate
+      const parentCheckbox = screen.getByRole('checkbox', { name: 'Parent' });
+      expect(parentCheckbox).to.have.attribute('aria-checked', 'mixed');
+
+      // Change value to include both children, parent should become fully checked
+      rerender(
+        <CheckTree
+          data={treeData}
+          defaultExpandAll
+          cascade
+          value={['parent', 'child1', 'child2']}
+        />
+      );
+
+      expect(screen.getByRole('checkbox', { name: 'Parent' })).to.have.attribute(
+        'aria-checked',
+        'true'
+      );
+    });
+
+    // Regression test for the async load fix (#3973) that originally introduced the infinite loop.
+    // This is covered by the existing "Should load children nodes and check the state of the node"
+    // test in the "Async load children nodes" suite above, which already validates that cascading
+    // check state is correctly maintained after loading children via getChildren.
+  });
 });
