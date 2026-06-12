@@ -80,6 +80,9 @@ export interface AutoCompleteProps<T = string>
 
   /** Called on close */
   onClose?: () => void;
+
+  /** Ref to the input element */
+  inputRef?: React.Ref<HTMLInputElement>;
 }
 
 /**
@@ -122,6 +125,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
     onFocus,
     onBlur,
     onMenuFocus,
+    inputRef,
     ...rest
   } = propsWithDefaults;
 
@@ -300,6 +304,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
         onFocus={handleInputFocus}
         onChange={handleChange}
         onKeyDown={handleKeyDownEvent}
+        inputRef={inputRef}
       />
     </PickerToggleTrigger>
   );

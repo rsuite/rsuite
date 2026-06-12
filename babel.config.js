@@ -10,10 +10,6 @@ module.exports = (api, options) => {
   const plugins = [
     'lodash',
     '@babel/plugin-proposal-export-default-from',
-    '@babel/plugin-transform-optional-chaining',
-    '@babel/plugin-transform-nullish-coalescing-operator',
-    ['@babel/plugin-transform-class-properties', { loose: true }],
-    '@babel/plugin-transform-export-namespace-from',
     ['@babel/plugin-transform-runtime', { useESModules: !modules }],
     [
       'transform-inline-environment-variables',

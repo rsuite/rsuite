@@ -235,7 +235,8 @@ export function getDisabledState(
  */
 export function getCheckTreeDefaultValue<T = any>(value: T, uncheckableItemValues: T) {
   if (Array.isArray(value) && Array.isArray(uncheckableItemValues)) {
-    return value.filter(v => !uncheckableItemValues.includes(v));
+    const filtered = value.filter(v => !uncheckableItemValues.includes(v));
+    return filtered.length === value.length ? value : filtered;
   }
 
   return value;

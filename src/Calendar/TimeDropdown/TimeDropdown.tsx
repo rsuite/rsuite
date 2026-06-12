@@ -49,14 +49,14 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
 
   const handleClick = useEventCallback((type: TimeType, d: number, event: React.MouseEvent) => {
     const nextTime = {
-      hour: (time.hours ?? 0) + (time.meridiem === 'PM' ? 12 : 0),
+      hour: (time.hours ?? 0) + (showMeridiem && time.meridiem === 'PM' ? 12 : 0),
       minute: time.minutes ?? 0,
       second: time.seconds ?? 0
     } satisfies PlainTime;
 
     switch (type) {
       case 'hours':
-        nextTime.hour = time.meridiem === 'PM' ? d + 12 : d;
+        nextTime.hour = showMeridiem && time.meridiem === 'PM' ? d + 12 : d;
         break;
       case 'minutes':
         nextTime.minute = d;
@@ -71,7 +71,7 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
 
   const handleClickMeridiem = useEventCallback((meridiem: 'AM' | 'PM', event: React.MouseEvent) => {
     const nextTime = {
-      hour: (time.hours ?? 0) + (time.meridiem === 'PM' ? 12 : 0),
+      hour: (time.hours ?? 0) + (showMeridiem && time.meridiem === 'PM' ? 12 : 0),
       minute: time.minutes ?? 0,
       second: time.seconds ?? 0
     } satisfies PlainTime;

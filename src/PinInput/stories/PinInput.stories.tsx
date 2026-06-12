@@ -68,7 +68,6 @@ export const WithCompleteHandler: Story = {
           value={value}
           onChange={setValue}
           onComplete={val => {
-            // eslint-disable-next-line no-console
             console.log('Completed PIN:', val);
           }}
         />

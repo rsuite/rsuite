@@ -1,11 +1,11 @@
-import type { StoryObj, Meta } from '@storybook/react';
+import type { StoryObj } from '@storybook/react';
 import TagPicker from '../';
 import { createMeta } from '@/storybook/utils';
 import { mockArrayData } from '@/storybook/mocks';
 import '../styles/index.scss';
 
 const data = mockArrayData();
-const meta = createMeta(TagPicker) as Meta<typeof TagPicker>;
+const meta = createMeta(TagPicker);
 
 export default {
   title: 'Components/TagPicker',

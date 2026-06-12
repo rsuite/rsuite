@@ -8,6 +8,8 @@
 // --------------------------------------------------
 
 .rs-timeline {
+  $root: &;
+
   // CSS Variables
   --rs-time-line-tail-min-height: 2.375rem; // 20px + 18px
   --rs-time-line-item-content-margin: 12px;
@@ -85,6 +87,17 @@
   &-endless &-item:last-child &-item-tail {
     height: auto;
     min-height: var(--rs-time-line-tail-min-height);
+  }
+
+  @at-root #{$root}-reverse#{$root}-endless #{$root}-item:first-child #{$root}-item-tail {
+    top: 0;
+    bottom: 0;
+    height: auto;
+  }
+
+  @at-root #{$root}-reverse#{$root}-endless #{$root}-item:last-child #{$root}-item-tail {
+    height: calc(var(--rs-time-line-dot-center-gap) + var(--rs-time-line-dot-side-length));
+    min-height: 0;
   }
 
   &-item:only-child &-item-tail {

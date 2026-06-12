@@ -56,3 +56,9 @@ node_modules
 
 # build
 lib/
+
+# test screenshots (visual regression baselines generated at runtime)
+**/__screenshots__/
+# Environment variables
+.env
+.env.*

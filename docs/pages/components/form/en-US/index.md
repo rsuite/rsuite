@@ -109,25 +109,26 @@ HTML:
 
 ### `<Form>`
 
-| Property         | Type `(default)`                                      | Description                                                                    |
-| ---------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------ |
-| checkTrigger     | 'change' \| 'blur' \| 'none' `('change')`             | Specifies when to trigger form validation                                      |
-| disabled         | boolean `(false)`                                     | Disables the form                                                              |
-| errorFromContext | boolean `(true)`                                      | Default error messages in Form.Control are sourced from Context                |
-| fluid            | boolean                                               | Enables the Input to occupy 100% width in vertical layouts only                |
-| formDefaultValue | object                                                | Initial default values for the form                                            |
-| formError        | object                                                | Error messages for the form                                                    |
-| formValue        | object                                                | Values of the form (controlled)                                                |
-| layout           | 'horizontal' \| 'vertical' \| 'inline' `('vertical')` | The layout style of the form                                                   |
-| model            | Schema                                                | Instance of SchemaModel                                                        |
-| nestedField      | boolean `(false)`                                     | Allows support for nested fields                                               |
-| onChange         | (formValue: object, event) => void                    | Callback triggered on data change                                              |
-| onCheck          | (formError: object) => void                           | Callback triggered on data validation                                          |
-| onError          | (formError: object) => void                           | Callback triggered on validation errors                                        |
-| onReset          | (formValue: object, event: FormEvent) => void         | Callback triggered on form reset                                               |
-| onSubmit         | (formValue: object, event: FormEvent) => void         | Callback triggered on form submission, only occurs when form data is validated |
-| plaintext        | boolean `(false)`                                     | Renders the form in plain text                                                 |
-| readOnly         | boolean `(false)`                                     | Sets the form to read-only mode                                                |
+| Property         | Type `(default)`                                      | Description                                                                    | Version     |
+| ---------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------ | ----------- |
+| checkTrigger     | 'change' \| 'blur' \| 'none' `('change')`             | Specifies when to trigger form validation                                      |             |
+| disabled         | boolean `(false)`                                     | Disables the form                                                              |             |
+| errorFromContext | boolean `(true)`                                      | Default error messages in Form.Control are sourced from Context                |             |
+| fluid            | boolean                                               | Enables the Input to occupy 100% width in vertical layouts only                |             |
+| formDefaultValue | object                                                | Initial default values for the form                                            |             |
+| formError        | object                                                | Error messages for the form                                                    |             |
+| formValue        | object                                                | Values of the form (controlled)                                                |             |
+| layout           | 'horizontal' \| 'vertical' \| 'inline' `('vertical')` | The layout style of the form                                                   |             |
+| model            | Schema                                                | Instance of SchemaModel                                                        |             |
+| nestedField      | boolean `(false)`                                     | Allows support for nested fields                                               |             |
+| onChange         | (formValue: object, event) => void                    | Callback triggered on data change                                              |             |
+| onCheck          | (formError: object) => void                           | Callback triggered on data validation                                          |             |
+| onError          | (formError: object) => void                           | Callback triggered on validation errors                                        |             |
+| onReset          | (formValue: object, event: FormEvent) => void         | Callback triggered on form reset                                               |             |
+| onSubmit         | (formValue: object, event: FormEvent) => void         | Callback triggered on form submission, only occurs when form data is validated |             |
+| plaintext        | boolean `(false)`                                     | Renders the form in plain text                                                 |             |
+| readOnly         | boolean `(false)`                                     | Sets the form to read-only mode                                                |             |
+| resolver         | [Resolver](#code-ts-resolver-code)                    | Validation resolver for third-party schema libraries. Takes precedence over `model`. | ![][6.2.0] |
 
 ### `<Form.Stack>`
 
@@ -205,6 +206,19 @@ HTML:
 Schema depends on the [schema-typed](https://github.com/rsuite/schema-typed#schema-typed) library for defining data models.
 
 <!--{include:(_common/types/placement-error-message.md)}-->
+
+#### `ts:Resolver`
+
+```ts
+interface ResolverResult<E = Record<string, any>> {
+  errors: E;
+}
+
+type Resolver<V = Record<string, any>, E = Record<string, any>> = (
+  formValue: V,
+  context?: any
+) => ResolverResult<E> | Promise<ResolverResult<E>>;
+```
 
 ## Hooks
 

@@ -1,3 +1,30 @@
+# [6.2.0](https://github.com/rsuite/rsuite/compare/v6.1.3...v6.2.0) (2026-06-12)
+
+
+### Bug Fixes
+
+* **CheckTreePicker,CheckTree:** fix infinite loop with cascade and defaultExpandAll ([#4579](https://github.com/rsuite/rsuite/issues/4579)) ([fc86644](https://github.com/rsuite/rsuite/commit/fc86644b595809c83f4aa453f7a5e07d00367522)), closes [#3973](https://github.com/rsuite/rsuite/issues/3973) [#3973](https://github.com/rsuite/rsuite/issues/3973) [#4541](https://github.com/rsuite/rsuite/issues/4541) [#4404](https://github.com/rsuite/rsuite/issues/4404) [#4424](https://github.com/rsuite/rsuite/issues/4424)
+* **toaster:** prevent duplicate containers when push() is called synchronously in a loop ([#4571](https://github.com/rsuite/rsuite/issues/4571)) ([c507f5f](https://github.com/rsuite/rsuite/commit/c507f5f59a726dc25dce65ab37fad484563e502d))
+* **Uploader:** prevent horizontal overflow and width increase ([#4580](https://github.com/rsuite/rsuite/issues/4580)) ([e064f4c](https://github.com/rsuite/rsuite/commit/e064f4cc27959f94d3354a9177a8ae0a9ad71460)), closes [#4536](https://github.com/rsuite/rsuite/issues/4536)
+
+
+### Features
+
+* **Form:** add `resolver` prop for third-party validation library integration ([#4573](https://github.com/rsuite/rsuite/issues/4573)) ([4a9ff7b](https://github.com/rsuite/rsuite/commit/4a9ff7bef3979764fcf3b12e869ccbf5bf61c3bd))
+* **Timeline:** add `reverse` prop to display items in reverse order ([#4569](https://github.com/rsuite/rsuite/issues/4569)) ([a0dd1f4](https://github.com/rsuite/rsuite/commit/a0dd1f4307756f283c05157cd05f8ea6f7885c36))
+* **Uploader:** add `onCompletion` callback prop ([#4570](https://github.com/rsuite/rsuite/issues/4570)) ([7eb0748](https://github.com/rsuite/rsuite/commit/7eb0748f78d36e1f34ac940b4fac3b6c20bf1a52)), closes [#813](https://github.com/rsuite/rsuite/issues/813)
+
+
+
+## [6.1.3](https://github.com/rsuite/rsuite/compare/v6.1.2...v6.1.3) (2026-04-22)
+
+
+### Bug Fixes
+
+* **TimeDropdown:** guard +12 hour offset on showMeridiem in 24h mode ([#4566](https://github.com/rsuite/rsuite/issues/4566)) ([338828f](https://github.com/rsuite/rsuite/commit/338828fd5096477e3b7ed0c6cbebf71d142a17ca)), closes [#4526](https://github.com/rsuite/rsuite/issues/4526)
+
+
+
 ## [6.1.2](https://github.com/rsuite/rsuite/compare/v6.1.1...v6.1.2) (2026-01-28)
 
 
