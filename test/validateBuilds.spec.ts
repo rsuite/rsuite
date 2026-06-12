@@ -159,7 +159,7 @@ describe('Build Validation Tests', () => {
       const fullPath = path.join(projectRoot, file);
       const css = fs.readFileSync(fullPath, 'utf-8');
 
-      expect(css, `${file} should contain @layer rsuite`).toContain('@layer rsuite {');
+      expect(css, `${file} should contain @layer rsuite`).toMatch(/@layer\s+rsuite\s*\{/);
       expect(css.trimEnd(), `${file} should end with closing brace`).toMatch(/\}\s*$/);
     });
   });
@@ -188,8 +188,8 @@ describe('Build Validation Tests', () => {
       if (fs.existsSync(cssPath)) {
         const css = fs.readFileSync(cssPath, 'utf-8');
 
-        expect(css, `${component}/styles/index.css should contain @layer rsuite`).toContain(
-          '@layer rsuite {'
+        expect(css, `${component}/styles/index.css should contain @layer rsuite`).toMatch(
+          /@layer\s+rsuite\s*\{/
         );
         expect(
           css.trimEnd(),

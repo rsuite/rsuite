@@ -55,11 +55,15 @@ async function compileScss(
     // Extract @charset declarations — they must appear before @layer at the top of the file
     let charset = '';
     css = css.replace(/^@charset\s+[^;]+;\s*/m, match => {
-      charset = match.trimEnd() + '\n';
+      charset = minify ? match.trimEnd() : match.trimEnd() + '\n';
       return '';
     });
 
-    css = `${charset}@layer rsuite {\n${css.trimStart()}\n}\n`;
+    if (minify) {
+      css = `${charset}@layer rsuite{${css}}\n`;
+    } else {
+      css = `${charset}@layer rsuite {\n${css.trimStart()}\n}\n`;
+    }
   }
 
   await fs.ensureDir(path.dirname(output));
