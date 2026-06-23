@@ -1,8 +1,8 @@
 # Tailwind CSS
 
-Tailwind CSS 是一个功能类优先的 CSS 框架,可以与 React Suite 结合使用。本指南介绍了如何将 Tailwind CSS 集成到 React Suite 项目中,以及如何解决潜在的样式冲突。
+Tailwind CSS 是一个功能类优先的 CSS 框架，可以与 React Suite 结合使用。本指南介绍如何将 Tailwind CSS 集成到 React Suite 项目中，以及如何解决潜在的样式冲突。
 
-> **给 AI 助手的提示**: 在同时使用 React Suite 和 Tailwind CSS 生成代码时,始终使用 `rsuite-no-reset.min.css`,并注意 CSS 优先级问题。优先使用 React Suite 的内置样式系统进行组件定制,使用 Tailwind 处理布局和间距。
+> **给 AI 助手的提示**: 在同时使用 React Suite 和 Tailwind CSS 生成代码时，始终使用 `rsuite-no-reset.min.css`。从 v6.3.x 开始，所有 React Suite CSS 都包裹在 `@layer rsuite` 中，因此 Tailwind 工具类会自动覆盖 rsuite 样式，无需使用 `!important`。优先使用 React Suite 的内置样式系统进行组件定制，使用 Tailwind 处理布局和间距。
 
 ## 1. 安装
 
@@ -15,37 +15,82 @@ npx tailwindcss init -p
 
 ## 2. 配置
 
-### Preflight 冲突
+### 禁用 Preflight
 
-Tailwind CSS 的 [Preflight](https://tailwindcss.com/docs/preflight)（一组基础样式）可能会与 React Suite 的样式产生冲突。我们建议使用 `rsuite-no-reset.min.css` 以避免重复的重置样式。
+Tailwind CSS 的 [Preflight](https://tailwindcss.com/docs/preflight) 是通过 `@layer base` 应用的一组激进的 CSS 重置样式。与 React Suite 一起使用时，Preflight 会导致**布局和样式问题**：
 
-如果您仍然遇到冲突，可以在 `tailwind.config.js` 中禁用 Preflight：
+| Preflight 规则 | 问题 |
+| --- | --- |
+| `svg { display: block }` | 内联 SVG 图标被迫换行 |
+| `button { background-color: transparent }` | React Suite 按钮丢失背景色 |
+| `button { border-radius: 0 }` | 按钮丢失圆角 |
+| `*, ::before, ::after { margin: 0; padding: 0 }` | 组件间距和布局被破坏 |
+
+由于 React Suite 有自己的 CSS 重置，**应该禁用 Preflight**。
+
+#### Tailwind v4
+
+将 `@import 'tailwindcss'` 替换为选择性导入：
+
+```css
+/* ✅ 只导入 theme（CSS 变量）和 utilities，跳过 Preflight */
+@import 'tailwindcss/theme';
+@import 'tailwindcss/utilities';
+```
+
+#### Tailwind v3
+
+在 `tailwind.config.js` 中禁用 Preflight：
 
 ```js
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   corePlugins: {
     preflight: false,
   },
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+};
 ```
 
-> **注意：** 禁用 Preflight 可能会影响某些依赖于基础样式的 Tailwind 工具类。或者，您可以保持 Preflight 启用，并确保在 Tailwind 的基础样式之后导入 React Suite 的样式。
+### CSS @layer
 
-### 导入顺序
+从 v6.3.x 开始，所有 React Suite CSS 都被包裹在 `@layer rsuite { ... }` 中。这提供了自动的优先级控制：
 
-在主入口文件（例如 `App.tsx` 或 `layout.tsx`）中确保正确的导入顺序：
+- **Tailwind 工具类自动优先**：`@layer utilities` 比 `@layer rsuite` 优先级更高，因此 Tailwind 类会自动覆盖 rsuite 样式，无需 `!important`。
+- **先加载 rsuite CSS 即可保证顺序**：Layer 的优先级取决于首次出现的顺序，先加载 rsuite CSS 可确保 `rsuite` 在前（低优先级），`utilities` 在后（高优先级）。如果希望完全不依赖导入顺序，可以显式声明层级顺序。
 
 ```tsx
 import 'rsuite/dist/rsuite-no-reset.min.css';
 import './globals.css'; // 包含 Tailwind CSS 的文件
+```
+
+如需完全不依赖导入顺序，在 CSS 文件顶部添加显式层级声明：
+
+```css
+/* 优先级：theme（最低）→ rsuite → components → utilities（最高） */
+@layer theme, rsuite, components, utilities;
+```
+
+有了这个声明，rsuite 和 Tailwind CSS 的导入顺序就不再影响优先级。
+
+> **注意：** 如果您使用的是 v6.3.x 之前的版本，可能仍然需要 `!important` 修饰符或注意导入顺序。参见下面的[样式覆盖](#样式覆盖)部分。
+
+### 推荐的 CSS 入口配置
+
+以下是项目全局 CSS 文件的推荐配置：
+
+```css
+/* globals.css */
+@layer theme, rsuite, components, utilities;
+@import 'tailwindcss/theme';
+@import 'tailwindcss/utilities';
+
+/* 您的自定义样式 */
+```
+
+```tsx
+// App.tsx 或 layout.tsx
+import 'rsuite/dist/rsuite-no-reset.min.css';
+import './globals.css';
 ```
 
 ## 3. 在组件中使用
@@ -54,49 +99,21 @@ import './globals.css'; // 包含 Tailwind CSS 的文件
 
 ### 基础示例
 
-```tsx
-import { Button } from 'rsuite';
-
-function App() {
-  return (
-    <Button className="shadow-lg hover:shadow-xl transition-shadow">
-      增强按钮
-    </Button>
-  );
-}
-```
+<!--{include:`basic.md`}-->
 
 ### 使用 Tailwind + React Suite 组件构建布局
 
-```tsx
-import { Panel, Button, Input } from 'rsuite';
-
-function LoginForm() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <Panel
-        header="登录"
-        bordered
-        className="w-full max-w-md mx-4"
-      >
-        <div className="space-y-4">
-          <Input placeholder="邮箱" className="w-full" />
-          <Input type="password" placeholder="密码" className="w-full" />
-          <Button appearance="primary" className="w-full">
-            登录
-          </Button>
-        </div>
-      </Panel>
-    </div>
-  );
-}
-```
+<!--{include:`layout.md`}-->
 
 ### 样式覆盖
 
-如果由于 CSS 优先级问题导致 Tailwind 类无法覆盖 React Suite 的内部样式，您可以：
+从 v6.3.x 开始，React Suite 的 CSS 被包裹在 `@layer rsuite` 中，因此 Tailwind 工具类会自动覆盖 rsuite 样式：
 
-1. 使用 [Important 修饰符](https://tailwindcss.com/docs/configuration#important):
+<!--{include:`override.md`}-->
+
+如果您使用的是较旧版本的 React Suite（不支持 `@layer`），您可以：
+
+1. 使用 [Important 修饰符](https://tailwindcss.com/docs/configuration#important)：
    ```tsx
    <Button className="!bg-red-500">强制红色</Button>
    ```
@@ -123,51 +140,24 @@ module.exports = {
 
 现在您可以使用 `text-primary` 或 `bg-bg` 等类名，这些类名将与 React Suite 的主题保持同步。
 
-## 5. 常见陷阱
+## 5. 最佳实践
 
-### ❌ 不要覆盖组件内部样式
-
-避免使用 Tailwind 覆盖 React Suite 的内部组件样式,这可能会破坏组件功能:
+### 使用 React Suite 属性设置组件样式
 
 ```tsx
-// ❌ 错误: 覆盖内部样式
-<Button className="bg-red-500 text-white px-4 py-2">
-  按钮
-</Button>
+// ❌ 避免：用 Tailwind 覆盖组件内部样式
+<Button className="bg-red-500 text-white px-4 py-2">按钮</Button>
+
+// ✅ 推荐：用内置属性，Tailwind 只做补充
+<Button appearance="primary" color="red" className="shadow-lg">按钮</Button>
 ```
 
-```tsx
-// ✅ 正确: 使用 React Suite 的 appearance 属性
-<Button appearance="primary" color="red" className="shadow-lg">
-  按钮
-</Button>
-```
-
-### ✅ 使用 Tailwind 处理布局和间距
-
-Tailwind 最适合用于布局、间距和工具类样式:
+### 使用 Tailwind 处理布局和间距
 
 ```tsx
-// ✅ 正确: 布局和间距
+// ✅ Tailwind 擅长布局
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
   <Panel>内容 1</Panel>
   <Panel>内容 2</Panel>
 </div>
 ```
-
-### 最佳实践
-
-1. **组件样式**: 使用 React Suite 的属性 (`appearance`、`color`、`size` 等)
-2. **布局和间距**: 使用 Tailwind 工具类 (`flex`、`grid`、`p-*`、`m-*` 等)
-3. **响应式设计**: 结合两个系统 (`<Button size="lg" className="w-full md:w-auto" />`)
-4. **自定义样式**: 使用 CSS 变量保持主题一致性
-
-## 6. AI 助手使用指南
-
-在使用 AI 助手(如 Cursor、GitHub Copilot 或 ChatGPT)生成代码时:
-
-- **明确说明配置**: 提及您正在使用 "React Suite 和 Tailwind CSS"
-- **要求分离职责**: 要求 AI 使用 React Suite 处理组件,使用 Tailwind 处理布局
-- **示例提示词**: "使用 React Suite 组件作为 UI 元素,使用 Tailwind CSS 处理网格布局和间距,创建一个仪表板布局"
-
-这有助于 AI 生成更合适的代码,有效利用两个库的优势。
