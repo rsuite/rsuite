@@ -369,6 +369,11 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   });
 
   const handleMenuItemKeyPress = useEventCallback((event: React.KeyboardEvent) => {
+    // When composing, ignore the keypress event.
+    if (event.nativeEvent.isComposing) {
+      return;
+    }
+
     if (!focusItemValue || !controlledData) {
       return;
     }
