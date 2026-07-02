@@ -296,6 +296,15 @@ describe('InputPicker', () => {
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
+  it('Should not call `onChange` when Enter is pressed during IME composition', () => {
+    const onChange = vi.fn();
+    render(<InputPicker defaultOpen data={data} onChange={onChange} defaultValue={'Kariane'} />);
+
+    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter', isComposing: true });
+
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
   it('Should call onBlur callback', () => {
     const onBlur = vi.fn();
     render(<InputPicker data={[]} onBlur={onBlur} />);
