@@ -1,3 +1,18 @@
+## [6.2.2](https://github.com/rsuite/rsuite/compare/v6.2.1...v6.2.2) (2026-07-15)
+
+
+### Bug Fixes
+
+* **docs:** repair online sandbox examples ([#4588](https://github.com/rsuite/rsuite/issues/4588)) ([2bd4f65](https://github.com/rsuite/rsuite/commit/2bd4f655e47d1eab02a95be52a06bba0042f2d8e))
+* **InputPicker:** ignore Enter during IME composition when selecting an item ([#4585](https://github.com/rsuite/rsuite/issues/4585)) ([81c0b0f](https://github.com/rsuite/rsuite/commit/81c0b0fb129ef7aea6078b9395ab5358c88d215a))
+
+
+### Features
+
+* **locales:** add Norwegian Bokmål (nb_NO) locale ([#4583](https://github.com/rsuite/rsuite/issues/4583)) ([98b2024](https://github.com/rsuite/rsuite/commit/98b20249b18b89f7b121021dbfda36105f577c20))
+
+
+
 ## [6.2.1](https://github.com/rsuite/rsuite/compare/v6.2.0...v6.2.1) (2026-06-12)
 
 
