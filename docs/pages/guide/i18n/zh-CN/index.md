@@ -33,11 +33,13 @@ return (
 | fa-IR                | 波斯语 (伊朗)         | `faIR`   |
 | fi-FI                | 芬兰语                | `fiFI`   |
 | fr-FR                | 法语                  | `frFR`   |
+| gu-IN                | 古吉拉特语            | `guIN`   |
 | hu-HU                | 匈牙利语              | `huHU`   |
 | it-IT                | 意大利语              | `itIT`   |
 | ja-JP                | 日语                  | `jaJP`   |
 | kk-KZ                | 哈萨克语              | `kkKZ`   |
 | ko-KR                | 韩语/朝鲜语           | `koKR`   |
+| nb-NO                | 挪威博克马尔语        | `nbNO`   |
 | ne-NP                | 尼泊尔语              | `neNP`   |
 | nl-NL                | 荷兰语                | `nlNL`   |
 | pl-PL                | 波兰语（波兰）        | `plPL`   |
