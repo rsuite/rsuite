@@ -3,11 +3,12 @@ import MonthDropdownItem from './MonthDropdownItem';
 import { forwardRef } from '@/internals/utils';
 import { getMonth, getYear } from '@/internals/utils/date';
 import { AutoSizer, FixedSizeList, ListChildComponentProps } from '@/internals/Windowing';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 import { useCalendar } from '../hooks';
 import { plainYearMonthToString } from '@/internals/utils/date/plainDate';
 import type { PlainYearMonth } from '@/internals/utils/date/types';
+import { getJalaliYear, getJalaliMonth } from '@/internals/utils/date/jalali';
 
 export interface MonthDropdownProps extends WithAsProps {
   show?: boolean;
@@ -38,10 +39,19 @@ const MonthDropdown = forwardRef<'div', MonthDropdownProps>((props: MonthDropdow
     ...rest
   } = props;
 
-  const { date = new Date(), targetId, monthDropdownProps } = useCalendar();
+  const { date = new Date(), targetId, monthDropdownProps, locale: overrideLocale } = useCalendar();
   const { prefix, merge, withPrefix } = useStyles(classPrefix);
-  const thisYear = getYear(new Date());
-  const startYear = limitStartYear ? thisYear - limitStartYear + 1 : 1900;
+  const { getLocale } = useCustom();
+  const locale = getLocale('Calendar', overrideLocale);
+  const isJalali = locale?.calendarSystem === 'jalali';
+
+  // Use Jalali or Gregorian current year/month
+  const currentYear = isJalali ? getJalaliYear(date) : getYear(date);
+  const currentMonth = isJalali ? getJalaliMonth(date) - 1 : getMonth(date); // 0-indexed for comparison
+
+  // For Jalali, start year is around 1300-1350 depending on the limit
+  const thisYear = isJalali ? getJalaliYear(new Date()) : getYear(new Date());
+  const startYear = limitStartYear ? thisYear - limitStartYear + 1 : isJalali ? 1300 : 1900;
 
   const rowCount = useMemo(() => {
     const endYear = thisYear + limitEndYear;
@@ -59,8 +69,8 @@ const MonthDropdown = forwardRef<'div', MonthDropdownProps>((props: MonthDropdow
 
   const rowRenderer = useCallback(
     ({ index, style }: ListChildComponentProps) => {
-      const selectedMonth = getMonth(date);
-      const selectedYear = getYear(date);
+      const selectedMonth = currentMonth;
+      const selectedYear = currentYear;
       const year = startYear + index;
       const isSelectedYear = year === selectedYear;
       const titleClassName = prefix('year', { 'year-active': isSelectedYear });
@@ -94,11 +104,21 @@ const MonthDropdown = forwardRef<'div', MonthDropdownProps>((props: MonthDropdow
         </Item>
       );
     },
-    [Item, date, isMonthDisabled, merge, prefix, itemClassName, rowCount, startYear]
+    [
+      Item,
+      currentMonth,
+      currentYear,
+      isMonthDisabled,
+      merge,
+      prefix,
+      itemClassName,
+      rowCount,
+      startYear
+    ]
   );
 
   const classes = merge(className, withPrefix(), { show });
-  const initialItemIndex = getYear(date) - startYear;
+  const initialItemIndex = currentYear - startYear;
   const initialScrollOffset = ITEM_SIZE * initialItemIndex;
 
   if (!show) {
