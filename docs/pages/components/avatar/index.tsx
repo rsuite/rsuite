@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Avatar, AvatarGroup, Badge } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
@@ -13,7 +14,15 @@ export default function Page() {
   return (
     <DefaultPage
       inDocsComponents={inDocsComponents}
-      dependencies={{ Avatar, AvatarGroup, Badge, FaUserLarge, FcBusinessman, FcCustomerSupport }}
+      dependencies={{
+        Avatar,
+        AvatarGroup,
+        Badge,
+        FaUserLarge,
+        FcBusinessman,
+        FcCustomerSupport,
+        Image
+      }}
       sandboxDependencies={{ 'react-icons': 'latest' }}
     />
   );
