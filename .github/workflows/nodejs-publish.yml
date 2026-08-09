@@ -24,9 +24,29 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+      - name: Resolve npm dist-tag
+        id: npm-dist-tag
+        shell: bash
+        run: |
+          VERSION=$(node -p "require('./lib/package.json').version")
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+
+          if [ "$VERSION" != "$TAG_VERSION" ]; then
+            echo "::error::Git tag $GITHUB_REF_NAME does not match package version $VERSION"
+            exit 1
+          fi
+
+          case "$VERSION" in
+            *-canary|*-canary.*|*-canary-*) DIST_TAG=canary-v5 ;;
+            *-*) DIST_TAG=next-v5 ;;
+            *) DIST_TAG=latest-v5 ;;
+          esac
+
+          echo "tag=$DIST_TAG" >> "$GITHUB_OUTPUT"
+          echo "Publishing rsuite@$VERSION with dist-tag $DIST_TAG"
       - name: Publish
         working-directory: ./lib
-        run: npm publish
+        run: npm publish --tag "${{ steps.npm-dist-tag.outputs.tag }}"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
