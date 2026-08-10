@@ -3,7 +3,7 @@ import TableCell from './TableCell';
 import TableColumn from './TableColumn';
 import TableColumnGroup from './TableColumnGroup';
 import TableHeaderCell from './TableHeaderCell';
-import type { TableProps as TableBaseProps, RowDataType, RowKeyType } from 'rsuite-table';
+import type { TableProps as TableBaseProps, RowDataType, RowKeyType } from './internals';
 
 // export types
 export type {
@@ -16,7 +16,7 @@ export type {
   TableLocaleType,
   TableSizeChangeEventName,
   TableInstance
-} from 'rsuite-table';
+} from './internals';
 
 export type TableProps<
   Row extends RowDataType = any,

@@ -11,7 +11,7 @@ import {
   TableInstance,
   CellProps as TableCellProps,
   RowKeyType
-} from 'rsuite-table';
+} from './internals';
 
 export interface CellProps<Row extends RowDataType>
   extends Omit<TableCellProps<Row>, 'rowData' | 'dataKey'> {

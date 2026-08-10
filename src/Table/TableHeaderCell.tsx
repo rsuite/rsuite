@@ -1,3 +1,3 @@
-import { HeaderCell } from 'rsuite-table';
+import { HeaderCell } from './internals';
 
 export default HeaderCell;
