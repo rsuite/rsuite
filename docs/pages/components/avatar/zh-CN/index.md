@@ -53,6 +53,12 @@
 
 <!--{include:`badge.md`}-->
 
+### 结合 Next.js Image 使用
+
+为了利用 Next.js 的图像优化和缓存功能，您可以将 `next/image` 组件作为 `Avatar` 组件的子组件传入。
+
+<!--{include:`nextjs-image.md`}-->
+
 ## Props
 
 ### `<Avatar>`
