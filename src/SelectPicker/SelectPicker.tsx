@@ -36,6 +36,14 @@ import type {
 } from '@/internals/types';
 
 export interface SelectProps<T> extends ListboxProps, PopupProps, DeprecatedMenuProps {
+  /**
+   * Whether the popup is responsive. When `true` (the default), the popup
+   * automatically switches to a full-width Drawer at the `xs` breakpoint.
+   * Set to `false` to always render the popup in place, e.g. when the
+   * picker is already inside another mobile-specific overlay.
+   */
+  responsive?: boolean;
+
   /** Set group condition key in data */
   groupBy?: string;
 
@@ -125,6 +133,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       popupAutoWidth = true,
       popupClassName,
       popupStyle,
+      responsive,
       searchable = true,
       style,
       toggleAs,
@@ -352,6 +361,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
         as={as}
         id={id}
         pickerType="select"
+        responsive={responsive}
         block={block}
         disabled={disabled}
         appearance={appearance}
