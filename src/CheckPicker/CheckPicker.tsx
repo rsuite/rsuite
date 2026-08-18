@@ -90,6 +90,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
       popupAutoWidth = true,
       popupClassName,
       popupStyle,
+      responsive,
       searchable = true,
       sticky,
       style,
@@ -365,6 +366,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
         id={id}
         multiple
         pickerType="check"
+        responsive={responsive}
         block={block}
         disabled={disabled}
         appearance={appearance}
