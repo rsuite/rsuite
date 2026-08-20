@@ -50,6 +50,8 @@ TimePicker 是一个允许用户选择时间值的组件。
 
 ## 响应式
 
+在超小屏幕上，弹出层默认显示为全宽 Drawer。当选择器已经位于 Modal 或 Drawer 中时，可设置 `responsive={false}` 保持定位浮层，避免嵌套遮罩。
+
 <!--{include:<example-responsive>}-->
 
 ## 可访问性
@@ -103,6 +105,7 @@ TimePicker 是一个允许用户选择时间值的组件。
 | preventOverflow     | boolean                                                         | 防止浮动元素溢出                                   |
 | ranges              | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code)) | 快捷项配置                                         |
 | renderValue         | (date: Date) => ReactNode                                       | 自定义渲染值                                       |
+| responsive          | boolean `(true)`                                                | 是否在超小屏幕上将弹出层显示为全宽 Drawer          |
 | shouldDisableHour   | (hour:number, date:Date) => boolean                             | 禁用小时                                           |
 | shouldDisableMinute | (minute:number, date:Date) => boolean                           | 禁用分钟                                           |
 | shouldDisableSecond | (second:number, date:Date) => boolean                           | 禁用秒                                             |

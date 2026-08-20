@@ -98,6 +98,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
     popupClassName,
     popupStyle,
     popupAutoWidth = true,
+    responsive,
     treeHeight = 320,
     valueKey = 'value',
     virtualized = false,
@@ -295,6 +296,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
       as={as}
       id={id}
       pickerType="tree"
+      responsive={responsive}
       block={block}
       disabled={disabled}
       appearance={appearance}

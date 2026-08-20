@@ -98,6 +98,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
     popupClassName,
     popupStyle,
     popupAutoWidth = true,
+    responsive,
     placement = 'bottomStart',
     treeHeight = 320,
     toggleAs,
@@ -331,6 +332,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
       as={as}
       id={id}
       pickerType="check-tree"
+      responsive={responsive}
       block={block}
       disabled={disabled}
       appearance={appearance}

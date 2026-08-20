@@ -202,6 +202,11 @@ const OverlayTrigger = React.forwardRef(
       onBlur,
       onOpen,
       onClose,
+      onEnter,
+      onEntering,
+      onEntered,
+      onExit,
+      onExiting,
       onExited,
       ...rest
     } = props;
@@ -506,6 +511,11 @@ const OverlayTrigger = React.forwardRef(
             ? () => handleClose(undefined, OverlayCloseCause.ClickOutside) as any
             : undefined,
         onExited: createChainedFunction(followCursor ? handleExited : undefined, onExited),
+        onEnter,
+        onEntering,
+        onEntered,
+        onExit,
+        onExiting,
         placement,
         container: containerElement,
         open
@@ -567,6 +577,12 @@ const OverlayTrigger = React.forwardRef(
           <OverlayComponent
             open={open}
             onClose={handleClose}
+            onEnter={onEnter}
+            onEntering={onEntering}
+            onEntered={onEntered}
+            onExit={onExit}
+            onExiting={onExiting}
+            onExited={onExited}
             placement="bottom"
             speaker={speaker}
           />

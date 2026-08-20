@@ -52,6 +52,8 @@
 
 ## 响应式
 
+在超小屏幕上，弹出层默认显示为全宽 Drawer。当选择器已经位于 Modal 或 Drawer 中时，可设置 `responsive={false}` 保持定位浮层，避免嵌套遮罩。
+
 <!--{include:<example-responsive>}-->
 
 ## 可访问性
@@ -141,6 +143,7 @@
 | renderTreeIcon          | (item:[TreeNode][node], expanded: boolean) => ReactNode                                        | 自定义渲染树节点图标                   |
 | renderTreeNode          | (item:[TreeNode][node]) => ReactNode                                                           | 自定义渲染树节点                       |
 | renderValue             | (values:string[], checkedItems:[TreeNode][node][],selectedElement: ReactNode) => ReactNode     | 自定义渲染值                           |
+| responsive              | boolean `(true)`                                                                               | 是否在超小屏幕上将弹出层显示为全宽 Drawer |
 | searchable              | boolean `(true)`                                                                               | 是否显示搜索框                         |
 | searchBy                | (keyword: string, label: ReactNode, item: [TreeNode][node]) => boolean                         | 自定义搜索方法                         |
 | showIndentLine          | boolean                                                                                        | 是否显示缩进线                         |

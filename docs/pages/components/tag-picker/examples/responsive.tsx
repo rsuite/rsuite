@@ -23,7 +23,7 @@ const data = [
 const App = () => {
   return (
     <Box p={20}>
-      <TagPicker data={data} block searchable={false} />
+      <TagPicker data={data} block responsive />
     </Box>
   );
 };

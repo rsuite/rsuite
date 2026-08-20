@@ -35,7 +35,7 @@ import type {
 import type { BoxProps } from '@/internals/Box';
 
 export interface AutoCompleteProps<T = string>
-  extends FormControlPickerProps<T, any, Option | string>,
+  extends Omit<FormControlPickerProps<T, any, Option | string>, 'responsive'>,
     ListboxProps,
     PopupProps,
     BoxProps {

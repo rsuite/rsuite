@@ -1,6 +1,7 @@
 import React from 'react';
 import TagList from './TagList';
 import InputSearch, { InputSearchProps } from './InputSearch';
+import { useCombobox } from '@/internals/Picker';
 import { useStyles } from '@/internals/hooks';
 
 interface TextBoxProps {
@@ -36,23 +37,25 @@ const TextBox = React.forwardRef((props: TextBoxProps, ref: React.Ref<HTMLDivEle
   } = props;
 
   const { prefix } = useStyles('picker');
+  const { breakpoint } = useCombobox();
 
   if (!multiple && disabled) {
     return null;
   }
 
-  const input = editable ? (
-    <InputSearch
-      {...inputProps}
-      tabIndex={-1}
-      readOnly={readOnly}
-      onBlur={onBlur}
-      onFocus={onFocus}
-      inputRef={inputRef}
-      onChange={onChange}
-      value={inputValue}
-    />
-  ) : null;
+  const input =
+    editable && breakpoint !== 'xs' ? (
+      <InputSearch
+        {...inputProps}
+        tabIndex={-1}
+        readOnly={readOnly}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        inputRef={inputRef}
+        onChange={onChange}
+        value={inputValue}
+      />
+    ) : null;
 
   return (
     <div className={prefix`textbox`} ref={ref} {...rest}>

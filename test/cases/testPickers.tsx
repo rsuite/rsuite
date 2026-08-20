@@ -1,5 +1,7 @@
 import React from 'react';
-import { describe, expect, it, vi } from 'vitest';
+import MatchMediaMock from '@test/mocks/matchmedia-mock';
+import CustomProvider from '@/CustomProvider';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 
 interface TestPickerOptions {
@@ -8,6 +10,8 @@ interface TestPickerOptions {
   role?: 'combobox' | 'textbox';
   ariaHaspopup?: 'listbox' | 'dialog' | 'grid' | 'menu' | 'tree';
   popupAutoWidth?: boolean;
+  responsiveByDefault?: boolean;
+  responsiveSearchable?: boolean;
 }
 
 const defaultData = [
@@ -21,11 +25,107 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
     virtualized,
     role = 'combobox',
     ariaHaspopup = 'listbox',
-    popupAutoWidth
+    popupAutoWidth,
+    responsiveByDefault = true,
+    responsiveSearchable = false
   } = options || {};
   const displayName = TestComponent.displayName;
 
   describe(`${displayName} - Common props for all pickers`, () => {
+    describe('Responsive popup', () => {
+      let matchMedia: MatchMediaMock;
+      let initialMatchMedia: typeof window.matchMedia;
+      let initialWidth: number;
+      let initialHeight: number;
+
+      const resizeWindow = (width: number, height = 1000) => {
+        Object.assign(window, {
+          innerWidth: width,
+          innerHeight: height,
+          outerWidth: width,
+          outerHeight: height
+        }).dispatchEvent(new window.Event('resize'));
+      };
+
+      beforeEach(() => {
+        initialWidth = window.innerWidth;
+        initialHeight = window.innerHeight;
+        initialMatchMedia = window.matchMedia;
+        matchMedia = new MatchMediaMock();
+        resizeWindow(575);
+      });
+
+      afterEach(() => {
+        resizeWindow(initialWidth, initialHeight);
+        matchMedia.clear();
+        Object.defineProperty(window, 'matchMedia', {
+          configurable: true,
+          writable: true,
+          value: initialMatchMedia
+        });
+      });
+
+      it('Should preserve the default responsive behavior', () => {
+        render(<TestComponent data={data} open />);
+
+        if (responsiveByDefault) {
+          expect(document.querySelector('.rs-drawer')).to.exist;
+        } else {
+          expect(document.querySelector('.rs-drawer')).not.to.exist;
+        }
+      });
+
+      if (responsiveSearchable) {
+        it('Should preserve the responsive default when search is disabled', () => {
+          render(<TestComponent data={data} open searchable={false} />);
+
+          expect(document.querySelector('.rs-drawer')).to.exist;
+        });
+      }
+
+      it('Should allow responsive behavior to be forced or disabled', () => {
+        const { unmount } = render(<TestComponent data={data} open responsive />);
+
+        expect(document.querySelector('.rs-drawer')).to.exist;
+        if (responsiveSearchable) {
+          expect(screen.getByRole('searchbox')).to.exist;
+        }
+
+        unmount();
+        render(<TestComponent data={data} open responsive={false} />);
+
+        expect(document.querySelector('.rs-drawer')).not.to.exist;
+        expect(screen.getByTestId('picker')).not.to.have.attr('responsive');
+      });
+
+      it('Should support a responsive default from CustomProvider', () => {
+        render(
+          <CustomProvider
+            components={{
+              [displayName as string]: {
+                defaultProps: { responsive: !responsiveByDefault }
+              }
+            }}
+          >
+            <TestComponent data={data} open />
+          </CustomProvider>
+        );
+
+        if (responsiveByDefault) {
+          expect(document.querySelector('.rs-drawer')).not.to.exist;
+        } else {
+          expect(document.querySelector('.rs-drawer')).to.exist;
+        }
+      });
+
+      it('Should only use a Drawer below the sm breakpoint', () => {
+        resizeWindow(576);
+        render(<TestComponent data={data} open responsive />);
+
+        expect(document.querySelector('.rs-drawer')).not.to.exist;
+      });
+    });
+
     it('Should render a picker', () => {
       const { container } = render(<TestComponent data={data} />);
 

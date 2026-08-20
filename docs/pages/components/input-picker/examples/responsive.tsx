@@ -23,7 +23,7 @@ const data = [
 const App = () => {
   return (
     <Box p={20}>
-      <InputPicker data={data} block searchable={false} />
+      <InputPicker data={data} block responsive />
     </Box>
   );
 };
