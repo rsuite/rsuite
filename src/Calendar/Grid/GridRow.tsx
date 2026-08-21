@@ -3,10 +3,11 @@ import GridCell from './GridCell';
 import { forwardRef } from '@/internals/utils';
 import { format, type PlainDate } from '@/internals/utils/date';
 import { DATERANGE_DISABLED_TARGET } from '@/internals/constants';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useCustom } from '@/internals/hooks';
 import { useCalendar } from '../hooks';
 import { WithAsProps } from '@/internals/types';
 import { addDays, compare, isSameDay } from '@/internals/utils/date/plainDate';
+import { getJalaliMonth, getJalaliYear } from '@/internals/utils/date/jalali';
 
 /**
  * A row in the calendar month view grid, i.e. a week of days.
@@ -44,6 +45,9 @@ const GridRow = forwardRef<'div', GridRowProps>((props: GridRowProps, ref) => {
   } = useCalendar();
 
   const { prefix, merge } = useStyles(classPrefix);
+  const { getLocale } = useCustom();
+  const resolvedLocale = getLocale('Calendar', locale);
+  const isJalali = resolvedLocale?.calendarSystem === 'jalali';
 
   const handleSelect = useCallback(
     (date: PlainDate, disabled: boolean | void, event: React.MouseEvent) => {
@@ -84,8 +88,10 @@ const GridRow = forwardRef<'div', GridRowProps>((props: GridRowProps, ref) => {
       const disabled = disabledDate?.(thisDate, plainDateRange, DATERANGE_DISABLED_TARGET.CALENDAR);
 
       // Whether this date is in a different month from the selected date
-      const isSameMonth =
-        selected.getFullYear() === thisDate.year && selected.getMonth() + 1 === thisDate.month;
+      const isSameMonth = isJalali
+        ? getJalaliYear(selected) === getJalaliYear(thisDateJS) &&
+          getJalaliMonth(selected) === getJalaliMonth(thisDateJS)
+        : selected.getFullYear() === thisDate.year && selected.getMonth() + 1 === thisDate.month;
 
       // Whether this date is the range start date and is in the same month with the selected date
       const isRangeStart =
