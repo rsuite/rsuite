@@ -1,3 +1,14 @@
+## [6.2.3](https://github.com/rsuite/rsuite/compare/v6.2.2...v6.2.3) (2026-08-21)
+
+
+### Bug Fixes
+
+* **ci:** select npm dist-tag for releases ([d5e12c7](https://github.com/rsuite/rsuite/commit/d5e12c76bd46f48b762cf95b8524bd3d60cadf8a))
+* **DatePicker:** calculate disabled months correctly ([#4596](https://github.com/rsuite/rsuite/issues/4596)) ([54592f7](https://github.com/rsuite/rsuite/commit/54592f7a778385489fd43647e7321bb6a32e2894))
+* **picker:** expose responsive popup control ([#4595](https://github.com/rsuite/rsuite/issues/4595)) ([c5d592f](https://github.com/rsuite/rsuite/commit/c5d592f586ed8a873f6087f6b19cce6aebaf8e07))
+
+
+
 ## [6.2.2](https://github.com/rsuite/rsuite/compare/v6.2.1...v6.2.2) (2026-07-15)
 
 
