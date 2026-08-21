@@ -1,4 +1,5 @@
-import { getSizeValue, getColorValue } from '@/internals/utils';
+import { getColorValue } from '@/internals/utils/colours';
+import { getSizeValue } from '@/internals/utils/sizes';
 import type { CSSSystemProps, CSSProperty } from './types';
 
 const transformRadiusValue = (value: string) => getSizeValue('radius', value);

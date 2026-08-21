@@ -91,6 +91,10 @@ jobs:
           CI: true
           BROWSER: ${{ matrix.browser }}
 
+      - name: Run SSR hydration tests
+        if: ${{ matrix.browser == 'chromium' }}
+        run: npm run test:ssr
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4.2.0
         with:
