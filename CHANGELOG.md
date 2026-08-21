@@ -1,3 +1,12 @@
+## [6.2.4](https://github.com/rsuite/rsuite/compare/v6.2.3...v6.2.4) (2026-08-21)
+
+
+### Bug Fixes
+
+* **Box:** make CSS prop detection SSR-safe ([#4598](https://github.com/rsuite/rsuite/issues/4598)) ([decbdbe](https://github.com/rsuite/rsuite/commit/decbdbe3c95aa0b0f7e67a19dd91be225c27e7d0))
+
+
+
 ## [6.2.3](https://github.com/rsuite/rsuite/compare/v6.2.2...v6.2.3) (2026-08-21)
 
 
