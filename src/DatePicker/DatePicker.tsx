@@ -360,7 +360,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
 
   /**
    * Check whether the month is disabled.
-   * If any day in the month is disabled, the entire month is disabled
+   * If every day in the month is disabled, the entire month is disabled.
    */
   const isMonthDisabled = (date: Date): boolean => {
     return isEveryDateInMonth(date.getFullYear(), date.getMonth(), isDateDisabled);

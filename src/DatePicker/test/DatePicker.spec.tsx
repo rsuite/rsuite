@@ -1160,7 +1160,7 @@ describe('DatePicker', () => {
           shouldDisableDate={date => {
             const month = date.getMonth();
             const year = date.getFullYear();
-            return month === 0 && year === 2024;
+            return month <= 5 && year === 2024;
           }}
           onSelect={onSelect}
           format="yyyy-MM"
@@ -1168,12 +1168,18 @@ describe('DatePicker', () => {
         />
       );
 
-      const gridcell = screen.getByRole('gridcell', { name: 'Jan 2024' });
+      const january = screen.getByRole('gridcell', { name: 'Jan 2024' });
+      const april = screen.getByRole('gridcell', { name: 'Apr 2024' });
+      const june = screen.getByRole('gridcell', { name: 'Jun 2024' });
+      const july = screen.getByRole('gridcell', { name: 'Jul 2024' });
 
-      expect(gridcell).to.have.class('disabled');
-      expect(gridcell).to.have.attribute('aria-disabled', 'true');
+      expect(january).to.have.class('disabled');
+      expect(april).to.have.class('disabled');
+      expect(june).to.have.class('disabled');
+      expect(july).not.to.have.class('disabled');
+      expect(june).to.have.attribute('aria-disabled', 'true');
 
-      fireEvent.click(gridcell);
+      fireEvent.click(june);
 
       expect(onSelect).not.toHaveBeenCalled();
     });
