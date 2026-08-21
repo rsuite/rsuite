@@ -1,8 +1,9 @@
 import camelCase from 'lodash/camelCase';
 import kebabCase from 'lodash/kebabCase';
-import { getCssValue, isCSSProperty } from '@/internals/utils';
+import { getCssValue } from '@/internals/utils';
 import { BREAKPOINTS } from '@/internals/constants';
 import { cssSystemPropAlias } from './css-alias';
+import { isSupportedCSSProperty } from './css-properties';
 import type { Breakpoints, ResponsiveValue, WithResponsive } from '@/internals/types';
 import type { CSSProperty, CSSPropertyValueType } from './types';
 
@@ -115,7 +116,7 @@ export const getCSSVariables = (
       cssVars[varName] = processResponsiveValue(value, val => {
         return transformer ? transformer(val) : transformCSSValue(val, type);
       });
-    } else if (isCSSProperty(cssName)) {
+    } else if (isSupportedCSSProperty(cssName)) {
       // For non-predefined CSS properties, directly process with getCssValue
       cssVars[varName] = processResponsiveValue(value, val => getCssValue(val));
     }

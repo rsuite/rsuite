@@ -1,3 +1,5 @@
+import camelCase from 'lodash/camelCase';
+
 /**
  * List of commonly used CSS properties in React components
  * Focused on layout, spacing, typography, and common UI patterns
@@ -129,3 +131,19 @@ export const supportedCSSProperties = [
 ] as const;
 
 export type SupportedCSSProperty = (typeof supportedCSSProperties)[number];
+
+const supportedCSSPropertySet = new Set<string>(supportedCSSProperties);
+
+/**
+ * Check whether a property is supported by the styled system.
+ *
+ * Unlike DOM-based CSS property detection, this check is deterministic in
+ * both server and browser environments.
+ */
+export function isSupportedCSSProperty(property: string): boolean {
+  return (
+    Boolean(property) &&
+    !property.startsWith('--') &&
+    supportedCSSPropertySet.has(camelCase(property))
+  );
+}

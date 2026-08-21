@@ -38,6 +38,7 @@
     "test:ci": "cross-env RUN_ENV=ci vitest --run --coverage",
     "test:component": "cross-env RUN_ENV=test vitest --run",
     "test:coverage": "cross-env RUN_ENV=test vitest --run --coverage",
+    "test:ssr": "cross-env RUN_ENV=ssr vitest --run",
     "prepare": "husky install",
     "release": "node scripts/release.js",
     "version": "npm run changelog && git add -A",

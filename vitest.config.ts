@@ -6,7 +6,10 @@ const { M, F, RUN_ENV, VITEST_RUNNING_POSTBUILD } = process.env;
 let testPatterns: string;
 let testMainDescription: string;
 
-if (M) {
+if (RUN_ENV === 'ssr') {
+  testPatterns = 'src/**/*.ssr.test.+(js|ts|tsx)';
+  testMainDescription = `SSR tests: ${testPatterns}`;
+} else if (M) {
   testPatterns = `src/${M}/test/*.spec.+(js|ts|tsx)`;
   testMainDescription = `Module tests: ${testPatterns}`;
 } else if (F) {
@@ -49,7 +52,7 @@ async function createConfig() {
     },
     test: {
       include: [testPatterns],
-      setupFiles: ['vitest.setup.ts'],
+      setupFiles: RUN_ENV === 'ssr' ? [] : ['vitest.setup.ts'],
       coverage: {
         provider: 'istanbul',
         exclude: [
@@ -71,6 +74,13 @@ async function createConfig() {
       config.test.include = ['test/validateBuilds.spec.ts'];
       config.test.environment = 'node';
       config.test.browser = { enabled: false }; // Explicitly disable browser mode
+    }
+  } else if (RUN_ENV === 'ssr') {
+    if (config.test) {
+      config.test.environment = 'node';
+      config.test.browser = { enabled: false };
+      config.test.hookTimeout = 30000;
+      config.test.testTimeout = 30000;
     }
   } else {
     // Default browser configuration for other test runs

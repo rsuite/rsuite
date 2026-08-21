@@ -62,6 +62,18 @@ describe('Box', () => {
     expect(cssRules).toContain('display: var(--rs-box-display)');
   });
 
+  it('Should apply supported CSS props without forwarding them to the DOM', () => {
+    render(<Box transform="scale(1)">Content</Box>);
+
+    const element = screen.getByText('Content');
+    const cssRules = vi.mocked(StyleManager.addRule).mock.calls[0][1];
+
+    expect(element).to.have.attr('data-rs', 'box');
+    expect(element).to.not.have.attr('transform');
+    expect(cssRules).toContain('--rs-box-transform: scale(1)');
+    expect(cssRules).toContain('transform: var(--rs-box-transform)');
+  });
+
   it('Should render with multiple props', () => {
     render(
       <Box showFrom="sm" hideFrom="md" display="flex" className="custom-class">
