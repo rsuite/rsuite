@@ -2,8 +2,9 @@ import React from 'react';
 import InputPicker from '../InputPicker';
 import Button from '../../Button';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, vi } from 'vitest';
-import { render, fireEvent, screen, within } from '@testing-library/react';
+import MatchMediaMock from '@test/mocks/matchmedia-mock';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { render, fireEvent, screen, waitFor, within } from '@testing-library/react';
 import { mockGroupData } from '@test/mocks/data-mock';
 import { PickerHandle } from '@/internals/Picker';
 import {
@@ -22,7 +23,11 @@ describe('InputPicker', () => {
       return screen.getByRole('combobox');
     }
   });
-  testPickers(InputPicker, { virtualized: true });
+  testPickers(InputPicker, {
+    virtualized: true,
+    responsiveByDefault: false,
+    responsiveSearchable: true
+  });
   testControlledUnControlled(InputPicker, {
     componentProps: { data, defaultOpen: true },
     value: 'Eugenia',
@@ -48,6 +53,65 @@ describe('InputPicker', () => {
     value: 'Eugenia',
     componentProps: { data },
     getUIElement: () => screen.getByRole('combobox')
+  });
+
+  describe('Responsive searchable popup', () => {
+    let matchMedia: MatchMediaMock;
+    let initialMatchMedia: typeof window.matchMedia;
+    let initialWidth: number;
+    let initialHeight: number;
+
+    const resizeWindow = (width: number, height = 1000) => {
+      Object.assign(window, {
+        innerWidth: width,
+        innerHeight: height,
+        outerWidth: width,
+        outerHeight: height
+      }).dispatchEvent(new window.Event('resize'));
+    };
+
+    beforeEach(() => {
+      initialWidth = window.innerWidth;
+      initialHeight = window.innerHeight;
+      initialMatchMedia = window.matchMedia;
+      matchMedia = new MatchMediaMock();
+      resizeWindow(575);
+    });
+
+    afterEach(() => {
+      resizeWindow(initialWidth, initialHeight);
+      matchMedia.clear();
+      Object.defineProperty(window, 'matchMedia', {
+        configurable: true,
+        writable: true,
+        value: initialMatchMedia
+      });
+    });
+
+    it('Should search and select an option in a forced responsive Drawer', async () => {
+      const onChange = vi.fn();
+      const onSearch = vi.fn();
+
+      render(<InputPicker data={data} responsive onChange={onChange} onSearch={onSearch} />);
+
+      const combobox = screen.getByRole('combobox');
+      fireEvent.click(combobox);
+
+      const searchbox = screen.getByRole('searchbox');
+      await waitFor(() => expect(searchbox).to.have.focus);
+
+      fireEvent.change(searchbox, { target: { value: 'Lou' } });
+
+      expect(onSearch).toHaveBeenCalledWith('Lou', expect.any(Object));
+      expect(screen.queryByRole('option', { name: 'Eugenia' })).not.to.exist;
+      expect(screen.getByRole('option', { name: 'Louisa' })).to.exist;
+
+      fireEvent.keyDown(searchbox, { key: 'Enter' });
+
+      expect(onChange).toHaveBeenCalledWith('Louisa', expect.any(Object));
+      expect(combobox).to.have.text('Louisa');
+      await waitFor(() => expect(combobox).to.have.focus);
+    });
   });
 
   it('Should clean selected default value', () => {

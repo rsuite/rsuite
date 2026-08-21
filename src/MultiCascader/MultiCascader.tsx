@@ -96,6 +96,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
       placement = 'bottomStart',
       popupClassName,
       popupStyle,
+      responsive,
       renderColumn,
       renderExtraFooter,
       renderTreeNode,
@@ -373,6 +374,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
         as={as}
         id={id}
         pickerType="multi-cascader"
+        responsive={responsive}
         block={block}
         disabled={disabled}
         appearance={appearance}

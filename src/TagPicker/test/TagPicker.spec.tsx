@@ -2,9 +2,10 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import TagPicker from '../index';
 import Button from '../../Button';
-import { describe, expect, it, vi } from 'vitest';
+import MatchMediaMock from '@test/mocks/matchmedia-mock';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { mockGroupData } from '@test/mocks/data-mock';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { PickerHandle } from '@/internals/Picker';
 
 import {
@@ -27,7 +28,11 @@ describe('TagPicker', () => {
     }
   });
 
-  testPickers(TagPicker, { virtualized: true });
+  testPickers(TagPicker, {
+    virtualized: true,
+    responsiveByDefault: false,
+    responsiveSearchable: true
+  });
 
   testControlledUnControlled(TagPicker, {
     componentProps: { data, defaultOpen: true },
@@ -53,6 +58,72 @@ describe('TagPicker', () => {
     value: ['Eugenia'],
     componentProps: { data },
     getUIElement: () => screen.getByRole('combobox')
+  });
+
+  describe('Responsive searchable popup', () => {
+    let matchMedia: MatchMediaMock;
+    let initialMatchMedia: typeof window.matchMedia;
+    let initialWidth: number;
+    let initialHeight: number;
+
+    const resizeWindow = (width: number, height = 1000) => {
+      Object.assign(window, {
+        innerWidth: width,
+        innerHeight: height,
+        outerWidth: width,
+        outerHeight: height
+      }).dispatchEvent(new window.Event('resize'));
+    };
+
+    beforeEach(() => {
+      initialWidth = window.innerWidth;
+      initialHeight = window.innerHeight;
+      initialMatchMedia = window.matchMedia;
+      matchMedia = new MatchMediaMock();
+      resizeWindow(575);
+    });
+
+    afterEach(() => {
+      resizeWindow(initialWidth, initialHeight);
+      matchMedia.clear();
+      Object.defineProperty(window, 'matchMedia', {
+        configurable: true,
+        writable: true,
+        value: initialMatchMedia
+      });
+    });
+
+    it('Should select and create tags in a forced responsive Drawer', async () => {
+      const onChange = vi.fn();
+      const onCreate = vi.fn();
+
+      render(
+        <TagPicker data={data} responsive creatable onChange={onChange} onCreate={onCreate} />
+      );
+
+      const combobox = screen.getByRole('combobox');
+      fireEvent.click(combobox);
+
+      const searchbox = screen.getByRole('searchbox');
+      await waitFor(() => expect(searchbox).to.have.focus);
+
+      fireEvent.change(searchbox, { target: { value: 'New tag' } });
+      fireEvent.keyDown(searchbox, { key: 'Enter' });
+
+      expect(onCreate).toHaveBeenCalledWith(
+        ['New tag'],
+        expect.objectContaining({ label: 'New tag', value: 'New tag' }),
+        expect.any(Object)
+      );
+
+      fireEvent.change(searchbox, { target: { value: 'Lou' } });
+      fireEvent.keyDown(searchbox, { key: 'Enter' });
+
+      expect(onChange).toHaveBeenLastCalledWith(['New tag', 'Louisa'], expect.any(Object));
+
+      fireEvent.keyDown(searchbox, { key: 'Escape' });
+      await waitFor(() => expect(combobox).to.have.focus);
+    });
   });
 
   it('Should clean selected default value', () => {

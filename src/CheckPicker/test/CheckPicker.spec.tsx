@@ -2,6 +2,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import CheckPicker from '../CheckPicker';
 import Button from '../../Button';
+import Drawer from '../../Drawer';
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { mockGroupData } from '@test/mocks/data-mock';
@@ -49,6 +50,20 @@ describe('CheckPicker', () => {
     value: ['Eugenia'],
     componentProps: { data },
     getUIElement: () => screen.getByRole('combobox')
+  });
+
+  it('Should render a positioned popup inside an existing Drawer when responsive=false', () => {
+    render(
+      <Drawer open>
+        <CheckPicker data={data} defaultOpen responsive={false} />
+      </Drawer>
+    );
+
+    const drawers = document.querySelectorAll('.rs-drawer');
+    const popup = screen.getByTestId('picker-popup');
+
+    expect(drawers).to.have.lengthOf(1);
+    expect(screen.getByTestId('drawer-wrapper')).to.contain(popup);
   });
 
   it('Should clean selected default value', () => {

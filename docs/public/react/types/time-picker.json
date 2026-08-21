@@ -182,6 +182,12 @@
         "isRequired": false,
         "description": "Custom render value"
       },
+      "responsive": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to display the popup as a full-width Drawer on extra-small screens",
+        "defaultValue": "true"
+      },
       "shouldDisableHour": {
         "type": "(hour:number, date:Date) => boolean",
         "isRequired": false,

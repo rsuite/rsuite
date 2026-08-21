@@ -7,6 +7,7 @@ import isArray from 'lodash/isArray';
 import pick from 'lodash/pick';
 import Tag from '../Tag';
 import TextBox from './TextBox';
+import InputPickerPopup from './InputPickerPopup';
 import Stack, { StackProps } from '../Stack';
 import useInput from './hooks/useInput';
 import useData, { InputOption } from './hooks/useData';
@@ -116,6 +117,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     popupClassName,
     popupStyle,
     popupAutoWidth = true,
+    responsive,
     listboxMaxHeight = 320,
     creatable,
     shouldDisplayCreateOption,
@@ -156,7 +158,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
   }
 
-  const { trigger: triggerRef, root, target, overlay, list } = usePickerRef(ref);
+  const { trigger: triggerRef, root, target, overlay, list, searchInput } = usePickerRef(ref);
   const { prefix, merge } = useStyles(classPrefix);
   const [open, setOpen] = useControlled(controlledOpen, defaultOpen);
   const { inputRef, inputProps, focus, blur } = useInput({ multi, triggerRef });
@@ -478,6 +480,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     trigger: triggerRef,
     target,
     overlay,
+    searchInput,
     loading,
     ...events,
     ...rest
@@ -486,6 +489,10 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   const handleExited = useEventCallback(() => {
     setFocusItemValue(multi ? value?.[0] : value);
     resetSearch();
+
+    if (typeof requestAnimationFrame !== 'undefined') {
+      requestAnimationFrame(() => target.current?.focus?.());
+    }
   });
 
   const handleFocus = useEventCallback((event: React.FocusEvent) => {
@@ -627,17 +634,22 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     );
 
     return (
-      <PickerPopup
+      <InputPickerPopup
         ref={mergeRefs(overlay, speakerRef)}
         autoWidth={popupAutoWidth}
         className={classes}
         style={mergedPopupStyle}
         target={triggerRef}
         onKeyDown={onPickerKeyDown}
+        searchable={searchable}
+        searchKeyword={searchKeyword}
+        searchPlaceholder={locale?.searchPlaceholder}
+        searchInput={searchInput}
+        onSearch={handleSearch}
       >
         {renderListbox ? renderListbox(listbox) : listbox}
         {renderExtraFooter?.()}
-      </PickerPopup>
+      </InputPickerPopup>
     );
   };
 
@@ -701,7 +713,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       size={size}
       classPrefix={classPrefix}
       className={className}
-      responsive={searchable === false}
+      responsive={responsive ?? searchable === false}
       onClick={focus}
       onKeyDown={onPickerKeyDown}
       data-focus={open}

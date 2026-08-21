@@ -125,6 +125,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       popupAutoWidth = true,
       popupClassName,
       popupStyle,
+      responsive,
       searchable = true,
       style,
       toggleAs,
@@ -352,6 +353,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
         as={as}
         id={id}
         pickerType="select"
+        responsive={responsive}
         block={block}
         disabled={disabled}
         appearance={appearance}

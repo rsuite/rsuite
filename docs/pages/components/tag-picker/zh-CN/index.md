@@ -56,7 +56,7 @@
 
 ## 响应式
 
-在小屏幕设备上，选择列表将被转换为弹出式选择器。 为了不影响组件的搜索功能，只有在设置 `searchable={false}` 时，才会生效。
+默认仅在 `searchable={false}` 时，弹出层会在超小屏幕上转换为全宽 Drawer。设置 `responsive` 可强制启用支持搜索的 Drawer；设置 `responsive={false}` 则始终保持定位浮层。
 
 <!--{include:<example-responsive>}-->
 
@@ -126,6 +126,7 @@
 | renderOption       | (label: ReactNode, item: [Option][item]) => ReactNode                      | 自定义选项渲染函数             |
 | renderOptionGroup  | (groupTitle: ReactNode, item: [Option][item]) => ReactNode                 | 自定义选项组渲染函数           |
 | renderValue        | (value: string[], items: [Option][item][], tags: ReactNode[]) => ReactNode | 自定义选中项渲染函数           |
+| responsive         | boolean                                                                    | 控制响应式 Drawer；省略时默认为 `!searchable` |
 | searchable         | boolean `(true)`                                                           | 是否可以搜索                   |
 | searchBy           | (keyword: string, label: ReactNode, item: [Option][item]) => boolean       | 自定义搜索匹配函数             |
 | size               | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                      | 设置组件尺寸                   |

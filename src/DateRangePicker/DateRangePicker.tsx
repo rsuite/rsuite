@@ -305,6 +305,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       label,
       popupClassName,
       popupStyle,
+      responsive,
       oneTap,
       placeholder = '',
       placement = 'bottomStart',
@@ -1067,6 +1068,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       <PickerToggleTrigger
         as={as}
         pickerType="date-range"
+        responsive={responsive}
         classPrefix={classPrefix}
         className={merge(className, { [prefix('error')]: invalidValue })}
         block={block}

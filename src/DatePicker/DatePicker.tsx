@@ -284,6 +284,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
     label,
     popupClassName,
     popupStyle,
+    responsive,
     appearance = 'default',
     placement = 'bottomStart',
     oneTap,
@@ -675,6 +676,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
     <PickerToggleTrigger
       as={as}
       pickerType="date"
+      responsive={responsive}
       classPrefix={classPrefix}
       className={merge(className, { [prefix('error')]: invalidValue })}
       block={block}

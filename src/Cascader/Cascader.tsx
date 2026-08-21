@@ -100,6 +100,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
       placement = 'bottomStart',
       popupClassName,
       popupStyle,
+      responsive,
       renderColumn,
       renderExtraFooter,
       renderSearchItem,
@@ -425,6 +426,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
         as={as}
         id={id}
         pickerType="cascader"
+        responsive={responsive}
         block={block}
         disabled={disabled}
         appearance={appearance}

@@ -52,6 +52,8 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 
 ## Responsive
 
+On extra-small screens, the popup is displayed as a full-width Drawer by default. Set `responsive={false}` to keep a positioned popup, such as when the picker is already inside a Modal or Drawer.
+
 <!--{include:<example-responsive>}-->
 
 ## Accessibility
@@ -141,6 +143,7 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 | renderTreeIcon          | (item:[TreeNode][node], expanded: boolean) => ReactNode                                        | Custom render tree node icon                                |
 | renderTreeNode          | (item:[TreeNode][node]) => ReactNode                                                           | Custom render tree node                                     |
 | renderValue             | (values:string[], checkedItems:[TreeNode][node][],selectedElement: ReactNode) => ReactNode     | Custom render selected items                                |
+| responsive              | boolean `(true)`                                                                               | Whether to display the popup as a full-width Drawer on extra-small screens |
 | searchable              | boolean `(true)`                                                                               | Whether display search input box                            |
 | searchBy                | (keyword: string, label: ReactNode, item: [TreeNode][node]) => boolean                         | Custom search method                                        |
 | showIndentLine          | boolean                                                                                        | Whether to show the indent line                             |

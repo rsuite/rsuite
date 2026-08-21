@@ -135,6 +135,12 @@ export interface PickerBaseProps<L = any>
   /** Format picker to appear inside a content block */
   block?: boolean;
 
+  /**
+   * Controls whether the popup adapts to a full-width Drawer on extra-small screens.
+   * When omitted, each picker uses its existing default behavior.
+   */
+  responsive?: boolean;
+
   /** Set the padding of the container. */
   containerPadding?: number;
 

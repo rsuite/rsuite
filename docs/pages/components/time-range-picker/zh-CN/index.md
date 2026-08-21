@@ -48,7 +48,9 @@ TimePicker 是一个允许用户选择时间值的组件。
 
 <!--{include:`controlled.md`}-->
 
-### 响应式
+## 响应式
+
+在超小屏幕上，弹出层默认显示为全宽 Drawer。当选择器已经位于 Modal 或 Drawer 中时，可设置 `responsive={false}` 保持定位浮层，避免嵌套遮罩。
 
 <!--{include:<example-responsive>}-->
 
@@ -102,6 +104,7 @@ TimePicker 是一个允许用户选择时间值的组件。
 | placement       | [Placement](#code-ts-placement-code) `('bottomStart')` | 显示位置                                           |
 | preventOverflow | boolean                                                | 防止浮动元素溢出                                   |
 | renderValue     | (date: [Date, Date], format: string) => string         | 自定义渲染值                                       |
+| responsive      | boolean `(true)`                                       | 是否在超小屏幕上将弹出层显示为全宽 Drawer          |
 | showMeridiem    | boolean                                                | 显示 12 小时制的时间格式                           |
 | size            | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                  | 设置组件尺寸                                       |
 | value           | [Date, Date]                                           | 当前值（受控）                                     |

@@ -77,6 +77,8 @@
 
 ## 响应式
 
+在超小屏幕上，弹出层默认显示为全宽 Drawer。当选择器已经位于 Modal 或 Drawer 中时，可设置 `responsive={false}` 保持定位浮层，避免嵌套遮罩。
+
 <!--{include:<example-responsive>}-->
 
 ## 可访问性
@@ -144,6 +146,7 @@
 | renderOption       | (label: ReactNode, item: [Option][item]) => ReactNode                         | 自定义选项                                         |
 | renderOptionGroup  | (title: ReactNode, item: [Option][item]) => ReactNode                         | 自定义选项组                                       |
 | renderValue        | (value: [Value][value], item: [Option][item],selected:ReactNode) => ReactNode | 自定义渲染被选中的选项                             |
+| responsive         | boolean `(true)`                                                              | 是否在超小屏幕上将弹出层显示为全宽 Drawer          |
 | searchable         | boolean `(true)`                                                              | 可以搜索                                           |
 | searchBy           | (keyword: string, label: ReactNode, item: [Option][item]) => boolean          | 自定义搜索规则                                     |
 | size               | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                         | 设置组件尺寸                                       |

@@ -58,6 +58,8 @@
 
 ## 响应式
 
+在超小屏幕上，弹出层默认显示为全宽 Drawer。当选择器已经位于 Modal 或 Drawer 中时，可设置 `responsive={false}` 保持定位浮层，避免嵌套遮罩。
+
 <!--{include:<example-responsive>}-->
 
 ## 可访问性
@@ -128,6 +130,7 @@
 | renderExtraFooter     | () => ReactNode                                                                           | 自定义额外页脚的渲染方式。                     |
 | renderTreeNode        | (node: ReactNode, item: [Option][item]) => ReactNode                                      | 自定义树节点的渲染方式。                       |
 | renderValue           | (value: string, selectedItems: [Option][item][], selectedElement: ReactNode) => ReactNode | 自定义已选项的渲染方式。                       |
+| responsive            | boolean `(true)`                                                                          | 是否在超小屏幕上将弹出层显示为全宽 Drawer。    |
 | searchable            | boolean `(true)`                                                                          | 是否启用搜索功能。                             |
 | size                  | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                     | 设置选择器的大小。                             |
 | toggleAs              | ElementType `('a')`                                                                       | 使用自定义元素作为组件。                       |

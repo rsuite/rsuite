@@ -114,6 +114,8 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 
 ## 响应式
 
+在超小屏幕上，弹出层默认显示为全宽 Drawer。当选择器已经位于 Modal 或 Drawer 中时，可设置 `responsive={false}` 保持定位浮层，避免嵌套遮罩。
+
 <!--{include:<example-responsive>}-->
 
 ## 可访问性
@@ -189,6 +191,7 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 | ranges                | [Range[]](#code-ts-range-code)                         | 快捷项配置                                                            |             |
 | renderCell            | (date: Date) => ReactNode                              | 自定义渲染日历单元格                                                  | ![][5.54.0] |
 | renderValue           | (date: Date) => ReactNode                              | 自定义渲染值                                                          |             |
+| responsive            | boolean `(true)`                                       | 是否在超小屏幕上将弹出层显示为全宽 Drawer                             |             |
 | shouldDisableDate     | (date:Date) => boolean                                 | 禁用日期                                                              |             |
 | shouldDisableHour     | (hour:number, date:Date) => boolean                    | 禁用小时                                                              |             |
 | shouldDisableMinute   | (minute:number, date:Date) => boolean                  | 禁用分钟                                                              |             |
