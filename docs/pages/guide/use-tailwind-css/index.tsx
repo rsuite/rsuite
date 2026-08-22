@@ -1,10 +1,7 @@
 import React from 'react';
-import Page from '@/components/layout/Page';
+import { Button, ButtonToolbar, Panel, Text } from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
 
-const PageComponent = () => {
-  return <Page />;
-};
-
-PageComponent.displayName = 'TailwindCssGuidePage';
-
-export default PageComponent;
+export default function Page() {
+  return <DefaultPage dependencies={{ Button, ButtonToolbar, Panel, Text }} />;
+}

@@ -84,7 +84,11 @@ module.exports = {
         options: {
           sourceMap: true,
           postcssOptions: {
-            plugins: [require('autoprefixer'), require('postcss-merge-rules')]
+            plugins: [
+              require('@tailwindcss/postcss'),
+              require('autoprefixer'),
+              require('postcss-merge-rules')
+            ]
           }
         }
       }

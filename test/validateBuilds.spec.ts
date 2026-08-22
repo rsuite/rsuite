@@ -147,6 +147,58 @@ describe('Build Validation Tests', () => {
     expect(/\.rs-theme-dark/.test(css), 'Dark mode styles should be included').toBe(true);
   });
 
+  it('Should wrap all dist CSS files in @layer rsuite', () => {
+    const distCssFiles = [
+      'lib/dist/rsuite.css',
+      'lib/dist/rsuite.min.css',
+      'lib/dist/rsuite-no-reset.css',
+      'lib/dist/rsuite-no-reset.min.css'
+    ];
+
+    distCssFiles.forEach(file => {
+      const fullPath = path.join(projectRoot, file);
+      const css = fs.readFileSync(fullPath, 'utf-8');
+
+      expect(css, `${file} should contain @layer rsuite`).toMatch(/@layer\s+rsuite\s*\{/);
+      expect(css.trimEnd(), `${file} should end with closing brace`).toMatch(/\}\s*$/);
+    });
+  });
+
+  it('Should place @charset before @layer in CSS files', () => {
+    const filesWithCharset = ['lib/dist/rsuite.css', 'lib/dist/rsuite-no-reset.css'];
+
+    filesWithCharset.forEach(file => {
+      const fullPath = path.join(projectRoot, file);
+      const css = fs.readFileSync(fullPath, 'utf-8');
+
+      if (css.includes('@charset')) {
+        const charsetIndex = css.indexOf('@charset');
+        const layerIndex = css.indexOf('@layer rsuite');
+
+        expect(charsetIndex, `${file}: @charset must appear before @layer rsuite`).toBeLessThan(
+          layerIndex
+        );
+      }
+    });
+  });
+
+  it('Should wrap component CSS files in @layer rsuite', () => {
+    styledComponents.forEach(component => {
+      const cssPath = path.join(projectRoot, `lib/${component}/styles/index.css`);
+      if (fs.existsSync(cssPath)) {
+        const css = fs.readFileSync(cssPath, 'utf-8');
+
+        expect(css, `${component}/styles/index.css should contain @layer rsuite`).toMatch(
+          /@layer\s+rsuite\s*\{/
+        );
+        expect(
+          css.trimEnd(),
+          `${component}/styles/index.css should end with closing brace`
+        ).toMatch(/}\s*$/);
+      }
+    });
+  });
+
   it('Prepends the `use client` directive to components', () => {
     const libfiles = glob.sync('lib/{cjs,esm}/**/*.js', { cwd: projectRoot });
 
