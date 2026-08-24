@@ -42,6 +42,10 @@ interface DialogOptions {
   props?: any;
 }
 
+type AlertResult = void;
+type ConfirmResult = boolean;
+type PromptResult = string;
+
 const useDialogContainer = () => {
   const context = useContext(CustomContext);
 
@@ -97,13 +101,13 @@ export function useDialog() {
   }, [dialogContainerRef]);
 
   const createDialog = useCallback(
-    (content: React.ReactNode, options: DialogOptions) => {
+    <TResult,>(content: React.ReactNode, options: DialogOptions) => {
       const { type, title, okText, cancelText, severity, defaultValue, validate } = options;
 
-      return new Promise<any>(resolve => {
+      return new Promise<TResult>(resolve => {
         waitForContainer().then(container => {
           if (!canUseDOM || !container) {
-            resolve(undefined);
+            resolve(undefined as TResult);
             return;
           }
 
@@ -121,7 +125,7 @@ export function useDialog() {
               container.removeDialog(dialogKey);
             }
 
-            resolve(result);
+            resolve(result as TResult);
           };
 
           let dialogComponent: React.ReactNode;
@@ -153,33 +157,33 @@ export function useDialog() {
   );
 
   const alert = useCallback(
-    (message: React.ReactNode, options?: AlertOptions) => {
-      return createDialog(message, { ...options, type: 'alert' });
+    (message: React.ReactNode, options?: AlertOptions): Promise<AlertResult> => {
+      return createDialog<AlertResult>(message, { ...options, type: 'alert' });
     },
     [createDialog]
   );
 
   const confirm = useCallback(
-    (message: React.ReactNode, options?: ConfirmOptions) => {
-      return createDialog(message, { ...options, type: 'confirm' });
+    (message: React.ReactNode, options?: ConfirmOptions): Promise<ConfirmResult> => {
+      return createDialog<ConfirmResult>(message, { ...options, type: 'confirm' });
     },
     [createDialog]
   );
 
   const prompt = useCallback(
-    (message: React.ReactNode, options: PromptOptions = {}) => {
-      return createDialog(message, { ...options, type: 'prompt' });
+    (message: React.ReactNode, options: PromptOptions = {}): Promise<PromptResult> => {
+      return createDialog<PromptResult>(message, { ...options, type: 'prompt' });
     },
     [createDialog]
   );
 
   const open = useCallback(
-    <P extends object>(
-      as: React.ComponentType<P & { onClose: (result?: any) => void }>,
+    <P extends object, TResult = any>(
+      as: React.ComponentType<P & { onClose: (result?: TResult) => void }>,
       payload?: P,
-      options?: OpenOptions
-    ) => {
-      return createDialog(null, { ...options, as, type: 'custom', props: { payload } });
+      options?: OpenOptions<TResult>
+    ): Promise<TResult> => {
+      return createDialog<TResult>(null, { ...options, as, type: 'custom', props: { payload } });
     },
     [createDialog]
   );
