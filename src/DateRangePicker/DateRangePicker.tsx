@@ -767,6 +767,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
      */
     const handleInputChange = useEventCallback((value: [Date, Date] | null, event) => {
       if (!value) {
+        setDateRange(event, null, false);
         return;
       }
 
