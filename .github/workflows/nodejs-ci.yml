@@ -95,6 +95,13 @@ jobs:
         if: ${{ matrix.browser == 'chromium' }}
         run: npm run test:ssr
 
+      - name: Run native keyboard interactions
+        run: npm run test:component -- --browser.headless --no-file-parallelism
+        env:
+          CI: true
+          BROWSER: ${{ matrix.browser }}
+          F: 'src/**/test/*.keyboard.test.tsx'
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4.2.0
         with:
