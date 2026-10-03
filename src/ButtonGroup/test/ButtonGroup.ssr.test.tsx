@@ -25,9 +25,9 @@ describe('ButtonGroup server rendering with Badge', () => {
   });
 
   it.each([
-    { name: 'text', sibling: 'extra text', expected: '</button>extra text' },
-    { name: 'zero', sibling: 0, expected: '</button>0' },
-    { name: 'element', sibling: <span>Extra</span>, expected: '</button><span>Extra</span>' }
+    { name: 'text', sibling: 'extra text', expected: /<\/button>(?:<!-- -->)?extra text/ },
+    { name: 'zero', sibling: 0, expected: /<\/button>(?:<!-- -->)?0/ },
+    { name: 'element', sibling: <span>Extra</span>, expected: /<\/button><span>Extra<\/span>/ }
   ])(
     'preserves an additional $name sibling without enabling the badge layout',
     ({ sibling, expected }) => {
@@ -38,12 +38,12 @@ describe('ButtonGroup server rendering with Badge', () => {
             {sibling}
           </Badge>
         </ButtonGroup>
-      ).replace(/<!--[\s\S]*?-->/g, '');
+      );
 
       expect(html).not.toContain('data-button-group-item');
       expect(html).not.toContain('data-badge-layout');
       expect(html.match(/<button\b/g)).toHaveLength(1);
-      expect(html).toContain(expected);
+      expect(html).toMatch(expected);
     }
   );
 
