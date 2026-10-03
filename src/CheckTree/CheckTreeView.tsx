@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import isNil from 'lodash/isNil';
 import CheckTreeNode from './CheckTreeNode';
 import IndentLine from '../Tree/IndentLine';
@@ -7,10 +7,18 @@ import Box from '@/internals/Box';
 import useTreeSearch from '../Tree/hooks/useTreeSearch';
 import useFocusTree from '../Tree/hooks/useFocusTree';
 import useVirtualizedTreeData from '../Tree/hooks/useVirtualizedTreeData';
+import useVirtualTreeFocus from '../Tree/hooks/useVirtualTreeFocus';
 import useTreeCheckState from './hooks/useTreeCheckState';
 import useTreeNodeProps from './hooks/useTreeNodeProps';
-import { forwardRef } from '@/internals/utils';
-import { List, AutoSizer, ListChildComponentProps, defaultItemSize } from '@/internals/Windowing';
+import { forwardRef, mergeRefs } from '@/internals/utils';
+import VirtualizedTreeNode, { NodeRendererProvider } from '@/internals/Tree/VirtualizedTreeNode';
+import {
+  List,
+  AutoSizer,
+  ListChildComponentProps,
+  defaultItemSize,
+  type ListHandle
+} from '@/internals/Windowing';
 import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { getPathTowardsItem, getKeyParentMap } from '@/internals/Tree/utils';
 import { onMenuKeyDown } from '@/internals/Picker';
@@ -82,6 +90,8 @@ export interface CheckTreeViewProps<V = (string | number)[]>
 interface CheckTreeViewInnerProps<V = (string | number)[]>
   extends WithAsProps,
     Omit<CheckTreeViewProps<V>, 'onExpand'> {
+  /** Current owner data, before asynchronous tree-data synchronization. */
+  sourceData?: TreeNode[];
   /**
    * Loading node values.
    */
@@ -117,6 +127,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
     classPrefix = 'check-tree',
     cascade = true,
     data = [],
+    sourceData,
     disabledItemValues = [],
     expandItemValues = [],
     height = 360,
@@ -165,21 +176,53 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
     searchBy
   });
 
-  const { focusItemValue, setFocusItemValue, onTreeKeydown, saveTreeNodeRef } = useFocusTree({
-    filteredData,
-    disabledItemValues,
-    expandItemValues,
-    searchKeyword: keyword,
-    flattenedNodes,
-    onFocused: onFocusItem,
-    onExpand
-  });
-
   const transformation = useVirtualizedTreeData(flattenedNodes, filteredData, {
     cascade,
     expandItemValues,
     searchKeyword: keyword,
     disabledItemValues
+  });
+  const virtualizedNodes = virtualized ? transformation().filter(item => item.visible) : [];
+  const virtualizedListRef = useRef<ListHandle>(null);
+  const mergedListRef = useMemo(
+    () => mergeRefs(mergeRefs(virtualizedListRef, listRef), listProps?.ref),
+    [listRef, listProps?.ref]
+  );
+  const { focusNode, handleItemsRendered: notifyItemsRendered } = useVirtualTreeFocus({
+    nodes: virtualizedNodes,
+    sourceData,
+    valueKey,
+    childrenKey,
+    disabledItemValues,
+    listRef: virtualizedListRef,
+    getTree: () => treeViewRef.current,
+    getNode: refKey => treeNodesRefs[refKey],
+    onCancel: sourceKey => {
+      const source = virtualizedNodes.find(node => node.refKey === sourceKey);
+      setFocusItemValue(source?.[valueKey] ?? null);
+    }
+  });
+  const handleItemsRendered = props => {
+    notifyItemsRendered();
+    listProps?.onItemsRendered?.(props);
+  };
+
+  const {
+    focusItemValue,
+    setFocusItemValue,
+    onTreeKeydown,
+    saveTreeNodeRef,
+    treeNodesRefs,
+    treeViewRef
+  } = useFocusTree({
+    filteredData,
+    disabledItemValues,
+    expandItemValues,
+    searchKeyword: keyword,
+    flattenedNodes,
+    focusNode: virtualized ? focusNode : undefined,
+    onFocused: onFocusItem,
+    onExpand
   });
 
   /**
@@ -188,7 +231,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
    */
   const getFormattedNodes = (render?: any) => {
     if (virtualized) {
-      return transformation().filter(item => item.visible);
+      return virtualizedNodes;
     }
 
     return getFormattedTree(flattenedNodes, filteredData, {
@@ -236,6 +279,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
     const checkedValues = getCheckedValues(node, !currentNode.check);
     const path = getPathTowardsItem(node, item => itemParentMap.get(item[valueKey]));
 
+    if (virtualized) focusNode(node);
     setFocusItemValue(node[valueKey]);
 
     onChange?.(checkedValues, event);
@@ -328,7 +372,11 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
 
     return (
       visible && (
-        <CheckTreeNode style={style} ref={ref => saveTreeNodeRef(ref, refKey)} {...treeNodeProps} />
+        <CheckTreeNode
+          style={style}
+          treeItemRef={ref => saveTreeNodeRef(ref, refKey)}
+          {...treeNodeProps}
+        />
       )
     );
   };
@@ -368,6 +416,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
 
       <TreeView
         {...rest}
+        ref={treeViewRef}
         multiselectable
         treeRootClassName={treeNodesClass}
         className={prefix('view')}
@@ -376,26 +425,30 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
         height={height}
       >
         {virtualized ? (
-          <AutoSizer
-            defaultHeight={height}
-            style={{ width: 'auto', height: 'auto' }}
-            className={prefix('virt-auto-sizer')}
-          >
-            {({ height }) => (
-              <List
-                ref={listRef}
-                height={height}
-                itemSize={defaultItemSize}
-                itemCount={formattedNodes.length}
-                itemData={formattedNodes}
-                className={prefix('virt-list')}
-                scrollShadow={scrollShadow}
-                {...listProps}
-              >
-                {renderVirtualListNode}
-              </List>
-            )}
-          </AutoSizer>
+          <NodeRendererProvider value={renderVirtualListNode}>
+            <AutoSizer
+              defaultHeight={height}
+              style={{ width: 'auto', height: 'auto' }}
+              className={prefix('virt-auto-sizer')}
+            >
+              {({ height }) => (
+                <List
+                  height={height}
+                  itemSize={defaultItemSize}
+                  itemCount={formattedNodes.length}
+                  itemData={formattedNodes}
+                  itemKey={(index, nodes) => nodes[index].refKey}
+                  className={prefix('virt-list')}
+                  scrollShadow={scrollShadow}
+                  {...listProps}
+                  ref={mergedListRef}
+                  onItemsRendered={handleItemsRendered}
+                >
+                  {VirtualizedTreeNode}
+                </List>
+              )}
+            </AutoSizer>
+          </NodeRendererProvider>
         ) : (
           formattedNodes
         )}

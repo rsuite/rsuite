@@ -236,6 +236,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
         ref={treeView}
         value={value}
         data={treeData}
+        sourceData={data}
         disabledItemValues={disabledItemValues}
         expandItemValues={expandItemValues}
         showIndentLine={showIndentLine}

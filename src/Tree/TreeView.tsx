@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import isNil from 'lodash/isNil';
 import TreeViewNode from './TreeNode';
 import IndentLine from './IndentLine';
@@ -6,6 +6,7 @@ import useTreeSearch from './hooks/useTreeSearch';
 import useTreeDrag from './hooks/useTreeDrag';
 import useFocusTree from './hooks/useFocusTree';
 import useVirtualizedTreeData from './hooks/useVirtualizedTreeData';
+import useVirtualTreeFocus from './hooks/useVirtualTreeFocus';
 import useTreeNodeProps from './hooks/useTreeNodeProps';
 import SearchBox from '@/internals/SearchBox';
 import Box from '@/internals/Box';
@@ -16,7 +17,8 @@ import {
   defaultItemSize,
   type ListHandle
 } from '@/internals/Windowing';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, mergeRefs } from '@/internals/utils';
+import VirtualizedTreeNode, { NodeRendererProvider } from '@/internals/Tree/VirtualizedTreeNode';
 import { getPathTowardsItem, getKeyParentMap } from '@/internals/Tree/utils';
 import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { isExpand, hasVisibleChildren, getActiveItem } from './utils';
@@ -72,6 +74,8 @@ export type WithTreeDragProps<P> = P & TreeDragProps;
 interface TreeViewInnerProps<V = string | number | null>
   extends Omit<WithTreeDragProps<TreeViewProps<V>>, 'onExpand'>,
     WithAsPropsWithoutChildren {
+  /** Current owner data, before asynchronous tree-data synchronization. */
+  sourceData?: TreeNode[];
   /**
    * An array of values representing the loading nodes.
    */
@@ -106,6 +110,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
   const {
     as,
     data = [],
+    sourceData,
     style,
     showIndentLine,
     value: valueProp,
@@ -161,10 +166,34 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     expandItemValues,
     searchKeyword: keyword
   });
+  const virtualizedNodes = virtualized ? transformation().filter(n => n.visible) : [];
+  const virtualizedListRef = useRef<ListHandle>(null);
+  const mergedListRef = useMemo(
+    () => mergeRefs(mergeRefs(virtualizedListRef, listRef), listProps?.ref),
+    [listRef, listProps?.ref]
+  );
+  const { focusNode, handleItemsRendered: notifyItemsRendered } = useVirtualTreeFocus({
+    nodes: virtualizedNodes,
+    sourceData,
+    valueKey,
+    childrenKey,
+    disabledItemValues,
+    listRef: virtualizedListRef,
+    getTree: () => treeViewRef.current,
+    getNode: refKey => treeNodesRefs[refKey],
+    onCancel: sourceKey => {
+      const source = virtualizedNodes.find(node => node.refKey === sourceKey);
+      setFocusItemValue(source?.[valueKey] ?? null);
+    }
+  });
+  const handleItemsRendered = props => {
+    notifyItemsRendered();
+    listProps?.onItemsRendered?.(props);
+  };
 
   const getFormattedNodes = (render?: any) => {
     if (virtualized) {
-      return transformation().filter(n => n.visible);
+      return virtualizedNodes;
     }
     return filteredData.map((dataItem, index) => render?.(dataItem, index, 1)).filter(n => n);
   };
@@ -198,6 +227,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     expandItemValues,
     searchKeyword: keyword,
     flattenedNodes,
+    focusNode: virtualized ? focusNode : undefined,
     onFocused: onFocusItem,
     onExpand
   });
@@ -233,6 +263,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     const nextValue = nodeData[valueKey];
     const path = getPathTowardsItem(nodeData, item => itemParentMap.get(item[valueKey]));
 
+    if (virtualized) focusNode(nodeData);
     setFocusItemValue(nextValue);
     onSelect?.(nodeData, nextValue, event);
     onSelectItem?.(nodeData, path);
@@ -349,26 +380,30 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
         height={height}
       >
         {virtualized ? (
-          <AutoSizer
-            defaultHeight={height}
-            style={{ width: 'auto', height: 'auto' }}
-            className={prefix('virt-auto-sizer')}
-          >
-            {({ height }) => (
-              <List
-                ref={listRef}
-                height={height}
-                itemSize={defaultItemSize}
-                itemCount={formattedNodes.length}
-                itemData={formattedNodes}
-                className={prefix('virt-list')}
-                scrollShadow={scrollShadow}
-                {...listProps}
-              >
-                {renderVirtualListNode}
-              </List>
-            )}
-          </AutoSizer>
+          <NodeRendererProvider value={renderVirtualListNode}>
+            <AutoSizer
+              defaultHeight={height}
+              style={{ width: 'auto', height: 'auto' }}
+              className={prefix('virt-auto-sizer')}
+            >
+              {({ height }) => (
+                <List
+                  height={height}
+                  itemSize={defaultItemSize}
+                  itemCount={formattedNodes.length}
+                  itemData={formattedNodes}
+                  itemKey={(index, nodes) => nodes[index].refKey}
+                  className={prefix('virt-list')}
+                  scrollShadow={scrollShadow}
+                  {...listProps}
+                  ref={mergedListRef}
+                  onItemsRendered={handleItemsRendered}
+                >
+                  {VirtualizedTreeNode}
+                </List>
+              )}
+            </AutoSizer>
+          </NodeRendererProvider>
         ) : (
           formattedNodes
         )}
