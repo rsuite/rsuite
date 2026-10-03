@@ -222,6 +222,32 @@ describe('DateRangePicker', () => {
     expect(onClean).toHaveBeenCalledTimes(1);
   });
 
+  it('Should clear the value when the input text is removed with Backspace', () => {
+    const onChange = vi.fn();
+    render(
+      <DateRangePicker
+        format="yyyy-MM-dd"
+        defaultValue={[new Date('2023-10-01'), new Date('2023-10-02')]}
+        onChange={onChange}
+      />
+    );
+
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+
+    fireEvent.focus(input);
+    input.select();
+    fireEvent.keyDown(input, { key: 'Backspace' });
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange.mock.calls[0][0]).to.be.null;
+    expect(screen.queryByRole('button', { name: 'Clear' })).to.not.exist;
+
+    fireEvent.blur(input);
+    fireEvent.focus(input);
+
+    expect(input).to.have.value('yyyy-MM-dd ~ yyyy-MM-dd');
+  });
+
   it('Should call `onOpen` callback', async () => {
     const onOpen = vi.fn();
     render(<DateRangePicker onOpen={onOpen} />);
