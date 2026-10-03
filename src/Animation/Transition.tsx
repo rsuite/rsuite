@@ -1,12 +1,11 @@
 import React from 'react';
-import getTransitionEnd from 'dom-lib/getTransitionEnd';
 import on from 'dom-lib/on';
 import classNames from 'classnames';
 import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
 import { getDOMNode } from '@/internals/utils';
 import { AnimationEventProps } from '@/internals/types';
-import { getAnimationEnd } from './utils';
+import { getAnimationEnd, getTransitionEnd } from './utils';
 
 export enum STATUS {
   UNMOUNTED = 0,
