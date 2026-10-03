@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useEventCallback } from '@/internals/hooks';
+import { useEventCallback, useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { resizeBounds, resizePair, sameSizes, type PanelLimits } from './utils';
 
 export type SplitterResizeEvent =
@@ -162,7 +162,8 @@ export default function useSplitterResize(props: ResizeProps) {
     onResizeEnd?.(next.slice(), event);
   });
 
-  useEffect(() => {
+  // Observe committed sizes before a later pointer move advances the session.
+  useIsomorphicLayoutEffect(() => {
     const current = session.current;
     if (
       current &&

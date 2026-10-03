@@ -10,6 +10,7 @@ import { createServer, type ViteDevServer } from 'vite';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import SplitterHydrationFixture from './SplitterHydrationFixture';
+import SplitterResizeSchedulingFixture from './SplitterResizeSchedulingFixture';
 
 const browserName = process.env.SPLITTER_BROWSER || process.env.BROWSER || 'chromium';
 
@@ -45,10 +46,20 @@ describe('Splitter SSR and native interaction', () => {
       server: { host: '127.0.0.1', port: 0 }
     });
     server.middlewares.use(async (request, response, next) => {
-      if (request.url !== '/') return next();
+      const route = new URL(request.url!, 'http://localhost');
+      if (route.pathname !== '/' && route.pathname !== '/resize-scheduling') return next();
+      const scheduling = route.pathname === '/resize-scheduling';
+      const content = scheduling
+        ? renderToString(
+            <SplitterResizeSchedulingFixture
+              advanceDuringLayout={route.searchParams.has('advance')}
+            />
+          )
+        : markup;
+      const client = scheduling ? 'SplitterResizeScheduling' : 'SplitterHydration';
       const html = await server.transformIndexHtml(
         '/',
-        `<!doctype html><div id="root">${markup}</div><script type="module" src="/src/Splitter/test/SplitterHydration.client.tsx"></script>`
+        `<!doctype html><div id="root">${content}</div><script type="module" src="/src/Splitter/test/${client}.client.tsx"></script>`
       );
       response.setHeader('Content-Type', 'text/html');
       response.end(html);
@@ -159,6 +170,48 @@ describe('Splitter SSR and native interaction', () => {
         expect(records.length).toBeGreaterThan(0);
         expect(records.every(record => record.id === id && record.trusted)).toBe(true);
         expect(await page.locator(`#${id}`).getAttribute('data-resizing')).toBeNull();
+      } finally {
+        await page.close();
+      }
+    }
+  );
+
+  it.each([false, true])(
+    'keeps native capture and completion with a synthetic layout move: %s',
+    async advanceDuringLayout => {
+      const page = await browser.newPage();
+      try {
+        await page.goto(`${url}/resize-scheduling${advanceDuringLayout ? '?advance' : ''}`);
+        await page.waitForFunction(() => window.splitterHydrated);
+        const handle = page.getByRole('separator', { name: 'Scheduled resize' });
+        const box = (await handle.boundingBox())!;
+        const length = await page.locator('#scheduled').evaluate(root =>
+          Array.from(root.children)
+            .filter((_, index) => index % 2 === 0)
+            .reduce((sum, panel) => sum + panel.getBoundingClientRect().width, 0)
+        );
+        const startX = box.x + box.width / 2;
+        const startY = box.y + box.height / 2;
+        await page.mouse.move(startX, startY);
+        await page.mouse.down();
+        await page.mouse.move(startX + length / 10, startY, { steps: 3 });
+        const captured = await handle.evaluate(element =>
+          element.hasPointerCapture(window.splitterSchedulingRecords[0].pointerId)
+        );
+        expect(captured).toBe(true);
+        expect(await page.locator('#scheduled').getAttribute('data-resizing')).toBe('true');
+        await page.mouse.up();
+        const records = await page.evaluate(() => window.splitterSchedulingRecords);
+        const ends = records.filter(record => record.phase === 'end');
+        const moves = records.filter(record => record.phase === 'move');
+        expect(records[0]).toMatchObject({ phase: 'start', type: 'pointerdown', trusted: true });
+        expect(moves.some(record => record.trusted)).toBe(true);
+        expect(moves.filter(record => !record.trusted)).toHaveLength(advanceDuringLayout ? 1 : 0);
+        expect(ends).toHaveLength(1);
+        expect(ends[0]).toMatchObject({ type: 'pointerup', trusted: true });
+        expect(ends[0].sizes[0]).toBeCloseTo(50, 0);
+        expect(Number(await handle.getAttribute('aria-valuenow'))).toBeCloseTo(ends[0].sizes[0], 8);
+        expect(await page.locator('#scheduled').getAttribute('data-resizing')).toBeNull();
       } finally {
         await page.close();
       }
