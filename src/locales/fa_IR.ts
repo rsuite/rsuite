@@ -1,4 +1,4 @@
-import { faIR } from 'date-fns/locale/fa-IR';
+import { faIR } from 'date-fns-jalali/locale';
 
 const DateTimeFormats = {
   sunday: 'ی',
@@ -15,11 +15,12 @@ const DateTimeFormats = {
   hours: 'ساعت',
   minutes: 'دقیقه',
   seconds: 'ثانیه',
-  formattedMonthPattern: 'MMM, yyyy',
-  formattedDayPattern: 'MMM dd, yyyy',
+  formattedMonthPattern: 'MMMM yyyy',
+  formattedDayPattern: 'dd MMMM yyyy',
   shortDateFormat: 'yyyy/MM/dd',
-  shortTimeFormat: 'hh:mm aa',
-  dateLocale: faIR as any
+  shortTimeFormat: 'HH:mm',
+  dateLocale: faIR as any,
+  calendarSystem: 'jalali' as const
 };
 
 const Combobox = {

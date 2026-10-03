@@ -5,6 +5,7 @@ import { useCalendar } from '../hooks';
 import type { WithAsProps } from '@/internals/types';
 import type { PlainYearMonth } from '@/internals/utils/date/types';
 import { useGetAriaLabelForMonth } from '../utils/getAriaLabel';
+import { jalaliYearMonthToGregorianDate } from '@/internals/utils/date/jalali';
 
 export interface MonthDropdownItemProps extends WithAsProps {
   yearMonth: PlainYearMonth;
@@ -62,10 +63,20 @@ MonthDropdownItem.displayName = 'MonthDropdownItem';
 export default MonthDropdownItem;
 
 function useFormatMonth(): (month: PlainYearMonth) => string {
-  const { formatDate } = useCustom('Calendar');
+  const { locale: overrideLocale } = useCalendar();
+  const { formatDate, getLocale } = useCustom('Calendar');
+  const locale = getLocale('Calendar', overrideLocale);
+  const isJalali = locale?.calendarSystem === 'jalali';
 
   return useCallback(
-    (month: PlainYearMonth) => formatDate(new Date(month.year, month.month - 1, 1), 'MMM'),
-    [formatDate]
+    (month: PlainYearMonth) => {
+      // For Jalali: month.year and month.month are Jalali coordinates.
+      // Convert to a Gregorian date, then format with the Jalali locale.
+      const date = isJalali
+        ? jalaliYearMonthToGregorianDate(month)
+        : new Date(month.year, month.month - 1, 1);
+      return formatDate(date, 'MMM');
+    },
+    [formatDate, isJalali]
   );
 }

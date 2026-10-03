@@ -57,4 +57,26 @@ describe('internals/utils/date/getWeekStartDates', () => {
 
     expect(weeks).to.deep.equal(dates);
   });
+
+  describe('Jalali calendar system', () => {
+    it('Should return Gregorian week start dates for a Jalali month (Saturday start)', () => {
+      // Jalali 1402/07 (Mehr) starts on Sep 23, 2023 (Saturday)
+      const weeks = getWeekStartDates(
+        { year: 1402, month: 7 },
+        { calendarSystem: 'jalali', weekStart: 6 }
+      );
+
+      expect(weeks[0]).to.deep.equal({ year: 2023, month: 9, day: 23 });
+      expect(weeks).to.have.length(6);
+    });
+
+    it('Should default to Saturday as week start for Jalali calendar', () => {
+      const weeks = getWeekStartDates({ year: 1402, month: 7 }, { calendarSystem: 'jalali' });
+      const weeksWithSat = getWeekStartDates(
+        { year: 1402, month: 7 },
+        { calendarSystem: 'jalali', weekStart: 6 }
+      );
+      expect(weeks).to.deep.equal(weeksWithSat);
+    });
+  });
 });

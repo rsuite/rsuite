@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { addMonths } from '@/internals/utils/date';
+import { addJalaliMonths } from '@/internals/utils/date/jalali';
 import { useEventCallback } from '@/internals/hooks';
 
 export enum CalendarState {
@@ -10,6 +11,7 @@ export enum CalendarState {
 export interface CalendarStateProps {
   defaultState?: CalendarState;
   calendarDate: Date;
+  calendarSystem?: 'gregorian' | 'jalali';
   onMoveForward?: (date: Date) => void;
   onMoveBackward?: (date: Date) => void;
   onToggleTimeDropdown?: (toggle: boolean) => void;
@@ -30,11 +32,19 @@ export const useCalendarState = (props: CalendarStateProps) => {
   });
 
   const onMoveForward = useEventCallback(() => {
-    props.onMoveForward?.(addMonths(props.calendarDate, 1));
+    const nextDate =
+      props.calendarSystem === 'jalali'
+        ? addJalaliMonths(props.calendarDate, 1)
+        : addMonths(props.calendarDate, 1);
+    props.onMoveForward?.(nextDate);
   });
 
   const onMoveBackward = useEventCallback(() => {
-    props.onMoveBackward?.(addMonths(props.calendarDate, -1));
+    const nextDate =
+      props.calendarSystem === 'jalali'
+        ? addJalaliMonths(props.calendarDate, -1)
+        : addMonths(props.calendarDate, -1);
+    props.onMoveBackward?.(nextDate);
   });
 
   const onToggleTimeDropdown = useEventCallback(() => {
