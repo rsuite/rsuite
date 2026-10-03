@@ -1,5 +1,7 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import ButtonGroupContext from './ButtonGroupContext';
+import isBadgeButton, { canJustifyBadgeButtons } from './isBadgeButton';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
@@ -38,6 +40,7 @@ export interface ButtonGroupProps extends BoxProps {
  */
 const ButtonGroup = forwardRef<'div', ButtonGroupProps>((props: ButtonGroupProps, ref) => {
   const { propsWithDefaults } = useCustom('ButtonGroup', props);
+  const { components } = useContext(CustomContext);
   const {
     as,
     classPrefix = 'btn-group',
@@ -55,7 +58,12 @@ const ButtonGroup = forwardRef<'div', ButtonGroupProps>((props: ButtonGroupProps
 
   const { withPrefix, merge } = useStyles(classPrefix);
   const classes = merge(className, withPrefix());
-  const contextValue = useMemo(() => ({ size, disabled }), [disabled, size]);
+  const contextValue = useMemo(() => ({ size, disabled, isBadgeButton }), [disabled, size]);
+  const badgeLayout =
+    justified &&
+    !vertical &&
+    (as === undefined || typeof as === 'string') &&
+    canJustifyBadgeButtons(children, components);
 
   return (
     <ButtonGroupContext.Provider value={contextValue}>
@@ -70,6 +78,7 @@ const ButtonGroup = forwardRef<'div', ButtonGroupProps>((props: ButtonGroupProps
         data-vertical={vertical}
         data-justified={justified}
         data-divided={divided}
+        data-badge-layout={badgeLayout || undefined}
       >
         {children}
       </Box>

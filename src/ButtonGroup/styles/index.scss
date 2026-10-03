@@ -1,12 +1,12 @@
 @use '../../internals/Box/styles/index' as box;
 @use '../../styles/mixins/utilities' as utils;
 
-// Badge may wrap multiple children; only a single direct button is a group item.
-$single-badge-button: '.rs-btn:nth-child(1 of .rs-btn):nth-last-child(1 of .rs-btn)';
-$badge-button-wrapper: '.rs-badge-wrapper:has(> #{$single-badge-button})';
+// React also checks text nodes and custom components before marking a wrapper.
+$single-badge-button: '.rs-btn:first-child:nth-last-child(2)';
+$badge-button-wrapper: '.rs-badge-wrapper[data-button-group-item="true"]:has(> #{$single-badge-button})';
 $badge-ghost-wrapper: '#{$badge-button-wrapper}:has(> .rs-btn[data-appearance="ghost"])';
 $unsupported-group-items: (
-  '> :not(.rs-btn, .rs-badge-wrapper)',
+  '> :not(.rs-btn, .rs-badge-wrapper[data-button-group-item="true"])',
   '> .rs-badge-wrapper > :not(.rs-btn, .rs-badge-content)',
   '> .rs-badge-wrapper > .rs-btn ~ .rs-btn',
   '> .rs-badge-wrapper > :first-child:not(.rs-btn)'
@@ -183,9 +183,9 @@ $unsupported-group-items: (
   }
 
   // Grid gives buttons and their unpadded Badge wrappers equal outer widths.
-  &:not([data-vertical='true']):has(> .rs-badge-wrapper > #{$single-badge-button}):not(
-      :has(#{$unsupported-group-items})
-    ) {
+  &[data-badge-layout='true']:not([data-vertical='true']):has(
+      > .rs-badge-wrapper[data-button-group-item='true'] > #{$single-badge-button}
+    ):not(:has(#{$unsupported-group-items})) {
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: minmax(0, 1fr);
