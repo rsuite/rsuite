@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "paths": {
+      "@/internals/*": ["src/internals/*"],
+      "@/*": ["src/*"],
+      "rsuite-benchmark/SelectPicker": ["src/SelectPicker"]
+    }
+  },
+  "include": ["./*.ts", "./*.tsx"]
+}
