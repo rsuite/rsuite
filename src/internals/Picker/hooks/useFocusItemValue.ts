@@ -8,10 +8,12 @@ import { shallowEqual } from '@/internals/utils';
 import { findNodeOfTree } from '../../Tree/utils';
 import { onMenuKeyDown } from '../utils';
 import findItemByValue from '../findItemByValue';
+import type { ListboxHandle } from '../Listbox';
 
 interface FocusItemValueProps<T = unknown> {
   target: HTMLElement | null | (() => HTMLElement | null);
   data?: T[];
+  virtualizedList?: React.RefObject<ListboxHandle | null>;
   /**
    *  When the down arrow key is pressed, whether to automatically focus on the option
    */
@@ -39,6 +41,7 @@ const useFocusItemValue = <T, D>(
     defaultLayer = 0,
     focusToOption = true,
     data,
+    virtualizedList,
     target,
     rtl,
     callback,
@@ -52,6 +55,11 @@ const useFocusItemValue = <T, D>(
 
   const focusCallback = useEventCallback((value: any, event: React.KeyboardEvent) => {
     if (focusToOption) {
+      if (virtualizedList?.current) {
+        virtualizedList.current.focusItem(value);
+        callback?.(value, event);
+        return;
+      }
       const menu = isFunction(target) ? target() : target;
       const focusElement = findItemByValue(menu, value);
       focusElement?.focus();
@@ -78,6 +86,9 @@ const useFocusItemValue = <T, D>(
    * Get the elements visible in all options.
    */
   const getFocusableMenuItems = () => {
+    if (virtualizedList?.current) {
+      return virtualizedList.current.getFocusableItems();
+    }
     if (!target) {
       return [];
     }
@@ -122,6 +133,7 @@ const useFocusItemValue = <T, D>(
 
   const scrollListItem = useEventCallback(
     (direction: 'top' | 'bottom', itemValue: string, willOverflow: boolean) => {
+      if (virtualizedList?.current) return;
       const container = getScrollContainer() as HTMLElement;
       const item = findItemByValue(container, itemValue);
 
