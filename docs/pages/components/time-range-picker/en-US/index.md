@@ -50,7 +50,9 @@ The TimeRangePicker component is used to select a time range.
 
 ## Responsive
 
-On extra-small screens, the popup is displayed as a full-width Drawer by default. Set `responsive={false}` to keep a positioned popup, such as when the picker is already inside a Modal or Drawer.
+By default, the popup becomes a full-width Drawer on screens narrower than 576px (`responsive={true}`). Set `responsive={false}` to keep a positioned popup, such as when the picker is already inside a Modal or Drawer.
+
+To change when the Drawer appears, set `responsive` to a breakpoint condition such as `"mdDown"` (below 992px), or a CSS media query such as `"(max-width: 1279px)"`. The popup uses a Drawer while the query matches and a positioned popup otherwise.
 
 <!--{include:<example-responsive>}-->
 
@@ -105,7 +107,7 @@ Has all ARIA properties of the DateRangeInput component by default.
 | preventOverflow | boolean                                                | Prevent floating element overflow                                                   |             |
 | ranges          | [Range[]](#code-ts-range-code) ([])                    | Set predefined date ranges the user can select from.                                |             |
 | renderValue     | (date: [Date, Date], format: string) => string         | Custom render value                                                                 |             |
-| responsive      | boolean `(true)`                                       | Whether to display the popup as a full-width Drawer on extra-small screens          |             |
+| responsive      | boolean \| string `(true)`                             | Drawer breakpoint or media query; `true` uses screens below 576px                   |             |
 | showHeader      | boolean `(true)`                                       | Whether to display the formatted date range at the header of the calendar           | ![][5.52.0] |
 | showMeridiem    | boolean                                                | Display hours in 12 format                                                          |             |
 | size            | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                  | A picker can have different sizes                                                   |             |

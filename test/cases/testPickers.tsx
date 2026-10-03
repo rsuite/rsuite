@@ -142,6 +142,65 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
 
         expect(document.querySelector('.rs-drawer')).not.to.exist;
       });
+
+      it('Should use a named breakpoint for the responsive Drawer', () => {
+        resizeWindow(800);
+        render(<TestComponent data={data} open responsive="mdDown" />);
+
+        expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.exist;
+        expect(screen.getByTestId('picker')).not.to.have.attr('responsive');
+
+        act(() => resizeWindow(992));
+
+        expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.be.null;
+      });
+
+      it('Should use a custom media query for the responsive Drawer', () => {
+        resizeWindow(1279);
+        render(<TestComponent data={data} open responsive="(max-width: 1279px)" />);
+
+        expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.exist;
+
+        act(() => resizeWindow(1280));
+
+        expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.be.null;
+      });
+
+      it('Should update the responsive query and support disabling it', () => {
+        resizeWindow(800);
+        const { rerender } = render(<TestComponent data={data} open responsive={false} />);
+
+        expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.be.null;
+
+        ['mdDown', 'xsOnly', '(max-width: 1279px)', false].forEach(responsive => {
+          rerender(<TestComponent data={data} open responsive={responsive} />);
+
+          const drawer = screen.getByTestId('picker-popup').closest('.rs-drawer');
+
+          if (responsive === 'mdDown' || responsive === '(max-width: 1279px)') {
+            expect(drawer).to.exist;
+          } else {
+            expect(drawer).to.be.null;
+          }
+        });
+      });
+
+      it('Should support a responsive query from CustomProvider', () => {
+        resizeWindow(800);
+        render(
+          <CustomProvider
+            components={{
+              [displayName as string]: {
+                defaultProps: { responsive: '(max-width: 1279px)' }
+              }
+            }}
+          >
+            <TestComponent data={data} open />
+          </CustomProvider>
+        );
+
+        expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.exist;
+      });
     });
 
     it('Should render a picker', () => {

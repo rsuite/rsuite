@@ -10,7 +10,7 @@ import OverlayTrigger, {
 import { useUniqueId } from '@/internals/hooks';
 import { useStyles } from '@/internals/hooks';
 import { useBreakpointValue } from '../../useBreakpointValue';
-import type { Placement, Size, AnimationEventProps } from '@/internals/types';
+import type { Placement, Size, AnimationEventProps, PickerBaseProps } from '@/internals/types';
 
 export interface PickerToggleTriggerProps
   /**
@@ -62,8 +62,8 @@ export interface PickerToggleTriggerProps
   /** Size of the component */
   size?: Size;
 
-  /** Whether the component should be responsive */
-  responsive?: boolean;
+  /** Controls when the popup adapts to a full-width Drawer */
+  responsive?: PickerBaseProps['responsive'];
 
   /** Handler for keydown events */
   onKeyDown?: (event: React.KeyboardEvent) => void;
@@ -132,7 +132,8 @@ export const PickerToggleTrigger = React.forwardRef(
     } = props;
     const pickerTriggerProps = pick(triggerProps, triggerPropKeys);
     const pickerId = useUniqueId('rs-', id);
-    const breakpoint = useBreakpointValue({ xsOnly: 'xs' }, { enabled: responsive });
+    const responsiveQuery = typeof responsive === 'string' ? responsive : 'xsOnly';
+    const breakpoint = useBreakpointValue({ [responsiveQuery]: 'xs' }, { enabled: !!responsive });
     // Only use the breakpoint value if not disabled
     const effectiveBreakpoint = disabled ? undefined : breakpoint;
 

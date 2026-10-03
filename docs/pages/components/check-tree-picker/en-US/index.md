@@ -52,7 +52,9 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 
 ## Responsive
 
-On extra-small screens, the popup is displayed as a full-width Drawer by default. Set `responsive={false}` to keep a positioned popup, such as when the picker is already inside a Modal or Drawer.
+By default, the popup becomes a full-width Drawer on screens narrower than 576px (`responsive={true}`). Set `responsive={false}` to keep a positioned popup, such as when the picker is already inside a Modal or Drawer.
+
+To change when the Drawer appears, set `responsive` to a breakpoint condition such as `"mdDown"` (below 992px), or a CSS media query such as `"(max-width: 1279px)"`. The popup uses a Drawer while the query matches and a positioned popup otherwise.
 
 <!--{include:<example-responsive>}-->
 
@@ -143,7 +145,7 @@ On extra-small screens, the popup is displayed as a full-width Drawer by default
 | renderTreeIcon          | (item:[TreeNode][node], expanded: boolean) => ReactNode                                        | Custom render tree node icon                                |
 | renderTreeNode          | (item:[TreeNode][node]) => ReactNode                                                           | Custom render tree node                                     |
 | renderValue             | (values:string[], checkedItems:[TreeNode][node][],selectedElement: ReactNode) => ReactNode     | Custom render selected items                                |
-| responsive              | boolean `(true)`                                                                               | Whether to display the popup as a full-width Drawer on extra-small screens |
+| responsive              | boolean \| string `(true)`                                                                     | Drawer breakpoint or media query; `true` uses screens below 576px          |
 | searchable              | boolean `(true)`                                                                               | Whether display search input box                            |
 | searchBy                | (keyword: string, label: ReactNode, item: [TreeNode][node]) => boolean                         | Custom search method                                        |
 | showIndentLine          | boolean                                                                                        | Whether to show the indent line                             |
