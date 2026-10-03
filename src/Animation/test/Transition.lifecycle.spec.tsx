@@ -146,7 +146,7 @@ describe('Transition lifecycle', () => {
     expect(vi.getTimerCount()).toBe(0);
   });
 
-  it('releases the listener and fallback timer after a native completion', () => {
+  it('releases the listener and fallback timer after a completion event', () => {
     const entered = vi.fn();
     const { container } = render(
       <Transition in transitionAppear timeout={100} onEntered={entered}>
