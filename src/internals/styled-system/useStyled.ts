@@ -118,7 +118,7 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
       // Skip responsive values that don't have xs values
       if (
         responsiveVars[varName] &&
-        !(responsiveVars[varName] as ResponsiveValue<string | number>).xs
+        (responsiveVars[varName] as ResponsiveValue<string | number>).xs === undefined
       )
         return;
 
@@ -141,6 +141,7 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
 
     // Add the base rule to the style manager
     StyleManager.addRule(`.${componentId}`, baseCssRules, { nonce: csp?.nonce });
+    const ruleKeys = [`.${componentId}`];
 
     // Process responsive variables
     if (!isEmpty(responsiveVars)) {
@@ -181,7 +182,7 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
             // Check if the property has a corresponding CSS property mapping
             const cssProperty = cssSystemPropAlias[propName];
             if (cssProperty) {
-              breakpointPropRules[bp] += `${cssProperty}: var(${varName}); `;
+              breakpointPropRules[bp] += `${cssProperty.property}: var(${varName}); `;
             } else if (isSupportedCSSProperty(propName)) {
               breakpointPropRules[bp] += `${propName}: var(${varName}); `;
             }
@@ -205,25 +206,19 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
         if (rules && breakpoint !== 'xs') {
           const bp = breakpoint as Breakpoints;
           const minWidth = breakpointValues[bp];
+          const key = `${componentId}-${breakpoint}`;
           StyleManager.addRule(
             `@media (min-width: ${minWidth}px)`,
             `.${componentId} { ${rules} }`,
-            { nonce: csp?.nonce }
+            { nonce: csp?.nonce, key }
           );
+          ruleKeys.push(key);
         }
       });
     }
 
     return () => {
-      // Clean up rules when component unmounts
-      StyleManager.removeRule(`.${componentId}`);
-
-      // Clean up media query rules
-      Object.keys(breakpointValues).forEach(breakpoint => {
-        const bp = breakpoint as Breakpoints;
-        const minWidth = breakpointValues[bp];
-        StyleManager.removeRule(`@media (min-width: ${minWidth}px)`);
-      });
+      ruleKeys.forEach(key => StyleManager.removeRule(key));
     };
   }, [componentId, cssVars, shouldApplyStyles]);
 
