@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
+import useCustomConfig from '@/internals/hooks/useCustomConfig';
 import Box, { BaseBoxProps } from '@/internals/Box';
-import { useCustom } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 
 export interface SafeAnchorProps extends BaseBoxProps, React.HTMLAttributes<HTMLElement> {
@@ -20,7 +20,7 @@ function isTrivialHref(href: string | undefined) {
  * @private
  */
 const SafeAnchor = forwardRef<'a', SafeAnchorProps>((props, ref) => {
-  const { propsWithDefaults } = useCustom('SafeAnchor', props);
+  const { propsWithDefaults } = useCustomConfig('SafeAnchor', props);
   const { as = 'a', href, disabled, onClick, ...restProps } = propsWithDefaults;
   const handleClick = useCallback(
     event => {
