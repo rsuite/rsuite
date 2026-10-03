@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect, useImperativeHandle, useMemo } from 'react';
 import isUndefined from 'lodash/isUndefined';
+import isNil from 'lodash/isNil';
 import isString from 'lodash/isString';
 import isNumber from 'lodash/isNumber';
 import findIndex from 'lodash/findIndex';
@@ -44,7 +45,7 @@ interface InnerOption extends Option {
 
 export interface ListboxHandle {
   getFocusableItems: () => InnerOption[];
-  focusItem: (value: any) => void;
+  focusItem: (value: any, options?: { focus?: boolean }) => void;
 }
 
 /**
@@ -63,6 +64,8 @@ export interface ListboxProps<Multiple = false>
   activeItemValues?: any[];
   focusItemValue?: any;
   maxHeight?: number;
+  /** Content shown inside an empty listbox. */
+  emptyContent?: React.ReactNode;
 
   listItemAs: React.ElementType | string;
   listItemClassPrefix?: string;
@@ -78,6 +81,9 @@ export interface ListboxProps<Multiple = false>
   listRef?: React.Ref<ListHandle>;
   /** Internal keyboard navigation for virtualized options. */
   keyboardNavigationRef?: React.Ref<ListboxHandle>;
+
+  /** Reports the mounted logical focus target for an editable combobox. */
+  onActiveDescendantChange?: (id: string | undefined) => void;
 
   /**
    * Query string for filtering.
@@ -130,6 +136,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       data = [],
       groupBy,
       maxHeight = 320,
+      emptyContent,
       activeItemValues = [],
       disabledItemValues = [],
       classPrefix = 'listbox',
@@ -139,6 +146,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       listProps,
       listRef: virtualizedListRef,
       keyboardNavigationRef,
+      onActiveDescendantChange,
       className,
       style,
       focusItemValue,
@@ -170,8 +178,14 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       () => mergeRefs(mergeRefs(listRef, virtualizedListRef), listProps?.ref),
       [virtualizedListRef, listProps?.ref]
     );
-    const pendingFocus = useRef<{ value: any; sourceElement: Element | null } | null>(null);
+    const pendingFocus = useRef<{
+      value: any;
+      sourceElement: Element | null;
+      focus: boolean;
+      scrolled: boolean;
+    } | null>(null);
     const [focusRequest, setFocusRequest] = useState<{ value: any } | null>(null);
+    const reportedDescendant = useRef<{ id: string | undefined } | undefined>(undefined);
 
     const [foldedGroupKeys, setFoldedGroupKeys] = useState<string[]>([]);
 
@@ -267,11 +281,12 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
     const focusPendingItem = useEventCallback(() => {
       const request = pendingFocus.current;
       if (!request || !hasPendingFocus()) return;
+      if (!request.focus && !request.scrolled) return;
 
       const item = findItemByValue(menuBodyContainerRef.current, request.value);
 
       if (item) {
-        item.focus();
+        if (request.focus) item.focus();
         if (pendingFocus.current === request) {
           pendingFocus.current = null;
         }
@@ -285,13 +300,15 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
             !item[RSUITE_PICKER_GROUP_KEY] &&
             !disabledItemValues.some(value => shallowEqual(value, item[valueKey]))
         ),
-      focusItem: value => {
+      focusItem: (value, options) => {
         const index = filteredItems.findIndex(item => shallowEqual(item[valueKey], value));
         if (index < 0) return;
 
         pendingFocus.current = {
           value,
-          sourceElement: menuBodyContainerRef.current?.ownerDocument.activeElement ?? null
+          sourceElement: menuBodyContainerRef.current?.ownerDocument.activeElement ?? null,
+          focus: options?.focus !== false,
+          scrolled: false
         };
         setFocusRequest({ value });
       }
@@ -310,13 +327,35 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       }
 
       listRef.current?.scrollToItem?.(index);
+      if (pendingFocus.current) pendingFocus.current.scrolled = true;
       focusPendingItem();
     }, [focusRequest]);
 
     useIsomorphicLayoutEffect(focusPendingItem);
 
+    const reportActiveDescendant = useEventCallback(() => {
+      if (!onActiveDescendantChange) return;
+
+      const item = isNil(focusItemValue)
+        ? undefined
+        : findItemByValue(menuBodyContainerRef.current, focusItemValue);
+      const id = item?.getAttribute('aria-disabled') !== 'true' ? item?.id || undefined : undefined;
+      if (!reportedDescendant.current || reportedDescendant.current.id !== id) {
+        reportedDescendant.current = { id };
+        onActiveDescendantChange(id);
+      }
+    });
+
+    useIsomorphicLayoutEffect(reportActiveDescendant);
+    const clearActiveDescendant = useEventCallback(() => {
+      reportedDescendant.current = undefined;
+      onActiveDescendantChange?.(undefined);
+    });
+    useIsomorphicLayoutEffect(() => clearActiveDescendant, [clearActiveDescendant]);
+
     const handleItemsRendered = useEventCallback(props => {
       focusPendingItem();
+      reportActiveDescendant();
       listProps?.onItemsRendered?.(props);
     });
 
@@ -407,7 +446,9 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
         style={styles}
         {...rest}
       >
-        {virtualized ? (
+        {rowCount === 0 ? (
+          emptyContent
+        ) : virtualized ? (
           <ItemRendererProvider value={renderItem}>
             <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>
               {({ height }) => (

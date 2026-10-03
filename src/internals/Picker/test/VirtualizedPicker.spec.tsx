@@ -10,13 +10,15 @@ import {
 } from './VirtualizedPickerTestSupport';
 
 function press(key: string) {
-  fireEvent.keyDown(menu().getByRole('listbox'), { key });
+  const combobox = screen.getByRole('combobox');
+  fireEvent.keyDown(combobox.tagName === 'INPUT' ? combobox : menu().getByRole('listbox'), { key });
 }
 
 async function expectFocus(value: number) {
   await waitFor(() => {
     const option = menu().getByRole('option', { name: `Option ${value}` });
-    expect(option).to.have.focus;
+    const combobox = screen.getByRole('combobox');
+    expect(combobox.tagName === 'INPUT' ? combobox : option).to.have.focus;
     expect(screen.getByRole('combobox')).to.have.attribute('aria-activedescendant', option.id);
   });
 }
@@ -56,7 +58,7 @@ describe.each(pickerCases)('$name virtualized keyboard collection', testCase => 
     });
     press('ArrowDown');
     await expectFocus(999);
-    const search = testCase.editable ? screen.getByRole('textbox') : screen.getByRole('searchbox');
+    const search = testCase.editable ? screen.getByRole('combobox') : screen.getByRole('searchbox');
     fireEvent.change(search, { target: { value: 'last' } });
     press('ArrowUp');
     await expectFocus(991);

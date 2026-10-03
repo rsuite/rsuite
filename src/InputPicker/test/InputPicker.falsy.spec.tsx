@@ -28,7 +28,7 @@ describe.each([
           onCreate={onCreate}
         />
       );
-      const input = screen.getByRole('textbox');
+      const input = screen.getByRole('combobox');
       fireEvent.change(input, { target: { value: 'Existing' } });
       fireEvent.keyDown(input, { key: 'Enter' });
 
@@ -36,7 +36,10 @@ describe.each([
       expect(onChange).toHaveBeenCalledExactlyOnceWith(selectedValue, expect.anything());
       expect(onSelect).toHaveBeenCalledExactlyOnceWith(selectedValue, item, expect.anything());
       expect(onCreate).not.toHaveBeenCalled();
-      expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
+      expect(screen.getByTestId('picker').querySelector('.rs-picker-toggle')).to.have.attr(
+        'data-has-value',
+        'true'
+      );
     }
   );
 
@@ -56,7 +59,7 @@ describe.each([
           onSelect={onSelect}
         />
       );
-      fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
       expect(onChange).not.toHaveBeenCalled();
       expect(onSelect).not.toHaveBeenCalled();
     }
@@ -75,7 +78,7 @@ describe.each([
         onCreate={onCreate}
       />
     );
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('combobox');
     fireEvent.change(input, { target: { value: 'New option' } });
     fireEvent.change(input, { target: { value: '' } });
     fireEvent.keyDown(input, { key: 'Enter' });

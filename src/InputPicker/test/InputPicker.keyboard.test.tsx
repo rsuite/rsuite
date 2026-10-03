@@ -29,10 +29,14 @@ describe.each([
       );
       await act(async () => {
         // Focus only once; Enter follows the option's actual native focus.
-        screen.getByRole('textbox').focus();
+        screen.getByRole('combobox').focus();
         await userEvent.keyboard('{ArrowDown}');
       });
-      expect(screen.getByRole('option', { name: 'Falsy option' })).to.have.focus;
+      expect(screen.getByRole('combobox')).to.have.focus;
+      expect(screen.getByRole('combobox')).to.have.attr(
+        'aria-activedescendant',
+        screen.getByRole('option', { name: 'Falsy option' }).id
+      );
       await act(async () => {
         await userEvent.keyboard('{Enter}');
       });
@@ -40,7 +44,10 @@ describe.each([
       expect(onChange).toHaveBeenCalledExactlyOnceWith(selectedValue, expect.anything());
       expect(onSelect).toHaveBeenCalledExactlyOnceWith(selectedValue, item, expect.anything());
       expect(onSelect.mock.calls[0][2].nativeEvent.isTrusted).to.be.true;
-      expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
+      expect(screen.getByTestId('picker').querySelector('.rs-picker-toggle')).to.have.attr(
+        'data-has-value',
+        'true'
+      );
 
       if (multi) {
         expect(screen.getByText('Falsy option', { selector: '.rs-tag-text' })).to.exist;

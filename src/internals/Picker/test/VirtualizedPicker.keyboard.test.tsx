@@ -11,7 +11,10 @@ import {
 
 async function expectFocus(value: number) {
   await waitFor(() => {
-    expect(menu().getByRole('option', { name: `Option ${value}` })).to.have.focus;
+    const option = menu().getByRole('option', { name: `Option ${value}` });
+    const combobox = screen.getByRole('combobox');
+    expect(combobox.tagName === 'INPUT' ? combobox : option).to.have.focus;
+    expect(combobox).to.have.attr('aria-activedescendant', option.id);
   });
 }
 
@@ -20,7 +23,7 @@ describe.each(pickerCases)('$name virtualized native keyboard', testCase => {
   it('keeps focus through consecutive arrows beyond the mounted rows and selects the intended item', async () => {
     const { onChange } = mountPicker(testCase);
     await act(async () => {
-      initialTarget(testCase).focus();
+      if (!testCase.editable) initialTarget().focus();
       await userEvent.keyboard('{ArrowDown}');
     });
     await expectFocus(1);
@@ -75,7 +78,7 @@ describe.each(pickerCases)('$name virtualized native keyboard', testCase => {
       disabledItemValues: Array.from({ length: 12 }, (_, index) => index + 1)
     });
     await act(async () => {
-      initialTarget(testCase).focus();
+      if (!testCase.editable) initialTarget().focus();
       await userEvent.keyboard('{ArrowDown}');
     });
     await expectFocus(13);

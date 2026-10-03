@@ -9,6 +9,9 @@ interface InputPickerPopupProps extends PickerPopupProps {
   searchPlaceholder?: string;
   searchInput?: React.RefObject<HTMLInputElement | null>;
   onSearch?: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
+  inputProps?: React.ComponentProps<typeof SearchBox>['inputProps'];
+  active?: boolean;
+  activeDescendant?: string;
 }
 
 const InputPickerPopup = React.forwardRef<HTMLDivElement, InputPickerPopupProps>((props, ref) => {
@@ -19,9 +22,12 @@ const InputPickerPopup = React.forwardRef<HTMLDivElement, InputPickerPopupProps>
     searchPlaceholder,
     searchInput,
     onSearch,
+    inputProps,
+    active,
+    activeDescendant,
     ...popupProps
   } = props;
-  const { breakpoint } = useCombobox();
+  const { id, labelId, breakpoint, inputCombobox } = useCombobox();
   const showSearchBox = searchable && breakpoint === 'xs';
 
   useEffect(() => {
@@ -40,6 +46,22 @@ const InputPickerPopup = React.forwardRef<HTMLDivElement, InputPickerPopupProps>
     <PickerPopup ref={ref} {...popupProps}>
       {showSearchBox && (
         <SearchBox
+          inputProps={
+            inputCombobox
+              ? {
+                  role: 'combobox',
+                  id: `${id}-search`,
+                  'aria-haspopup': 'listbox',
+                  'aria-expanded': !!active,
+                  'aria-controls': active ? `${id}-listbox` : undefined,
+                  'aria-autocomplete': 'list',
+                  'aria-labelledby': labelId,
+                  'aria-label': labelId ? undefined : searchPlaceholder,
+                  'aria-activedescendant': active ? activeDescendant : undefined,
+                  ...inputProps
+                }
+              : undefined
+          }
           placeholder={searchPlaceholder}
           value={searchKeyword}
           inputRef={searchInput}

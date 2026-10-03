@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import remove from 'lodash/remove';
@@ -25,7 +25,8 @@ import {
   tplTransform,
   mergeRefs,
   isOneOf,
-  mergeStyles
+  mergeStyles,
+  partitionHTMLProps
 } from '@/internals/utils';
 import {
   Listbox,
@@ -163,7 +164,48 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   const keyboardNavigationRef = useRef<ListboxHandle>(null);
   const { prefix, merge } = useStyles(classPrefix);
   const [open, setOpen] = useControlled(controlledOpen, defaultOpen);
-  const { inputRef, inputProps, focus, blur } = useInput({ multi, triggerRef });
+  const { inputRef, inputProps, getInput, focus } = useInput({ multi, triggerRef });
+  const [activeDescendant, setActiveDescendant] = useState<string>();
+  const preventOpenOnFocus = useRef(false);
+  const restoreAfterExit = useRef(false);
+  const closingPopup = useRef<HTMLElement | null>(null);
+  const restoreFrame = useRef<number | null>(null);
+  const [inputAriaProps, rootProps] = partitionHTMLProps(rest, { htmlProps: [] }) as [
+    React.AriaAttributes & { role?: React.AriaRole },
+    typeof rest
+  ];
+
+  const focusInputOrToggle = useEventCallback((preventOpen = false) => {
+    preventOpenOnFocus.current = preventOpen;
+    try {
+      (getInput() || target.current)?.focus?.();
+    } finally {
+      preventOpenOnFocus.current = false;
+    }
+  });
+
+  const cancelRestoreFocus = useEventCallback(() => {
+    if (restoreFrame.current !== null) cancelAnimationFrame(restoreFrame.current);
+    restoreFrame.current = null;
+  });
+
+  useEffect(() => cancelRestoreFocus, [cancelRestoreFocus]);
+
+  const ownsFocus = useEventCallback((source?: EventTarget | null) => {
+    const ownerDocument = target.current?.ownerDocument;
+    if (!ownerDocument) return false;
+    const active = ownerDocument.activeElement;
+    const sourceElement = source as Element | null | undefined;
+    return (
+      !!active &&
+      ((root.current || triggerRef.current?.root)?.contains(active) ||
+        overlay.current?.contains(active) ||
+        closingPopup.current?.contains(active) ||
+        (active === ownerDocument.body &&
+          sourceElement?.ownerDocument === ownerDocument &&
+          !sourceElement?.isConnected))
+    );
+  });
 
   const handleDataChange = (data: Option[]) => {
     setFocusItemValue(data?.[0]?.[valueKey]);
@@ -182,16 +224,24 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
 
   const cloneValue = () => (multi ? clone(value) || [] : value);
 
-  const handleClose = useEventCallback(() => {
-    triggerRef?.current?.close();
+  const handleClose = useEventCallback((source: EventTarget | null) => {
+    cancelRestoreFocus();
+    const restore = ownsFocus(source);
+    const popup = overlay.current?.closest<HTMLElement>('[role="dialog"]') || overlay.current;
+    restoreAfterExit.current = restore && !!popup?.contains(source as Node);
+    closingPopup.current = popup;
+    triggerRef.current?.close();
+    if (restore) focusInputOrToggle(true);
+  });
 
-    // The focus is on the trigger button after closing
-    target.current?.focus?.();
+  const handleCleanFocus = useEventCallback((event: React.MouseEvent) => {
+    if (ownsFocus(event.target)) focusInputOrToggle();
   });
 
   const focusItemValueOptions = {
     data: dataWithCache,
     valueKey,
+    focusToOption: !searchable,
     virtualizedList: virtualized ? keyboardNavigationRef : undefined,
     target: () => overlay.current
   };
@@ -308,7 +358,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       resetSearch();
       handleSelect(value, item, event);
       handleChange(value, event);
-      handleClose();
+      handleClose(event.target);
     }
   );
 
@@ -415,7 +465,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       handleSelect(focusItemValue, focusItem, event);
     }
     handleChange(focusItemValue, event);
-    handleClose();
+    handleClose(event.target);
   });
 
   /**
@@ -461,7 +511,17 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
 
   const events = {
     onMenuPressBackspace: multi ? removeLastItem : handleClean,
-    onMenuKeyDown: onKeyDown,
+    onMenuKeyDown: (event: React.KeyboardEvent) => {
+      if (
+        searchable &&
+        (event.target as HTMLElement).tagName === 'INPUT' &&
+        (event.nativeEvent.isComposing ||
+          event.key === KEY_VALUES.HOME ||
+          event.key === KEY_VALUES.END)
+      )
+        return;
+      onKeyDown(event);
+    },
     onMenuPressEnter: undefined as React.ReactEventHandler | undefined,
     onKeyDown: undefined as React.ReactEventHandler | undefined
   };
@@ -498,6 +558,8 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     overlay,
     searchInput,
     loading,
+    readOnly,
+    disabled,
     ...events,
     ...rest
   });
@@ -505,14 +567,38 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   const handleExited = useEventCallback(() => {
     setFocusItemValue(multi ? value?.[0] : value);
     resetSearch();
-
-    if (typeof requestAnimationFrame !== 'undefined') {
-      requestAnimationFrame(() => target.current?.focus?.());
+    cancelRestoreFocus();
+    const popup = closingPopup.current;
+    const restore = restoreAfterExit.current;
+    restoreAfterExit.current = false;
+    closingPopup.current = null;
+    if (restore && typeof requestAnimationFrame !== 'undefined') {
+      restoreFrame.current = requestAnimationFrame(() => {
+        restoreFrame.current = null;
+        const ownerDocument = target.current?.ownerDocument;
+        const active = ownerDocument?.activeElement;
+        // Tab or a later pointer interaction may already own focus.
+        if (
+          ownerDocument &&
+          (active === ownerDocument.body ||
+            active === target.current ||
+            (active && popup?.contains(active)))
+        ) {
+          focusInputOrToggle(true);
+        }
+      });
     }
   });
 
+  const prepareOpen = useEventCallback(() => {
+    cancelRestoreFocus();
+    restoreAfterExit.current = false;
+    closingPopup.current = null;
+  });
+
   const handleFocus = useEventCallback((event: React.FocusEvent) => {
-    if (!readOnly) {
+    if (!readOnly && !preventOpenOnFocus.current) {
+      prepareOpen();
       setOpen(true);
       triggerRef.current?.open();
     }
@@ -520,12 +606,18 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   });
 
   const handleEnter = useEventCallback(() => {
+    prepareOpen();
     focus();
     setOpen(true);
   });
 
   const handleExit = useEventCallback(() => {
-    blur();
+    cancelRestoreFocus();
+    const active = overlay.current?.ownerDocument.activeElement;
+    closingPopup.current =
+      overlay.current?.closest<HTMLElement>('[role="dialog"]') || overlay.current;
+    restoreAfterExit.current =
+      restoreAfterExit.current || (!!active && !!closingPopup.current?.contains(active));
     setOpen(false);
   });
 
@@ -623,11 +715,12 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       return <PickerPopup ref={mergeRefs(overlay, speakerRef)} />;
     }
 
-    const listbox = items.length ? (
+    const listbox = (
       <Listbox
         listProps={listProps}
         listRef={list}
         keyboardNavigationRef={virtualized ? keyboardNavigationRef : undefined}
+        onActiveDescendantChange={searchable ? setActiveDescendant : undefined}
         disabledItemValues={disabledItemValues}
         valueKey={valueKey}
         labelKey={labelKey}
@@ -639,6 +732,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         focusItemValue={focusItemValue}
         maxHeight={listboxMaxHeight}
         data={items}
+        emptyContent={<div className={prefix`none`}>{locale?.noResultsText}</div>}
         query={searchKeyword}
         groupBy={groupBy}
         onSelect={multi ? handleCheckTag : handleSelectItem}
@@ -646,8 +740,6 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         renderOption={renderListItem}
         virtualized={virtualized}
       />
-    ) : (
-      <div className={prefix`none`}>{locale?.noResultsText}</div>
     );
 
     return (
@@ -662,6 +754,9 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         searchKeyword={searchKeyword}
         searchPlaceholder={locale?.searchPlaceholder}
         searchInput={searchInput}
+        active={open}
+        activeDescendant={activeDescendant}
+        inputProps={inputAriaProps}
         onSearch={handleSearch}
       >
         {renderListbox ? renderListbox(listbox) : listbox}
@@ -731,13 +826,17 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       classPrefix={classPrefix}
       className={className}
       responsive={responsive ?? searchable === false}
+      inputCombobox={editable && !disabledOptions}
+      ariaLabel={inputAriaProps['aria-label']}
+      ariaLabelledby={inputAriaProps['aria-labelledby']}
       onClick={focus}
       onKeyDown={onPickerKeyDown}
       data-focus={open}
       data-disabled-options={disabledOptions}
-      {...rest}
+      {...rootProps}
     >
       <PickerToggle
+        inputAriaProps={inputAriaProps}
         loading={loading}
         label={label}
         appearance={appearance}
@@ -748,6 +847,10 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         caretAs={caretAs}
         tabIndex={tabIndex}
         onClean={handleClean}
+        onCleanFocus={handleCleanFocus}
+        onFocus={event => {
+          if (event.target === event.currentTarget) focus();
+        }}
         cleanable={cleanable && !disabled}
         hasValue={hasValue}
         active={open}
@@ -764,7 +867,12 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         showTagList={multi}
         inputRef={inputRef}
         inputValue={open ? searchKeyword : ''}
-        inputProps={inputProps}
+        inputProps={{ ...inputProps, ...inputAriaProps }}
+        active={open}
+        activeDescendant={activeDescendant}
+        ariaLabel={typeof placeholderNode === 'string' ? placeholderNode : locale?.placeholder}
+        hasDescription={!!(!searching && !(multi && hasValue) && (itemNode || placeholderNode))}
+        tabIndex={tabIndex}
         tags={tagElements}
         editable={editable}
         readOnly={readOnly}

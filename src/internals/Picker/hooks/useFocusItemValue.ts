@@ -54,12 +54,12 @@ const useFocusItemValue = <T, D>(
   const [keys, setKeys] = useState<any[]>([]);
 
   const focusCallback = useEventCallback((value: any, event: React.KeyboardEvent) => {
+    if (virtualizedList?.current) {
+      virtualizedList.current.focusItem(value, { focus: focusToOption });
+      callback?.(value, event);
+      return;
+    }
     if (focusToOption) {
-      if (virtualizedList?.current) {
-        virtualizedList.current.focusItem(value);
-        callback?.(value, event);
-        return;
-      }
       const menu = isFunction(target) ? target() : target;
       const focusElement = findItemByValue(menu, value);
       focusElement?.focus();
