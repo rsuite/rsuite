@@ -58,7 +58,7 @@
     "url": "git@github.com:rsuite/rsuite.git"
   },
   "dependencies": {
-    "@babel/runtime": "^7.26.0",
+    "@babel/runtime": "^7.26.10",
     "@juggle/resize-observer": "^3.4.0",
     "@rsuite/icons": "^1.4.0",
     "@types/lodash": "^4.17.15",
@@ -66,7 +66,7 @@
     "classnames": "^2.3.1",
     "date-fns": "^4.1.0",
     "dom-lib": "^3.3.1",
-    "lodash": "^4.17.21",
+    "lodash": "^4.18.1",
     "react-textarea-autosize": "^8.5.9",
     "react-use-set": "^1.0.0",
     "react-window": "^1.8.11",
