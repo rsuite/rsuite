@@ -7,6 +7,7 @@ import { useEventCallback } from '@/internals/hooks';
 import { shallowEqual } from '@/internals/utils';
 import { findNodeOfTree } from '../../Tree/utils';
 import { onMenuKeyDown } from '../utils';
+import findItemByValue from '../findItemByValue';
 
 interface FocusItemValueProps<T = unknown> {
   target: HTMLElement | null | (() => HTMLElement | null);
@@ -52,7 +53,7 @@ const useFocusItemValue = <T, D>(
   const focusCallback = useEventCallback((value: any, event: React.KeyboardEvent) => {
     if (focusToOption) {
       const menu = isFunction(target) ? target() : target;
-      const focusElement = menu?.querySelector(`[data-key="${value}"]`) as HTMLElement;
+      const focusElement = findItemByValue(menu, value);
       focusElement?.focus();
     }
 
@@ -122,7 +123,7 @@ const useFocusItemValue = <T, D>(
   const scrollListItem = useEventCallback(
     (direction: 'top' | 'bottom', itemValue: string, willOverflow: boolean) => {
       const container = getScrollContainer() as HTMLElement;
-      const item = container?.querySelector<HTMLElement>(`[data-key="${itemValue}"]`);
+      const item = findItemByValue(container, itemValue);
 
       if (willOverflow && container) {
         const { scrollHeight, clientHeight } = container;
