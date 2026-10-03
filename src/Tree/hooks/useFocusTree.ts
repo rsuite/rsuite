@@ -72,7 +72,7 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
       focusedValue = focusPreviousItem(focusProps);
     }
 
-    if (focusedValue) {
+    if (!isNil(focusedValue)) {
       setFocusItemValue(focusedValue);
       onFocused?.(focusedValue);
     }
@@ -123,7 +123,7 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
     const focusProps = getFocusProps();
     const focusedValue = focusFirstItem(focusProps);
 
-    if (focusedValue) {
+    if (!isNil(focusedValue)) {
       setFocusItemValue(focusedValue);
       onFocused?.(focusedValue);
     }
@@ -133,7 +133,7 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
     const focusProps = getFocusProps();
     const focusedValue = focusLastItem(focusProps);
 
-    if (focusedValue) {
+    if (!isNil(focusedValue)) {
       setFocusItemValue(focusedValue);
       onFocused?.(focusedValue);
     }
