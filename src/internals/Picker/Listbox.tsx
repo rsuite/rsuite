@@ -170,7 +170,8 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       () => mergeRefs(mergeRefs(listRef, virtualizedListRef), listProps?.ref),
       [virtualizedListRef, listProps?.ref]
     );
-    const pendingFocus = useRef<{ value: any } | null>(null);
+    const pendingFocus = useRef<{ value: any; sourceElement: Element | null } | null>(null);
+    const [focusRequest, setFocusRequest] = useState<{ value: any } | null>(null);
 
     const [foldedGroupKeys, setFoldedGroupKeys] = useState<string[]>([]);
 
@@ -244,14 +245,36 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       : data;
     const rowCount = filteredItems.length;
 
-    const focusPendingItem = useEventCallback(() => {
-      if (!pendingFocus.current) return;
+    const hasPendingFocus = useEventCallback(() => {
+      if (!pendingFocus.current) return false;
 
-      const item = findItemByValue(menuBodyContainerRef.current, pendingFocus.current.value);
+      const ownerDocument = menuBodyContainerRef.current?.ownerDocument;
+      const { sourceElement } = pendingFocus.current;
+      // A later interaction owns focus; only an unmounted virtual row may leave it on body.
+      if (
+        !ownerDocument ||
+        (sourceElement && sourceElement.ownerDocument !== ownerDocument) ||
+        (ownerDocument.activeElement !== sourceElement &&
+          (sourceElement?.isConnected || ownerDocument.activeElement !== ownerDocument.body))
+      ) {
+        pendingFocus.current = null;
+        return false;
+      }
+
+      return true;
+    });
+
+    const focusPendingItem = useEventCallback(() => {
+      const request = pendingFocus.current;
+      if (!request || !hasPendingFocus()) return;
+
+      const item = findItemByValue(menuBodyContainerRef.current, request.value);
 
       if (item) {
         item.focus();
-        pendingFocus.current = null;
+        if (pendingFocus.current === request) {
+          pendingFocus.current = null;
+        }
       }
     });
 
@@ -266,11 +289,29 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
         const index = filteredItems.findIndex(item => shallowEqual(item[valueKey], value));
         if (index < 0) return;
 
-        pendingFocus.current = { value };
-        listRef.current?.scrollToItem?.(index);
-        focusPendingItem();
+        pendingFocus.current = {
+          value,
+          sourceElement: menuBodyContainerRef.current?.ownerDocument.activeElement ?? null
+        };
+        setFocusRequest({ value });
       }
     }));
+
+    useIsomorphicLayoutEffect(() => {
+      if (!focusRequest || !hasPendingFocus()) return;
+
+      // Apply the latest keyboard scroll after queued native scroll updates have committed.
+      const index = filteredItems.findIndex(item =>
+        shallowEqual(item[valueKey], focusRequest.value)
+      );
+      if (index < 0) {
+        pendingFocus.current = null;
+        return;
+      }
+
+      listRef.current?.scrollToItem?.(index);
+      focusPendingItem();
+    }, [focusRequest]);
 
     useIsomorphicLayoutEffect(focusPendingItem);
 

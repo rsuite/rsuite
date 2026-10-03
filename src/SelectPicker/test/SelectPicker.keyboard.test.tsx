@@ -1,8 +1,9 @@
 import React from 'react';
 import SelectPicker from '../SelectPicker';
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@vitest/browser/context';
 import { expect, it, vi } from 'vitest';
+import type { PickerHandle } from '@/internals/Picker/types';
 import '../styles/index.scss';
 
 // This native keyboard integration runs in the serial *.keyboard.test.tsx CI step.
@@ -30,6 +31,15 @@ it('Should retain focus across consecutive native Arrow keys and select beyond t
   expect(screen.getByRole('option', { name: 'Option 1' })).to.have.focus;
 
   await act(async () => {
+    await userEvent.keyboard('{ArrowUp}');
+  });
+  await waitFor(() => expect(screen.getByRole('option', { name: 'Option 1000' })).to.have.focus);
+  await act(async () => {
+    await userEvent.keyboard('{ArrowDown}');
+  });
+  await waitFor(() => expect(screen.getByRole('option', { name: 'Option 1' })).to.have.focus);
+
+  await act(async () => {
     await userEvent.keyboard('{ArrowDown}');
   });
   expect(screen.getByRole('option', { name: 'Option 2' })).to.have.focus;
@@ -46,4 +56,130 @@ it('Should retain focus across consecutive native Arrow keys and select beyond t
   });
   expect(onChange).toHaveBeenCalledExactlyOnceWith(20, expect.anything());
   expect(screen.getByRole('combobox')).to.have.focus;
+});
+
+it('Should focus an offscreen selected option when it is the only enabled value', async () => {
+  const ref = React.createRef<PickerHandle>();
+  const onSelect = vi.fn();
+  render(
+    <SelectPicker
+      ref={ref}
+      defaultOpen
+      defaultValue={500}
+      virtualized
+      searchable={false}
+      data={Array.from({ length: 1000 }, (_, index) => ({
+        label: `Option ${index + 1}`,
+        value: index + 1
+      }))}
+      disabledItemValues={Array.from({ length: 1000 }, (_, index) => index + 1).filter(
+        value => value !== 500
+      )}
+      listboxMaxHeight={180}
+      listProps={{ itemSize: 36, overscanCount: 0 }}
+      onSelect={onSelect}
+    />
+  );
+  act(() => ref.current?.list?.scrollToItem?.(0));
+  await waitFor(() => expect(screen.getByRole('option', { name: 'Option 1' })).to.exist);
+
+  await act(async () => {
+    screen.getByRole('combobox').focus();
+    await userEvent.keyboard('{ArrowDown}');
+  });
+  await waitFor(() => expect(screen.getByRole('option', { name: 'Option 500' })).to.have.focus);
+  await act(async () => {
+    await userEvent.keyboard('{ArrowUp}{Enter}');
+  });
+  expect(onSelect).toHaveBeenCalledExactlyOnceWith(
+    500,
+    expect.objectContaining({ value: 500 }),
+    expect.anything()
+  );
+  expect(onSelect.mock.calls[0][2].nativeEvent.isTrusted).to.be.true;
+  await waitFor(() => expect(screen.getByRole('combobox')).to.have.focus);
+});
+
+it('Should cancel a queued keyboard request when an event handler focuses another control', async () => {
+  const buttonRef = React.createRef<HTMLButtonElement>();
+  render(
+    <div onKeyDown={() => buttonRef.current?.focus()}>
+      <SelectPicker
+        open
+        defaultValue={1}
+        virtualized
+        searchable={false}
+        data={Array.from({ length: 1000 }, (_, index) => ({
+          label: `Option ${index + 1}`,
+          value: index + 1
+        }))}
+        disabledItemValues={Array.from({ length: 1000 }, (_, index) => index + 1).filter(
+          value => value !== 1 && value !== 500
+        )}
+        listboxMaxHeight={180}
+        listProps={{ itemSize: 36, overscanCount: 0 }}
+      />
+      <button ref={buttonRef}>Next control</button>
+    </div>
+  );
+  await act(async () => {
+    screen.getByRole('option', { name: 'Option 1' }).focus();
+    await userEvent.keyboard('{ArrowDown}');
+  });
+  expect(screen.getByRole('button', { name: 'Next control' })).to.have.focus;
+  expect(screen.getByRole('option', { name: 'Option 1' })).to.exist;
+  expect(screen.queryByRole('option', { name: 'Option 500' })).to.be.null;
+  expect(document.querySelector('.rs-virt-list')?.scrollTop).to.equal(0);
+});
+
+it('Should discard a queued request when its option is removed before the commit', async () => {
+  const onSelect = vi.fn();
+  const data = Array.from({ length: 1000 }, (_, index) => ({
+    label: `Option ${index + 1}`,
+    value: index + 1
+  }));
+  function Fixture() {
+    const [items, setItems] = React.useState(data);
+    return (
+      <div
+        onKeyDown={event => {
+          if (event.key === 'ArrowUp') setItems(data.slice(0, 20));
+        }}
+      >
+        <SelectPicker
+          defaultOpen
+          defaultValue={1}
+          virtualized
+          searchable={false}
+          data={items}
+          listboxMaxHeight={180}
+          listProps={{ itemSize: 36, overscanCount: 0 }}
+          onSelect={onSelect}
+        />
+      </div>
+    );
+  }
+  render(<Fixture />);
+  await act(async () => {
+    screen.getByRole('option', { name: 'Option 1' }).focus();
+    await userEvent.keyboard('{ArrowUp}');
+  });
+  expect(screen.getByRole('option', { name: 'Option 1' })).to.have.focus;
+  expect(screen.getByRole('option', { name: 'Option 1' })).to.have.attribute('aria-setsize', '20');
+  expect(document.querySelector('.rs-virt-list')?.scrollTop).to.equal(0);
+  expect(screen.queryByRole('option', { name: 'Option 1000' })).to.be.null;
+
+  await act(async () => {
+    await userEvent.keyboard('{ArrowDown}');
+  });
+  await waitFor(() => expect(screen.getByRole('option', { name: 'Option 1' })).to.have.focus);
+  await act(async () => {
+    await userEvent.keyboard('{Enter}');
+  });
+  expect(onSelect).toHaveBeenCalledExactlyOnceWith(
+    1,
+    expect.objectContaining({ value: 1 }),
+    expect.anything()
+  );
+  expect(onSelect.mock.calls[0][2].nativeEvent.isTrusted).to.be.true;
 });
