@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { renderToString } from 'react-dom/server';
-import { chromium, type Browser } from 'playwright';
+import { chromium, firefox, type Browser } from 'playwright';
 import react from '@vitejs/plugin-react';
 import { createServer, type ViteDevServer } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
@@ -60,7 +60,14 @@ describe('Carousel SSR hydration', () => {
     await server.listen();
     const address = server.httpServer?.address() as AddressInfo;
     serverUrl = `http://127.0.0.1:${address.port}`;
-    browser = await chromium.launch({ headless: true });
+    const browserType = process.env.BROWSER === 'firefox' ? firefox : chromium;
+    browser = await browserType.launch({ headless: true });
+    console.info('Carousel SSR hydration browser', {
+      name: browser.browserType().name(),
+      version: browser.version(),
+      reactVersion: React.version
+    });
+    expect(browser.browserType().name()).toBe(process.env.BROWSER || 'chromium');
   });
 
   afterAll(async () => {

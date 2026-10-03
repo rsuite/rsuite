@@ -6,6 +6,7 @@ export interface HydrationResult {
   errors: string[];
   initialMarkup: string;
   hydratedMarkup: string;
+  reactVersion: string;
 }
 
 declare global {
@@ -40,7 +41,8 @@ requestAnimationFrame(() => {
     window.__RSUITE_HYDRATION_RESULT__ = {
       errors,
       initialMarkup,
-      hydratedMarkup: container.innerHTML
+      hydratedMarkup: container.innerHTML,
+      reactVersion: React.version
     };
   });
 });
