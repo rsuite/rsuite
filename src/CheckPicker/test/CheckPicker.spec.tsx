@@ -333,6 +333,26 @@ describe('CheckPicker', () => {
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
+  it.each([0, ''])('Should check and uncheck option value %j by keyboard', value => {
+    const onChange = vi.fn();
+    const onSelect = vi.fn();
+    const item = { label: 'Option', value };
+
+    render(<CheckPicker defaultOpen data={[item]} onChange={onChange} onSelect={onSelect} />);
+
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+
+    expect(onSelect).toHaveBeenCalledWith([value], item, expect.any(Object));
+    expect(onChange).toHaveBeenCalledWith([value], expect.any(Object));
+    expect(screen.getByRole('combobox')).to.have.attr('aria-expanded', 'true');
+
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+
+    expect(onSelect).toHaveBeenLastCalledWith([], item, expect.any(Object));
+    expect(onChange).toHaveBeenLastCalledWith([], expect.any(Object));
+  });
+
   it('Should call `onSelect` by key=Enter ', async () => {
     const onSelect = vi.fn();
     render(<CheckPicker defaultOpen data={data} onSelect={onSelect} defaultValue={['Kariane']} />);

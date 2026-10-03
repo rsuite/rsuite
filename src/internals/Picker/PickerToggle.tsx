@@ -117,7 +117,9 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
       aria-controls={id ? `${id}-${popupType}` : undefined}
       aria-labelledby={labelId}
       aria-describedby={id ? `${id}-describe` : undefined}
-      aria-activedescendant={active && focusItemValue ? `${id}-opt-${focusItemValue}` : undefined}
+      aria-activedescendant={
+        active && focusItemValue != null ? `${id}-opt-${focusItemValue}` : undefined
+      }
       data-has-value={hasValue}
       data-cleanable={cleanable}
       data-countable={countable}

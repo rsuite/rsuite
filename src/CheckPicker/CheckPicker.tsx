@@ -185,7 +185,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
     const handleMenuPressEnter = (event: React.KeyboardEvent<HTMLElement>) => {
       const nextValue = clone(value);
 
-      if (!focusItemValue) {
+      if (isNil(focusItemValue)) {
         return;
       }
 
@@ -202,7 +202,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
     };
 
     const onPickerKeyDown = useToggleKeyDownEvent({
-      toggle: !focusItemValue || !active,
+      toggle: isNil(focusItemValue) || !active,
       trigger,
       target,
       overlay,
