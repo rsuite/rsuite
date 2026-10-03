@@ -1,6 +1,17 @@
 @use '../../internals/Box/styles/index' as box;
 @use '../../styles/mixins/utilities' as utils;
 
+// React also checks text nodes and custom components before marking a wrapper.
+$single-badge-button: '.rs-btn:first-child:nth-last-child(2)';
+$badge-button-wrapper: '.rs-badge-wrapper[data-button-group-item="true"]:has(> #{$single-badge-button})';
+$badge-ghost-wrapper: '#{$badge-button-wrapper}:has(> .rs-btn[data-appearance="ghost"])';
+$unsupported-group-items: (
+  '> :not(.rs-btn, .rs-badge-wrapper[data-button-group-item="true"])',
+  '> .rs-badge-wrapper > :not(.rs-btn, .rs-badge-content)',
+  '> .rs-badge-wrapper > .rs-btn ~ .rs-btn',
+  '> .rs-badge-wrapper > :first-child:not(.rs-btn)'
+);
+
 //
 // Button groups
 // --------------------------------------------------
@@ -20,6 +31,18 @@
       z-index: 2;
     }
   }
+
+  > #{$badge-button-wrapper} {
+    position: relative;
+
+    &:has(> .rs-btn:focus, > .rs-btn:active) {
+      z-index: 2;
+    }
+
+    > .rs-btn {
+      position: relative;
+    }
+  }
 }
 
 // Horizontal Button remove border radius
@@ -36,8 +59,26 @@
     }
   }
 
+  > #{$badge-button-wrapper} {
+    float: inline-start;
+
+    &:not(:last-child) > .rs-btn {
+      @include utils.border-right-radius(0);
+    }
+
+    &:not(:first-child) > .rs-btn {
+      @include utils.border-left-radius(0);
+    }
+  }
+
   // collapse border
   > .rs-btn[data-appearance='ghost'] + .rs-btn[data-appearance='ghost'] {
+    margin-inline-start: -1px;
+  }
+
+  > .rs-btn[data-appearance='ghost'] + #{$badge-ghost-wrapper},
+  > #{$badge-ghost-wrapper} + .rs-btn[data-appearance='ghost'],
+  > #{$badge-ghost-wrapper} + #{$badge-ghost-wrapper} {
     margin-inline-start: -1px;
   }
 
@@ -45,6 +86,10 @@
     &:not(:last-child) {
       border-right-width: 1px;
     }
+  }
+
+  &[data-divided='true'] > #{$badge-button-wrapper}:not(:last-child) > .rs-btn {
+    border-right-width: 1px;
   }
 }
 
@@ -66,8 +111,34 @@
     }
   }
 
+  > #{$badge-button-wrapper} {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+
+    > .rs-btn {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    &:not(:last-child) > .rs-btn {
+      @include utils.border-bottom-radius(0);
+    }
+
+    &:not(:first-child) > .rs-btn {
+      @include utils.border-top-radius(0);
+    }
+  }
+
   // collapse border
   > .rs-btn[data-appearance='ghost'] + .rs-btn[data-appearance='ghost'] {
+    margin-top: -1px;
+  }
+
+  > .rs-btn[data-appearance='ghost'] + #{$badge-ghost-wrapper},
+  > #{$badge-ghost-wrapper} + .rs-btn[data-appearance='ghost'],
+  > #{$badge-ghost-wrapper} + #{$badge-ghost-wrapper} {
     margin-top: -1px;
   }
 
@@ -75,6 +146,10 @@
     &:not(:last-child) {
       border-bottom-width: 1px;
     }
+  }
+
+  &[data-divided='true'] > #{$badge-button-wrapper}:not(:last-child) > .rs-btn {
+    border-bottom-width: 1px;
   }
 
   &[data-block='true'] {
@@ -92,5 +167,48 @@
   > .rs-btn {
     flex: 1 1 1%;
     @include utils.ellipsis-basic;
+  }
+
+  > #{$badge-button-wrapper} {
+    display: flex;
+    flex: 1 1 1%;
+    min-width: 0;
+
+    > .rs-btn {
+      width: 100%;
+      min-width: 0;
+
+      @include utils.ellipsis-basic;
+    }
+  }
+
+  // Grid gives buttons and their unpadded Badge wrappers equal outer widths.
+  &[data-badge-layout='true']:not([data-vertical='true']):has(
+      > .rs-badge-wrapper[data-button-group-item='true'] > #{$single-badge-button}
+    ):not(:has(#{$unsupported-group-items})) {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+
+    > .rs-btn {
+      width: 100%;
+      min-width: 0;
+    }
+
+    // Share ghost borders without changing the equal grid item widths.
+    > .rs-btn[data-appearance='ghost'] + .rs-btn[data-appearance='ghost'],
+    > #{$badge-ghost-wrapper} + .rs-btn[data-appearance='ghost'] {
+      margin-inline-start: 0;
+      border-inline-start-width: 0;
+    }
+
+    > .rs-btn[data-appearance='ghost'] + #{$badge-ghost-wrapper},
+    > #{$badge-ghost-wrapper} + #{$badge-ghost-wrapper} {
+      margin-inline-start: 0;
+
+      > .rs-btn {
+        border-inline-start-width: 0;
+      }
+    }
   }
 }
