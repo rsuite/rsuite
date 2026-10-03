@@ -4,6 +4,11 @@ import { describe, expect, it } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import { testStandardProps, testStyleProps } from '@test/cases';
 
+const imageSrc = `data:image/svg+xml,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"><rect width="48" height="48" fill="blue"/></svg>'
+)}`;
+const brokenImageSrc = 'data:image/png;base64,broken';
+
 describe('Avatar', () => {
   testStandardProps(<Avatar />);
 
@@ -37,7 +42,7 @@ describe('Avatar', () => {
   });
 
   it('Should render default icon avatar when src is broken', () => {
-    render(<Avatar src="https://images.unsplash.com/broken" />);
+    render(<Avatar src={brokenImageSrc} />);
 
     expect(screen.getByRole('img')).to.have.attribute('aria-label', 'Avatar');
     expect(screen.getByRole('img')).to.have.class('rs-avatar-icon');
@@ -45,7 +50,7 @@ describe('Avatar', () => {
   });
 
   it('Should render alt text when src is broken', () => {
-    render(<Avatar src="https://images.unsplash.com/broken" alt="Name" />);
+    render(<Avatar src={brokenImageSrc} alt="Name" />);
 
     expect(screen.getByRole('img')).to.have.attribute('aria-label', 'Name');
     expect(screen.getByRole('img')).to.be.tagName('span');
@@ -53,7 +58,7 @@ describe('Avatar', () => {
 
   it('Should render children when src is broken', () => {
     render(
-      <Avatar src="https://images.unsplash.com/broken">
+      <Avatar src={brokenImageSrc}>
         <div role="img">My Avatar</div>
       </Avatar>
     );
@@ -62,22 +67,20 @@ describe('Avatar', () => {
   });
 
   it('Should render image avatar when src is valid', async () => {
-    const src = 'https://avatars.githubusercontent.com/u/19635045?s=48&v=4';
+    const src = imageSrc;
 
     render(<Avatar src={src}>RS</Avatar>);
 
     const img = await screen.findByRole('img');
 
     expect(img).to.have.attribute('src', src);
+    expect(img).to.be.tagName('img');
   });
 
   it('Should hava a srcSet attribute when srcSet is passed', async () => {
-    const srcSet =
-      'https://avatars.githubusercontent.com/u/19635045?s=48&v=4 320w, https://avatars.githubusercontent.com/u/19635045?s=48&v=4 480w';
+    const srcSet = `${imageSrc} 320w, ${imageSrc} 480w`;
 
-    render(
-      <Avatar src="https://avatars.githubusercontent.com/u/19635045?s=48&v=4" srcSet={srcSet} />
-    );
+    render(<Avatar src={imageSrc} srcSet={srcSet} />);
 
     await waitFor(() => {
       expect(screen.getByRole('img')).to.have.attribute('srcset', srcSet);
@@ -85,17 +88,10 @@ describe('Avatar', () => {
   });
 
   it('Should hava a sizes attribute when sizes is passed', async () => {
-    const srcSet =
-      'https://avatars.githubusercontent.com/u/19635045?s=48&v=4 320w, https://avatars.githubusercontent.com/u/19635045?s=48&v=4 480w';
+    const srcSet = `${imageSrc} 320w, ${imageSrc} 480w`;
     const sizes = '(max-width: 320px) 280px,(max-width: 480px) 440px, 800px';
 
-    render(
-      <Avatar
-        src="https://avatars.githubusercontent.com/u/19635045?s=48&v=4"
-        srcSet={srcSet}
-        sizes={sizes}
-      />
-    );
+    render(<Avatar src={imageSrc} srcSet={srcSet} sizes={sizes} />);
 
     await waitFor(() => {
       expect(screen.getByRole('img')).to.have.attribute('sizes', sizes);
@@ -104,10 +100,7 @@ describe('Avatar', () => {
 
   it(' Should set the value of imgProps to the image', async () => {
     render(
-      <Avatar
-        src="https://avatars.githubusercontent.com/u/19635045?s=48&v=4"
-        imgProps={{ title: 'Avatar Title', 'aria-label': 'Avatar Name' }}
-      />
+      <Avatar src={imageSrc} imgProps={{ title: 'Avatar Title', 'aria-label': 'Avatar Name' }} />
     );
 
     await waitFor(() => {
