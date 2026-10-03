@@ -1,0 +1,162 @@
+{
+  "scope": "Published RSuite Table JavaScript ESM consumers; React/ReactDOM external; no CSS or runtime timing",
+  "baseGitHead": "c3acc61cc6beb0ac9086a412dde4feba13597251",
+  "nodeVersion": "v24.12.0",
+  "dependencyVersions": {
+    "esbuild": "0.25.2",
+    "date-fns": "4.1.0",
+    "lodash": "4.17.21",
+    "dom-lib": "3.3.1",
+    "rsuite-table": "5.19.2",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  },
+  "options": {
+    "bundle": true,
+    "minify": true,
+    "treeShaking": true,
+    "platform": "browser",
+    "format": "esm",
+    "target": ["es2020"],
+    "external": ["react", "react/*", "react-dom", "react-dom/*"],
+    "define": {
+      "process.env.NODE_ENV": "\"production\"",
+      "__DEV__": "false"
+    },
+    "metafile": true,
+    "sourcemap": false,
+    "legalComments": "none",
+    "write": false
+  },
+  "compression": {
+    "gzipLevel": 9
+  },
+  "measurements": {
+    "before": {
+      "sourceSHA256": {
+        "src/Table/Table.tsx": "849e61b07a981b63bca41877d47eeaa675c666c51a938188c2904ed88894e460",
+        "src/internals/hooks/useCustom.ts": "fd8367dc831eb56ac5d5551bfc3798994f6a43e8594f5f29ed35d973d8c525ef",
+        "src/internals/hooks/useCustomConfig.ts": "8d5f0d2fc9603cb02cde7ca9f9ceac1d8de929458d904816af28a72504fa2c58"
+      },
+      "entries": [
+        {
+          "name": "Table-root",
+          "consumer": "import { Table as imported } from 'rsuite'; export { imported };",
+          "bytes": 152376,
+          "gzipBytes": 50748,
+          "sha256": "75ea472b09c55f56aa82dff8af4de66292e33b76a6f19174eb2245a414f8fdba",
+          "dateFnsBytes": 42844,
+          "dateLocaleBytes": 7598
+        },
+        {
+          "name": "Table-subpath",
+          "consumer": "import imported from 'rsuite/Table'; export { imported };",
+          "bytes": 152386,
+          "gzipBytes": 50820,
+          "sha256": "27e73085c650f8f2d8725b95444cb15c39a5904f1aa7f578494675cdb2354f3f",
+          "dateFnsBytes": 42844,
+          "dateLocaleBytes": 7598
+        },
+        {
+          "name": "CustomProvider-root",
+          "consumer": "import { CustomProvider as imported } from 'rsuite'; export { imported };",
+          "bytes": 55434,
+          "gzipBytes": 21975,
+          "sha256": "0badb29a8ada9417de46fae7bfd23e8f11c45fb8dfe55ceb673a86404879cc2e",
+          "dateFnsBytes": 0,
+          "dateLocaleBytes": 0
+        },
+        {
+          "name": "CustomProvider-subpath",
+          "consumer": "import imported from 'rsuite/CustomProvider'; export { imported };",
+          "bytes": 55446,
+          "gzipBytes": 21948,
+          "sha256": "44227b54609a1d986db11f86fd4395f93b4d475e01be03517ab25e493db0357c",
+          "dateFnsBytes": 0,
+          "dateLocaleBytes": 0
+        },
+        {
+          "name": "DateInput-root",
+          "consumer": "import { DateInput as imported } from 'rsuite'; export { imported };",
+          "bytes": 101197,
+          "gzipBytes": 32303,
+          "sha256": "a8b98e27d3d0f88778939f7a771f1023589a4176b768c98186feb33988328c6c",
+          "dateFnsBytes": 44238,
+          "dateLocaleBytes": 7598
+        },
+        {
+          "name": "DateInput-subpath",
+          "consumer": "import imported from 'rsuite/DateInput'; export { imported };",
+          "bytes": 101207,
+          "gzipBytes": 32317,
+          "sha256": "ef87fc4c496468a49e4824f5a384aa8637369d5499c5675299ef08b2cf2e2dcc",
+          "dateFnsBytes": 44238,
+          "dateLocaleBytes": 7598
+        }
+      ]
+    },
+    "after": {
+      "sourceSHA256": {
+        "src/Table/Table.tsx": "0e982efe3e761cb70333de38220a50ed7765cd67277a077ea1ad0a7bd4341ca5",
+        "src/internals/hooks/useCustom.ts": "fd8367dc831eb56ac5d5551bfc3798994f6a43e8594f5f29ed35d973d8c525ef",
+        "src/internals/hooks/useCustomConfig.ts": "8d5f0d2fc9603cb02cde7ca9f9ceac1d8de929458d904816af28a72504fa2c58"
+      },
+      "entries": [
+        {
+          "name": "Table-root",
+          "consumer": "import { Table as imported } from 'rsuite'; export { imported };",
+          "bytes": 115826,
+          "gzipBytes": 43052,
+          "sha256": "1f3811a3833a527521b64a282bca9e34d565dcee341c7af57ad75fccff2aea19",
+          "dateFnsBytes": 7033,
+          "dateLocaleBytes": 7033
+        },
+        {
+          "name": "Table-subpath",
+          "consumer": "import imported from 'rsuite/Table'; export { imported };",
+          "bytes": 115836,
+          "gzipBytes": 43257,
+          "sha256": "3a27ca0e98c2c598344e93fdd70a9c1da45ee56422e6ed7035839082dd7cd7b9",
+          "dateFnsBytes": 7033,
+          "dateLocaleBytes": 7033
+        },
+        {
+          "name": "CustomProvider-root",
+          "consumer": "import { CustomProvider as imported } from 'rsuite'; export { imported };",
+          "bytes": 55434,
+          "gzipBytes": 21975,
+          "sha256": "0badb29a8ada9417de46fae7bfd23e8f11c45fb8dfe55ceb673a86404879cc2e",
+          "dateFnsBytes": 0,
+          "dateLocaleBytes": 0
+        },
+        {
+          "name": "CustomProvider-subpath",
+          "consumer": "import imported from 'rsuite/CustomProvider'; export { imported };",
+          "bytes": 55446,
+          "gzipBytes": 21948,
+          "sha256": "44227b54609a1d986db11f86fd4395f93b4d475e01be03517ab25e493db0357c",
+          "dateFnsBytes": 0,
+          "dateLocaleBytes": 0
+        },
+        {
+          "name": "DateInput-root",
+          "consumer": "import { DateInput as imported } from 'rsuite'; export { imported };",
+          "bytes": 101197,
+          "gzipBytes": 32303,
+          "sha256": "a8b98e27d3d0f88778939f7a771f1023589a4176b768c98186feb33988328c6c",
+          "dateFnsBytes": 44238,
+          "dateLocaleBytes": 7598
+        },
+        {
+          "name": "DateInput-subpath",
+          "consumer": "import imported from 'rsuite/DateInput'; export { imported };",
+          "bytes": 101207,
+          "gzipBytes": 32317,
+          "sha256": "ef87fc4c496468a49e4824f5a384aa8637369d5499c5675299ef08b2cf2e2dcc",
+          "dateFnsBytes": 44238,
+          "dateLocaleBytes": 7598
+        }
+      ]
+    }
+  }
+}
