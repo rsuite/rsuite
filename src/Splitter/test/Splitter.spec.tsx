@@ -72,11 +72,10 @@ describe('Splitter', () => {
     expect(ref.current).toBe(frame);
     expect(frame).toHaveAttribute('id', 'styled-panel');
     expect(frame).toHaveClass('custom-panel', 'rs-custom-prefix');
-    expect(frame.firstElementChild).toHaveStyle({
-      padding: '20px',
-      borderWidth: '2px',
-      fontSize: '12px'
-    });
+    const contentStyle = getComputedStyle(frame.firstElementChild!);
+    expect(contentStyle.padding).toBe('20px');
+    expect(contentStyle.borderWidth).toBe('2px');
+    expect(contentStyle.fontSize).toBe('12px');
     expect(frame).not.toHaveAttribute('style');
   });
 
