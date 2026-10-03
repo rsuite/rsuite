@@ -3,6 +3,7 @@
 @use '../../styles/mixins/utilities' as utils;
 @use '../../styles/mixins/color-modes' as color-modes;
 @use './mixins';
+@use '../../Animation/styles/reduced-motion';
 
 //
 // Popovers

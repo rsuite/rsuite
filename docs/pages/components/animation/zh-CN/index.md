@@ -43,6 +43,22 @@ enteringClassName="custom-entering"
 
 <!--{include:`transition.md`}-->
 
+### 减少动态效果
+
+`Animation.Fade`、`Animation.Collapse`、`Animation.Bounce`、`Animation.Slide` 和 `Animation.Transition` 默认遵循系统的 `prefers-reduced-motion` 设置。将 `reduceMotion` 设为 `true` 可禁用动态效果；设为 `false` 可显式允许动画，包括系统要求减少动态效果时。
+
+```jsx
+<Animation.Fade in><div>遵循系统偏好。</div></Animation.Fade>
+<Animation.Bounce in reduceMotion><div>减少动态效果。</div></Animation.Bounce>
+<Animation.Slide in reduceMotion={false}><div>允许动画。</div></Animation.Slide>
+```
+
+组件设置优先于 `CustomProvider reduceMotion`，全局设置优先于系统偏好。通过 `CustomProvider components` 配置的组件默认值遵循现有的默认属性合并规则。
+
+减少动态效果时，仍会依次调用 `onEnter`、`onEntering`、`onEntered` 及对应的退出回调，无需等待 CSS 完成事件或 `timeout`。过渡期间启用此设置会完成当前请求；恢复动画仅影响下一次进入或退出，不会重播已完成的动画。
+
+该设置仅移除动画节点自身的 CSS 过渡时长，并将 CSS 动画减少为零时长、零延迟的一次迭代。包括自定义循环动画在内，最终样式仍由 keyframes、动画方向及 fill mode 决定。不影响嵌套内容及其他动画。使用渲染函数作为 children 时，需要将提供的 props 和 ref 传给动画节点。服务端渲染的自动策略通过 CSS 在 hydration 前遵循系统偏好。
+
 ## Props
 
 ### `<Animation.Fade>`
@@ -60,6 +76,7 @@ enteringClassName="custom-entering"
 | onExit            | (node?: null, Element, Text) => void | 退出前动画过渡的回调函数   |
 | onExited          | (node?: null, Element, Text) => void | 退出后动画过渡的回调函数   |
 | onExiting         | (node?: null, Element, Text) => void | 退出中动画过渡的回调函数   |
+| reduceMotion      | boolean                              | 减少动态效果；未设置时遵循全局设置或系统偏好 |
 | timeout           | number `(300)`                       | 动画过渡延迟时间           |
 | transitionAppear  | boolean                              | 初始显示的时候开启过渡效果 |
 | unmountOnExit     | boolean                              | 在退出时卸载组件           |
@@ -82,6 +99,7 @@ enteringClassName="custom-entering"
 | onExited          | (node?: null, Element, Text) => void                     | 退出后动画过渡的回调函数   |
 | onExiting         | (node?: null, Element, Text) => void                     | 退出中动画过渡的回调函数   |
 | role              | string                                                   | HTML role                  |
+| reduceMotion      | boolean                              | 减少动态效果；未设置时遵循全局设置或系统偏好 |
 | timeout           | number`(300)`                                            | 动画过渡延迟时间           |
 | transitionAppear  | boolean                                                  | 初始显示的时候开启过渡效果 |
 | unmountOnExit     | boolean                                                  | 在退出时卸载组件           |
@@ -101,6 +119,7 @@ enteringClassName="custom-entering"
 | onExit            | (node?: null, Element, Text) => void | 退出前动画过渡的回调函数   |
 | onExited          | (node?: null, Element, Text) => void | 退出后动画过渡的回调函数   |
 | onExiting         | (node?: null, Element, Text) => void | 退出中动画过渡的回调函数   |
+| reduceMotion      | boolean                              | 减少动态效果；未设置时遵循全局设置或系统偏好 |
 | timeout           | number `(300)`                       | 动画过渡延迟时间           |
 | transitionAppear  | boolean                              | 初始显示的时候开启过渡效果 |
 | unmountOnExit     | boolean                              | 在退出时卸载组件           |
@@ -120,6 +139,7 @@ enteringClassName="custom-entering"
 | onExit            | (node?: null, Element, Text) => void | 退出前动画过渡的回调函数   |
 | onExited          | (node?: null, Element, Text) => void | 退出后动画过渡的回调函数   |
 | onExiting         | (node?: null, Element, Text) => void | 退出中动画过渡的回调函数   |
+| reduceMotion      | boolean                              | 减少动态效果；未设置时遵循全局设置或系统偏好 |
 | timeout           | number `(300)`                       | 动画过渡延迟时间           |
 | transitionAppear  | boolean                              | 初始显示的时候开启过渡效果 |
 | unmountOnExit     | boolean                              | 在退出时卸载组件           |
@@ -140,6 +160,7 @@ enteringClassName="custom-entering"
 | onExit            | (node?: null, Element, Text) => void | 退出前动画过渡的回调函数   |
 | onExited          | (node?: null, Element, Text) => void | 退出后动画过渡的回调函数   |
 | onExiting         | (node?: null, Element, Text) => void | 退出中动画过渡的回调函数   |
+| reduceMotion      | boolean                              | 减少动态效果；未设置时遵循全局设置或系统偏好 |
 | timeout           | number `(1000)`                      | 动画过渡延迟时间           |
 | transitionAppear  | boolean                              | 初始显示的时候开启过渡效果 |
 | unmountOnExit     | boolean                              | 在退出时卸载组件           |

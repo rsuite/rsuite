@@ -67,6 +67,12 @@
 - <kbd>Shift + Tab</kbd> 反向循环聚焦 Drawer 内的可聚焦元素。
 - 当 Drawer 关闭时，焦点会返回到触发打开 Drawer 的元素上。
 
+### 减少动态效果
+
+默认对话框动画、背景板过渡和静态背景板抖动遵循系统的减少动态效果偏好。设置 `reduceMotion={true}` 可强制减少动态效果，设置 `reduceMotion={false}` 可显式允许动画。组件设置优先于 `CustomProvider reduceMotion`，并保留过渡回调。
+
+自定义 `animation` 组件保留原有约定，并接收 `reduceMotion` 属性。可以组合 `Animation.Transition`，将其 children props/ref 传给动画节点来支持此策略。其他自定义动画组件需要自行处理视觉效果和完成回调。
+
 ## Props
 
 ### `<Drawer>`
@@ -92,6 +98,7 @@
 | onOpen            | () => void                                                | 显示时的回调函数                                                                                        |
 | open \*           | boolean                                                   | 显示 Drawer                                                                                             |
 | placement         | [Placement](#code-ts-placement-code)`(right)`             | 设置 Drawer 显示的位置                                                                                  |
+| reduceMotion      | boolean                             | 减少动态效果；未设置时遵循全局设置或系统偏好 |
 | size              | 'xs' \| 'sm' \| 'md' \| lg' \| 'full' \| number \| string | 设置 Drawer 尺寸                                                                                        |
 
 ### `<Drawer.Header>`

@@ -1,0 +1,33 @@
+@keyframes reduced-motion-test-enter {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 0.75;
+    transform: translateX(7px);
+  }
+}
+
+@keyframes reduced-motion-test-exit {
+  from {
+    opacity: 0.75;
+    transform: translateX(7px);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+}
+
+.reduced-motion-test-enter {
+  animation: reduced-motion-test-enter 2s 10s forwards;
+}
+
+.reduced-motion-test-exit {
+  animation: reduced-motion-test-exit 2s 10s forwards;
+}
+
+.reduced-motion-test-loop {
+  animation: reduced-motion-test-enter 2s 10s infinite forwards;
+}

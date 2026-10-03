@@ -3,6 +3,7 @@
 @use '../../styles/mixins/utilities' as utils;
 @use './animation';
 @use './variables';
+@use '../../Animation/styles/reduced-motion';
 
 //
 // Modals

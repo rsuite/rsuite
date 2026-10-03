@@ -112,6 +112,12 @@ On mobile devices, the Modal's maximum width will stretch to fill the screen whi
 - <kbd>Shift + Tab</kbd> Reverse cycles through focusable elements within the Modal.
 - When the Modal closes, focus returns to the element that triggered the Modal to open.
 
+### Reduced motion
+
+The default dialog animation, backdrop transition and static-backdrop shake follow the system's reduced-motion preference. Set `reduceMotion={true}` to force reduced motion or `reduceMotion={false}` to allow motion explicitly. A component setting overrides `CustomProvider reduceMotion`; transition callbacks are preserved.
+
+A custom `animation` component keeps its existing contract and receives `reduceMotion`. Compose it with `Animation.Transition` and forward its child props/ref to use this policy. An opaque custom animation is responsible for its own visual effects and completion callbacks.
+
 ## Props
 
 ### `<Modal>`
@@ -141,6 +147,7 @@ On mobile devices, the Modal's maximum width will stretch to fill the screen whi
 | onOpen            | () => void                                                         | Callback fired when Modal display                                                                                                                                                      |
 | open \*           | boolean                                                            | Show Modal                                                                                                                                                                             |
 | overflow          | boolean `(true)`                                                   | Automatically sets the height when the body content is too long.                                                                                                                       |
+| reduceMotion      | boolean                             | Reduce motion; omitted uses the provider or system preference |
 | size              | 'xs' \| 'sm' \| 'md' \| lg' \| 'full' \| number \| string `('sm')` | Determine the width of the modal                                                                                                                                                       |
 
 ### `<Modal.Header>`

@@ -67,6 +67,12 @@ On mobile devices, the maximum width of the Drawer will fill the entire screen.
 - <kbd>Shift + Tab</kbd> Reverse cycles through focusable elements within the Drawer.
 - When the Drawer closes, focus returns to the element that triggered the Drawer to open.
 
+### Reduced motion
+
+The default dialog animation, backdrop transition and static-backdrop shake follow the system's reduced-motion preference. Set `reduceMotion={true}` to force reduced motion or `reduceMotion={false}` to allow motion explicitly. A component setting overrides `CustomProvider reduceMotion`; transition callbacks are preserved.
+
+A custom `animation` component keeps its existing contract and receives `reduceMotion`. Compose it with `Animation.Transition` and forward its child props/ref to use this policy. An opaque custom animation is responsible for its own visual effects and completion callbacks.
+
 ## Props
 
 ### `<Drawer>`
@@ -92,6 +98,7 @@ On mobile devices, the maximum width of the Drawer will fill the entire screen.
 | onOpen            | () => void                                                | Callback fired when Drawer display                                                                                                                                                        |
 | open \*           | boolean                                                   | Open Drawer                                                                                                                                                                               |
 | placement         | [Placement](#code-ts-placement-code)`(right)`             | The placement of Drawer                                                                                                                                                                   |
+| reduceMotion      | boolean                             | Reduce motion; omitted uses the provider or system preference |
 | size              | 'xs' \| 'sm' \| 'md' \| lg' \| 'full' \| number \| string | Set Drawer size                                                                                                                                                                           |
 
 ### `<Drawer.Header>`
