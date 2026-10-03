@@ -81,6 +81,7 @@
   "devDependencies": {
     "@faker-js/faker": "^8.0.1",
     "@svgr/webpack": "^8.1.0",
+    "@tailwindcss/postcss": "^4.2.2",
     "@types/node": "^12.12.21",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
@@ -100,7 +101,8 @@
     "postcss-loader": "^4.2.0",
     "postcss-merge-rules": "^7.0.5",
     "rimraf": "^3.0.2",
-    "sass-loader": "^16.0.5"
+    "sass-loader": "^16.0.5",
+    "tailwindcss": "^4.2.2"
   },
   "engines": {
     "node": "22.x"
