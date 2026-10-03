@@ -868,6 +868,11 @@
         "minVersion": "5.64.0"
       },
       {
+        "id": "use-clipboard",
+        "name": "useClipboard",
+        "hooks": ["useClipboard"]
+      },
+      {
         "id": "use-dialog",
         "name": "useDialog",
         "hooks": ["useDialog"],
