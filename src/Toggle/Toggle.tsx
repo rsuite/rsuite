@@ -94,6 +94,8 @@ export interface ToggleProps extends Omit<BoxProps, 'height' | 'width'>, Sanitiz
 const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Toggle', props);
   const {
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledby,
     as = 'label',
     disabled,
     readOnly,
@@ -106,7 +108,7 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
     unCheckedChildren,
     classPrefix = 'toggle',
     checked: checkedProp,
-    defaultChecked,
+    defaultChecked = false,
     size = 'md',
     locale,
     label = children,
@@ -125,7 +127,8 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
 
   const labelId = useUniqueId('rs-label');
   const innerId = inner ? labelId + '-inner' : undefined;
-  const labelledby = label ? labelId : innerId;
+  const labelledby =
+    ariaLabelledby ?? (ariaLabel !== undefined ? undefined : label ? labelId : innerId);
 
   const [htmlInputProps, restProps] = partitionHTMLProps(rest);
 
@@ -160,8 +163,7 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
         {...htmlInputProps}
         ref={inputRef}
         type="checkbox"
-        checked={checkedProp}
-        defaultChecked={defaultChecked}
+        checked={checked}
         disabled={disabled}
         readOnly={readOnly}
         onChange={handleInputChange}
@@ -170,7 +172,7 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
         aria-checked={checked}
         aria-disabled={disabled}
         aria-labelledby={labelledby}
-        aria-label={labelledby ? undefined : innerLabel}
+        aria-label={ariaLabel ?? (labelledby ? undefined : innerLabel)}
         aria-busy={loading || undefined}
       />
       <span className={prefix('track')}>
