@@ -98,6 +98,24 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         expect(screen.getByTestId('picker')).not.to.have.attr('responsive');
       });
 
+      it('Should switch responsive popup behavior when the prop changes', () => {
+        const { rerender } = render(<TestComponent data={data} open responsive={false} />);
+
+        expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.be.null;
+
+        [true, false, true].forEach(responsive => {
+          rerender(<TestComponent data={data} open responsive={responsive} />);
+
+          const drawer = screen.getByTestId('picker-popup').closest('.rs-drawer');
+
+          if (responsive) {
+            expect(drawer).to.exist;
+          } else {
+            expect(drawer).to.be.null;
+          }
+        });
+      });
+
       it('Should support a responsive default from CustomProvider', () => {
         render(
           <CustomProvider

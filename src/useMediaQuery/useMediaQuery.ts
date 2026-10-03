@@ -1,6 +1,6 @@
 import canUseDOM from 'dom-lib/canUseDOM';
 import { breakpointValues } from '@/internals/styled-system';
-import { useSyncExternalStore, useCallback, useRef, useMemo } from 'react';
+import { useSyncExternalStore, useMemo } from 'react';
 import { createBreakpoints } from './breakpoints';
 import type { Query } from './types';
 
@@ -33,59 +33,45 @@ const matchMedia = (query: string) => {
  * @param enabled - Whether to enable the media query, defaults to true
  */
 export function useMediaQuery(query: Query | Query[], enabled: boolean = true): boolean[] {
-  const queries = Array.isArray(query) ? query : [query];
+  const queryKey = JSON.stringify(Array.isArray(query) ? query : [query]);
 
-  const mediaQueries = useMemo(
-    () => queries.map(query => mediaQuerySizeMap[query] || query),
-    [...queries]
-  );
+  const store = useMemo(() => {
+    const mediaQueries = (JSON.parse(queryKey) as Query[]).map(
+      query => mediaQuerySizeMap[query] || query
+    );
+    const serverSnapshot = mediaQueries.map(() => false);
+    let snapshot = serverSnapshot;
 
-  // If not enabled, we don't need to set up any media queries
-  if (!enabled) {
-    return queries.map(() => false);
-  }
-
-  const mediaQueryArray = useRef<boolean[]>(mediaQueries.map(query => matchMedia(query).matches));
-
-  const subscribe = useCallback(
-    callback => {
-      const list = mediaQueries.map(query => matchMedia(query));
-
-      const handleChange = (event: MediaQueryListEvent) => {
-        const index = list.findIndex(item => item.media === event.media);
-        if (index !== -1) {
-          // The store snapshot returned by getSnapshot must be immutable. So we need to create a new array.
-          const nextMediaQueryArray = mediaQueryArray.current.slice();
-          nextMediaQueryArray[index] = event.matches;
-
-          mediaQueryArray.current = nextMediaQueryArray;
+    return {
+      subscribe: (callback: () => void) => {
+        if (!enabled) {
+          return () => {};
         }
 
-        callback();
-      };
+        const list = mediaQueries.map(query => matchMedia(query));
+        list.forEach(query => query.addEventListener('change', callback));
 
-      list.forEach(query => {
-        query.addEventListener('change', handleChange);
-      });
+        return () => {
+          list.forEach(query => query.removeEventListener('change', callback));
+        };
+      },
+      getSnapshot: () => {
+        if (!enabled) {
+          return serverSnapshot;
+        }
 
-      return () => {
-        list.forEach(query => {
-          query.removeEventListener('change', handleChange);
-        });
-      };
-    },
-    [mediaQueries]
-  );
+        const nextSnapshot = mediaQueries.map(query => matchMedia(query).matches);
+        if (nextSnapshot.some((matches, index) => matches !== snapshot[index])) {
+          snapshot = nextSnapshot;
+        }
 
-  const getSnapshot = useCallback(() => {
-    return mediaQueryArray.current;
-  }, []);
+        return snapshot;
+      },
+      getServerSnapshot: () => serverSnapshot
+    };
+  }, [queryKey, enabled]);
 
-  const getServerSnapshot = useCallback(() => {
-    return mediaQueryArray.current;
-  }, []);
-
-  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot);
 }
 
 export default useMediaQuery;
