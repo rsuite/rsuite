@@ -135,6 +135,7 @@ export * from './Footer';
 export * from './Center';
 export * from './Divider';
 export * from './Stack';
+export * from './Splitter';
 
 // Utils
 // --------------------------------------------------------
