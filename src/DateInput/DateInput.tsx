@@ -5,10 +5,11 @@ import useKeyboardInputEvent from './hooks/useKeyboardInputEvent';
 import useIsFocused from './hooks/useIsFocused';
 import useFieldCursor from './hooks/useFieldCursor';
 import useSelectedState from './hooks/useSelectedState';
+import { useInputSelectionState } from './hooks/useInputSelection';
 import { useControlled, useEventCallback, useCustom } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { isValid } from '@/internals/utils/date';
-import { getInputSelectedState, validateDateTime, useInputSelection } from './utils';
+import { getInputSelectedState, validateDateTime } from './utils';
 import type { FormControlBaseProps } from '@/internals/types';
 
 export interface DateInputProps
@@ -81,7 +82,10 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
     [dateField, dateString, formatStr, dateLocale]
   );
 
-  const setSelectionRange = useInputSelection(inputRef);
+  const { setSelectionRange, getSelectionRange } = useInputSelectionState(
+    inputRef,
+    value?.getTime()
+  );
 
   const handleChange = useEventCallback(
     (value: Date | null, event: React.SyntheticEvent<HTMLInputElement>) => {
@@ -99,7 +103,7 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
 
   const onSegmentChange = useEventCallback(
     (event: React.KeyboardEvent<HTMLInputElement>, nextDirection?: 'right' | 'left') => {
-      const input = event.target as HTMLInputElement;
+      const input = getSelectionRange();
       const key = event.key;
       const direction = nextDirection || (key === 'ArrowRight' ? 'right' : 'left');
 
@@ -116,7 +120,7 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
   );
 
   const onSegmentValueChange = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    const input = event.target as HTMLInputElement;
+    const input = getSelectionRange();
     const key = event.key;
     const offset = key === 'ArrowUp' ? 1 : -1;
 
@@ -129,7 +133,7 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
 
   const onSegmentValueChangeWithNumericKeys = useEventCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
-      const input = event.target as HTMLInputElement;
+      const input = getSelectionRange();
       const key = event.key;
       const isFunctionKey = key.startsWith('F') && !isNaN(Number(key.slice(1)));
 
@@ -166,15 +170,18 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
       increment();
 
       // If the field is full value, move the cursor to the next field
-      if (isMoveCursor(newValue, pattern) && input.selectionEnd !== input.value.length) {
+      if (
+        isMoveCursor(newValue, pattern) &&
+        getSelectionRange().selectionEnd !== (event.target as HTMLInputElement).value.length
+      ) {
         onSegmentChange(event, 'right');
       }
     }
   );
 
   const onSegmentValueRemove = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    const input = event.target as HTMLInputElement;
-    const value = input.value;
+    const input = getSelectionRange();
+    const value = (event.target as HTMLInputElement).value;
 
     // If the text is all selected, clear the value
     if (input.selectionStart === 0 && value && input.selectionEnd === value.length) {
@@ -192,7 +199,7 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
   });
 
   const onAmPmToggle = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    const input = event.target as HTMLInputElement;
+    const input = getSelectionRange();
     const key = event.key.toLowerCase();
 
     // Only handle 'a' or 'p' keys when the selected pattern is 'a' (AM/PM)

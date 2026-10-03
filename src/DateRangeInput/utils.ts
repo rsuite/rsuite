@@ -10,7 +10,7 @@ interface SelectedStateOptions {
   /**
    * The input element
    */
-  input: HTMLInputElement;
+  input: Pick<HTMLInputElement, 'selectionStart' | 'selectionEnd'>;
 
   /**
    * The direction of the arrow key, left or right

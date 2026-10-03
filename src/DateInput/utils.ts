@@ -1,5 +1,4 @@
 import type { Locale, Month } from 'date-fns';
-import { useRef } from 'react';
 import {
   setYear,
   setMonth,
@@ -8,14 +7,13 @@ import {
   setMinutes,
   setSeconds
 } from '@/internals/utils/date';
-import { safeSetSelection } from '@/internals/utils';
-import { useIsomorphicLayoutEffect } from '@/internals/hooks';
+export { useInputSelection } from './hooks/useInputSelection';
 
 interface SelectedStateOptions {
   /**
    * The input element
    */
-  input: HTMLInputElement;
+  input: Pick<HTMLInputElement, 'selectionStart' | 'selectionEnd'>;
 
   /**
    * The direction of the arrow key, left or right
@@ -285,34 +283,4 @@ export function modifyDate(date: Date, type: string, value: number) {
   }
 
   return date;
-}
-
-export function useInputSelection(input: React.RefObject<any>) {
-  const pendingSelection = useRef<{ start: number; end: number } | null>(null);
-
-  // React may move the caret when committing the input value.
-  useIsomorphicLayoutEffect(() => {
-    const selection = pendingSelection.current;
-    pendingSelection.current = null;
-
-    if (selection && input.current) {
-      safeSetSelection(input.current, selection.start, selection.end);
-    }
-  });
-
-  return function setSelectionRange(selectionStart: number, selectionEnd: number) {
-    const isTest = input.current?.dataset.test === 'true';
-
-    if (isTest) {
-      safeSetSelection(input.current, selectionStart, selectionEnd);
-      return;
-    }
-
-    pendingSelection.current = { start: selectionStart, end: selectionEnd };
-
-    if (input.current) {
-      // Segment navigation can read the selection again within the same event.
-      safeSetSelection(input.current, selectionStart, selectionEnd);
-    }
-  };
 }

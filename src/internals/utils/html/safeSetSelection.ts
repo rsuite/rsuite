@@ -8,13 +8,20 @@ const strNone = 'none';
 export function safeSetSelection(
   element: HTMLInputElement,
   selectionStart: number,
-  selectionEnd: number
+  selectionEnd: number,
+  shouldSetSelection?: () => boolean
 ) {
+  const setSelection = () => {
+    if (!shouldSetSelection || shouldSetSelection()) {
+      element.setSelectionRange(selectionStart, selectionEnd, strNone);
+    }
+  };
+
   if (document.activeElement === element) {
     if (isAndroid()) {
-      requestAnimationFrame(() => element.setSelectionRange(selectionStart, selectionEnd, strNone));
+      requestAnimationFrame(setSelection);
     } else {
-      element.setSelectionRange(selectionStart, selectionEnd, strNone);
+      setSelection();
     }
   }
 }
