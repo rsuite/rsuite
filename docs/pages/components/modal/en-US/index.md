@@ -108,8 +108,8 @@ On mobile devices, the Modal's maximum width will stretch to fill the screen whi
 ### Keyboard Interaction
 
 - <kbd>ESC</kbd> can close the Modal. This functionality can be disabled by setting `keyboard=false`.
-- <kbd>Tab</kbd> When the Modal is open, focus automatically moves inside the Modal. Pressing Tab cycles through focusable elements within the Modal.
-- <kbd>Shift + Tab</kbd> Reverse cycles through focusable elements within the Modal.
+- <kbd>Tab</kbd> With `enforceFocus` enabled, moves through tabbable elements inside the Modal; from the last element, wraps to the first.
+- <kbd>Shift + Tab</kbd> With `enforceFocus` enabled, moves backwards; from the first element, wraps to the last.
 - When the Modal closes, focus returns to the element that triggered the Modal to open.
 
 ## Props
