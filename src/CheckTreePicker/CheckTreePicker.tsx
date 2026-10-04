@@ -253,7 +253,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
     <TreeProvider value={treeContext}>
       <CheckTreeView
         ref={treeView}
-        disabled={disabled}
+        disabled={disabled || rest.readOnly || rest.loading}
         disabledItemValues={disabledItemValues}
         expandItemValues={expandItemValues}
         uncheckableItemValues={uncheckableItemValues}
