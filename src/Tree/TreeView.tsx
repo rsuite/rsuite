@@ -76,6 +76,8 @@ interface TreeViewInnerProps<V = string | number | null>
     WithAsPropsWithoutChildren {
   /** Current owner data, before asynchronous tree-data synchronization. */
   sourceData?: TreeNode[];
+  /** Whether the displayed data belongs to the current owner dataset. */
+  dataReady?: boolean;
   /**
    * An array of values representing the loading nodes.
    */
@@ -111,6 +113,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     as,
     data = [],
     sourceData,
+    dataReady = true,
     style,
     showIndentLine,
     value: valueProp,
@@ -184,6 +187,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     onCancel: sourceKey => {
       const source = virtualizedNodes.find(node => node.refKey === sourceKey);
       setFocusItemValue(source?.[valueKey] ?? null);
+      onFocusItem?.(source?.[valueKey]);
     }
   });
   const handleItemsRendered = props => {
@@ -222,6 +226,10 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     saveTreeNodeRef,
     treeViewRef
   } = useFocusTree({
+    dataReady:
+      dataReady &&
+      filteredData === data &&
+      (searchKeyword === undefined || searchKeyword === keyword),
     filteredData,
     disabledItemValues,
     expandItemValues,

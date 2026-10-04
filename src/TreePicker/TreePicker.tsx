@@ -128,7 +128,10 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
   const [value, setValue] = useControlled(controlledValue, defaultValue);
   const itemDataKeys = { childrenKey, labelKey, valueKey };
 
-  const { treeData, loadingNodeValues, appendChild } = useTreeWithChildren(data, itemDataKeys);
+  const { treeData, treeDataSource, loadingNodeValues, appendChild } = useTreeWithChildren(
+    data,
+    itemDataKeys
+  );
   const flattenedNodes = useFlattenTree(treeData, { ...itemDataKeys });
 
   const { expandItemValues, handleExpandTreeNode } = useExpandTree(data, {
@@ -146,6 +149,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
 
   const { register, focusFirstNode, focusActiveNode } = useTreeImperativeHandle();
   const { active, focusItemValue, setFocusItemValue, triggerProps } = useFocusState({
+    data,
     focusActiveNode,
     target,
     value,
@@ -233,6 +237,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
   const tree = (
     <TreeProvider value={treeContext}>
       <TreeView
+        dataReady={treeDataSource === data}
         ref={treeView}
         value={value}
         data={treeData}

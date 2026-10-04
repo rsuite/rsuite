@@ -10,7 +10,7 @@ interface RegisterMethods {
   /**
    * Focuses on the active node in the tree.
    */
-  focusTreeActiveNode: () => void;
+  focusTreeActiveNode: (value?: string | number | null, isValid?: () => boolean) => void;
 }
 
 type Unregister = () => void;
@@ -73,7 +73,7 @@ export const useTreeContextProps = () => {
  */
 export const useTreeImperativeHandle = () => {
   const focusFirstNodeRef = useRef<(() => void) | null>(null);
-  const focusActiveNodeRef = useRef<(() => void) | null>(null);
+  const focusActiveNodeRef = useRef<RegisterMethods['focusTreeActiveNode'] | null>(null);
 
   const register = useCallback(({ focusTreeFirstNode, focusTreeActiveNode }) => {
     focusFirstNodeRef.current = focusTreeFirstNode;
@@ -88,6 +88,7 @@ export const useTreeImperativeHandle = () => {
   return {
     register,
     focusFirstNode: () => focusFirstNodeRef.current?.(),
-    focusActiveNode: () => focusActiveNodeRef.current?.()
+    focusActiveNode: (value?: string | number | null, isValid?: () => boolean) =>
+      focusActiveNodeRef.current?.(value, isValid)
   };
 };

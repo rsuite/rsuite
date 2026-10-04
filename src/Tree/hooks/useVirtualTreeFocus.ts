@@ -22,10 +22,12 @@ interface NodeLocation {
 }
 
 interface FocusRequest {
+  isValid?: () => boolean;
   refKey: string;
   location: NodeLocation | null;
   sourceElement: Element | null;
   scrolled: boolean;
+  scheduled?: boolean;
 }
 
 /** Scroll keyboard destinations before focusing their mounted tree items. */
@@ -56,6 +58,7 @@ export default function useVirtualTreeFocus(props: VirtualTreeFocusProps) {
       sourceData && findNodeLocation(sourceData, request.refKey, valueKey, childrenKey);
     // A later interaction owns focus. Only an unmounted source row may leave it on body.
     if (
+      request.isValid?.() === false ||
       !node ||
       disabledItemValues.includes(node[valueKey]) ||
       (sourceData && !sameLocation(location, request.location)) ||
@@ -78,10 +81,11 @@ export default function useVirtualTreeFocus(props: VirtualTreeFocusProps) {
     return true;
   });
 
-  const focusNode = useEventCallback((node: TreeNode) => {
+  const focusNode = useEventCallback((node: TreeNode, isValid?: () => boolean) => {
     if (!node.refKey || !nodes.some(item => item.refKey === node.refKey)) return;
 
     pendingFocus.current = {
+      isValid,
       refKey: node.refKey,
       location: sourceData
         ? findNodeLocation(sourceData, node.refKey, valueKey, childrenKey)
@@ -92,7 +96,7 @@ export default function useVirtualTreeFocus(props: VirtualTreeFocusProps) {
     renderPendingFocus();
   });
 
-  useIsomorphicLayoutEffect(() => {
+  const completePendingFocus = useEventCallback(() => {
     const request = pendingFocus.current;
     if (!request || !hasPendingFocus()) return;
 
@@ -110,6 +114,29 @@ export default function useVirtualTreeFocus(props: VirtualTreeFocusProps) {
       if (pendingFocus.current === request) pendingFocus.current = null;
     }
   });
+
+  useIsomorphicLayoutEffect(() => {
+    const request = pendingFocus.current;
+    if (!request) return;
+    if (!request.isValid) {
+      completePendingFocus();
+      return;
+    }
+    if (request.scheduled) return;
+    request.scheduled = true;
+    // Only opening restoration waits for ancestor callbacks; keyboard jumps stay synchronous.
+    Promise.resolve().then(() => {
+      request.scheduled = false;
+      if (pendingFocus.current === request) completePendingFocus();
+    });
+  });
+
+  useIsomorphicLayoutEffect(
+    () => () => {
+      pendingFocus.current = null;
+    },
+    []
+  );
 
   // Child list lifecycle callbacks run before the parent's latest layout effects.
   // Notify the parent instead of consuming a request with the previous owner data.
