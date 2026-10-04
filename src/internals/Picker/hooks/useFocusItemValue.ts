@@ -8,6 +8,7 @@ import { shallowEqual } from '@/internals/utils';
 import { findNodeOfTree } from '../../Tree/utils';
 import { onMenuKeyDown } from '../utils';
 import findItemByValue from '../findItemByValue';
+import getOptionKey from '../getOptionKey';
 import type { ListboxHandle } from '../Listbox';
 
 interface FocusItemValueProps<T = unknown> {
@@ -82,6 +83,13 @@ const useFocusItemValue = <T, D>(
     return menu?.querySelector('[role="listbox"]');
   });
 
+  const getItemByElement = (element: HTMLElement) =>
+    find(data, item =>
+      element.dataset.pickerKey === undefined
+        ? String(item[valueKey]) === element.dataset.key
+        : getOptionKey(item[valueKey]) === element.dataset.pickerKey
+    );
+
   /**
    * Get the elements visible in all options.
    */
@@ -93,27 +101,17 @@ const useFocusItemValue = <T, D>(
       return [];
     }
 
-    let currentKeys = keys;
-
-    if (layer < 1) {
-      const popup = isFunction(target) ? target() : target;
-
-      const rootMenu = popup?.querySelector<HTMLElement>('[data-layer="0"]');
-
-      if (rootMenu) {
-        currentKeys = Array.from(
-          rootMenu.querySelectorAll<HTMLElement>(focusableQueryKey) ?? []
-        ).map(item => item.dataset?.key);
-      } else {
-        currentKeys = Array.from(popup?.querySelectorAll<HTMLElement>(focusableQueryKey) ?? []).map(
-          item => item.dataset?.key
-        );
-      }
+    if (layer >= 1) {
+      return keys.map(value => find(data, item => shallowEqual(item[valueKey], value)));
     }
 
-    // 1. It is necessary to traverse the `keys` instead of `data` here to preserve the order of the array.
-    // 2. The values in `keys` are all string, so the corresponding value of `data` should also be converted to string
-    return currentKeys.map(key => find(data, i => `${i[valueKey]}` === key));
+    const popup = isFunction(target) ? target() : target;
+    const rootMenu = popup?.querySelector<HTMLElement>('[data-layer="0"]') || popup;
+
+    // Preserve rendered order without losing the type of each option's value.
+    return Array.from(rootMenu?.querySelectorAll<HTMLElement>(focusableQueryKey) ?? []).map(
+      getItemByElement
+    );
   };
 
   /**
@@ -185,9 +183,9 @@ const useFocusItemValue = <T, D>(
     const subMenu = menu?.querySelector(`[data-layer="${nextLayer}"]`);
 
     if (subMenu) {
-      return Array.from(subMenu.querySelectorAll<HTMLElement>(focusableQueryKey))?.map<
-        T | undefined
-      >(item => item.dataset?.key as any);
+      return Array.from(subMenu.querySelectorAll<HTMLElement>(focusableQueryKey)).map(
+        item => getItemByElement(item)?.[valueKey]
+      );
     }
 
     return null;

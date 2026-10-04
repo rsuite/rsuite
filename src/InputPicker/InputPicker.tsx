@@ -8,6 +8,7 @@ import pick from 'lodash/pick';
 import Tag from '../Tag';
 import TextBox from './TextBox';
 import InputPickerPopup from './InputPickerPopup';
+import getOptionKey from '@/internals/Picker/getOptionKey';
 import Stack, { StackProps } from '../Stack';
 import useInput from './hooks/useInput';
 import useData, { InputOption } from './hooks/useData';
@@ -668,7 +669,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
           <Tag
             role="option"
             {...tagRest}
-            key={tag}
+            key={getOptionKey(tag)}
             size={convertSize(size)}
             closable={!disabled && closable && !readOnly && !plaintext}
             title={typeof itemNode === 'string' ? itemNode : undefined}

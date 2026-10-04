@@ -1,5 +1,6 @@
 import React from 'react';
 import useCombobox from './hooks/useCombobox';
+import getOptionKey from './getOptionKey';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useEventCallback } from '@/internals/hooks';
 import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
@@ -49,8 +50,9 @@ const ListItem = forwardRef<'div', ListItemProps>((props, ref) => {
       role={role}
       aria-selected={active}
       aria-disabled={disabled}
-      id={id ? `${id}-opt-${value}` : undefined}
+      id={id ? `${id}-opt-${getOptionKey(value)}` : undefined}
       data-key={value}
+      data-picker-key={getOptionKey(value)}
       {...rest}
       ref={ref}
       className={merge(className, rootPrefix`picker-list-item`)}

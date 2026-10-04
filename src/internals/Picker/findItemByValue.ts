@@ -1,8 +1,12 @@
-function findItemByValue(container: Element | null | undefined, value: unknown) {
-  const key = String(value);
+import getOptionKey from './getOptionKey';
 
-  return Array.from(container?.querySelectorAll<HTMLElement>('[data-key]') ?? []).find(
-    item => item.dataset.key === key
+function findItemByValue(container: Element | null | undefined, value: unknown) {
+  const items = Array.from(container?.querySelectorAll<HTMLElement>('[data-key]') ?? []);
+  const key = getOptionKey(value);
+
+  return (
+    items.find(item => item.dataset.pickerKey === key) ||
+    items.find(item => item.dataset.pickerKey === undefined && item.dataset.key === String(value))
   );
 }
 
