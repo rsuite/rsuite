@@ -1,9 +1,10 @@
 name: Size Limit
 on:
   pull_request:
-    branches:
-      - main
-      - next
+    # Keep legacy v4 and root *.x maintenance targets out of PR checks.
+    branches-ignore:
+      - v4
+      - '*.x'
 
 jobs:
   size:
