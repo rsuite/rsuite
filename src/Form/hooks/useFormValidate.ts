@@ -1,8 +1,10 @@
 import { useRef, useCallback } from 'react';
-import omit from 'lodash/omit';
-import set from 'lodash/set';
 import { useControlled, useEventCallback } from '@/internals/hooks';
 import { nameToPath } from '../../useFormControl/utils/nameToPath';
+import {
+  setFieldValue as setErrorValue,
+  removeFieldValue as removeErrorValue
+} from '../utils/fieldValue';
 import type { CheckResult } from 'schema-typed';
 import type { Resolver } from '../resolvers';
 
@@ -165,7 +167,12 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
        * so nestedField does not support proxy here
        */
       if (nestedField) {
-        nextFormError = set(nextFormError, nameToPath(fieldName), resultOfCurrentField);
+        nextFormError = setErrorValue(
+          nextFormError,
+          nameToPath(fieldName),
+          resultOfCurrentField,
+          true
+        );
         setFormError(nextFormError);
         onCheck?.(nextFormError);
         callback?.(resultOfCurrentField);
@@ -289,7 +296,12 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
          */
 
         if (nestedField) {
-          nextFormError = set(nextFormError, nameToPath(fieldName), resultOfCurrentField);
+          nextFormError = setErrorValue(
+            nextFormError,
+            nameToPath(fieldName),
+            resultOfCurrentField,
+            true
+          );
           onCheck?.(nextFormError);
           setFormError(nextFormError);
 
@@ -336,7 +348,10 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
        * when this function is called when the children component is unmount,
        * it's an old render frame so use Ref to get future error
        */
-      const formError = omit(realFormErrorRef.current, [nestedField ? nameToPath(name) : name]);
+      const formError = removeErrorValue(
+        realFormErrorRef.current,
+        nestedField ? nameToPath(name) : name
+      );
 
       realFormErrorRef.current = formError;
       setFormError(formError);
@@ -356,7 +371,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
   });
 
   const cleanErrorForField = useEventCallback((fieldName: string) => {
-    setFormError(omit(realFormError, [nestedField ? nameToPath(fieldName) : fieldName]));
+    setFormError(removeErrorValue(realFormError, nestedField ? nameToPath(fieldName) : fieldName));
   });
 
   return {
