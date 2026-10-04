@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useInsertionEffect } from 'react';
 import { useControlled } from '@/internals/hooks';
 import { setFieldValue as setValue, removeFieldValue } from '../utils/fieldValue';
 
@@ -10,20 +10,43 @@ interface UseFormValueProps<V = RecordAny> {
 
 export default function useFormValue<V>(controlledValue, props: UseFormValueProps<V>) {
   const { formDefaultValue, nestedField } = props;
-  const [formValue, setFormValue] = useControlled(controlledValue, formDefaultValue);
+  const [formValue, setFormValue, isControlled] = useControlled(controlledValue, formDefaultValue);
 
   const realFormValueRef = useRef(formValue);
   realFormValueRef.current = formValue;
+  const committedValueRef = useRef({ formValue, isControlled });
+  // Publish committed props before descendants run their layout effects.
+  useInsertionEffect(() => {
+    committedValueRef.current = { formValue, isControlled };
+  });
+
+  const getFormValue = useCallback(
+    () =>
+      committedValueRef.current.isControlled
+        ? committedValueRef.current.formValue
+        : realFormValueRef.current,
+    []
+  );
+
+  const updateFormValue = useCallback(
+    nextValue => {
+      if (!isControlled) {
+        realFormValueRef.current = nextValue;
+      }
+      setFormValue(nextValue);
+    },
+    [isControlled, setFormValue]
+  );
 
   const setFieldValue = useCallback(
     (fieldName: string, fieldValue: any) => {
-      const nextFormError = setValue(formValue, fieldName, fieldValue, nestedField);
+      const nextFormValue = setValue(getFormValue(), fieldName, fieldValue, nestedField);
 
-      setFormValue(nextFormError);
+      updateFormValue(nextFormValue);
 
-      return nextFormError;
+      return nextFormValue;
     },
-    [formValue, nestedField, setFormValue]
+    [getFormValue, nestedField, updateFormValue]
   );
 
   const onRemoveValue = useCallback(
@@ -45,15 +68,16 @@ export default function useFormValue<V>(controlledValue, props: UseFormValueProp
   const resetFormValue = useCallback(
     (nextValue?: V) => {
       const value = nextValue || formDefaultValue;
-      setFormValue(value);
+      updateFormValue(value);
 
       return value;
     },
-    [formDefaultValue, setFormValue]
+    [formDefaultValue, updateFormValue]
   );
 
   return {
     formValue,
+    getFormValue,
     setFormValue,
     setFieldValue,
     onRemoveValue,
