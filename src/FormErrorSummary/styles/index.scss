@@ -3,14 +3,14 @@
 .rs-form-error-summary {
   padding: calc(var(--rs-spacing) * 4);
   color: var(--rs-message-error-text);
-  background: var(--rs-message-error-bg);
+  background: color-mix(in srgb, var(--rs-message-error-bg) 20%, var(--rs-bg-card));
   border: 1px solid var(--rs-message-error-border);
   border-inline-start-width: 4px;
   border-radius: var(--rs-radius-md);
   overflow-wrap: anywhere;
 
   &:focus {
-    outline: 2px solid var(--rs-focus-ring-color, var(--rs-color-focus-ring));
+    outline: 2px solid currentColor;
     outline-offset: 2px;
   }
 
@@ -43,7 +43,7 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--rs-focus-ring-color, var(--rs-color-focus-ring));
+      outline: 2px solid currentColor;
       outline-offset: 2px;
     }
   }

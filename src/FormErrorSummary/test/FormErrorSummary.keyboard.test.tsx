@@ -10,6 +10,7 @@ import NumberInput from '../../NumberInput';
 import DateInput from '../../DateInput';
 import Modal from '../../Modal';
 import Drawer from '../../Drawer';
+import CustomProvider from '../../CustomProvider';
 import { SchemaModel, StringType } from '../../Schema';
 import '../styles/index.scss';
 import '../../Input/styles/index.scss';
@@ -26,7 +27,8 @@ const item = {
 };
 
 // macOS WebKit uses Option+Tab to include links in sequential keyboard navigation.
-const tabToLink = server.browser === 'webkit' ? '{Alt>}{Tab}{/Alt}' : '{Tab}';
+const tabToLink =
+  server.browser === 'webkit' && /^Mac/.test(navigator.platform) ? '{Alt>}{Tab}{/Alt}' : '{Tab}';
 
 async function activateFirstLink(summary: HTMLElement) {
   act(() => summary.focus());
@@ -35,7 +37,73 @@ async function activateFirstLink(summary: HTMLElement) {
   await act(async () => userEvent.keyboard('{Enter}'));
 }
 
+function contrastRatio(foreground: string, background: string, backdrop: string) {
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 1;
+  const context = canvas.getContext('2d')!;
+  const luminance = (color: string, base: string) => {
+    context.clearRect(0, 0, 1, 1);
+    context.fillStyle = backdrop;
+    context.fillRect(0, 0, 1, 1);
+    context.fillStyle = base;
+    context.fillRect(0, 0, 1, 1);
+    context.fillStyle = color;
+    context.fillRect(0, 0, 1, 1);
+    const channels = [...context.getImageData(0, 0, 1, 1).data].slice(0, 3).map(channel => {
+      const value = channel / 255;
+      return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+    });
+    return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+  };
+  const first = luminance(foreground, background);
+  const second = luminance(background, backdrop);
+  return (Math.max(first, second) + 0.05) / (Math.min(first, second) + 0.05);
+}
+
 describe('FormErrorSummary native navigation', () => {
+  it.each(['light', 'dark', 'high-contrast'] as const)(
+    'keeps readable error text and visible keyboard focus in the %s theme',
+    async theme => {
+      const bodyClassName = document.body.className;
+      try {
+        render(
+          <CustomProvider theme={theme}>
+            <div data-testid="surface" style={{ background: 'var(--rs-body)' }}>
+              <FormErrorSummary header="Errors" items={[item]} />
+            </div>
+          </CustomProvider>
+        );
+        const summary = screen.getByRole('region');
+        act(() => summary.focus());
+        const style = getComputedStyle(summary);
+        const backdrop = getComputedStyle(screen.getByTestId('surface')).backgroundColor;
+        const header = getComputedStyle(screen.getByRole('heading'));
+        expect(contrastRatio(style.color, style.backgroundColor, backdrop)).toBeGreaterThanOrEqual(
+          4.5
+        );
+        expect(contrastRatio(header.color, style.backgroundColor, backdrop)).toBeGreaterThanOrEqual(
+          4.5
+        );
+        expect(style.outlineStyle).toBe('solid');
+        expect(contrastRatio(style.outlineColor, backdrop, backdrop)).toBeGreaterThanOrEqual(3);
+        await act(async () => userEvent.keyboard(tabToLink));
+        const link = screen.getByRole('link');
+        expect(link).toHaveFocus();
+        expect(link.matches(':focus-visible')).toBe(true);
+        const linkStyle = getComputedStyle(link);
+        expect(
+          contrastRatio(linkStyle.color, style.backgroundColor, backdrop)
+        ).toBeGreaterThanOrEqual(4.5);
+        expect(linkStyle.outlineStyle).toBe('solid');
+        expect(
+          contrastRatio(linkStyle.outlineColor, style.backgroundColor, backdrop)
+        ).toBeGreaterThanOrEqual(3);
+      } finally {
+        document.body.className = bodyClassName;
+      }
+    }
+  );
+
   it.each([Input, NumberInput, DateInput])(
     'focuses the real %s control without changing its value',
     async Accepter => {
