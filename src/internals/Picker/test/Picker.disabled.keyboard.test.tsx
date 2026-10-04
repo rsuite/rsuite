@@ -33,6 +33,9 @@ const pickers: [string | undefined, React.ElementType][] = [
   InputPicker,
   TagPicker
 ].map(Picker => [Picker.displayName, Picker]);
+const getPickerProps = (Picker: React.ElementType) =>
+  Picker === InputPicker || Picker === TagPicker ? { searchable: false } : {};
+
 let keys: KeyboardEvent[];
 const recordKey = (event: KeyboardEvent) => keys.push(event);
 beforeEach(() => {
@@ -50,7 +53,9 @@ describe('Picker dynamically disabled keyboard selection', () => {
   it.each(pickers)('%s keeps selection locked and resumes when enabled', async (_name, Picker) => {
     const onChange = vi.fn();
     const onKeyDown = vi.fn();
-    const { rerender } = render(<Picker data={data} defaultOpen onChange={onChange} />);
+    const { rerender } = render(
+      <Picker {...getPickerProps(Picker)} data={data} defaultOpen onChange={onChange} />
+    );
     const combo = screen.getByRole('combobox');
     act(() => combo.focus());
     await press('ArrowDown');
@@ -59,7 +64,16 @@ describe('Picker dynamically disabled keyboard selection', () => {
       { name: 'Alpha' }
     );
     await waitFor(() => expect(alpha).toHaveFocus());
-    rerender(<Picker data={data} defaultOpen disabled onChange={onChange} onKeyDown={onKeyDown} />);
+    rerender(
+      <Picker
+        {...getPickerProps(Picker)}
+        data={data}
+        defaultOpen
+        disabled
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+      />
+    );
     expect(alpha).toHaveFocus();
     await press('ArrowDown');
     expect(alpha).toHaveFocus();
@@ -68,7 +82,15 @@ describe('Picker dynamically disabled keyboard selection', () => {
     expect(onKeyDown.mock.calls[0][0].nativeEvent.isTrusted).toBe(true);
     expect(onChange).not.toHaveBeenCalled();
     expect(alpha).toHaveFocus();
-    rerender(<Picker data={data} defaultOpen onChange={onChange} onKeyDown={onKeyDown} />);
+    rerender(
+      <Picker
+        {...getPickerProps(Picker)}
+        data={data}
+        defaultOpen
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+      />
+    );
     await press('Enter');
     expect(onChange).toHaveBeenCalled();
     expect(onChange.mock.calls[0][0]).toEqual(
@@ -85,7 +107,13 @@ describe('Picker dynamically disabled keyboard selection', () => {
     const onKeyDown = vi.fn();
     const defaultValue = /^(Check|Multi|Tag)/.test(_name || '') ? ['beta'] : 'beta';
     const { rerender } = render(
-      <Picker data={data} defaultOpen defaultValue={defaultValue} onChange={onChange} />
+      <Picker
+        {...getPickerProps(Picker)}
+        data={data}
+        defaultOpen
+        defaultValue={defaultValue}
+        onChange={onChange}
+      />
     );
     const combo = screen.getByRole('combobox');
     act(() => combo.focus());
@@ -97,6 +125,7 @@ describe('Picker dynamically disabled keyboard selection', () => {
     await waitFor(() => expect(alpha).toHaveFocus());
     rerender(
       <Picker
+        {...getPickerProps(Picker)}
         data={data}
         defaultOpen
         defaultValue={defaultValue}
@@ -114,7 +143,7 @@ describe('Picker dynamically disabled keyboard selection', () => {
 
   it.each(pickers)('%s selects normally while enabled', async (_name, Picker) => {
     const onChange = vi.fn();
-    render(<Picker data={data} defaultOpen onChange={onChange} />);
+    render(<Picker {...getPickerProps(Picker)} data={data} defaultOpen onChange={onChange} />);
     act(() => screen.getByRole('combobox').focus());
     await press('ArrowDown');
     const alpha = await screen.findByRole(
