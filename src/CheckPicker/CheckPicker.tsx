@@ -384,7 +384,6 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
           appearance={appearance}
           disabled={disabled}
           onClean={handleClean}
-          onKeyDown={onPickerKeyDown}
           as={toggleAs}
           cleanable={cleanable && !disabled}
           countable={countable}
@@ -395,6 +394,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
           focusItemValue={focusItemValue}
           size={size}
           {...rest}
+          onKeyDown={onPickerKeyDown}
         >
           {selectedElement || locale?.placeholder}
         </PickerToggle>

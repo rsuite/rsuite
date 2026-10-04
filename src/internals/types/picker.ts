@@ -3,7 +3,8 @@ import type {
   ReactNode,
   ElementType,
   SyntheticEvent,
-  FocusEventHandler
+  FocusEventHandler,
+  KeyboardEventHandler
 } from 'react';
 
 import type { Placement } from './placement';
@@ -189,6 +190,9 @@ export interface PickerBaseProps<L = any>
    * Called when the component is blurred.
    */
   onBlur?: FocusEventHandler<any>;
+
+  /** Called when a key is pressed on the picker or its popup. */
+  onKeyDown?: KeyboardEventHandler<HTMLElement>;
 
   /** Custom render extra footer */
   renderExtraFooter?: () => ReactNode;
