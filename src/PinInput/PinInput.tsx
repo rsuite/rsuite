@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React, { KeyboardEvent, ClipboardEvent, ChangeEvent } from 'react';
 import Input from '../Input';
 import usePinInputRefs from './hooks/usePinInputRefs';

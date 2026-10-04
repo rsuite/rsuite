@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import CardHeader from './CardHeader';
 import CardBody from './CardBody';

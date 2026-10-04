@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React, { useCallback, useMemo } from 'react';
 import MonthDropdownItem from './MonthDropdownItem';
 import { forwardRef } from '@/internals/utils';

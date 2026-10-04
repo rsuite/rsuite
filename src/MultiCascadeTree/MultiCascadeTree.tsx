@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import TreeView from './TreeView';
 import SearchView from './SearchView';

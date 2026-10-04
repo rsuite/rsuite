@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
