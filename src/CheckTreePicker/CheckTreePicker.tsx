@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 import CheckTreeView, { type CheckTreeViewProps } from '../CheckTree/CheckTreeView';
 import useTreeValue from '../CheckTree/hooks/useTreeValue';
@@ -171,6 +171,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
     onEnter,
     onExit
   });
+  const [activeDescendantId, setActiveDescendantId] = useState<string>();
 
   const handleClean = useEventCallback((event: React.SyntheticEvent) => {
     const target = event.target as Element;
@@ -274,6 +275,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
         onSearch={onSearch}
         onChange={handleChange}
         onFocusItem={setFocusItemValue}
+        onActiveDescendantChange={setActiveDescendantId}
         value={value}
         loadingNodeValues={loadingNodeValues}
         flattenedNodes={flattenedNodes}
@@ -365,6 +367,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
         placement={placement}
         inputValue={value}
         focusItemValue={focusItemValue}
+        aria-activedescendant={active ? activeDescendantId : undefined}
         size={size}
         {...rest}
       >
