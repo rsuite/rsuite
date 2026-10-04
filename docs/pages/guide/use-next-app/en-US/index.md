@@ -2,7 +2,7 @@
 
 Next.js is a React framework for building full-stack web applications. Here's how to use rsuite with Next.js App Router.
 
-> This document is written based on Next.js v14.x.x. If you are using another version, it may be different.
+> The example was verified with Next.js 15.5.9. Setup may differ with other versions.
 
 ## 1. Create Next.js App (Optional)
 
@@ -34,6 +34,7 @@ Edit the `./src/app/layout.tsx` file and add `import 'rsuite/dist/rsuite-no-rese
 
 ```diff
 import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
 + import 'rsuite/dist/rsuite-no-reset.min.css';
 import './globals.css';
 
@@ -59,7 +60,8 @@ Continue editing the `./src/app/layout.tsx` file, import `CustomProvider`, and w
 
 ```diff
 import type { Metadata } from 'next';
-+ import { CustomProvider } from 'rsuite';
+import type { ReactNode } from 'react';
++ import CustomProvider from 'rsuite/CustomProvider';
 import 'rsuite/dist/rsuite-no-reset.min.css';
 import './globals.css';
 
@@ -83,36 +85,73 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
 In the rsuite component, there are some navigation components, such as `Nav`, `Breadcrumb`, `Dropdown`. When combined with the `Link` component of `Next.js`, you need to pass the `Link` component as the `as` property to the navigation component.
 
-```jsx
+Create a Client Component for this navigation, then import it into your Server Component page:
+
+```tsx
+'use client';
+
 import Link from 'next/link';
 import { Nav, Breadcrumb, Dropdown } from 'rsuite';
 
-<Nav.Item as={Link} href="/about">About</.Item>;
+export default function Navigation() {
+  return (
+    <>
+      <Nav>
+        <Nav.Item as={Link} href="/about">
+          About
+        </Nav.Item>
+      </Nav>
+      <Breadcrumb>
+        <Breadcrumb.Item as={Link} href="/about">
+          About
+        </Breadcrumb.Item>
+      </Breadcrumb>
+      <Dropdown title="More">
+        <Dropdown.Item as={Link} href="/about">
+          About
+        </Dropdown.Item>
+      </Dropdown>
+    </>
+  );
+}
+```
 
-<Breadcrumb.Item as={Link} href="/about">About</Breadcrumb.Item>;
+The layout and pages can remain Server Components. Components that use hooks or event handlers need a client boundary. For a provider that follows the system theme, move the browser state and `matchMedia` listener into a separate Client Component and pass the server-rendered content through its `children` prop. See `Providers.tsx` in the example project.
 
-<Dropdown.Item as={Link} href="/about">About</Dropdown.Item>;
+When importing components directly into a Server Component, use their individual entry points to keep the client boundary focused on the components you render:
+
+```tsx
+import Button from 'rsuite/Button';
+import Stack from 'rsuite/Stack';
+
+export default function Page() {
+  return (
+    <Stack spacing={20}>
+      <Button href="/about">About</Button>
+    </Stack>
+  );
+}
 ```
 
 ## FAQ
 
 ### How to solve the "Error: Could not find the module ..." error?
 
-⚠️ If you use the code above directly, you may encounter the following error:
+Accessing a compound component such as `Nav.Item` directly in a Server Component may produce this error:
 
 ```bash
 Error: Could not find the module "...#Nav#Item" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
 ```
 
-This is because React Server Components cannot correctly resolve the bundled components under Next.js App Router. To resolve this issue, you’ll need to adjust your import statements for affected components.
+Use a Client Component for the navigation shown above. When rendering these components directly from a Server Component, import the child component through its own entry point:
 
 ```diff
 - import { Nav } from 'rsuite';
 + import Nav from 'rsuite/Nav';
 + import NavItem from 'rsuite/NavItem';
 
-- <Nav.Item as={Link} href="/about">About</Nav.Item>;
-+ <NavItem as={Link} href="/about">About</NavItem>;
+- <Nav.Item href="/about">About</Nav.Item>;
++ <NavItem href="/about">About</NavItem>;
 ```
 
 ## Example projects
