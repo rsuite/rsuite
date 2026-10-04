@@ -72,6 +72,8 @@ export type WithTreeDragProps<P> = P & TreeDragProps;
 interface TreeViewInnerProps<V = string | number | null>
   extends Omit<WithTreeDragProps<TreeViewProps<V>>, 'onExpand'>,
     WithAsPropsWithoutChildren {
+  disabled?: boolean;
+
   /**
    * An array of values representing the loading nodes.
    */
@@ -105,6 +107,7 @@ interface TreeViewInnerProps<V = string | number | null>
 const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
   const {
     as,
+    disabled,
     data = [],
     style,
     showIndentLine,
@@ -245,6 +248,10 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
   });
 
   const handleTreeKeyDown = useEventCallback((event: React.KeyboardEvent<any>) => {
+    if (disabled) {
+      return;
+    }
+
     onTreeKeydown(event);
     onMenuKeyDown(event, { enter: selectActiveItem });
   });

@@ -243,6 +243,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
       trigger,
       target,
       overlay,
+      disabled,
       searchInput,
       active,
       onExit: handleClean,
