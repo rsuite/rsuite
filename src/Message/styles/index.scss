@@ -43,6 +43,29 @@
     }
   }
 
+  &.rs-message-error {
+    .rs-message-body a:not(.rs-btn) {
+      color: var(--rs-text-link-hover);
+
+      &:focus-visible {
+        outline: 2px solid currentcolor;
+        outline-offset: 2px;
+      }
+    }
+
+    @include color-modes.dark-mode {
+      .rs-message-body a:not(.rs-btn) {
+        color: inherit;
+      }
+    }
+
+    @include color-modes.high-contrast-mode {
+      .rs-message-body a:not(.rs-btn, :hover, :focus) {
+        color: var(--rs-text-link);
+      }
+    }
+  }
+
   @include color-modes.high-contrast-mode {
     border: 1px solid var(--rs-message-border-color);
   }
