@@ -1,6 +1,23 @@
 import { KEY_VALUES } from '@/internals/constants';
 import { useEventCallback } from '@/internals/hooks';
 
+const editableInputTypes =
+  /^(text|search|tel|url|email|password|number|date|month|week|time|datetime-local)$/;
+
+function isEditableTarget(target: EventTarget) {
+  const element = target as HTMLInputElement;
+  if (element.isContentEditable) {
+    return true;
+  }
+  if (element.readOnly || element.disabled) {
+    return false;
+  }
+  return (
+    element.tagName === 'TEXTAREA' ||
+    (element.tagName === 'INPUT' && editableInputTypes.test(element.type))
+  );
+}
+
 interface ToggleKeyDownEventProps {
   toggle?: boolean;
   trigger: React.RefObject<any>;
@@ -60,8 +77,14 @@ const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
   });
 
   const onToggle = useEventCallback((event: React.KeyboardEvent) => {
+    const shouldPreventBackspace =
+      event.key === KEY_VALUES.BACKSPACE && !isEditableTarget(event.target);
+
     // Keyboard events should not be processed when readOnly and disabled are set.
     if (readOnly || disabled || loading) {
+      if (shouldPreventBackspace) {
+        event.preventDefault();
+      }
       onKeyDown?.(event);
       return;
     }
@@ -106,6 +129,11 @@ const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
 
     if (event.key === KEY_VALUES.ESC || event.key === KEY_VALUES.TAB) {
       handleClose();
+    }
+
+    // Menu handlers must inspect the original event before browser navigation is cancelled.
+    if (shouldPreventBackspace) {
+      event.preventDefault();
     }
 
     // Native event callback
