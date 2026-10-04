@@ -4,6 +4,7 @@ import { shallowEqual as equal } from '@/internals/utils';
 import { useCombobox } from '@/internals/Picker/hooks';
 import { useItemDataKeys } from '@/internals/Tree/TreeProvider';
 import { DragStatus } from '../TreeNode';
+import { formatNodeRefKey } from '../utils/formatNodeRefKey';
 import Highlight from '../../Highlight';
 
 interface Props {
@@ -74,7 +75,7 @@ function useTreeNodeProps(props: Props) {
       const focus = equal(nodeValue, focusItemValue);
 
       return {
-        id: id ? `${id}-opt-${nodeValue}` : undefined,
+        id: id ? `${id}-opt-${formatNodeRefKey(nodeValue)}` : undefined,
         value: nodeValue,
         label,
         index,
