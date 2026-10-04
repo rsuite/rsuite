@@ -6,7 +6,13 @@ import ajaxUpload, { type ErrorStatus } from './utils/ajaxUpload';
 import UploadTrigger, { UploadTriggerInstance, UploadTriggerProps } from './UploadTrigger';
 import Box, { BaseBoxProps } from '@/internals/Box';
 import { forwardRef, guid } from '@/internals/utils';
-import { useStyles, useCustom, useWillUnmount, useEventCallback } from '@/internals/hooks';
+import {
+  useStyles,
+  useCustom,
+  useWillUnmount,
+  useEventCallback,
+  useIsMounted
+} from '@/internals/hooks';
 import type { UploaderLocale } from '../locales';
 
 export interface FileType {
@@ -176,6 +182,8 @@ export interface FileProgressType {
   progress?: number;
 }
 
+type PendingUpload = { file: FileType };
+
 const getFiles = (
   event: React.ChangeEvent<HTMLInputElement> | React.DragEvent<HTMLInputElement>
 ) => {
@@ -318,6 +326,8 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const xhrs = useRef({});
   const trigger = useRef<UploadTriggerInstance>(null);
+  const isMounted = useIsMounted();
+  const pendingUploads = useRef(new Set<PendingUpload>());
 
   const uploadingCount = useRef(0);
   const uploadResults = useRef<{ completed: FileType[]; failed: FileType[] }>({
@@ -327,12 +337,61 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
 
   const [fileList, dispatch] = useFileList(fileListProp || defaultFileList);
 
+  const completeUploadBatch = useCallback(() => {
+    if (uploadingCount.current === 0) {
+      const { completed, failed } = uploadResults.current;
+      uploadResults.current = { completed: [], failed: [] };
+      onCompletion?.(completed, failed);
+    }
+  }, [onCompletion]);
+
+  const cancelPendingUploads = useCallback((shouldCancel: (file: FileType) => boolean) => {
+    const canceledFiles: FileType[] = [];
+
+    pendingUploads.current.forEach(pending => {
+      if (shouldCancel(pending.file)) {
+        pendingUploads.current.delete(pending);
+        uploadingCount.current--;
+        if (!canceledFiles.some(file => file.fileKey === pending.file.fileKey)) {
+          canceledFiles.push(pending.file);
+        }
+      }
+    });
+
+    return canceledFiles;
+  }, []);
+
+  const isFileQueued = useEventCallback((file: FileType) => {
+    if (typeof fileListProp === 'undefined') {
+      return fileList.current.some(queued => queued.fileKey === file.fileKey);
+    }
+
+    return fileListProp?.some(queued =>
+      queued.fileKey
+        ? queued.fileKey === file.fileKey
+        : queued.blobFile === file.blobFile && queued.name === file.name
+    );
+  });
+
+  const cancelRemovedApprovals = useEventCallback(() => {
+    const canceledFiles = cancelPendingUploads(file => !isFileQueued(file));
+    if (canceledFiles.length) {
+      uploadResults.current.failed.push(...canceledFiles);
+      completeUploadBatch();
+    }
+  });
+
   useEffect(() => {
     if (typeof fileListProp !== 'undefined') {
+      cancelRemovedApprovals();
       // Force reset fileList in reducer, when `fileListProp` is updated
       dispatch({ type: 'init', files: fileListProp });
     }
-  }, [dispatch, fileListProp]);
+  }, [cancelRemovedApprovals, dispatch, fileListProp]);
+
+  useWillUnmount(() => {
+    cancelPendingUploads(() => true);
+  });
 
   const updateFileStatus = useCallback(
     (nextFile: FileType) => {
@@ -367,12 +426,9 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
 
       uploadingCount.current--;
       uploadResults.current.completed.push(nextFile);
-      if (uploadingCount.current === 0) {
-        onCompletion?.(uploadResults.current.completed, uploadResults.current.failed);
-        uploadResults.current = { completed: [], failed: [] };
-      }
+      completeUploadBatch();
     },
-    [onCompletion, onSuccess, updateFileStatus]
+    [completeUploadBatch, onSuccess, updateFileStatus]
   );
 
   /**
@@ -393,12 +449,9 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
 
       uploadingCount.current--;
       uploadResults.current.failed.push(nextFile);
-      if (uploadingCount.current === 0) {
-        onCompletion?.(uploadResults.current.completed, uploadResults.current.failed);
-        uploadResults.current = { completed: [], failed: [] };
-      }
+      completeUploadBatch();
     },
-    [onCompletion, onError, updateFileStatus]
+    [completeUploadBatch, onError, updateFileStatus]
   );
 
   /**
@@ -451,23 +504,36 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
     onUpload?.(file, uploadData, xhr);
   });
 
+  const handleUploadApproval = useEventCallback((pending: PendingUpload, approved: boolean) => {
+    // Each start owns its own approval, even when several starts refer to the same file.
+    if (!pendingUploads.current.delete(pending)) return;
+
+    if (!isMounted() || !rootRef.current) {
+      uploadingCount.current--;
+      return;
+    }
+
+    if (!isFileQueued(pending.file)) {
+      uploadingCount.current--;
+      uploadResults.current.failed.push(pending.file);
+      completeUploadBatch();
+    } else if (approved) {
+      handleUploadFile(pending.file);
+    } else {
+      uploadingCount.current--;
+      completeUploadBatch();
+    }
+  });
+
   const handleAjaxUpload = useEventCallback(() => {
     fileList.current.forEach(file => {
       const checkState = shouldUpload?.(file);
 
       if (checkState instanceof Promise) {
+        const pending = { file };
+        pendingUploads.current.add(pending);
         uploadingCount.current++;
-        checkState.then(res => {
-          if (res) {
-            handleUploadFile(file);
-          } else {
-            uploadingCount.current--;
-            if (uploadingCount.current === 0) {
-              onCompletion?.(uploadResults.current.completed, uploadResults.current.failed);
-              uploadResults.current = { completed: [], failed: [] };
-            }
-          }
-        });
+        checkState.then(res => handleUploadApproval(pending, res));
         return;
       } else if (checkState === false) {
         return;
@@ -529,14 +595,17 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
     const file: any = find(fileList.current, f => f.fileKey === fileKey);
     const nextFileList = fileList.current.filter(f => f.fileKey !== fileKey);
 
-    if (xhrs.current?.[file.fileKey]?.readyState !== 4) {
-      xhrs.current[file.fileKey]?.abort();
+    const canceledFiles = cancelPendingUploads(pendingFile => pendingFile.fileKey === fileKey);
+    const xhr = xhrs.current[file.fileKey];
+    const uploading = xhr && xhr.readyState !== 4;
+
+    if (uploading) {
+      xhr.abort();
       uploadingCount.current--;
+    }
+    if (canceledFiles.length || uploading) {
       uploadResults.current.failed.push(file);
-      if (uploadingCount.current === 0) {
-        onCompletion?.(uploadResults.current.completed, uploadResults.current.failed);
-        uploadResults.current = { completed: [], failed: [] };
-      }
+      completeUploadBatch();
     }
 
     dispatch({ type: 'remove', fileKey });
