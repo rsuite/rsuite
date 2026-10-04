@@ -12,6 +12,7 @@ import get from 'lodash/get';
 import classNames from 'classnames';
 import ListItemGroup from './ListItemGroup';
 import findItemByValue from './findItemByValue';
+import getOptionKey from './getOptionKey';
 import VirtualizedListItem, { ItemRendererProvider } from './VirtualizedListItem';
 import useCombobox from './hooks/useCombobox';
 import Highlight from '../../Highlight';
@@ -381,7 +382,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       }
 
       // Use `value` in keys when If `value` is string or number
-      const itemKey = isString(value) || isNumber(value) ? value : index;
+      const itemKey = isString(value) || isNumber(value) ? getOptionKey(value) : index;
 
       //  Render <ListboxGroup> component when `groupBy` is defined
       if (groupable && item[RSUITE_PICKER_GROUP_KEY]) {

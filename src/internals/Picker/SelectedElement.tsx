@@ -1,5 +1,6 @@
 import React from 'react';
 import Badge from '../../Badge';
+import getOptionKey from './getOptionKey';
 import { reactToString } from '@/internals/utils';
 import { PickerLocale } from '../../locales';
 import type { Size } from '@/internals/types';
@@ -52,7 +53,7 @@ const SelectedElement = (props: SelectedElementProps) => {
         {selectedItems.map((item, index) => {
           const checkAll = cascade && (item.checkAll || item[childrenKey]);
           return (
-            <React.Fragment key={item[valueKey]}>
+            <React.Fragment key={getOptionKey(item[valueKey])}>
               <span className={prefix('value-item')}>
                 {item[labelKey]}
                 {checkAll && locale?.checkAll ? ` (${locale.checkAll})` : ''}
