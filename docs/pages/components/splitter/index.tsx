@@ -7,7 +7,7 @@ const inDocsComponents = {
   'import-guide': () => <ImportGuide components={['Splitter']} />
 };
 
-export default function Page() {
+export default function Page(): React.ReactElement {
   return (
     <DefaultPage
       inDocsComponents={inDocsComponents}
