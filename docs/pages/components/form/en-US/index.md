@@ -157,6 +157,8 @@ HTML:
 | rule                   | checkType                                             | Validation rule for the field. Overrides form-level `model` validation if there's a conflict, [example](/components/form-validation/#field-level-verification-rules). |
 | shouldResetWithUnmount | boolean`('false')`                                    | Removes the field value and error message when the component is unmounted.                                                                                            |
 
+`shouldResetWithUnmount` removes the value and error when the control's wrapper DOM is physically removed. Retained DOM during StrictMode effect replay or React Activity hiding keeps its form state, including when this option is `true`. This changes the previous cleanup behavior for hidden Activity content. A custom `as` wrapper must forward a DOM ref to use this behavior; wrappers without a DOM ref retain effect-cleanup behavior. The standalone `useFormControl` hook is unchanged.
+
 ### `<Form.Group>`
 
 | Property    | Type`(default)`         | Description                                                                     |

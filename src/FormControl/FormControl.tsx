@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import Input from '../Input';
 import FormErrorMessage from '../FormErrorMessage';
 import Toggle from '../Toggle';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
-import { useStyles, useCustom } from '@/internals/hooks';
+import { useStyles, useCustom, useWillUnmount } from '@/internals/hooks';
 import { useFormGroup } from '../FormGroup';
+import { useFormContext } from '../Form/FormContext';
 import { useFormControl } from '../useFormControl';
 import type { CheckType } from 'schema-typed';
 import type {
@@ -62,7 +63,11 @@ export interface FormControlProps<ValueType = any>
   /** Asynchronous check value */
   checkAsync?: boolean;
 
-  /** Remove field value and error message when component is unmounted  */
+  /**
+   * Remove field value and error when the wrapper DOM is removed.
+   * Retained DOM keeps its state during effect replay or Activity hiding.
+   * Custom wrappers without a DOM ref use effect cleanup instead.
+   */
   shouldResetWithUnmount?: boolean;
 
   /** Validation rule */
@@ -108,6 +113,29 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
   } = propsWithDefaults;
 
   const { controlId, helpTextId, labelId, errorMessageId } = useFormGroup(id);
+  const { removeFieldValue, removeFieldError } = useFormContext();
+  const hostRef = useRef<Element | null>(null);
+  const handleRef = useCallback(
+    (node: HTMLElement | null) => {
+      // Keep the host across callback null/ref cleanup during an effect replay.
+      if (node !== null) {
+        hostRef.current =
+          node != null &&
+          (typeof node === 'object' || typeof node === 'function') &&
+          node.nodeType === 1 &&
+          typeof node.isConnected === 'boolean'
+            ? node
+            : null;
+      }
+      if (typeof ref === 'function') {
+        return ref(node);
+      }
+      if (ref) {
+        ref.current = node;
+      }
+    },
+    [ref]
+  );
 
   // Use the useFormControl hook to handle form control logic
   const {
@@ -124,8 +152,14 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
     checkTrigger,
     errorMessage,
     checkAsync,
-    shouldResetWithUnmount,
     rule
+  });
+
+  useWillUnmount(() => {
+    if (shouldResetWithUnmount && !hostRef.current?.isConnected) {
+      removeFieldValue?.(name);
+      removeFieldError?.(name);
+    }
   });
 
   // Combine props and context values
@@ -158,7 +192,7 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
   const hasError = Boolean(fieldError);
 
   return (
-    <Box as={as} className={classes} ref={ref} data-testid="form-control-wrapper">
+    <Box as={as} className={classes} ref={handleRef} data-testid="form-control-wrapper">
       <AccepterComponent
         id={controlId}
         aria-labelledby={labelId}
