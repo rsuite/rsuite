@@ -1,10 +1,8 @@
 import { useRef, useCallback } from 'react';
 import { useControlled, useEventCallback } from '@/internals/hooks';
 import { nameToPath } from '../../useFormControl/utils/nameToPath';
-import {
-  setFieldValue as setErrorValue,
-  removeFieldValue as removeErrorValue
-} from '../utils/fieldValue';
+import { setFieldValue as setErrorValue } from '../utils/fieldValue';
+import { getFieldError, removeFieldError } from '../utils/fieldError';
 import type { CheckResult } from 'schema-typed';
 import type { Resolver } from '../resolvers';
 
@@ -141,10 +139,13 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
         }
 
         const { errors } = result;
-        const fieldError = errors[fieldName];
+        const fieldError = getFieldError(errors, fieldName, !!nestedField);
         const hasFieldError = isValidError(fieldError);
         // Merge resolver errors with existing errors, clearing fields that now pass
-        const nextFormError = mergeResolverErrors(realFormError, errors);
+        const mergedFormError = mergeResolverErrors(realFormError, errors);
+        const nextFormError = hasFieldError
+          ? mergedFormError
+          : removeFieldError(mergedFormError, fieldName, !!nestedField);
 
         setFormError(nextFormError);
         onCheck?.(nextFormError);
@@ -270,9 +271,12 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
   const checkFieldAsyncForNextValue = useEventCallback((fieldName: string, nextValue: any) => {
     if (resolver) {
       return Promise.resolve(resolver(nextValue)).then(({ errors }) => {
-        const fieldError = errors[fieldName];
+        const fieldError = getFieldError(errors, fieldName, !!nestedField);
         const hasFieldError = isValidError(fieldError);
-        const nextFormError = mergeResolverErrors(realFormError, errors);
+        const mergedFormError = mergeResolverErrors(realFormError, errors);
+        const nextFormError = hasFieldError
+          ? mergedFormError
+          : removeFieldError(mergedFormError, fieldName, !!nestedField);
 
         onCheck?.(nextFormError);
         setFormError(nextFormError);
@@ -348,10 +352,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
        * when this function is called when the children component is unmount,
        * it's an old render frame so use Ref to get future error
        */
-      const formError = removeErrorValue(
-        realFormErrorRef.current,
-        nestedField ? nameToPath(name) : name
-      );
+      const formError = removeFieldError(realFormErrorRef.current, name, !!nestedField);
 
       realFormErrorRef.current = formError;
       setFormError(formError);
@@ -371,7 +372,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
   });
 
   const cleanErrorForField = useEventCallback((fieldName: string) => {
-    setFormError(removeErrorValue(realFormError, nestedField ? nameToPath(fieldName) : fieldName));
+    setFormError(removeFieldError(realFormError, fieldName, !!nestedField));
   });
 
   return {

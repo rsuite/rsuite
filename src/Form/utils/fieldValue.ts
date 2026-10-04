@@ -75,11 +75,11 @@ export function setFieldValue(formValue: any, name: string, value: any, nestedFi
   return setWith(cloneContainer(formValue), name, value, cloneFieldContainer);
 }
 
-export function removeFieldValue(formValue: any, name: string) {
+export function removeFieldValue(formValue: any, name: string | string[]) {
   const nextValue = cloneContainer(formValue);
   if (!hasIn(formValue, name)) return nextValue;
 
-  const path = name in Object(formValue) ? [name] : toPath(name);
+  const path = typeof name === 'string' && name in Object(formValue) ? [name] : toPath(name);
   if (
     path.length > 1 &&
     path.some(key => ['__proto__', 'constructor', 'prototype'].includes(key))
