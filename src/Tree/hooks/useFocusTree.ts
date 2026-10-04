@@ -1,7 +1,8 @@
 import isNil from 'lodash/isNil';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { KEY_VALUES } from '@/internals/constants';
-import { useEventCallback, useCustom } from '@/internals/hooks';
+import { useEventCallback, useCustom, useIsomorphicLayoutEffect } from '@/internals/hooks';
+import { shallowEqual } from '@/internals/utils';
 import { onMenuKeyDown } from '@/internals/Picker';
 import { useItemDataKeys, useRegisterTreeMethods } from '@/internals/Tree/TreeProvider';
 import {
@@ -12,8 +13,8 @@ import {
   focusPreviousItem,
   focusFirstItem,
   focusLastItem,
-  focusCurrentItem,
   focusTreeNode,
+  formatNodeRefKey,
   handleLeftArrow,
   handleRightArrow
 } from '../utils';
@@ -21,6 +22,7 @@ import useTreeNodeRefs from './useTreeNodeRefs';
 import type { TreeNode } from '@/internals/Tree/types';
 
 interface UseFocusTreeProps<T extends TreeNode> {
+  dataReady?: boolean;
   filteredData: T[];
   disabledItemValues: any[];
   expandItemValues: any[];
@@ -28,13 +30,22 @@ interface UseFocusTreeProps<T extends TreeNode> {
   flattenedNodes: any;
   onExpand?: (nodeData: T, expanded: boolean) => void;
   onFocused?: (value: TreeNode['value']) => void;
-  focusNode?: (node: TreeNode) => void;
+  focusNode?: (node: TreeNode, isValid?: () => boolean) => void;
+}
+
+interface SelectedFocusRequest {
+  value: string | number;
+  isValid?: () => boolean;
+  source: Element | null;
+  ownerDocument: Document;
+  scheduled?: boolean;
 }
 /**
  * Custom hook that manages the focus behavior of a tree component.
  */
 function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
   const {
+    dataReady = true,
     filteredData,
     searchKeyword,
     flattenedNodes,
@@ -49,14 +60,17 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
   const { treeNodesRefs, saveTreeNodeRef } = useTreeNodeRefs();
   const treeViewRef = useRef<HTMLDivElement>(null);
   const [focusItemValue, setFocusItemValue] = useState<TreeNode['value'] | null>(null);
+  const [selectedFocusRequest, setSelectedFocusRequest] = useState<SelectedFocusRequest | null>(
+    null
+  );
+  const selectedFocusRequestRef = useRef<SelectedFocusRequest | null>(null);
   const register = useRegisterTreeMethods();
-  const flattenedNodesRef = useRef(flattenedNodes);
 
   const getFocusProps = (value?: string | number) => {
     const options = { disabledItemValues, valueKey, childrenKey, expandItemValues };
     const focusableItems = getFocusableItems(filteredData, options, isSearching(searchKeyword));
     return {
-      focusItemValue: value || focusItemValue,
+      focusItemValue: value ?? focusItemValue,
       valueKey,
       focusableItems,
       treeNodesRefs,
@@ -160,29 +174,83 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
     handleFocusItem(KEY_VALUES.DOWN);
   });
 
-  const focusTreeActiveNode = useCallback(() => {
-    const refKey = focusCurrentItem({ container: treeViewRef.current });
-
-    if (refKey) {
-      const node = flattenedNodesRef.current?.[refKey];
-      if (node) {
-        setFocusItemValue(node[valueKey]);
-        onFocused?.(node[valueKey]);
+  const focusTreeActiveNode = useEventCallback(
+    (value?: string | number | null, isValid?: () => boolean) => {
+      if (isNil(value)) {
+        selectedFocusRequestRef.current = null;
+        setSelectedFocusRequest(null);
+        setFocusItemValue(null);
+        onFocused?.(undefined);
+        return;
       }
+      const ownerDocument = treeViewRef.current?.ownerDocument;
+      if (!ownerDocument) return;
+      const request = {
+        value,
+        isValid,
+        ownerDocument,
+        source: ownerDocument.activeElement
+      };
+      selectedFocusRequestRef.current = request;
+      setSelectedFocusRequest(request);
     }
-  }, [onFocused, valueKey]);
+  );
 
-  useEffect(() => {
+  const restoreSelectedFocus = useEventCallback((request: SelectedFocusRequest) => {
+    if (selectedFocusRequestRef.current !== request) return;
+    const { source, ownerDocument } = request;
+    if (
+      request.isValid?.() === false ||
+      treeViewRef.current?.ownerDocument !== ownerDocument ||
+      (ownerDocument.activeElement !== source &&
+        (source?.isConnected || ownerDocument.activeElement !== ownerDocument.body))
+    ) {
+      selectedFocusRequestRef.current = null;
+      setSelectedFocusRequest(null);
+      return;
+    }
+    if (!dataReady) return;
+
+    const { focusableItems } = getFocusProps(request.value);
+    const node = focusableItems.find(node => shallowEqual(node[valueKey], request.value));
+    // The owner and search data can commit before passive tree formatting finishes.
+    if (
+      node &&
+      (node.refKey !== formatNodeRefKey(node[valueKey]) ||
+        !shallowEqual(flattenedNodes[node.refKey]?.[valueKey], request.value))
+    )
+      return;
+
+    selectedFocusRequestRef.current = null;
+    setSelectedFocusRequest(null);
+
+    setFocusItemValue(node?.[valueKey] ?? null);
+    onFocused?.(node?.[valueKey]);
+    if (!node) return;
+
+    if (focusNode) focusNode(node, request.isValid);
+    else if (node.refKey) focusTreeNode(node.refKey, treeNodesRefs);
+  });
+
+  useIsomorphicLayoutEffect(() => {
+    const request = selectedFocusRequest;
+    if (!request || request.scheduled) return;
+    request.scheduled = true;
+    // Opening callbacks and ancestor exit lifecycles must finish before restoring focus.
+    Promise.resolve().then(() => {
+      request.scheduled = false;
+      restoreSelectedFocus(request);
+    });
+  });
+
+  useIsomorphicLayoutEffect(() => {
     const unregister = register?.({ focusTreeFirstNode, focusTreeActiveNode });
 
     return () => {
+      selectedFocusRequestRef.current = null;
       unregister?.();
     };
   }, []);
-
-  useEffect(() => {
-    flattenedNodesRef.current = flattenedNodes;
-  }, [flattenedNodes]);
 
   return {
     treeViewRef,

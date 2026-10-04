@@ -17,11 +17,25 @@ export default function useTreeWithChildren<T extends TreeNode>(
 ) {
   const { valueKey, childrenKey } = options;
   const [loadingNodeValues, setLoadingNodeValues] = useState([]);
-  const [treeData, setTreeData] = useState(data);
+  const [tree, setTree] = useState({ data, source: data });
+  const setTreeData = useCallback((nextData: T[], source: T[], preserveOwner = false) => {
+    setTree(previous => {
+      // Async children still belong to an owner that only copied the root array.
+      const owner =
+        preserveOwner &&
+        previous.source.length === source.length &&
+        previous.source.every((node, index) => node === source[index])
+          ? previous.source
+          : source;
+      return previous.data === nextData && previous.source === owner
+        ? previous
+        : { data: nextData, source: owner };
+    });
+  }, []);
 
   useEffect(() => {
-    setTreeData(data);
-  }, [data]);
+    setTreeData(data, data);
+  }, [data, setTreeData]);
 
   const concatChildren = useCallback(
     (treeNode: TreeNode, children: any[]): any[] => {
@@ -29,10 +43,10 @@ export default function useTreeWithChildren<T extends TreeNode>(
       treeNode = findNodeOfTree(data, item => value === item[valueKey]);
       treeNode[childrenKey] = children;
       const newData = data.concat([]);
-      setTreeData(newData);
+      setTreeData(newData, data, true);
       return newData;
     },
-    [data, valueKey, childrenKey]
+    [data, valueKey, childrenKey, setTreeData]
   );
 
   const appendChild = useCallback(
@@ -43,15 +57,15 @@ export default function useTreeWithChildren<T extends TreeNode>(
       if (children instanceof Promise) {
         children.then(res => {
           const newData = concatChildren(node, res);
-          setTreeData(newData);
+          setTreeData(newData, data, true);
           setLoadingNodeValues(prev => prev.filter(item => !shallowEqual(item, node[valueKey])));
         });
       } else {
-        setTreeData(concatChildren(node, children));
+        setTreeData(concatChildren(node, children), data, true);
         setLoadingNodeValues(prev => prev.filter(item => !shallowEqual(item, node[valueKey])));
       }
     },
-    [concatChildren, valueKey]
+    [concatChildren, valueKey, data, setTreeData]
   );
-  return { treeData, loadingNodeValues, appendChild };
+  return { treeData: tree.data, treeDataSource: tree.source, loadingNodeValues, appendChild };
 }
