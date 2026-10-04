@@ -7,7 +7,7 @@ const inDocsComponents = {
   'import-guide': () => <ImportGuide components={['useClipboard']} hasCssComponents={[]} />
 };
 
-export default function Page() {
+export default function Page(): React.ReactElement {
   return (
     <DefaultPage
       inDocsComponents={inDocsComponents}
