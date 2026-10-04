@@ -28,6 +28,7 @@ export function useClipboard(options: UseClipboardOptions = {}): UseClipboardRet
   const [error, setError] = useState<Error | null>(null);
   const request = useRef(0);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const expiresAt = useRef<number | null>(null);
   const isMounted = useIsMounted();
 
   const clearTimer = useCallback(() => {
@@ -37,25 +38,50 @@ export function useClipboard(options: UseClipboardOptions = {}): UseClipboardRet
     }
   }, []);
 
+  const scheduleReset = useCallback(
+    (delay: number) => {
+      clearTimer();
+      timer.current = setTimeout(() => {
+        timer.current = null;
+        expiresAt.current = null;
+        setCopied(false);
+      }, delay);
+    },
+    [clearTimer]
+  );
+
   const reset = useCallback(() => {
     request.current += 1;
     clearTimer();
+    expiresAt.current = null;
     setCopied(false);
     setError(null);
   }, [clearTimer]);
 
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    // Activity preserves feedback state while disconnecting effects. Resume the
+    // original deadline when effects reconnect instead of restarting the timeout.
+    if (expiresAt.current !== null) {
+      const remaining = expiresAt.current - Date.now();
+      if (remaining > 0) {
+        scheduleReset(remaining);
+      } else {
+        expiresAt.current = null;
+        setCopied(false);
+      }
+    }
+
+    return () => {
       request.current += 1;
       clearTimer();
-    },
-    [clearTimer]
-  );
+    };
+  }, [clearTimer, scheduleReset]);
 
   const copy = useCallback(
     async (text: string) => {
       const currentRequest = ++request.current;
       clearTimer();
+      expiresAt.current = null;
       setCopied(false);
       setError(null);
 
@@ -70,10 +96,8 @@ export function useClipboard(options: UseClipboardOptions = {}): UseClipboardRet
           setCopied(true);
 
           if (timeout > 0) {
-            timer.current = setTimeout(() => {
-              timer.current = null;
-              setCopied(false);
-            }, timeout);
+            expiresAt.current = Date.now() + timeout;
+            scheduleReset(timeout);
           }
         }
 
@@ -86,7 +110,7 @@ export function useClipboard(options: UseClipboardOptions = {}): UseClipboardRet
         return false;
       }
     },
-    [clearTimer, isMounted, timeout]
+    [clearTimer, isMounted, scheduleReset, timeout]
   );
 
   return { copied, error, copy, reset };
