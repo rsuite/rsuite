@@ -204,6 +204,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
     trigger,
     target,
     overlay,
+    disabled,
     searchInput,
     active,
     onExit: handleClean,
@@ -230,6 +231,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
     <TreeProvider value={treeContext}>
       <TreeView
         ref={treeView}
+        disabled={disabled}
         value={value}
         data={treeData}
         disabledItemValues={disabledItemValues}

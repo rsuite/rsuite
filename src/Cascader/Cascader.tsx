@@ -293,6 +293,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
       trigger,
       target,
       overlay,
+      disabled,
       searchInput,
       active,
       onExit: handleClean,

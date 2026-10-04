@@ -82,6 +82,8 @@ export interface CheckTreeViewProps<V = (string | number)[]>
 interface CheckTreeViewInnerProps<V = (string | number)[]>
   extends WithAsProps,
     Omit<CheckTreeViewProps<V>, 'onExpand'> {
+  disabled?: boolean;
+
   /**
    * Loading node values.
    */
@@ -113,6 +115,7 @@ interface CheckTreeViewInnerProps<V = (string | number)[]>
 const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) => {
   const {
     as,
+    disabled,
     className,
     classPrefix = 'check-tree',
     cascade = true,
@@ -255,6 +258,10 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   };
 
   const handleTreeKeyDown = useEventCallback((event: React.KeyboardEvent<any>) => {
+    if (disabled) {
+      return;
+    }
+
     onTreeKeydown(event);
     onMenuKeyDown(event, { enter: selectActiveItem });
   });

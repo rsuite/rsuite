@@ -480,6 +480,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     trigger: triggerRef,
     target,
     overlay,
+    disabled,
     searchInput,
     loading,
     ...events,

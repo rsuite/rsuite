@@ -194,6 +194,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
     trigger,
     target,
     overlay,
+    disabled,
     searchInput,
     active,
     onExit: handleClean,
@@ -252,6 +253,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
     <TreeProvider value={treeContext}>
       <CheckTreeView
         ref={treeView}
+        disabled={disabled}
         disabledItemValues={disabledItemValues}
         expandItemValues={expandItemValues}
         uncheckableItemValues={uncheckableItemValues}

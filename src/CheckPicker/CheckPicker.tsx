@@ -206,6 +206,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
       trigger,
       target,
       overlay,
+      disabled,
       searchInput,
       active,
       onExit: handleClean,

@@ -235,6 +235,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       trigger,
       target,
       overlay,
+      disabled,
       searchInput,
       active,
       onExit: handleClean,
