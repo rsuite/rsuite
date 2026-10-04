@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
@@ -157,6 +157,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
     onExit,
     onEntered
   });
+  const [activeDescendantId, setActiveDescendantId] = useState<string>();
 
   const handleSelect = useEventCallback(
     (treeNode: TreeNode, value: string | number | null, event: React.SyntheticEvent) => {
@@ -260,6 +261,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
         onSelect={handleSelect}
         onSelectItem={onSelectItem}
         onFocusItem={setFocusItemValue}
+        onActiveDescendantChange={setActiveDescendantId}
       />
     </TreeProvider>
   );
@@ -336,6 +338,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
         placement={placement}
         inputValue={value}
         focusItemValue={focusItemValue}
+        aria-activedescendant={active ? activeDescendantId : undefined}
         {...rest}
       >
         {selectedElement || locale?.placeholder}

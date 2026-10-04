@@ -17,14 +17,26 @@ import {
   defaultItemSize,
   type ListHandle
 } from '@/internals/Windowing';
-import { forwardRef, mergeRefs } from '@/internals/utils';
+import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
 import VirtualizedTreeNode, { NodeRendererProvider } from '@/internals/Tree/VirtualizedTreeNode';
 import { getPathTowardsItem, getKeyParentMap } from '@/internals/Tree/utils';
-import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
-import { isExpand, hasVisibleChildren, getActiveItem } from './utils';
+import {
+  useStyles,
+  useCustom,
+  useEventCallback,
+  useIsomorphicLayoutEffect
+} from '@/internals/hooks';
+import {
+  isExpand,
+  isSearching,
+  hasVisibleChildren,
+  getActiveItem,
+  getFocusableItems
+} from './utils';
 import { onMenuKeyDown } from '@/internals/Picker';
 import { TreeView as BaseTreeView } from '@/internals/Tree';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
+import { formatNodeRefKey } from './utils/formatNodeRefKey';
 import type { DataProps, ToArray, WithAsPropsWithoutChildren } from '@/internals/types';
 import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 import type { TreeViewBaseProps, TreeDragProps } from './types';
@@ -100,6 +112,9 @@ interface TreeViewInnerProps<V = string | number | null>
    */
   onFocusItem?: (value?: V) => void;
 
+  /** Reports the ID of the mounted focused row for a picker trigger. */
+  onActiveDescendantChange?: (id?: string) => void;
+
   /**
    * A callback function that is called when a node is expanded.
    *
@@ -143,6 +158,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     onDrop,
     onExpand,
     onFocusItem,
+    onActiveDescendantChange,
     onScroll,
     ...rest
   } = props;
@@ -192,6 +208,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
   });
   const handleItemsRendered = props => {
     notifyItemsRendered();
+    reportActiveDescendant();
     listProps?.onItemsRendered?.(props);
   };
 
@@ -239,6 +256,26 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     onFocused: onFocusItem,
     onExpand
   });
+
+  const reportActiveDescendant = () => {
+    if (!onActiveDescendantChange) return;
+    const row = isNil(focusItemValue) ? undefined : treeNodesRefs[formatNodeRefKey(focusItemValue)];
+    const eligible =
+      row?.isConnected &&
+      treeViewRef.current?.contains(row) &&
+      getFocusableItems(
+        filteredData,
+        { disabledItemValues, valueKey, childrenKey, expandItemValues },
+        isSearching(keyword)
+      ).some(node => shallowEqual(node[valueKey], focusItemValue));
+    onActiveDescendantChange(eligible ? row.id || undefined : undefined);
+  };
+
+  useIsomorphicLayoutEffect(reportActiveDescendant);
+  useIsomorphicLayoutEffect(
+    () => () => onActiveDescendantChange?.(undefined),
+    [onActiveDescendantChange]
+  );
 
   const { dragNode, dragOverNodeKey, dropNodePosition, dragEvents } = useTreeDrag<TreeNode>({
     flattenedNodes,
