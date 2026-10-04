@@ -231,7 +231,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
     <TreeProvider value={treeContext}>
       <TreeView
         ref={treeView}
-        disabled={disabled}
+        disabled={disabled || rest.readOnly || rest.loading}
         value={value}
         data={treeData}
         disabledItemValues={disabledItemValues}
