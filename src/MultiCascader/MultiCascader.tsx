@@ -5,6 +5,7 @@ import isNil from 'lodash/isNil';
 import TreeView from '../MultiCascadeTree/TreeView';
 import SearchView from '../MultiCascadeTree/SearchView';
 import useActive from '../Cascader/useActive';
+import findItemByValue from '@/internals/Picker/findItemByValue';
 import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { getColumnsAndPaths } from '../CascadeTree/utils';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
@@ -228,8 +229,8 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
 
     const handleMenuPressEnter = useEventCallback((event: React.SyntheticEvent) => {
       const focusItem = flattenData.find(item => item[valueKey] === focusItemValue);
-      const checkbox = overlay.current?.querySelector(
-        `[data-key="${focusItemValue}"] [type="checkbox"]`
+      const checkbox = findItemByValue(overlay.current, focusItemValue)?.querySelector(
+        '[type="checkbox"]'
       );
 
       if (checkbox) {
