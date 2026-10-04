@@ -78,9 +78,6 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
       - name: install react 18
         if: ${{ matrix.react == '18.2.0' }}
         run: npm run install:react-18
@@ -107,6 +104,9 @@ jobs:
           NODE
         env:
           EXPECTED_REACT_VERSION: ${{ matrix.react }}
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
 
       - name: Run headless tests
         run: npm run test:ci -- --browser.headless
