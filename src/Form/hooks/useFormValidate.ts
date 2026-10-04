@@ -400,6 +400,9 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
 
   const onRemoveError = useCallback(
     (name: string) => {
+      // Keep a newer owner for this key so an older proxy cannot restore the removed error.
+      fieldValidations.current.set(name, ++validationId.current);
+      formValidation.current = null;
       /**
        * when this function is called when the children component is unmount,
        * it's an old render frame so use Ref to get future error
@@ -420,6 +423,8 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
   });
 
   const resetErrors = useEventCallback((formError: any = {}) => {
+    fieldValidations.current.clear();
+    formValidation.current = null;
     setFormError(formError);
   });
 
