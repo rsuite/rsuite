@@ -19,6 +19,8 @@ export interface FormErrorProps {
 export default function useFormValidate(_formError: any, props: FormErrorProps) {
   const { formValue, getCombinedModel, onCheck, onError, nestedField, resolver } = props;
   const [realFormError, setFormErrorState, controlled] = useControlled(_formError, {});
+  const controlledRef = useRef(controlled);
+  controlledRef.current = controlled;
   const checkOptions = { nestedObject: nestedField };
 
   const realFormErrorRef = useRef(realFormError);
@@ -419,7 +421,12 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
   );
 
   const cleanErrors = useEventCallback(() => {
-    setFormError({});
+    if (controlledRef.current) return;
+    fieldValidations.current.clear();
+    formValidation.current = null;
+    const nextFormError = {};
+    realFormErrorRef.current = nextFormError;
+    setFormError(nextFormError);
   });
 
   const resetErrors = useEventCallback((formError: any = {}) => {
