@@ -34,10 +34,6 @@ module.exports = {
     defaultLocale: 'en',
     localeDetection: false
   },
-  eslint: {
-    // ESLint is ignored because it's already run in CI workflow
-    ignoreDuringBuilds: true
-  },
   experimental: {
     externalDir: true
   },
@@ -253,7 +249,6 @@ module.exports = {
       }
     ];
   },
-  swcMinify: true,
   images: {
     remotePatterns: [
       {
