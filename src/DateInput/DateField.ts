@@ -74,7 +74,7 @@ interface Action {
 
 export const useDateField = (format: string, localize: Locale['localize'], date?: Date | null) => {
   const [dateField, dispatch] = useReducer(
-    (state: DateField, action: Action) => {
+    (state: DateField, action: Action): DateField => {
       switch (action.type) {
         case 'setYear':
           return { ...state, year: action.value };
