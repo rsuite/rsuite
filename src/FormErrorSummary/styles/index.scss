@@ -1,0 +1,58 @@
+@use '../../internals/Box/styles/index' as box;
+
+.rs-form-error-summary {
+  padding: calc(var(--rs-spacing) * 4);
+  color: var(--rs-message-error-text);
+  background: var(--rs-message-error-bg);
+  border: 1px solid var(--rs-message-error-border);
+  border-inline-start-width: 4px;
+  border-radius: var(--rs-radius-md);
+  overflow-wrap: anywhere;
+
+  &:focus {
+    outline: 2px solid var(--rs-focus-ring-color, var(--rs-color-focus-ring));
+    outline-offset: 2px;
+  }
+
+  &-header {
+    color: var(--rs-message-error-header);
+    font-weight: bold;
+    font-size: var(--rs-font-size-md);
+    line-height: var(--rs-text-line-height-md);
+  }
+
+  &-list {
+    margin: calc(var(--rs-spacing) * 2) 0 0;
+    padding-inline-start: calc(var(--rs-spacing) * 5);
+  }
+
+  &-item + &-item {
+    margin-top: var(--rs-spacing);
+  }
+
+  &-label {
+    font-weight: bold;
+  }
+
+  &-link {
+    color: inherit;
+    text-decoration: underline;
+
+    &:hover {
+      color: inherit;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--rs-focus-ring-color, var(--rs-color-focus-ring));
+      outline-offset: 2px;
+    }
+  }
+
+  @media (forced-colors: active) {
+    border-color: CanvasText;
+
+    &-link {
+      color: LinkText;
+    }
+  }
+}

@@ -16,6 +16,7 @@ A set of components and models that process form data.
 - **Field State**:
   - `Form.Text`: Provides help information for form fields.
   - `Form.ErrorMessage`: Displays error message for form fields.
+  - `Form.ErrorSummary`: Lists errors with links to their corresponding controls.
 - **Hooks**
   - `useFormControl`: A hook that provides form control functionality for custom form components, enabling seamless integration with the Form component.
 
@@ -67,6 +68,20 @@ Error message can be set in 2 ways:
 ### Disabled and read only
 
 <!--{include:`status.md`}-->
+
+### Error summary and field navigation
+
+Use `Form.ErrorSummary` to show an ordered overview of errors in a long form. Supply `items` from your validation or server state, and localize the `header`, field labels and messages in your application. The summary does not run validation or move focus when it appears or changes.
+
+The following example validates only on submission. After a failed submission, the application focuses the summary in an effect after the errors have been committed. Tab to an error link and press Enter to focus and scroll to that control. Existing inline errors and field values are preserved.
+
+<!--{include:`error-summary.md`}-->
+
+Each `controlId` must be a unique DOM ID on the actual focusable control. `Form.Group controlId` supplies this ID to `Form.Control`; a custom `accepter` must forward it to the correct input or focusable widget. A layout wrapper or an ignored ID cannot be used as a substitute. Errors without a `controlId` are displayed as text.
+
+Navigation skips missing, disabled, ARIA-disabled, hidden and inert targets, and stays within the dialog containing the summary. It does not expand tabs or load fields. For a lazy or custom field, use `onSelect(item, event)`, call `event.preventDefault()`, reveal the field and focus it after your own update. If the callback gives focus to another connected element, that focus is preserved.
+
+For dynamic announcements, you can provide `role` or `aria-live` explicitly. By default, the summary is a labelled region without a live region; existing field errors continue to provide their own feedback.
 
 ## Accessibility
 
@@ -186,6 +201,26 @@ HTML:
 | classPrefix | string `('form-error-message')`                       | CSS class prefix for the component          |
 | placement   | [Placement](#code-ts-placement-code)`('bottomStart')` | Specifies where to display error messages   |
 | show        | boolean                                               | Toggles the visibility of the error message |
+
+### `<Form.ErrorSummary>`
+
+| Property | Type `(default)` | Description |
+| --- | --- | --- |
+| header \* | ReactNode | Application-localized heading for the summary |
+| items \* | readonly [FormErrorSummaryItem](#formerrorsummaryitem)[] | Invalid fields in the desired display order; an empty array hides the summary |
+| onSelect | (item: FormErrorSummaryItem, event: MouseEvent) => void | Called before navigation; prevent the default action to handle revealing or focusing the field yourself |
+| tabIndex | number `(-1)` | Tab order of the summary root; the forwarded ref allows explicit application-controlled focus |
+
+#### FormErrorSummaryItem
+
+| Property | Type | Description |
+| --- | --- | --- |
+| name \* | string | Unique, stable field identity; treated as an opaque string, not a nested path |
+| label \* | ReactNode | Label of the field with an error |
+| message \* | ReactNode | Description of the error and how to correct it |
+| controlId | string | Unique DOM ID of the actual focusable field control; omit for a text-only error |
+
+The component is also available as the named export `FormErrorSummary` and the default export from `rsuite/FormErrorSummary`. It accepts Box style props and standard DOM/ARIA props. Navigation focuses the exact target before scrolling with `nearest` alignment and instant behavior; it does not infer or focus a wrapper's descendants.
 
 ### Form Ref
 

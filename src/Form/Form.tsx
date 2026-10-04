@@ -2,6 +2,7 @@ import React, { useMemo, FormHTMLAttributes } from 'react';
 import FormControl, { FormControlComponent } from '../FormControl';
 import FormControlLabel from '../FormControlLabel';
 import FormErrorMessage from '../FormErrorMessage';
+import FormErrorSummary from '../FormErrorSummary';
 import FormGroup from '../FormGroup';
 import FormHelpText from '../FormHelpText';
 import FormStack from '../FormStack';
@@ -166,6 +167,7 @@ const Subcomponents = {
   Control: FormControl as FormControlComponent,
   Label: FormControlLabel,
   ErrorMessage: FormErrorMessage,
+  ErrorSummary: FormErrorSummary,
   Group: FormGroup,
   Text: FormHelpText,
 
