@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import ColorPicker from '@/components/ColorPicker';
 import AdminFrame from '@/components/resources/palette/AdminFrame/AdminFrame';
 import FakeBrowser from '@/components/FakeBrowser';

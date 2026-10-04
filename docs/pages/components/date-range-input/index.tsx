@@ -1,4 +1,3 @@
-import React from 'react';
 import { DateRangeInput, Stack, InputGroup, Button, HStack, VStack, Text, Divider } from 'rsuite';
 import CalendarIcon from '@rsuite/icons/Calendar';
 import DefaultPage from '@/components/layout/Page';

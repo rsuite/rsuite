@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { RadioTile, RadioTileGroup, useMediaQuery } from 'rsuite';
 import { Icon } from '@rsuite/icons';
 import { VscNotebookTemplate, VscRepoClone, VscFile } from 'react-icons/vsc';

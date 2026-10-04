@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import classNames from 'classnames';
 import startCase from 'lodash/startCase';
 import ThemeGroup from '@/components/ThemeGroup';

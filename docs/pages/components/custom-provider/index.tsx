@@ -1,4 +1,3 @@
-import React from 'react';
 import ImportGuide from '@/components/ImportGuide';
 import DefaultPage from '@/components/layout/Page';
 

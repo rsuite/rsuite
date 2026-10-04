@@ -1,4 +1,3 @@
-import React from 'react';
 import Icon from '@rsuite/icons/Icon';
 import components from '@/component.config.json';
 import { useApp } from '@/hooks/useApp';

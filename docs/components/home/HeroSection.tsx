@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from '@/components/Link';
 import Logo from '@/components/Logo';
 import ReactLogo from '@/components/ReactLogo';
