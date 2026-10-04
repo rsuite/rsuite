@@ -34,7 +34,10 @@ jobs:
     strategy:
       matrix:
         browser: [chromium, firefox]
-        react: ['React18', 'React19']
+        react: ['18.2.0', '19.0.0', '19.3.0']
+
+    env:
+      VITE_RSUITE_REACT_VERSION: ${{ matrix.react }}
 
     steps:
       - uses: actions/checkout@v4
@@ -78,12 +81,31 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: install react 18
-        if: ${{ matrix.react == 'React18' }}
+        if: ${{ matrix.react == '18.2.0' }}
         run: npm run install:react-18
 
       - name: install react 19
-        if: ${{ matrix.react == 'React19' }}
+        if: ${{ matrix.react == '19.0.0' }}
         run: npm run install:react-19
+
+      - name: Install React 19.3.0
+        if: ${{ matrix.react == '19.3.0' }}
+        run: npm run install:react-19-3
+
+      - name: Verify installed React runtime
+        run: |
+          node <<'NODE'
+          const assert = require('node:assert/strict');
+          const React = require('react');
+          const ReactDOM = require('react-dom');
+          const expected = process.env.EXPECTED_REACT_VERSION;
+          console.log({ expected, react: React.version, reactDOM: ReactDOM.version });
+          assert.equal(React.version, expected);
+          assert.equal(ReactDOM.version, expected);
+          if (expected === '19.3.0') assert.ok(React.Activity, 'Activity tests require this runtime');
+          NODE
+        env:
+          EXPECTED_REACT_VERSION: ${{ matrix.react }}
 
       - name: Run headless tests
         run: npm run test:ci -- --browser.headless
