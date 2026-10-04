@@ -21,56 +21,63 @@ describe('Form asynchronous schema results', () => {
         ObjectType().shape({ name: StringType().isRequired('Required name') })
       )
     });
-    const nativeCheck = vi.spyOn(model, 'checkForFieldAsync');
+    const nativeCheck = vi.spyOn(Object.getPrototypeOf(model), 'checkForFieldAsync');
     const ref = React.createRef<FormInstance>();
     const onCheck = vi.fn();
     const onError = vi.fn();
-    render(
-      <Form
-        ref={ref}
-        nestedField
-        model={model}
-        formDefaultValue={{ products: [{ name: '' }, { name: 'Valid' }] }}
-        onCheck={onCheck}
-        onError={onError}
-      >
-        <FormControl name="products[0].name" aria-label="First name" />
-        <FormControl name="products[1].name" aria-label="Second name" />
-      </Form>
-    );
+    try {
+      render(
+        <Form
+          ref={ref}
+          nestedField
+          model={SchemaModel.combine(model)}
+          formDefaultValue={{ products: [{ name: '' }, { name: 'Valid' }] }}
+          onCheck={onCheck}
+          onError={onError}
+        >
+          <FormControl name="products[0].name" aria-label="First name" />
+          <FormControl name="products[1].name" aria-label="Second name" />
+        </Form>
+      );
 
-    const result = await checkAsync(ref);
+      const result = await checkAsync(ref);
 
-    expect(result).toEqual({
-      hasError: true,
-      formError: {
-        products: {
-          hasError: true,
-          array: [
-            { hasError: true, object: { name: { hasError: true, errorMessage: 'Required name' } } },
-            { hasError: false, object: { name: { hasError: false } } }
-          ]
+      expect(result).toEqual({
+        hasError: true,
+        formError: {
+          products: {
+            hasError: true,
+            array: [
+              {
+                hasError: true,
+                object: { name: { hasError: true, errorMessage: 'Required name' } }
+              },
+              { hasError: false, object: { name: { hasError: false } } }
+            ]
+          }
         }
-      }
-    });
-    expect(result.formError.products).toBe(await nativeCheck.mock.results[0].value);
-    expect(onCheck).toHaveBeenCalledOnce();
-    expect(onCheck.mock.calls[0][0]).toBe(result.formError);
-    expect(onError).toHaveBeenCalledOnce();
-    expect(onError.mock.calls[0][0]).toBe(result.formError);
-    const alert = screen.getByRole('alert');
-    expect(alert).to.have.text('Required name');
-    expect(screen.getByRole('textbox', { name: 'First name' })).to.have.attribute(
-      'aria-errormessage',
-      alert.id
-    );
-    expect(screen.getByRole('textbox', { name: 'First name' })).to.have.attribute(
-      'aria-invalid',
-      'true'
-    );
-    expect(screen.getByRole('textbox', { name: 'Second name' })).not.to.have.attribute(
-      'aria-invalid'
-    );
+      });
+      expect(result.formError.products).toBe(await nativeCheck.mock.results[0].value);
+      expect(onCheck).toHaveBeenCalledOnce();
+      expect(onCheck.mock.calls[0][0]).toBe(result.formError);
+      expect(onError).toHaveBeenCalledOnce();
+      expect(onError.mock.calls[0][0]).toBe(result.formError);
+      const alert = screen.getByRole('alert');
+      expect(alert).to.have.text('Required name');
+      expect(screen.getByRole('textbox', { name: 'First name' })).to.have.attribute(
+        'aria-errormessage',
+        alert.id
+      );
+      expect(screen.getByRole('textbox', { name: 'First name' })).to.have.attribute(
+        'aria-invalid',
+        'true'
+      );
+      expect(screen.getByRole('textbox', { name: 'Second name' })).not.to.have.attribute(
+        'aria-invalid'
+      );
+    } finally {
+      nativeCheck.mockRestore();
+    }
   });
 
   it('preserves leaf array errors at their corresponding controls', async () => {
