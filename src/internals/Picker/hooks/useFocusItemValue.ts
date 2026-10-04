@@ -214,7 +214,7 @@ const useFocusItemValue = <T, D>(
       const focusItem = findNodeOfTree(data, item => item[valueKey] === focusItemValue);
       const parentItemValue = getParent(focusItem)?.[valueKey];
 
-      if (parentItemValue) {
+      if (parentItemValue != null) {
         setFocusItemValue(parentItemValue);
         focusCallback(parentItemValue, event);
       }
