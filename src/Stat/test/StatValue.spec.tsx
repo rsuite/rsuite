@@ -24,4 +24,27 @@ describe('StatValue', () => {
 
     expect(screen.getByText('US$1,000.00')).to.exist;
   });
+
+  const zeroFormats: { formatOptions?: Intl.NumberFormatOptions; expected: string }[] = [
+    { expected: '0' },
+    { formatOptions: { minimumFractionDigits: 2 }, expected: '0.00' },
+    { formatOptions: { style: 'currency', currency: 'USD' }, expected: 'US$0.00' },
+    { formatOptions: { style: 'percent' }, expected: '0%' }
+  ];
+
+  it.each(zeroFormats)('Should render a zero value as $expected', ({ formatOptions, expected }) => {
+    render(<StatValue value={0} formatOptions={formatOptions} />);
+
+    expect(screen.getByText(expected)).to.exist;
+  });
+
+  it.each([undefined, null])('Should preserve children when value is %j', value => {
+    const { container } = render(
+      <StatValue value={value as any} formatOptions={{ style: 'currency', currency: 'USD' }}>
+        No data
+      </StatValue>
+    );
+
+    expect(container.firstChild).to.have.text('No data');
+  });
 });
