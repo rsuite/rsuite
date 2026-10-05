@@ -287,6 +287,33 @@ describe('SelectPicker', () => {
     expect(onChange).toHaveBeenCalledWith('Kariane', expect.any(Object));
   });
 
+  it.each([0, ''])('Should select option value %j by keyboard', value => {
+    const onChange = vi.fn();
+    const onSelect = vi.fn();
+    const item = { label: 'Option', value };
+
+    render(<SelectPicker defaultOpen data={[item]} onChange={onChange} onSelect={onSelect} />);
+
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+
+    expect(onSelect).toHaveBeenCalledWith(value, item, expect.any(Object));
+    expect(onChange).toHaveBeenCalledWith(value, expect.any(Object));
+    expect(screen.getByRole('combobox')).to.have.text('Option');
+    expect(screen.getByRole('combobox')).to.have.attr('aria-expanded', 'false');
+  });
+
+  it.each([0, ''])('Should expose focused option value %j as the active descendant', value => {
+    render(<SelectPicker defaultOpen data={[{ label: 'Option', value }]} />);
+
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+
+    expect(screen.getByRole('combobox')).to.have.attr(
+      'aria-activedescendant',
+      screen.getByRole('option').id
+    );
+  });
+
   it('Should call onBlur callback', async () => {
     const onBlur = vi.fn();
 
