@@ -33,6 +33,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         browser: [chromium, firefox]
         react: ['18.2.0', '19.0.0', '19.3.0']
