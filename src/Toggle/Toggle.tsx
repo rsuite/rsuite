@@ -132,14 +132,22 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
 
   const [htmlInputProps, restProps] = partitionHTMLProps(rest);
 
+  const handleInputClick = useEventCallback((e: React.MouseEvent<HTMLInputElement>) => {
+    if (disabled || readOnly || loading) {
+      e.currentTarget.checked = checkedProp === undefined ? !e.currentTarget.checked : checked;
+      e.preventDefault();
+    }
+    htmlInputProps.onClick?.(e);
+  });
+
   const handleInputChange = useEventCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (disabled || readOnly || loading) {
       return;
     }
-    const { checked } = e.target;
+    const nextChecked = e.target.checked;
 
-    setChecked(checked);
-    onChange?.(checked, e);
+    setChecked(nextChecked);
+    onChange?.(nextChecked, e);
   });
 
   if (plaintext) {
@@ -163,9 +171,11 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
         {...htmlInputProps}
         ref={inputRef}
         type="checkbox"
-        checked={checked}
+        checked={checkedProp}
+        defaultChecked={checkedProp === undefined ? defaultChecked : undefined}
         disabled={disabled}
         readOnly={readOnly}
+        onClick={handleInputClick}
         onChange={handleInputChange}
         className={prefix('input')}
         role="switch"
