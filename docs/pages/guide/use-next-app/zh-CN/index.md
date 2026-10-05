@@ -2,7 +2,7 @@
 
 Next.js 是一个用于构建全栈 Web 应用程序的 React 框架。以下将介绍如何在 Next.js App Router 中使用 rsuite。
 
-> 此文档是基于 Next.js v14.x.x 编写的，如果您使用的是其他版本，可能会有所不同。
+> 本示例使用 Next.js 15.5.9 验证，其他版本的配置可能有所不同。
 
 ## 1、自动安装(可选)
 
@@ -34,6 +34,7 @@ npx create-next-app@latest
 
 ```diff
 import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
 + import 'rsuite/dist/rsuite-no-reset.min.css';
 import './globals.css';
 
@@ -59,7 +60,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
 ```diff
 import type { Metadata } from 'next';
-+ import { CustomProvider } from 'rsuite';
+import type { ReactNode } from 'react';
++ import CustomProvider from 'rsuite/CustomProvider';
 import 'rsuite/dist/rsuite-no-reset.min.css';
 import './globals.css';
 
@@ -83,36 +85,73 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
 在 rsuite 组件中有一些导航组件，比如 `Nav`、`Breadcrumb`、`Dropdown`，在与 `Next.js` 的 `Link`组件组合使用的时候，需要将 `Link` 组件作为 `as` 属性传递给导航组件。
 
-```jsx
+为导航创建一个客户端组件，然后在服务端页面中导入它：
+
+```tsx
+'use client';
+
 import Link from 'next/link';
 import { Nav, Breadcrumb, Dropdown } from 'rsuite';
 
-<Nav.Item as={Link} href="/about">About</.Item>;
+export default function Navigation() {
+  return (
+    <>
+      <Nav>
+        <Nav.Item as={Link} href="/about">
+          About
+        </Nav.Item>
+      </Nav>
+      <Breadcrumb>
+        <Breadcrumb.Item as={Link} href="/about">
+          About
+        </Breadcrumb.Item>
+      </Breadcrumb>
+      <Dropdown title="More">
+        <Dropdown.Item as={Link} href="/about">
+          About
+        </Dropdown.Item>
+      </Dropdown>
+    </>
+  );
+}
+```
 
-<Breadcrumb.Item as={Link} href="/about">About</Breadcrumb.Item>;
+布局和页面可以保留为服务端组件。使用 Hook 或事件处理函数的组件需要客户端边界。如果 Provider 需要跟随系统主题，将浏览器状态和 `matchMedia` 监听移入单独的客户端组件，再通过 `children` 传入服务端渲染的内容。完整实现见示例项目中的 `Providers.tsx`。
 
-<Dropdown.Item as={Link} href="/about">About</Dropdown.Item>;
+在服务端组件中直接导入组件时，使用独立入口，让客户端边界集中在实际渲染的组件上：
+
+```tsx
+import Button from 'rsuite/Button';
+import Stack from 'rsuite/Stack';
+
+export default function Page() {
+  return (
+    <Stack spacing={20}>
+      <Button href="/about">About</Button>
+    </Stack>
+  );
+}
 ```
 
 ## FAQ
 
 ### 如何解决 "Error: Could not find the module ..." 错误？
 
-⚠️ 直接使用上面的代码，您可能会遇到以下错误：
+在服务端组件中直接访问 `Nav.Item` 等复合组件时，可能会遇到以下错误：
 
 ```bash
 Error: Could not find the module "...#Nav#Item" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
 ```
 
-这是因为在 Nextjs App Router 下 React Server Components 无法正确解析捆绑的组件。要解决此问题，您需要调整受影响组件的导入语句。
+上面的导航示例通过客户端组件使用复合组件。如果要在服务端组件中直接渲染它们，请从独立入口导入子组件：
 
 ```diff
 - import { Nav } from 'rsuite';
 + import Nav from 'rsuite/Nav';
 + import NavItem from 'rsuite/NavItem';
 
-- <Nav.Item as={Link} href="/about">About</Nav.Item>;
-+ <NavItem as={Link} href="/about">About</NavItem>;
+- <Nav.Item href="/about">About</Nav.Item>;
++ <NavItem href="/about">About</NavItem>;
 ```
 
 ## 示例项目
