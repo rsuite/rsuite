@@ -94,6 +94,8 @@ export interface ToggleProps extends Omit<BoxProps, 'height' | 'width'>, Sanitiz
 const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Toggle', props);
   const {
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledby,
     as = 'label',
     disabled,
     readOnly,
@@ -106,7 +108,7 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
     unCheckedChildren,
     classPrefix = 'toggle',
     checked: checkedProp,
-    defaultChecked,
+    defaultChecked = false,
     size = 'md',
     locale,
     label = children,
@@ -125,18 +127,27 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
 
   const labelId = useUniqueId('rs-label');
   const innerId = inner ? labelId + '-inner' : undefined;
-  const labelledby = label ? labelId : innerId;
+  const labelledby =
+    ariaLabelledby ?? (ariaLabel !== undefined ? undefined : label ? labelId : innerId);
 
   const [htmlInputProps, restProps] = partitionHTMLProps(rest);
+
+  const handleInputClick = useEventCallback((e: React.MouseEvent<HTMLInputElement>) => {
+    if (disabled || readOnly || loading) {
+      e.currentTarget.checked = checkedProp === undefined ? !e.currentTarget.checked : checked;
+      e.preventDefault();
+    }
+    htmlInputProps.onClick?.(e);
+  });
 
   const handleInputChange = useEventCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (disabled || readOnly || loading) {
       return;
     }
-    const { checked } = e.target;
+    const nextChecked = e.target.checked;
 
-    setChecked(checked);
-    onChange?.(checked, e);
+    setChecked(nextChecked);
+    onChange?.(nextChecked, e);
   });
 
   if (plaintext) {
@@ -161,16 +172,17 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
         ref={inputRef}
         type="checkbox"
         checked={checkedProp}
-        defaultChecked={defaultChecked}
+        defaultChecked={checkedProp === undefined ? defaultChecked : undefined}
         disabled={disabled}
         readOnly={readOnly}
+        onClick={handleInputClick}
         onChange={handleInputChange}
         className={prefix('input')}
         role="switch"
         aria-checked={checked}
         aria-disabled={disabled}
         aria-labelledby={labelledby}
-        aria-label={labelledby ? undefined : innerLabel}
+        aria-label={ariaLabel ?? (labelledby ? undefined : innerLabel)}
         aria-busy={loading || undefined}
       />
       <span className={prefix('track')}>
