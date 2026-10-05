@@ -92,6 +92,9 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
       if (checkResult.hasError === true) {
         errorCount += 1;
         formErrorObj[key] = checkResult?.errorMessage || checkResult;
+        if (!checkResult.object) {
+          return;
+        }
       }
 
       // Check nested object
