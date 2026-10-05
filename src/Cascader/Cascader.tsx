@@ -446,7 +446,6 @@ const Cascader = forwardRef<'div', CascaderProps>(
           appearance={appearance}
           disabled={disabled}
           onClean={createChainedFunction(handleClean, onClean)}
-          onKeyDown={onPickerKeyDown}
           cleanable={cleanable && !disabled}
           hasValue={hasValue}
           active={active}
@@ -454,6 +453,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
           inputValue={value ?? ''}
           focusItemValue={focusItemValue}
           {...rest}
+          onKeyDown={onPickerKeyDown}
         >
           {selectedElement || locale?.placeholder}
         </PickerToggle>
