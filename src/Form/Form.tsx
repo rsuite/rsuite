@@ -223,7 +223,7 @@ const Form = forwardRef<
   );
 
   const formValidateProps = {
-    formValue,
+    getFormValue,
     getCombinedModel,
     onCheck,
     onError,
