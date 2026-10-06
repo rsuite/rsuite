@@ -82,7 +82,7 @@ export function useEvents(params: UseEventsParams) {
     }
     if (!disabled && !readOnly && event.target === document.activeElement) {
       event.preventDefault();
-      const delta: number = (event as any).wheelDelta || -event.deltaY || -event.detail;
+      const delta = event.deltaY;
       if (delta > 0) {
         onStepDown(event);
       }
