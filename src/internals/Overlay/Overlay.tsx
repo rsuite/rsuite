@@ -1,12 +1,53 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useContext, useMemo } from 'react';
 import classNames from 'classnames';
 import Fade from '../../Animation/Fade';
 import Position, { PositionProps, getPositionStyle } from './Position';
 import { useOverlay } from './OverlayProvider';
-import { useRootClose } from '../hooks';
+import { useRootClose, useIsomorphicLayoutEffect } from '../hooks';
 import { mergeRefs, mergeStyles } from '@/internals/utils';
 import type { Placement, AnimationEventProps, ReactElement } from '@/internals/types';
 import type { CursorPosition, PositionChildProps } from './types';
+import { TooltipDescriptionObserverContext } from './TooltipDescriptionContext';
+
+interface OverlayElementProps {
+  child: ReactElement;
+  childProps?: React.HTMLAttributes<HTMLElement>;
+  childRef: React.RefObject<HTMLElement | null>;
+  overlayTarget: React.MutableRefObject<HTMLElement | null>;
+  position: PositionChildProps;
+  className?: string;
+}
+
+// A stable leaf keeps ref callbacks unchanged when publishing a description rerenders Whisper.
+function OverlayElement({
+  child,
+  childProps,
+  childRef,
+  overlayTarget,
+  position,
+  className
+}: OverlayElementProps) {
+  const description = useContext(TooltipDescriptionObserverContext);
+  const onNodeChange = description?.onNodeChange;
+  const ref = useMemo(
+    () => mergeRefs(mergeRefs(childRef, overlayTarget), onNodeChange),
+    [childRef, overlayTarget, onNodeChange]
+  );
+
+  useIsomorphicLayoutEffect(() => {
+    description?.refresh();
+  });
+
+  const props = {
+    ...childProps,
+    ...child.props,
+    id: child.props.id ?? childProps?.id,
+    className: classNames(child.props.className, className),
+    style: mergeStyles(getPositionStyle(position.left, position.top), child.props.style),
+    ref
+  };
+  return React.cloneElement(child, props);
+}
 
 export interface OverlayProps extends AnimationEventProps {
   container?: HTMLElement | (() => HTMLElement | null) | null;
@@ -99,8 +140,6 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
       <Position {...positionProps} {...transitionProps} ref={mergeRefs(ref, transitionRef)}>
         {(positionChildProps, childRef) => {
           // Position will return coordinates and className
-          const { left, top } = positionChildProps;
-
           // Components returned by function children need to control their own positioning information. For example: Picker
           if (typeof children === 'function') {
             return children(
@@ -114,16 +153,16 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
             );
           }
 
-          const childElement = children as ReactElement;
-          const childStyles = mergeStyles(getPositionStyle(left, top), childElement.props.style);
-
-          return React.cloneElement(childElement, {
-            ...childrenProps,
-            ...childElement.props,
-            className: classNames(childElement.props.className, className),
-            style: childStyles,
-            ref: mergeRefs(childRef, overlayTarget)
-          });
+          return (
+            <OverlayElement
+              child={children as ReactElement}
+              childProps={childrenProps}
+              childRef={childRef}
+              overlayTarget={overlayTarget}
+              position={positionChildProps}
+              className={className}
+            />
+          );
         }}
       </Position>
     );
