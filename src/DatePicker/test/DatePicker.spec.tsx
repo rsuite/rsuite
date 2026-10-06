@@ -1,5 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
+import { userEvent as nativeUserEvent } from '@vitest/browser/context';
 import DatePicker from '../DatePicker';
 import GearIcon from '@rsuite/icons/Gear';
 import CustomProvider from '@/CustomProvider';
@@ -1310,20 +1311,92 @@ describe('DatePicker', () => {
       expect(screen.getByRole('textbox')).to.have.value('Mon, 13 May');
     });
 
-    it('Should render a custom value when a value is entered via the keyboard', async () => {
-      render(
-        <>
-          <div data-testid="outside">Outside</div>
-          <DatePicker format="yyyy-MM-dd" renderValue={value => format(value, 'EEE, d MMM')} />
-        </>
-      );
+    for (const controlled of [false, true]) {
+      const mode = controlled ? 'controlled' : 'uncontrolled';
+      it(`Should render a custom value after native keyboard entry (${mode})`, async () => {
+        const changes: { value: Date | null; trusted: boolean }[] = [];
+        const keys: { key: string; trusted: boolean }[] = [];
+        const clicks: { target: EventTarget | null; trusted: boolean }[] = [];
+        const onExited = vi.fn();
 
-      await keyPress(screen.getByRole('textbox'), '20240513');
+        function Owner() {
+          const [value, setValue] = React.useState<Date | null>(null);
+          return (
+            <DatePicker
+              {...(controlled ? { value } : {})}
+              format="yyyy-MM-dd"
+              renderValue={value => format(value, 'EEE, d MMM')}
+              onExited={onExited}
+              onChange={(nextValue, event) => {
+                changes.push({ value: nextValue, trusted: event.isTrusted });
+                // Echo the public payload without normalizing intermediate invalid dates.
+                if (controlled) setValue(nextValue);
+              }}
+            />
+          );
+        }
 
-      userEvent.click(screen.getByTestId('outside'));
+        render(
+          <div
+            onKeyDownCapture={event => keys.push({ key: event.key, trusted: event.isTrusted })}
+            onClickCapture={event =>
+              clicks.push({ target: event.target, trusted: event.isTrusted })
+            }
+          >
+            <button type="button">Outside owner</button>
+            <Owner />
+          </div>
+        );
+        const input = screen.getByRole('textbox') as HTMLInputElement;
+        const outside = screen.getByRole('button', { name: 'Outside owner' });
+        await nativeUserEvent.click(input, { position: { x: 4, y: 10 } });
+        await waitFor(() => {
+          expect(document.activeElement).toBe(input);
+          expect(input.value).toBe('yyyy-MM-dd');
+          expect([input.selectionStart, input.selectionEnd]).toEqual([0, 4]);
+        });
+        expect(clicks).toEqual([{ target: input, trusted: true }]);
+        expect(changes).toHaveLength(0);
 
-      expect(screen.getByRole('textbox')).to.have.value('Mon, 13 May');
-    });
+        // One rapid trusted command; no timer pacing or per-digit selection acknowledgement.
+        await nativeUserEvent.keyboard('20240513');
+        await waitFor(() => {
+          expect(document.activeElement).toBe(input);
+          expect(input.value).toBe('2024-05-13');
+          expect([input.selectionStart, input.selectionEnd]).toEqual([8, 10]);
+        });
+        expect(keys.map(({ key }) => key).join('')).toBe('20240513');
+        expect(keys).toHaveLength(8);
+        expect(keys.every(({ trusted }) => trusted)).toBe(true);
+        expect(changes).toHaveLength(8);
+        expect(changes.every(({ trusted }) => trusted)).toBe(true);
+        const date = changes.at(-1)!.value;
+        expect(date).toBeInstanceOf(Date);
+        expect(isValid(date!)).toBe(true);
+        expect([
+          date!.getFullYear(),
+          date!.getMonth(),
+          date!.getDate(),
+          date!.getHours(),
+          date!.getMinutes(),
+          date!.getSeconds(),
+          date!.getMilliseconds()
+        ]).toEqual([2024, 4, 13, 0, 0, 0, 0]);
+
+        await nativeUserEvent.click(outside);
+        await waitFor(() => {
+          expect(screen.getByRole('textbox')).to.have.value('Mon, 13 May');
+          expect(document.activeElement).toBe(outside);
+          expect(changes).toHaveLength(8);
+          expect(onExited).toHaveBeenCalledTimes(1);
+        });
+        expect(clicks).toEqual([
+          { target: input, trusted: true },
+          { target: outside, trusted: true }
+        ]);
+        expect(keys).toHaveLength(8);
+      });
+    }
   });
 
   describe('Custom Month Dropdown', () => {
