@@ -85,9 +85,13 @@ async function createConfig() {
   } else {
     // Default browser configuration for other test runs
     if (config.test) {
+      const { trcTrustedResetClick, trcTrustedInputClick } = await import(
+        './test/browser/toggleCommands'
+      );
       config.test.browser = {
         enabled: true,
         provider: 'playwright',
+        commands: { trcTrustedResetClick, trcTrustedInputClick },
         instances: [
           {
             browser: 'chromium',
