@@ -139,12 +139,9 @@ describe('Whisper explicit descriptions', () => {
     expectDescriptions(trigger, ['generic-description']);
   });
 
-  it('does not add an automatic id or description to a default Tooltip', async () => {
+  it('does not add an automatic id or description to a generic speaker', async () => {
     render(
-      <Whisper
-        defaultOpen
-        speaker={<Tooltip data-testid="description-speaker">Extra help</Tooltip>}
-      >
+      <Whisper defaultOpen speaker={<div data-testid="description-speaker">Extra help</div>}>
         <button type="button">Trigger</button>
       </Whisper>
     );
