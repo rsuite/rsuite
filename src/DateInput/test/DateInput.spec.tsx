@@ -90,12 +90,16 @@ describe('DateInput', () => {
     expect(isNaN(onChange.mock.calls[3][0].getTime())).toBe(true);
     expect(input).to.value('2024-MM-dd');
 
-    userEvent.type(input, '{arrowright}12');
+    input.setSelectionRange(5, 7);
+    fireEvent.click(input);
+    userEvent.type(input, '12');
 
     expect(isNaN(onChange.mock.calls[5][0].getTime())).toBe(true);
     expect(input).to.value('2024-12-dd');
 
-    userEvent.type(input, '{arrowright}{arrowright}20');
+    input.setSelectionRange(8, 10);
+    fireEvent.click(input);
+    userEvent.type(input, '20');
 
     expect(format(onChange.mock.lastCall?.[0], 'yyyy-MM-dd')).toBe('2024-12-20');
     expect(input).to.value('2024-12-20');
@@ -426,9 +430,13 @@ describe('DateInput', () => {
       testContinuousKeyPress({
         format: 'HH:mm aa',
         defaultValue: new Date('2023-10-01 13:30:00'),
+        selectBeforeKey: input => {
+          input.setSelectionRange(6, 8);
+          fireEvent.click(input);
+        },
         keySequences: [
-          { key: '{arrowright}{arrowright}a', expected: '01:30 AM' },
-          { key: '{arrowright}{arrowright}p', expected: '13:30 PM' }
+          { key: 'a', expected: '01:30 AM' },
+          { key: 'p', expected: '13:30 PM' }
         ]
       });
     });
