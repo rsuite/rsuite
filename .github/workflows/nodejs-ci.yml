@@ -22,6 +22,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
+      - name: Test build scripts
+        run: node --test scripts/*.node-test.cjs
       - run: npm ci --legacy-peer-deps
       - run: npm run format:check
       - run: npm run lint
