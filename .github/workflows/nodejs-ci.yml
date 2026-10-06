@@ -23,6 +23,8 @@ jobs:
         with:
           node-version: 'lts/*'
       - run: npm ci --legacy-peer-deps
+      - name: Test build proxy discovery
+        run: node --test scripts/test/proxy-directories.test.js
       - run: npm run format:check
       - run: npm run lint
 

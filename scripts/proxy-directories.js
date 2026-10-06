@@ -21,13 +21,13 @@ function findResources(options) {
   const resources = [];
   fs.readdirSync(dir).forEach(item => {
     const itemPath = path.resolve(dir, item);
-    const pathname = itemPath.replace(/[-_a-z0-9]*\//gi, '').replace('.ts', '');
+    const stat = fs.statSync(itemPath);
 
-    if (fs.statSync(itemPath).isDirectory()) {
-      resources.push(pathname);
+    if (stat.isDirectory()) {
+      resources.push(item);
     }
-    if (isFile && fs.statSync(itemPath).isFile()) {
-      resources.push(pathname);
+    if (isFile && stat.isFile()) {
+      resources.push(path.basename(item, '.ts'));
     }
   });
 
