@@ -11,8 +11,8 @@ import {
   useSelectedState,
   useFieldCursor
 } from '../DateInput';
-import { useInputSelectionState } from '../DateInput/hooks/useInputSelection';
 import { getInputSelectedState, DateType, getDateType, isSwitchDateType } from './utils';
+import useDateInputSelection from '../DateInput/hooks/useDateInputSelection';
 import type { FormControlBaseProps } from '@/internals/types';
 
 type ValueType = [Date | null, Date | null] | null;
@@ -112,10 +112,8 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
     character
   };
 
-  const selectionValue = value
-    ? `${value[0]?.getTime() ?? 'empty'}:${value[1]?.getTime() ?? 'empty'}`
-    : value;
-  const { setSelectionRange, getSelectionRange } = useInputSelectionState(inputRef, selectionValue);
+  const { setSelectionRange, resolveKeyboardSelection, invalidate } =
+    useDateInputSelection(inputRef);
 
   const handleChange = useEventCallback(
     (date: Date | null, event: React.SyntheticEvent<HTMLInputElement>) => {
@@ -141,19 +139,28 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
   });
 
   const onSegmentChange = useEventCallback(
-    (event: React.KeyboardEvent<HTMLInputElement>, nextDirection?: 'right' | 'left') => {
-      const input = getSelectionRange();
+    (
+      event: React.KeyboardEvent<HTMLInputElement>,
+      nextDirection?: 'right' | 'left',
+      selectionRange = resolveKeyboardSelection(),
+      selectedMonth = getActiveState().dateField.month,
+      dateString = renderedValue
+    ) => {
+      const input = event.target as HTMLInputElement;
       const key = event.key;
       const direction = nextDirection || (key === 'ArrowRight' ? 'right' : 'left');
 
-      if (input.selectionEnd === null || input.selectionStart === null) {
+      const selectionStart = selectionRange?.selectionStart ?? input.selectionStart;
+      const selectionEnd = selectionRange?.selectionEnd ?? input.selectionEnd;
+
+      if (selectionEnd === null || selectionStart === null) {
         return;
       }
 
-      const cursorIndex = direction === 'right' ? input.selectionEnd : input.selectionStart;
+      const cursorIndex = direction === 'right' ? selectionEnd : selectionStart;
       let nextDateType = dateType;
 
-      if (isSwitchDateType(renderedValue, character, cursorIndex, direction)) {
+      if (isSwitchDateType(dateString, character, cursorIndex, direction)) {
         nextDateType = dateType === DateType.Start ? DateType.End : DateType.Start;
 
         setDateType(nextDateType);
@@ -162,8 +169,11 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
       const state = getInputSelectedState({
         ...keyPressOptions,
         dateType: nextDateType,
-        selectedMonth: getActiveState(nextDateType).dateField.month,
         input,
+        selectionRange,
+        dateString,
+        selectedMonth:
+          nextDateType === dateType ? selectedMonth : getActiveState(nextDateType).dateField.month,
         direction
       });
 
@@ -178,11 +188,16 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
   );
 
   const onSegmentValueChange = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    const input = getSelectionRange();
+    const input = event.target as HTMLInputElement;
     const key = event.key;
     const offset = key === 'ArrowUp' ? 1 : -1;
 
-    const state = getInputSelectedState({ ...keyPressOptions, input, valueOffset: offset });
+    const state = getInputSelectedState({
+      ...keyPressOptions,
+      input,
+      selectionRange: resolveKeyboardSelection(),
+      valueOffset: offset
+    });
 
     setSelectedState(state);
     getActiveState().setDateOffset(state.selectedPattern, offset, date =>
@@ -193,9 +208,15 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 
   const onSegmentValueChangeWithNumericKeys = useEventCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
-      const input = getSelectionRange();
+      const input = event.target as HTMLInputElement;
       const key = event.key;
-      const pattern = selectedState.selectedPattern;
+      const currentSelection = resolveKeyboardSelection();
+      const currentState = getInputSelectedState({
+        ...keyPressOptions,
+        input,
+        selectionRange: currentSelection
+      });
+      const pattern = currentState.selectedPattern;
       const isFunctionKey = key.startsWith('F') && !isNaN(Number(key.slice(1)));
 
       if (isFunctionKey) {
@@ -205,6 +226,8 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
       if (!pattern) {
         return;
       }
+
+      if (currentState.selectedPattern !== selectedState.selectedPattern) reset();
 
       const field = getActiveState().getDateField(pattern);
       const value = parseInt(key, 10);
@@ -222,7 +245,21 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
       // The currently selected month will be retained as a parameter of getInputSelectedState,
       // but if the user enters a month, the month value will be replaced with the value entered by the user.
       const selectedMonth = pattern === 'M' ? newValue : getActiveState().dateField.month;
-      const nextState = getInputSelectedState({ ...keyPressOptions, input, selectedMonth });
+      const nextDateString =
+        dateType === DateType.Start
+          ? startDateState.toDateString(field.name, newValue) +
+            character +
+            endDateState.toDateString()
+          : startDateState.toDateString() +
+            character +
+            endDateState.toDateString(field.name, newValue);
+      const nextState = getInputSelectedState({
+        ...keyPressOptions,
+        input,
+        selectionRange: currentState,
+        selectedMonth,
+        dateString: nextDateString
+      });
 
       setSelectedState(nextState);
       setSelectionRange(nextState.selectionStart, nextState.selectionEnd);
@@ -230,28 +267,32 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
       increment();
 
       // If the field is full value, move the cursor to the next field
-      if (
-        isMoveCursor(newValue, pattern) &&
-        getSelectionRange().selectionEnd !== (event.target as HTMLInputElement).value.length
-      ) {
-        onSegmentChange(event, 'right');
+      if (isMoveCursor(newValue, pattern) && currentState.selectionEnd !== renderedValue.length) {
+        onSegmentChange(event, 'right', nextState, selectedMonth, nextDateString);
       }
     }
   );
 
   const onSegmentValueRemove = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    const input = getSelectionRange();
-    const value = (event.target as HTMLInputElement).value;
+    const input = event.target as HTMLInputElement;
+    const value = input.value;
 
     if (input.selectionStart === 0 && value && input.selectionEnd === value.length) {
       handleClear(event);
-    } else if (selectedState.selectedPattern) {
-      const nextState = getInputSelectedState({ ...keyPressOptions, input, valueOffset: null });
+    } else {
+      const nextState = getInputSelectedState({
+        ...keyPressOptions,
+        input,
+        selectionRange: resolveKeyboardSelection(),
+        valueOffset: null
+      });
+
+      if (!nextState.selectedPattern) return;
 
       setSelectedState(nextState);
       setSelectionRange(nextState.selectionStart, nextState.selectionEnd);
 
-      getActiveState().setDateField(selectedState.selectedPattern, null, date =>
+      getActiveState().setDateField(nextState.selectedPattern, null, date =>
         handleChange(date, event)
       );
 
@@ -260,7 +301,7 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
   });
 
   const onAmPmToggle = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    const input = getSelectionRange();
+    const input = event.target as HTMLInputElement;
     const key = event.key.toLowerCase();
 
     // Only handle 'a' or 'p' keys when the selected pattern is 'a' (AM/PM)
@@ -272,7 +313,11 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
       // Toggle AM/PM based on the key pressed
       // 'a' key -> set to AM, 'p' key -> set to PM
       if ((key === 'a' && isPM) || (key === 'p' && isAM)) {
-        const state = getInputSelectedState({ ...keyPressOptions, input });
+        const state = getInputSelectedState({
+          ...keyPressOptions,
+          input,
+          selectionRange: resolveKeyboardSelection()
+        });
         setSelectedState(state);
         getActiveState().setDateOffset('a', 1, date => handleChange(date, event));
         setSelectionRange(state.selectionStart, state.selectionEnd);
@@ -334,7 +379,17 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
     onSegmentValueChangeWithNumericKeys,
     onSegmentValueRemove,
     onAmPmToggle,
-    onKeyDown
+    onKeyDown: event => {
+      onKeyDown?.(event);
+      if (
+        !event.defaultPrevented &&
+        (event.key === 'Home' ||
+          event.key === 'End' ||
+          ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'a'))
+      ) {
+        invalidate();
+      }
+    }
   });
 
   return (

@@ -5,7 +5,7 @@ import useKeyboardInputEvent from './hooks/useKeyboardInputEvent';
 import useIsFocused from './hooks/useIsFocused';
 import useFieldCursor from './hooks/useFieldCursor';
 import useSelectedState from './hooks/useSelectedState';
-import { useInputSelectionState } from './hooks/useInputSelection';
+import useDateInputSelection from './hooks/useDateInputSelection';
 import { useControlled, useEventCallback, useCustom } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { isValid } from '@/internals/utils/date';
@@ -82,10 +82,8 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
     [dateField, dateString, formatStr, dateLocale]
   );
 
-  const { setSelectionRange, getSelectionRange } = useInputSelectionState(
-    inputRef,
-    value?.getTime()
-  );
+  const { setSelectionRange, resolveKeyboardSelection, invalidate } =
+    useDateInputSelection(inputRef);
 
   const handleChange = useEventCallback(
     (value: Date | null, event: React.SyntheticEvent<HTMLInputElement>) => {
@@ -102,12 +100,25 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
   });
 
   const onSegmentChange = useEventCallback(
-    (event: React.KeyboardEvent<HTMLInputElement>, nextDirection?: 'right' | 'left') => {
-      const input = getSelectionRange();
+    (
+      event: React.KeyboardEvent<HTMLInputElement>,
+      nextDirection?: 'right' | 'left',
+      selectionRange = resolveKeyboardSelection(),
+      selectedMonth = dateField.month,
+      dateString = keyPressOptions.dateString
+    ) => {
+      const input = event.target as HTMLInputElement;
       const key = event.key;
       const direction = nextDirection || (key === 'ArrowRight' ? 'right' : 'left');
 
-      const state = getInputSelectedState({ ...keyPressOptions, input, direction });
+      const state = getInputSelectedState({
+        ...keyPressOptions,
+        input,
+        direction,
+        selectionRange,
+        selectedMonth,
+        dateString
+      });
 
       setSelectedState(state);
       setSelectionRange(state.selectionStart, state.selectionEnd);
@@ -120,11 +131,16 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
   );
 
   const onSegmentValueChange = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    const input = getSelectionRange();
+    const input = event.target as HTMLInputElement;
     const key = event.key;
     const offset = key === 'ArrowUp' ? 1 : -1;
 
-    const state = getInputSelectedState({ ...keyPressOptions, input, valueOffset: offset });
+    const state = getInputSelectedState({
+      ...keyPressOptions,
+      input,
+      selectionRange: resolveKeyboardSelection(),
+      valueOffset: offset
+    });
 
     setSelectedState(state);
     setDateOffset(state.selectedPattern, offset, date => handleChange(date, event));
@@ -133,7 +149,7 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
 
   const onSegmentValueChangeWithNumericKeys = useEventCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
-      const input = getSelectionRange();
+      const input = event.target as HTMLInputElement;
       const key = event.key;
       const isFunctionKey = key.startsWith('F') && !isNaN(Number(key.slice(1)));
 
@@ -141,10 +157,18 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
         return;
       }
 
-      const pattern = selectedState.selectedPattern;
+      const currentSelection = resolveKeyboardSelection();
+      const currentState = getInputSelectedState({
+        ...keyPressOptions,
+        input,
+        selectionRange: currentSelection
+      });
+      const pattern = currentState.selectedPattern;
       if (!pattern) {
         return;
       }
+
+      if (currentState.selectedPattern !== selectedState.selectedPattern) reset();
 
       const field = getDateField(pattern);
       const value = parseInt(key, 10);
@@ -162,7 +186,14 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
       // The currently selected month will be retained as a parameter of getInputSelectedState,
       // but if the user enters a month, the month value will be replaced with the value entered by the user.
       const selectedMonth = pattern === 'M' ? newValue : dateField.month;
-      const nextState = getInputSelectedState({ ...keyPressOptions, input, selectedMonth });
+      const nextDateString = toDateString(field.name, newValue);
+      const nextState = getInputSelectedState({
+        ...keyPressOptions,
+        input,
+        selectionRange: currentState,
+        selectedMonth,
+        dateString: nextDateString
+      });
 
       setSelectedState(nextState);
       setSelectionRange(nextState.selectionStart, nextState.selectionEnd);
@@ -170,36 +201,40 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
       increment();
 
       // If the field is full value, move the cursor to the next field
-      if (
-        isMoveCursor(newValue, pattern) &&
-        getSelectionRange().selectionEnd !== (event.target as HTMLInputElement).value.length
-      ) {
-        onSegmentChange(event, 'right');
+      if (isMoveCursor(newValue, pattern) && currentState.selectionEnd !== dateString.length) {
+        onSegmentChange(event, 'right', nextState, selectedMonth, nextDateString);
       }
     }
   );
 
   const onSegmentValueRemove = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    const input = getSelectionRange();
-    const value = (event.target as HTMLInputElement).value;
+    const input = event.target as HTMLInputElement;
+    const value = input.value;
 
     // If the text is all selected, clear the value
     if (input.selectionStart === 0 && value && input.selectionEnd === value.length) {
       handleClear(event);
-    } else if (selectedState.selectedPattern) {
-      const nextState = getInputSelectedState({ ...keyPressOptions, input, valueOffset: null });
+    } else {
+      const nextState = getInputSelectedState({
+        ...keyPressOptions,
+        input,
+        selectionRange: resolveKeyboardSelection(),
+        valueOffset: null
+      });
+
+      if (!nextState.selectedPattern) return;
 
       setSelectedState(nextState);
       setSelectionRange(nextState.selectionStart, nextState.selectionEnd);
 
-      setDateField(selectedState.selectedPattern, null, date => handleChange(date, event));
+      setDateField(nextState.selectedPattern, null, date => handleChange(date, event));
 
       reset();
     }
   });
 
   const onAmPmToggle = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    const input = getSelectionRange();
+    const input = event.target as HTMLInputElement;
     const key = event.key.toLowerCase();
 
     // Only handle 'a' or 'p' keys when the selected pattern is 'a' (AM/PM)
@@ -211,7 +246,11 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
       // Toggle AM/PM based on the key pressed
       // 'a' key -> set to AM, 'p' key -> set to PM
       if ((key === 'a' && isPM) || (key === 'p' && isAM)) {
-        const state = getInputSelectedState({ ...keyPressOptions, input });
+        const state = getInputSelectedState({
+          ...keyPressOptions,
+          input,
+          selectionRange: resolveKeyboardSelection()
+        });
         setSelectedState(state);
         setDateOffset('a', 1, date => handleChange(date, event));
         setSelectionRange(state.selectionStart, state.selectionEnd);
@@ -251,7 +290,17 @@ const DateInput = forwardRef<typeof Input, DateInputProps>((props, ref) => {
     onSegmentValueChangeWithNumericKeys,
     onSegmentValueRemove,
     onAmPmToggle,
-    onKeyDown
+    onKeyDown: event => {
+      onKeyDown?.(event);
+      if (
+        !event.defaultPrevented &&
+        (event.key === 'Home' ||
+          event.key === 'End' ||
+          ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'a'))
+      ) {
+        invalidate();
+      }
+    }
   });
 
   const [focused, focusEventProps] = useIsFocused({ onBlur, onFocus });

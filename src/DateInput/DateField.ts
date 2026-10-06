@@ -97,14 +97,15 @@ export const useDateField = (format: string, localize: Locale['localize'], date?
     new DateField(format, date)
   );
 
-  const toDateString = () => {
+  const toDateString = (type?: string, value?: number | null) => {
+    const fields = typeof type === 'string' ? { ...dateField, [type]: value } : dateField;
     let str = format;
 
     dateField.patternArray.forEach(item => {
       const { key, pattern } = item;
-      const hour = dateField.hour;
+      const hour = fields.hour;
 
-      let value = dateField[key];
+      let value = fields[key];
 
       if (value !== null) {
         if (pattern === 'MMM' && typeof value === 'number') {

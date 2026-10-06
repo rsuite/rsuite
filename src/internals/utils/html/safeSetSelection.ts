@@ -9,19 +9,19 @@ export function safeSetSelection(
   element: HTMLInputElement,
   selectionStart: number,
   selectionEnd: number,
-  shouldSetSelection?: () => boolean
+  canSetSelection?: () => boolean
 ) {
-  const setSelection = () => {
-    if (!shouldSetSelection || shouldSetSelection()) {
-      element.setSelectionRange(selectionStart, selectionEnd, strNone);
-    }
-  };
-
   if (document.activeElement === element) {
     if (isAndroid()) {
-      requestAnimationFrame(setSelection);
+      requestAnimationFrame(() => {
+        if (!canSetSelection || canSetSelection()) {
+          element.setSelectionRange(selectionStart, selectionEnd, strNone);
+        }
+      });
     } else {
-      setSelection();
+      if (!canSetSelection || canSetSelection()) {
+        element.setSelectionRange(selectionStart, selectionEnd, strNone);
+      }
     }
   }
 }

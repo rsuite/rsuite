@@ -210,6 +210,66 @@ describe('NumberInput', () => {
     expect(onWheel).toHaveBeenCalledTimes(1);
   });
 
+  it.each([
+    { deltaY: 60, wheelDelta: -120, expectedValue: '-1' },
+    { deltaY: -60, wheelDelta: 120, expectedValue: '1' }
+  ])(
+    'Should use the vertical delta when legacy wheel delta has the opposite sign ($deltaY)',
+    ({ deltaY, wheelDelta, expectedValue }) => {
+      const onChange = vi.fn();
+      render(<NumberInput value={0} onChange={onChange} />);
+      const input = screen.getByRole('textbox');
+      const wheelEvent = new WheelEvent('wheel', { bubbles: true, cancelable: true, deltaY });
+
+      // Match the opposite delta signs reported by native wheel events.
+      Object.defineProperty(wheelEvent, 'wheelDelta', { value: wheelDelta });
+      act(() => input.focus());
+      fireEvent(input, wheelEvent);
+
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledWith(expectedValue, expect.any(Object));
+    }
+  );
+
+  it.each([
+    { deltaMode: WheelEvent.DOM_DELTA_PIXEL, deltaY: 0.5 },
+    { deltaMode: WheelEvent.DOM_DELTA_LINE, deltaY: 3 },
+    { deltaMode: WheelEvent.DOM_DELTA_PAGE, deltaY: 1 }
+  ])(
+    'Should apply the configured step for wheel delta mode $deltaMode',
+    ({ deltaMode, deltaY }) => {
+      const onChange = vi.fn();
+      render(<NumberInput value={2} step={0.25} onChange={onChange} />);
+      const input = screen.getByRole('textbox');
+
+      act(() => input.focus());
+      fireEvent.wheel(input, { deltaMode, deltaY });
+
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledWith('1.75', expect.any(Object));
+      onChange.mockClear();
+
+      fireEvent.wheel(input, { deltaMode, deltaY: -deltaY });
+
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledWith('2.25', expect.any(Object));
+    }
+  );
+
+  it('Should preserve the value when scrolling horizontally without a vertical delta', () => {
+    const onChange = vi.fn();
+    const onWheel = vi.fn();
+    render(<NumberInput value={2} onChange={onChange} onWheel={onWheel} />);
+    const input = screen.getByRole('textbox');
+
+    act(() => input.focus());
+    fireEvent.wheel(input, { deltaX: 40, deltaY: 0 });
+
+    expect(onChange).not.toHaveBeenCalled();
+    expect(onWheel).toHaveBeenCalledTimes(1);
+    expect(input).to.have.value('2');
+  });
+
   it('Should not call onWheel callback when `scrollable` is false', () => {
     const onWheel = vi.fn();
     render(<NumberInput onWheel={onWheel} scrollable={false} />);
