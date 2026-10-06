@@ -211,7 +211,7 @@ const OverlayTrigger = React.forwardRef(
       ...rest
     } = props;
 
-    const { Portal, target: containerElement } = usePortal({ container });
+    const { Portal, target: containerElement } = usePortal({ container, waitMount: true });
     const triggerRef = useRef(null);
     const overlayRef = useRef<PositionInstance>(null);
     const [open, setOpen] = useControlled(openProp, defaultOpen);
