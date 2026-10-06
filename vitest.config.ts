@@ -22,6 +22,9 @@ if (RUN_ENV === 'ssr') {
 }
 
 console.group('Vitest Config');
+console.log('Node.js Version:', process.version);
+console.log('Node.js Executable:', process.execPath);
+console.log('npm Node.js Executable:', process.env.npm_node_execpath);
 console.log(`Run Environment: ${RUN_ENV}`);
 console.log('Test Main:', testMainDescription); // Updated log message
 console.groupEnd();
