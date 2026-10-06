@@ -180,8 +180,8 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
       setSelectedState(state);
       setSelectionRange(state.selectionStart, state.selectionEnd);
 
-      // If the selected field changes, reset the input state
-      if (selectedState.selectedPattern !== state.selectedPattern) {
+      // If the endpoint or selected field changes, reset the input state
+      if (nextDateType !== dateType || selectedState.selectedPattern !== state.selectedPattern) {
         reset();
       }
     }
@@ -334,19 +334,19 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 
     const cursorIndex = input.selectionStart === renderedValue.length ? 0 : input.selectionStart;
 
-    const dateType = getDateType(renderedValue || rangeFormatStr, character, cursorIndex);
+    const nextDateType = getDateType(renderedValue || rangeFormatStr, character, cursorIndex);
     const state = getInputSelectedState({
       ...keyPressOptions,
-      dateType,
-      selectedMonth: getActiveState(dateType).dateField.month,
+      dateType: nextDateType,
+      selectedMonth: getActiveState(nextDateType).dateField.month,
       input
     });
 
-    setDateType(dateType);
+    setDateType(nextDateType);
     setSelectedState(state);
     setSelectionRange(state.selectionStart, state.selectionEnd);
 
-    if (selectedState.selectedPattern !== state.selectedPattern) {
+    if (nextDateType !== dateType || selectedState.selectedPattern !== state.selectedPattern) {
       reset();
     }
   });
