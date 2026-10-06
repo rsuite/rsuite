@@ -65,9 +65,15 @@ describe('FormErrorSummary SSR hydration', () => {
   });
 
   afterAll(async () => {
-    await browser?.close();
-    await server?.close();
-    if (cacheDir) await rm(cacheDir, { force: true, recursive: true });
+    try {
+      await browser?.close();
+    } finally {
+      try {
+        await server?.close();
+      } finally {
+        if (cacheDir) await rm(cacheDir, { force: true, recursive: true });
+      }
+    }
   });
 
   it('renders an empty summary without browser globals', () => {
