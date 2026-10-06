@@ -120,6 +120,7 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
           return React.cloneElement(childElement, {
             ...childrenProps,
             ...childElement.props,
+            id: childElement.props.id ?? childrenProps?.id,
             className: classNames(childElement.props.className, className),
             style: childStyles,
             ref: mergeRefs(childRef, overlayTarget)
