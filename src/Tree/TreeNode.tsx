@@ -5,6 +5,7 @@ import { forwardRef, mergeRefs, stringifyReactNode, mergeStyles } from '@/intern
 import { useFocusVirtualListItem, useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
 import { indentTreeNode } from './utils';
+import { getTreeNodePosition } from './utils/getTreeNodePositions';
 import type { TreeNode as TreeNodeData } from '@/internals/Tree/types';
 
 export type DragStatus = 'drag-over' | 'drag-over-top' | 'drag-over-bottom';
@@ -195,6 +196,7 @@ const TreeNode = forwardRef<'div', TreeNodeProps>((props, ref) => {
 
   const treeItemRef = useFocusVirtualListItem<HTMLDivElement>(focus);
   const styles = virtualized ? mergeStyles(style, indentTreeNode(rtl, layer - 1)) : style;
+  const position = virtualized ? getTreeNodePosition(nodeData) : undefined;
 
   return visible ? (
     <Box
@@ -205,6 +207,8 @@ const TreeNode = forwardRef<'div', TreeNodeProps>((props, ref) => {
       aria-expanded={expanded}
       aria-label={labelStr}
       aria-level={layer}
+      aria-posinset={position?.posInSet}
+      aria-setsize={position?.setSize}
       aria-disabled={disabled}
       aria-selected={active}
       data-layer={layer}

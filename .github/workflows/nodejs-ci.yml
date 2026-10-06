@@ -22,6 +22,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
+      - name: Test build scripts
+        run: node --test scripts/*.node-test.cjs
       - run: npm ci --legacy-peer-deps
       - run: npm run format:check
       - run: npm run lint
@@ -38,11 +40,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js LTS
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-
       - name: Free disk space on runner
         if: runner.os == 'Linux' # ubuntu-latest is Linux
         run: |
@@ -61,6 +58,11 @@ jobs:
           npm cache clean --force || echo "npm cache clean failed"
           echo "Disk space after cleanup:"
           df -h
+
+      - name: Use Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
 
       - name: Cache Node.js modules
         uses: actions/cache@v4
@@ -86,7 +88,7 @@ jobs:
         run: npm run install:react-19
 
       - name: Run headless tests
-        run: npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless
+        run: npm run test:ci -- --browser.headless
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}
