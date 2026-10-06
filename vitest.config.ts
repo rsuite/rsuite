@@ -94,6 +94,8 @@ async function createConfig() {
       config.test.browser = {
         enabled: true,
         provider: 'playwright',
+        // Keep Firefox native focus and keyboard tests on one browser page at a time.
+        fileParallelism: BROWSER === 'firefox' ? false : undefined,
         commands: { trcTrustedResetClick, trcTrustedInputClick },
         instances: [
           {
