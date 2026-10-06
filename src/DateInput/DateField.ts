@@ -114,7 +114,7 @@ export const useDateField = (format: string, localize: Locale['localize'], date?
           value = localize?.month((value - 1) as Month, { width: 'wide' });
         } else if (pattern === 'aa') {
           if (typeof hour === 'number') {
-            value = hour > 12 ? 'PM' : 'AM';
+            value = hour >= 12 ? 'PM' : 'AM';
           } else {
             value = 'aa';
           }
@@ -193,7 +193,7 @@ export const useDateField = (format: string, localize: Locale['localize'], date?
     }
 
     if (type === 'meridiem' && typeof hour === 'number') {
-      const newHour = hour > 12 ? hour - 12 : hour + 12;
+      const newHour = hour >= 12 ? hour - 12 : hour + 12;
       type = 'hour';
       value = newHour as number;
     }
