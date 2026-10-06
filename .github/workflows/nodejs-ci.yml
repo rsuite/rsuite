@@ -88,7 +88,7 @@ jobs:
         run: npm run install:react-19
 
       - name: Run headless tests
-        run: npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless
+        run: npm run test:ci -- --browser.headless
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}
