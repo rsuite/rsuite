@@ -550,25 +550,37 @@ const OverlayTrigger = React.forwardRef(
       );
     };
 
+    const descriptionId =
+      controlId == null
+        ? undefined
+        : isValidElement(speaker)
+          ? ((speaker as ReactElement).props.id ?? controlId)
+          : controlId;
+
     const triggerElement = useMemo(() => {
       if (typeof children === 'function') {
         return children(triggerEvents, triggerRef);
       } else if (isFragment(children) || !isValidElement(children)) {
         return (
-          <span ref={triggerRef} aria-describedby={controlId} {...triggerEvents}>
+          <span ref={triggerRef} aria-describedby={descriptionId} {...triggerEvents}>
             {children}
           </span>
         );
       }
 
       const childElement = children as ReactElement;
+      const descriptionIds = [childElement.props['aria-describedby'], descriptionId]
+        .filter(Boolean)
+        .join(' ')
+        .split(/[ \t\n\r\f]+/)
+        .filter(Boolean);
 
       return cloneElement(childElement, {
         ref: triggerRef,
-        'aria-describedby': controlId,
+        'aria-describedby': Array.from(new Set(descriptionIds)).join(' ') || undefined,
         ...mergeEvents(triggerEvents, childElement.props)
       });
-    }, [children, controlId, triggerEvents]);
+    }, [children, descriptionId, triggerEvents]);
 
     return (
       <>
