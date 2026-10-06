@@ -1,7 +1,7 @@
 import { defineConfig, ViteUserConfig, coverageConfigDefaults } from 'vitest/config';
 import { resolve } from 'path';
 
-const { M, F, RUN_ENV, VITEST_RUNNING_POSTBUILD } = process.env;
+const { M, F, RUN_ENV, VITEST_RUNNING_POSTBUILD, BROWSER = 'chromium' } = process.env;
 
 let testPatterns: string;
 let testMainDescription: string;
@@ -94,7 +94,7 @@ async function createConfig() {
         commands: { trcTrustedResetClick, trcTrustedInputClick },
         instances: [
           {
-            browser: 'chromium',
+            browser: BROWSER,
             viewport: { width: 1280, height: 800 }
           }
         ]
