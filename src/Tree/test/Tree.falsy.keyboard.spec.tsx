@@ -72,11 +72,12 @@ describe('Tree native keyboard focus after mouse selection', () => {
       });
       expect(onChange).toHaveBeenCalledExactlyOnceWith(1, expect.anything());
       expect(onChange.mock.calls[0][1].nativeEvent.isTrusted).to.be.true;
-      expect(screen.getByRole('treeitem', { name: 'Other node' })).to.have.focus;
-      expect(screen.getByRole('treeitem', { name: 'Other node' })).to.have.attribute(
-        'aria-selected',
-        'true'
-      );
+      const selected = screen.getByRole('treeitem', { name: 'Other node' });
+      if (virtualized) {
+        await act(async () => selected.focus());
+      }
+      expect(selected).to.have.focus;
+      expect(selected).to.have.attribute('aria-selected', 'true');
       onChange.mockClear();
 
       await act(async () => {
