@@ -139,6 +139,7 @@ describe('FormErrorSummary SSR hydration', () => {
     });
     let assertionError: unknown;
     let assertionFailed = false;
+    const cleanupErrors: unknown[] = [];
     try {
       await page.goto(serverUrl);
       await page.waitForFunction(() => window.formErrorSummaryHydration?.ready);
@@ -182,7 +183,6 @@ describe('FormErrorSummary SSR hydration', () => {
       assertionFailed = true;
       assertionError = error;
     } finally {
-      const cleanupErrors: unknown[] = [];
       try {
         const remainingChildren = await page.evaluate(() => {
           window.formErrorSummaryHydration.unmount();
@@ -197,13 +197,13 @@ describe('FormErrorSummary SSR hydration', () => {
       } catch (error) {
         cleanupErrors.push(error);
       }
-      if (cleanupErrors.length) {
-        throw new AggregateError(
-          assertionFailed ? [assertionError, ...cleanupErrors] : cleanupErrors,
-          'FormErrorSummary hydration assertion or cleanup failed'
-        );
-      }
-      if (assertionFailed) throw assertionError;
     }
+    if (cleanupErrors.length) {
+      throw new AggregateError(
+        assertionFailed ? [assertionError, ...cleanupErrors] : cleanupErrors,
+        'FormErrorSummary hydration assertion or cleanup failed'
+      );
+    }
+    if (assertionFailed) throw assertionError;
   });
 });
