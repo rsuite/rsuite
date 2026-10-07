@@ -5,6 +5,7 @@ import PickerLabel from './PickerLabel';
 import Plaintext from '../Plaintext';
 import Stack from '../../Stack';
 import useCombobox from './hooks/useCombobox';
+import getOptionId from './getOptionId';
 import { useStyles, useEventCallback, useToggleCaret } from '@/internals/hooks';
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import { triggerPropKeys } from './PickerToggleTrigger';
@@ -118,7 +119,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
       aria-labelledby={labelId}
       aria-describedby={id ? `${id}-describe` : undefined}
       aria-activedescendant={
-        active && !isNil(focusItemValue) ? `${id}-opt-${focusItemValue}` : undefined
+        active && !isNil(focusItemValue) ? getOptionId(id, focusItemValue) : undefined
       }
       data-has-value={hasValue}
       data-cleanable={cleanable}
