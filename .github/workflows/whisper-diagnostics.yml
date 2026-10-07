@@ -1,0 +1,44 @@
+name: Whisper Firefox completion diagnostics
+
+on:
+  push:
+    branches:
+      - diagnose/whisper-firefox-completion
+
+permissions:
+  contents: read
+
+jobs:
+  firefox-react18:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+      - name: Install Firefox
+        run: node scripts/install-browser-ci.cjs firefox
+      - name: Install React 18
+        run: npm run install:react-18
+      - name: Record runtime packages
+        run: |
+          node -e "for (const name of ['react', 'react-dom', '@testing-library/react', '@testing-library/dom', 'vitest', 'playwright']) console.log(name, require(name + '/package.json').version)"
+      - name: Run the Firefox shard with completion traces
+        run: npm run test:ci -- --browser.headless --shard=1/2 --reporter=default --reporter=json --outputFile=whisper-diagnostic-results.json
+        env:
+          CI: true
+          BROWSER: firefox
+          VITEST_PW_DEBUG: '1'
+      - name: Retain diagnostic results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: whisper-firefox-react18-diagnostics
+          path: |
+            whisper-diagnostic-results.json
+            src/Whisper/test/__screenshots__
+          retention-days: 7
+          if-no-files-found: ignore

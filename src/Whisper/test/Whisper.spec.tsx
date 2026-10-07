@@ -1,4 +1,5 @@
 import React, { CSSProperties, Ref } from 'react';
+import { traceWhisperCompletion } from '@test/diagnostics/traceWhisperCompletion';
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../../Tooltip';
 import { describe, expect, it, vi } from 'vitest';
@@ -141,7 +142,7 @@ describe('Whisper', () => {
     });
   });
 
-  it('Should pass transition callbacks to Transition', async () => {
+  async function checkTransitionCallbacks() {
     const onExit = vi.fn();
     const onExiting = vi.fn();
     const onExited = vi.fn();
@@ -179,7 +180,18 @@ describe('Whisper', () => {
       expect(onExiting).toHaveBeenCalled();
       expect(onExited).toHaveBeenCalled();
     });
+  }
+
+  it('Should pass transition callbacks to Transition', async () => {
+    await traceWhisperCompletion(checkTransitionCallbacks);
   });
+
+  it.each(Array.from({ length: 100 }, (_, index) => index))(
+    'diagnostic completion cycle %i',
+    async () => {
+      await traceWhisperCompletion(checkTransitionCallbacks);
+    }
+  );
 
   it('Should Overlay be closed, after call onClose', async () => {
     const ref = React.createRef<WhisperInstance>();
