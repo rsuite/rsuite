@@ -52,6 +52,13 @@
         "name": "Stack",
         "title": "堆叠",
         "components": ["Stack", "Stack.Item", "HStack", "VStack"]
+      },
+      {
+        "id": "splitter",
+        "name": "Splitter",
+        "title": "分割面板",
+        "components": ["Splitter", "Splitter.Panel"],
+        "keywords": ["layout", "resize", "split pane"]
       }
     ]
   },
