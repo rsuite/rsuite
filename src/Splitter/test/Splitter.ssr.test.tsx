@@ -70,9 +70,15 @@ describe('Splitter SSR and native interaction', () => {
   });
 
   afterAll(async () => {
-    await browser?.close();
-    await server?.close();
-    if (cacheDir) await rm(cacheDir, { recursive: true, force: true });
+    try {
+      await browser?.close();
+    } finally {
+      try {
+        await server?.close();
+      } finally {
+        if (cacheDir) await rm(cacheDir, { recursive: true, force: true });
+      }
+    }
   });
 
   async function openPage(hasTouch = false) {
