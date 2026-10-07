@@ -191,6 +191,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   const { focusNode, handleItemsRendered: notifyItemsRendered } = useVirtualTreeFocus({
     nodes: virtualizedNodes,
     sourceData,
+    searchKeyword: searchKeyword ?? keyword,
     valueKey,
     childrenKey,
     disabledItemValues,
@@ -199,7 +200,9 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
     getNode: refKey => treeNodesRefs[refKey],
     onCancel: sourceKey => {
       const source = virtualizedNodes.find(node => node.refKey === sourceKey);
-      setFocusItemValue(source?.[valueKey] ?? null);
+      const nextFocusValue = source?.[valueKey];
+      setFocusItemValue(nextFocusValue ?? null);
+      onFocusItem?.(nextFocusValue);
     }
   });
   const handleItemsRendered = props => {

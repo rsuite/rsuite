@@ -7,6 +7,7 @@ import type { TreeNode } from '@/internals/Tree/types';
 interface VirtualTreeFocusProps {
   nodes: TreeNode[];
   sourceData?: TreeNode[];
+  searchKeyword: string;
   valueKey: string;
   childrenKey: string;
   disabledItemValues: (string | number)[];
@@ -25,6 +26,7 @@ interface FocusRequest {
   refKey: string;
   location: NodeLocation | null;
   sourceElement: Element | null;
+  searchKeyword: string;
   scrolled: boolean;
 }
 
@@ -33,6 +35,7 @@ export default function useVirtualTreeFocus(props: VirtualTreeFocusProps) {
   const {
     nodes,
     sourceData,
+    searchKeyword,
     valueKey,
     childrenKey,
     disabledItemValues,
@@ -54,8 +57,10 @@ export default function useVirtualTreeFocus(props: VirtualTreeFocusProps) {
     const node = nodes.find(node => node.refKey === request.refKey);
     const location =
       sourceData && findNodeLocation(sourceData, request.refKey, valueKey, childrenKey);
+    // Controlled search filtering may not have synchronized its nodes yet.
     // A later interaction owns focus. Only an unmounted source row may leave it on body.
     if (
+      request.searchKeyword !== searchKeyword ||
       !node ||
       disabledItemValues.includes(node[valueKey]) ||
       (sourceData && !sameLocation(location, request.location)) ||
@@ -87,6 +92,7 @@ export default function useVirtualTreeFocus(props: VirtualTreeFocusProps) {
         ? findNodeLocation(sourceData, node.refKey, valueKey, childrenKey)
         : null,
       sourceElement: getTree()?.ownerDocument.activeElement ?? null,
+      searchKeyword,
       scrolled: false
     };
     renderPendingFocus();

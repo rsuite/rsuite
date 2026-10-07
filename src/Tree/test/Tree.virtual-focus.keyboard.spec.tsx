@@ -214,3 +214,132 @@ describe.each(components.slice(0, 2))(
     );
   }
 );
+
+describe.each(components.slice(0, 2))(
+  '$name virtual pending focus guards',
+  ({ Component, multiple }) => {
+    it('mounts the numeric End destination before selecting it with trusted Enter', async () => {
+      const onChange = vi.fn();
+      render(<Component {...treeProps} data={makeData()} onChange={onChange} />);
+      act(() => screen.getByRole('treeitem', { name: 'Node 0' }).focus());
+      expect(screen.queryByRole('treeitem', { name: 'Node 999' })).to.be.null;
+      await trustedKeys(async () => {
+        await key('End');
+        await expectVisibleFocus('Node 999');
+        const destination = screen.getByRole('treeitem', { name: 'Node 999' });
+        expect(destination.isConnected).to.be.true;
+        expect(destination).to.have.attribute('aria-level', '1');
+        expect(destination).to.have.attribute('aria-posinset', '1000');
+        expect(destination).to.have.attribute('aria-setsize', '1000');
+        expect(viewport().scrollTop).to.be.greaterThan(0);
+        expect(onChange).not.toHaveBeenCalled();
+        await key('Enter');
+      });
+      expect(onChange).toHaveBeenCalledExactlyOnceWith(multiple ? [999] : 999, expect.anything());
+      expect(onChange.mock.calls[0][1].nativeEvent.isTrusted).to.be.true;
+    });
+
+    it('cancels a mounted destination when the same native key changes the owner query', async () => {
+      const onChange = vi.fn();
+      const data = Array.from({ length: 10 }, (_, index) => ({
+        nodeId: index + 1,
+        label: index === 0 ? 'Source row' : index === 9 ? 'Old destination' : `Middle row ${index}`
+      }));
+      function Owner() {
+        const [query, setQuery] = React.useState('');
+        return (
+          <div
+            onKeyDown={event => {
+              if (event.key === 'End') setQuery('Source row');
+            }}
+          >
+            <Component
+              {...treeProps}
+              data={data}
+              searchKeyword={query}
+              onChange={onChange}
+              height={360}
+              treeHeight={360}
+              listProps={{ height: 360, itemSize: 36 }}
+            />
+          </div>
+        );
+      }
+      render(<Owner />);
+      act(() => screen.getByRole('treeitem', { name: 'Source row' }).focus());
+      expect(screen.getByRole('treeitem', { name: 'Old destination' }).isConnected).to.be.true;
+      const focused: string[] = [];
+      const capture = (event: FocusEvent) => {
+        if (event.target instanceof HTMLElement && event.target.getAttribute('role') === 'treeitem')
+          focused.push(event.target.getAttribute('aria-label') || event.target.textContent || '');
+      };
+      document.addEventListener('focusin', capture, true);
+      try {
+        await trustedKeys(async () => {
+          await key('End');
+          await expectVisibleFocus('Source row');
+          expect(screen.queryByRole('treeitem', { name: 'Old destination' })).to.be.null;
+          expect(focused.some(label => label.includes('Old destination'))).to.be.false;
+          expect(onChange).not.toHaveBeenCalled();
+          await key('Enter');
+        });
+      } finally {
+        document.removeEventListener('focusin', capture, true);
+      }
+      expect(onChange).toHaveBeenCalledExactlyOnceWith(multiple ? [1] : 1, expect.anything());
+      expect(onChange.mock.calls[0][1].nativeEvent.isTrusted).to.be.true;
+    });
+  }
+);
+
+describe.each(components.slice(2))(
+  '$name virtual cancelled focus bookkeeping',
+  ({ Component, multiple }) => {
+    it('restores the source active descendant when the same native key removes the destination', async () => {
+      const onChange = vi.fn();
+      function Owner() {
+        const [data, setData] = React.useState(() =>
+          Array.from({ length: 1000 }, (_, index) => ({
+            label: `Row ${index + 1}`,
+            nodeId: index + 1
+          }))
+        );
+        return (
+          <div
+            onKeyDown={event => {
+              if (event.key === 'End') setData(previous => previous.slice(0, 999));
+            }}
+          >
+            <Component {...treeProps} searchable data={data} onChange={onChange} />
+          </div>
+        );
+      }
+      render(<Owner />);
+      act(() => screen.getByRole('treeitem', { name: 'Row 1' }).focus());
+      await trustedKeys(async () => {
+        await key('Home');
+        await expectVisibleFocus('Row 1');
+        const before = screen.getByRole('combobox').getAttribute('aria-activedescendant');
+        expect(before).to.be.a('string').and.not.empty;
+        await key('End');
+        await expectVisibleFocus('Row 1');
+        expect(viewport().scrollTop).to.equal(0);
+        expect(screen.queryByRole('treeitem', { name: 'Row 1000' })).to.be.null;
+        expect(onChange).not.toHaveBeenCalled();
+        expect(screen.getByRole('combobox').getAttribute('aria-activedescendant')).to.equal(before);
+        if (!multiple) {
+          await act(async () => {
+            await userEvent.click(screen.getByRole('searchbox'));
+          });
+          await key('Enter');
+          expect(onChange).toHaveBeenCalledExactlyOnceWith(1, expect.anything());
+          expect(onChange.mock.calls[0][1].nativeEvent.isTrusted).to.be.true;
+        } else {
+          await key('Enter');
+          expect(onChange).toHaveBeenCalledExactlyOnceWith([1], expect.anything());
+          expect(onChange.mock.calls[0][1].nativeEvent.isTrusted).to.be.true;
+        }
+      });
+    });
+  }
+);
