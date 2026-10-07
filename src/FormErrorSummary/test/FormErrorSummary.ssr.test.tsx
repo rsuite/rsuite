@@ -37,12 +37,14 @@ describe('FormErrorSummary SSR hydration', () => {
     const selectedPackages = runtimeRoot
       ? [
           {
-            alias: join(runtimeRoot, 'react'),
-            physical: await realpath(join(runtimeRoot, 'react'))
+            find: 'react-dom',
+            replacement: join(runtimeRoot, 'react-dom'),
+            physical: await realpath(join(runtimeRoot, 'react-dom'))
           },
           {
-            alias: join(runtimeRoot, 'react-dom'),
-            physical: await realpath(join(runtimeRoot, 'react-dom'))
+            find: 'react',
+            replacement: join(runtimeRoot, 'react'),
+            physical: await realpath(join(runtimeRoot, 'react'))
           }
         ]
       : [];
@@ -52,37 +54,42 @@ describe('FormErrorSummary SSR hydration', () => {
       root: process.cwd(),
       logLevel: 'silent',
       cacheDir,
-      plugins: [
-        tsconfigPaths(),
-        {
-          name: 'summary-selected-runtime-guard',
-          async resolveId(source, importer) {
-            const selected = selectedPackages.find(
-              entry => source === entry.alias || source.startsWith(`${entry.alias}/`)
-            );
-            if (selected) {
-              const resolved = await this.resolve(source, importer, { skipSelf: true });
-              if (!resolved) throw new Error(`Cannot resolve selected summary runtime: ${source}`);
-              const physical = await realpath(resolved.id.split('?')[0]);
-              const withinPackage = relative(selected.physical, physical);
-              if (
-                isAbsolute(withinPackage) ||
-                withinPackage === '..' ||
-                withinPackage.startsWith(`..${sep}`)
-              ) {
-                throw new Error(`Summary runtime resolved outside selected package: ${physical}`);
-              }
-              console.info('FormErrorSummary hydration physical runtime', { source, physical });
-            }
-            return null;
-          }
-        },
-        react()
-      ],
+      plugins: [tsconfigPaths(), react()],
       resolve: {
         dedupe: ['react', 'react-dom'],
         alias: runtimeRoot
-          ? { react: `${runtimeRoot}/react`, 'react-dom': `${runtimeRoot}/react-dom` }
+          ? selectedPackages.map(selected => ({
+              find: selected.find,
+              replacement: selected.replacement,
+              async customResolver(source, importer, options) {
+                const resolved = await this.resolve(source, importer, {
+                  ...options,
+                  skipSelf: true
+                });
+                if (!resolved || resolved.external) {
+                  throw new Error(
+                    `Cannot resolve selected summary runtime as a local file: ${source}`
+                  );
+                }
+                const resolvedId = resolved.id.split('?')[0];
+                if (resolvedId.startsWith('\0') || !isAbsolute(resolvedId)) {
+                  throw new Error(
+                    `Summary runtime did not resolve to a physical file: ${resolved.id}`
+                  );
+                }
+                const physical = await realpath(resolvedId);
+                const withinPackage = relative(selected.physical, physical);
+                if (
+                  isAbsolute(withinPackage) ||
+                  withinPackage === '..' ||
+                  withinPackage.startsWith(`..${sep}`)
+                ) {
+                  throw new Error(`Summary runtime resolved outside selected package: ${physical}`);
+                }
+                console.info('FormErrorSummary hydration physical runtime', { source, physical });
+                return resolved;
+              }
+            }))
           : undefined
       },
       optimizeDeps: {
