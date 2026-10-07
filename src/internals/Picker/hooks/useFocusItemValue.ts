@@ -23,6 +23,12 @@ interface FocusItemValueProps<T = unknown> {
   getParent?: (node: T) => T | undefined;
 }
 
+function findItemByKey(container: HTMLElement | null | undefined, value: unknown) {
+  return Array.from(container?.querySelectorAll<HTMLElement>('[data-key]') ?? []).find(
+    item => item.getAttribute('data-key') === String(value)
+  );
+}
+
 /**
  * A hook that manages the focus state of the option.
  * @param defaultFocusItemValue
@@ -52,7 +58,7 @@ const useFocusItemValue = <T, D>(
   const focusCallback = useEventCallback((value: any, event: React.KeyboardEvent) => {
     if (focusToOption) {
       const menu = isFunction(target) ? target() : target;
-      const focusElement = menu?.querySelector(`[data-key="${value}"]`) as HTMLElement;
+      const focusElement = findItemByKey(menu, value);
       focusElement?.focus();
     }
 
@@ -122,7 +128,7 @@ const useFocusItemValue = <T, D>(
   const scrollListItem = useEventCallback(
     (direction: 'top' | 'bottom', itemValue: string, willOverflow: boolean) => {
       const container = getScrollContainer() as HTMLElement;
-      const item = container?.querySelector<HTMLElement>(`[data-key="${itemValue}"]`);
+      const item = findItemByKey(container, itemValue);
 
       if (willOverflow && container) {
         const { scrollHeight, clientHeight } = container;
