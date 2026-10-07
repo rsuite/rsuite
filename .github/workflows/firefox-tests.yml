@@ -44,7 +44,7 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Install Playwright Browsers
-        run: node scripts/install-firefox-ci.cjs
+        run: node scripts/install-browser-ci.cjs firefox
 
       - name: install react 18
         if: ${{ inputs.react-version == 'React18' }}

@@ -40,24 +40,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Free disk space on runner
+      - name: Report runner disk space
         if: runner.os == 'Linux' # ubuntu-latest is Linux
-        run: |
-          echo "Initial disk space:"
-          df -h
-          sudo docker image prune -a -f || echo "Docker image prune failed or Docker not available"
-          sudo rm -rf /usr/share/dotnet || echo "Failed to remove dotnet or it doesn't exist"
-          sudo rm -rf /opt/ghc || echo "Failed to remove ghc or it doesn't exist"
-          sudo rm -rf /usr/local/lib/android || echo "Failed to remove android or it doesn't exist"
-          sudo rm -rf /usr/local/share/powershell || echo "Failed to remove powershell or it doesn't exist"
-          sudo rm -rf /usr/local/share/rust || echo "Failed to remove rust or it doesn't exist"
-          sudo rm -rf /opt/hostedtoolcache || echo "Failed to remove hostedtoolcache"
-          sudo apt-get clean
-          sudo apt-get autoremove -y
-          sudo rm -rf /var/lib/apt/lists/*
-          npm cache clean --force || echo "npm cache clean failed"
-          echo "Disk space after cleanup:"
-          df -h
+        run: df -h
 
       - name: Use Node.js LTS
         uses: actions/setup-node@v4
@@ -77,7 +62,7 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps ${{ matrix.browser }}
+        run: node scripts/install-browser-ci.cjs ${{ matrix.browser }}
 
       - name: install react 18
         if: ${{ matrix.react == 'React18' }}
