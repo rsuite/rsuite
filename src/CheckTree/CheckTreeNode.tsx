@@ -144,7 +144,7 @@ const CheckTreeNode = forwardRef<'div', CheckTreeNodeProps>((props, ref) => {
   );
 
   const styles = virtualized ? { ...style, ...indentTreeNode(rtl, layer - 1) } : style;
-  const itemRef = useFocusVirtualListItem<HTMLDivElement>(focus);
+  const itemRef = useFocusVirtualListItem<HTMLDivElement>(focus && !virtualized);
   const position = virtualized ? getTreeNodePosition(nodeData) : undefined;
 
   return visible ? (

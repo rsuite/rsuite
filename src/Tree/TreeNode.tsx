@@ -194,7 +194,7 @@ const TreeNode = forwardRef<'div', TreeNodeProps>((props, ref) => {
 
   const classes = merge(className, withPrefix({ disabled, active, 'text-muted': disabled, focus }));
 
-  const treeItemRef = useFocusVirtualListItem<HTMLDivElement>(focus);
+  const treeItemRef = useFocusVirtualListItem<HTMLDivElement>(focus && !virtualized);
   const styles = virtualized ? mergeStyles(style, indentTreeNode(rtl, layer - 1)) : style;
   const position = virtualized ? getTreeNodePosition(nodeData) : undefined;
 

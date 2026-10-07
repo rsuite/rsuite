@@ -28,6 +28,7 @@ interface UseFocusTreeProps<T extends TreeNode> {
   flattenedNodes: any;
   onExpand?: (nodeData: T, expanded: boolean) => void;
   onFocused?: (value: TreeNode['value']) => void;
+  focusNode?: (node: TreeNode) => void;
 }
 /**
  * Custom hook that manages the focus behavior of a tree component.
@@ -40,7 +41,8 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
     expandItemValues,
     disabledItemValues,
     onExpand,
-    onFocused
+    onFocused,
+    focusNode
   } = props;
   const { rtl } = useCustom();
   const { valueKey, childrenKey } = useItemDataKeys();
@@ -57,7 +59,8 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
       focusItemValue: value || focusItemValue,
       valueKey,
       focusableItems,
-      treeNodesRefs
+      treeNodesRefs,
+      focusNode
     };
   };
 
@@ -89,7 +92,10 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
       const focusedValue = focusItem?.parent?.[valueKey];
       setFocusItemValue(focusedValue);
       onFocused?.(focusedValue);
-      focusTreeNode(focusItem?.parent?.refKey, treeNodesRefs);
+      if (focusItem?.parent) {
+        if (focusNode) focusNode(focusItem.parent);
+        else focusTreeNode(focusItem.parent.refKey, treeNodesRefs);
+      }
     };
 
     handleLeftArrow({
