@@ -257,6 +257,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
         uncheckableItemValues={uncheckableItemValues}
         cascade={cascade}
         data={treeData}
+        sourceData={data}
         height={treeHeight}
         showIndentLine={showIndentLine}
         listProps={listProps}
