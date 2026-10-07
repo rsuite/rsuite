@@ -8,6 +8,7 @@ import Form from '../../Form';
 import Input from '../../Input';
 import NumberInput from '../../NumberInput';
 import DateInput from '../../DateInput';
+import SelectPicker from '../../SelectPicker';
 import Modal from '../../Modal';
 import Drawer from '../../Drawer';
 import CustomProvider from '../../CustomProvider';
@@ -16,6 +17,7 @@ import '../styles/index.scss';
 import '../../Input/styles/index.scss';
 import '../../NumberInput/styles/index.scss';
 import '../../DateInput/styles/index.scss';
+import '../../SelectPicker/styles/index.scss';
 import '../../Modal/styles/index.scss';
 import '../../Drawer/styles/index.scss';
 
@@ -146,6 +148,78 @@ describe('FormErrorSummary native navigation', () => {
       expect(onSelect.mock.calls[0][1].nativeEvent.isTrusted).toBe(true);
     }
   );
+
+  it('navigates to the real SelectPicker combobox without opening it or changing its value', async () => {
+    const selectedItem = {
+      name: 'contact',
+      label: 'Supplier:',
+      message: 'Review the supplier selection.',
+      controlId: 'summary-contact'
+    };
+    const onFormChange = vi.fn();
+    const onSummarySelect = vi.fn();
+    const onPickerSelect = vi.fn();
+    const onPickerOpen = vi.fn();
+    render(
+      <Form
+        aria-label="Supplier form"
+        checkTrigger="none"
+        formValue={{ contact: 'partner-a' }}
+        onChange={onFormChange}
+        style={{ maxHeight: 400, overflow: 'auto', scrollBehavior: 'smooth' }}
+      >
+        <Form.ErrorSummary
+          header="Check the supplier information"
+          items={[selectedItem]}
+          onSelect={onSummarySelect}
+        />
+        <div style={{ height: 1400 }} />
+        <Form.Group controlId="summary-contact">
+          <Form.Label>Supplier</Form.Label>
+          <Form.Control
+            name="contact"
+            accepter={SelectPicker}
+            data={[
+              { label: 'Partner A', value: 'partner-a' },
+              { label: 'Partner B', value: 'partner-b' }
+            ]}
+            onSelect={onPickerSelect}
+            onOpen={onPickerOpen}
+          />
+        </Form.Group>
+      </Form>
+    );
+    const control = await screen.findByRole('combobox', { name: 'Supplier' });
+    expect(document.getElementById('summary-contact')).toBe(control);
+    const hiddenInput = control.querySelector<HTMLInputElement>('input[name="contact"]');
+    expect(hiddenInput).not.toBeNull();
+    expect(hiddenInput).toHaveAttribute('aria-hidden', 'true');
+    expect(hiddenInput).toHaveValue('partner-a');
+    expect(control).toHaveAttribute('aria-expanded', 'false');
+    expect(control).toHaveTextContent('Partner A');
+    const form = screen.getByRole('form', { name: 'Supplier form' });
+    expect(control.getBoundingClientRect().top).toBeGreaterThan(form.getBoundingClientRect().bottom);
+    await activateFirstLink(screen.getByRole('region', { name: 'Check the supplier information' }));
+    await waitFor(() => {
+      expect(control).toHaveFocus();
+      const formRect = form.getBoundingClientRect();
+      const controlRect = control.getBoundingClientRect();
+      expect(controlRect.top).toBeGreaterThanOrEqual(formRect.top - 1);
+      expect(controlRect.bottom).toBeLessThanOrEqual(formRect.bottom + 1);
+    });
+    expect(screen.getByRole('combobox', { name: 'Supplier' })).toBe(control);
+    expect(hiddenInput).not.toHaveFocus();
+    expect(hiddenInput).toHaveValue('partner-a');
+    expect(control).toHaveTextContent('Partner A');
+    expect(control).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.queryByRole('listbox')).toBeNull();
+    expect(onFormChange).not.toHaveBeenCalled();
+    expect(onPickerSelect).not.toHaveBeenCalled();
+    expect(onPickerOpen).not.toHaveBeenCalled();
+    expect(onSummarySelect).toHaveBeenCalledOnce();
+    expect(onSummarySelect.mock.calls[0][0]).toBe(selectedItem);
+    expect(onSummarySelect.mock.calls[0][1].nativeEvent.isTrusted).toBe(true);
+  });
 
   it('uses the exact quote, backslash and Unicode control ID', async () => {
     const controlId = 'payments[0].账户"\\';
