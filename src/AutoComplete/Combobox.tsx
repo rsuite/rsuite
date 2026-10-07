@@ -19,7 +19,10 @@ const Combobox = forwardRef<typeof Input, ComboboxProps>((props, ref) => {
       aria-autocomplete="list"
       aria-haspopup={popupType}
       aria-expanded={expanded}
-      aria-activedescendant={focusItemValue ? getOptionId(id, focusItemValue) : undefined}
+      aria-controls={expanded && id ? `${id}-${popupType}` : undefined}
+      aria-activedescendant={
+        expanded && focusItemValue ? getOptionId(id, focusItemValue) : undefined
+      }
       autoComplete="off"
       id={id}
       ref={ref}
