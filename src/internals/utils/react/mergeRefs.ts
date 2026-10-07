@@ -3,12 +3,14 @@ import React from 'react';
 type CallbackRef<T> = (ref: T | null) => void | (() => void);
 type Ref<T> = React.MutableRefObject<T> | CallbackRef<T>;
 
-const toFnRef = <T>(ref?: Ref<T | null> | null) =>
-  !ref || typeof ref === 'function'
-    ? ref
-    : (value: T | null) => {
-        ref.current = value;
-      };
+const toFnRef = <T>(ref?: Ref<T | null> | null): CallbackRef<T> | undefined => {
+  if (typeof ref === 'function') return ref;
+  if (!ref) return undefined;
+
+  return value => {
+    ref.current = value;
+  };
+};
 
 /**
  * Merges two React refs into a single ref callback.
