@@ -229,9 +229,10 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
 
     const handleMenuPressEnter = useEventCallback((event: React.SyntheticEvent) => {
       const focusItem = findNodeOfTree(data, item => item[valueKey] === focusItemValue);
-      const checkbox = overlay.current?.querySelector(
-        `[data-key="${focusItemValue}"] [type="checkbox"]`
-      );
+      const treeItem = Array.from(
+        overlay.current?.querySelectorAll<HTMLElement>('[data-key]') ?? []
+      ).find(item => item.getAttribute('data-key') === String(focusItemValue));
+      const checkbox = treeItem?.querySelector('[type="checkbox"]');
 
       if (checkbox) {
         handleCheck(focusItem, event, checkbox?.getAttribute('aria-checked') !== 'true');
@@ -239,7 +240,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
     });
 
     const onPickerKeyDown = useToggleKeyDownEvent({
-      toggle: !focusItemValue || !active,
+      toggle: isNil(focusItemValue) || !active,
       trigger,
       target,
       overlay,
