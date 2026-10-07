@@ -1,7 +1,7 @@
 import { defineConfig, ViteUserConfig, coverageConfigDefaults } from 'vitest/config';
 import { resolve } from 'path';
 
-const { M, F, RUN_ENV, VITEST_RUNNING_POSTBUILD } = process.env;
+const { M, F, RUN_ENV, VITEST_RUNNING_POSTBUILD, BROWSER = 'chromium' } = process.env;
 
 let testPatterns: string;
 let testMainDescription: string;
@@ -22,6 +22,9 @@ if (RUN_ENV === 'ssr') {
 }
 
 console.group('Vitest Config');
+console.log('Node.js Version:', process.version);
+console.log('Node.js Executable:', process.execPath);
+console.log('npm Node.js Executable:', process.env.npm_node_execpath);
 console.log(`Run Environment: ${RUN_ENV}`);
 console.log('Test Main:', testMainDescription); // Updated log message
 console.groupEnd();
@@ -85,12 +88,18 @@ async function createConfig() {
   } else {
     // Default browser configuration for other test runs
     if (config.test) {
+      const { trcTrustedResetClick, trcTrustedInputClick } = await import(
+        './test/browser/toggleCommands'
+      );
       config.test.browser = {
         enabled: true,
         provider: 'playwright',
+        // Keep Firefox native focus and keyboard tests on one browser page at a time.
+        fileParallelism: BROWSER === 'firefox' ? false : undefined,
+        commands: { trcTrustedResetClick, trcTrustedInputClick },
         instances: [
           {
-            browser: 'chromium',
+            browser: BROWSER,
             viewport: { width: 1280, height: 800 }
           }
         ]

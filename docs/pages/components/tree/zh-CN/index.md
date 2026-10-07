@@ -58,6 +58,7 @@
 - 有 `aria-expanded` 属性来指示树形列表框是否打开。
 - 有 `aria-selected` 属性来指示树节点是否被选中。
 - 有 `aria-level` 属性来指示树节点的层级。
+- 虚拟化节点通过 `aria-posinset` 和 `aria-setsize` 描述其在筛选后的同级节点集合中的位置和总数，包括未挂载的同级节点。
 - 有 `aria-disabled` 属性来指示树节点是否被禁用。
 
 ### 键盘交互

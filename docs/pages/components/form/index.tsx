@@ -58,6 +58,7 @@ const inDocsComponents = {
         'FormControl',
         'FormControlLabel',
         'FormErrorMessage',
+        'FormErrorSummary',
         'FormHelpText',
         'FormGroup'
       ]}

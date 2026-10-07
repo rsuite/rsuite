@@ -23,7 +23,7 @@ const StatValue = forwardRef<'dd', StatValueProps>((props, ref) => {
 
   return (
     <Box as={as} ref={ref} className={classes} {...rest}>
-      {value && <FormattedNumber value={value} formatOptions={formatOptions} />}
+      {value != null && <FormattedNumber value={value} formatOptions={formatOptions} />}
       {children}
     </Box>
   );
