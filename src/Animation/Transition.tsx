@@ -200,18 +200,13 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
         return;
       }
 
-      if (event) {
-        if (this.instanceElement === event.target) {
-          callback(event);
-          active = false;
-          this.nextCallback = null;
-        }
+      if (event && this.instanceElement !== event.target) {
         return;
       }
 
-      callback(event);
       active = false;
       this.nextCallback = null;
+      callback(event);
     }) as any;
 
     if (this.nextCallback) {
