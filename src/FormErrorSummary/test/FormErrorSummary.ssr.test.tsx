@@ -71,7 +71,7 @@ describe('FormErrorSummary SSR hydration', () => {
                     `Cannot resolve selected summary runtime as a local file: ${source}`
                   );
                 }
-                const resolvedId = resolved.id.split('?')[0];
+                const resolvedId = resolved.id.split(/[?#]/)[0];
                 if (resolvedId.startsWith('\0') || !isAbsolute(resolvedId)) {
                   throw new Error(
                     `Summary runtime did not resolve to a physical file: ${resolved.id}`
