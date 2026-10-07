@@ -77,7 +77,7 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: npx playwright install --with-deps ${{ matrix.browser }}
 
       - name: install react 18
         if: ${{ matrix.react == 'React18' }}
