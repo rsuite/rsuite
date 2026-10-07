@@ -197,7 +197,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
     });
 
     const handleMenuPressEnter = useEventCallback((event: React.SyntheticEvent) => {
-      if (!focusItemValue) {
+      if (isNil(focusItemValue)) {
         return;
       }
 
@@ -231,7 +231,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
     });
 
     const onPickerKeyDown = useToggleKeyDownEvent({
-      toggle: !focusItemValue || !active,
+      toggle: isNil(focusItemValue) || !active,
       trigger,
       target,
       overlay,
