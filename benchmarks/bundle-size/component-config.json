@@ -1,12 +1,16 @@
 {
-  "scope": "Published RSuite JavaScript ESM consumers; React/ReactDOM external; no CSS or runtime timing",
-  "baseGitHead": "684e17d440c30223d29b17b504289fd8219e3fdd",
-  "nodeVersion": "v24.12.0",
-  "rsuiteVersion": "6.2.4",
+  "scope": "Observable public ESM exports; JavaScript only; no CSS, execution timing, whole-application saving, or zero-date guarantee",
+  "baseGitHead": "5eb66116951b0cb30cf6e1baf4767be1583e3216",
+  "baseGitTree": "081b1cdde937f2d5d780d2fa9cc6db4849ed6a21",
+  "afterGitHead": "bc919ff0a1f3f9da157440736109a90c8ff82c47",
+  "afterGitTree": "ff8db8d15562b4e77517416999fac3eb074d6d8c",
+  "sourceBoundary": "The after head is the measured product tree before this benchmark-record-only commit. The two benchmark files do not affect the JavaScript build.",
+  "nodeVersion": "v22.22.3",
+  "rsuiteVersion": "6.2.5",
   "dependencyVersions": {
     "esbuild": "0.25.2",
     "date-fns": "4.1.0",
-    "lodash": "4.17.21",
+    "lodash": "4.18.1",
     "dom-lib": "3.3.1",
     "react": "19.0.0",
     "react-dom": "19.0.0"
@@ -18,6 +22,7 @@
     "platform": "browser",
     "format": "esm",
     "target": ["es2020"],
+    "mainFields": ["browser", "module", "main"],
     "external": ["react", "react/*", "react-dom", "react-dom/*"],
     "define": {
       "process.env.NODE_ENV": "\"production\"",
@@ -26,11 +31,13 @@
     "metafile": true,
     "sourcemap": false,
     "legalComments": "none",
-    "write": false
+    "write": false,
+    "logLevel": "silent"
   },
   "compression": {
     "gzipLevel": 9
   },
+  "build": "Fresh normal Gulp JavaScript/copy/proxy build in both checkouts, same physical dependencies and Node options; declarations validated separately in the candidate. No CSS or UMD comparison.",
   "measurements": {
     "before": {
       "sourceSHA256": {
@@ -48,101 +55,145 @@
         {
           "name": "Button-root",
           "consumer": "import { Button as imported } from 'rsuite'; export { imported };",
-          "bytes": 108942,
-          "gzipBytes": 35325,
-          "sha256": "92fc49fe4c91a19235fd42fff7f1bf49f5457cb8dc232f99faee32b13baf48f8",
+          "bytes": 109148,
+          "gzipBytes": 35388,
+          "sha256": "25b58aebed7df81f622c90943c8a91b2b6a6964b8b874b3e5c9bf8beb9e88010",
+          "gzipSHA256": "a782dd2bb39cfa36df6f5f91af1111eea81f78fa7d9dc6df5762084f5c9abb25",
+          "metafileSHA256": "74d5d99600669b2358d4ac13a32a4d0c6ea4aee9bfa6c10822b16027739df9a3",
           "dateFnsBytes": 42738,
-          "dateLocaleBytes": 7598
+          "dateLocaleBytes": 7598,
+          "formatterRetained": true,
+          "parserRetained": true
         },
         {
           "name": "Button-subpath",
           "consumer": "import imported from 'rsuite/Button'; export { imported };",
-          "bytes": 108952,
-          "gzipBytes": 35245,
-          "sha256": "eaeb253d7bc950d4db51a9471a1bc055c6dfeef503a43d801e8aa03ad9c5ad79",
+          "bytes": 109158,
+          "gzipBytes": 35310,
+          "sha256": "ba68dd27b3f4cdd8e4e510e95dab8cba8e5d60d29c7f087b498060962aec313a",
+          "gzipSHA256": "a721d2194bd839adb48ebacb5551f184d440aa899bd54d223626c4dd16ddfca6",
+          "metafileSHA256": "a565b14e8f5ff2a47430b9882f0ebce6810935581815ef0b6c4f8ee8f9ab67e5",
           "dateFnsBytes": 42738,
-          "dateLocaleBytes": 7598
+          "dateLocaleBytes": 7598,
+          "formatterRetained": true,
+          "parserRetained": true
         },
         {
           "name": "Fade-root",
           "consumer": "import { Fade as imported } from 'rsuite'; export { imported };",
-          "bytes": 87270,
-          "gzipBytes": 27404,
-          "sha256": "9574ac31852de96284eb481ea199a8eabf3f070a5b5ebc4191cc558a333fb5ae",
+          "bytes": 87476,
+          "gzipBytes": 27464,
+          "sha256": "d660f221042a88e82e3f4dabc6dfdcf54dca0f535e0a6487b74da44559f03c5e",
+          "gzipSHA256": "75c7bfbd45615979cd323726bfd349cb00904237bec58550edbe698c38d0bfc5",
+          "metafileSHA256": "809759aec3aaec82f2b2fc9e9dee8d160f32a2987ba10d5692d48322cc4de7d2",
           "dateFnsBytes": 42718,
-          "dateLocaleBytes": 7591
+          "dateLocaleBytes": 7591,
+          "formatterRetained": true,
+          "parserRetained": true
         },
         {
           "name": "Fade-subpath",
           "consumer": "import imported from 'rsuite/Fade'; export { imported };",
-          "bytes": 87270,
-          "gzipBytes": 27368,
-          "sha256": "8a728a57e39757159ad6a30c9ee1950f2b1229d5d3d231ff44f9fc8c42e69dbf",
+          "bytes": 87476,
+          "gzipBytes": 27420,
+          "sha256": "db0058e02ea38ae7247177d5e74fc1064c6e6930f7892bc5654938b6a445807f",
+          "gzipSHA256": "e94ba5cc192ab1f7794a90349624fb86ac019aa12a6d2789b3f255f80d392362",
+          "metafileSHA256": "533cc5b634ea8f93e15356162ad35c80525ba96c8854d77b75c9fcec5291c369",
           "dateFnsBytes": 42718,
-          "dateLocaleBytes": 7591
+          "dateLocaleBytes": 7591,
+          "formatterRetained": true,
+          "parserRetained": true
         },
         {
           "name": "Animation-root",
           "consumer": "import { Animation as imported } from 'rsuite'; export { imported };",
-          "bytes": 92430,
-          "gzipBytes": 29337,
-          "sha256": "7eaca62b48ed3bf94943da144f108d543d853612c7eb224c18d348244d1d55f1",
+          "bytes": 92636,
+          "gzipBytes": 29411,
+          "sha256": "5d25c68cc4e0b285e115d6d6c4a1cd3e797d1431fb91ea02352c0e670d95e4ad",
+          "gzipSHA256": "7889551e6e10fb086809122d3027194c50f293bcb9dbab3e09dc89dbd829e39f",
+          "metafileSHA256": "74ae3b49a021354a5461eb16d37cffa79d8d6e0e68cbe6a2fd1aa994835d2fcf",
           "dateFnsBytes": 42731,
-          "dateLocaleBytes": 7591
+          "dateLocaleBytes": 7591,
+          "formatterRetained": true,
+          "parserRetained": true
         },
         {
           "name": "Animation-subpath",
           "consumer": "import imported from 'rsuite/Animation'; export { imported };",
-          "bytes": 92440,
-          "gzipBytes": 29352,
-          "sha256": "19f0e3393437768d7c314396c19d28b4e5d3fa86a07000d2783af000b9e161f6",
+          "bytes": 92646,
+          "gzipBytes": 29400,
+          "sha256": "0dd4d827053c9efd488e194db7e5a1bb929349813e402f45af0540dd4dc77fc8",
+          "gzipSHA256": "1a9e29c16d0923a099354651430392a710224e00454f50abed46b93f84f9695a",
+          "metafileSHA256": "e3666f50b5515f227b0550122045502c167f17297663849c12597f0dd1ec21b6",
           "dateFnsBytes": 42731,
-          "dateLocaleBytes": 7591
+          "dateLocaleBytes": 7591,
+          "formatterRetained": true,
+          "parserRetained": true
         },
         {
-          "name": "CustomProvider-root",
-          "consumer": "import { CustomProvider as imported } from 'rsuite'; export { imported };",
-          "bytes": 55434,
-          "gzipBytes": 21975,
-          "sha256": "0badb29a8ada9417de46fae7bfd23e8f11c45fb8dfe55ceb673a86404879cc2e",
-          "dateFnsBytes": 0,
-          "dateLocaleBytes": 0
-        },
-        {
-          "name": "CustomProvider-subpath",
-          "consumer": "import imported from 'rsuite/CustomProvider'; export { imported };",
-          "bytes": 55446,
-          "gzipBytes": 21948,
-          "sha256": "44227b54609a1d986db11f86fd4395f93b4d475e01be03517ab25e493db0357c",
-          "dateFnsBytes": 0,
-          "dateLocaleBytes": 0
+          "name": "Animation-Fade-root",
+          "consumer": "import { Animation } from 'rsuite'; export const imported = Animation.Fade;",
+          "bytes": 92651,
+          "gzipBytes": 29414,
+          "sha256": "c9c8185a93a8b871b0ddd02de7f32e0a2429ac77fe8dde8bcfab875c7aee5bd1",
+          "gzipSHA256": "1386f88d0bdd99e0bb30b4aed9b7f3f7aa2689a826b2fc8bbc69af1ecc4ec25d",
+          "metafileSHA256": "e2639592fc9eccdb0a9ef63fd830629a332e897f648b9f203a5869a9832fd0d9",
+          "dateFnsBytes": 42731,
+          "dateLocaleBytes": 7591,
+          "formatterRetained": true,
+          "parserRetained": true
         },
         {
           "name": "DateInput-root",
           "consumer": "import { DateInput as imported } from 'rsuite'; export { imported };",
-          "bytes": 101068,
-          "gzipBytes": 32255,
-          "sha256": "91759f48ab2752d54a25e61f93e7e15f7ebb46f9de319e980af8c2ba3affd2fc",
+          "bytes": 103364,
+          "gzipBytes": 32993,
+          "sha256": "eb86fa7d0e37e2525efd44b3253ca01017525f30162984277fddac30b6cb4401",
+          "gzipSHA256": "b2a79b3d27ef588177a98be635ed61ad899b2c7229804dca9fea8c159380135f",
+          "metafileSHA256": "0b24372b6e8386c5326cdef76813532739d5f5b56737451ae8d3813086a74d0c",
           "dateFnsBytes": 44238,
-          "dateLocaleBytes": 7598
+          "dateLocaleBytes": 7598,
+          "formatterRetained": true,
+          "parserRetained": true
         },
         {
           "name": "DateInput-subpath",
           "consumer": "import imported from 'rsuite/DateInput'; export { imported };",
-          "bytes": 101078,
-          "gzipBytes": 32260,
-          "sha256": "5841f040bb42cc7856a122dfbb3c35d6ec1a7fcf084aa6360f01dac025ac7b05",
+          "bytes": 103374,
+          "gzipBytes": 32999,
+          "sha256": "0d389ec03c7fa6a85c308d968da1303cd49d21b3d7d682fa0691711f9c0840da",
+          "gzipSHA256": "22948e0680a9bd7efaad24657bf511037e29bf5ff91120c4f66882ae0d2eb0ac",
+          "metafileSHA256": "c53667bffe8681afb8174e7b118bcdd431d4ca3f413634318a59778023ac0e75",
           "dateFnsBytes": 44238,
-          "dateLocaleBytes": 7598
+          "dateLocaleBytes": 7598,
+          "formatterRetained": true,
+          "parserRetained": true
         },
         {
-          "name": "Fade-namespace-root",
-          "consumer": "import { Animation } from 'rsuite'; export const imported = Animation.Fade;",
-          "bytes": 92445,
-          "gzipBytes": 29352,
-          "sha256": "93369986dbc5ea365b1bc4ff9a6171531f6b412e2cbe93419777c3e820afd882",
-          "dateFnsBytes": 42731,
-          "dateLocaleBytes": 7591
+          "name": "CustomProvider-root",
+          "consumer": "import { CustomProvider as imported } from 'rsuite'; export { imported };",
+          "bytes": 55640,
+          "gzipBytes": 22040,
+          "sha256": "64ca12db072bf7256fe81fb219d873bd0295e213339b155404c320b3913d61d6",
+          "gzipSHA256": "762f0285fb2f49e4175ab4efe5ffd730bff1f8d7fe2e29d891fa7afd1aa2b504",
+          "metafileSHA256": "70ea27aaa24ab8f2c85f8d977367706b80b486812e4cbb6c8429f95dd95f6e00",
+          "dateFnsBytes": 0,
+          "dateLocaleBytes": 0,
+          "formatterRetained": false,
+          "parserRetained": false
+        },
+        {
+          "name": "CustomProvider-subpath",
+          "consumer": "import imported from 'rsuite/CustomProvider'; export { imported };",
+          "bytes": 55652,
+          "gzipBytes": 22012,
+          "sha256": "2ba2eba41f3d7cd03ebb90f60f600e38db69f3009a831f5d044d25488f26d0fb",
+          "gzipSHA256": "06fb9b4b12fc0206ff3dc6e3d2b4f0f3e4f5f5bff45436ffed80e939b50255f1",
+          "metafileSHA256": "34a1ead80deb27c6792fb3f7cea66fb3ac97e948bb83c56ce7bf5b5fe385873e",
+          "dateFnsBytes": 0,
+          "dateLocaleBytes": 0,
+          "formatterRetained": false,
+          "parserRetained": false
         }
       ]
     },
@@ -162,103 +213,248 @@
         {
           "name": "Button-root",
           "consumer": "import { Button as imported } from 'rsuite'; export { imported };",
-          "bytes": 72874,
-          "gzipBytes": 27719,
-          "sha256": "a896f93ff112f22c1b16bae226f1ecefa7bfba7827d36d44609491bbcbea01c0",
+          "bytes": 73080,
+          "gzipBytes": 27784,
+          "sha256": "474bd5cb7b9d83bdbe581d76d7a6b135c4101e200fc8115921d380288ff752cf",
+          "gzipSHA256": "587fb37909b886b9e46cf04d2cc19ee3b82d745bad00f29661a08214e0d905d2",
+          "metafileSHA256": "c49f23dbd58d4af8dc521aea4cae4d804887836d6de549b934f4ac8977b388d9",
           "dateFnsBytes": 7033,
-          "dateLocaleBytes": 7033
+          "dateLocaleBytes": 7033,
+          "formatterRetained": false,
+          "parserRetained": false
         },
         {
           "name": "Button-subpath",
           "consumer": "import imported from 'rsuite/Button'; export { imported };",
-          "bytes": 72888,
-          "gzipBytes": 27692,
-          "sha256": "4f499ec8fe5f7df112eefffdc37fd19e4a02e1aca7860c92088d3b7e1343cf2f",
+          "bytes": 73094,
+          "gzipBytes": 27767,
+          "sha256": "a25cc5d6bf098b8579d0d9576b1cdb34b2a5b92844031df139627228d9a64d89",
+          "gzipSHA256": "9e3ace90e3ece491ea043ade6b31939129f81e94714adf0ecd40fdad12e56461",
+          "metafileSHA256": "f73bae796bf98b289533b4118df193330f2b50c9fe339ff7d76da8eb8020d893",
           "dateFnsBytes": 7021,
-          "dateLocaleBytes": 7021
+          "dateLocaleBytes": 7021,
+          "formatterRetained": false,
+          "parserRetained": false
         },
         {
           "name": "Fade-root",
           "consumer": "import { Fade as imported } from 'rsuite'; export { imported };",
-          "bytes": 51202,
-          "gzipBytes": 19965,
-          "sha256": "238c111966c95a5d83b5cd786f3cec8bde666c2b325c8b89d92a294fabdcb407",
+          "bytes": 51408,
+          "gzipBytes": 20030,
+          "sha256": "b91c02b27e0687722a4eef6bcb8109f25dbbb41d7f7aee1fdaa72efdba806aa6",
+          "gzipSHA256": "8b91452cf1730c4216ac56294b4ea93aa88df1a49dfdb28f658d50831d2670f9",
+          "metafileSHA256": "c8ed365f84b31e3bd9b36a4f1b2651e35a0c187b8c85fab1617b94a68cd6a62b",
           "dateFnsBytes": 7021,
-          "dateLocaleBytes": 7021
+          "dateLocaleBytes": 7021,
+          "formatterRetained": false,
+          "parserRetained": false
         },
         {
           "name": "Fade-subpath",
           "consumer": "import imported from 'rsuite/Fade'; export { imported };",
-          "bytes": 51202,
-          "gzipBytes": 19910,
-          "sha256": "d7298e984861e422990de66c47fa7e1c38bec11e05c7648278b7ca47b46b08a1",
+          "bytes": 51408,
+          "gzipBytes": 19968,
+          "sha256": "e0601f4f0a2c4c664c60eed7b4f809f05733a37ed7192a96f299f6e790afd2b9",
+          "gzipSHA256": "c524964910474fb5f5291ea92e40c1a03f0da8d49344d2e91e89171e52e2523a",
+          "metafileSHA256": "fd7fd2ebec5bffa77f910aa807eab5c6fa1cc3e8f7a3db65c19dea617dee5c51",
           "dateFnsBytes": 7021,
-          "dateLocaleBytes": 7021
+          "dateLocaleBytes": 7021,
+          "formatterRetained": false,
+          "parserRetained": false
         },
         {
           "name": "Animation-root",
           "consumer": "import { Animation as imported } from 'rsuite'; export { imported };",
-          "bytes": 56357,
-          "gzipBytes": 21862,
-          "sha256": "badeba50cfc9e691ac14e6694340cc7dbb92802258da70e6b6d694f8edd7d327",
+          "bytes": 56563,
+          "gzipBytes": 21931,
+          "sha256": "d3a7251700f7d8d66221918949c07b26ad53418d011c8aef41c57bcccb4a00b9",
+          "gzipSHA256": "16769178152c849fd834f60094468bcf0b2c51c2bc6a0cb78775c9354839dc5e",
+          "metafileSHA256": "f20d9245966aa4fb8ade21f6bd2b4bd78a55b1c4739d5d2a66b6b84f4df58214",
           "dateFnsBytes": 7021,
-          "dateLocaleBytes": 7021
+          "dateLocaleBytes": 7021,
+          "formatterRetained": false,
+          "parserRetained": false
         },
         {
           "name": "Animation-subpath",
           "consumer": "import imported from 'rsuite/Animation'; export { imported };",
-          "bytes": 56367,
-          "gzipBytes": 21832,
-          "sha256": "833d3023700ab1a7e97b4452fe02ea1455d5bd4daf473a4207622463f9dc5da2",
+          "bytes": 56573,
+          "gzipBytes": 21890,
+          "sha256": "3e772849aced807b390b5a444abbb0ca7fe3781885dd872405fcd9b0e1d267f4",
+          "gzipSHA256": "be1c2219b27ccdc9d1c82db2b106e85f8e1e5aa4c31e4edd0cfc1698d67796ee",
+          "metafileSHA256": "dbdc2c0ab232d4c8caeb48e26756e679bd4c82f67b6b1cf75447230431148e6e",
           "dateFnsBytes": 7021,
-          "dateLocaleBytes": 7021
+          "dateLocaleBytes": 7021,
+          "formatterRetained": false,
+          "parserRetained": false
         },
         {
-          "name": "CustomProvider-root",
-          "consumer": "import { CustomProvider as imported } from 'rsuite'; export { imported };",
-          "bytes": 55434,
-          "gzipBytes": 21975,
-          "sha256": "0badb29a8ada9417de46fae7bfd23e8f11c45fb8dfe55ceb673a86404879cc2e",
-          "dateFnsBytes": 0,
-          "dateLocaleBytes": 0
-        },
-        {
-          "name": "CustomProvider-subpath",
-          "consumer": "import imported from 'rsuite/CustomProvider'; export { imported };",
-          "bytes": 55446,
-          "gzipBytes": 21948,
-          "sha256": "44227b54609a1d986db11f86fd4395f93b4d475e01be03517ab25e493db0357c",
-          "dateFnsBytes": 0,
-          "dateLocaleBytes": 0
+          "name": "Animation-Fade-root",
+          "consumer": "import { Animation } from 'rsuite'; export const imported = Animation.Fade;",
+          "bytes": 56578,
+          "gzipBytes": 21930,
+          "sha256": "30163753bbf5322586a5025aadc905de713e056872eb7537fb1b57dff27d8e7e",
+          "gzipSHA256": "fc3648cf6ecefb2743f6de83426d2d8502bbbeca67879a82cde3c57d2048c666",
+          "metafileSHA256": "4c4aba5d7f920f83bd653578f92f5284254c48b010cbbc171d633cb4536e7fa8",
+          "dateFnsBytes": 7021,
+          "dateLocaleBytes": 7021,
+          "formatterRetained": false,
+          "parserRetained": false
         },
         {
           "name": "DateInput-root",
           "consumer": "import { DateInput as imported } from 'rsuite'; export { imported };",
-          "bytes": 101197,
-          "gzipBytes": 32303,
-          "sha256": "a8b98e27d3d0f88778939f7a771f1023589a4176b768c98186feb33988328c6c",
+          "bytes": 103493,
+          "gzipBytes": 33030,
+          "sha256": "43b67967e9e5721cf009932f3a763d60421962061f27edcc4ac2cce40aef90ba",
+          "gzipSHA256": "95c22b15078153bd4455ed61197af0363ea0c31472b2bef952f08da04cbad5c9",
+          "metafileSHA256": "ed24abddb5dea895e80defde81f5a5c2300938d1123ae4ad07c9e39052f0a3ab",
           "dateFnsBytes": 44238,
-          "dateLocaleBytes": 7598
+          "dateLocaleBytes": 7598,
+          "formatterRetained": true,
+          "parserRetained": true
         },
         {
           "name": "DateInput-subpath",
           "consumer": "import imported from 'rsuite/DateInput'; export { imported };",
-          "bytes": 101207,
-          "gzipBytes": 32317,
-          "sha256": "ef87fc4c496468a49e4824f5a384aa8637369d5499c5675299ef08b2cf2e2dcc",
+          "bytes": 103503,
+          "gzipBytes": 33043,
+          "sha256": "5e62ac7d0e95a79fcbaaa53b07e216905a1a4784a49e8ee57023894c24dea53d",
+          "gzipSHA256": "25802fe37128a44f5dec572aabc9aa54e8407fbc0b4d2d6beaace2e8d2d03b8e",
+          "metafileSHA256": "8b463f7cb189db1a137438ef4fe1e4e70624c37381a76a9a56612bf73fd3b02b",
           "dateFnsBytes": 44238,
-          "dateLocaleBytes": 7598
+          "dateLocaleBytes": 7598,
+          "formatterRetained": true,
+          "parserRetained": true
         },
         {
-          "name": "Fade-namespace-root",
-          "consumer": "import { Animation } from 'rsuite'; export const imported = Animation.Fade;",
-          "bytes": 56372,
-          "gzipBytes": 21869,
-          "sha256": "c5354b6a013e7705f2cade86400d02b8586d55ed1410824fcc0bc990f5dc0083",
-          "dateFnsBytes": 7021,
-          "dateLocaleBytes": 7021
+          "name": "CustomProvider-root",
+          "consumer": "import { CustomProvider as imported } from 'rsuite'; export { imported };",
+          "bytes": 55640,
+          "gzipBytes": 22040,
+          "sha256": "64ca12db072bf7256fe81fb219d873bd0295e213339b155404c320b3913d61d6",
+          "gzipSHA256": "762f0285fb2f49e4175ab4efe5ffd730bff1f8d7fe2e29d891fa7afd1aa2b504",
+          "metafileSHA256": "63a0dfc806815d062bf4a86b270716754766e0da56743ade1a295138a2ac6fd9",
+          "dateFnsBytes": 0,
+          "dateLocaleBytes": 0,
+          "formatterRetained": false,
+          "parserRetained": false
+        },
+        {
+          "name": "CustomProvider-subpath",
+          "consumer": "import imported from 'rsuite/CustomProvider'; export { imported };",
+          "bytes": 55652,
+          "gzipBytes": 22012,
+          "sha256": "2ba2eba41f3d7cd03ebb90f60f600e38db69f3009a831f5d044d25488f26d0fb",
+          "gzipSHA256": "06fb9b4b12fc0206ff3dc6e3d2b4f0f3e4f5f5bff45436ffed80e939b50255f1",
+          "metafileSHA256": "b0258d8e75579040e3dd0a920e1b3fef962c1dfc05a8da35b5c497e5156f14c1",
+          "dateFnsBytes": 0,
+          "dateLocaleBytes": 0,
+          "formatterRetained": false,
+          "parserRetained": false
         }
       ]
     }
-  }
+  },
+  "pairs": [
+    {
+      "name": "Button-root",
+      "beforeBytes": 109148,
+      "afterBytes": 73080,
+      "byteDelta": -36068,
+      "beforeGzipBytes": 35388,
+      "afterGzipBytes": 27784,
+      "gzipDelta": -7604
+    },
+    {
+      "name": "Button-subpath",
+      "beforeBytes": 109158,
+      "afterBytes": 73094,
+      "byteDelta": -36064,
+      "beforeGzipBytes": 35310,
+      "afterGzipBytes": 27767,
+      "gzipDelta": -7543
+    },
+    {
+      "name": "Fade-root",
+      "beforeBytes": 87476,
+      "afterBytes": 51408,
+      "byteDelta": -36068,
+      "beforeGzipBytes": 27464,
+      "afterGzipBytes": 20030,
+      "gzipDelta": -7434
+    },
+    {
+      "name": "Fade-subpath",
+      "beforeBytes": 87476,
+      "afterBytes": 51408,
+      "byteDelta": -36068,
+      "beforeGzipBytes": 27420,
+      "afterGzipBytes": 19968,
+      "gzipDelta": -7452
+    },
+    {
+      "name": "Animation-root",
+      "beforeBytes": 92636,
+      "afterBytes": 56563,
+      "byteDelta": -36073,
+      "beforeGzipBytes": 29411,
+      "afterGzipBytes": 21931,
+      "gzipDelta": -7480
+    },
+    {
+      "name": "Animation-subpath",
+      "beforeBytes": 92646,
+      "afterBytes": 56573,
+      "byteDelta": -36073,
+      "beforeGzipBytes": 29400,
+      "afterGzipBytes": 21890,
+      "gzipDelta": -7510
+    },
+    {
+      "name": "Animation-Fade-root",
+      "beforeBytes": 92651,
+      "afterBytes": 56578,
+      "byteDelta": -36073,
+      "beforeGzipBytes": 29414,
+      "afterGzipBytes": 21930,
+      "gzipDelta": -7484
+    },
+    {
+      "name": "DateInput-root",
+      "beforeBytes": 103364,
+      "afterBytes": 103493,
+      "byteDelta": 129,
+      "beforeGzipBytes": 32993,
+      "afterGzipBytes": 33030,
+      "gzipDelta": 37
+    },
+    {
+      "name": "DateInput-subpath",
+      "beforeBytes": 103374,
+      "afterBytes": 103503,
+      "byteDelta": 129,
+      "beforeGzipBytes": 32999,
+      "afterGzipBytes": 33043,
+      "gzipDelta": 44
+    },
+    {
+      "name": "CustomProvider-root",
+      "beforeBytes": 55640,
+      "afterBytes": 55640,
+      "byteDelta": 0,
+      "beforeGzipBytes": 22040,
+      "afterGzipBytes": 22040,
+      "gzipDelta": 0
+    },
+    {
+      "name": "CustomProvider-subpath",
+      "beforeBytes": 55652,
+      "afterBytes": 55652,
+      "byteDelta": 0,
+      "beforeGzipBytes": 22012,
+      "afterGzipBytes": 22012,
+      "gzipDelta": 0
+    }
+  ]
 }
