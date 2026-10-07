@@ -244,7 +244,9 @@ const Form = forwardRef<
     checkFieldAsyncForNextValue,
     cleanErrors,
     resetErrors,
-    cleanErrorForField
+    cleanErrorForField,
+    readNativeValidation,
+    commitNativeValidationRetirement
   } = useFormValidate(controlledFormError, formValidateProps);
 
   const submit = useEventCallback((event?: React.FormEvent<HTMLFormElement>) => {
@@ -336,6 +338,8 @@ const Form = forwardRef<
     disabled,
     formError,
     nestedField,
+    readNativeValidation,
+    commitNativeValidationRetirement,
     pushFieldRule,
     removeFieldValue,
     removeFieldError,

@@ -1,12 +1,22 @@
 import React, { useContext } from 'react';
 import type { CheckTriggerType } from '@/internals/types';
 import type { FieldRuleType } from './hooks/useSchemaModel';
+import type {
+  NativeValidationRead,
+  NativeValidationRetirementToken
+} from './utils/nativeValidationFrames';
 
 type RecordAny = Record<string, any>;
 
 interface TrulyFormContextValue<T = RecordAny, M = any, E = { [P in keyof T]?: M }> {
   formError: E;
   nestedField: boolean;
+  readNativeValidation?: (
+    formError: unknown,
+    name: string,
+    nestedField: boolean
+  ) => NativeValidationRead;
+  commitNativeValidationRetirement?: (token: NativeValidationRetirementToken) => void;
   removeFieldValue: (name: string) => void;
   removeFieldError: (name: string) => void;
   removeFieldRule: (name: string) => void;

@@ -61,6 +61,12 @@
 
 <!--{include:`follow-cursor.md`}-->
 
+### 无障碍描述
+
+当 `Whisper` 使用直接的 `Tooltip` 作为 speaker，且触发器是 React 元素时，会把已挂载 Tooltip 的 ID 加入触发器的 `aria-describedby`。已有描述 ID 保持顺序并去重。组件或 `CustomProvider` 提供的 Tooltip ID 会保留，否则会生成稳定的 ID。
+
+自动关联在 Tooltip 节点实际挂载期间有效，包括退出动画；节点移除后，只清除自动加入的关联。触发器需要把 ref 转发到 DOM 元素；目标节点需要具有 `role="tooltip"`，并在触发器所在文档内具有有效且唯一的 ID。覆盖 role 或位于其他文档的目标不会建立自动关联。函数 speaker、函数触发器、自定义 speaker 包装组件和 `Popover` 保持原有行为。使用 `controlId` 可管理显式关联，其原有行为不变。该 DOM 关联不保证屏幕阅读器播报描述的时机。
+
 ## Props
 
 ### `<Tooltip>`

@@ -243,17 +243,27 @@ describe('ButtonGroup with Badge styles', () => {
   });
 
   it('raises a focused or pressed wrapper while keeping its badge above the button', async () => {
-    let active = false;
-    let activeLayer = '';
+    const firstButton = React.createRef<HTMLButtonElement>();
+    const pressStates: { type: string; active: boolean; layer: string; focused: boolean }[] = [];
+    let preserveFocus = false;
+    const recordPress = (event: React.MouseEvent<HTMLElement>) => {
+      const button = event.currentTarget;
+      pressStates.push({
+        type: event.type,
+        active: button.matches(':active'),
+        layer: css(button.parentElement!).zIndex,
+        focused: document.activeElement === button
+      });
+    };
     const container = mount(
       <ButtonGroup>
-        <Button>One</Button>
+        <Button ref={firstButton}>One</Button>
         <Badge content="1">
           <Button
-            onMouseDown={event => {
-              event.preventDefault();
-              active = event.currentTarget.matches(':active');
-              activeLayer = css(event.currentTarget.parentElement!).zIndex;
+            onMouseDown={recordPress}
+            onMouseUp={recordPress}
+            onFocus={() => {
+              if (preserveFocus) firstButton.current?.focus();
             }}
           >
             Two
@@ -267,6 +277,7 @@ describe('ButtonGroup with Badge styles', () => {
     const buttons = buttonsIn(container);
     const wrapper = buttons[1].parentElement!;
     expect(css(wrapper).zIndex).toBe('auto');
+    await userEvent.click(buttons[0]);
     buttons[1].focus();
     expect(document.activeElement).toBe(buttons[1]);
     expect(css(wrapper).zIndex).toBe('2');
@@ -278,9 +289,18 @@ describe('ButtonGroup with Badge styles', () => {
     buttons[0].focus();
     expect(css(buttons[0]).zIndex).toBe('2');
     expect(css(wrapper).zIndex).toBe('auto');
+    // Firefox activates after mousedown's default action, which preventDefault would cancel.
+    preserveFocus = true;
     await userEvent.click(buttons[1]);
-    expect(active).toBe(true);
-    expect(activeLayer).toBe('2');
+    expect(pressStates.map(state => state.type)).toEqual(['mousedown', 'mouseup']);
+    expect(pressStates.some(state => state.active)).toBe(true);
+    pressStates
+      .filter(state => state.active)
+      .forEach(state => {
+        expect(state.layer).toBe('2');
+        expect(state.focused).toBe(false);
+      });
+    expect(buttons[1].matches(':active')).toBe(false);
     expect(document.activeElement).toBe(buttons[0]);
     expect(css(wrapper).zIndex).toBe('auto');
   });
