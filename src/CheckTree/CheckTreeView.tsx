@@ -19,7 +19,12 @@ import {
   defaultItemSize,
   type ListHandle
 } from '@/internals/Windowing';
-import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
+import {
+  useStyles,
+  useCustom,
+  useEventCallback,
+  useIsomorphicLayoutEffect
+} from '@/internals/hooks';
 import { getPathTowardsItem, getKeyParentMap } from '@/internals/Tree/utils';
 import { onMenuKeyDown } from '@/internals/Picker';
 import { TreeView } from '@/internals/Tree';
@@ -31,6 +36,7 @@ import {
 } from './utils';
 import { hasVisibleChildren, getActiveItem, isExpand } from '../Tree/utils';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
+import { formatNodeRefKey } from '../Tree/utils/formatNodeRefKey';
 import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 import type { WithAsProps, Option, ToArray, DataProps } from '@/internals/types';
 import type { TreeViewBaseProps } from '../Tree/types';
@@ -112,6 +118,9 @@ interface CheckTreeViewInnerProps<V = (string | number)[]>
    */
   onFocusItem?: (value?: TreeNode['value']) => void;
 
+  /** Reports the ID of the mounted focused row for a picker trigger. */
+  onActiveDescendantChange?: (id?: string) => void;
+
   /**
    * A callback function that is called when a node is expanded.
    *
@@ -150,6 +159,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
     onScroll,
     onExpand,
     onFocusItem,
+    onActiveDescendantChange,
     ...rest
   } = props;
 
@@ -207,6 +217,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   });
   const handleItemsRendered = props => {
     notifyItemsRendered();
+    reportActiveDescendant();
     listProps?.onItemsRendered?.(props);
   };
 
@@ -227,6 +238,19 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
     onFocused: onFocusItem,
     onExpand
   });
+
+  const reportActiveDescendant = () => {
+    const row = isNil(focusItemValue) ? undefined : treeNodesRefs[formatNodeRefKey(focusItemValue)];
+    onActiveDescendantChange?.(
+      row?.isConnected && treeViewRef.current?.contains(row) ? row.id || undefined : undefined
+    );
+  };
+
+  useIsomorphicLayoutEffect(reportActiveDescendant);
+  useIsomorphicLayoutEffect(
+    () => () => onActiveDescendantChange?.(undefined),
+    [onActiveDescendantChange]
+  );
 
   /**
    * Get formatted nodes for render tree
