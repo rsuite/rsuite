@@ -28,7 +28,9 @@ const model = SchemaModel({
 const App = () => {
   const formId = React.useId();
   const summaryRef = React.useRef(null);
-  const [formValue, setFormValue] = React.useState({});
+  const [formValue, setFormValue] = React.useState(() =>
+    Object.fromEntries(fields.map(field => [field.name, '']))
+  );
   const [formError, setFormError] = React.useState({});
   const [failedAttempt, setFailedAttempt] = React.useState(0);
   const [saved, setSaved] = React.useState(false);
