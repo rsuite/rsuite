@@ -148,6 +148,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
     callback: onMenuFocus,
     target: () => overlay.current
   });
+  const focusItem = focusItemValue ? items.find(item => item?.value === focusItemValue) : undefined;
 
   const handleKeyDownEvent = (event: React.KeyboardEvent) => {
     if (!overlay.current) {
@@ -164,11 +165,10 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
   };
 
   const selectFocusMenuItem = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (!focusItemValue) {
+    if (!focusItem) {
       return;
     }
 
-    const focusItem = datalist.find(item => item?.value === focusItemValue);
     setValue(focusItemValue);
     setFocusItemValue(focusItemValue);
 
@@ -242,7 +242,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
         classPrefix="auto-complete-menu"
         listItemClassPrefix="auto-complete-item"
         listItemAs={ListItem}
-        focusItemValue={focusItemValue}
+        focusItemValue={focusItem?.value}
         onSelect={handleItemSelect}
         renderOption={renderOption}
         data={items}
@@ -301,7 +301,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
         size={size}
         readOnly={readOnly}
         expanded={expanded}
-        focusItemValue={focusItemValue}
+        focusItemValue={focusItem?.value}
         onBlur={handleInputBlur}
         onFocus={handleInputFocus}
         onChange={handleChange}
