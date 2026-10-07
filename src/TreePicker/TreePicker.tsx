@@ -10,7 +10,7 @@ import TreeView, { TreeViewProps } from '../Tree/TreeView';
 import { PickerLocale } from '../locales';
 import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
-import { getActiveItem, getTreeActiveNode } from '../Tree/utils';
+import { formatNodeRefKey, getActiveItem, getTreeActiveNode } from '../Tree/utils';
 import {
   PickerToggle,
   PickerPopup,
@@ -330,7 +330,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
         active={active}
         placement={placement}
         inputValue={value}
-        focusItemValue={focusItemValue}
+        focusItemValue={isNil(focusItemValue) ? undefined : formatNodeRefKey(focusItemValue)}
         {...rest}
       >
         {selectedElement || locale?.placeholder}
