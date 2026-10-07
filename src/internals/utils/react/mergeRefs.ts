@@ -1,9 +1,9 @@
 import React from 'react';
 
-type CallbackRef<T> = (ref: T | null) => void | (() => void);
+type CallbackRef<T> = (ref: T | null) => void;
 type Ref<T> = React.MutableRefObject<T> | CallbackRef<T>;
 
-const toFnRef = <T>(ref?: Ref<T | null> | null): CallbackRef<T> | undefined => {
+const toFnRef = <T>(ref?: Ref<T | null> | null): ((ref: T | null) => unknown) | undefined => {
   if (typeof ref === 'function') return ref;
   if (!ref) return undefined;
 

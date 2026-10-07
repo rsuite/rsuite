@@ -7,6 +7,9 @@ export function MergedRefConsumer({
   callback?: React.RefCallback<HTMLDivElement> | null;
 }) {
   const objectRef = React.useRef<HTMLDivElement | null>(null);
+  const nodes: (HTMLDivElement | null)[] = [];
+  mergeRefs<HTMLDivElement>(node => (objectRef.current = node));
+  mergeRefs<HTMLDivElement>(node => nodes.push(node));
   const legacyCallback = (node: HTMLDivElement | null) => node?.focus();
   const cleanupCallback = (node: HTMLDivElement | null) => {
     if (node) return () => node.blur();
