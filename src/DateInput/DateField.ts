@@ -1,4 +1,5 @@
 import { useReducer } from 'react';
+import type { Dispatch } from 'react';
 import type { Locale, Month } from 'date-fns';
 import { isValid } from 'date-fns/isValid';
 import { modifyDate } from './utils';
@@ -73,7 +74,7 @@ interface Action {
 }
 
 export const useDateField = (format: string, localize: Locale['localize'], date?: Date | null) => {
-  const [dateField, dispatch] = useReducer(
+  const [dateField, dispatch]: [DateField, Dispatch<Action>] = useReducer(
     (state: DateField, action: Action): DateField => {
       switch (action.type) {
         case 'setYear':
