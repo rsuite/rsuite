@@ -51,3 +51,51 @@ describe.each([
     }
   );
 });
+
+describe('Tree native keyboard focus after mouse selection', () => {
+  it.each([false, true].flatMap(virtualized => [0, '', 2].map(value => ({ virtualized, value }))))(
+    'selects the focused $value after ArrowUp (virtualized: $virtualized)',
+    async ({ virtualized, value }) => {
+      const onChange = vi.fn();
+      render(
+        <Tree
+          data={[
+            { label: 'Destination node', value },
+            { label: 'Other node', value: 1 }
+          ]}
+          virtualized={virtualized}
+          onChange={onChange}
+        />
+      );
+      await act(async () => {
+        await userEvent.click(screen.getByRole('treeitem', { name: 'Other node' }));
+      });
+      expect(onChange).toHaveBeenCalledExactlyOnceWith(1, expect.anything());
+      expect(onChange.mock.calls[0][1].nativeEvent.isTrusted).to.be.true;
+      expect(screen.getByRole('treeitem', { name: 'Other node' })).to.have.focus;
+      expect(screen.getByRole('treeitem', { name: 'Other node' })).to.have.attribute(
+        'aria-selected',
+        'true'
+      );
+      onChange.mockClear();
+
+      await act(async () => {
+        await userEvent.keyboard('{ArrowUp}');
+      });
+      const destination = screen.getByRole('treeitem', { name: 'Destination node' });
+      expect(destination).to.have.focus;
+      expect(destination).to.have.attribute('aria-selected', 'false');
+      expect(onChange).not.toHaveBeenCalled();
+
+      await act(async () => {
+        await userEvent.keyboard('{Enter}');
+      });
+      expect(onChange).toHaveBeenCalledExactlyOnceWith(value, expect.anything());
+      expect(onChange.mock.calls[0][1].nativeEvent.isTrusted).to.be.true;
+      expect(screen.getByRole('treeitem', { name: 'Destination node' })).to.have.attribute(
+        'aria-selected',
+        'true'
+      );
+    }
+  );
+});
