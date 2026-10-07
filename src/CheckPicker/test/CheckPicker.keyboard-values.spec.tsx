@@ -54,6 +54,11 @@ describe('CheckPicker keyboard value boundaries', () => {
           const option = screen.getByRole('option', { name: destination.label });
           expect(option).to.have.attribute('data-key', String(target.value));
           await waitFor(() => expect(option).to.have.focus);
+          expect(combobox).to.have.attribute('aria-activedescendant', option.id);
+          expect(document.getElementById(option.id)).toBe(option);
+          expect(document.getElementById(combobox.getAttribute('aria-controls')!)).to.contain(
+            option
+          );
           expect(option).to.have.attribute('aria-selected', 'false');
           const checkbox = option.querySelector<HTMLInputElement>('input[type="checkbox"]');
           expect(checkbox).not.to.equal(null);
@@ -113,6 +118,7 @@ describe('CheckPicker keyboard value boundaries', () => {
             expect(onChange.mock.lastCall?.[1].nativeEvent.isTrusted).to.be.true;
             expect(onSelect.mock.lastCall?.[2].nativeEvent.isTrusted).to.be.true;
             expect(combobox).to.have.attribute('aria-expanded', 'true');
+            expect(combobox).to.have.attribute('aria-activedescendant', currentOption.id);
             await waitFor(() =>
               expect(screen.getByRole('option', { name: destination.label })).to.have.attribute(
                 'aria-selected',

@@ -10,7 +10,7 @@ import { forwardRef, mergeRefs } from '@/internals/utils';
 import { triggerPropKeys } from './PickerToggleTrigger';
 import type { IconProps } from '@rsuite/icons/Icon';
 import type { Placement, OptionValue } from '@/internals/types';
-import { omit } from 'lodash';
+import { isNil, omit } from 'lodash';
 
 export interface PickerToggleProps<T = OptionValue> extends ToggleButtonProps {
   active?: boolean;
@@ -117,7 +117,9 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
       aria-controls={id ? `${id}-${popupType}` : undefined}
       aria-labelledby={labelId}
       aria-describedby={id ? `${id}-describe` : undefined}
-      aria-activedescendant={active && focusItemValue ? `${id}-opt-${focusItemValue}` : undefined}
+      aria-activedescendant={
+        active && !isNil(focusItemValue) ? `${id}-opt-${focusItemValue}` : undefined
+      }
       data-has-value={hasValue}
       data-cleanable={cleanable}
       data-countable={countable}
