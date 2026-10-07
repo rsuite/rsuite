@@ -151,6 +151,7 @@ export * from './useMediaQuery';
 export * from './useBreakpointValue';
 export * from './useFormControl';
 export * from './useDialog';
+export * from './useClipboard';
 
 // Disclosure
 // --------------------------------------------------------
