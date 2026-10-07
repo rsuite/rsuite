@@ -51,8 +51,16 @@
   @media (forced-colors: active) {
     border-color: CanvasText;
 
+    &:focus {
+      outline-color: CanvasText;
+    }
+
     &-link {
       color: LinkText;
+
+      &:focus-visible {
+        outline-color: LinkText;
+      }
     }
   }
 }
