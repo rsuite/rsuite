@@ -1,4 +1,5 @@
 import React from 'react';
+import { version as reactDOMVersion } from 'react-dom';
 import { hydrateRoot } from 'react-dom/client';
 import FormErrorSummaryHydrationFixture from './FormErrorSummaryHydrationFixture';
 import '../styles/index.scss';
@@ -6,7 +7,9 @@ import '../styles/index.scss';
 export interface FormErrorSummaryHydrationResult {
   ready: boolean;
   reactVersion: string;
+  reactDOMVersion: string;
   errors: string[];
+  unmount: () => void;
 }
 
 declare global {
@@ -15,7 +18,13 @@ declare global {
   }
 }
 
-window.formErrorSummaryHydration = { ready: false, reactVersion: React.version, errors: [] };
+window.formErrorSummaryHydration = {
+  ready: false,
+  reactVersion: React.version,
+  reactDOMVersion,
+  errors: [],
+  unmount: () => root.unmount()
+};
 
 function App() {
   React.useEffect(() => {
@@ -24,6 +33,6 @@ function App() {
   return <FormErrorSummaryHydrationFixture />;
 }
 
-hydrateRoot(document.getElementById('root')!, <App />, {
+const root = hydrateRoot(document.getElementById('root')!, <App />, {
   onRecoverableError: error => window.formErrorSummaryHydration.errors.push(String(error))
 });

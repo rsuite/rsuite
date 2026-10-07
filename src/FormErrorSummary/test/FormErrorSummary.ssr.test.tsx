@@ -1,12 +1,12 @@
 import React from 'react';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, realpath, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { isAbsolute, join, relative, sep } from 'node:path';
 import type { AddressInfo } from 'node:net';
-import { renderToString } from 'react-dom/server';
+import { renderToString, version as serverVersion } from 'react-dom/server';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { chromium, firefox, type Browser } from 'playwright';
-import { createServer, type ViteDevServer } from 'vite';
+import { createServer, searchForWorkspaceRoot, type ViteDevServer } from 'vite';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import FormErrorSummary from '../FormErrorSummary';
@@ -22,16 +22,63 @@ describe('FormErrorSummary SSR hydration', () => {
   const browserName = process.env.BROWSER || 'chromium';
 
   beforeAll(async () => {
+    expect(serverVersion).toBe(React.version);
     markup = renderToString(<FormErrorSummaryHydrationFixture />);
     cacheDir = await mkdtemp(join(tmpdir(), 'rsuite-summary-hydration-'));
     const runtimeRoot = process.env.RSUITE_SUMMARY_RUNTIME_ROOT;
+    const fsAllow = [searchForWorkspaceRoot(process.cwd())];
+    if (runtimeRoot) {
+      fsAllow.push(
+        await realpath(join(runtimeRoot, 'react')),
+        await realpath(join(runtimeRoot, 'react-dom'))
+      );
+    }
+    fsAllow.push(await realpath(join(process.cwd(), 'node_modules/@rsuite/icons')));
+    const selectedPackages = runtimeRoot
+      ? [
+          {
+            alias: join(runtimeRoot, 'react'),
+            physical: await realpath(join(runtimeRoot, 'react'))
+          },
+          {
+            alias: join(runtimeRoot, 'react-dom'),
+            physical: await realpath(join(runtimeRoot, 'react-dom'))
+          }
+        ]
+      : [];
     server = await createServer({
       configFile: false,
       appType: 'custom',
       root: process.cwd(),
       logLevel: 'silent',
       cacheDir,
-      plugins: [tsconfigPaths(), react()],
+      plugins: [
+        tsconfigPaths(),
+        {
+          name: 'summary-selected-runtime-guard',
+          async resolveId(source, importer) {
+            const selected = selectedPackages.find(
+              entry => source === entry.alias || source.startsWith(`${entry.alias}/`)
+            );
+            if (selected) {
+              const resolved = await this.resolve(source, importer, { skipSelf: true });
+              if (!resolved) throw new Error(`Cannot resolve selected summary runtime: ${source}`);
+              const physical = await realpath(resolved.id.split('?')[0]);
+              const withinPackage = relative(selected.physical, physical);
+              if (
+                isAbsolute(withinPackage) ||
+                withinPackage === '..' ||
+                withinPackage.startsWith(`..${sep}`)
+              ) {
+                throw new Error(`Summary runtime resolved outside selected package: ${physical}`);
+              }
+              console.info('FormErrorSummary hydration physical runtime', { source, physical });
+            }
+            return null;
+          }
+        },
+        react()
+      ],
       resolve: {
         dedupe: ['react', 'react-dom'],
         alias: runtimeRoot
@@ -42,7 +89,7 @@ describe('FormErrorSummary SSR hydration', () => {
         entries: ['src/FormErrorSummary/test/FormErrorSummaryHydration.client.tsx'],
         include: ['react', 'react-dom/client']
       },
-      server: { host: '127.0.0.1', port: 0 }
+      server: { host: '127.0.0.1', port: 0, fs: { allow: fsAllow } }
     });
     server.middlewares.use(async (request, response, next) => {
       if (request.url !== '/') return next();
@@ -59,6 +106,7 @@ describe('FormErrorSummary SSR hydration', () => {
     expect(browser.browserType().name()).toBe(browserName);
     console.log('FormErrorSummary hydration runtime', {
       react: React.version,
+      reactDOMServer: serverVersion,
       browser: browserName,
       version: browser.version()
     });
@@ -89,6 +137,8 @@ describe('FormErrorSummary SSR hydration', () => {
     page.on('console', message => {
       if (message.type() === 'error') errors.push(message.text());
     });
+    let assertionError: unknown;
+    let assertionFailed = false;
     try {
       await page.goto(serverUrl);
       await page.waitForFunction(() => window.formErrorSummaryHydration?.ready);
@@ -97,7 +147,10 @@ describe('FormErrorSummary SSR hydration', () => {
         const regions = [...document.querySelectorAll('[role="region"]')];
         const ids = regions.map(region => region.getAttribute('aria-labelledby'));
         return {
-          ...state,
+          ready: state.ready,
+          reactVersion: state.reactVersion,
+          reactDOMVersion: state.reactDOMVersion,
+          errors: [...state.errors],
           ids,
           allIds: [...document.querySelectorAll('[id]')].map(node => node.id),
           active: document.activeElement?.tagName,
@@ -105,6 +158,7 @@ describe('FormErrorSummary SSR hydration', () => {
         };
       });
       expect(result.reactVersion).toBe(React.version);
+      expect(result.reactDOMVersion).toBe(serverVersion);
       expect(result.errors).toEqual([]);
       expect(errors).toEqual([]);
       expect(result.ids).toHaveLength(2);
@@ -122,8 +176,34 @@ describe('FormErrorSummary SSR hydration', () => {
         )
         .toBe(true);
       expect(await page.getByLabel('Email', { exact: true }).inputValue()).toBe('unchanged');
+      expect(await page.evaluate(() => window.formErrorSummaryHydration.errors)).toEqual([]);
+      expect(errors).toEqual([]);
+    } catch (error) {
+      assertionFailed = true;
+      assertionError = error;
     } finally {
-      await page.close();
+      const cleanupErrors: unknown[] = [];
+      try {
+        const remainingChildren = await page.evaluate(() => {
+          window.formErrorSummaryHydration.unmount();
+          return document.getElementById('root')!.childNodes.length;
+        });
+        expect(remainingChildren).toBe(0);
+      } catch (error) {
+        cleanupErrors.push(error);
+      }
+      try {
+        await page.close();
+      } catch (error) {
+        cleanupErrors.push(error);
+      }
+      if (cleanupErrors.length) {
+        throw new AggregateError(
+          assertionFailed ? [assertionError, ...cleanupErrors] : cleanupErrors,
+          'FormErrorSummary hydration assertion or cleanup failed'
+        );
+      }
+      if (assertionFailed) throw assertionError;
     }
   });
 });
