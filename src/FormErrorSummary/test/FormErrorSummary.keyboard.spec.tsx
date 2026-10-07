@@ -198,7 +198,9 @@ describe('FormErrorSummary native navigation', () => {
     expect(control).toHaveAttribute('aria-expanded', 'false');
     expect(control).toHaveTextContent('Partner A');
     const form = screen.getByRole('form', { name: 'Supplier form' });
-    expect(control.getBoundingClientRect().top).toBeGreaterThan(form.getBoundingClientRect().bottom);
+    expect(control.getBoundingClientRect().top).toBeGreaterThan(
+      form.getBoundingClientRect().bottom
+    );
     await activateFirstLink(screen.getByRole('region', { name: 'Check the supplier information' }));
     await waitFor(() => {
       expect(control).toHaveFocus();

@@ -124,25 +124,25 @@ HTML:
 
 ### `<Form>`
 
-| Property         | Type `(default)`                                      | Description                                                                    | Version     |
-| ---------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------ | ----------- |
-| checkTrigger     | 'change' \| 'blur' \| 'none' `('change')`             | Specifies when to trigger form validation                                      |             |
-| disabled         | boolean `(false)`                                     | Disables the form                                                              |             |
-| errorFromContext | boolean `(true)`                                      | Default error messages in Form.Control are sourced from Context                |             |
-| fluid            | boolean                                               | Enables the Input to occupy 100% width in vertical layouts only                |             |
-| formDefaultValue | object                                                | Initial default values for the form                                            |             |
-| formError        | object                                                | Error messages for the form                                                    |             |
-| formValue        | object                                                | Values of the form (controlled)                                                |             |
-| layout           | 'horizontal' \| 'vertical' \| 'inline' `('vertical')` | The layout style of the form                                                   |             |
-| model            | Schema                                                | Instance of SchemaModel                                                        |             |
-| nestedField      | boolean `(false)`                                     | Allows support for nested fields                                               |             |
-| onChange         | (formValue: object, event) => void                    | Callback triggered on data change                                              |             |
-| onCheck          | (formError: object) => void                           | Callback triggered on data validation                                          |             |
-| onError          | (formError: object) => void                           | Callback triggered on validation errors                                        |             |
-| onReset          | (formValue: object, event: FormEvent) => void         | Callback triggered on form reset                                               |             |
-| onSubmit         | (formValue: object, event: FormEvent) => void         | Callback triggered on form submission, only occurs when form data is validated |             |
-| plaintext        | boolean `(false)`                                     | Renders the form in plain text                                                 |             |
-| readOnly         | boolean `(false)`                                     | Sets the form to read-only mode                                                |             |
+| Property         | Type `(default)`                                      | Description                                                                          | Version    |
+| ---------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------ | ---------- |
+| checkTrigger     | 'change' \| 'blur' \| 'none' `('change')`             | Specifies when to trigger form validation                                            |            |
+| disabled         | boolean `(false)`                                     | Disables the form                                                                    |            |
+| errorFromContext | boolean `(true)`                                      | Default error messages in Form.Control are sourced from Context                      |            |
+| fluid            | boolean                                               | Enables the Input to occupy 100% width in vertical layouts only                      |            |
+| formDefaultValue | object                                                | Initial default values for the form                                                  |            |
+| formError        | object                                                | Error messages for the form                                                          |            |
+| formValue        | object                                                | Values of the form (controlled)                                                      |            |
+| layout           | 'horizontal' \| 'vertical' \| 'inline' `('vertical')` | The layout style of the form                                                         |            |
+| model            | Schema                                                | Instance of SchemaModel                                                              |            |
+| nestedField      | boolean `(false)`                                     | Allows support for nested fields                                                     |            |
+| onChange         | (formValue: object, event) => void                    | Callback triggered on data change                                                    |            |
+| onCheck          | (formError: object) => void                           | Callback triggered on data validation                                                |            |
+| onError          | (formError: object) => void                           | Callback triggered on validation errors                                              |            |
+| onReset          | (formValue: object, event: FormEvent) => void         | Callback triggered on form reset                                                     |            |
+| onSubmit         | (formValue: object, event: FormEvent) => void         | Callback triggered on form submission, only occurs when form data is validated       |            |
+| plaintext        | boolean `(false)`                                     | Renders the form in plain text                                                       |            |
+| readOnly         | boolean `(false)`                                     | Sets the form to read-only mode                                                      |            |
 | resolver         | [Resolver](#code-ts-resolver-code)                    | Validation resolver for third-party schema libraries. Takes precedence over `model`. | ![][6.2.0] |
 
 ### `<Form.Stack>`
@@ -204,21 +204,21 @@ HTML:
 
 ### `<Form.ErrorSummary>`
 
-| Property | Type `(default)` | Description |
-| --- | --- | --- |
-| header \* | ReactNode | Application-localized heading for the summary |
-| items \* | readonly [FormErrorSummaryItem](#formerrorsummaryitem)[] | Invalid fields in the desired display order; an empty array hides the summary |
-| onSelect | (item: FormErrorSummaryItem, event: MouseEvent) => void | Called before navigation; prevent the default action to handle revealing or focusing the field yourself |
-| tabIndex | number `(-1)` | Tab order of the summary root; the forwarded ref allows explicit application-controlled focus |
+| Property  | Type `(default)`                                         | Description                                                                                             |
+| --------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| header \* | ReactNode                                                | Application-localized heading for the summary                                                           |
+| items \*  | readonly [FormErrorSummaryItem](#formerrorsummaryitem)[] | Invalid fields in the desired display order; an empty array hides the summary                           |
+| onSelect  | (item: FormErrorSummaryItem, event: MouseEvent) => void  | Called before navigation; prevent the default action to handle revealing or focusing the field yourself |
+| tabIndex  | number `(-1)`                                            | Tab order of the summary root; the forwarded ref allows explicit application-controlled focus           |
 
 #### FormErrorSummaryItem
 
-| Property | Type | Description |
-| --- | --- | --- |
-| name \* | string | Unique, stable field identity; treated as an opaque string, not a nested path |
-| label \* | ReactNode | Label of the field with an error |
-| message \* | ReactNode | Description of the error and how to correct it |
-| controlId | string | Unique DOM ID of the actual focusable field control; omit for a text-only error |
+| Property   | Type      | Description                                                                     |
+| ---------- | --------- | ------------------------------------------------------------------------------- |
+| name \*    | string    | Unique, stable field identity; treated as an opaque string, not a nested path   |
+| label \*   | ReactNode | Label of the field with an error                                                |
+| message \* | ReactNode | Description of the error and how to correct it                                  |
+| controlId  | string    | Unique DOM ID of the actual focusable field control; omit for a text-only error |
 
 The component is also available as the named export `FormErrorSummary` and the default export from `rsuite/FormErrorSummary`. It accepts Box style props and standard DOM/ARIA props. Navigation focuses the exact target before scrolling with `nearest` alignment and instant behavior; it does not infer or focus a wrapper's descendants.
 

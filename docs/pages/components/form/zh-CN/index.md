@@ -123,25 +123,25 @@
 
 ### `<Form>`
 
-| 名称             | 类型 `(默认值)`                                       | 描述                                         | 版本        |
-| ---------------- | ----------------------------------------------------- | -------------------------------------------- | ----------- |
-| checkTrigger     | 'change' \| 'blur' \| 'none' `('change')`             | 定义何时触发表单校验                         |             |
-| disabled         | boolean `(false)`                                     | 禁用整个表单                                 |             |
-| errorFromContext | boolean `(true)`                                      | 默认从 Context 获取 Form.Control 的错误提示  |             |
-| fluid            | boolean                                               | 使表单控件在垂直布局中 100% 撑满容器         |             |
-| formDefaultValue | object                                                | 表单的初始默认值（非受控组件）               |             |
-| formError        | object                                                | 表单的错误信息                               |             |
-| formValue        | object                                                | 表单的值（受控组件）                         |             |
-| layout           | 'horizontal' \| 'vertical' \| 'inline' `('vertical')` | 表单布局方式                                 |             |
-| model            | Schema                                                | SchemaModel 实例对象                         |             |
-| nestedField      | boolean `(false)`                                     | 支持表单数据嵌套                             |             |
-| onChange         | (formValue: object, event) => void                    | 数据改变时的回调函数                         |             |
-| onCheck          | (formError: object) => void                           | 数据校验时的回调函数                         |             |
-| onError          | (formError: object) => void                           | 校验出错时的回调函数                         |             |
-| onReset          | (formValue: object, event?: FormEvent) => void        | 表单重置时的回调函数                         |             |
-| onSubmit         | (formValue: object, event?: FormEvent) => void        | 提交表单时的回调函数，仅在数据校验通过后触发 |             |
-| plaintext        | boolean `(false)`                                     | 将表单显示为纯文本                           |             |
-| readOnly         | boolean `(false)`                                     | 将表单设置为只读                             |             |
+| 名称             | 类型 `(默认值)`                                       | 描述                                                 | 版本       |
+| ---------------- | ----------------------------------------------------- | ---------------------------------------------------- | ---------- |
+| checkTrigger     | 'change' \| 'blur' \| 'none' `('change')`             | 定义何时触发表单校验                                 |            |
+| disabled         | boolean `(false)`                                     | 禁用整个表单                                         |            |
+| errorFromContext | boolean `(true)`                                      | 默认从 Context 获取 Form.Control 的错误提示          |            |
+| fluid            | boolean                                               | 使表单控件在垂直布局中 100% 撑满容器                 |            |
+| formDefaultValue | object                                                | 表单的初始默认值（非受控组件）                       |            |
+| formError        | object                                                | 表单的错误信息                                       |            |
+| formValue        | object                                                | 表单的值（受控组件）                                 |            |
+| layout           | 'horizontal' \| 'vertical' \| 'inline' `('vertical')` | 表单布局方式                                         |            |
+| model            | Schema                                                | SchemaModel 实例对象                                 |            |
+| nestedField      | boolean `(false)`                                     | 支持表单数据嵌套                                     |            |
+| onChange         | (formValue: object, event) => void                    | 数据改变时的回调函数                                 |            |
+| onCheck          | (formError: object) => void                           | 数据校验时的回调函数                                 |            |
+| onError          | (formError: object) => void                           | 校验出错时的回调函数                                 |            |
+| onReset          | (formValue: object, event?: FormEvent) => void        | 表单重置时的回调函数                                 |            |
+| onSubmit         | (formValue: object, event?: FormEvent) => void        | 提交表单时的回调函数，仅在数据校验通过后触发         |            |
+| plaintext        | boolean `(false)`                                     | 将表单显示为纯文本                                   |            |
+| readOnly         | boolean `(false)`                                     | 将表单设置为只读                                     |            |
 | resolver         | [Resolver](#code-ts-resolver-code)                    | 用于第三方 Schema 库的校验解析器，优先级高于 `model` | ![][6.2.0] |
 
 ### `<Form.Stack>`
@@ -201,24 +201,23 @@
 | placement   | [Placement](#code-ts-placement-code)`('bottomStart')` | 错误信息显示位置  |
 | show        | boolean                                               | 是否显示错误信息  |
 
-
 ### `<Form.ErrorSummary>`
 
-| 属性 | 类型 `(默认值)` | 描述 |
-| --- | --- | --- |
-| header \* | ReactNode | 由应用本地化的错误汇总标题 |
-| items \* | readonly [FormErrorSummaryItem](#formerrorsummaryitem)[] | 按期望顺序排列的错误字段，空数组时不显示汇总 |
-| onSelect | (item: FormErrorSummaryItem, event: MouseEvent) => void | 导航前调用；可阻止默认行为，自行显示或聚焦字段 |
-| tabIndex | number `(-1)` | 汇总根节点的 Tab 顺序；可通过转发的 ref 显式聚焦 |
+| 属性      | 类型 `(默认值)`                                          | 描述                                             |
+| --------- | -------------------------------------------------------- | ------------------------------------------------ |
+| header \* | ReactNode                                                | 由应用本地化的错误汇总标题                       |
+| items \*  | readonly [FormErrorSummaryItem](#formerrorsummaryitem)[] | 按期望顺序排列的错误字段，空数组时不显示汇总     |
+| onSelect  | (item: FormErrorSummaryItem, event: MouseEvent) => void  | 导航前调用；可阻止默认行为，自行显示或聚焦字段   |
+| tabIndex  | number `(-1)`                                            | 汇总根节点的 Tab 顺序；可通过转发的 ref 显式聚焦 |
 
 #### FormErrorSummaryItem
 
-| 属性 | 类型 | 描述 |
-| --- | --- | --- |
-| name \* | string | 唯一且稳定的字段标识，作为普通字符串处理，不解析为嵌套路径 |
-| label \* | ReactNode | 发生错误的字段标签 |
-| message \* | ReactNode | 错误描述及修正方式 |
-| controlId | string | 实际可聚焦控件的唯一 DOM ID；不提供时只显示文本 |
+| 属性       | 类型      | 描述                                                       |
+| ---------- | --------- | ---------------------------------------------------------- |
+| name \*    | string    | 唯一且稳定的字段标识，作为普通字符串处理，不解析为嵌套路径 |
+| label \*   | ReactNode | 发生错误的字段标签                                         |
+| message \* | ReactNode | 错误描述及修正方式                                         |
+| controlId  | string    | 实际可聚焦控件的唯一 DOM ID；不提供时只显示文本            |
 
 组件也可以通过命名导出 `FormErrorSummary`，或从 `rsuite/FormErrorSummary` 默认导入。支持 Box 样式属性及标准 DOM/ARIA 属性。导航先聚焦精确目标，再以 `nearest` 对齐即时滚动，不会推断或聚焦布局容器的后代。
 
