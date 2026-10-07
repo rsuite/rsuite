@@ -192,6 +192,10 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
   });
 
   const handleTreeKeyDown = useEventCallback((event: React.KeyboardEvent<any>) => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     onMenuKeyDown(event, {
       del: handleClean,
       down: () => focusFirstNode(),
@@ -232,6 +236,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
         ref={treeView}
         value={value}
         data={treeData}
+        sourceData={data}
         disabledItemValues={disabledItemValues}
         expandItemValues={expandItemValues}
         showIndentLine={showIndentLine}

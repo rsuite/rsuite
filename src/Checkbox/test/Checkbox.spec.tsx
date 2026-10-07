@@ -130,6 +130,104 @@ describe('Checkbox', () => {
     expect(inputRef.current).to.be.instanceof(HTMLInputElement);
   });
 
+  it('Should clear its object inputRef on unmount', () => {
+    const inputRef = React.createRef<HTMLInputElement>();
+    const { unmount } = render(<Checkbox inputRef={inputRef}>Test</Checkbox>);
+
+    unmount();
+
+    expect(inputRef.current).toBeNull();
+  });
+
+  it('Should call its legacy inputRef with null on unmount', () => {
+    const inputRef = vi.fn();
+    const { unmount } = render(<Checkbox inputRef={inputRef}>Test</Checkbox>);
+    const input = screen.getByRole('checkbox');
+
+    unmount();
+
+    expect(inputRef.mock.calls).toEqual([[input], [null]]);
+  });
+
+  it.skipIf(parseInt(React.version, 10) < 19)('Should run its inputRef cleanup on unmount', () => {
+    const listener = vi.fn();
+    const cleanup = vi.fn();
+    const inputRef = vi.fn((node: HTMLInputElement | null) => {
+      if (node) {
+        node.addEventListener('focus', listener);
+        return () => {
+          node.removeEventListener('focus', listener);
+          cleanup();
+        };
+      }
+    });
+    const { unmount } = render(<Checkbox inputRef={inputRef}>Test</Checkbox>);
+    const input = screen.getByRole('checkbox');
+
+    unmount();
+    input.dispatchEvent(new Event('focus'));
+
+    expect(cleanup).toHaveBeenCalledTimes(1);
+    expect(listener).not.toHaveBeenCalled();
+    expect(inputRef.mock.calls).toEqual([[input]]);
+  });
+
+  it.skipIf(parseInt(React.version, 10) < 19)(
+    'Should clean up the previous inputRef when it is replaced',
+    () => {
+      const firstCleanup = vi.fn();
+      const secondCleanup = vi.fn();
+      const firstRef = vi.fn(() => firstCleanup);
+      const secondRef = vi.fn(() => secondCleanup);
+      const { rerender, unmount } = render(<Checkbox inputRef={firstRef}>Test</Checkbox>);
+      const input = screen.getByRole('checkbox');
+
+      rerender(<Checkbox inputRef={secondRef}>Test</Checkbox>);
+
+      expect(firstCleanup).toHaveBeenCalledTimes(1);
+      expect(firstRef.mock.calls).toEqual([[input]]);
+      expect(secondRef.mock.calls).toEqual([[input]]);
+      expect(secondCleanup).not.toHaveBeenCalled();
+
+      unmount();
+
+      expect(firstCleanup).toHaveBeenCalledTimes(1);
+      expect(secondCleanup).toHaveBeenCalledTimes(1);
+      expect(secondRef.mock.calls).toEqual([[input]]);
+    }
+  );
+
+  it.skipIf(parseInt(React.version, 10) < 19)(
+    'Should balance inputRef setup and cleanup in Strict Mode',
+    () => {
+      let activeRefs = 0;
+      const cleanup = vi.fn();
+      const inputRef = vi.fn((node: HTMLInputElement | null) => {
+        if (node) {
+          activeRefs += 1;
+          return () => {
+            activeRefs -= 1;
+            cleanup();
+          };
+        }
+      });
+      const { unmount } = render(
+        <React.StrictMode>
+          <Checkbox inputRef={inputRef}>Test</Checkbox>
+        </React.StrictMode>
+      );
+
+      expect(activeRefs).toBe(1);
+      expect(inputRef).toHaveBeenCalledTimes(2);
+      expect(cleanup).toHaveBeenCalledTimes(1);
+
+      unmount();
+
+      expect(activeRefs).toBe(0);
+      expect(cleanup).toHaveBeenCalledTimes(2);
+    }
+  );
+
   it('Should call onChange callback with correct value and checked state', () => {
     const onChange = vi.fn();
 

@@ -1,12 +1,14 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
+import { userEvent as browserUserEvent } from '@vitest/browser/context';
+import type {} from '@vitest/browser/providers/playwright';
 import DateInput from '../DateInput';
 import CustomProvider from '../../CustomProvider';
 import zhCN from '../../locales/zh_CN';
 import { describe, expect, it, vi } from 'vitest';
 import { format, isValid } from 'date-fns';
 import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/cases';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { mockClipboardEvent } from '@test/mocks/data-mock';
 import { keyPressTests } from './testUtils';
 import { TestKeyPressProps } from './types/TestKeyPressProps';
@@ -90,12 +92,16 @@ describe('DateInput', () => {
     expect(isNaN(onChange.mock.calls[3][0].getTime())).toBe(true);
     expect(input).to.value('2024-MM-dd');
 
-    userEvent.type(input, '{arrowright}12');
+    input.setSelectionRange(5, 7);
+    fireEvent.click(input);
+    userEvent.type(input, '12');
 
     expect(isNaN(onChange.mock.calls[5][0].getTime())).toBe(true);
     expect(input).to.value('2024-12-dd');
 
-    userEvent.type(input, '{arrowright}{arrowright}20');
+    input.setSelectionRange(8, 10);
+    fireEvent.click(input);
+    userEvent.type(input, '20');
 
     expect(format(onChange.mock.lastCall?.[0], 'yyyy-MM-dd')).toBe('2024-12-20');
     expect(input).to.value('2024-12-20');
@@ -426,9 +432,13 @@ describe('DateInput', () => {
       testContinuousKeyPress({
         format: 'HH:mm aa',
         defaultValue: new Date('2023-10-01 13:30:00'),
+        selectBeforeKey: input => {
+          input.setSelectionRange(6, 8);
+          fireEvent.click(input);
+        },
         keySequences: [
-          { key: '{arrowright}{arrowright}a', expected: '01:30 AM' },
-          { key: '{arrowright}{arrowright}p', expected: '13:30 PM' }
+          { key: 'a', expected: '01:30 AM' },
+          { key: 'p', expected: '13:30 PM' }
         ]
       });
     });
@@ -566,11 +576,51 @@ describe('DateInput', () => {
     });
 
     it('Should be able to enter key input continuously with 24 hour format', async () => {
-      await testKeyPressAsync({
-        format: 'MM/dd/yyyy HH:mm:ss',
-        keys: '01012024120130',
-        expectedValue: '01/01/2024 12:01:30'
+      const keys = '01012024120130';
+      const keyEvents: { key: string; trusted: boolean }[] = [];
+      const onChange = vi.fn<(value: Date | null, event: React.SyntheticEvent) => void>();
+      render(
+        <DateInput
+          format="MM/dd/yyyy HH:mm:ss"
+          onChange={onChange}
+          onKeyDown={event =>
+            keyEvents.push({ key: event.key, trusted: event.nativeEvent.isTrusted })
+          }
+        />
+      );
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+
+      await browserUserEvent.click(input, { position: { x: 4, y: 10 } });
+      await waitFor(() => {
+        expect(document.activeElement).toBe(input);
+        expect(input.placeholder).toBe('MM/dd/yyyy HH:mm:ss');
+        expect(input.value).toBe('MM/dd/yyyy HH:mm:ss');
+        expect([input.selectionStart, input.selectionEnd]).toEqual([0, 2]);
       });
+
+      // One native keyboard command, with no delay or selection wait between digits.
+      await browserUserEvent.keyboard(keys);
+      await waitFor(() => {
+        expect(document.activeElement).toBe(input);
+        expect(input.value).toBe('01/01/2024 12:01:30');
+        expect([input.selectionStart, input.selectionEnd]).toEqual([17, 19]);
+      });
+      expect(keyEvents).toEqual(Array.from(keys, key => ({ key, trusted: true })));
+      expect(onChange).toHaveBeenCalledTimes(14);
+      expect(onChange.mock.calls.map(([, event]) => event.nativeEvent.isTrusted)).toEqual(
+        Array(14).fill(true)
+      );
+      const lastDate = onChange.mock.lastCall?.[0] as Date;
+      expect(lastDate).toBeInstanceOf(Date);
+      expect(isValid(lastDate)).toBe(true);
+      expect([
+        lastDate.getFullYear(),
+        lastDate.getMonth() + 1,
+        lastDate.getDate(),
+        lastDate.getHours(),
+        lastDate.getMinutes(),
+        lastDate.getSeconds()
+      ]).toEqual([2024, 1, 1, 12, 1, 30]);
     });
 
     it('Should be able to enter key input continuously with 12 hour format', async () => {

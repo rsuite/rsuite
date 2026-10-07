@@ -105,6 +105,7 @@ const Tree = forwardRef<'div', TreeProps>((props, ref) => {
         {...rest}
         value={value}
         data={treeData}
+        sourceData={data}
         loadingNodeValues={loadingNodeValues}
         flattenedNodes={flattenedNodes}
         expandItemValues={expandItemValues}

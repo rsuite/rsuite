@@ -153,11 +153,13 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
     if (!overlay.current) {
       return;
     }
-    onMenuKeyDown(event, {
-      enter: selectOnEnter ? selectFocusMenuItem : undefined,
-      esc: handleClose
-    });
-    handleKeyDown(event);
+    if (!event.nativeEvent.isComposing && event.nativeEvent.keyCode !== 229) {
+      onMenuKeyDown(event, {
+        enter: selectOnEnter ? selectFocusMenuItem : undefined,
+        esc: handleClose
+      });
+      handleKeyDown(event);
+    }
     onKeyDown?.(event);
   };
 

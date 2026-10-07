@@ -1,10 +1,11 @@
 import React, { useContext, useMemo } from 'react';
+import useCustomConfig from '@/internals/hooks/useCustomConfig';
 import Ripple from '@/internals/Ripple';
 import Box, { BoxProps } from '@/internals/Box';
 import SafeAnchor from '@/internals/SafeAnchor';
 import ButtonGroupContext from '../ButtonGroup/ButtonGroupContext';
 import { forwardRef, isOneOf, isDisableableElement } from '@/internals/utils';
-import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { Color, BasicSize, AppearanceType } from '@/internals/types';
 
 export interface ButtonProps extends BoxProps, Omit<React.HTMLAttributes<HTMLElement>, 'onToggle'> {
@@ -59,7 +60,7 @@ export interface ButtonProps extends BoxProps, Omit<React.HTMLAttributes<HTMLEle
  * @see https://rsuitejs.com/components/button
  */
 const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
-  const { propsWithDefaults } = useCustom('Button', props);
+  const { propsWithDefaults } = useCustomConfig('Button', props);
   const buttonGroup = useContext(ButtonGroupContext);
   const {
     as,
