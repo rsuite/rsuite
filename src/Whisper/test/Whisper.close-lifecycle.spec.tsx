@@ -3,6 +3,8 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { userEvent } from '@vitest/browser/context';
 import Whisper, { WhisperInstance } from '../Whisper';
+import Tooltip from '../../Tooltip';
+import '../../Tooltip/styles/index.scss';
 
 async function closeCustomOverlay(afterEntered: boolean) {
   const ref = React.createRef<WhisperInstance>();
@@ -92,6 +94,46 @@ async function closeCustomOverlay(afterEntered: boolean) {
 }
 
 describe('Whisper close lifecycle', () => {
+  it('forwards Tooltip transition callbacks in order after native clicks', async () => {
+    const callbacks = {
+      onEnter: vi.fn(),
+      onEntering: vi.fn(),
+      onEntered: vi.fn(),
+      onExit: vi.fn(),
+      onExiting: vi.fn(),
+      onExited: vi.fn()
+    };
+    const trusted: boolean[] = [];
+    const view = render(
+      <Whisper {...callbacks} trigger="click" speaker={<Tooltip>Native tooltip</Tooltip>}>
+        <button onClick={event => trusted.push(event.nativeEvent.isTrusted)}>Toggle tooltip</button>
+      </Whisper>
+    );
+
+    try {
+      const button = screen.getByRole('button', { name: 'Toggle tooltip' });
+      await act(() => userEvent.click(button));
+      await waitFor(() => expect(callbacks.onEntered).toHaveBeenCalledTimes(1));
+      const tooltip = screen.getByRole('tooltip');
+      expect(button).to.have.attribute('aria-describedby', tooltip.id);
+
+      await act(() => userEvent.click(button));
+      await waitFor(() => expect(callbacks.onExited).toHaveBeenCalledTimes(1));
+      expect(trusted).toEqual([true, true]);
+      expect(screen.queryByRole('tooltip')).toBeNull();
+      expect(button).not.to.have.attribute('aria-describedby');
+
+      const orderedCallbacks = Object.values(callbacks);
+      for (const callback of orderedCallbacks) {
+        expect(callback).toHaveBeenCalledExactlyOnceWith(tooltip);
+      }
+      const order = orderedCallbacks.map(callback => callback.mock.invocationCallOrder[0]);
+      expect(order).toEqual([...order].sort((a, b) => a - b));
+    } finally {
+      view.unmount();
+    }
+  });
+
   it('closes without completing an obsolete entry after native clicks', async () => {
     await closeCustomOverlay(false);
   });

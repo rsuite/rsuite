@@ -2,7 +2,7 @@ import React, { CSSProperties, Ref } from 'react';
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../../Tooltip';
 import { describe, expect, it, vi } from 'vitest';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { act, render, fireEvent, waitFor, screen } from '@testing-library/react';
 
 describe('Whisper', () => {
   it('Should create Whisper element', () => {
@@ -141,7 +141,7 @@ describe('Whisper', () => {
     });
   });
 
-  it('Should pass transition callbacks to Transition', async () => {
+  it('Should pass transition callbacks to Transition', () => {
     const onExit = vi.fn();
     const onExiting = vi.fn();
     const onExited = vi.fn();
@@ -149,36 +149,50 @@ describe('Whisper', () => {
     const onEntering = vi.fn();
     const onEntered = vi.fn();
 
-    render(
-      <Whisper
-        trigger="click"
-        speaker={<Tooltip>test</Tooltip>}
-        onExit={onExit}
-        onExiting={onExiting}
-        onExited={onExited}
-        onEnter={onEnter}
-        onEntering={onEntering}
-        onEntered={onEntered}
-      >
-        <button data-testid="btn">button</button>
-      </Whisper>
-    );
+    vi.useFakeTimers();
+    let view: ReturnType<typeof render> | undefined;
+    try {
+      view = render(
+        <Whisper
+          trigger="click"
+          speaker={<Tooltip>test</Tooltip>}
+          onExit={onExit}
+          onExiting={onExiting}
+          onExited={onExited}
+          onEnter={onEnter}
+          onEntering={onEntering}
+          onEntered={onEntered}
+        >
+          <button data-testid="btn">button</button>
+        </Whisper>
+      );
 
-    fireEvent.click(screen.getByTestId('btn'));
+      fireEvent.click(screen.getByTestId('btn'));
+      expect(onEnter).toHaveBeenCalledTimes(1);
+      expect(onEntering).toHaveBeenCalledTimes(1);
+      expect(onEntered).not.toHaveBeenCalled();
 
-    await waitFor(() => {
-      expect(onEnter).toHaveBeenCalled();
-      expect(onEntering).toHaveBeenCalled();
-      expect(onEntered).toHaveBeenCalled();
-    });
+      // Drive Fade's fallback clock independently of the runner's scheduling.
+      act(() => vi.advanceTimersByTime(300));
+      expect(onEntered).toHaveBeenCalledTimes(1);
 
-    fireEvent.click(screen.getByTestId('btn'));
+      fireEvent.click(screen.getByTestId('btn'));
+      expect(onExit).toHaveBeenCalledTimes(1);
+      expect(onExiting).toHaveBeenCalledTimes(1);
+      expect(onExited).not.toHaveBeenCalled();
 
-    await waitFor(() => {
-      expect(onExit).toHaveBeenCalled();
-      expect(onExiting).toHaveBeenCalled();
-      expect(onExited).toHaveBeenCalled();
-    });
+      act(() => vi.advanceTimersByTime(300));
+      expect(onExited).toHaveBeenCalledTimes(1);
+
+      const callbacks = [onEnter, onEntering, onEntered, onExit, onExiting, onExited];
+      const order = callbacks.map(callback => callback.mock.invocationCallOrder[0]);
+      expect(order).toEqual([...order].sort((a, b) => a - b));
+      for (const callback of callbacks) expect(callback).toHaveBeenCalledTimes(1);
+    } finally {
+      view?.unmount();
+      vi.clearAllTimers();
+      vi.useRealTimers();
+    }
   });
 
   it('Should Overlay be closed, after call onClose', async () => {
