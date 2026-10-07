@@ -54,6 +54,11 @@ describe('SelectPicker keyboard value boundaries', () => {
           const option = screen.getByRole('option', { name: destination.label });
           expect(option).to.have.attribute('data-key', String(target.value));
           await waitFor(() => expect(option).to.have.focus);
+          expect(combobox).to.have.attribute('aria-activedescendant', option.id);
+          expect(document.getElementById(option.id)).toBe(option);
+          expect(document.getElementById(combobox.getAttribute('aria-controls')!)).to.contain(
+            option
+          );
           if (enterTarget === 'combobox') {
             act(() => combobox.focus());
             expect(combobox).to.have.focus;
@@ -95,6 +100,7 @@ describe('SelectPicker keyboard value boundaries', () => {
           expect(onSelect.mock.calls[0][2].nativeEvent.isTrusted).to.be.true;
           await waitFor(() => expect(combobox).to.have.text(destination.label));
           await waitFor(() => expect(combobox).to.have.attribute('aria-expanded', 'false'));
+          expect(combobox).not.to.have.attribute('aria-activedescendant');
           await waitFor(() => expect(screen.queryByRole('listbox')).toBeNull());
         } finally {
           document.removeEventListener('keydown', capture, true);
