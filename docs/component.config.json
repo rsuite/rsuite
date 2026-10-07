@@ -52,6 +52,13 @@
         "name": "Stack",
         "title": "堆叠",
         "components": ["Stack", "Stack.Item", "HStack", "VStack"]
+      },
+      {
+        "id": "splitter",
+        "name": "Splitter",
+        "title": "分割面板",
+        "components": ["Splitter", "Splitter.Panel"],
+        "keywords": ["layout", "resize", "split pane"]
       }
     ]
   },
@@ -866,6 +873,11 @@
         "name": "useBreakpointValue",
         "hooks": ["useBreakpointValue"],
         "minVersion": "5.64.0"
+      },
+      {
+        "id": "use-clipboard",
+        "name": "useClipboard",
+        "hooks": ["useClipboard"]
       },
       {
         "id": "use-dialog",

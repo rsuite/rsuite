@@ -112,6 +112,7 @@ const getSvgForComponent = (componentId: string): React.ReactNode => {
     'dom-helper': <thumbnails.DOMHelper />,
     'use-media-query': <thumbnails.Hooks />,
     'use-breakpoint-value': <thumbnails.Hooks />,
+    'use-clipboard': <thumbnails.Hooks />,
     'use-dialog': <thumbnails.Hooks />,
     'use-toaster': <thumbnails.Hooks />,
 

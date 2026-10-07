@@ -9,7 +9,8 @@ import {
   Form,
   FormErrorSummary,
   FormErrorSummaryItem,
-  FormErrorSummaryProps
+  FormErrorSummaryProps,
+  useClipboard
 } from 'rsuite';
 import ButtonSubpath, { ButtonProps } from 'rsuite/Button';
 import AnimationSubpath from 'rsuite/Animation';
@@ -21,6 +22,7 @@ import SummarySubpath, {
   FormErrorSummaryItem as SummarySubpathItem,
   FormErrorSummaryProps as SummarySubpathProps
 } from 'rsuite/FormErrorSummary';
+import ClipboardSubpath, { useClipboard as NamedClipboardSubpath } from 'rsuite/useClipboard';
 
 const providerProps: CustomProviderProps = {
   rtl: true,
@@ -155,3 +157,18 @@ const invalidSummaryRef = <SummarySubpath {...defaultSummaryProps} ref={svgRef} 
 // @ts-expect-error A polymorphic button summary must reject an anchor ref.
 const invalidAsRef = <SummarySubpath {...summaryProps} as="button" ref={anchorRef} />;
 void [invalidSummaryRef, invalidAsRef];
+
+// Public root/subpath Clipboard contracts share the same factory and result shapes.
+const clipboardFactories: (typeof useClipboard)[] = [ClipboardSubpath, NamedClipboardSubpath];
+declare const clipboardResult: ReturnType<typeof useClipboard>;
+const clipboardWrite: Promise<boolean> = clipboardResult.copy('');
+const clipboardReset: void = clipboardResult.reset();
+const clipboardFeedback: boolean = clipboardResult.copied;
+const clipboardError: Error | null = clipboardResult.error;
+// @ts-expect-error Clipboard timeouts remain numeric.
+useClipboard({ timeout: '2000' });
+// @ts-expect-error Clipboard writes accept text.
+clipboardResult.copy(123);
+// @ts-expect-error Reset has no arguments.
+clipboardResult.reset(1);
+void [clipboardFactories, clipboardWrite, clipboardReset, clipboardFeedback, clipboardError];

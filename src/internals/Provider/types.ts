@@ -94,6 +94,7 @@ import type { SidebarProps } from '../../Sidebar';
 import type { SidenavProps } from '../../Sidenav';
 import type { SliderProps } from '../../Slider';
 import type { StackProps } from '../../Stack';
+import type { SplitterProps } from '../../Splitter';
 import type { StepsProps } from '../../Steps';
 import type { StatProps } from '../../Stat';
 import type { StatGroupProps } from '../../StatGroup';
@@ -220,6 +221,7 @@ export interface ReactSuiteComponents {
   Sidenav: ComponentProps<SidenavProps>;
   Slider: ComponentProps<SliderProps>;
   Stack: ComponentProps<StackProps>;
+  Splitter: ComponentProps<SplitterProps>;
   Steps: ComponentProps<StepsProps>;
   Stat: ComponentProps<StatProps>;
   StatGroup: ComponentProps<StatGroupProps>;
