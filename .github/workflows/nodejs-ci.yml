@@ -98,7 +98,32 @@ jobs:
         run: npm run test:ssr
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4.2.0
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ matrix.browser }}
+          fail_ci_if_error: true
+
+  public-declarations:
+    name: 'Public declarations'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --legacy-peer-deps
+      - name: Install locked declaration consumers
+        run: npm ci --prefix test/public-declarations --legacy-peer-deps --ignore-scripts
+      - name: Build the public declaration package
+        run: npm run build:ts && npm run build:types
+      - name: Check React 18 and 19 public declarations
+        run: npm run test:public-types
+      - name: Retain declaration diagnostics and loaded types
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-declaration-consumers
+          path: test/public-declarations/results
+          if-no-files-found: ignore
