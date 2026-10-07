@@ -12,7 +12,7 @@ const results = path.join(__dirname, 'results');
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const fixture = fs.readFileSync(path.join(__dirname, 'consumer.tsx'), 'utf8');
 assert.equal(ts.version, '5.7.3');
-assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 2);
+assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 11);
 for (const entry of ['package.json', 'esm/index.d.ts', 'cjs/index.d.ts']) {
   assert(fs.existsSync(path.join(lib, entry)), 'Build the public lib first: ' + entry);
 }
@@ -78,7 +78,9 @@ const cjsSpecifiers = {
   'rsuite/Button': 'rsuite/cjs/Button',
   'rsuite/Animation': 'rsuite/cjs/Animation',
   'rsuite/CustomProvider': 'rsuite/cjs/CustomProvider',
-  'rsuite/Fade': 'rsuite/cjs/Animation/Fade'
+  'rsuite/Fade': 'rsuite/cjs/Animation/Fade',
+  'rsuite/Form': 'rsuite/cjs/Form',
+  'rsuite/FormErrorSummary': 'rsuite/cjs/FormErrorSummary'
 };
 function sourceFor(entry) {
   return fixture.replace(/from (['"])(rsuite(?:\/[^'"]+)?)\1/g, (original, quote, specifier) => {
@@ -256,7 +258,11 @@ try {
           'Animation/Transition.d.ts',
           'Animation/Fade.d.ts',
           'DateInput/DateField.d.ts',
-          'DateInput/hooks/useDateInputState.d.ts'
+          'DateInput/hooks/useDateInputState.d.ts',
+          'Form/index.d.ts',
+          'Form/Form.d.ts',
+          'FormErrorSummary/index.d.ts',
+          'FormErrorSummary/FormErrorSummary.d.ts'
         ]) {
           if (!relative.includes(entry + '/' + required))
             issues.push('Public declaration not loaded: ' + required);
