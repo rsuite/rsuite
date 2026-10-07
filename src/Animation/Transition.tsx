@@ -282,7 +282,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     }
   }
 
-  render() {
+  render(): React.ReactNode {
     const status = this.state.status;
 
     if (status === STATUS.UNMOUNTED) {

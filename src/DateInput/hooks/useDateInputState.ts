@@ -118,7 +118,11 @@ export function useDateInputState({ formatStr, locale, date, isControlledDate }:
     };
   };
 
-  const toControlledDateString = () => {
+  const toControlledDateString = (type?: string, value?: number | null) => {
+    if (typeof type === 'string') {
+      return toDateString(type, value);
+    }
+
     if (date && isValid(date)) {
       return formatDate(date, formatStr, { locale });
     }

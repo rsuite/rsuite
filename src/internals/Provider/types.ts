@@ -41,6 +41,7 @@ import type { FormProps } from '../../Form';
 import type { FormControlProps } from '../../FormControl';
 import type { FormControlLabelProps } from '../../FormControlLabel';
 import type { FormErrorMessageProps } from '../../FormErrorMessage';
+import type { FormErrorSummaryProps } from '../../FormErrorSummary';
 import type { FormGroupProps } from '../../FormGroup';
 import type { FormHelpTextProps } from '../../FormHelpText';
 import type { FormStackProps } from '../../FormStack';
@@ -165,6 +166,7 @@ export interface ReactSuiteComponents {
   FormControl: ComponentProps<FormControlProps>;
   FormControlLabel: ComponentProps<FormControlLabelProps>;
   FormErrorMessage: ComponentProps<FormErrorMessageProps>;
+  FormErrorSummary: ComponentProps<FormErrorSummaryProps>;
   FormGroup: ComponentProps<FormGroupProps>;
   FormHelpText: ComponentProps<FormHelpTextProps>;
   FormStack: ComponentProps<FormStackProps>;

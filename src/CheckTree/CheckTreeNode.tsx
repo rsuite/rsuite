@@ -6,6 +6,7 @@ import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
 import { WithAsProps } from '@/internals/types';
 import { CHECK_STATE, CheckStateType } from '@/internals/constants';
 import { indentTreeNode } from '../Tree/utils';
+import { getTreeNodePosition } from '../Tree/utils/getTreeNodePositions';
 import { useStyles, useCustom, useEventCallback, useFocusVirtualListItem } from '@/internals/hooks';
 import type { TreeNode as TreeNodeData } from '@/internals/Tree/types';
 export interface CheckTreeNodeProps extends WithAsProps {
@@ -144,6 +145,7 @@ const CheckTreeNode = forwardRef<'div', CheckTreeNodeProps>((props, ref) => {
 
   const styles = virtualized ? { ...style, ...indentTreeNode(rtl, layer - 1) } : style;
   const itemRef = useFocusVirtualListItem<HTMLDivElement>(focus && !virtualized);
+  const position = virtualized ? getTreeNodePosition(nodeData) : undefined;
 
   return visible ? (
     <Component {...rest} style={styles} className={classes} ref={ref}>
@@ -165,6 +167,8 @@ const CheckTreeNode = forwardRef<'div', CheckTreeNodeProps>((props, ref) => {
         aria-selected={focus}
         aria-disabled={disabled}
         aria-level={layer}
+        aria-posinset={position?.posInSet}
+        aria-setsize={position?.setSize}
         data-layer={layer}
         active={checkState === CHECK_STATE.CHECK}
         indeterminate={checkState === CHECK_STATE.INDETERMINATE}

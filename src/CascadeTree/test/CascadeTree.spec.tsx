@@ -1,7 +1,7 @@
 import React from 'react';
 import CascadeTree from '../CascadeTree';
 import { describe, expect, it, vi } from 'vitest';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, act, waitFor } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 import { mockTreeData } from '@test/mocks/data-mock';
 
@@ -57,22 +57,40 @@ describe('CascadeTree', () => {
     expect(screen.getByRole('treeitem', { name: '2' })).to.exist;
   });
 
-  it('Should present an async loading state', () => {
-    function fetchNodes() {
-      return new Promise<{ label: string; value: string }[]>(resolve => {
-        setTimeout(() => {
-          resolve([{ label: '2', value: '2' }]);
-        }, 500);
+  it('Should present an async loading state', async () => {
+    const data = [{ label: '1', value: '1', children: [] }];
+    const loadedChildren = [{ label: '2', value: '2' }];
+    let resolveChildren!: (children: typeof loadedChildren) => void;
+    const childrenPromise = new Promise<typeof loadedChildren>(resolve => {
+      resolveChildren = resolve;
+    });
+    const getChildren = vi.fn(() => childrenPromise);
+    const finishLoading = () =>
+      act(async () => {
+        resolveChildren(loadedChildren);
+        await childrenPromise;
       });
+
+    try {
+      render(<CascadeTree data={data} getChildren={getChildren} />);
+
+      const parent = screen.getByRole('treeitem', { name: '1' });
+      fireEvent.click(parent);
+
+      expect(getChildren).toHaveBeenCalledTimes(1);
+      expect(parent.querySelector('.rs-icon-spin')).to.exist;
+      expect(screen.queryByRole('treeitem', { name: '2' })).to.not.exist;
+
+      await finishLoading();
+
+      await waitFor(() => {
+        expect(screen.getByRole('treeitem', { name: '2' })).to.exist;
+        expect(parent.querySelector('.rs-icon-spin')).to.not.exist;
+      });
+      expect(getChildren).toHaveBeenCalledTimes(1);
+    } finally {
+      await finishLoading();
     }
-
-    render(
-      <CascadeTree data={[{ label: '1', value: '1', children: [] }]} getChildren={fetchNodes} />
-    );
-
-    fireEvent.click(screen.getByRole('treeitem', { name: '1' }));
-
-    expect(screen.getByTestId('spinner')).to.exist;
   });
 
   it('Should item able to stringfy', () => {
