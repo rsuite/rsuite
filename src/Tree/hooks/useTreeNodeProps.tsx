@@ -6,6 +6,7 @@ import getOptionId from '@/internals/Picker/getOptionId';
 import { useItemDataKeys } from '@/internals/Tree/TreeProvider';
 import { DragStatus } from '../TreeNode';
 import Highlight from '../../Highlight';
+import { formatNodeRefKey } from '../utils/formatNodeRefKey';
 
 interface Props {
   value: any;
@@ -75,7 +76,7 @@ function useTreeNodeProps(props: Props) {
       const focus = equal(nodeValue, focusItemValue);
 
       return {
-        id: getOptionId(id, nodeValue),
+        id: getOptionId(id, formatNodeRefKey(nodeValue)),
         value: nodeValue,
         label,
         index,

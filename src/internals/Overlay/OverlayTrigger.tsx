@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useState,
   useMemo,
+  useContext,
   isValidElement,
   cloneElement
 } from 'react';
@@ -25,6 +26,10 @@ import type {
 } from '@/internals/types';
 import type { PositionInstance } from './Position';
 import type { CursorPosition, OverlayTriggerHandle, PositionChildProps } from './types';
+import {
+  TooltipDescriptionContext,
+  TooltipDescriptionObserverContext
+} from './TooltipDescriptionContext';
 
 export type OverlayTriggerType = 'click' | 'hover' | 'focus' | 'active' | 'contextMenu' | 'none';
 
@@ -211,8 +216,10 @@ const OverlayTrigger = React.forwardRef(
       ...rest
     } = props;
 
-    const { Portal, target: containerElement } = usePortal({ container });
-    const triggerRef = useRef(null);
+    const { Portal, target: containerElement } = usePortal({ container, waitMount: true });
+    const localTriggerRef = useRef(null);
+    const tooltipDescription = useContext(TooltipDescriptionContext);
+    const triggerRef = tooltipDescription?.triggerRef ?? localTriggerRef;
     const overlayRef = useRef<PositionInstance>(null);
     const [open, setOpen] = useControlled(openProp, defaultOpen);
     const [cursorPosition, setCursorPosition] = useState<CursorPosition | null>(null);
@@ -534,44 +541,58 @@ const OverlayTrigger = React.forwardRef(
       }
 
       return (
-        <Overlay
-          {...overlayProps}
-          ref={overlayRef}
-          childrenProps={speakerProps}
-          followCursor={followCursor}
-          cursorPosition={cursorPosition}
-        >
-          {typeof speaker === 'function'
-            ? (props, ref) => {
-                return speaker({ ...props, onClose: handleClose }, ref);
-              }
-            : speaker}
-        </Overlay>
+        <TooltipDescriptionObserverContext.Provider value={tooltipDescription}>
+          <Overlay
+            {...overlayProps}
+            ref={overlayRef}
+            childrenProps={speakerProps}
+            followCursor={followCursor}
+            cursorPosition={cursorPosition}
+          >
+            {typeof speaker === 'function'
+              ? (props, ref) => {
+                  return speaker({ ...props, onClose: handleClose }, ref);
+                }
+              : speaker}
+          </Overlay>
+        </TooltipDescriptionObserverContext.Provider>
       );
     };
+
+    const descriptionId =
+      controlId == null
+        ? tooltipDescription?.descriptionId
+        : isValidElement(speaker)
+          ? ((speaker as ReactElement).props.id ?? controlId)
+          : controlId;
 
     const triggerElement = useMemo(() => {
       if (typeof children === 'function') {
         return children(triggerEvents, triggerRef);
       } else if (isFragment(children) || !isValidElement(children)) {
         return (
-          <span ref={triggerRef} aria-describedby={controlId} {...triggerEvents}>
+          <span ref={triggerRef} aria-describedby={descriptionId} {...triggerEvents}>
             {children}
           </span>
         );
       }
 
       const childElement = children as ReactElement;
+      const descriptionIds = [childElement.props['aria-describedby'], descriptionId]
+        .filter(Boolean)
+        .join(' ')
+        .split(/[ \t\n\r\f]+/)
+        .filter(Boolean);
 
       return cloneElement(childElement, {
         ref: triggerRef,
-        'aria-describedby': controlId,
+        'aria-describedby': Array.from(new Set(descriptionIds)).join(' ') || undefined,
         ...mergeEvents(triggerEvents, childElement.props)
       });
-    }, [children, controlId, triggerEvents]);
+    }, [children, descriptionId, triggerEvents]);
 
     return (
-      <>
+      <TooltipDescriptionContext.Provider value={undefined}>
         {triggerElement}
         {OverlayComponent ? (
           <OverlayComponent
@@ -589,7 +610,7 @@ const OverlayTrigger = React.forwardRef(
         ) : (
           <Portal>{renderOverlay()}</Portal>
         )}
-      </>
+      </TooltipDescriptionContext.Provider>
     );
   }
 );
