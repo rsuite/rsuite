@@ -5,6 +5,7 @@ import { useCombobox } from '@/internals/Picker/hooks';
 import { useItemDataKeys } from '@/internals/Tree/TreeProvider';
 import { DragStatus } from '../TreeNode';
 import Highlight from '../../Highlight';
+import { formatNodeRefKey } from '../utils/formatNodeRefKey';
 
 interface Props {
   value: any;
@@ -74,7 +75,7 @@ function useTreeNodeProps(props: Props) {
       const focus = equal(nodeValue, focusItemValue);
 
       return {
-        id: id ? `${id}-opt-${nodeValue}` : undefined,
+        id: id ? `${id}-opt-${formatNodeRefKey(nodeValue)}` : undefined,
         value: nodeValue,
         label,
         index,
