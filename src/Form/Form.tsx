@@ -9,6 +9,7 @@ import FormStack from '../FormStack';
 import Box from '@/internals/Box';
 import useSchemaModel from './hooks/useSchemaModel';
 import useFormValidate from './hooks/useFormValidate';
+import useFormEventCallback from './hooks/useFormEventCallback';
 import useFormValue from './hooks/useFormValue';
 import useFormRef, { FormInstance, FormImperativeMethods } from './hooks/useFormRef';
 import { forwardRef } from '@/internals/utils';
@@ -249,7 +250,7 @@ const Form = forwardRef<
     commitNativeValidationRetirement
   } = useFormValidate(controlledFormError, formValidateProps);
 
-  const submit = useEventCallback((event?: React.FormEvent<HTMLFormElement>) => {
+  const submit = useFormEventCallback((event?: React.FormEvent<HTMLFormElement>) => {
     const nextFormValue = getFormValue();
     if (resolver) {
       // When a resolver is provided, always use the async validation path so that

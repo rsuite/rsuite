@@ -2,6 +2,7 @@ import { useRef, useCallback } from 'react';
 import omit from 'lodash/omit';
 import set from 'lodash/set';
 import { useEventCallback } from '@/internals/hooks';
+import useFormEventCallback from './useFormEventCallback';
 import useFormError from './useFormError';
 import { nameToPath } from '../../useFormControl/utils/nameToPath';
 import type { CheckResult } from 'schema-typed';
@@ -69,7 +70,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
    * immediately and you should use `checkAsync()` instead.
    * @param callback
    */
-  const check = useEventCallback((callback?: (formError: any) => void) => {
+  const check = useFormEventCallback((callback?: (formError: any) => void) => {
     const formValue = getFormValue();
     if (resolver) {
       const result = resolver(formValue || {});
@@ -159,7 +160,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
     return true;
   });
 
-  const checkFieldForNextValue = useEventCallback(
+  const checkFieldForNextValue = useFormEventCallback(
     (
       fieldName: string,
       nextValue: Record<string, unknown>,
@@ -267,7 +268,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
    * @param fieldName
    * @param callback
    */
-  const checkForField = useEventCallback(
+  const checkForField = useFormEventCallback(
     (fieldName: string, callback?: (checkResult: any) => void) => {
       const formValue = getFormValue();
       return checkFieldForNextValue(fieldName, formValue || {}, callback);
@@ -277,7 +278,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
   /**
    * Check form data asynchronously and return a Promise
    */
-  const checkAsync = useEventCallback(() => {
+  const checkAsync = useFormEventCallback(() => {
     const formValue = getFormValue();
     const { isCurrent } = startValidation();
     if (resolver) {
@@ -337,7 +338,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
     });
   });
 
-  const checkFieldAsyncForNextValue = useEventCallback((fieldName: string, nextValue: any) => {
+  const checkFieldAsyncForNextValue = useFormEventCallback((fieldName: string, nextValue: any) => {
     const { isCurrent, claimField } = startValidation(fieldName);
     if (resolver) {
       return Promise.resolve(resolver(nextValue)).then(({ errors }) => {
@@ -430,7 +431,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
    * Asynchronously check form fields and return Promise
    * @param fieldName
    */
-  const checkForFieldAsync = useEventCallback((fieldName: string) => {
+  const checkForFieldAsync = useFormEventCallback((fieldName: string) => {
     const formValue = getFormValue();
     return checkFieldAsyncForNextValue(fieldName, formValue || {});
   });

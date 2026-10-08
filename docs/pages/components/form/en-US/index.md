@@ -240,6 +240,8 @@ The component is also available as the named export `FormErrorSummary` and the d
 
 Each validation uses one captured value object, including cross-field rules. After successful validation, `submit` passes that same object to `onSubmit`, even if `onCheck` resets the form or values change while a resolver is pending. These methods do not clone the captured object; keep form values immutable.
 
+The validation model, resolver, and validation/submission callbacks update with the committed values before child layout effects run. A saved Form ref therefore uses the configuration from the same commit, including when switching between schema validation and a resolver. A suspended render does not replace the active configuration.
+
 ### Schema
 
 Schema depends on the [schema-typed](https://github.com/rsuite/schema-typed#schema-typed) library for defining data models.
