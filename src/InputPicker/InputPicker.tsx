@@ -209,7 +209,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         let firstItemValue = filteredData?.[0]?.[valueKey];
 
         // If there is no value in the option and new options are supported, the search keyword is the first option
-        if (!firstItemValue && creatable) {
+        if (isNil(firstItemValue) && creatable) {
           firstItemValue = searchKeyword;
         }
 
@@ -343,14 +343,14 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       return;
     }
     const val = cloneValue();
-    let newItemValue = focusItemValue || '';
+    let newItemValue = focusItemValue;
 
     // In TagInput
     if (multi && disabledOptions) {
       newItemValue = searchKeyword;
     }
 
-    if (!newItemValue || !data) {
+    if (isNil(newItemValue) || !data || (disabledOptions && newItemValue === '')) {
       return;
     }
 
@@ -359,13 +359,18 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       return;
     }
 
+    let focusItem = data.find(item => shallowEqual(item?.[valueKey], newItemValue));
+
+    // Empty strings can identify existing options, but cannot create a blank tag.
+    if (!focusItem && newItemValue === '') {
+      return;
+    }
+
     if (!val.some(v => shallowEqual(v, newItemValue))) {
       val.push(newItemValue);
     } else if (!disabledOptions) {
       remove(val, itemVal => shallowEqual(itemVal, newItemValue));
     }
-
-    let focusItem = data.find(item => shallowEqual(item?.[valueKey], newItemValue));
 
     if (!focusItem) {
       focusItem = createOption(newItemValue);
@@ -383,7 +388,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       return;
     }
 
-    if (!focusItemValue || !controlledData) {
+    if (isNil(focusItemValue) || !controlledData) {
       return;
     }
 
@@ -394,6 +399,10 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
 
     // Find active `MenuItem` by `value`
     let focusItem = data.find(item => shallowEqual(item[valueKey], focusItemValue));
+
+    if (!focusItem && focusItemValue === '') {
+      return;
+    }
 
     // FIXME Bad state flow
     if (!focusItem && focusItemValue === searchKeyword) {
