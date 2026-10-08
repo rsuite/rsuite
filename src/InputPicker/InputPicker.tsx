@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import remove from 'lodash/remove';
@@ -46,6 +46,7 @@ import { getPositionStyle } from '@/internals/Overlay/Position';
 import type { Option, FormControlPickerProps } from '@/internals/types';
 import type { InputPickerLocale } from '../locales';
 import type { SelectProps } from '../SelectPicker';
+import type { VirtualizedListHandle } from '@/internals/Picker/hooks/useVirtualizedListFocus';
 
 export type ValueType = any;
 export interface InputPickerProps<V = ValueType>
@@ -159,6 +160,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   }
 
   const { trigger: triggerRef, root, target, overlay, list, searchInput } = usePickerRef(ref);
+  const keyboardNavigationRef = useRef<VirtualizedListHandle>(null);
   const { prefix, merge } = useStyles(classPrefix);
   const [open, setOpen] = useControlled(controlledOpen, defaultOpen);
   const { inputRef, inputProps, focus, blur } = useInput({ multi, triggerRef });
@@ -187,7 +189,12 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     target.current?.focus?.();
   });
 
-  const focusItemValueOptions = { data: dataWithCache, valueKey, target: () => overlay.current };
+  const focusItemValueOptions = {
+    data: dataWithCache,
+    valueKey,
+    virtualizedList: virtualized ? keyboardNavigationRef : undefined,
+    target: () => overlay.current
+  };
 
   // Used to hover the focuse item  when trigger `onKeydown`
   const { focusItemValue, setFocusItemValue, onKeyDown } = useFocusItemValue(
@@ -611,6 +618,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       <Listbox
         listProps={listProps}
         listRef={list}
+        keyboardNavigationRef={virtualized ? keyboardNavigationRef : undefined}
         disabledItemValues={disabledItemValues}
         valueKey={valueKey}
         labelKey={labelKey}
