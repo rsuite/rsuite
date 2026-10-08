@@ -83,3 +83,13 @@ Interaction correctness failures or browser errors produce a nonzero exit and a 
 They must be resolved before interpreting timings. There is no automatic retry, sample trimming,
 or timing threshold. Do not run other browser suites, builds, or CPU-heavy work concurrently with
 measurements. Timing comparisons across machines or operating systems need separate baselines.
+
+## Compare reopening in one browser process
+
+For an additional opening control, `compare-opening.mjs --before path/to/.build --after path/to/.build`
+serves two existing production builds from one origin and visits them in ABBA order in one browser
+page. It excludes each document's first opening and warmups, then uses the same fixture readiness
+checks. Pass `--browser firefox` for Firefox or `--help` for size, trial, and output options.
+Reports contain both bundle hashes and every measured opening. The
+[keyword normalization comparison](baselines/keyword-normalization/README.md) includes full-run
+and shared-process control results, raw reports, and reproduction commands.
