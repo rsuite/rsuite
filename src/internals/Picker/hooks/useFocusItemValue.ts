@@ -7,10 +7,13 @@ import { useEventCallback } from '@/internals/hooks';
 import { shallowEqual } from '@/internals/utils';
 import { findNodeOfTree } from '../../Tree/utils';
 import { onMenuKeyDown } from '../utils';
+import findItemByKey from '../findItemByKey';
+import type { VirtualizedListHandle } from './useVirtualizedListFocus';
 
 interface FocusItemValueProps<T = unknown> {
   target: HTMLElement | null | (() => HTMLElement | null);
   data?: T[];
+  virtualizedList?: React.RefObject<VirtualizedListHandle | null>;
   /**
    *  When the down arrow key is pressed, whether to automatically focus on the option
    */
@@ -21,12 +24,6 @@ interface FocusItemValueProps<T = unknown> {
   rtl?: boolean;
   callback?: (value: any, event: React.KeyboardEvent) => void;
   getParent?: (node: T) => T | undefined;
-}
-
-function findItemByKey(container: HTMLElement | null | undefined, value: unknown) {
-  return Array.from(container?.querySelectorAll<HTMLElement>('[data-key]') ?? []).find(
-    item => item.getAttribute('data-key') === String(value)
-  );
 }
 
 /**
@@ -44,6 +41,7 @@ const useFocusItemValue = <T, D>(
     defaultLayer = 0,
     focusToOption = true,
     data,
+    virtualizedList,
     target,
     rtl,
     callback,
@@ -65,6 +63,19 @@ const useFocusItemValue = <T, D>(
     callback?.(value, event);
   });
 
+  const focusMenuItem = useEventCallback((value: any, event: React.KeyboardEvent) => {
+    if (focusToOption && virtualizedList?.current) {
+      virtualizedList.current.focusItem(value, () => {
+        setFocusItemValue(value);
+        callback?.(value, event);
+      });
+      return;
+    }
+
+    setFocusItemValue(value);
+    focusCallback(value, event);
+  });
+
   const getScrollContainer = useEventCallback(() => {
     const menu = isFunction(target) ? target() : target;
 
@@ -83,6 +94,9 @@ const useFocusItemValue = <T, D>(
    * Get the elements visible in all options.
    */
   const getFocusableMenuItems = () => {
+    if (virtualizedList?.current) {
+      return virtualizedList.current.getFocusableItems();
+    }
     if (!target) {
       return [];
     }
@@ -127,6 +141,7 @@ const useFocusItemValue = <T, D>(
 
   const scrollListItem = useEventCallback(
     (direction: 'top' | 'bottom', itemValue: string, willOverflow: boolean) => {
+      if (virtualizedList?.current) return;
       const container = getScrollContainer() as HTMLElement;
       const item = findItemByKey(container, itemValue);
 
@@ -153,8 +168,7 @@ const useFocusItemValue = <T, D>(
       const focusItem = items[nextIndex];
 
       if (!isUndefined(focusItem)) {
-        setFocusItemValue(focusItem[valueKey]);
-        focusCallback(focusItem[valueKey], event);
+        focusMenuItem(focusItem[valueKey], event);
         scrollListItem('bottom', focusItem[valueKey], willOverflow);
       }
     });
@@ -166,8 +180,7 @@ const useFocusItemValue = <T, D>(
       const nextIndex = willOverflow ? items.length - 1 : index - 1;
       const focusItem = items[nextIndex];
       if (!isUndefined(focusItem)) {
-        setFocusItemValue(focusItem[valueKey]);
-        focusCallback(focusItem[valueKey], event);
+        focusMenuItem(focusItem[valueKey], event);
         scrollListItem('top', focusItem[valueKey], willOverflow);
       }
     });
