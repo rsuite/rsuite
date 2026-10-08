@@ -439,6 +439,8 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
 
   const onRemoveError = useCallback(
     (name: string) => {
+      // Keep a newer owner so an older proxy cannot restore the removed error.
+      requestsRef.current!.invalidate(name, nestedField);
       /**
        * when this function is called when the children component is unmount,
        * it's an old render frame so use Ref to get future error
@@ -463,6 +465,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
   });
 
   const resetErrors = useEventCallback((formError: any = {}) => {
+    requestsRef.current!.invalidate();
     setFormError(formError);
   });
 
