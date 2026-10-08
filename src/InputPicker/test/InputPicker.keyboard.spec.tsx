@@ -1,5 +1,5 @@
 import React from 'react';
-import getTransitionEnd from 'dom-lib/getTransitionEnd';
+import { getTransitionEnd } from '../../Animation/utils';
 import InputPicker from '../InputPicker';
 import TagPicker from '../../TagPicker';
 import { act, fireEvent, render, screen } from '@testing-library/react';
