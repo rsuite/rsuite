@@ -19,7 +19,7 @@ export function isResponsiveValue(value: any): value is ResponsiveValue<any> {
     value !== null &&
     typeof value === 'object' &&
     !Array.isArray(value) &&
-    Object.keys(value).some(key => BREAKPOINTS.includes(key))
+    Object.keys(value).some(key => BREAKPOINTS.includes(key) || key === '2xl')
   );
 }
 
