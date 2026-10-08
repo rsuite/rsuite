@@ -15,9 +15,10 @@ export default function useFormError(controlledError: any) {
 
   const isControlled = useCallback(() => controlledRef.current, []);
   const setFormError = useCallback((nextFormError: any) => {
-    if (controlledRef.current) return;
+    if (controlledRef.current) return false;
     formErrorRef.current = nextFormError;
     setUncontrolledError(nextFormError);
+    return true;
   }, []);
 
   return { formError, formErrorRef, isControlled, setFormError };

@@ -103,6 +103,8 @@ return (
 
 在同一次事件中连续调用 `cleanErrorForField`，每次都会使用最新接受的错误状态，包括此前调用 `resetErrors` 或 `cleanErrors` 的结果。清理某个字段会保留其他字段的错误消息和原生无效状态，且不会调用 `onCheck`、`onError` 或 `onChange`。之前保存的清理方法也会使用已提交的 `nestedField` 设置，包括在子组件布局副作用中调用时。通过 `formError` 控制错误时，请更新持有该状态的组件来清理错误。
 
+由 Form 自行管理错误时，`cleanErrorForField` 还会使该字段、重叠的嵌套路径（包括等价的数字路径）以及整表或 resolver 的旧校验结果失效。无关的 schema 字段仍可完成校验。每个未完成的 Promise 仍会返回自身结果，之后也可发起新校验。在 `onCheck` 中清理字段，会阻止旧结果随后写入错误状态或触发过期的 `onError`。通过 `formError` 控制错误时，未被接受的字段清理不会影响尚未完成的校验。
+
 Form 的字段校验和异步校验不会读取或改写传入 model 的 `getCheckResult()` 历史结果。请通过 Form 的方法返回值或 `onCheck` 获取校验结果。同步 `checkForField` 根据本次检查的字段及其代理字段返回是否有效。
 
 <!--{include:`form-check-async.md`}-->
