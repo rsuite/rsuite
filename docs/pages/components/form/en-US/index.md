@@ -236,6 +236,10 @@ The component is also available as the named export `FormErrorSummary` and the d
 | resetErrors        | () => void                                                                    | Reset error message                                           |
 | submit             | () => void                                                                    | Trigger form submission and verify data                       |
 
+`check`, `checkForField`, `checkAsync`, `checkForFieldAsync`, and `submit` capture the form values when called. An uncontrolled form includes changes accepted earlier in the same event, so calling a method inside `onChange` uses that change. A controlled form uses the last committed `formValue`; a proposed value passed to `onChange` is used only after the owner commits it.
+
+Each validation uses one captured value object, including cross-field rules. After successful validation, `submit` passes that same object to `onSubmit`, even if `onCheck` resets the form or values change while a resolver is pending. These methods do not clone the captured object; keep form values immutable.
+
 ### Schema
 
 Schema depends on the [schema-typed](https://github.com/rsuite/schema-typed#schema-typed) library for defining data models.

@@ -225,7 +225,7 @@ const Form = forwardRef<
   );
 
   const formValidateProps = {
-    formValue,
+    getFormValue,
     getCombinedModel,
     onCheck,
     onError,
@@ -250,12 +250,13 @@ const Form = forwardRef<
   } = useFormValidate(controlledFormError, formValidateProps);
 
   const submit = useEventCallback((event?: React.FormEvent<HTMLFormElement>) => {
+    const nextFormValue = getFormValue();
     if (resolver) {
       // When a resolver is provided, always use the async validation path so that
       // both sync and async resolvers are handled correctly.
       checkAsync().then(({ hasError }) => {
         if (!hasError) {
-          onSubmit?.(formValue, event);
+          onSubmit?.(nextFormValue, event);
         }
       });
       return;
@@ -263,7 +264,7 @@ const Form = forwardRef<
 
     // Check the form before submitting
     if (check()) {
-      onSubmit?.(formValue, event);
+      onSubmit?.(nextFormValue, event);
     }
   });
 
