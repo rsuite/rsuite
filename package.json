@@ -39,6 +39,7 @@
     "test:component": "cross-env RUN_ENV=test vitest --run",
     "test:coverage": "cross-env RUN_ENV=test vitest --run --coverage",
     "test:ssr": "cross-env RUN_ENV=ssr vitest --run",
+    "test:browser-controls": "cross-env RUN_ENV=browser-controls vitest --run",
     "prepare": "husky install",
     "release": "node scripts/release.js",
     "version": "npm run changelog && git add -A",

@@ -108,8 +108,8 @@
 ### 键盘交互
 
 - <kbd>ESC</kbd> 可以关闭 Modal，同时也可以通过设置 `keyboard=false` 禁用它。
-- <kbd>Tab</kbd> 当 Modal 打开时，焦点会自动移动到 Modal 内部。按 Tab 键可以在 Modal 内的可聚焦元素之间循环切换。
-- <kbd>Shift + Tab</kbd> 反向循环切换 Modal 内的可聚焦元素。
+- <kbd>Tab</kbd> 启用 `enforceFocus` 时，在 Modal 内可通过 Tab 聚焦的元素之间移动；从最后一个元素循环到第一个元素。
+- <kbd>Shift + Tab</kbd> 启用 `enforceFocus` 时，反向移动；从第一个元素循环到最后一个元素。
 - 当 Modal 关闭时，焦点会返回到触发 Modal 打开的元素。
 
 ### 减少动态效果
