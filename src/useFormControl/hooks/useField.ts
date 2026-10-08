@@ -6,6 +6,7 @@ import { setFieldValue as setValue } from '../../Form/utils/fieldValue';
 interface FieldProps {
   name: string;
   formValue?: Record<string, any>;
+  getFormValue?: () => Record<string, any> | null | undefined;
   formError?: Record<string, any>;
   value: any;
   nestedField?: boolean;
@@ -39,7 +40,16 @@ function getErrorMessage(error?: ErrorType | string) {
 }
 
 export function useField(props: FieldProps) {
-  const { name, formValue, formError, value, nestedField, errorMessage, errorFromContext } = props;
+  const {
+    name,
+    formValue,
+    getFormValue,
+    formError,
+    value,
+    nestedField,
+    errorMessage,
+    errorFromContext
+  } = props;
   const fieldValue = useMemo(() => {
     if (typeof value !== 'undefined') {
       return value;
@@ -68,9 +78,14 @@ export function useField(props: FieldProps) {
 
   const setFieldValue = useCallback(
     (fieldName: string, fieldValue: any) => {
-      return setValue(formValue, fieldName, fieldValue, !!nestedField);
+      return setValue(
+        getFormValue ? getFormValue() : formValue,
+        fieldName,
+        fieldValue,
+        !!nestedField
+      );
     },
-    [formValue, nestedField]
+    [formValue, getFormValue, nestedField]
   );
 
   return { fieldValue, fieldError, setFieldValue };
