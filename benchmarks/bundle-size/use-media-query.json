@@ -1,0 +1,90 @@
+{
+  "scope": "Published RSuite JavaScript ESM bundle; React and ReactDOM external; no CSS or runtime timing",
+  "baseGitHead": "ef024fc466e0f38049b2717a53520fbc339502e7",
+  "nodeVersion": "v22.22.3",
+  "rsuiteVersion": "6.2.5",
+  "dependencyVersions": {
+    "esbuild": "0.25.2",
+    "lodash": "4.18.1",
+    "@babel/runtime": "7.26.10",
+    "dom-lib": "3.3.1",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  },
+  "options": {
+    "bundle": true,
+    "minify": true,
+    "treeShaking": true,
+    "platform": "browser",
+    "format": "esm",
+    "target": ["es2020"],
+    "external": ["react", "react/*", "react-dom", "react-dom/*"],
+    "define": {
+      "process.env.NODE_ENV": "\"production\"",
+      "__DEV__": "false"
+    },
+    "metafile": true,
+    "sourcemap": false,
+    "legalComments": "none",
+    "write": false
+  },
+  "compression": {
+    "gzipLevel": 9
+  },
+  "measurements": {
+    "before": {
+      "sourceSHA256": {
+        "src/internals/styled-system/breakpoints.ts": null,
+        "src/internals/styled-system/index.ts": "1c8ead25df4b855c8e1c46a91837bba2ec1dff96cad0f22c1f13334bc896b76c",
+        "src/internals/styled-system/responsive.ts": "10589713bc3721e4f31dc4523ef46adcfc348eb2f6620d0cedd625df5cd4a46c",
+        "src/internals/styled-system/useStyled.ts": "bd008f84b1b46473ea3c1c45427c45f1214ad59534962d990e837862a8d8ac7e",
+        "src/useMediaQuery/useMediaQuery.ts": "8796268624407df7a4b5ac9b322bd43abc9f41f56507241a391745297652638d"
+      },
+      "entries": [
+        {
+          "name": "root",
+          "consumer": "import { useMediaQuery as imported } from 'rsuite'; export { imported };",
+          "bytes": 11158,
+          "gzipBytes": 4726,
+          "sha256": "c1f769c37f41198329ee0e7bddaad842c3af164cbb0fa06c34f2476d84517cdf",
+          "lodashBytes": 8053
+        },
+        {
+          "name": "subpath",
+          "consumer": "import imported from 'rsuite/useMediaQuery'; export { imported };",
+          "bytes": 11169,
+          "gzipBytes": 4738,
+          "sha256": "4c52fde45a5771bcb9ae4030296fea3e319ecc623478cde1278457c200cb91c9",
+          "lodashBytes": 8056
+        }
+      ]
+    },
+    "after": {
+      "sourceSHA256": {
+        "src/internals/styled-system/breakpoints.ts": "91df6d09cb4cbbb30e030e7d3e6ebdc7fdade9453020f830f45468c3c0fb9652",
+        "src/internals/styled-system/index.ts": "612be6af96464c50df5e9087eeb725b415f9be61ddf1e8a5a9d7155a4e44b408",
+        "src/internals/styled-system/responsive.ts": "2bdfb3d2a4188dd827c3f647b01f1f2d84cbb29b5109cc2786d5740de0f32095",
+        "src/internals/styled-system/useStyled.ts": "6351c4d73c37f17c60e2b4808a61ce172108dd97a05686e039e51798a90b8cbc",
+        "src/useMediaQuery/useMediaQuery.ts": "e2c6bc5735e4b956ebd506ef15238d35f1ea6845097f317fd7ca3716814a4d55"
+      },
+      "entries": [
+        {
+          "name": "root",
+          "consumer": "import { useMediaQuery as imported } from 'rsuite'; export { imported };",
+          "bytes": 2504,
+          "gzipBytes": 1235,
+          "sha256": "3fb2ae820954087e22a7022bbd25f841534c0432c3b28974912431b604e82420",
+          "lodashBytes": 0
+        },
+        {
+          "name": "subpath",
+          "consumer": "import imported from 'rsuite/useMediaQuery'; export { imported };",
+          "bytes": 2512,
+          "gzipBytes": 1241,
+          "sha256": "1998f226a685c05fe43dd7107fb23a784b9174d79464257c4c35053a896b48f1",
+          "lodashBytes": 0
+        }
+      ]
+    }
+  }
+}
