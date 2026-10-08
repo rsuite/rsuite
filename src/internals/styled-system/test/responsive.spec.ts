@@ -34,4 +34,10 @@ describe('getCSSVariables', () => {
       '--rs-box-overflow': { sm: 'hidden', lg: 'auto' }
     });
   });
+
+  it('recognizes values using only the 2xl breakpoint alias', () => {
+    expect(getCSSVariables({ overflow: { '2xl': 'hidden' } }, '--rs-box-')).toEqual({
+      '--rs-box-overflow': { '2xl': 'hidden' }
+    });
+  });
 });
