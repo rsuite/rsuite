@@ -1,5 +1,5 @@
 import React from 'react';
-import getTransitionEnd from 'dom-lib/getTransitionEnd';
+import { getTransitionEnd } from '../../../Animation/utils';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { vi } from 'vitest';
 import CheckPicker from '../../../CheckPicker';

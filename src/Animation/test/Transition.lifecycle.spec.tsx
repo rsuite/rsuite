@@ -1,5 +1,5 @@
 import React from 'react';
-import getTransitionEnd from 'dom-lib/getTransitionEnd';
+import { getTransitionEnd } from '../utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, cleanup, render } from '@testing-library/react';
 import Transition from '../Transition';
