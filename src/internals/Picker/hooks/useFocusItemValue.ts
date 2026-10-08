@@ -64,11 +64,15 @@ const useFocusItemValue = <T, D>(
   });
 
   const focusMenuItem = useEventCallback((value: any, event: React.KeyboardEvent) => {
-    if (focusToOption && virtualizedList?.current) {
-      virtualizedList.current.focusItem(value, () => {
-        setFocusItemValue(value);
-        callback?.(value, event);
-      });
+    if (virtualizedList?.current) {
+      virtualizedList.current.focusItem(
+        value,
+        () => {
+          setFocusItemValue(value);
+          callback?.(value, event);
+        },
+        { focus: focusToOption }
+      );
       return;
     }
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import getTransitionEnd from 'dom-lib/getTransitionEnd';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@vitest/browser/context';
 import { describe, expect, it, vi } from 'vitest';
 import {
@@ -15,8 +16,8 @@ import {
 async function expectFocus(value: number, focused = true) {
   await waitFor(() => {
     const option = menu().getByRole('option', { name: `Option ${value}` });
-    if (focused) expect(option).to.have.focus;
     const combobox = screen.getByRole('combobox');
+    if (focused) expect(combobox.tagName === 'INPUT' ? combobox : option).to.have.focus;
     const activeId = combobox.getAttribute('aria-activedescendant');
     expect(activeId).toBe(option.id);
     expect(document.getElementById(activeId!)).toBe(option);
@@ -36,9 +37,10 @@ async function expectFocus(value: number, focused = true) {
 describe.each(pickerCases)('$name virtualized native keyboard', testCase => {
   it('keeps focus through consecutive arrows beyond the mounted rows and selects the intended item', async () => {
     const { onChange, onEntered } = mountPicker(testCase);
-    await waitFor(() => expect(onEntered).toHaveBeenCalledTimes(1));
+    fireEvent(screen.getByTestId('picker-popup'), new Event(getTransitionEnd()));
+    expect(onEntered).toHaveBeenCalledTimes(1);
     await act(async () => {
-      initialTarget(testCase).focus();
+      initialTarget().focus();
       await userEvent.keyboard('{ArrowDown}');
     });
     await expectFocus(1);
@@ -93,9 +95,10 @@ describe.each(pickerCases)('$name virtualized native keyboard', testCase => {
     const { onChange, onEntered } = mountPicker(testCase, {
       disabledItemValues: Array.from({ length: 12 }, (_, index) => index + 1)
     });
-    await waitFor(() => expect(onEntered).toHaveBeenCalledTimes(1));
+    fireEvent(screen.getByTestId('picker-popup'), new Event(getTransitionEnd()));
+    expect(onEntered).toHaveBeenCalledTimes(1);
     await act(async () => {
-      initialTarget(testCase).focus();
+      initialTarget().focus();
       await userEvent.keyboard('{ArrowDown}');
     });
     await expectFocus(13);
@@ -127,9 +130,13 @@ describe.each(pickerCases)('$name virtualized native keyboard', testCase => {
         <button ref={buttonRef}>Next control</button>
       </div>
     );
-    await waitFor(() => expect(onEntered).toHaveBeenCalledTimes(1));
+    fireEvent(screen.getByTestId('picker-popup'), new Event(getTransitionEnd()));
+    expect(onEntered).toHaveBeenCalledTimes(1);
     await act(async () => {
-      menu().getByRole('option', { name: 'Option 1' }).focus();
+      (testCase.editable
+        ? initialTarget()
+        : menu().getByRole('option', { name: 'Option 1' })
+      ).focus();
       await userEvent.keyboard('{ArrowDown}');
     });
     expect(screen.getByRole('button', { name: 'Next control' })).to.have.focus;
@@ -159,9 +166,13 @@ describe.each(pickerCases)('$name virtualized native keyboard', testCase => {
         );
       }
       render(<Fixture />);
-      await waitFor(() => expect(onEntered).toHaveBeenCalledTimes(1));
+      fireEvent(screen.getByTestId('picker-popup'), new Event(getTransitionEnd()));
+      expect(onEntered).toHaveBeenCalledTimes(1);
       await act(async () => {
-        menu().getByRole('option', { name: 'Option 1' }).focus();
+        (testCase.editable
+          ? initialTarget()
+          : menu().getByRole('option', { name: 'Option 1' })
+        ).focus();
         await userEvent.keyboard('{ArrowUp}');
       });
       await expectFocus(1);

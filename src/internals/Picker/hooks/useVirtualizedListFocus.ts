@@ -13,7 +13,7 @@ interface VirtualizedOption extends Option {
 
 export interface VirtualizedListHandle {
   getFocusableItems: () => VirtualizedOption[];
-  focusItem: (value: any, onFocus: () => void) => void;
+  focusItem: (value: any, onFocus: () => void, options?: { focus?: boolean }) => void;
 }
 
 interface Props {
@@ -39,6 +39,8 @@ export default function useVirtualizedListFocus({
     value: any;
     sourceElement: Element | null;
     onFocus: () => void;
+    focus: boolean;
+    scrolled: boolean;
   } | null>(null);
   const [focusRequest, setFocusRequest] = useState<{ value: any } | null>(null);
 
@@ -80,6 +82,7 @@ export default function useVirtualizedListFocus({
   const focusPendingItem = useEventCallback(() => {
     const request = pendingFocus.current;
     if (!request || !hasPendingFocus()) return;
+    if (!request.focus && !request.scrolled) return;
     if (getFocusableIndex(request.value) < 0) {
       pendingFocus.current = null;
       return;
@@ -87,8 +90,11 @@ export default function useVirtualizedListFocus({
 
     const item = findItemByKey(menuRef.current, request.value);
     if (item && item.getAttribute('aria-disabled') !== 'true') {
-      item.focus();
-      if (pendingFocus.current === request && item.ownerDocument.activeElement === item) {
+      if (request.focus) item.focus();
+      if (
+        pendingFocus.current === request &&
+        (!request.focus || item.ownerDocument.activeElement === item)
+      ) {
         pendingFocus.current = null;
         request.onFocus();
       }
@@ -97,14 +103,16 @@ export default function useVirtualizedListFocus({
 
   useImperativeHandle(navigationRef, () => ({
     getFocusableItems: () => items.filter(isFocusable),
-    focusItem: (value, onFocus) => {
+    focusItem: (value, onFocus, options) => {
       const index = getFocusableIndex(value);
       if (index < 0) return;
 
       pendingFocus.current = {
         value,
         sourceElement: menuRef.current?.ownerDocument.activeElement ?? null,
-        onFocus
+        onFocus,
+        focus: options?.focus !== false,
+        scrolled: false
       };
       setFocusRequest({ value });
     }
@@ -121,6 +129,7 @@ export default function useVirtualizedListFocus({
     }
 
     listRef.current?.scrollToItem?.(index);
+    if (pendingFocus.current) pendingFocus.current.scrolled = true;
     focusPendingItem();
   }, [focusRequest]);
 

@@ -11,6 +11,7 @@ export interface SearchBoxProps extends WithAsProps {
   placeholder?: string;
   className?: string;
   inputRef?: React.Ref<HTMLInputElement>;
+  inputProps?: React.AriaAttributes & { role?: React.AriaRole; id?: string };
   onChange?: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -22,6 +23,7 @@ const SearchBox = forwardRef<'div', SearchBoxProps>((props: SearchBoxProps, ref)
     className,
     placeholder,
     inputRef,
+    inputProps,
     onChange,
     ...rest
   } = props;
@@ -33,6 +35,7 @@ const SearchBox = forwardRef<'div', SearchBoxProps>((props: SearchBoxProps, ref)
       <InputGroup inside>
         <Input
           role="searchbox"
+          {...inputProps}
           className={prefix`input`}
           value={value}
           onChange={onChange}
