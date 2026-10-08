@@ -703,7 +703,7 @@ describe('Form native validity and selected error messages', () => {
     }
   });
 
-  it('FMV11 keeps late async validity coherent with the error-store acceptance policy', async () => {
+  it('FMV11 keeps reset and removed-field state while a late async check returns its own result', async () => {
     const values = { name: 'present-value' };
     let acknowledgeRuleEntry: () => void = () => {};
     const ruleEntered = new Promise<void>(resolve => {
@@ -755,22 +755,24 @@ describe('Form native validity and selected error messages', () => {
       host.present({ visible: false }); // One field-unmount owner transition and one removal.
       expect(host.checks).toHaveLength(1);
       expect(Reflect.ownKeys(host.checks[0])).toEqual([]);
+      const removal = host.checks[0];
       expect(host.errors).toHaveLength(0);
       await act(async () => {
         release(false); // The single caller-owned deferred release.
         result = await promise;
       });
-      const late = host.checks[1];
-      expect(result).toBe(late.name);
       expect(result).toEqual({ hasError: true, errorMessage: '' });
-      expect(host.ownedError()).toBe(late);
-      expect(host.errors).toEqual([late]);
-      expect(host.errors[0]).toBe(late);
-      expect(host.checks).toHaveLength(2);
-      expect(host.fields.name.error).toBe('');
+      expect(host.ownedError()).toBe(removal);
+      expect(host.errors).toHaveLength(0);
+      expect(host.checks).toHaveLength(1);
+      expect(host.fields.name.error).toBeUndefined();
       expect(Object.keys(host.fields.name)).toEqual(publicFieldKeys);
       expect(host.root().querySelectorAll('input')).toHaveLength(0);
       expect(host.root().querySelector('[role="alert"]')).toBeNull();
+      host.present({ visible: true, controls: [{ name: 'name' }] });
+      expectField(host, 'name', undefined, null);
+      expect(host.ownedError()).toBe(removal);
+      expect(host.checks).toHaveLength(1);
       expect(ruleCalls).toHaveLength(1);
       expect(factories).toBe(1);
       expect(order).toEqual(['factory', 'rule']);

@@ -3,16 +3,13 @@ export function createValidationRequests() {
   let form: number | null = null;
   let sequence = 0;
 
-  const start = (fieldName?: string, nestedField = false) => {
+  const invalidate = (fieldName?: string, nestedField = false) => {
     const request = ++sequence;
     // Whole-form checks and resolvers replace the complete validation snapshot.
     if (fieldName === undefined) {
       fields.clear();
       form = request;
-      return {
-        isCurrent: () => form === request,
-        claimField: () => true
-      };
+      return request;
     }
 
     if (nestedField) {
@@ -31,6 +28,17 @@ export function createValidationRequests() {
 
     form = null;
     fields.set(fieldName, request);
+    return request;
+  };
+
+  const start = (fieldName?: string, nestedField = false) => {
+    const request = invalidate(fieldName, nestedField);
+    if (fieldName === undefined) {
+      return {
+        isCurrent: () => form === request,
+        claimField: () => true
+      };
+    }
     return {
       isCurrent: () => fields.get(fieldName) === request,
       claimField: (key: string) => {
@@ -42,5 +50,5 @@ export function createValidationRequests() {
     };
   };
 
-  return { start };
+  return { start, invalidate };
 }
