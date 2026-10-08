@@ -1,7 +1,8 @@
 import React from 'react';
+import getTransitionEnd from 'dom-lib/getTransitionEnd';
 import InputPicker from '../InputPicker';
 import TagPicker from '../../TagPicker';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { userEvent } from '@vitest/browser/context';
 import { describe, expect, it, vi } from 'vitest';
 import '../styles/index.scss';
@@ -28,7 +29,9 @@ describe.each([
           onEntered={onEntered}
         />
       );
-      await waitFor(() => expect(onEntered).toHaveBeenCalledTimes(1));
+      // Complete popup setup independently of animation timing before native input.
+      fireEvent(screen.getByTestId('picker-popup'), new Event(getTransitionEnd()));
+      expect(onEntered).toHaveBeenCalledTimes(1);
       await act(async () => {
         // Focus only once; Enter follows the option's actual native focus.
         screen.getByRole('textbox').focus();
