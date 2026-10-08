@@ -87,6 +87,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
   };
 
   animationEventListener: EventToken | null = null;
+  private transitionEndTimeout: ReturnType<typeof setTimeout> | null = null;
   instanceElement: HTMLElement | null = null;
   nextCallback: {
     (event?: React.AnimationEvent): void;
@@ -123,8 +124,8 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     return null;
   }
 
-  getSnapshotBeforeUpdate() {
-    if (!this.props.in || !this.props.unmountOnExit) {
+  getSnapshotBeforeUpdate(prevProps: TransitionProps) {
+    if (prevProps.in !== this.props.in || !this.props.in || !this.props.unmountOnExit) {
       this.needsUpdate = true;
     }
     return null;
@@ -170,32 +171,35 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
   }
 
   onTransitionEnd(node: HTMLElement, handler: (event?: React.AnimationEvent) => void) {
-    this.setNextCallback(handler);
-    this.animationEventListener?.off();
-
-    if (!this.nextCallback) {
+    if (!this.instanceElement) {
       return;
     }
+
+    this.clearTransitionEnd();
+    const nextCallback = this.setNextCallback(event => {
+      this.clearTransitionEnd();
+      handler(event);
+    });
 
     if (node) {
       const { timeout, animation } = this.props;
       this.animationEventListener = on(
         node,
         animation ? getAnimationEnd() : getTransitionEnd(),
-        this.nextCallback
+        nextCallback
       );
       if (timeout !== null) {
-        setTimeout(this.nextCallback, timeout);
+        this.transitionEndTimeout = setTimeout(nextCallback, timeout);
       }
     } else {
-      setTimeout(this.nextCallback, 0);
+      this.transitionEndTimeout = setTimeout(nextCallback, 0);
     }
   }
 
   setNextCallback(callback: (event?: React.AnimationEvent) => void) {
     let active = true;
 
-    this.nextCallback = ((event?: React.AnimationEvent) => {
+    const nextCallback = ((event?: React.AnimationEvent) => {
       if (!active) {
         return;
       }
@@ -205,17 +209,18 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
       }
 
       active = false;
-      this.nextCallback = null;
+      if (this.nextCallback === nextCallback) {
+        this.nextCallback = null;
+      }
       callback(event);
     }) as any;
 
-    if (this.nextCallback) {
-      this.nextCallback.cancel = () => {
-        active = false;
-      };
-    }
+    nextCallback.cancel = () => {
+      active = false;
+    };
 
-    return this.nextCallback;
+    this.nextCallback = nextCallback;
+    return nextCallback;
   }
   getChildElement(): HTMLElement {
     if (this.childRef.current) {
@@ -267,6 +272,17 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     if (this.nextCallback !== null) {
       this.nextCallback.cancel();
       this.nextCallback = null;
+    }
+    this.clearTransitionEnd();
+  }
+
+  private clearTransitionEnd() {
+    this.animationEventListener?.off();
+    this.animationEventListener = null;
+
+    if (this.transitionEndTimeout !== null) {
+      clearTimeout(this.transitionEndTimeout);
+      this.transitionEndTimeout = null;
     }
   }
 
