@@ -13,7 +13,7 @@ interface VirtualizedOption extends Option {
 
 export interface VirtualizedListHandle {
   getFocusableItems: () => VirtualizedOption[];
-  focusItem: (value: any) => void;
+  focusItem: (value: any, onFocus: () => void) => void;
 }
 
 interface Props {
@@ -35,17 +35,37 @@ export default function useVirtualizedListFocus({
   navigationRef,
   onItemsRendered
 }: Props) {
-  const pendingFocus = useRef<{ value: any; sourceElement: Element | null } | null>(null);
+  const pendingFocus = useRef<{
+    value: any;
+    sourceElement: Element | null;
+    onFocus: () => void;
+  } | null>(null);
   const [focusRequest, setFocusRequest] = useState<{ value: any } | null>(null);
+
+  useIsomorphicLayoutEffect(
+    () => () => {
+      pendingFocus.current = null;
+    },
+    []
+  );
+
+  const isFocusable = (item: VirtualizedOption) =>
+    !item[RSUITE_PICKER_GROUP_KEY] &&
+    !disabledItemValues.some(value => shallowEqual(value, item[valueKey]));
+
+  const getFocusableIndex = useEventCallback((value: any) =>
+    items.findIndex(item => isFocusable(item) && shallowEqual(item[valueKey], value))
+  );
 
   const hasPendingFocus = useEventCallback(() => {
     if (!pendingFocus.current) return false;
 
     const ownerDocument = menuRef.current?.ownerDocument;
+    // The menu ref can detach briefly while React commits a new rendered range.
+    if (!ownerDocument) return false;
     const { sourceElement } = pendingFocus.current;
     // A later interaction owns focus; only an unmounted virtual row may leave it on body.
     if (
-      !ownerDocument ||
       (sourceElement && sourceElement.ownerDocument !== ownerDocument) ||
       (ownerDocument.activeElement !== sourceElement &&
         (sourceElement?.isConnected || ownerDocument.activeElement !== ownerDocument.body))
@@ -60,28 +80,31 @@ export default function useVirtualizedListFocus({
   const focusPendingItem = useEventCallback(() => {
     const request = pendingFocus.current;
     if (!request || !hasPendingFocus()) return;
+    if (getFocusableIndex(request.value) < 0) {
+      pendingFocus.current = null;
+      return;
+    }
 
     const item = findItemByKey(menuRef.current, request.value);
-    if (item) {
+    if (item && item.getAttribute('aria-disabled') !== 'true') {
       item.focus();
-      if (pendingFocus.current === request) pendingFocus.current = null;
+      if (pendingFocus.current === request && item.ownerDocument.activeElement === item) {
+        pendingFocus.current = null;
+        request.onFocus();
+      }
     }
   });
 
   useImperativeHandle(navigationRef, () => ({
-    getFocusableItems: () =>
-      items.filter(
-        item =>
-          !item[RSUITE_PICKER_GROUP_KEY] &&
-          !disabledItemValues.some(value => shallowEqual(value, item[valueKey]))
-      ),
-    focusItem: value => {
-      const index = items.findIndex(item => shallowEqual(item[valueKey], value));
+    getFocusableItems: () => items.filter(isFocusable),
+    focusItem: (value, onFocus) => {
+      const index = getFocusableIndex(value);
       if (index < 0) return;
 
       pendingFocus.current = {
         value,
-        sourceElement: menuRef.current?.ownerDocument.activeElement ?? null
+        sourceElement: menuRef.current?.ownerDocument.activeElement ?? null,
+        onFocus
       };
       setFocusRequest({ value });
     }
@@ -91,7 +114,7 @@ export default function useVirtualizedListFocus({
     if (!focusRequest || !hasPendingFocus()) return;
 
     // Commit keyboard scrolling after queued native scroll updates.
-    const index = items.findIndex(item => shallowEqual(item[valueKey], focusRequest.value));
+    const index = getFocusableIndex(focusRequest.value);
     if (index < 0) {
       pendingFocus.current = null;
       return;

@@ -55,17 +55,25 @@ const useFocusItemValue = <T, D>(
 
   const focusCallback = useEventCallback((value: any, event: React.KeyboardEvent) => {
     if (focusToOption) {
-      if (virtualizedList?.current) {
-        virtualizedList.current.focusItem(value);
-        callback?.(value, event);
-        return;
-      }
       const menu = isFunction(target) ? target() : target;
       const focusElement = findItemByKey(menu, value);
       focusElement?.focus();
     }
 
     callback?.(value, event);
+  });
+
+  const focusMenuItem = useEventCallback((value: any, event: React.KeyboardEvent) => {
+    if (focusToOption && virtualizedList?.current) {
+      virtualizedList.current.focusItem(value, () => {
+        setFocusItemValue(value);
+        callback?.(value, event);
+      });
+      return;
+    }
+
+    setFocusItemValue(value);
+    focusCallback(value, event);
   });
 
   const getScrollContainer = useEventCallback(() => {
@@ -160,8 +168,7 @@ const useFocusItemValue = <T, D>(
       const focusItem = items[nextIndex];
 
       if (!isUndefined(focusItem)) {
-        setFocusItemValue(focusItem[valueKey]);
-        focusCallback(focusItem[valueKey], event);
+        focusMenuItem(focusItem[valueKey], event);
         scrollListItem('bottom', focusItem[valueKey], willOverflow);
       }
     });
@@ -173,8 +180,7 @@ const useFocusItemValue = <T, D>(
       const nextIndex = willOverflow ? items.length - 1 : index - 1;
       const focusItem = items[nextIndex];
       if (!isUndefined(focusItem)) {
-        setFocusItemValue(focusItem[valueKey]);
-        focusCallback(focusItem[valueKey], event);
+        focusMenuItem(focusItem[valueKey], event);
         scrollListItem('top', focusItem[valueKey], willOverflow);
       }
     });
