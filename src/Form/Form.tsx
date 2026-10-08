@@ -219,7 +219,7 @@ const Form = forwardRef<
     formModel,
     nestedField
   );
-  const { formValue, onRemoveValue, setFieldValue, resetFormValue } = useFormValue(
+  const { formValue, getFormValue, onRemoveValue, setFieldValue, resetFormValue } = useFormValue(
     controlledFormValue,
     { formDefaultValue, nestedField }
   );
@@ -345,6 +345,7 @@ const Form = forwardRef<
     removeFieldError,
     removeFieldRule,
     onFieldChange,
+    getFormValue,
     checkFieldForNextValue,
     checkFieldAsyncForNextValue
   };

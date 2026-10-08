@@ -154,6 +154,8 @@ There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` compone
 
 The `useFormControl` hook allows you to create custom form fields that integrate seamlessly with the Form validation system. This approach gives you complete control over your form field's UI while maintaining all validation capabilities.
 
+When Form manages its own values, consecutive `setValue` or `onChange` calls in one event build on earlier updates, including nested fields. Field validation receives those updated values, so cross-field rules can read the latest sibling values. With controlled `formValue`, each change is a proposal based on the owner's committed values; proposals that the owner has not accepted do not become the basis for later changes.
+
 <!--{include:`use-form-control.md`}-->
 
 ## Integration with other libraries
