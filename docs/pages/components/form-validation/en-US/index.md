@@ -142,6 +142,12 @@ There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` compone
 
 <!--{include:`form-nested-fields.md`}-->
 
+With `nestedField`, resolver errors can use field names such as `products[0].name` or equivalent numeric paths such as `products.0.name`. An own entry matching the exact field name takes priority, including `undefined`, `null`, or an empty string. Otherwise, Form checks numeric aliases and then the structured schema error path. Quoted or escaped literal names remain separate from numeric aliases.
+
+Cleaning a field removes its exact entry, numeric aliases, and structured error leaf while preserving sibling errors and aggregate messages. A new native field check also replaces older resolver aliases for that field. A literal key such as `profile.object.name` belongs to that exact field name and does not replace the structured error for `profile.name`.
+
+Treat native error payloads as immutable. Once Form observes changes to an original payload's keys or validated entries, selecting that object again does not restore its original native validity; run a new validation to obtain a new result.
+
 With `nestedField`, field validation and error cleanup copy the changed object or array path. Earlier `onCheck` and `onError` payloads and supplied `formError` objects remain unchanged. Unchanged sibling errors retain their identity and native validation state, including invalid results with an empty message. For controlled errors, the displayed state changes only when the owner supplies the next `formError`.
 
 ### Proxy validation

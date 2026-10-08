@@ -1,4 +1,4 @@
-import { nameToPath } from '../../useFormControl/utils/nameToPath';
+import { getFieldErrorPath, getSchemaErrorPath } from './fieldError';
 
 type Path = readonly string[];
 type Primitive = undefined | null | boolean | number | string | symbol | bigint;
@@ -27,7 +27,6 @@ interface FieldSnapshot {
 }
 interface NativeScope {
   address: Path;
-  selectorMapped: string;
   invalid: boolean;
   resultStamp: symbol;
   projectionRoot?: Path;
@@ -36,7 +35,6 @@ interface NativeScope {
 interface Scope {
   address: Path;
   readonly pathKey: string;
-  selectorMapped: string;
   dependencyPath: Path;
   invalid: boolean;
   projection: 'result' | 'atom' | 'absent';
@@ -47,6 +45,7 @@ interface FrameRecord extends NativeValidationRetirementToken {
   owner: symbol;
   retired: boolean;
   scopes: Scope[];
+  keys: string[];
   scopeIndex: ReadonlyMap<string, Scope>;
 }
 export type NativeValidationObservation = readonly NativeScope[];
@@ -244,13 +243,7 @@ export function createNativeValidationFrames() {
           ? result(child, produce, new Set())
           : atom(child, produce);
       });
-      const fields = [edge];
-      if (index === 0 && scope.address.length > 1) {
-        // Preserve producer-observed selector roles; a user key may itself be "array".
-        if (own(value, scope.selectorMapped)) return unsupported();
-        fields.push({ key: scope.selectorMapped, present: false });
-      }
-      return container(value, fields, produce, undefined, index === 0);
+      return container(value, [edge], produce, undefined, index === 0);
     };
     return visit(map, 0);
   };
@@ -290,6 +283,7 @@ export function createNativeValidationFrames() {
   };
 
   const intact = (map: object, frame: FrameRecord): boolean =>
+    JSON.stringify(Object.getOwnPropertyNames(map).sort()) === JSON.stringify(frame.keys) &&
     frame.scopes.every(scope => matches(map, scope.witness));
 
   const captureCarry = (map: unknown): NativeValidationCarry => {
@@ -300,38 +294,6 @@ export function createNativeValidationFrames() {
     } catch {
       return [];
     }
-  };
-
-  // Match original castPath for supported own data without invoking its memoized parser.
-  const castPath = (map: object, mapped: string): string[] => {
-    category(map);
-    if (own(map, mapped)) return [mapped];
-    // Inherited literal-key precedence is outside this own-data contract.
-    const proto = Object.getPrototypeOf(map);
-    if (proto && Object.getOwnPropertyDescriptor(proto, mapped)) return unsupported();
-    if (/^\w*$/.test(mapped) || !/\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/.test(mapped)) {
-      return [mapped];
-    }
-    const path: string[] = [];
-    if (mapped.charCodeAt(0) === 46) path.push('');
-    mapped.replace(
-      /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g,
-      (match, number, quote, subString) => {
-        path.push(quote ? subString.replace(/\\(\\)?/g, '$1') : number || match);
-        return match;
-      }
-    );
-    return path;
-  };
-
-  const resolvePath = (map: object, name: string, nested: boolean): string[] => {
-    if (nested) return castPath(map, nameToPath(name));
-    category(map);
-    if (!own(map, name)) {
-      const proto = Object.getPrototypeOf(map);
-      if (proto && Object.getOwnPropertyDescriptor(proto, name)) return unsupported();
-    }
-    return [name];
   };
 
   const destination = (map: object, path: Path): PropertyDescriptor | undefined => {
@@ -350,7 +312,6 @@ export function createNativeValidationFrames() {
   const observe = (
     nativeResult: unknown,
     address: Path,
-    selectorMapped: string,
     projectionRoot?: Path
   ): NativeValidationObservation => {
     const scopes: NativeScope[] = [];
@@ -364,7 +325,7 @@ export function createNativeValidationFrames() {
     } catch {
       return [];
     }
-    const visit = (value: unknown, path: Path, mapped: string) => {
+    const visit = (value: unknown, path: Path) => {
       if (!isReference(value) || seen.has(value)) return;
       category(value);
       seen.add(value);
@@ -373,7 +334,6 @@ export function createNativeValidationFrames() {
         if (status && typeof status.value === 'boolean') {
           scopes.push({
             address: path,
-            selectorMapped: mapped,
             invalid: status.value,
             resultStamp: stamp(value, true),
             projectionRoot,
@@ -392,9 +352,7 @@ export function createNativeValidationFrames() {
               continue;
             const item = own(child, childKey);
             if (item) {
-              const childMapped =
-                key === 'array' ? `${mapped}.array[${childKey}]` : `${mapped}.object.${childKey}`;
-              visit(item.value, [...path, key, childKey], childMapped);
+              visit(item.value, [...path, key, childKey]);
             }
           }
         }
@@ -403,7 +361,7 @@ export function createNativeValidationFrames() {
       }
     };
     try {
-      visit(nativeResult, address, selectorMapped);
+      visit(nativeResult, address);
     } catch {
       // Only new private metadata inspection is best effort.
     }
@@ -449,7 +407,6 @@ export function createNativeValidationFrames() {
           const scope: Omit<Scope, 'witness'> = {
             address: candidate.address,
             pathKey: candidateKey,
-            selectorMapped: candidate.selectorMapped,
             dependencyPath,
             invalid: candidate.invalid,
             projection: !descriptor ? 'absent' : structured ? 'result' : 'atom',
@@ -466,6 +423,7 @@ export function createNativeValidationFrames() {
         owner,
         retired: false,
         scopes: Array.from(next.values()),
+        keys: Object.getOwnPropertyNames(map).sort(),
         scopeIndex
       } as FrameRecord;
       frames.set(map, record);
@@ -478,7 +436,8 @@ export function createNativeValidationFrames() {
   const nestedTarget = (map: unknown, name: string): Path | undefined => {
     try {
       if (!isReference(map)) return undefined;
-      return resolvePath(map, name, true);
+      category(map);
+      return getSchemaErrorPath(name) || [name];
     } catch {
       return undefined;
     }
@@ -516,7 +475,9 @@ export function createNativeValidationFrames() {
       return { invalid: undefined, retirementToken: frame };
     }
     try {
-      const address = resolvePath(map, name, nested);
+      category(map);
+      const address = getFieldErrorPath(map, name, nested);
+      if (!address) return { invalid: undefined };
       const scope = frame.scopeIndex.get(pathKey(address));
       if (
         !scope ||

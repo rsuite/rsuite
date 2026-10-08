@@ -502,7 +502,7 @@ describe('Form native validity and selected error messages', () => {
       model: terminalModel,
       values: terminalValues,
       nestedField: true,
-      controls: [{ name: 'user' }, { name: 'user.name' }]
+      controls: [{ name: 'user' }, { name: 'user.name' }, { name: 'user.object.name' }]
     });
     let valid = true;
     let callbackMap: unknown;
@@ -526,7 +526,8 @@ describe('Form native validity and selected error messages', () => {
       const literal = { ...map, 'user.object.name': 'Literal invalid' };
       terminal.present({ formError: literal }); // The single bounded literal-path presentation.
       expect(terminal.ownedError()).toBe(literal);
-      expectField(terminal, 'user.name', 'Literal invalid', 'true', true);
+      expectField(terminal, 'user.name', undefined, null);
+      expectField(terminal, 'user.object.name', 'Literal invalid', 'true', true);
       expectField(terminal, 'user', '', null);
       expect(childCalls).toBe(0);
       expect(terminal.checks).toHaveLength(1);
