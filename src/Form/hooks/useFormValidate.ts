@@ -291,7 +291,8 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
         }
         if (values[i].hasError) {
           errorCount += 1;
-          formError[keys[i]] = values[i].errorMessage;
+          const { errorMessage } = values[i];
+          formError[keys[i]] = errorMessage === undefined ? values[i] : errorMessage;
         }
       }
 
