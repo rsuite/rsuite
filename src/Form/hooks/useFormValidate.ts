@@ -1,7 +1,8 @@
 import { useRef, useCallback } from 'react';
 import omit from 'lodash/omit';
 import set from 'lodash/set';
-import { useControlled, useEventCallback } from '@/internals/hooks';
+import { useEventCallback } from '@/internals/hooks';
+import useFormError from './useFormError';
 import { nameToPath } from '../../useFormControl/utils/nameToPath';
 import type { CheckResult } from 'schema-typed';
 import { SchemaModel } from 'schema-typed';
@@ -21,23 +22,16 @@ export interface FormErrorProps {
 
 export default function useFormValidate(_formError: any, props: FormErrorProps) {
   const { formValue, getCombinedModel, onCheck, onError, nestedField, resolver } = props;
-  const [realFormError, setFormErrorState, controlled] = useControlled(_formError, {});
+  const {
+    formError: realFormError,
+    formErrorRef: realFormErrorRef,
+    isControlled,
+    setFormError
+  } = useFormError(_formError);
   const checkOptions = { nestedObject: nestedField };
   const nativeFramesRef = useRef<ReturnType<typeof createNativeValidationFrames> | null>(null);
   if (!nativeFramesRef.current) nativeFramesRef.current = createNativeValidationFrames();
   const nativeFrames = nativeFramesRef.current;
-
-  const realFormErrorRef = useRef(realFormError);
-  realFormErrorRef.current = realFormError;
-  const setFormError = useCallback(
-    (nextFormError: any) => {
-      if (!controlled) {
-        realFormErrorRef.current = nextFormError;
-      }
-      setFormErrorState(nextFormError);
-    },
-    [controlled, setFormErrorState]
-  );
 
   const requestsRef = useRef<ReturnType<typeof createValidationRequests> | null>(null);
   if (!requestsRef.current) requestsRef.current = createValidationRequests();
@@ -461,6 +455,8 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
   );
 
   const cleanErrors = useEventCallback(() => {
+    if (isControlled()) return;
+    requestsRef.current!.invalidate();
     setFormError({});
   });
 

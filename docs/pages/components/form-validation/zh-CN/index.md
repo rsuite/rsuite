@@ -99,6 +99,8 @@ return (
 
 调用 `reset` 或 `resetErrors` 也会使尚未完成的校验结果失效。移除设置了 `shouldResetWithUnmount` 的 `Form.Control` 时，该字段、重叠的嵌套路径及整表的旧校验结果都会失效。无关的 schema 字段仍可完成校验，旧代理校验也不会恢复已移除字段的错误。重置或移除字段后仍可发起新校验，包括显式校验已卸载的 schema 字段。未设置 `shouldResetWithUnmount` 时，移除控件会保留其尚未完成的校验。
 
+由 Form 自行管理错误时，`cleanErrors` 会清空错误并使尚未完成的校验结果失效，且不会调用 `onCheck`、`onError` 或 `onChange`。每个未完成的 Promise 仍会返回自身结果，之后也可发起新校验。通过 `formError` 控制错误时，请更新持有该状态的组件；此时 `cleanErrors` 不会改变传入的错误或尚未完成的校验。
+
 Form 的字段校验和异步校验不会读取或改写传入 model 的 `getCheckResult()` 历史结果。请通过 Form 的方法返回值或 `onCheck` 获取校验结果。同步 `checkForField` 根据本次检查的字段及其代理字段返回是否有效。
 
 <!--{include:`form-check-async.md`}-->

@@ -99,6 +99,8 @@ When validations overlap, a superseded request cannot replace the current errors
 
 Calling `reset` or `resetErrors` also invalidates pending validation results. Removing a `Form.Control` with `shouldResetWithUnmount` invalidates older checks for that field, overlapping nested paths, and the whole form. Unrelated schema field checks can still finish, and an older proxy check cannot restore the removed field's error. New checks remain available after reset or removal, including explicit checks for an unmounted schema field. Without `shouldResetWithUnmount`, removing a control retains its pending validation.
 
+When Form manages its own errors, `cleanErrors` clears them and invalidates pending results without calling `onCheck`, `onError`, or `onChange`. Each pending Promise still returns its own result, and new checks remain available. When `formError` is controlled, clear errors through the owning state: `cleanErrors` leaves the supplied errors and pending validations unchanged.
+
 Form field checks and asynchronous checks keep their results separate from the supplied model's `getCheckResult()` history. Read Form validation results from its methods or `onCheck`. A synchronous `checkForField` returns validity for the fields checked by that call, including proxy fields.
 
 <!--{include:`form-check-async.md`}-->
