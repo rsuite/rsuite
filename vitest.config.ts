@@ -11,7 +11,7 @@ if (RUN_ENV === 'ssr') {
   testPatterns = 'src/**/*.ssr.test.+(js|ts|tsx)';
   testMainDescription = `SSR tests: ${testPatterns}`;
 } else if (RUN_ENV === 'browser-controls') {
-  testPatterns = 'src/**/*.browser.test.+(js|ts|tsx)';
+  testPatterns = '{src,test/browser}/**/*.browser.test.+(js|ts|tsx)';
   testMainDescription = `Native browser control tests: ${testPatterns}`;
 } else if (M) {
   testPatterns = `src/${M}/test/*.spec.+(js|ts|tsx)`;
@@ -97,12 +97,19 @@ async function createConfig() {
         './test/browser/toggleCommands'
       );
       const { setMotionPreference } = await import('./test/browser/motionCommands');
+      const { observeBrowserModuleLoads } = await import('./test/browser/moduleLoadDiagnostics');
+      config.test.setupFiles = ['test/browser/moduleLoadDiagnostics.setup.ts', 'vitest.setup.ts'];
       config.test.browser = {
         enabled: true,
         provider: 'playwright',
         // Keep Firefox native focus and keyboard tests on one browser page at a time.
         fileParallelism: BROWSER === 'firefox' ? false : undefined,
-        commands: { trcTrustedResetClick, trcTrustedInputClick, setMotionPreference },
+        commands: {
+          trcTrustedResetClick,
+          trcTrustedInputClick,
+          setMotionPreference,
+          observeBrowserModuleLoads
+        },
         instances: [
           {
             browser: BROWSER,
