@@ -3,7 +3,7 @@ import on from 'dom-lib/on';
 import classNames from 'classnames';
 import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
-import { getDOMNode } from '@/internals/utils';
+import { getDOMNode, mergeRefs } from '@/internals/utils';
 import { AnimationEventProps } from '@/internals/types';
 import { CustomContext } from '@/internals/Provider/CustomContext';
 import { getAnimationEnd, getTransitionEnd } from './utils';
@@ -104,6 +104,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
   } | null = null;
   needsUpdate: boolean | null = null;
   childRef: React.RefObject<any>;
+  private mergedChildRefs = new WeakMap<object, React.RefCallback<any>>();
 
   constructor(props: TransitionProps) {
     super(props);
@@ -250,6 +251,19 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
       return getDOMNode(this.childRef.current);
     }
     return getDOMNode(this);
+  }
+
+  private getMergedChildRef(originalRef: React.Ref<any>) {
+    if (!originalRef || typeof originalRef === 'string') {
+      return this.childRef;
+    }
+
+    let ref = this.mergedChildRefs.get(originalRef);
+    if (!ref) {
+      ref = mergeRefs(this.childRef, originalRef);
+      this.mergedChildRefs.set(originalRef, ref);
+    }
+    return ref;
   }
 
   performEnter(props: TransitionProps) {
@@ -407,10 +421,12 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     }
 
     const child = React.Children.only(children) as React.DetailedReactHTMLElement<any, HTMLElement>;
+    // React 19 stores refs in props; React 18 exposes them on the element.
+    const originalChildRef = Number.parseInt(React.version, 10) >= 19 ? child.props.ref : child.ref;
 
     return React.cloneElement(child, {
       ...childProps,
-      ref: this.childRef,
+      ref: this.getMergedChildRef(originalChildRef),
       className: classNames(className, child.props?.className, transitionClassName)
     });
   }

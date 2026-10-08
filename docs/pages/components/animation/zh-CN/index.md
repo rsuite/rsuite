@@ -43,6 +43,20 @@ enteringClassName="custom-entering"
 
 <!--{include:`transition.md`}-->
 
+### 子元素 ref
+
+动画组件会保留子元素的对象 ref 和回调 ref，包括 React 19 回调 ref 返回的清理函数。同一个子元素 ref 不会因为动画状态变化而重复解绑和绑定。
+
+```jsx
+const inputRef = React.useRef(null);
+
+<Animation.Fade in transitionAppear onEntered={() => inputRef.current?.focus()}>
+  <input ref={inputRef} />
+</Animation.Fade>;
+```
+
+动画组件自身的 ref 指向 Transition 实例。使用函数形式的子元素时，需要将提供的 props 和 ref 转发给执行动画的节点。
+
 ### 减少动态效果
 
 `Animation.Fade`、`Animation.Collapse`、`Animation.Bounce`、`Animation.Slide` 和 `Animation.Transition` 默认遵循系统的 `prefers-reduced-motion` 设置。将 `reduceMotion` 设为 `true` 可禁用动态效果；设为 `false` 可显式允许动画，包括系统要求减少动态效果时。

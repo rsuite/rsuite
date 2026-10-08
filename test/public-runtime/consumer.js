@@ -68,7 +68,7 @@ function fixtures(api) {
           onEntered: callback('motion-entered'),
           ref
         },
-        h('div', null, 'Motion content')
+        h('div', { ref: callback('animation-child-ref') }, 'Motion content')
       ),
       expected: [new RegExp('data-rs-motion="' + ['auto', 'reduce', 'allow'][index] + '"')]
     })),
