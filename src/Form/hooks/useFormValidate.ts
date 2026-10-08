@@ -22,6 +22,8 @@ export interface FormErrorProps {
 export default function useFormValidate(_formError: any, props: FormErrorProps) {
   const { formValue, getCombinedModel, onCheck, onError, nestedField, resolver } = props;
   const [realFormError, setFormErrorState, controlled] = useControlled(_formError, {});
+  const controlledRef = useRef(controlled);
+  controlledRef.current = controlled;
   const checkOptions = { nestedObject: nestedField };
   const nativeFramesRef = useRef<ReturnType<typeof createNativeValidationFrames> | null>(null);
   if (!nativeFramesRef.current) nativeFramesRef.current = createNativeValidationFrames();
@@ -461,7 +463,12 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
   );
 
   const cleanErrors = useEventCallback(() => {
-    setFormError({});
+    if (controlledRef.current) return;
+    requestsRef.current!.invalidate();
+    const nextFormError = {};
+    // Saved methods can run in child layout effects before event callbacks refresh.
+    realFormErrorRef.current = nextFormError;
+    setFormErrorState(nextFormError);
   });
 
   const resetErrors = useEventCallback((formError: any = {}) => {
