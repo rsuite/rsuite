@@ -72,6 +72,8 @@ Control the file list of the uploader component through external state, implemen
 
 Demonstrates how to validate uploaded files for format, size, etc., to ensure they meet requirements.
 
+If the promise returned by `shouldUpload` rejects, the current upload attempt is skipped and the file stays available for retry. This does not call `onError` or add the file to `onCompletion`'s failed files. The batch completes once its remaining upload attempts settle. If a pending file is removed or the uploader unmounts, its later approval result is ignored.
+
 <!--{include:`check.md`}-->
 
 ## Props
@@ -114,7 +116,7 @@ Extends the props of the [Button](/components/button/) component.
 | renderFileInfo     | (file: [FileType][file], fileElement: ReactNode) => ReactNode                                                        | Custom render file information                                                                                                                                                   |
 | renderThumbnail    | (file: [FileType][file], thumbnail: ReactNode) => ReactNode                                                          | Custom render thumbnail                                                                                                                                                          |
 | shouldQueueUpdate  | (fileList: [FileType][file][], newFile: [FileType][file][] \| [FileType][file]) => boolean \| Promise&lt;boolean&gt; | Allow the queue to be updated. After you select a file, update the checksum function before the upload file queue, and return false to not update                                |
-| shouldUpload       | (file:[FileType][file] ) => boolean \| Promise&lt;boolean&gt;                                                        | Allow uploading of files. Check function before file upload, return false without uploading                                                                                      |
+| shouldUpload       | (file:[FileType][file] ) => boolean \| Promise&lt;boolean&gt;                                                        | Allow uploading of files. Return false or reject the promise to skip uploading.                                                                                      |
 | timeout            | number                                                                                                               | Set upload timeout                                                                                                                                                               |
 | toggleAs           | ElementType ([Button](/components/button/))                                                                          | You can use a custom element for this component                                                                                                                                  |
 | withCredentials    | boolean                                                                                                              | Whether to carry cookies when uploading requests                                                                                                                                 |

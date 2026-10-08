@@ -127,7 +127,7 @@ export interface UploaderProps
     newFile: FileType[] | FileType
   ) => boolean | Promise<boolean>;
 
-  /** Allow uploading of files. Check function before file upload, return false without uploading  */
+  /** Allow uploading of files. Return false or reject the promise to skip uploading. */
   shouldUpload?: (file: FileType) => boolean | Promise<boolean>;
 
   /** callback function that the upload queue has changed */
@@ -511,7 +511,10 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
       if (checkState instanceof Promise) {
         const pending = createApproval(file);
         uploadingCount.current++;
-        checkState.then(res => handleUploadApproval(pending, res));
+        checkState.then(
+          res => handleUploadApproval(pending, res),
+          () => handleUploadApproval(pending, false)
+        );
         return;
       } else if (checkState === false) {
         return;
