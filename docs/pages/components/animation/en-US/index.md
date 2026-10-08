@@ -43,6 +43,20 @@ enteringClassName="custom-entering"
 
 <!--{include:`transition.md`}-->
 
+### Child refs
+
+Animation components preserve object and callback refs on their child, including React 19 callback-ref cleanup. A stable child ref stays attached while the animation changes state.
+
+```jsx
+const inputRef = React.useRef(null);
+
+<Animation.Fade in transitionAppear onEntered={() => inputRef.current?.focus()}>
+  <input ref={inputRef} />
+</Animation.Fade>;
+```
+
+A ref on the Animation component itself refers to the Transition instance. Render-function children must forward the provided props and ref to their animated node.
+
 ### Reduced motion
 
 `Animation.Fade`, `Animation.Collapse`, `Animation.Bounce`, `Animation.Slide` and `Animation.Transition` respect the system's `prefers-reduced-motion` setting by default. Set `reduceMotion` to `true` to disable motion, or `false` to allow it explicitly, including when the system requests reduced motion.
