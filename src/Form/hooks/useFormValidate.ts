@@ -4,8 +4,10 @@ import set from 'lodash/set';
 import { useControlled, useEventCallback } from '@/internals/hooks';
 import { nameToPath } from '../../useFormControl/utils/nameToPath';
 import type { CheckResult } from 'schema-typed';
+import { SchemaModel } from 'schema-typed';
 import type { Resolver } from '../resolvers';
 import { createNativeValidationFrames } from '../utils/nativeValidationFrames';
+import { createValidationRequests } from '../utils/validationRequests';
 import type { NativeValidationObservation } from '../utils/nativeValidationFrames';
 
 export interface FormErrorProps {
@@ -19,7 +21,7 @@ export interface FormErrorProps {
 
 export default function useFormValidate(_formError: any, props: FormErrorProps) {
   const { formValue, getCombinedModel, onCheck, onError, nestedField, resolver } = props;
-  const [realFormError, setFormError] = useControlled(_formError, {});
+  const [realFormError, setFormErrorState, controlled] = useControlled(_formError, {});
   const checkOptions = { nestedObject: nestedField };
   const nativeFramesRef = useRef<ReturnType<typeof createNativeValidationFrames> | null>(null);
   if (!nativeFramesRef.current) nativeFramesRef.current = createNativeValidationFrames();
@@ -27,6 +29,20 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
 
   const realFormErrorRef = useRef(realFormError);
   realFormErrorRef.current = realFormError;
+  const setFormError = useCallback(
+    (nextFormError: any) => {
+      if (!controlled) {
+        realFormErrorRef.current = nextFormError;
+      }
+      setFormErrorState(nextFormError);
+    },
+    [controlled, setFormErrorState]
+  );
+
+  const requestsRef = useRef<ReturnType<typeof createValidationRequests> | null>(null);
+  if (!requestsRef.current) requestsRef.current = createValidationRequests();
+  const startValidation = (fieldName?: string) =>
+    requestsRef.current!.start(resolver ? undefined : fieldName, nestedField);
 
   /**
    * Returns true when an error value is considered non-empty (i.e. the field has an error).
@@ -75,6 +91,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
       }
 
       const { errors } = result;
+      startValidation();
       const hasError = Object.keys(errors).length > 0;
       setFormError(errors);
       onCheck?.(errors);
@@ -87,6 +104,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
 
     const formError = {};
     const nativeObservations: NativeValidationObservation[number][] = [];
+    startValidation();
     let errorCount = 0;
     const model = getCombinedModel();
 
@@ -166,10 +184,11 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
         }
 
         const { errors } = result;
+        startValidation(fieldName);
         const fieldError = errors[fieldName];
         const hasFieldError = isValidError(fieldError);
         // Merge resolver errors with existing errors, clearing fields that now pass
-        const nextFormError = mergeResolverErrors(realFormError, errors);
+        const nextFormError = mergeResolverErrors(realFormErrorRef.current, errors);
 
         setFormError(nextFormError);
         onCheck?.(nextFormError);
@@ -181,11 +200,12 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
         return !hasFieldError;
       }
 
-      const nativeCarry = nativeFrames.captureCarry(realFormError);
-      const model = getCombinedModel();
+      const nativeCarry = nativeFrames.captureCarry(realFormErrorRef.current);
+      const { claimField } = startValidation(fieldName);
+      const model = SchemaModel.combine(getCombinedModel());
       const resultOfCurrentField = model.checkForField(fieldName, nextValue, checkOptions);
       let nextFormError = {
-        ...realFormError
+        ...realFormErrorRef.current
       };
       /**
        * when using proxy of schema-typed, we need to use getCheckResult to get all errors,
@@ -218,6 +238,9 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
         let hasError = false;
 
         Object.keys(allResults).forEach(key => {
+          if (!claimField(key)) {
+            return;
+          }
           const currentResult = allResults[key];
           for (const observation of nativeFrames.observe(currentResult, [key], key)) {
             nativeObservations.push(observation);
@@ -259,13 +282,18 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
    * Check form data asynchronously and return a Promise
    */
   const checkAsync = useEventCallback(() => {
+    const { isCurrent } = startValidation();
     if (resolver) {
       return Promise.resolve(resolver(formValue || {})).then(({ errors }) => {
         const hasError = Object.keys(errors).length > 0;
-        onCheck?.(errors);
-        setFormError(errors);
-        if (hasError) {
-          onError?.(errors);
+        if (isCurrent()) {
+          onCheck?.(errors);
+          if (isCurrent()) {
+            setFormError(errors);
+            if (hasError) {
+              onError?.(errors);
+            }
+          }
         }
         return { hasError, formError: errors };
       });
@@ -273,7 +301,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
 
     const promises: Promise<CheckResult>[] = [];
     const keys: string[] = [];
-    const model = getCombinedModel();
+    const model = SchemaModel.combine(getCombinedModel());
 
     Object.keys(model.getSchemaSpec()).forEach(key => {
       keys.push(key);
@@ -296,12 +324,16 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
         }
       }
 
+      // The returned map keeps its native provenance if the owner explicitly selects it later.
       nativeFrames.publish(formError, nativeObservations);
-      onCheck?.(formError);
-      setFormError(formError);
-
-      if (errorCount > 0) {
-        onError?.(formError);
+      if (isCurrent()) {
+        onCheck?.(formError);
+        if (isCurrent()) {
+          setFormError(formError);
+          if (errorCount > 0) {
+            onError?.(formError);
+          }
+        }
       }
 
       return { hasError: errorCount > 0, formError };
@@ -309,28 +341,36 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
   });
 
   const checkFieldAsyncForNextValue = useEventCallback((fieldName: string, nextValue: any) => {
+    const { isCurrent, claimField } = startValidation(fieldName);
     if (resolver) {
       return Promise.resolve(resolver(nextValue)).then(({ errors }) => {
         const fieldError = errors[fieldName];
         const hasFieldError = isValidError(fieldError);
-        const nextFormError = mergeResolverErrors(realFormError, errors);
-
-        onCheck?.(nextFormError);
-        setFormError(nextFormError);
-        if (Object.keys(nextFormError).length > 0) {
-          onError?.(nextFormError);
+        if (isCurrent()) {
+          const nextFormError = mergeResolverErrors(realFormErrorRef.current, errors);
+          onCheck?.(nextFormError);
+          if (isCurrent()) {
+            setFormError(nextFormError);
+            if (Object.keys(nextFormError).length > 0) {
+              onError?.(nextFormError);
+            }
+          }
         }
 
         return { hasError: hasFieldError, errorMessage: fieldError };
       });
     }
 
-    const model = getCombinedModel();
+    // schema-typed writes its result cache before this continuation, including for stale requests.
+    const model = SchemaModel.combine(getCombinedModel());
     return model
       .checkForFieldAsync(fieldName, nextValue, checkOptions)
       .then(resultOfCurrentField => {
-        const nativeCarry = nativeFrames.captureCarry(realFormError);
-        let nextFormError = { ...realFormError };
+        if (!isCurrent()) {
+          return resultOfCurrentField;
+        }
+        const nativeCarry = nativeFrames.captureCarry(realFormErrorRef.current);
+        let nextFormError = { ...realFormErrorRef.current };
         /**
          * when using proxy of schema-typed, we need to use getCheckResult to get all errors,
          * but if nestedField is used, it is impossible to distinguish whether the nested object has an error here,
@@ -349,10 +389,11 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
             nativeCarry
           );
           onCheck?.(nextFormError);
-          setFormError(nextFormError);
-
-          if (resultOfCurrentField.hasError) {
-            onError?.(nextFormError);
+          if (isCurrent()) {
+            setFormError(nextFormError);
+            if (resultOfCurrentField.hasError) {
+              onError?.(nextFormError);
+            }
           }
 
           return resultOfCurrentField;
@@ -361,6 +402,9 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
           const nativeObservations: NativeValidationObservation[number][] = [];
           let hasError = false;
           Object.keys(allResults).forEach(key => {
+            if (!claimField(key)) {
+              return;
+            }
             const currentResult = allResults[key];
             for (const observation of nativeFrames.observe(currentResult, [key], key)) {
               nativeObservations.push(observation);
@@ -377,7 +421,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
           nativeFrames.publish(nextFormError, nativeObservations, nativeCarry);
           setFormError(nextFormError);
           onCheck?.(nextFormError);
-          if (hasError) {
+          if (hasError && isCurrent()) {
             onError?.(nextFormError);
           }
           return resultOfCurrentField;

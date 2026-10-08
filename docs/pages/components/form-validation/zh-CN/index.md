@@ -95,6 +95,10 @@ return (
 - 异步校验的验证规则通过 `schema` 的 `addRule` 方法添加一个返回值为 Promise 的对象。
 - 通过调用 `<Form>` 的 `checkAsync` 与 `checkForFieldAsync` 的访问，可以手动触发校验。
 
+多个校验重叠执行时，已被后续校验取代的请求不会再更新当前错误或触发 `onCheck`、`onError`，但每个异步方法仍会返回它自己的校验结果。互不重叠的 schema 字段可以独立完成校验。启用 `nestedField` 时，父路径或子路径上的新校验会取代重叠路径上的旧校验。整表校验和 resolver 的结果则代表整个表单。校验函数本身仍会执行到结束。
+
+Form 的字段校验和异步校验不会读取或改写传入 model 的 `getCheckResult()` 历史结果。请通过 Form 的方法返回值或 `onCheck` 获取校验结果。同步 `checkForField` 根据本次检查的字段及其代理字段返回是否有效。
+
 <!--{include:`form-check-async.md`}-->
 
 ### 表单输入组件
