@@ -1,7 +1,7 @@
 import get from 'lodash/get';
-import set from 'lodash/set';
 import { isValidElement, useCallback, useMemo } from 'react';
 import { nameToPath } from '../utils/nameToPath';
+import { setFieldValue as setValue } from '../../Form/utils/fieldValue';
 
 interface FieldProps {
   name: string;
@@ -68,11 +68,7 @@ export function useField(props: FieldProps) {
 
   const setFieldValue = useCallback(
     (fieldName: string, fieldValue: any) => {
-      if (nestedField) {
-        return set({ ...formValue }, fieldName, fieldValue);
-      }
-
-      return { ...formValue, [fieldName]: fieldValue };
+      return setValue(formValue, fieldName, fieldValue, !!nestedField);
     },
     [formValue, nestedField]
   );
