@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import isUndefined from 'lodash/isUndefined';
 import isString from 'lodash/isString';
 import isNumber from 'lodash/isNumber';
@@ -10,6 +10,9 @@ import getHeight from 'dom-lib/getHeight';
 import get from 'lodash/get';
 import classNames from 'classnames';
 import ListItemGroup from './ListItemGroup';
+import useVirtualizedListFocus from './hooks/useVirtualizedListFocus';
+import type { VirtualizedListHandle } from './hooks/useVirtualizedListFocus';
+import VirtualizedListItem, { ItemRendererProvider } from './VirtualizedListItem';
 import useCombobox from './hooks/useCombobox';
 import Highlight from '../../Highlight';
 import {
@@ -64,6 +67,8 @@ export interface ListboxProps<Multiple = false>
   listProps?: Partial<ListProps>;
   /** */
   listRef?: React.Ref<ListHandle>;
+  /** Internal keyboard navigation for virtualized options. */
+  keyboardNavigationRef?: React.Ref<VirtualizedListHandle>;
 
   /**
    * Query string for filtering.
@@ -124,6 +129,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       virtualized,
       listProps,
       listRef: virtualizedListRef,
+      keyboardNavigationRef,
       className,
       style,
       focusItemValue,
@@ -151,6 +157,10 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
 
     const menuBodyContainerRef = useRef<HTMLDivElement>(null);
     const listRef = useRef<ListHandle>(null);
+    const mergedListRef = useMemo(
+      () => mergeRefs(mergeRefs(listRef, virtualizedListRef), listProps?.ref),
+      [virtualizedListRef, listProps?.ref]
+    );
 
     const [foldedGroupKeys, setFoldedGroupKeys] = useState<string[]>([]);
 
@@ -223,6 +233,16 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
         })
       : data;
     const rowCount = filteredItems.length;
+
+    const handleItemsRendered = useVirtualizedListFocus({
+      items: filteredItems,
+      valueKey,
+      disabledItemValues,
+      menuRef: menuBodyContainerRef,
+      listRef,
+      navigationRef: keyboardNavigationRef,
+      onItemsRendered: listProps?.onItemsRendered
+    });
 
     const renderItem: any = ({
       index = 0,
@@ -312,22 +332,25 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
         {...rest}
       >
         {virtualized ? (
-          <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>
-            {({ height }) => (
-              <List
-                as={VariableSizeList}
-                ref={mergeRefs(listRef, virtualizedListRef)}
-                height={height || maxHeight}
-                itemCount={rowCount}
-                itemData={filteredItems}
-                itemSize={getRowHeight.bind(this, filteredItems)}
-                className={rootPrefix('virt-list')}
-                {...listProps}
-              >
-                {renderItem}
-              </List>
-            )}
-          </AutoSizer>
+          <ItemRendererProvider value={renderItem}>
+            <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>
+              {({ height }) => (
+                <List
+                  as={VariableSizeList}
+                  height={height || maxHeight}
+                  itemCount={rowCount}
+                  itemData={filteredItems}
+                  itemSize={getRowHeight.bind(this, filteredItems)}
+                  className={rootPrefix('virt-list')}
+                  {...listProps}
+                  ref={mergedListRef}
+                  onItemsRendered={handleItemsRendered}
+                >
+                  {VirtualizedListItem}
+                </List>
+              )}
+            </AutoSizer>
+          </ItemRendererProvider>
         ) : (
           filteredItems.map((item, index: number) => renderItem({ index, item }))
         )}

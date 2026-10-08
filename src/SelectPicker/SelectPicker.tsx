@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
@@ -27,6 +27,7 @@ import {
   PickerToggleProps
 } from '@/internals/Picker';
 import type { ListProps } from '@/internals/Windowing';
+import type { VirtualizedListHandle } from '@/internals/Picker/hooks/useVirtualizedListFocus';
 import type {
   FormControlPickerProps,
   Option,
@@ -150,6 +151,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
     } = propsWithDefaults;
 
     const { trigger, root, target, overlay, list, searchInput } = usePickerRef(ref);
+    const keyboardNavigationRef = useRef<VirtualizedListHandle>(null);
     const [value, setValue] = useControlled(valueProp, defaultValue) as [
       T | null | undefined,
       (value: React.SetStateAction<T | null>) => void,
@@ -164,6 +166,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
     } = useFocusItemValue(value, {
       data,
       valueKey,
+      virtualizedList: virtualized ? keyboardNavigationRef : undefined,
       target: () => overlay.current
     });
 
@@ -296,6 +299,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
         <Listbox
           listProps={listProps}
           listRef={list}
+          keyboardNavigationRef={virtualized ? keyboardNavigationRef : undefined}
           disabledItemValues={disabledItemValues}
           valueKey={valueKey}
           labelKey={labelKey}
