@@ -12,7 +12,7 @@ import { createValidationRequests } from '../utils/validationRequests';
 import type { NativeValidationObservation } from '../utils/nativeValidationFrames';
 
 export interface FormErrorProps {
-  formValue: any;
+  getFormValue: () => any;
   getCombinedModel: () => any;
   onCheck?: (formError: any) => void;
   onError?: (formError: any) => void;
@@ -21,7 +21,7 @@ export interface FormErrorProps {
 }
 
 export default function useFormValidate(_formError: any, props: FormErrorProps) {
-  const { formValue, getCombinedModel, onCheck, onError, nestedField, resolver } = props;
+  const { getFormValue, getCombinedModel, onCheck, onError, nestedField, resolver } = props;
   const {
     formError: realFormError,
     formErrorRef: realFormErrorRef,
@@ -70,6 +70,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
    * @param callback
    */
   const check = useEventCallback((callback?: (formError: any) => void) => {
+    const formValue = getFormValue();
     if (resolver) {
       const result = resolver(formValue || {});
 
@@ -268,6 +269,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
    */
   const checkForField = useEventCallback(
     (fieldName: string, callback?: (checkResult: any) => void) => {
+      const formValue = getFormValue();
       return checkFieldForNextValue(fieldName, formValue || {}, callback);
     }
   );
@@ -276,6 +278,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
    * Check form data asynchronously and return a Promise
    */
   const checkAsync = useEventCallback(() => {
+    const formValue = getFormValue();
     const { isCurrent } = startValidation();
     if (resolver) {
       return Promise.resolve(resolver(formValue || {})).then(({ errors }) => {
@@ -428,6 +431,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
    * @param fieldName
    */
   const checkForFieldAsync = useEventCallback((fieldName: string) => {
+    const formValue = getFormValue();
     return checkFieldAsyncForNextValue(fieldName, formValue || {});
   });
 

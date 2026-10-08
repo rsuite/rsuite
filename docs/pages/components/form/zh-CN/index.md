@@ -235,6 +235,10 @@
 | resetErrors        | () => void                                                                    | 重置错误信息                             |
 | submit             | () => void                                                                    | 触发表单提交并校验数据                   |
 
+`check`、`checkForField`、`checkAsync`、`checkForFieldAsync` 和 `submit` 会在调用时获取表单值。非受控表单包含同一事件中已接受的修改，因此在 `onChange` 内调用这些方法会使用本次修改。受控表单使用最近一次已提交的 `formValue`；传给 `onChange` 的建议值只有在外部状态提交后才会生效。
+
+每次校验使用同一个捕获的值对象，跨字段规则也使用该对象。校验成功后，`submit` 将同一个对象传给 `onSubmit`，即使 `onCheck` 重置了表单，或 resolver 等待期间表单值发生变化。这些方法不会克隆捕获的对象，请以不可变方式更新表单值。
+
 ### Schema
 
 Schema 依赖于 [schema-typed](https://github.com/rsuite/schema-typed#schema-typed) 库，用于定义数据模型。
