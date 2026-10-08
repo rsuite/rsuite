@@ -73,9 +73,12 @@ describe('Uploader approvals with native events and HTTP', () => {
   it.each([
     'retained',
     'denied',
+    'rejected',
     'removed',
+    'removed rejection',
     'controlled removal',
     'unmounted',
+    'unmounted rejection',
     'repeated starts',
     'reused key',
     'active abort'
@@ -94,7 +97,7 @@ describe('Uploader approvals with native events and HTTP', () => {
         scenario =>
           window.__RSUITE_UPLOAD_APPROVAL__.mount({
             controlled: scenario === 'controlled removal' || scenario === 'reused key',
-            strict: scenario === 'unmounted',
+            strict: scenario.startsWith('unmounted'),
             action: `/upload?scenario=${encodeURIComponent(scenario)}${scenario === 'active abort' ? '&hold' : ''}`
           }),
         scenario
@@ -127,18 +130,23 @@ describe('Uploader approvals with native events and HTTP', () => {
         expect(
           (await snapshot(page)).progress.some(event => event.percent > 0 && event.trusted)
         ).toBe(true);
-      } else if (scenario === 'denied') {
-        await click(page, 'Deny oldest');
+      } else if (scenario === 'denied' || scenario === 'rejected') {
+        await click(page, scenario === 'denied' ? 'Deny oldest' : 'Reject oldest');
         await completed(page, 1);
         expect((await snapshot(page)).completions).toEqual([{ completed: [], failed: [] }]);
         expect((await snapshot(page)).uploads).toEqual([]);
         expect(uploadsFor(scenario)).toEqual([]);
+        if (scenario === 'rejected') {
+          await nextBatch(page, 2);
+          expect(uploadsFor(scenario)).toHaveLength(1);
+          expect(uploadsFor(scenario)[0].body).toContain('filename="beta.txt"');
+        }
       } else {
         if (scenario === 'repeated starts') {
           await click(page, 'Start batch');
           expect((await snapshot(page)).approvals).toBe(2);
         }
-        if (scenario === 'unmounted') {
+        if (scenario.startsWith('unmounted')) {
           await click(page, 'Unmount uploader');
         } else if (scenario === 'controlled removal' || scenario === 'reused key') {
           await click(page, 'Clear controlled queue');
@@ -153,14 +161,14 @@ describe('Uploader approvals with native events and HTTP', () => {
           await click(page, 'Start batch');
           await click(page, 'Approve oldest');
         } else {
-          await click(page, 'Approve all');
+          await click(page, scenario.endsWith('rejection') ? 'Reject oldest' : 'Approve all');
         }
         let result = await snapshot(page);
         expect(result.uploads).toEqual([]);
         expect(result.successes).toEqual([]);
         expect(uploadsFor(scenario)).toEqual([]);
         expect(result.completions).toEqual(
-          scenario === 'unmounted' ? [] : [{ completed: [], failed: ['alpha.txt'] }]
+          scenario.startsWith('unmounted') ? [] : [{ completed: [], failed: ['alpha.txt'] }]
         );
         if (scenario === 'reused key') {
           await click(page, 'Approve oldest');
@@ -168,14 +176,22 @@ describe('Uploader approvals with native events and HTTP', () => {
           result = await snapshot(page);
           expect(result.uploads).toEqual(['replacement.txt']);
           expect(result.completions[1]).toEqual({ completed: ['replacement.txt'], failed: [] });
-        } else if (scenario !== 'unmounted') {
+        } else if (!scenario.startsWith('unmounted')) {
           await nextBatch(page, 2);
           expect(uploadsFor(scenario)).toHaveLength(1);
           expect(uploadsFor(scenario)[0].body).toContain('filename="beta.txt"');
         }
       }
+      // Give the browser a task boundary to report any uncaught promise rejection.
+      await page.evaluate(
+        () =>
+          new Promise<void>(resolve =>
+            requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+          )
+      );
       const result = await snapshot(page);
       expect(result.errors).toEqual([]);
+      expect(result.rejections).toEqual([]);
       expect(result.clicks.length).toBeGreaterThan(0);
       expect(result.clicks.every(event => event.trusted)).toBe(true);
       expect(result.progress.every(event => event.trusted)).toBe(true);

@@ -18,14 +18,22 @@ const record = {
   successes: [] as NativeEvent[],
   progress: [] as (NativeEvent & { percent: number })[],
   aborts: [] as NativeEvent[],
+  rejections: [] as { reason: string; trusted: boolean }[],
   errors: [] as string[],
   changes: [] as { names: string[]; trusted: boolean }[],
   removals: [] as string[],
   completions: [] as { completed: string[]; failed: string[] }[],
   clicks: [] as NativeEvent[]
 };
-const approvals: { resolve: (value: boolean) => void; settled: boolean }[] = [];
+const approvals: {
+  resolve: (value: boolean) => void;
+  reject: (reason: Error) => void;
+  settled: boolean;
+}[] = [];
 const names = (files: FileType[]) => files.map(file => file.name!);
+window.addEventListener('unhandledrejection', event => {
+  record.rejections.push({ reason: String(event.reason), trusted: event.isTrusted });
+});
 document.addEventListener('click', event => {
   const button = (event.target as Element).closest('button');
   if (button) {
@@ -55,6 +63,17 @@ function Fixture({ controlled: initiallyControlled = false, action }: Options) {
       <button onClick={() => settle(true)}>Approve oldest</button>
       <button onClick={() => settle(true, true)}>Approve all</button>
       <button onClick={() => settle(false)}>Deny oldest</button>
+      <button
+        onClick={() => {
+          const pending = approvals.find(approval => !approval.settled);
+          if (pending) {
+            pending.settled = true;
+            pending.reject(new Error('Upload approval rejected'));
+          }
+        }}
+      >
+        Reject oldest
+      </button>
       <button onClick={() => setFiles([])}>Clear controlled queue</button>
       <button onClick={() => setFiles([createFile('replacement', 'alpha')])}>Reuse file key</button>
       <button
@@ -74,7 +93,9 @@ function Fixture({ controlled: initiallyControlled = false, action }: Options) {
           {...(controlled ? { fileList: files } : { defaultFileList: files })}
           shouldUpload={file => {
             if (file.name === 'beta.txt') return true;
-            return new Promise<boolean>(resolve => approvals.push({ resolve, settled: false }));
+            return new Promise<boolean>((resolve, reject) =>
+              approvals.push({ resolve, reject, settled: false })
+            );
           }}
           onUpload={(file, _data, xhr) => {
             record.uploads.push(file.name!);
