@@ -12,7 +12,7 @@ const results = path.join(__dirname, 'results');
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const fixture = fs.readFileSync(path.join(__dirname, 'consumer.tsx'), 'utf8');
 assert.equal(ts.version, '5.7.3');
-assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 14);
+assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 15);
 for (const entry of ['package.json', 'esm/index.d.ts', 'cjs/index.d.ts']) {
   assert(fs.existsSync(path.join(lib, entry)), 'Build the public lib first: ' + entry);
 }
@@ -79,6 +79,8 @@ const cjsSpecifiers = {
   'rsuite/Animation': 'rsuite/cjs/Animation',
   'rsuite/CustomProvider': 'rsuite/cjs/CustomProvider',
   'rsuite/Fade': 'rsuite/cjs/Animation/Fade',
+  'rsuite/Modal': 'rsuite/cjs/Modal',
+  'rsuite/Drawer': 'rsuite/cjs/Drawer',
   'rsuite/Form': 'rsuite/cjs/Form',
   'rsuite/FormErrorSummary': 'rsuite/cjs/FormErrorSummary',
   'rsuite/useClipboard': 'rsuite/cjs/useClipboard'
@@ -258,6 +260,12 @@ try {
           'index.d.ts',
           'Animation/Transition.d.ts',
           'Animation/Fade.d.ts',
+          'Animation/Bounce.d.ts',
+          'Animation/Slide.d.ts',
+          'Animation/Collapse.d.ts',
+          'Modal/Modal.d.ts',
+          'Drawer/Drawer.d.ts',
+          'internals/Provider/CustomContext.d.ts',
           'DateInput/DateField.d.ts',
           'DateInput/hooks/useDateInputState.d.ts',
           'Form/index.d.ts',

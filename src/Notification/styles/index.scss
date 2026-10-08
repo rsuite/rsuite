@@ -1,6 +1,7 @@
 @use '../../internals/Box/styles/index' as box;
 @use '../../styles/mixins/utilities' as utils;
 @use '../../toaster/styles/animation';
+@use '../../Animation/styles/reduced-motion';
 
 //
 // Notifications

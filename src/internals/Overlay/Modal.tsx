@@ -17,6 +17,9 @@ export interface BaseModalProps
   /** Animation-related properties */
   animationProps?: any;
 
+  /** Reduce motion; when omitted, use the provider setting or system preference. */
+  reduceMotion?: boolean;
+
   /** Primary content */
   children?: any;
 
@@ -110,6 +113,7 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
     className,
     container,
     animationProps,
+    reduceMotion,
     containerClassName,
     keyboard = true,
     enforceFocus = true,
@@ -250,7 +254,12 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
   const renderBackdrop = () => {
     if (Transition) {
       return (
-        <Fade transitionAppear in={open} timeout={backdropTransitionTimeout}>
+        <Fade
+          transitionAppear
+          in={open}
+          timeout={backdropTransitionTimeout}
+          reduceMotion={reduceMotion}
+        >
           {(fadeProps, ref) => {
             const { className, ...rest } = fadeProps;
             return (
@@ -274,6 +283,7 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
   const dialogElement = Transition ? (
     <Transition
       {...animationProps}
+      reduceMotion={reduceMotion ?? animationProps?.reduceMotion}
       transitionAppear
       unmountOnExit
       in={open}

@@ -56,6 +56,32 @@ const h = React.createElement;
 const ref = callback('ref');
 function fixtures(api) {
   return [
+    ...[undefined, true, false].map((reduceMotion, index) => ({
+      name:
+        'Animation renders motion policy ' + ['auto', 'reduce', 'allow'][index] + ' without DOM',
+      element: h(
+        api.Root.Animation.Bounce,
+        {
+          in: true,
+          transitionAppear: true,
+          reduceMotion,
+          onEntered: callback('motion-entered'),
+          ref
+        },
+        h('div', null, 'Motion content')
+      ),
+      expected: [new RegExp('data-rs-motion="' + ['auto', 'reduce', 'allow'][index] + '"')]
+    })),
+    {
+      name: 'Provider motion policy preserves an explicit component override during SSR',
+      element: h(
+        api.Root.CustomProvider,
+        { reduceMotion: true },
+        h(api.Root.Animation.Slide, { in: true }, h('div', null, 'Reduced')),
+        h(api.Root.Animation.Fade, { in: true, reduceMotion: false }, h('div', null, 'Allowed'))
+      ),
+      expected: [/data-rs-motion="reduce"/, /data-rs-motion="allow"/]
+    },
     {
       name: 'default Form value survives StrictMode SSR',
       element: h(
