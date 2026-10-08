@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 import { isValidElement, useCallback, useMemo } from 'react';
-import { nameToPath } from '../utils/nameToPath';
+import { getFieldError } from '../../Form/utils/fieldError';
 import { setFieldValue as setValue } from '../../Form/utils/fieldValue';
 
 interface FieldProps {
@@ -63,11 +63,7 @@ export function useField(props: FieldProps) {
       return errorMessage;
     }
 
-    if (nestedField) {
-      return getErrorMessage(get(formError, nameToPath(name)));
-    }
-
-    const fieldError = formError?.[name];
+    const fieldError = getFieldError(formError, name, !!nestedField);
 
     if (typeof fieldError === 'string') {
       return fieldError;

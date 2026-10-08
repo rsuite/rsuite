@@ -2,13 +2,12 @@ import { useRef, useCallback } from 'react';
 import { useEventCallback } from '@/internals/hooks';
 import useFormEventCallback from './useFormEventCallback';
 import useFormError from './useFormError';
-import { nameToPath } from '../../useFormControl/utils/nameToPath';
 import type { CheckResult } from 'schema-typed';
 import { SchemaModel } from 'schema-typed';
 import type { Resolver } from '../resolvers';
 import { createNativeValidationFrames } from '../utils/nativeValidationFrames';
 import { createValidationRequests } from '../utils/validationRequests';
-import { setFieldValue, removeFieldValue } from '../utils/fieldValue';
+import { getFieldError, setFieldError, removeFieldError } from '../utils/fieldError';
 import type { NativeValidationObservation } from '../utils/nativeValidationFrames';
 
 export interface FormErrorProps {
@@ -103,18 +102,11 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
     let errorCount = 0;
     const model = getCombinedModel();
 
-    const checkField = (
-      key: string,
-      type: any,
-      value: any,
-      formErrorObj: any,
-      path: string[],
-      selectorMapped: string
-    ) => {
+    const checkField = (key: string, type: any, value: any, formErrorObj: any, path: string[]) => {
       model.setSchemaOptionsForAllType(formValue || {});
 
       const checkResult = type.check(value, formValue, key);
-      for (const observation of nativeFrames.observe(checkResult, path, selectorMapped)) {
+      for (const observation of nativeFrames.observe(checkResult, path)) {
         nativeObservations.push(observation);
       }
 
@@ -130,20 +122,17 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
       if (type?.objectTypeSchemaSpec) {
         Object.entries(type.objectTypeSchemaSpec).forEach(([nestedKey, nestedType]) => {
           formErrorObj[key] = formErrorObj[key] || { object: {} };
-          checkField(
-            nestedKey,
-            nestedType,
-            value?.[nestedKey],
-            formErrorObj[key].object,
-            [...path, 'object', nestedKey],
-            `${selectorMapped}.object.${nestedKey}`
-          );
+          checkField(nestedKey, nestedType, value?.[nestedKey], formErrorObj[key].object, [
+            ...path,
+            'object',
+            nestedKey
+          ]);
         });
       }
     };
 
     Object.entries(model.getSchemaSpec()).forEach(([key, type]) => {
-      checkField(key, type, formValue[key], formError, [key], key);
+      checkField(key, type, formValue[key], formError, [key]);
     });
 
     nativeFrames.publish(formError, nativeObservations);
@@ -180,10 +169,13 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
 
         const { errors } = result;
         startValidation(fieldName);
-        const fieldError = errors[fieldName];
+        const fieldError = getFieldError(errors, fieldName, !!nestedField);
         const hasFieldError = isValidError(fieldError);
         // Merge resolver errors with existing errors, clearing fields that now pass
-        const nextFormError = mergeResolverErrors(realFormErrorRef.current, errors);
+        const mergedFormError = mergeResolverErrors(realFormErrorRef.current, errors);
+        const nextFormError = hasFieldError
+          ? mergedFormError
+          : removeFieldError(mergedFormError, fieldName, !!nestedField);
 
         setFormError(nextFormError);
         onCheck?.(nextFormError);
@@ -209,17 +201,9 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
        */
       if (nestedField) {
         const target = nativeFrames.nestedTarget(nextFormError, fieldName);
-        const observed = target
-          ? nativeFrames.observe(resultOfCurrentField, target, nameToPath(fieldName))
-          : [];
+        const observed = target ? nativeFrames.observe(resultOfCurrentField, target) : [];
         const { copies, record } = nativeFrames.trackCopies();
-        nextFormError = setFieldValue(
-          nextFormError,
-          nameToPath(fieldName),
-          resultOfCurrentField,
-          true,
-          record
-        );
+        nextFormError = setFieldError(nextFormError, fieldName, resultOfCurrentField, record);
         nativeFrames.publish(
           nextFormError,
           nativeFrames.anchored(nextFormError, target, resultOfCurrentField) ? observed : [],
@@ -245,7 +229,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
             return;
           }
           const currentResult = allResults[key];
-          for (const observation of nativeFrames.observe(currentResult, [key], key)) {
+          for (const observation of nativeFrames.observe(currentResult, [key])) {
             nativeObservations.push(observation);
           }
           if (currentResult.hasError) {
@@ -326,12 +310,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
           formError[keys[i]] = errorMessage === undefined ? values[i] : errorMessage;
           if (errorMessage === undefined) projectionRoot = undefined;
         }
-        for (const observation of nativeFrames.observe(
-          values[i],
-          [keys[i]],
-          keys[i],
-          projectionRoot
-        )) {
+        for (const observation of nativeFrames.observe(values[i], [keys[i]], projectionRoot)) {
           nativeObservations.push(observation);
         }
       }
@@ -356,10 +335,13 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
     const { isCurrent, claimField } = startValidation(fieldName);
     if (resolver) {
       return Promise.resolve(resolver(nextValue)).then(({ errors }) => {
-        const fieldError = errors[fieldName];
+        const fieldError = getFieldError(errors, fieldName, !!nestedField);
         const hasFieldError = isValidError(fieldError);
         if (isCurrent()) {
-          const nextFormError = mergeResolverErrors(realFormErrorRef.current, errors);
+          const mergedFormError = mergeResolverErrors(realFormErrorRef.current, errors);
+          const nextFormError = hasFieldError
+            ? mergedFormError
+            : removeFieldError(mergedFormError, fieldName, !!nestedField);
           onCheck?.(nextFormError);
           if (isCurrent()) {
             setFormError(nextFormError);
@@ -391,17 +373,9 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
 
         if (nestedField) {
           const target = nativeFrames.nestedTarget(nextFormError, fieldName);
-          const observed = target
-            ? nativeFrames.observe(resultOfCurrentField, target, nameToPath(fieldName))
-            : [];
+          const observed = target ? nativeFrames.observe(resultOfCurrentField, target) : [];
           const { copies, record } = nativeFrames.trackCopies();
-          nextFormError = setFieldValue(
-            nextFormError,
-            nameToPath(fieldName),
-            resultOfCurrentField,
-            true,
-            record
-          );
+          nextFormError = setFieldError(nextFormError, fieldName, resultOfCurrentField, record);
           nativeFrames.publish(
             nextFormError,
             nativeFrames.anchored(nextFormError, target, resultOfCurrentField) ? observed : [],
@@ -426,7 +400,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
               return;
             }
             const currentResult = allResults[key];
-            for (const observation of nativeFrames.observe(currentResult, [key], key)) {
+            for (const observation of nativeFrames.observe(currentResult, [key])) {
               nativeObservations.push(observation);
             }
             if (currentResult.hasError) {
@@ -469,7 +443,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
       const source = realFormErrorRef.current;
       const nativeCarry = nativeFrames.captureCarry(source);
       const { copies, record } = nativeFrames.trackCopies();
-      const formError = removeFieldValue(source, nestedField ? nameToPath(name) : name, record);
+      const formError = removeFieldError(source, name, !!nestedField, record);
       nativeFrames.publish(formError, [], nativeCarry, copies);
 
       realFormErrorRef.current = formError;
@@ -495,11 +469,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
   const cleanErrorForField = useEventCallback((fieldName: string) => {
     const nativeCarry = nativeFrames.captureCarry(realFormError);
     const { copies, record } = nativeFrames.trackCopies();
-    const nextFormError = removeFieldValue(
-      realFormError,
-      nestedField ? nameToPath(fieldName) : fieldName,
-      record
-    );
+    const nextFormError = removeFieldError(realFormError, fieldName, !!nestedField, record);
     nativeFrames.publish(nextFormError, [], nativeCarry, copies);
     setFormError(nextFormError);
   });

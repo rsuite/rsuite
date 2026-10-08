@@ -76,12 +76,12 @@ function cloneFieldContainer(value: any, onCopy?: OnContainerCopy) {
 
 export function setFieldValue(
   formValue: any,
-  name: string,
+  name: string | string[],
   value: any,
   nestedField: boolean,
   onCopy?: OnContainerCopy
 ) {
-  if (!nestedField) {
+  if (!nestedField && typeof name === 'string') {
     return { ...formValue, [name]: value };
   }
 
@@ -91,11 +91,15 @@ export function setFieldValue(
   );
 }
 
-export function removeFieldValue(formValue: any, name: string, onCopy?: OnContainerCopy) {
+export function removeFieldValue(
+  formValue: any,
+  name: string | string[],
+  onCopy?: OnContainerCopy
+) {
   const nextValue = cloneContainer(formValue, onCopy);
   if (!hasIn(formValue, name)) return nextValue;
 
-  const path = name in Object(formValue) ? [name] : toPath(name);
+  const path = typeof name === 'string' && name in Object(formValue) ? [name] : toPath(name);
   if (
     path.length > 1 &&
     path.some(key => ['__proto__', 'constructor', 'prototype'].includes(key))
