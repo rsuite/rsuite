@@ -239,6 +239,8 @@
 
 每次校验使用同一个捕获的值对象，跨字段规则也使用该对象。校验成功后，`submit` 将同一个对象传给 `onSubmit`，即使 `onCheck` 重置了表单，或 resolver 等待期间表单值发生变化。这些方法不会克隆捕获的对象，请以不可变方式更新表单值。
 
+校验模型、resolver 及校验和提交回调会与表单值在同一提交阶段更新，并在子组件的 layout effect 运行前生效。因此，已保存的 Form ref 会使用同一次提交的配置，包括在 schema 校验与 resolver 之间切换时。尚未提交的挂起渲染不会替换当前配置。
+
 ### Schema
 
 Schema 依赖于 [schema-typed](https://github.com/rsuite/schema-typed#schema-typed) 库，用于定义数据模型。
