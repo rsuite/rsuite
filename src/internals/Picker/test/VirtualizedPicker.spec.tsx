@@ -10,13 +10,15 @@ import {
 } from './VirtualizedPickerTestSupport';
 
 function press(key: string) {
-  fireEvent.keyDown(menu().getByRole('listbox'), { key });
+  const combobox = screen.getByRole('combobox');
+  fireEvent.keyDown(combobox.tagName === 'INPUT' ? combobox : menu().getByRole('listbox'), { key });
 }
 
 async function expectFocus(value: number) {
   await waitFor(() => {
     const option = menu().getByRole('option', { name: `Option ${value}` });
-    expect(option).to.have.focus;
+    const combobox = screen.getByRole('combobox');
+    expect(combobox.tagName === 'INPUT' ? combobox : option).to.have.focus;
     expect(screen.getByRole('combobox')).to.have.attribute('aria-activedescendant', option.id);
   });
 }
@@ -56,7 +58,7 @@ describe.each(pickerCases)('$name virtualized keyboard collection', testCase => 
     });
     press('ArrowDown');
     await expectFocus(999);
-    const search = testCase.editable ? screen.getByRole('textbox') : screen.getByRole('searchbox');
+    const search = testCase.editable ? screen.getByRole('combobox') : screen.getByRole('searchbox');
     fireEvent.change(search, { target: { value: 'last' } });
     press('ArrowUp');
     await expectFocus(991);
@@ -125,7 +127,7 @@ describe.each(pickerCases.filter(testCase => testCase.editable))(
       const onCreate = vi.fn();
       const props = { open: true, creatable: true, data: originalData, onCreate };
       const { rerender } = mountPicker(testCase, props);
-      const input = screen.getByRole('textbox');
+      const input = screen.getByRole('combobox');
       fireEvent.change(input, { target: { value: 'Created' } });
       fireEvent.keyDown(input, { key: 'Enter' });
       expect(onCreate).toHaveBeenCalledTimes(1);

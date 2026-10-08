@@ -33,12 +33,12 @@ describe.each([
       fireEvent(screen.getByTestId('picker-popup'), new Event(getTransitionEnd()));
       expect(onEntered).toHaveBeenCalledTimes(1);
       await act(async () => {
-        // Focus only once; Enter follows the option's actual native focus.
-        screen.getByRole('textbox').focus();
+        // Focus only once; navigation and Enter retain the editable input focus.
+        screen.getByRole('combobox').focus();
         await userEvent.keyboard('{ArrowDown}');
       });
       const activeOption = screen.getByRole('option', { name: 'Target option' });
-      expect(activeOption).to.have.focus;
+      expect(screen.getByRole('combobox')).to.have.focus;
       expect(screen.getByRole('combobox')).to.have.attribute(
         'aria-activedescendant',
         activeOption.id
@@ -51,7 +51,10 @@ describe.each([
       expect(onChange).toHaveBeenCalledExactlyOnceWith(selectedValue, expect.anything());
       expect(onSelect).toHaveBeenCalledExactlyOnceWith(selectedValue, item, expect.anything());
       expect(onSelect.mock.calls[0][2].nativeEvent.isTrusted).to.be.true;
-      expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
+      expect(screen.getByTestId('picker').querySelector('.rs-picker-toggle')).to.have.attr(
+        'data-has-value',
+        'true'
+      );
 
       if (multi) {
         expect(screen.getByText('Target option', { selector: '.rs-tag-text' })).to.exist;

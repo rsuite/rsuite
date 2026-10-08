@@ -11,6 +11,7 @@ import get from 'lodash/get';
 import classNames from 'classnames';
 import ListItemGroup from './ListItemGroup';
 import useVirtualizedListFocus from './hooks/useVirtualizedListFocus';
+import useActiveDescendant from './hooks/useActiveDescendant';
 import type { VirtualizedListHandle } from './hooks/useVirtualizedListFocus';
 import VirtualizedListItem, { ItemRendererProvider } from './VirtualizedListItem';
 import useCombobox from './hooks/useCombobox';
@@ -54,6 +55,8 @@ export interface ListboxProps<Multiple = false>
   activeItemValues?: any[];
   focusItemValue?: any;
   maxHeight?: number;
+  /** Content shown inside an empty listbox. */
+  emptyContent?: React.ReactNode;
 
   listItemAs: React.ElementType | string;
   listItemClassPrefix?: string;
@@ -69,6 +72,8 @@ export interface ListboxProps<Multiple = false>
   listRef?: React.Ref<ListHandle>;
   /** Internal keyboard navigation for virtualized options. */
   keyboardNavigationRef?: React.Ref<VirtualizedListHandle>;
+  /** Reports only the mounted logical focus target of an editable combobox. */
+  onActiveDescendantChange?: (id: string | undefined) => void;
 
   /**
    * Query string for filtering.
@@ -121,6 +126,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       data = [],
       groupBy,
       maxHeight = 320,
+      emptyContent,
       activeItemValues = [],
       disabledItemValues = [],
       classPrefix = 'listbox',
@@ -130,6 +136,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       listProps,
       listRef: virtualizedListRef,
       keyboardNavigationRef,
+      onActiveDescendantChange,
       className,
       style,
       focusItemValue,
@@ -234,6 +241,12 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       : data;
     const rowCount = filteredItems.length;
 
+    const reportActiveDescendant = useActiveDescendant({
+      menuRef: menuBodyContainerRef,
+      focusItemValue,
+      onChange: onActiveDescendantChange
+    });
+
     const handleItemsRendered = useVirtualizedListFocus({
       items: filteredItems,
       valueKey,
@@ -241,7 +254,10 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       menuRef: menuBodyContainerRef,
       listRef,
       navigationRef: keyboardNavigationRef,
-      onItemsRendered: listProps?.onItemsRendered
+      onItemsRendered: props => {
+        reportActiveDescendant();
+        listProps?.onItemsRendered?.(props);
+      }
     });
 
     const renderItem: any = ({
@@ -331,7 +347,9 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
         style={styles}
         {...rest}
       >
-        {virtualized ? (
+        {rowCount === 0 ? (
+          emptyContent
+        ) : virtualized ? (
           <ItemRendererProvider value={renderItem}>
             <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>
               {({ height }) => (

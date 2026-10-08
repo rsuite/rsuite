@@ -2,7 +2,7 @@ import React from 'react';
 import MatchMediaMock from '@test/mocks/matchmedia-mock';
 import CustomProvider from '@/CustomProvider';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act, within } from '@testing-library/react';
 
 interface TestPickerOptions {
   data?: any;
@@ -12,6 +12,8 @@ interface TestPickerOptions {
   popupAutoWidth?: boolean;
   responsiveByDefault?: boolean;
   responsiveSearchable?: boolean;
+  getToggleElement?: () => HTMLElement;
+  responsiveSearchRole?: 'searchbox' | 'combobox';
 }
 
 const defaultData = [
@@ -27,7 +29,9 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
     ariaHaspopup = 'listbox',
     popupAutoWidth,
     responsiveByDefault = true,
-    responsiveSearchable = false
+    responsiveSearchable = false,
+    getToggleElement = () => screen.getByRole(role),
+    responsiveSearchRole = 'searchbox'
   } = options || {};
   const displayName = TestComponent.displayName;
 
@@ -88,7 +92,8 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
 
         expect(document.querySelector('.rs-drawer')).to.exist;
         if (responsiveSearchable) {
-          expect(screen.getByRole('searchbox')).to.exist;
+          expect(within(screen.getByTestId('picker-popup')).getByRole(responsiveSearchRole)).to
+            .exist;
         }
 
         unmount();
@@ -154,7 +159,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
       it('Should have a subtle appearance', () => {
         render(<TestComponent data={data} appearance="subtle" />);
 
-        expect(screen.getByRole(role)).to.have.attr('data-appearance', 'subtle');
+        expect(getToggleElement()).to.have.attr('data-appearance', 'subtle');
       });
     }
 
@@ -287,7 +292,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
 
         render(<TestComponent data={data} onOpen={onOpen} />);
 
-        const combobox = screen.getByRole(role);
+        const combobox = getToggleElement();
 
         fireEvent.keyDown(combobox, { key: 'Enter' });
         expect(screen.getByTestId('picker-popup')).to.exist;
@@ -366,6 +371,7 @@ interface TestPickerSizeOptions {
   maxHeight?: number;
   heightStep?: number;
   subtle?: boolean;
+  getUIElements?: () => HTMLElement[];
   [key: string]: any;
 }
 
@@ -379,6 +385,7 @@ export function testPickerSize(
     maxHeight = 42,
     heightStep = 6,
     subtle = true,
+    getUIElements = () => screen.getAllByRole(role),
     ...restProps
   } = pickerProps;
 
@@ -395,7 +402,7 @@ export function testPickerSize(
 
       const paddings = ['10px 13px', '8px 11px', '5px 9px', '2px 7px'];
 
-      screen.getAllByRole(role).forEach((picker, index) => {
+      getUIElements().forEach((picker, index) => {
         if (role === 'combobox') {
           expect(picker).to.have.style('padding', paddings[index]);
         }
@@ -424,7 +431,7 @@ export function testPickerSize(
 
         const paddings = ['10px 14px', '8px 12px', '5px 10px', '2px 8px'];
 
-        screen.getAllByRole(role).forEach((picker, index) => {
+        getUIElements().forEach((picker, index) => {
           if (role === 'combobox') {
             expect(picker).to.have.style('padding', paddings[index]);
           }

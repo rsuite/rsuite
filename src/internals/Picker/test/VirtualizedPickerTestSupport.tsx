@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, screen, within } from '@testing-library/react';
+import getTransitionEnd from 'dom-lib/getTransitionEnd';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { vi } from 'vitest';
 import CheckPicker from '../../../CheckPicker';
 import InputPicker from '../../../InputPicker';
@@ -43,6 +44,8 @@ export function mountPicker(testCase: PickerCase, props: Record<string, any> = {
   const onSelect = vi.fn();
   const onEntered = vi.fn();
   const view = render(pickerElement(testCase, { ref, onChange, onSelect, onEntered, ...props }));
+  fireEvent(screen.getByTestId('picker-popup'), new Event(getTransitionEnd()));
+  if (testCase.editable) act(() => initialTarget().focus());
   return { ref, onChange, onSelect, onEntered, ...view };
 }
 
@@ -50,8 +53,8 @@ export function menu() {
   return within(screen.getByTestId('picker-popup'));
 }
 
-export function initialTarget(testCase: PickerCase) {
-  return testCase.editable ? screen.getByRole('textbox') : screen.getByRole('combobox');
+export function initialTarget() {
+  return screen.getByRole('combobox');
 }
 
 export function selectedValue(testCase: PickerCase, value: number) {
