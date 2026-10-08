@@ -63,8 +63,8 @@ On mobile devices, the maximum width of the Drawer will fill the entire screen.
 ### Keyboard Interaction
 
 - <kbd>ESC</kbd> can close the Drawer. This functionality can be disabled by setting `keyboard=false`.
-- <kbd>Tab</kbd> When the Drawer is open, focus automatically moves inside the Drawer. Pressing Tab cycles through focusable elements within the Drawer.
-- <kbd>Shift + Tab</kbd> Reverse cycles through focusable elements within the Drawer.
+- <kbd>Tab</kbd> With `enforceFocus` enabled, moves through tabbable elements inside the Drawer; from the last element, wraps to the first.
+- <kbd>Shift + Tab</kbd> With `enforceFocus` enabled, moves backwards; from the first element, wraps to the last.
 - When the Drawer closes, focus returns to the element that triggered the Drawer to open.
 
 ### Reduced motion

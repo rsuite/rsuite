@@ -2,6 +2,7 @@ import { defineConfig, ViteUserConfig, coverageConfigDefaults } from 'vitest/con
 import { resolve } from 'path';
 
 const { M, F, RUN_ENV, VITEST_RUNNING_POSTBUILD, BROWSER = 'chromium' } = process.env;
+const nodeEnvironment = RUN_ENV === 'ssr' || RUN_ENV === 'browser-controls';
 
 let testPatterns: string;
 let testMainDescription: string;
@@ -9,6 +10,9 @@ let testMainDescription: string;
 if (RUN_ENV === 'ssr') {
   testPatterns = 'src/**/*.ssr.test.+(js|ts|tsx)';
   testMainDescription = `SSR tests: ${testPatterns}`;
+} else if (RUN_ENV === 'browser-controls') {
+  testPatterns = 'src/**/*.browser.test.+(js|ts|tsx)';
+  testMainDescription = `Native browser control tests: ${testPatterns}`;
 } else if (M) {
   testPatterns = `src/${M}/test/*.spec.+(js|ts|tsx)`;
   testMainDescription = `Module tests: ${testPatterns}`;
@@ -55,7 +59,7 @@ async function createConfig() {
     },
     test: {
       include: [testPatterns],
-      setupFiles: RUN_ENV === 'ssr' ? [] : ['vitest.setup.ts'],
+      setupFiles: nodeEnvironment ? [] : ['vitest.setup.ts'],
       coverage: {
         provider: 'istanbul',
         exclude: [
@@ -78,7 +82,7 @@ async function createConfig() {
       config.test.environment = 'node';
       config.test.browser = { enabled: false }; // Explicitly disable browser mode
     }
-  } else if (RUN_ENV === 'ssr') {
+  } else if (nodeEnvironment) {
     if (config.test) {
       config.test.environment = 'node';
       config.test.browser = { enabled: false };
