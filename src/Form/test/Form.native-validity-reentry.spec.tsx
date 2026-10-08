@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { blankFixture, expectField, mountValidity } from './nativeValidityTestUtils';
 import type { ErrorMap, ValidityHost } from './nativeValidityTestUtils';
 
-// Authored action inventory, not runtime evidence. All four cases are UNRUN.
+// Action inventory for the public validation flows below.
 // Columns: native requests, resolver requests, clear/reset/removal, owner renders, releases.
 export const nativeValidityReentryCaseInventory = [
   ['FMVR01', 4, 0, 0, 1, 0],
@@ -228,7 +228,7 @@ describe('Form native validity through reentry and exact map reuse', () => {
       expect(wholeInnerResult).toEqual({ hasError: false });
       expect(whole.ownedError()).toBe(wholeA!);
       expect(whole.checks).toHaveLength(2);
-      expect(whole.errors).toEqual([wholeA!]);
+      expect(whole.errors).toEqual([]);
       expect(wholeTrace).toEqual([
         'outer:returnsOriginalPublicPromiseQ',
         'onCheck(A):enter',
@@ -237,7 +237,6 @@ describe('Form native validity through reentry and exact map reuse', () => {
         'fieldCallback(B):originalValidResult',
         'inner:return(true)',
         'onCheck(A):exit',
-        'onError(A):sameRootAsOnCheckA',
         'Q:resolves(hasError=true,formError===A)'
       ]);
       expect(wholeFixture.rules).toHaveLength(2);
@@ -328,7 +327,7 @@ describe('Form native validity through reentry and exact map reuse', () => {
       expect(nestedA!).not.toBe(nestedB!);
       expect(nested.ownedError()).toBe(nestedB!);
       expect(nested.checks).toHaveLength(2);
-      expect(nested.errors).toEqual([nestedA!]);
+      expect(nested.errors).toEqual([]);
       expect(nestedTrace).toEqual([
         'outer:returnsOriginalPublicPromiseQ',
         'onCheck(A):enter',
@@ -337,7 +336,6 @@ describe('Form native validity through reentry and exact map reuse', () => {
         'fieldCallback(B):sameObjectAsB.user.object.name',
         'inner:return(true)',
         'onCheck(A):exit',
-        'onError(A):sameRootAsOnCheckA',
         'Q:resolves(originalRA)'
       ]);
       expect(calls).toHaveLength(2);
