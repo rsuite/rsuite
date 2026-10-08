@@ -142,6 +142,8 @@ There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` compone
 
 <!--{include:`form-nested-fields.md`}-->
 
+With `nestedField`, field validation and error cleanup copy the changed object or array path. Earlier `onCheck` and `onError` payloads and supplied `formError` objects remain unchanged. Unchanged sibling errors retain their identity and native validation state, including invalid results with an empty message. For controlled errors, the displayed state changes only when the owner supplies the next `formError`.
+
 ### Proxy validation
 
 <!--{include:`form-check-proxy.md`}-->

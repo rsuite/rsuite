@@ -36,7 +36,9 @@ function copyContainerProperties(source: any, target: any, includeArrayItems = f
   return target;
 }
 
-function cloneContainer(value: any) {
+type OnContainerCopy = (source: object, copy: object) => void;
+
+function copyContainer(value: any) {
   if (Array.isArray(value)) return copyContainerProperties(value, new Array(value.length), true);
   if (ArrayBuffer.isView(value)) {
     let buffer: ArrayBufferLike;
@@ -62,21 +64,35 @@ function cloneContainer(value: any) {
   return cloneWith(value, (nestedValue, _key, parent) => (parent ? nestedValue : undefined));
 }
 
-function cloneFieldContainer(value: any) {
-  return isObject(value) ? cloneContainer(value) : undefined;
+function cloneContainer(value: any, onCopy?: OnContainerCopy) {
+  const copy = copyContainer(value);
+  if (isObject(value)) onCopy?.(value, copy);
+  return copy;
 }
 
-export function setFieldValue(formValue: any, name: string, value: any, nestedField: boolean) {
+function cloneFieldContainer(value: any, onCopy?: OnContainerCopy) {
+  return isObject(value) ? cloneContainer(value, onCopy) : undefined;
+}
+
+export function setFieldValue(
+  formValue: any,
+  name: string,
+  value: any,
+  nestedField: boolean,
+  onCopy?: OnContainerCopy
+) {
   if (!nestedField) {
     return { ...formValue, [name]: value };
   }
 
   // Keep Lodash's path parsing and container creation, copying only the edited branch.
-  return setWith(cloneContainer(formValue), name, value, cloneFieldContainer);
+  return setWith(cloneContainer(formValue, onCopy), name, value, child =>
+    cloneFieldContainer(child, onCopy)
+  );
 }
 
-export function removeFieldValue(formValue: any, name: string) {
-  const nextValue = cloneContainer(formValue);
+export function removeFieldValue(formValue: any, name: string, onCopy?: OnContainerCopy) {
+  const nextValue = cloneContainer(formValue, onCopy);
   if (!hasIn(formValue, name)) return nextValue;
 
   const path = name in Object(formValue) ? [name] : toPath(name);
@@ -88,7 +104,7 @@ export function removeFieldValue(formValue: any, name: string) {
   }
 
   // Copy the same branch before deleting; arrays must not share their original rows.
-  setWith(nextValue, name, get(formValue, name), cloneFieldContainer);
+  setWith(nextValue, name, get(formValue, name), child => cloneFieldContainer(child, onCopy));
   unset(nextValue, name);
   return nextValue;
 }

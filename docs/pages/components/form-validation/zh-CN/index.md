@@ -142,6 +142,8 @@ Form 的字段校验和异步校验不会读取或改写传入 model 的 `getChe
 
 <!--{include:`form-nested-fields.md`}-->
 
+启用 `nestedField` 时，字段校验和错误清理会复制被修改的对象或数组路径，保留此前 `onCheck`、`onError` 的参数及传入的 `formError` 对象。未修改的相邻字段保留原错误对象和原生校验状态，包括错误消息为空时的无效状态。通过 `formError` 控制错误时，只有持有该状态的组件传入新的 `formError`，界面才会更新。
+
 ### 代理校验
 
 <!--{include:`form-check-proxy.md`}-->

@@ -51,6 +51,7 @@ interface FrameRecord extends NativeValidationRetirementToken {
 }
 export type NativeValidationObservation = readonly NativeScope[];
 export type NativeValidationCarry = readonly Scope[];
+type ContainerCopies = ReadonlyMap<symbol, ReadonlySet<symbol>>;
 
 const unsupported = () => {
   throw new Error('Unsupported native validation projection');
@@ -183,13 +184,21 @@ export function createNativeValidationFrames() {
     }
   };
 
-  const same = (
-    before: Snapshot,
-    after: Snapshot,
-    cloned: boolean,
-    clonePairs = new Map<symbol, symbol>(),
-    reverseClonePairs = new Map<symbol, symbol>()
-  ): boolean => {
+  const trackCopies = () => {
+    const copies = new Map<symbol, Set<symbol>>();
+    return {
+      copies,
+      record(source: object, copy: object) {
+        const sourceStamp = identities.get(source);
+        if (!sourceStamp) return;
+        const destinations = copies.get(sourceStamp) || new Set<symbol>();
+        destinations.add(stamp(copy, true));
+        copies.set(sourceStamp, destinations);
+      }
+    };
+  };
+
+  const same = (before: Snapshot, after: Snapshot, copies?: ContainerCopies): boolean => {
     if (before.kind !== after.kind) return false;
     if (before.kind === 'primitive' && after.kind === 'primitive') {
       return Object.is(before.value, after.value);
@@ -197,15 +206,12 @@ export function createNativeValidationFrames() {
     if (before.kind === 'opaque' && after.kind === 'opaque') return before.stamp === after.stamp;
     if (before.kind !== 'container' || after.kind !== 'container') return false;
     if (before.category !== after.category) return false;
-    // Original deep omit clones plain data ancestors, including result containers.
-    // Arrays and opaque message leaves keep exact identity; old records are never refreshed.
-    if (cloned && before.category === 'object' && before.stamp && after.stamp) {
-      const paired = clonePairs.get(before.stamp);
-      const reverse = reverseClonePairs.get(after.stamp);
-      if ((paired && paired !== after.stamp) || (reverse && reverse !== before.stamp)) return false;
-      clonePairs.set(before.stamp, after.stamp);
-      reverseClonePairs.set(after.stamp, before.stamp);
-    } else if (before.stamp !== after.stamp) return false;
+    // Only producer-recorded path copies may replace an ancestor's identity.
+    if (
+      before.stamp !== after.stamp &&
+      !(before.stamp && after.stamp && copies?.get(before.stamp)?.has(after.stamp))
+    )
+      return false;
     if (JSON.stringify(before.keys) !== JSON.stringify(after.keys)) return false;
     return (
       before.fields.length === after.fields.length &&
@@ -215,15 +221,7 @@ export function createNativeValidationFrames() {
           a.key === b.key &&
           a.present === b.present &&
           JSON.stringify(a.flags) === JSON.stringify(b.flags) &&
-          (a.value && b.value
-            ? same(
-                a.value,
-                b.value,
-                cloned && before.category !== 'array',
-                clonePairs,
-                reverseClonePairs
-              )
-            : a.value === b.value)
+          (a.value && b.value ? same(a.value, b.value, copies) : a.value === b.value)
         );
       })
     );
@@ -416,7 +414,7 @@ export function createNativeValidationFrames() {
     map: unknown,
     observations: NativeValidationObservation,
     carry: NativeValidationCarry = [],
-    cloned = false
+    copies?: ContainerCopies
   ) => {
     try {
       if (!isReference(map) || frames.has(map)) return;
@@ -425,7 +423,7 @@ export function createNativeValidationFrames() {
       for (const scope of carry) {
         try {
           const outputWitness = witness(map, scope, true);
-          if (same(scope.witness, outputWitness, cloned)) {
+          if (same(scope.witness, outputWitness, copies)) {
             next.set(scope.pathKey, { ...scope, witness: outputWitness });
           }
         } catch {
@@ -496,17 +494,6 @@ export function createNativeValidationFrames() {
     }
   };
 
-  const omitClones = (map: unknown, name: string, nested: boolean): boolean => {
-    try {
-      if (!isReference(map)) return false;
-      // Flat names still follow original omit castPath, which may be a deep path.
-      const mapped = nested ? nameToPath(name) : name;
-      return castPath(map, mapped).length > 1;
-    } catch {
-      return false;
-    }
-  };
-
   const requestedRouteSupported = (map: object, path: Path, rootOnly: boolean): boolean => {
     let current: unknown = map;
     for (const key of path) {
@@ -554,7 +541,7 @@ export function createNativeValidationFrames() {
     publish,
     nestedTarget,
     anchored,
-    omitClones,
+    trackCopies,
     read,
     commitRetirement
   };
