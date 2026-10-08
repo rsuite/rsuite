@@ -43,6 +43,22 @@ enteringClassName="custom-entering"
 
 <!--{include:`transition.md`}-->
 
+### Reduced motion
+
+`Animation.Fade`, `Animation.Collapse`, `Animation.Bounce`, `Animation.Slide` and `Animation.Transition` respect the system's `prefers-reduced-motion` setting by default. Set `reduceMotion` to `true` to disable motion, or `false` to allow it explicitly, including when the system requests reduced motion.
+
+```jsx
+<Animation.Fade in><div>Use the system preference.</div></Animation.Fade>
+<Animation.Bounce in reduceMotion><div>Reduce motion.</div></Animation.Bounce>
+<Animation.Slide in reduceMotion={false}><div>Allow motion.</div></Animation.Slide>
+```
+
+The component setting takes precedence over `CustomProvider reduceMotion`, which takes precedence over the system preference. Component defaults configured through `CustomProvider components` follow the existing default-prop merge rules.
+
+Reduced transitions still call `onEnter`, `onEntering`, `onEntered`, and the corresponding exit callbacks in order, without waiting for CSS completion events or `timeout`. Enabling reduced motion during a transition completes the current request. Restoring motion affects the next enter or exit; it does not replay a completed animation.
+
+This policy removes CSS transition durations and reduces CSS animations to one zero-duration, zero-delay iteration on the animated node only. Keyframes, animation direction and fill mode still determine its final styles, including for custom looping animations. Nested content and unrelated animations are unaffected. Render-function children must forward the provided props and ref to that node. Server-rendered automatic transitions use the system preference through CSS before hydration.
+
 ## Props
 
 ### `<Animation.Fade>`
@@ -60,6 +76,7 @@ enteringClassName="custom-entering"
 | onExit            | (node?: null, Element, Text) => void | Callback fired right before the component transitions out         |
 | onExited          | (node?: null, Element, Text) => void | Callback fired after the Modal finishes transitioning out         |
 | onExiting         | (node?: null, Element, Text) => void | Callback fired as the component begins to transition out          |
+| reduceMotion      | boolean                              | Reduce motion; omitted uses the provider or system preference     |
 | timeout           | number `(300)`                       | Animation transition delay time                                   |
 | transitionAppear  | boolean                              | Turn on transitions when initially displayed                      |
 | unmountOnExit     | boolean                              | Unmount component on exit                                         |
@@ -82,6 +99,7 @@ enteringClassName="custom-entering"
 | onExited          | (node?: null, Element, Text) => void                     | Callback fired after the Modal finishes transitioning out         |
 | onExiting         | (node?: null, Element, Text) => void                     | Callback fired as the component begins to transition out          |
 | role              | string                                                   | HTML role                                                         |
+| reduceMotion      | boolean                                                  | Reduce motion; omitted uses the provider or system preference     |
 | timeout           | number`(300)`                                            | Animation transition delay time                                   |
 | transitionAppear  | boolean                                                  | Turn on transitions when initially displayed                      |
 | unmountOnExit     | boolean                                                  | Unmount component on exit                                         |
@@ -101,6 +119,7 @@ enteringClassName="custom-entering"
 | onExit            | (node?: null, Element, Text) => void | Callback fired right before the component transitions out         |
 | onExited          | (node?: null, Element, Text) => void | Callback fired after the Modal finishes transitioning out         |
 | onExiting         | (node?: null, Element, Text) => void | Callback fired as the component begins to transition out          |
+| reduceMotion      | boolean                              | Reduce motion; omitted uses the provider or system preference     |
 | timeout           | number `(300)`                       | Animation transition delay time                                   |
 | transitionAppear  | boolean                              | Turn on transitions when initially displayed                      |
 | unmountOnExit     | boolean                              | Unmount component on exit                                         |
@@ -120,6 +139,7 @@ enteringClassName="custom-entering"
 | onExit            | (node?: null, Element, Text) => void | Callback fired right before the component transitions out         |
 | onExited          | (node?: null, Element, Text) => void | Callback fired after the Modal finishes transitioning out         |
 | onExiting         | (node?: null, Element, Text) => void | Callback fired as the component begins to transition out          |
+| reduceMotion      | boolean                              | Reduce motion; omitted uses the provider or system preference     |
 | timeout           | number `(300)`                       | Animation transition delay time                                   |
 | transitionAppear  | boolean                              | Turn on transitions when initially displayed                      |
 | unmountOnExit     | boolean                              | Unmount component on exit                                         |
@@ -140,6 +160,7 @@ enteringClassName="custom-entering"
 | onExit            | (node?: null, Element, Text) => void | Callback fired right before the component transitions out         |
 | onExited          | (node?: null, Element, Text) => void | Callback fired after the Modal finishes transitioning out         |
 | onExiting         | (node?: null, Element, Text) => void | Callback fired as the component begins to transition out          |
+| reduceMotion      | boolean                              | Reduce motion; omitted uses the provider or system preference     |
 | timeout           | number`(1000)`                       | Animation transition delay time                                   |
 | transitionAppear  | boolean                              | Turn on transitions when initially displayed                      |
 | unmountOnExit     | boolean                              | Unmount component on exit                                         |

@@ -5,6 +5,8 @@ import {
   Fade,
   Animation,
   CustomProvider,
+  Modal,
+  Drawer,
   DateInput,
   Form,
   FormErrorSummary,
@@ -16,6 +18,8 @@ import ButtonSubpath, { ButtonProps } from 'rsuite/Button';
 import AnimationSubpath from 'rsuite/Animation';
 import ProviderSubpath, { CustomProviderProps } from 'rsuite/CustomProvider';
 import FadeSubpath from 'rsuite/Fade';
+import ModalSubpath, { ModalProps } from 'rsuite/Modal';
+import DrawerSubpath from 'rsuite/Drawer';
 import FormSubpath from 'rsuite/Form';
 import SummarySubpath, {
   FormErrorSummary as NamedSummarySubpath,
@@ -27,9 +31,10 @@ import ClipboardSubpath, { useClipboard as NamedClipboardSubpath } from 'rsuite/
 const providerProps: CustomProviderProps = {
   rtl: true,
   disableRipple: true,
+  reduceMotion: true,
   components: {
     Button: { defaultProps: { size: 'lg' } },
-    Fade: { defaultProps: { in: true } },
+    Fade: { defaultProps: { in: true, reduceMotion: false } },
     FormErrorSummary: { defaultProps: { header: 'Form errors', tabIndex: -1 } }
   },
   formatDate: (date, format) => `${date}:${format}`,
@@ -60,16 +65,16 @@ export const output = (
     <ProviderSubpath {...providerProps}>
       <Button {...buttonProps}>Root</Button>
       <ButtonSubpath {...buttonProps}>Subpath</ButtonSubpath>
-      <Fade in>
+      <Fade in reduceMotion>
         <div>Root Fade</div>
       </Fade>
-      <FadeSubpath in>
+      <FadeSubpath in reduceMotion={false}>
         <div>Subpath Fade</div>
       </FadeSubpath>
-      <Animation.Fade in>
+      <Animation.Fade in reduceMotion>
         <div>Namespace Fade</div>
       </Animation.Fade>
-      <AnimationSubpath.Fade in>
+      <AnimationSubpath.Fade in reduceMotion={false}>
         <div>Subpath namespace Fade</div>
       </AnimationSubpath.Fade>
       <DateInputSubpath value={new Date(2024, 1, 29)} format="dd/MM/yyyy" />
@@ -82,12 +87,34 @@ export const output = (
 import { Transition as TransitionSubpath } from 'rsuite/Animation';
 const transitionRef = React.createRef<InstanceType<typeof TransitionSubpath>>();
 export const transitionOutput = (
-  <TransitionSubpath in ref={transitionRef}>
+  <TransitionSubpath in reduceMotion ref={transitionRef}>
     <div>Transition</div>
   </TransitionSubpath>
 );
 declare const transitionInstance: InstanceType<typeof TransitionSubpath>;
 export const transitionChildRef: React.RefObject<unknown> = transitionInstance.childRef;
+
+const motionProps: Pick<ModalProps, 'reduceMotion'> = { reduceMotion: true };
+// @ts-expect-error Motion policy remains boolean across all public declarations.
+const invalidMotionProps: Pick<ModalProps, 'reduceMotion'> = { reduceMotion: 'always' };
+void invalidMotionProps;
+export const motionOutput = (
+  <>
+    <Animation.Bounce in reduceMotion>
+      <div />
+    </Animation.Bounce>
+    <AnimationSubpath.Slide in reduceMotion={false}>
+      <div />
+    </AnimationSubpath.Slide>
+    <Animation.Collapse in reduceMotion>
+      <div />
+    </Animation.Collapse>
+    <Modal {...motionProps} />
+    <ModalSubpath reduceMotion={false} />
+    <Drawer {...motionProps} />
+    <DrawerSubpath reduceMotion={false} />
+  </>
+);
 
 const summaryItems: readonly FormErrorSummaryItem[] = [
   { name: 'email', label: 'Email', message: <span>Enter a valid email.</span>, controlId: 'email' },

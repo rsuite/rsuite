@@ -5,6 +5,7 @@ import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
 import { getDOMNode } from '@/internals/utils';
 import { AnimationEventProps } from '@/internals/types';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import { getAnimationEnd, getTransitionEnd } from './utils';
 
 export enum STATUS {
@@ -17,6 +18,9 @@ export enum STATUS {
 
 export interface TransitionProps extends AnimationEventProps {
   animation?: boolean;
+
+  /** Reduce motion; when omitted, use the provider setting or system preference. */
+  reduceMotion?: boolean;
 
   /** Primary content */
   children?: ((props: any, ref: React.Ref<any>) => React.ReactNode) | React.ReactNode;
@@ -51,6 +55,8 @@ export interface TransitionProps extends AnimationEventProps {
 
 interface TransitionState {
   status?: number;
+  systemReduceMotion: boolean;
+  motionReduced: boolean;
 }
 
 type EventToken = { off: () => void };
@@ -63,6 +69,7 @@ const transitionProps = [
   'onExiting',
   'onExited',
   'animation',
+  'reduceMotion',
   'children',
   'className',
   'in',
@@ -81,12 +88,15 @@ const transitionProps = [
  */
 class Transition extends React.Component<TransitionProps, TransitionState> {
   static displayName = 'Transition';
+  static contextType = CustomContext;
   static defaultProps = {
     timeout: 1000
   };
 
   animationEventListener: EventToken | null = null;
   private transitionEndTimeout: ReturnType<typeof setTimeout> | null = null;
+  private transitionEndCallback: (() => void) | null = null;
+  private motionQuery: MediaQueryList | null = null;
   instanceElement: HTMLElement | null = null;
   nextCallback: {
     (event?: React.AnimationEvent): void;
@@ -106,7 +116,9 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     }
 
     this.state = {
-      status: initialStatus
+      status: initialStatus,
+      systemReduceMotion: false,
+      motionReduced: props.reduceMotion === true
     };
 
     this.nextCallback = null;
@@ -131,12 +143,15 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
   }
 
   componentDidMount() {
+    this.syncMotionQuery();
+    this.finishReducedTransition();
     if (this.props.transitionAppear && this.props.in) {
       this.performEnter(this.props);
     }
   }
 
   componentDidUpdate() {
+    this.syncMotionQuery();
     const { status } = this.state;
     const { unmountOnExit } = this.props;
 
@@ -162,9 +177,12 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
         this.performExit(this.props);
       }
     }
+
+    this.finishReducedTransition();
   }
 
   componentWillUnmount() {
+    this.clearMotionQuery();
     this.cancelNextCallback();
     this.instanceElement = null;
   }
@@ -179,6 +197,12 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
       this.clearTransitionEnd();
       handler(event);
     });
+    this.transitionEndCallback = nextCallback;
+
+    if (this.isMotionReduced()) {
+      nextCallback();
+      return;
+    }
 
     if (node) {
       const { timeout, animation } = this.props;
@@ -237,7 +261,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     this.instanceElement = node;
     onEnter?.(node);
 
-    this.safeSetState({ status: STATUS.ENTERING }, () => {
+    this.safeSetState({ status: STATUS.ENTERING, motionReduced: this.isMotionReduced() }, () => {
       onEntering?.(node);
       this.onTransitionEnd(node, () => {
         this.safeSetState({ status: STATUS.ENTERED }, () => {
@@ -256,7 +280,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     this.instanceElement = node;
     onExit?.(node);
 
-    this.safeSetState({ status: STATUS.EXITING }, () => {
+    this.safeSetState({ status: STATUS.EXITING, motionReduced: this.isMotionReduced() }, () => {
       onExiting?.(node);
 
       this.onTransitionEnd(node, () => {
@@ -276,6 +300,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
   }
 
   private clearTransitionEnd() {
+    this.transitionEndCallback = null;
     this.animationEventListener?.off();
     this.animationEventListener = null;
 
@@ -285,7 +310,55 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     }
   }
 
-  safeSetState(nextState: TransitionState, callback: (event?: React.AnimationEvent) => void) {
+  private getMotionPolicy() {
+    return (
+      this.props.reduceMotion ??
+      (this.context as React.ContextType<typeof CustomContext>)?.reduceMotion
+    );
+  }
+
+  private isMotionReduced() {
+    return this.getMotionPolicy() ?? this.motionQuery?.matches ?? this.state.systemReduceMotion;
+  }
+
+  private handleMotionChange = (event: MediaQueryListEvent) => {
+    this.setState({ systemReduceMotion: event.matches });
+  };
+
+  private syncMotionQuery() {
+    if (this.getMotionPolicy() !== undefined) {
+      this.clearMotionQuery();
+      return;
+    }
+
+    if (!this.motionQuery && typeof window !== 'undefined' && window.matchMedia) {
+      this.motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      this.motionQuery.addEventListener('change', this.handleMotionChange);
+      if (this.state.systemReduceMotion !== this.motionQuery.matches) {
+        this.setState({ systemReduceMotion: this.motionQuery.matches });
+      }
+    }
+  }
+
+  private clearMotionQuery() {
+    this.motionQuery?.removeEventListener('change', this.handleMotionChange);
+    this.motionQuery = null;
+  }
+
+  private finishReducedTransition() {
+    if (this.isMotionReduced()) {
+      // Keep completed keyframes suppressed until the next enter/exit begins.
+      if (!this.state.motionReduced) {
+        this.setState({ motionReduced: true });
+      }
+      this.transitionEndCallback?.();
+    }
+  }
+
+  safeSetState<K extends keyof TransitionState>(
+    nextState: Pick<TransitionState, K>,
+    callback: (event?: React.AnimationEvent) => void
+  ) {
     if (this.instanceElement) {
       const nextCallback = this.setNextCallback(callback);
       this.setState(nextState, () => nextCallback?.());
@@ -310,6 +383,12 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     } = this.props;
 
     const childProps: any = omit(rest, transitionProps);
+    childProps['data-rs-motion'] =
+      this.isMotionReduced() || this.state.motionReduced
+        ? 'reduce'
+        : this.getMotionPolicy() === false
+          ? 'allow'
+          : 'auto';
 
     let transitionClassName;
     if (status === STATUS.EXITED) {

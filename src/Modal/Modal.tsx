@@ -4,12 +4,19 @@ import on from 'dom-lib/on';
 import getAnimationEnd from 'dom-lib/getAnimationEnd';
 import BaseModal, { BaseModalProps } from '@/internals/Overlay/Modal';
 import Bounce from '../Animation/Bounce';
+import useReducedMotion from '../Animation/useReducedMotion';
 import ModalDialog from './ModalDialog';
 import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalFooter from './ModalFooter';
-import { useStyles, useCustom, useWillUnmount, useUniqueId } from '@/internals/hooks';
+import {
+  useStyles,
+  useCustom,
+  useWillUnmount,
+  useUniqueId,
+  useIsomorphicLayoutEffect
+} from '@/internals/hooks';
 import { mergeRefs, forwardRef } from '@/internals/utils';
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { useBodyStyles, ModalSize } from './utils';
@@ -103,6 +110,7 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
     onEntering,
     onExited,
     role = 'dialog',
+    reduceMotion,
     size = 'sm',
     id: idProp,
     isDrawer = false,
@@ -113,6 +121,7 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
   const inClass = { in: open && !animation };
   const { merge, prefix } = useStyles(classPrefix);
   const [shake, setShake] = useState(false);
+  const motionReduced = useReducedMotion(reduceMotion);
   const classes = merge(
     className,
     prefix({ full, fill: bodyFill, [size]: modalSizes.includes(size) })
@@ -190,6 +199,9 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
 
       // When the value of `backdrop` is `static`, a jitter animation will be added to the dialog when clicked.
       if (backdrop === 'static') {
+        if (motionReduced) {
+          return;
+        }
         setShake(true);
         if (!transitionEndListener.current && dialogRef.current) {
           //fix: https://github.com/rsuite/rsuite/blob/a93d13c14fb20cc58204babe3331d3c3da3fe1fd/src/Modal/styles/index.less#L59
@@ -202,8 +214,16 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
 
       onClose?.(event);
     },
-    [backdrop, onClose]
+    [backdrop, onClose, motionReduced]
   );
+
+  useIsomorphicLayoutEffect(() => {
+    if (motionReduced) {
+      setShake(false);
+      transitionEndListener.current?.off();
+      transitionEndListener.current = null;
+    }
+  }, [motionReduced]);
 
   useWillUnmount(() => {
     transitionEndListener.current?.off();
@@ -242,6 +262,7 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
         backdrop={backdrop}
         enforceFocus={enforceFocus}
         open={open}
+        reduceMotion={reduceMotion}
         onClose={onClose}
         className={wrapperClassName}
         onEntered={handleEntered}
@@ -277,7 +298,11 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
               ])}
               ref={mergeRefs(dialogRef, transitionRef)}
               classPrefix={classPrefix}
-              className={merge(classes, transitionClassName, prefix({ shake }))}
+              className={merge(
+                classes,
+                transitionClassName,
+                prefix({ shake: shake && !motionReduced })
+              )}
               dialogClassName={dialogClassName}
               dialogStyle={dialogStyle}
             />

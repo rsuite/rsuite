@@ -91,12 +91,13 @@ async function createConfig() {
       const { trcTrustedResetClick, trcTrustedInputClick } = await import(
         './test/browser/toggleCommands'
       );
+      const { setMotionPreference } = await import('./test/browser/motionCommands');
       config.test.browser = {
         enabled: true,
         provider: 'playwright',
         // Keep Firefox native focus and keyboard tests on one browser page at a time.
         fileParallelism: BROWSER === 'firefox' ? false : undefined,
-        commands: { trcTrustedResetClick, trcTrustedInputClick },
+        commands: { trcTrustedResetClick, trcTrustedInputClick, setMotionPreference },
         instances: [
           {
             browser: BROWSER,

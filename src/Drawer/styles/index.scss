@@ -3,6 +3,7 @@
 @use '../../styles/mixins/utilities' as utils;
 @use '../../styles/mixins/color-modes' as color-modes;
 @use '../../Modal/styles/animation';
+@use '../../Animation/styles/reduced-motion';
 @use './mixin';
 @use './variables';
 
