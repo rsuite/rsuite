@@ -191,7 +191,6 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
   });
 
   const onPickerKeydown = useToggleKeyDownEvent({
-    toggle: !focusItemValue || !active,
     trigger,
     target,
     overlay,
