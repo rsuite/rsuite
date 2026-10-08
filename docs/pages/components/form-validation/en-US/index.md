@@ -101,6 +101,8 @@ Calling `reset` or `resetErrors` also invalidates pending validation results. Re
 
 When Form manages its own errors, `cleanErrors` clears them and invalidates pending results without calling `onCheck`, `onError`, or `onChange`. Each pending Promise still returns its own result, and new checks remain available. When `formError` is controlled, clear errors through the owning state: `cleanErrors` leaves the supplied errors and pending validations unchanged.
 
+Consecutive `cleanErrorForField` calls in one event use the latest accepted errors, including after `resetErrors` or `cleanErrors`. Clearing a field preserves other fields' messages and native invalidity without calling `onCheck`, `onError`, or `onChange`. A saved cleanup method uses the committed `nestedField` setting, including in child layout effects. With a controlled `formError`, update the owning state to clear errors.
+
 Form field checks and asynchronous checks keep their results separate from the supplied model's `getCheckResult()` history. Read Form validation results from its methods or `onCheck`. A synchronous `checkForField` returns validity for the fields checked by that call, including proxy fields.
 
 <!--{include:`form-check-async.md`}-->

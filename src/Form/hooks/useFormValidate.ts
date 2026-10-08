@@ -466,10 +466,11 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
     setFormError(formError);
   });
 
-  const cleanErrorForField = useEventCallback((fieldName: string) => {
-    const nativeCarry = nativeFrames.captureCarry(realFormError);
+  const cleanErrorForField = useFormEventCallback((fieldName: string) => {
+    const source = realFormErrorRef.current;
+    const nativeCarry = nativeFrames.captureCarry(source);
     const { copies, record } = nativeFrames.trackCopies();
-    const nextFormError = removeFieldError(realFormError, fieldName, !!nestedField, record);
+    const nextFormError = removeFieldError(source, fieldName, !!nestedField, record);
     nativeFrames.publish(nextFormError, [], nativeCarry, copies);
     setFormError(nextFormError);
   });
