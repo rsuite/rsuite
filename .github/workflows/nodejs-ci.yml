@@ -61,9 +61,6 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Install Playwright Browsers
-        run: node scripts/install-browser-ci.cjs ${{ matrix.browser }}
-
       - name: install react 18
         if: ${{ matrix.react == 'React18' }}
         run: npm run install:react-18
@@ -71,6 +68,10 @@ jobs:
       - name: install react 19
         if: ${{ matrix.react == 'React19' }}
         run: npm run install:react-19
+
+      # Provision the browser for the final dependency tree after selecting React.
+      - name: Install Playwright Browsers
+        run: node scripts/install-browser-ci.cjs ${{ matrix.browser }}
 
       - name: Run headless tests
         run: npm run test:ci -- --browser.headless
