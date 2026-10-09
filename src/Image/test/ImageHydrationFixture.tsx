@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CustomProvider from '@/CustomProvider';
 import Image from '../Image';
 
-export default function ImageHydrationFixture() {
+export default function ImageHydrationFixture({ onHydrated }: { onHydrated?: () => void }) {
+  useEffect(() => {
+    onHydrated?.();
+  }, [onHydrated]);
+
   return (
     <CustomProvider>
       <Image
