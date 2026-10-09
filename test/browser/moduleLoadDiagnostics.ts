@@ -3,6 +3,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { Plugin } from 'vite';
 import type { BrowserCommandContext } from 'vitest/node';
 import type {} from '@vitest/browser/providers/playwright';
+import { observeBrowserLifecycle } from './browserLifecycleDiagnostics';
 
 const observedPages = new WeakSet<Page>();
 const requestHeaders = [
@@ -157,11 +158,14 @@ export function createBrowserModuleDiagnostics() {
       ) as typeof plugin | undefined;
       if (!serverPlugin?.api) throw new Error('Browser module diagnostics plugin is missing');
       const serverObserver = serverPlugin.api;
-      observeModuleLoads(page, new URL(page.url()).origin, diagnostic => {
+      const origin = new URL(page.url()).origin;
+      const snapshot = observeBrowserLifecycle(page, origin);
+      observeModuleLoads(page, origin, diagnostic => {
         console.error(
           '[Browser module error]',
           JSON.stringify({
             ...diagnostic,
+            browser: snapshot(),
             serverRequests: serverObserver.getRecentRequests(diagnostic.url)
           })
         );
