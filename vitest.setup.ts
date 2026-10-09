@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { cleanup } from '@testing-library/react';
-import { afterEach, vi, beforeAll, afterAll } from 'vitest';
-import chai from 'chai';
+import { afterEach, vi, beforeAll, afterAll, chai } from 'vitest';
 import chaiDom from 'chai-dom';
 
 const expectedReactVersion = (
