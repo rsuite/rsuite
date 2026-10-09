@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import ExampleLoader from '@/components/ExampleLoader';
 
 // Define all example component mappings

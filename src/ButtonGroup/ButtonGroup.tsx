@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React, { useContext, useMemo } from 'react';
 import ButtonGroupContext from './ButtonGroupContext';
 import isBadgeButton, { canJustifyBadgeButtons } from './isBadgeButton';

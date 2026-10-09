@@ -1,4 +1,3 @@
-import React from 'react';
 import { Form, Button, Checkbox, CheckboxGroup, HStack, VStack } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';

@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import contains from 'dom-lib/contains';
 import on from 'dom-lib/on';
 import ModalManager, { ModalInstance } from './ModalManager';
+import getTabbableElements from './getTabbableElements';
 import Fade from '../../Animation/Fade';
 import Box, { BoxProps } from '@/internals/Box';
 import { OverlayProvider } from './OverlayProvider';
@@ -16,6 +17,9 @@ export interface BaseModalProps
     AnimationEventProps {
   /** Animation-related properties */
   animationProps?: any;
+
+  /** Reduce motion; when omitted, use the provider setting or system preference. */
+  reduceMotion?: boolean;
 
   /** Primary content */
   children?: any;
@@ -110,6 +114,7 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
     className,
     container,
     animationProps,
+    reduceMotion,
     containerClassName,
     keyboard = true,
     enforceFocus = true,
@@ -144,11 +149,71 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
   const mountModal = open || (Transition && !exited);
 
   const lastFocus = useRef<HTMLElement | null>(null);
+  const startGuard = useRef<HTMLSpanElement>(null);
+  const endGuard = useRef<HTMLSpanElement>(null);
+  const tabNavigation = useRef<{ source: Element | null; backwards: boolean } | null>(null);
+  const tabNavigationTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  const clearTabNavigation = () => {
+    clearTimeout(tabNavigationTimer.current);
+    tabNavigation.current = null;
+  };
+
+  const focusNext = (source: Element | null, backwards: boolean) => {
+    const dialog = modal.dialog;
+    if (!dialog) return;
+    const elements = getTabbableElements(dialog, backwards, source);
+    const index = elements.indexOf(source as HTMLElement);
+    const next =
+      index < 0
+        ? backwards
+          ? elements[elements.length - 1]
+          : elements[0]
+        : elements[(index + (backwards ? -1 : 1) + elements.length) % elements.length];
+    (next || dialog).focus();
+  };
+
+  const handleFocusGuard = (event: React.FocusEvent) => {
+    if (!enforceFocus || !modal.isTopModal()) return;
+    const navigation = tabNavigation.current;
+    clearTabNavigation();
+    focusNext(
+      navigation?.source || null,
+      navigation?.backwards ?? event.target === startGuard.current
+    );
+  };
 
   const handleDocumentKeyDown = useEventCallback((event: React.KeyboardEvent) => {
-    if (keyboard && event.key === KEY_VALUES.ESC && modal.isTopModal()) {
+    if (!modal.isTopModal()) return;
+
+    if (keyboard && event.key === KEY_VALUES.ESC) {
       onEsc?.(event);
       onClose?.(event);
+    }
+
+    const dialog = modal.dialog;
+    if (event.key !== KEY_VALUES.TAB || !enforceFocus || event.defaultPrevented || !dialog) {
+      return;
+    }
+
+    const elements = getTabbableElements(dialog, event.shiftKey);
+    const first = elements[0];
+    const last = elements[elements.length - 1];
+    const active = dialog.ownerDocument.activeElement;
+    clearTabNavigation();
+    if (!first || !active || active === dialog || !contains(dialog, active)) {
+      event.preventDefault();
+      focusNext(null, event.shiftKey);
+      return;
+    }
+
+    // Guards bracket the ordered range, while native composite controls retain their inner stops.
+    if (startGuard.current) startGuard.current.tabIndex = Math.max(0, first.tabIndex);
+    if (endGuard.current) endGuard.current.tabIndex = Math.max(0, last.tabIndex);
+    if (active && contains(dialog, active)) {
+      tabNavigation.current = { source: active, backwards: event.shiftKey };
+      // Only a focus move from this native Tab action uses the ordered destination.
+      tabNavigationTimer.current = setTimeout(clearTabNavigation, 0);
     }
   });
 
@@ -165,8 +230,8 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
    *
    */
   const handleFocusDialog = useEventCallback((onBeforeFocusCallback?: () => void) => {
-    const currentActiveElement = document.activeElement as HTMLElement;
     const dialog = modal.dialog;
+    const currentActiveElement = dialog?.ownerDocument.activeElement as HTMLElement | null;
 
     if (dialog && currentActiveElement && !contains(dialog, currentActiveElement)) {
       onBeforeFocusCallback?.();
@@ -179,6 +244,13 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
       return;
     }
 
+    const dialog = modal.dialog;
+    const navigation = tabNavigation.current;
+    if (dialog && navigation && !dialog.contains(dialog.ownerDocument.activeElement)) {
+      clearTabNavigation();
+      focusNext(navigation.source, navigation.backwards);
+      return;
+    }
     handleFocusDialog();
   });
 
@@ -186,21 +258,24 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
   const documentFocusListener = useRef<{ off: () => void } | null>(null);
 
   const handleOpen = useEventCallback(() => {
+    const dialogDocument =
+      modal.dialog?.ownerDocument || containerElement?.ownerDocument || document;
     if (containerElement) {
       modal.add(containerElement, containerClassName);
     }
 
     if (!documentKeyDownListener.current) {
-      documentKeyDownListener.current = on(document, 'keydown', handleDocumentKeyDown);
+      documentKeyDownListener.current = on(dialogDocument, 'keydown', handleDocumentKeyDown);
     }
 
     if (!documentFocusListener.current) {
-      documentFocusListener.current = on(document, 'focus', handleEnforceFocus, true);
+      documentFocusListener.current = on(dialogDocument, 'focus', handleEnforceFocus, true);
     }
 
     if (autoFocus) {
       handleFocusDialog(() => {
-        lastFocus.current = document.activeElement as HTMLElement;
+        const focusDocument = dialogDocument.hasFocus() ? dialogDocument : document;
+        lastFocus.current = focusDocument.activeElement as HTMLElement;
       });
     }
 
@@ -208,6 +283,7 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
   });
 
   const handleClose = useEventCallback(() => {
+    clearTabNavigation();
     modal.remove();
     documentKeyDownListener.current?.off();
     documentKeyDownListener.current = null;
@@ -250,7 +326,12 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
   const renderBackdrop = () => {
     if (Transition) {
       return (
-        <Fade transitionAppear in={open} timeout={backdropTransitionTimeout}>
+        <Fade
+          transitionAppear
+          in={open}
+          timeout={backdropTransitionTimeout}
+          reduceMotion={reduceMotion}
+        >
           {(fadeProps, ref) => {
             const { className, ...rest } = fadeProps;
             return (
@@ -274,6 +355,7 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
   const dialogElement = Transition ? (
     <Transition
       {...animationProps}
+      reduceMotion={reduceMotion ?? animationProps?.reduceMotion}
       transitionAppear
       unmountOnExit
       in={open}
@@ -291,6 +373,15 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
     children
   );
 
+  const guardStyle: React.CSSProperties = {
+    position: 'fixed',
+    width: 1,
+    height: 1,
+    overflow: 'hidden',
+    clipPath: 'inset(50%)',
+    pointerEvents: 'none'
+  };
+
   return (
     <OverlayProvider overlayContainer={overlayContainer}>
       <Portal>
@@ -303,7 +394,27 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
           className={className}
           tabIndex={-1}
         >
+          {enforceFocus && (
+            <span
+              ref={startGuard}
+              aria-hidden="true"
+              data-rsuite-modal-focus-guard
+              tabIndex={0}
+              style={guardStyle}
+              onFocus={handleFocusGuard}
+            />
+          )}
           {dialogElement}
+          {enforceFocus && (
+            <span
+              ref={endGuard}
+              aria-hidden="true"
+              data-rsuite-modal-focus-guard
+              tabIndex={0}
+              style={guardStyle}
+              onFocus={handleFocusGuard}
+            />
+          )}
         </Box>
       </Portal>
     </OverlayProvider>

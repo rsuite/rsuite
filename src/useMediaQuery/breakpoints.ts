@@ -18,8 +18,8 @@ function adjustMaxWidth(value: number): string {
   // If value is 0, don't adjust
   if (value === 0) return '0px';
 
-  // Subtract a small value to avoid overlap
-  const adjustedNum = value - 0.01;
+  // Use 0.02px so browser rounding does not include the next breakpoint.
+  const adjustedNum = value - 0.02;
   return `${adjustedNum}px`;
 }
 
@@ -48,7 +48,7 @@ function createLegacyMediaQueryMap(breakpoints: BreakpointMap): MediaQueryMap {
   // Special case for xs
   const xsValue = breakpoints.xs;
   if (xsValue !== undefined) {
-    // For xs, use max-width of the next breakpoint minus 0.01
+    // For xs, use max-width of the next breakpoint minus 0.02
     const nextBreakpoint = entries.find(([key]) => key === 'sm');
     if (nextBreakpoint) {
       result.xs = `(max-width: ${adjustMaxWidth(nextBreakpoint[1])})`;
@@ -85,8 +85,8 @@ function createLegacyMediaQueryMap(breakpoints: BreakpointMap): MediaQueryMap {
  *
  * // Using breakpoints
  * breakpoints.up('md'); // '(min-width: 768px)'
- * breakpoints.down('lg'); // '(max-width: 991.99px)'
- * breakpoints.between('sm', 'lg'); // '(min-width: 576px) and (max-width: 991.99px)'
+ * breakpoints.down('lg'); // '(max-width: 1199.98px)'
+ * breakpoints.between('sm', 'lg'); // '(min-width: 576px) and (max-width: 1199.98px)'
  * ```
  */
 export function createBreakpoints(breakpoints: BreakpointMap): BreakpointSystem {
@@ -100,7 +100,7 @@ export function createBreakpoints(breakpoints: BreakpointMap): BreakpointSystem 
     ([name, value], index) => {
       let max: string | null = null;
 
-      // If not the last breakpoint, use the next breakpoint's value minus 0.01 as the current max
+      // If not the last breakpoint, use the next breakpoint's value minus 0.02 as the current max
       if (index < sortedEntries.length - 1) {
         max = adjustMaxWidth(sortedEntries[index + 1][1]);
       }

@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from '@/components/Link';
 import { Stack, Button } from 'rsuite';
 import GithubIcon from '@rsuite/icons/legacy/Github';

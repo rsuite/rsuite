@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React, { useMemo } from 'react';
 import NavbarBrand from './NavbarBrand';
 import NavbarContent from './NavbarContent';

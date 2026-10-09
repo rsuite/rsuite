@@ -22,45 +22,43 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
+      - name: Test build scripts
+        run: node --test scripts/*.node-test.cjs
       - run: npm ci --legacy-peer-deps
       - run: npm run format:check
       - run: npm run lint
 
   test:
-    name: 'Test'
+    name: 'Test (${{ matrix.browser }}, ${{ matrix.react }})'
 
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
-        browser: [chromium, firefox]
-        react: ['React18', 'React19']
+        browser: [chromium]
+        react: ['React18', 'React19', 'React19.3']
+        include:
+          - react: React18
+            version: 18.2.0
+          - react: React19
+            version: 19.0.0
+          - react: React19.3
+            version: 19.3.0
+
+    env:
+      VITE_RSUITE_REACT_VERSION: ${{ matrix.version }}
 
     steps:
       - uses: actions/checkout@v4
+      - name: Report runner disk space
+        if: runner.os == 'Linux' # ubuntu-latest is Linux
+        run: df -h
+
       - name: Use Node.js LTS
         uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-
-      - name: Free disk space on runner
-        if: runner.os == 'Linux' # ubuntu-latest is Linux
-        run: |
-          echo "Initial disk space:"
-          df -h
-          sudo docker image prune -a -f || echo "Docker image prune failed or Docker not available"
-          sudo rm -rf /usr/share/dotnet || echo "Failed to remove dotnet or it doesn't exist"
-          sudo rm -rf /opt/ghc || echo "Failed to remove ghc or it doesn't exist"
-          sudo rm -rf /usr/local/lib/android || echo "Failed to remove android or it doesn't exist"
-          sudo rm -rf /usr/local/share/powershell || echo "Failed to remove powershell or it doesn't exist"
-          sudo rm -rf /usr/local/share/rust || echo "Failed to remove rust or it doesn't exist"
-          sudo rm -rf /opt/hostedtoolcache || echo "Failed to remove hostedtoolcache"
-          sudo apt-get clean
-          sudo apt-get autoremove -y
-          sudo rm -rf /var/lib/apt/lists/*
-          npm cache clean --force || echo "npm cache clean failed"
-          echo "Disk space after cleanup:"
-          df -h
 
       - name: Cache Node.js modules
         uses: actions/cache@v4
@@ -74,9 +72,6 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
       - name: install react 18
         if: ${{ matrix.react == 'React18' }}
         run: npm run install:react-18
@@ -85,8 +80,29 @@ jobs:
         if: ${{ matrix.react == 'React19' }}
         run: npm run install:react-19
 
+      - name: Install React 19.3.0
+        if: ${{ matrix.react == 'React19.3' }}
+        run: npm run install:react-19-3
+
+      - name: Verify installed React runtime
+        run: |
+          node <<'NODE'
+          const assert = require('node:assert/strict');
+          const React = require('react');
+          const ReactDOM = require('react-dom');
+          const expected = process.env.VITE_RSUITE_REACT_VERSION;
+          console.log({ expected, react: React.version, reactDOM: ReactDOM.version });
+          assert.equal(React.version, expected);
+          assert.equal(ReactDOM.version, expected);
+          if (expected === '19.3.0') assert.ok(React.Activity, 'Activity tests require this runtime');
+          NODE
+
+      # Provision the browser for the final dependency tree after selecting React.
+      - name: Install Playwright Browsers
+        run: node scripts/install-browser-ci.cjs ${{ matrix.browser }}
+
       - name: Run headless tests
-        run: npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless
+        run: npm run test:ci -- --browser.headless
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}
@@ -95,8 +111,109 @@ jobs:
         if: ${{ matrix.browser == 'chromium' }}
         run: npm run test:ssr
 
+      - name: Run native browser control tests
+        run: npm run test:browser-controls
+        env:
+          BROWSER: ${{ matrix.browser }}
+
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4.2.0
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ matrix.browser }}
+          fail_ci_if_error: true
+
+  # Keep each Firefox shard on its own runner so native keyboard tests retain one page.
+  firefox-react18:
+    name: 'Firefox runners (React18)'
+    uses: ./.github/workflows/firefox-tests.yml
+    with:
+      react-version: React18
+      react-runtime: 18.2.0
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  firefox-react19:
+    name: 'Firefox runners (React19)'
+    uses: ./.github/workflows/firefox-tests.yml
+    with:
+      react-version: React19
+      react-runtime: 19.0.0
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  firefox-react19-3:
+    name: 'Firefox runners (React19.3)'
+    uses: ./.github/workflows/firefox-tests.yml
+    with:
+      react-version: React19.3
+      react-runtime: 19.3.0
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  firefox-react18-summary:
+    name: 'Test (firefox, React18)'
+    needs: firefox-react18
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      # Keep the existing required check closed on failed, cancelled, or skipped shards.
+      - name: Require all Firefox shards to pass
+        env:
+          SHARD_RESULT: ${{ needs.firefox-react18.result }}
+        run: test "$SHARD_RESULT" = success
+
+  firefox-react19-summary:
+    name: 'Test (firefox, React19)'
+    needs: firefox-react19
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      - name: Require all Firefox shards to pass
+        env:
+          SHARD_RESULT: ${{ needs.firefox-react19.result }}
+        run: test "$SHARD_RESULT" = success
+
+  firefox-react19-3-summary:
+    name: 'Test (firefox, React19.3)'
+    needs: firefox-react19-3
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      - name: Require all Firefox shards to pass
+        env:
+          SHARD_RESULT: ${{ needs.firefox-react19-3.result }}
+        run: test "$SHARD_RESULT" = success
+
+  public-declarations:
+    name: 'Public declarations'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --legacy-peer-deps
+      - name: Install locked declaration consumers
+        run: npm ci --prefix test/public-declarations --legacy-peer-deps --ignore-scripts
+      - name: Install locked runtime consumers
+        run: npm ci --prefix test/public-runtime --legacy-peer-deps --ignore-scripts
+      - name: Build the public declaration package
+        run: npm run build:ts && npm run build:types
+      - name: Check React 18 and 19 public declarations
+        run: npm run test:public-types
+      - name: Check React 18 and 19 package runtime SSR
+        run: npm run test:public-runtime
+      - name: Retain declaration diagnostics and loaded types
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-declaration-consumers
+          path: |
+            test/public-declarations/results
+            test/public-runtime/results
+          if-no-files-found: ignore

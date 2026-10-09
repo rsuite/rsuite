@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import ImportGuide from '@/components/ImportGuide';
 import DefaultPage from '@/components/layout/Page';
 import CheckIcon from '@rsuite/icons/Check';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, ButtonGroup, Menu, Popover, IconButton, Whisper } from 'rsuite';
 import Link from '@/components/Link';
 import { FaMarkdown, FaCheck } from 'react-icons/fa';

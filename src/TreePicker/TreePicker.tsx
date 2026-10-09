@@ -10,7 +10,7 @@ import TreeView, { TreeViewProps } from '../Tree/TreeView';
 import { PickerLocale } from '../locales';
 import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
-import { getActiveItem, getTreeActiveNode } from '../Tree/utils';
+import { formatNodeRefKey, getActiveItem, getTreeActiveNode } from '../Tree/utils';
 import {
   PickerToggle,
   PickerPopup,
@@ -192,6 +192,10 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
   });
 
   const handleTreeKeyDown = useEventCallback((event: React.KeyboardEvent<any>) => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     onMenuKeyDown(event, {
       del: handleClean,
       down: () => focusFirstNode(),
@@ -232,6 +236,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
         ref={treeView}
         value={value}
         data={treeData}
+        sourceData={data}
         disabledItemValues={disabledItemValues}
         expandItemValues={expandItemValues}
         showIndentLine={showIndentLine}
@@ -325,7 +330,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
         active={active}
         placement={placement}
         inputValue={value}
-        focusItemValue={focusItemValue}
+        focusItemValue={isNil(focusItemValue) ? undefined : formatNodeRefKey(focusItemValue)}
         {...rest}
       >
         {selectedElement || locale?.placeholder}

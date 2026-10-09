@@ -66,6 +66,12 @@ export interface CustomValue<T = Locale> {
    * Affected components include: Button, Nav.Item, Pagination.
    */
   disableRipple?: boolean;
+
+  /**
+   * Reduce motion in built-in animations, Modal and Drawer.
+   * When omitted, the system's prefers-reduced-motion preference is used.
+   */
+  reduceMotion?: boolean;
 }
 
 export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>> {

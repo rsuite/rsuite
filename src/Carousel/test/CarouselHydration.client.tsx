@@ -1,5 +1,6 @@
 import React from 'react';
 import { hydrateRoot } from 'react-dom/client';
+import { version as reactDOMVersion } from 'react-dom';
 import CarouselHydrationFixture from './CarouselHydrationFixture';
 
 export interface CarouselHydrationResult {
@@ -11,6 +12,8 @@ export interface CarouselHydrationResult {
     associated: boolean;
   }[];
   reactVersion: string;
+  reactDOMVersion: string;
+  selections: { carousel: string; index: number; trusted: boolean }[];
 }
 
 declare global {
@@ -26,6 +29,7 @@ if (!container) {
 }
 
 const errors: string[] = [];
+const selections: CarouselHydrationResult['selections'] = [];
 const initialIndicators = Array.from(container.querySelectorAll('input[type="radio"]')).map(
   input => {
     const label = input.parentElement?.querySelector('label');
@@ -47,11 +51,16 @@ console.error = (...args: unknown[]) => {
 hydrateRoot(
   container,
   <CarouselHydrationFixture
+    onSelect={(carousel, index, event) =>
+      selections.push({ carousel, index, trusted: event.nativeEvent.isTrusted })
+    }
     onHydrated={() => {
       window.__RSUITE_CAROUSEL_HYDRATION_RESULT__ = {
         errors,
         initialIndicators,
-        reactVersion: React.version
+        reactVersion: React.version,
+        reactDOMVersion,
+        selections
       };
     }}
   />,

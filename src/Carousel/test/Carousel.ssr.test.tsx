@@ -1,144 +1,108 @@
 import React from 'react';
-import type { AddressInfo } from 'node:net';
-import { mkdtemp, rm } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { renderToString, version as serverVersion } from 'react-dom/server';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { renderToString } from 'react-dom/server';
-import { chromium, firefox, type Browser } from 'playwright';
-import react from '@vitejs/plugin-react';
-import { createServer, type ViteDevServer } from 'vite';
-import tsconfigPaths from 'vite-tsconfig-paths';
+import createSourceBrowser from '../../../test/browser/createSourceBrowser';
 import CarouselHydrationFixture from './CarouselHydrationFixture';
 import type { CarouselHydrationResult } from './CarouselHydration.client';
 
 describe('Carousel SSR hydration', () => {
-  let browser: Browser;
-  let server: ViteDevServer;
-  let serverUrl: string;
-  let cacheDir: string;
+  let source: Awaited<ReturnType<typeof createSourceBrowser>>;
 
   beforeAll(async () => {
-    const serverMarkup = renderToString(<CarouselHydrationFixture />);
-    cacheDir = await mkdtemp(join(tmpdir(), 'rsuite-carousel-hydration-'));
-
-    server = await createServer({
-      appType: 'custom',
-      configFile: false,
-      logLevel: 'silent',
-      cacheDir: join(cacheDir, 'node_modules/.vite'),
-      define: { __DEV__: true },
-      plugins: [tsconfigPaths(), react()],
-      resolve: { dedupe: ['react', 'react-dom'] },
+    expect(typeof document).toBe('undefined');
+    expect(serverVersion).toBe(React.version);
+    const markup = renderToString(<CarouselHydrationFixture />);
+    source = await createSourceBrowser({
       root: process.cwd(),
-      server: { host: '127.0.0.1', port: 0 }
-    });
-
-    server.middlewares.use(async (request, response, next) => {
-      if (request.url !== '/') {
-        next();
-        return;
+      entry: '/src/Carousel/test/CarouselHydration.client.tsx',
+      configureServer(server) {
+        server.middlewares.use(async (request, response, next) => {
+          if (request.url !== '/') return next();
+          const html = await server.transformIndexHtml(
+            '/',
+            `<!doctype html><html><body><div id="root">${markup}</div><script type="module" src="/src/Carousel/test/CarouselHydration.client.tsx"></script></body></html>`
+          );
+          response.setHeader('Content-Type', 'text/html');
+          response.end(html);
+        });
       }
-
-      const html = await server.transformIndexHtml(
-        '/',
-        `<!doctype html>
-          <html>
-            <head><meta charset="UTF-8" /></head>
-            <body>
-              <div id="root">${serverMarkup}</div>
-              <script type="module" src="/src/Carousel/test/CarouselHydration.client.tsx"></script>
-            </body>
-          </html>`
-      );
-
-      response.statusCode = 200;
-      response.setHeader('Content-Type', 'text/html');
-      response.end(html);
     });
-
-    await server.listen();
-    const address = server.httpServer?.address() as AddressInfo;
-    serverUrl = `http://127.0.0.1:${address.port}`;
-    const browserType = process.env.BROWSER === 'firefox' ? firefox : chromium;
-    browser = await browserType.launch({ headless: true });
+    expect(source.reactVersion).toBe(React.version);
+    if (process.env.VITE_RSUITE_REACT_VERSION) {
+      expect(React.version).toBe(process.env.VITE_RSUITE_REACT_VERSION);
+    }
     console.info('Carousel SSR hydration browser', {
-      name: browser.browserType().name(),
-      version: browser.version(),
-      reactVersion: React.version
+      name: source.browserName,
+      version: source.browser.version(),
+      reactVersion: React.version,
+      serverVersion
     });
-    expect(browser.browserType().name()).toBe(process.env.BROWSER || 'chromium');
   });
 
   afterAll(async () => {
-    await browser?.close();
-    await server?.close();
-    if (cacheDir) {
-      await rm(cacheDir, { recursive: true, force: true });
-    }
+    await source?.close();
   });
 
-  it('hydrates separate Carousels with stable indicator associations and selection', async () => {
-    const page = await browser.newPage();
-    const consoleErrors: string[] = [];
+  it('hydrates separate Carousels with stable indicator associations and native selection', async () => {
+    const page = await source.browser.newPage();
+    const errors: string[] = [];
     page.on('console', message => {
-      if (message.type() === 'error') {
-        consoleErrors.push(message.text());
-      }
+      if (message.type() === 'error') errors.push(message.text());
     });
+    page.on('pageerror', error => errors.push(String(error)));
 
-    await page.goto(serverUrl);
-    await page.waitForFunction(() => Boolean(window.__RSUITE_CAROUSEL_HYDRATION_RESULT__));
+    try {
+      await page.goto(source.url);
+      await page.waitForFunction(() => Boolean(window.__RSUITE_CAROUSEL_HYDRATION_RESULT__));
+      const result = await page.evaluate(
+        () => window.__RSUITE_CAROUSEL_HYDRATION_RESULT__ as CarouselHydrationResult
+      );
+      expect(result.errors).toEqual([]);
+      expect(errors).toEqual([]);
+      expect(result.reactVersion).toBe(React.version);
+      expect(result.reactDOMVersion).toBe(serverVersion);
 
-    const result = await page.evaluate(
-      () => window.__RSUITE_CAROUSEL_HYDRATION_RESULT__ as CarouselHydrationResult
-    );
-    expect(result.errors).toEqual([]);
-    expect(consoleErrors).toEqual([]);
-    expect(result.reactVersion).toBe(React.version);
+      const indicators = await page.locator('input[type="radio"]').evaluateAll(inputs =>
+        inputs.map(input => {
+          const label = input.parentElement?.querySelector('label');
+          return {
+            id: input.id,
+            name: input.getAttribute('name'),
+            htmlFor: label?.htmlFor,
+            associated: label?.control === input
+          };
+        })
+      );
+      const ids = indicators.map(indicator => indicator.id);
+      expect(indicators).toEqual(result.initialIndicators);
+      expect(indicators).toHaveLength(4);
+      expect(new Set(ids).size).toBe(4);
+      indicators.forEach(indicator => {
+        expect(indicator.id).not.toBe('');
+        expect(indicator.name).toBe(indicator.id);
+        expect(indicator.htmlFor).toBe(indicator.id);
+        expect(indicator.associated).toBe(true);
+      });
 
-    const indicators = await page.locator('input[type="radio"]').evaluateAll(inputs =>
-      inputs.map(input => {
-        const label = input.parentElement?.querySelector('label');
-        return {
-          id: input.id,
-          name: input.getAttribute('name'),
-          htmlFor: label?.htmlFor,
-          associated: label?.control === input
-        };
-      })
-    );
-    const ids = indicators.map(indicator => indicator.id);
-    expect(indicators).toEqual(result.initialIndicators);
-    expect(indicators).toHaveLength(4);
-    expect(new Set(ids).size).toBe(4);
-    indicators.forEach(indicator => {
-      expect(indicator.id).not.toBe('');
-      expect(indicator.name).toBe(indicator.id);
-      expect(indicator.htmlFor).toBe(indicator.id);
-      expect(indicator.associated).toBe(true);
-    });
-
-    await page
-      .getByTestId('first-carousel')
-      .locator('label')
-      .first()
-      .evaluate(label => (label as HTMLLabelElement).click());
-    await page.waitForFunction(
-      () =>
-        document
-          .querySelector('[data-testid="first-carousel"] .rs-carousel-slider-item')
-          ?.getAttribute('aria-hidden') === 'false'
-    );
-
-    expect(await page.getByText('First slide A').getAttribute('aria-hidden')).toBe('false');
-    expect(await page.getByText('First slide B').getAttribute('aria-hidden')).toBe('true');
-    expect(await page.getByText('Second slide A').getAttribute('aria-hidden')).toBe('false');
-    expect(await page.getByText('Second slide B').getAttribute('aria-hidden')).toBe('true');
-    expect(
-      await page.locator('input[type="radio"]').evaluateAll(inputs => inputs.map(input => input.id))
-    ).toEqual(ids);
-
-    await page.close();
+      await page.getByTestId('first-carousel').locator('input[type="radio"]').first().click();
+      await page.waitForFunction(
+        () => window.__RSUITE_CAROUSEL_HYDRATION_RESULT__?.selections.length === 1
+      );
+      expect(await page.getByText('First slide A').getAttribute('aria-hidden')).toBe('false');
+      expect(await page.getByText('First slide B').getAttribute('aria-hidden')).toBe('true');
+      expect(await page.getByText('Second slide A').getAttribute('aria-hidden')).toBe('false');
+      expect(await page.getByText('Second slide B').getAttribute('aria-hidden')).toBe('true');
+      expect(
+        await page.evaluate(() => window.__RSUITE_CAROUSEL_HYDRATION_RESULT__?.selections)
+      ).toEqual([{ carousel: 'first', index: 0, trusted: true }]);
+      expect(
+        await page
+          .locator('input[type="radio"]')
+          .evaluateAll(inputs => inputs.map(input => input.id))
+      ).toEqual(ids);
+      expect(errors).toEqual([]);
+    } finally {
+      await page.close();
+    }
   });
 });
