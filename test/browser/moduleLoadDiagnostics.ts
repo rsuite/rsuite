@@ -4,6 +4,7 @@ import type { Plugin } from 'vite';
 import type { BrowserCommandContext } from 'vitest/node';
 import type {} from '@vitest/browser/providers/playwright';
 import { observeBrowserLifecycle } from './browserLifecycleDiagnostics';
+import { createBrowserRPCObserver } from './browserRPCDiagnostics';
 
 const observedPages = new WeakSet<Page>();
 const requestHeaders = [
@@ -35,6 +36,14 @@ export interface ModuleLoadDiagnostic {
   response: ModuleResponse | null;
   lastSuccessfulResponse: ModuleResponse | null;
   error?: string;
+}
+
+interface ServerRequest {
+  time: number;
+  method: string | undefined;
+  headers: Record<string, string | string[]>;
+  status: number | null;
+  finished: boolean;
 }
 
 /** Observe module failures without intercepting requests or changing the browser cache. */
@@ -96,13 +105,6 @@ export function observeModuleLoads(
 
 /** Read the server's headers: Firefox may omit cache validators from Playwright events. */
 export function createModuleRequestObserver() {
-  interface ServerRequest {
-    time: number;
-    method: string | undefined;
-    headers: Record<string, string | string[]>;
-    status: number | null;
-    finished: boolean;
-  }
   const recentRequests = new Map<string, ServerRequest[]>();
   return {
     middleware(request: IncomingMessage, response: ServerResponse, next: () => void) {
@@ -141,12 +143,17 @@ export function createModuleRequestObserver() {
 }
 
 export function createBrowserModuleDiagnostics() {
-  const observer = createModuleRequestObserver();
-  const plugin: Plugin<ReturnType<typeof createModuleRequestObserver>> = {
+  const observer = { ...createModuleRequestObserver(), rpc: createBrowserRPCObserver() };
+  const plugin: Plugin<typeof observer> = {
     name: 'rsuite-browser-module-diagnostics',
     api: observer,
     configureServer(server) {
       server.middlewares.use(observer.middleware);
+      server.httpServer?.on('upgrade', observer.rpc.observeConnection);
+      server.httpServer?.once('close', () => {
+        server.httpServer?.off('upgrade', observer.rpc.observeConnection);
+        observer.rpc.dispose();
+      });
     }
   };
   return {
@@ -159,13 +166,19 @@ export function createBrowserModuleDiagnostics() {
       if (!serverPlugin?.api) throw new Error('Browser module diagnostics plugin is missing');
       const serverObserver = serverPlugin.api;
       const origin = new URL(page.url()).origin;
-      const snapshot = observeBrowserLifecycle(page, origin);
+      const snapshot = observeBrowserLifecycle(page, origin, diagnostic => {
+        console.info(
+          '[Browser lifecycle]',
+          JSON.stringify({ ...diagnostic, serverRPC: serverObserver.rpc.snapshot() })
+        );
+      });
       observeModuleLoads(page, origin, diagnostic => {
         console.error(
           '[Browser module error]',
           JSON.stringify({
             ...diagnostic,
             browser: snapshot(),
+            serverRPC: serverObserver.rpc.snapshot(),
             serverRequests: serverObserver.getRecentRequests(diagnostic.url)
           })
         );
