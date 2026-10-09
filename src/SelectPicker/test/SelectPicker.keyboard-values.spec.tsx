@@ -3,6 +3,7 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@vitest/browser/context';
 import { describe, expect, it, vi } from 'vitest';
 import SelectPicker from '..';
+import CustomProvider from '../../CustomProvider';
 import '../styles/index.scss';
 
 const targets = [
@@ -30,17 +31,19 @@ describe('SelectPicker keyboard value boundaries', () => {
         const keys: KeyboardEvent[] = [];
         const capture = (event: KeyboardEvent) => keys.push(event);
         render(
-          <SelectPicker
-            data={[destination, other]}
-            defaultOpen
-            searchable={false}
-            onChange={onChange}
-            onSelect={onSelect}
-            onEntered={onEntered}
-          />
+          <CustomProvider reduceMotion>
+            <SelectPicker
+              data={[destination, other]}
+              defaultOpen
+              searchable={false}
+              onChange={onChange}
+              onSelect={onSelect}
+              onEntered={onEntered}
+            />
+          </CustomProvider>
         );
         const combobox = screen.getByRole('combobox');
-        await waitFor(() => expect(onEntered).toHaveBeenCalledTimes(1));
+        expect(onEntered).toHaveBeenCalledTimes(1);
         expect(combobox).to.have.attribute('aria-expanded', 'true');
         act(() => combobox.focus());
         expect(combobox).to.have.focus;
