@@ -17,7 +17,9 @@ export const useImage = (props: UseImageProps) => {
 
   useEffect(() => {
     if (!src) {
+      setImgSrc(fallbackSrc || null);
       setIsLoading(false);
+      setError(false);
       return;
     }
 
