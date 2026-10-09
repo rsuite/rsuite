@@ -37,7 +37,7 @@ function getTabbableElements(
     !element.closest('[inert]') &&
     !element.matches(':disabled') &&
     element.getClientRects().length > 0 &&
-    getComputedStyle(element).visibility === 'visible';
+    element.ownerDocument.defaultView?.getComputedStyle(element).visibility === 'visible';
   const candidates = elements.filter(
     element => !element.hasAttribute('data-rsuite-modal-focus-guard') && isTabbable(element)
   );
@@ -49,14 +49,13 @@ function getTabbableElements(
 
   return candidates
     .filter(element => {
-      if (!(element instanceof HTMLInputElement) || element.type !== 'radio' || !element.name) {
+      const input = element as HTMLInputElement;
+      if (element.tagName !== 'INPUT' || input.type !== 'radio' || !input.name) {
         return true;
       }
       const group = radios.filter(
         candidate =>
-          candidate.name === element.name &&
-          candidate.form === element.form &&
-          isTabbable(candidate)
+          candidate.name === input.name && candidate.form === input.form && isTabbable(candidate)
       );
       const current = group.find(candidate => candidate === activeElement);
       const checked = group.find(candidate => candidate.checked);
