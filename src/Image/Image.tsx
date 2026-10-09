@@ -86,10 +86,11 @@ const Image = forwardRef<'img', ImageProps>((props, ref) => {
   const classes = merge(className, withPrefix({ circle, bordered, rounded, shaded, zoomed }));
   const {
     imgSrc,
+    imgSrcSet,
     isLoading,
     onLoad: handleLoad,
     onError: handleError
-  } = useImage({ src, fallbackSrc });
+  } = useImage({ src, srcSet, fallbackSrc });
 
   const styles = { ...style, ['--rs-object-fit']: fit, ['--rs-object-position']: position };
 
@@ -106,7 +107,7 @@ const Image = forwardRef<'img', ImageProps>((props, ref) => {
       onLoad={createChainedFunction(handleLoad, onLoad)}
       onError={createChainedFunction(handleError, onError)}
       crossOrigin={crossOrigin}
-      srcSet={srcSet}
+      srcSet={imgSrcSet}
       sizes={sizes}
       {...rest}
     />
