@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import Stack, { StackProps } from '../Stack';
 import { useStyles, useCustom } from '@/internals/hooks';

@@ -1,4 +1,3 @@
-import React from 'react';
 import DefaultPage from '@/components/layout/Page';
 import { Button, NumberInput, Input, Form, DatePicker, Rate } from 'rsuite';
 import * as Yup from 'yup';

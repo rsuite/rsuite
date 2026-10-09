@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React, { useMemo } from 'react';
 import useSortHelper, { SortConfig } from './helper/useSortHelper';
 import ListContext, { ListContextType } from './ListContext';

@@ -6,11 +6,11 @@
   "scripts": {
     "check:type": "tsc",
     "clear": "rimraf ./.next && rimraf ./out ",
-    "dev": "npm run generate-examples && next dev",
+    "dev": "npm run generate-examples && next dev --webpack",
     "dev:styles": "cross-env STYLE_DEBUG=STYLE npm run dev",
     "prebuild": "npm run clear && npm run generate-llms-txt && npm run generate-llms-full && npm run generate-types && npm run generate-page-md",
-    "build": "npm run generate-examples && next build",
-    "build:next": "NODE_OPTIONS=--max_old_space_size=8192 next build",
+    "build": "npm run generate-examples && next build --webpack",
+    "build:next": "NODE_OPTIONS=--max_old_space_size=8192 next build --webpack",
     "start": "next start",
     "algolia": "node ./scripts/algolia-indices.js",
     "pregenerate": "npm run generate-examples && npm run generate-base-css-vars && npm run generate-theme-css-vars",
@@ -52,7 +52,7 @@
     "joi": "^18.1.2",
     "lunar-typescript": "^1.7.6",
     "lz-string": "^1.4.4",
-    "next": "^14.2.35",
+    "next": "^16.4.0",
     "nope-validator": "^1.1.1",
     "nprogress": "^0.2.0",
     "react": "^18.2.0",
@@ -67,6 +67,7 @@
     "react-json-tree": "^0.20.0",
     "react-select": "^5.5.9",
     "rsuite": "^6.2.5",
+    "search-insights": "^2.17.3",
     "superstruct": "^2.0.2",
     "svg-sprite-loader": "^6.0.11",
     "svgo": "^2.8.4",
@@ -100,7 +101,10 @@
     "postcss-loader": "^4.2.0",
     "postcss-merge-rules": "^7.0.5",
     "rimraf": "^3.0.2",
-    "sass-loader": "^16.0.5"
+    "sass": "^1.89.1",
+    "sass-loader": "^16.0.5",
+    "typescript": "^5.7.3",
+    "webpack": "^5.104.1"
   },
   "engines": {
     "node": "22.x"

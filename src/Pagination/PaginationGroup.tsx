@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import classNames from 'classnames';
 import Pagination, { PaginationProps } from './Pagination';

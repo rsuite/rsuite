@@ -1,4 +1,3 @@
-import React from 'react';
 import { Textarea, Divider, Text, VStack, HStack, SelectPicker } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
