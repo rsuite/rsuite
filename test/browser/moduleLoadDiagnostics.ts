@@ -1,8 +1,20 @@
 import type { Page, Request, Response } from 'playwright';
+import type { IncomingMessage, ServerResponse } from 'node:http';
+import type { Plugin } from 'vite';
 import type { BrowserCommandContext } from 'vitest/node';
 import type {} from '@vitest/browser/providers/playwright';
 
 const observedPages = new WeakSet<Page>();
+const requestHeaders = [
+  'accept',
+  'cache-control',
+  'if-none-match',
+  'if-modified-since',
+  'if-range',
+  'range',
+  'pragma',
+  'sec-fetch-dest'
+];
 const responseHeaders = [
   'content-type',
   'content-length',
@@ -81,6 +93,79 @@ export function observeModuleLoads(
   });
 }
 
-export function observeBrowserModuleLoads({ page }: BrowserCommandContext) {
-  observeModuleLoads(page, new URL(page.url()).origin);
+/** Read the server's headers: Firefox may omit cache validators from Playwright events. */
+export function createModuleRequestObserver() {
+  interface ServerRequest {
+    time: number;
+    method: string | undefined;
+    headers: Record<string, string | string[]>;
+    status: number | null;
+    finished: boolean;
+  }
+  const recentRequests = new Map<string, ServerRequest[]>();
+  return {
+    middleware(request: IncomingMessage, response: ServerResponse, next: () => void) {
+      if (request.headers['sec-fetch-dest'] !== 'script' || !request.url) return next();
+      const url = request.url;
+      const record: ServerRequest = {
+        time: Date.now(),
+        method: request.method,
+        headers: Object.fromEntries(
+          requestHeaders
+            .filter(name => request.headers[name] !== undefined)
+            .map(name => [name, request.headers[name]!])
+        ),
+        status: null,
+        finished: false
+      };
+      const history = [...(recentRequests.get(url) || []).slice(-1), record];
+      recentRequests.delete(url);
+      recentRequests.set(url, history);
+      // Bound the observer's memory across long browser suites.
+      if (recentRequests.size > 1024) recentRequests.delete(recentRequests.keys().next().value!);
+      response.once('finish', () => {
+        record.status = response.statusCode;
+        record.finished = true;
+      });
+      response.once('close', () => {
+        record.status = response.statusCode;
+      });
+      next();
+    },
+    getRecentRequests(url: string) {
+      const { pathname, search } = new URL(url);
+      return recentRequests.get(pathname + search) || [];
+    }
+  };
+}
+
+export function createBrowserModuleDiagnostics() {
+  const observer = createModuleRequestObserver();
+  const plugin: Plugin<ReturnType<typeof createModuleRequestObserver>> = {
+    name: 'rsuite-browser-module-diagnostics',
+    api: observer,
+    configureServer(server) {
+      server.middlewares.use(observer.middleware);
+    }
+  };
+  return {
+    plugin,
+    observeBrowserModuleLoads({ page, project }: BrowserCommandContext) {
+      // Vitest resolves the browser server separately from its command configuration.
+      const serverPlugin = project.browser?.vite.config.plugins.find(
+        candidate => candidate.name === plugin.name
+      ) as typeof plugin | undefined;
+      if (!serverPlugin?.api) throw new Error('Browser module diagnostics plugin is missing');
+      const serverObserver = serverPlugin.api;
+      observeModuleLoads(page, new URL(page.url()).origin, diagnostic => {
+        console.error(
+          '[Browser module error]',
+          JSON.stringify({
+            ...diagnostic,
+            serverRequests: serverObserver.getRecentRequests(diagnostic.url)
+          })
+        );
+      });
+    }
+  };
 }

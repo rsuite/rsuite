@@ -97,7 +97,11 @@ async function createConfig() {
         './test/browser/toggleCommands'
       );
       const { setMotionPreference } = await import('./test/browser/motionCommands');
-      const { observeBrowserModuleLoads } = await import('./test/browser/moduleLoadDiagnostics');
+      const { createBrowserModuleDiagnostics } = await import(
+        './test/browser/moduleLoadDiagnostics'
+      );
+      const { plugin, observeBrowserModuleLoads } = createBrowserModuleDiagnostics();
+      config.plugins!.push(plugin);
       config.test.setupFiles = ['test/browser/moduleLoadDiagnostics.setup.ts', 'vitest.setup.ts'];
       config.test.browser = {
         enabled: true,
