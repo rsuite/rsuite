@@ -50,9 +50,7 @@ TimePicker 是一个允许用户选择时间值的组件。
 
 ## 响应式
 
-默认在屏幕宽度小于 576px 时，弹出层会转换为全宽 Drawer（`responsive={true}`）。当选择器已经位于 Modal 或 Drawer 中时，可设置 `responsive={false}` 保持定位浮层，避免嵌套遮罩。
-
-要调整 Drawer 的显示条件，可将 `responsive` 设为断点条件，如 `"mdDown"`（小于 992px），或 CSS 媒体查询，如 `"(max-width: 1279px)"`。查询匹配时显示 Drawer，否则显示定位浮层。
+在超小屏幕上，弹出层默认显示为全宽 Drawer。当选择器已经位于 Modal 或 Drawer 中时，可设置 `responsive={false}` 保持定位浮层，避免嵌套遮罩。
 
 <!--{include:<example-responsive>}-->
 
@@ -107,7 +105,7 @@ TimePicker 是一个允许用户选择时间值的组件。
 | preventOverflow     | boolean                                                         | 防止浮动元素溢出                                   |
 | ranges              | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code)) | 快捷项配置                                         |
 | renderValue         | (date: Date) => ReactNode                                       | 自定义渲染值                                       |
-| responsive          | boolean \| string `(true)`                                      | Drawer 断点条件或媒体查询；`true` 表示屏幕宽度小于 576px |
+| responsive          | boolean `(true)`                                                | 是否在超小屏幕上将弹出层显示为全宽 Drawer          |
 | shouldDisableHour   | (hour:number, date:Date) => boolean                             | 禁用小时                                           |
 | shouldDisableMinute | (minute:number, date:Date) => boolean                           | 禁用分钟                                           |
 | shouldDisableSecond | (second:number, date:Date) => boolean                           | 禁用秒                                             |

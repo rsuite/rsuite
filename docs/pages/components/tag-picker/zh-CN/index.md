@@ -56,9 +56,7 @@
 
 ## 响应式
 
-默认仅在 `searchable={false}` 时，弹出层会在屏幕宽度小于 576px 时转换为全宽 Drawer。设置 `responsive={true}` 可在小于 576px 时启用支持搜索的 Drawer；设置 `responsive={false}` 则始终保持定位浮层。
-
-要调整 Drawer 的显示条件，可将 `responsive` 设为断点条件，如 `"mdDown"`（小于 992px），或 CSS 媒体查询，如 `"(max-width: 1279px)"`。查询匹配时显示 Drawer，否则显示定位浮层；启用搜索时同样适用。
+默认仅在 `searchable={false}` 时，弹出层会在超小屏幕上转换为全宽 Drawer。设置 `responsive` 可强制启用支持搜索的 Drawer；设置 `responsive={false}` 则始终保持定位浮层。
 
 <!--{include:<example-responsive>}-->
 
@@ -131,7 +129,7 @@
 | renderOption       | (label: ReactNode, item: [Option][item]) => ReactNode                      | 自定义选项渲染函数             |
 | renderOptionGroup  | (groupTitle: ReactNode, item: [Option][item]) => ReactNode                 | 自定义选项组渲染函数           |
 | renderValue        | (value: string[], items: [Option][item][], tags: ReactNode[]) => ReactNode | 自定义选中项渲染函数           |
-| responsive         | boolean \| string                                                          | Drawer 断点条件或媒体查询；省略时默认为 `!searchable` |
+| responsive         | boolean                                                                    | 控制响应式 Drawer；省略时默认为 `!searchable` |
 | searchable         | boolean `(true)`                                                           | 是否可以搜索                   |
 | searchBy           | (keyword: string, label: ReactNode, item: [Option][item]) => boolean       | 自定义搜索匹配函数             |
 | size               | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                      | 设置组件尺寸                   |

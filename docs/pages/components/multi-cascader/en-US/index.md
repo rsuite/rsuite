@@ -58,9 +58,7 @@ The `MultiCascader` component is used to select multiple values from cascading o
 
 ## Responsive
 
-By default, the popup becomes a full-width Drawer on screens narrower than 576px (`responsive={true}`). Set `responsive={false}` to keep a positioned popup, such as when the picker is already inside a Modal or Drawer.
-
-To change when the Drawer appears, set `responsive` to a breakpoint condition such as `"mdDown"` (below 992px), or a CSS media query such as `"(max-width: 1279px)"`. The popup uses a Drawer while the query matches and a positioned popup otherwise.
+On extra-small screens, the popup is displayed as a full-width Drawer by default. Set `responsive={false}` to keep a positioned popup, such as when the picker is already inside a Modal or Drawer.
 
 <!--{include:<example-responsive>}-->
 
@@ -133,7 +131,7 @@ To change when the Drawer appears, set `responsive` to a breakpoint condition su
 | renderExtraFooter     | () => ReactNode                                                                           | Custom render extra footer                                                      |
 | renderTreeNode        | (node: ReactNode, item: [Option][item]) => ReactNode                                      | Custom render tree node                                                         |
 | renderValue           | (value: string, selectedItems: [Option][item][], selectedElement: ReactNode) => ReactNode | Custom render selected items                                                    |
-| responsive            | boolean \| string `(true)`                                                                | Drawer breakpoint or media query; `true` uses screens below 576px               |
+| responsive            | boolean `(true)`                                                                          | Whether to display the popup as a full-width Drawer on extra-small screens      |
 | searchable            | boolean `(true)`                                                                          | Whether can be searched                                                         |
 | size                  | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                     | A picker can have different sizes                                               |
 | toggleAs              | ElementType `('a')`                                                                       | You can use a custom element for this component                                 |

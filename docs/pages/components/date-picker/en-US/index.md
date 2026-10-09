@@ -116,9 +116,7 @@ If you only need to meet the simple date selection function, you can use the nat
 
 ## Responsive
 
-By default, the popup becomes a full-width Drawer on screens narrower than 576px (`responsive={true}`). Set `responsive={false}` to keep a positioned popup, such as when the picker is already inside a Modal or Drawer.
-
-To change when the Drawer appears, set `responsive` to a breakpoint condition such as `"mdDown"` (below 992px), or a CSS media query such as `"(max-width: 1279px)"`. The popup uses a Drawer while the query matches and a positioned popup otherwise.
+On extra-small screens, the popup is displayed as a full-width Drawer by default. Set `responsive={false}` to keep a positioned popup, such as when the picker is already inside a Modal or Drawer.
 
 <!--{include:<example-responsive>}-->
 
@@ -193,7 +191,7 @@ Has keyboard interaction for the DateInput component by default.
 | ranges                | [Range[]](#code-ts-range-code)                         | Custom shortcut options                                                                                          |             |
 | renderCell            | (date: Date) => ReactNode                              | Custom calendar cell rendering                                                                                   | ![][5.54.0] |
 | renderValue           | (date: Date, format: string) => string                 | Custom render value                                                                                              |             |
-| responsive            | boolean \| string `(true)`                             | Drawer breakpoint or media query; `true` uses screens below 576px                                                |             |
+| responsive            | boolean `(true)`                                       | Whether to display the popup as a full-width Drawer on extra-small screens                                       |             |
 | shouldDisableDate     | (date:Date) => boolean                                 | Disabled date                                                                                                    |             |
 | shouldDisableHour     | (hour:number, date:Date) => boolean                    | Disabled hours                                                                                                   |             |
 | shouldDisableMinute   | (minute:number, date:Date) => boolean                  | Disabled minutes                                                                                                 |             |

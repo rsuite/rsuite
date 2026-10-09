@@ -46,9 +46,7 @@ Single item selector with text box input.
 
 ## Responsive
 
-By default, the popup becomes a full-width Drawer on screens narrower than 576px only when `searchable={false}`. Set `responsive={true}` to enable a searchable Drawer below 576px, or `responsive={false}` to always keep a positioned popup.
-
-To change when the Drawer appears, set `responsive` to a breakpoint condition such as `"mdDown"` (below 992px), or a CSS media query such as `"(max-width: 1279px)"`. The popup uses a Drawer while the query matches and a positioned popup otherwise, including when search is enabled.
+By default, the popup becomes a full-width Drawer on extra-small screens only when `searchable={false}`. Set `responsive` to force a searchable Drawer, or `responsive={false}` to always keep a positioned popup.
 
 <!--{include:<example-responsive>}-->
 
@@ -120,7 +118,7 @@ To change when the Drawer appears, set `responsive` to a breakpoint condition su
 | renderOption              | (label: ReactNode, item: [Option][item]) => ReactNode                | Custom render function for options                       |
 | renderOptionGroup         | (groupTitle: ReactNode, item: [Option][item]) => ReactNode           | Custom render function for option groups                 |
 | renderValue               | (value:string, item: [Option][item],selected:ReactNode) => ReactNode | Custom render function for selected value                |
-| responsive                | boolean \| string                                                    | Drawer breakpoint or media query; defaults to `!searchable`            |
+| responsive                | boolean                                                              | Controls the responsive Drawer; defaults to `!searchable` when omitted |
 | searchable                | boolean `(true)`                                                     | Whether the component is searchable                      |
 | searchBy                  | (keyword: string, label: ReactNode, item: [Option][item]) => boolean | Custom search function                                   |
 | shouldDisplayCreateOption | (searchKeyword: string, filteredData: InputOption[]) => boolean      | Function to determine whether to display "Create option" |

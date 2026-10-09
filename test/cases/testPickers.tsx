@@ -1,4 +1,6 @@
 import React from 'react';
+import { hydrateRoot, Root } from 'react-dom/client';
+import { renderToString } from 'react-dom/server';
 import MatchMediaMock from '@test/mocks/matchmedia-mock';
 import CustomProvider from '@/CustomProvider';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -206,6 +208,37 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
 
         expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.exist;
       });
+
+      it.each(['mdDown', '(max-width: 1279px)'])(
+        'Should hydrate a matching responsive query without replacing server markup (%s)',
+        async responsive => {
+          resizeWindow(800);
+          const child = <TestComponent id="hydrated-picker" data={data} responsive={responsive} />;
+          const host = document.createElement('div');
+          host.innerHTML = renderToString(child);
+          document.body.append(host);
+          const serverRoot = host.firstElementChild;
+          const recoverableError = vi.fn();
+          let root: Root | undefined;
+          try {
+            await act(async () => {
+              root = hydrateRoot(host, child, { onRecoverableError: recoverableError });
+            });
+            expect(host.firstElementChild).to.equal(serverRoot);
+            expect(recoverableError).not.toHaveBeenCalled();
+            expect(host.querySelector('[responsive]')).to.be.null;
+            await act(async () => {
+              root?.render(
+                <TestComponent id="hydrated-picker" data={data} responsive={responsive} open />
+              );
+            });
+            expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.exist;
+          } finally {
+            act(() => root?.unmount());
+            host.remove();
+          }
+        }
+      );
     });
 
     it('Should render a picker', () => {
