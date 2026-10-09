@@ -1,4 +1,3 @@
-import React from 'react';
 import { List, Panel, HStack, VStack, Text, Avatar, SegmentedControl } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';

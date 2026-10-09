@@ -122,6 +122,7 @@ const NumberInput = forwardRef<typeof InputGroup, NumberInputProps>((props, ref)
     disabled,
     decimalSeparator,
     formatter,
+    inputMode = 'numeric',
     readOnly,
     plaintext,
     value: valueProp,
@@ -137,6 +138,7 @@ const NumberInput = forwardRef<typeof InputGroup, NumberInputProps>((props, ref)
     scrollable = true,
     onChange,
     onWheel,
+    onKeyDown: onKeyDownProp,
     onBlur: onBlurProp,
     onFocus: onFocusProp,
     ...rest
@@ -200,13 +202,13 @@ const NumberInput = forwardRef<typeof InputGroup, NumberInputProps>((props, ref)
       ref={plaintext ? (ref as any) : undefined}
       inputRef={inputRef}
       autoComplete="off"
-      inputMode="numeric"
+      inputMode={inputMode}
       step={step}
       value={inputValue}
       disabled={disabled}
       readOnly={readOnly}
       plaintext={plaintext}
-      onKeyDown={onKeyDown}
+      onKeyDown={createChainedFunction(onKeyDownProp, onKeyDown)}
       onChange={handleChange}
       onBlur={createChainedFunction(onBlur, onBlurProp)}
       onFocus={createChainedFunction(onFocus, onFocusProp)}
@@ -217,8 +219,8 @@ const NumberInput = forwardRef<typeof InputGroup, NumberInputProps>((props, ref)
     return input;
   }
 
-  const stepUpDisabled = disabled || readOnly || valueReachesMax(value, max);
-  const stepDownDisabled = disabled || readOnly || valueReachesMin(value, min);
+  const stepUpDisabled = disabled || readOnly || valueReachesMax(value, max, decimalSeparator);
+  const stepDownDisabled = disabled || readOnly || valueReachesMin(value, min, decimalSeparator);
 
   return (
     <InputGroup

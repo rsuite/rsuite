@@ -3,7 +3,7 @@ import Tooltip from '@/Tooltip';
 import OverlayTrigger from '../OverlayTrigger';
 import type { OverlayTriggerHandle } from '@/internals/Overlay';
 import { describe, expect, it, vi } from 'vitest';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 describe('OverlayTrigger', () => {
   it('Should create Whisper element', () => {
@@ -302,21 +302,27 @@ describe('OverlayTrigger', () => {
   });
 
   it('Should open the Overlay by default', async () => {
-    const onClose = vi.fn();
+    const onExited = vi.fn();
     const ref = React.createRef<OverlayTriggerHandle>();
 
     render(
-      <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>} defaultOpen onExited={onClose} ref={ref}>
+      <OverlayTrigger
+        speaker={<Tooltip>tooltip</Tooltip>}
+        defaultOpen
+        trigger="none"
+        onExited={onExited}
+        ref={ref}
+      >
         <button>button</button>
       </OverlayTrigger>
     );
 
     expect(screen.getByRole('tooltip')).to.exist;
 
-    ref.current?.close();
+    act(() => ref.current?.close());
 
     await waitFor(() => {
-      expect(onClose).toHaveBeenCalledTimes(1);
+      expect(onExited).toHaveBeenCalledTimes(1);
       expect(screen.queryByRole('tooltip')).to.not.exist;
     });
   });

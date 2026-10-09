@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useCustom } from '@/internals/hooks';

@@ -1,4 +1,3 @@
-import React from 'react';
 import Page from '@/components/layout/Page';
 import GitHubIcon from '@rsuite/icons/legacy/Github';
 import { Panel, Row, Col, Stack, Button, IconButton } from 'rsuite';

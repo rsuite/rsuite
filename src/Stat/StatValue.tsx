@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
@@ -23,7 +24,7 @@ const StatValue = forwardRef<'dd', StatValueProps>((props, ref) => {
 
   return (
     <Box as={as} ref={ref} className={classes} {...rest}>
-      {value && <FormattedNumber value={value} formatOptions={formatOptions} />}
+      {value != null && <FormattedNumber value={value} formatOptions={formatOptions} />}
       {children}
     </Box>
   );

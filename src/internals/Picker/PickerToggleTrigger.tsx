@@ -10,7 +10,7 @@ import OverlayTrigger, {
 import { useUniqueId } from '@/internals/hooks';
 import { useStyles } from '@/internals/hooks';
 import { useBreakpointValue } from '../../useBreakpointValue';
-import type { Placement, Size, AnimationEventProps } from '@/internals/types';
+import type { Placement, Size, AnimationEventProps, PickerBaseProps } from '@/internals/types';
 
 export interface PickerToggleTriggerProps
   /**
@@ -62,8 +62,13 @@ export interface PickerToggleTriggerProps
   /** Size of the component */
   size?: Size;
 
-  /** Whether the component should be responsive */
-  responsive?: boolean;
+  /** Controls when the popup adapts to a full-width Drawer */
+  responsive?: PickerBaseProps['responsive'];
+
+  /** Whether this picker has an editable combobox input. */
+  inputCombobox?: boolean;
+  ariaLabel?: string;
+  ariaLabelledby?: string;
 
   /** Handler for keydown events */
   onKeyDown?: (event: React.KeyboardEvent) => void;
@@ -97,6 +102,9 @@ export interface ComboboxContextProps {
   placement?: Placement;
   breakpoint?: string;
   popupType?: 'listbox' | 'tree' | 'grid' | 'dialog' | 'menu';
+  inputCombobox?: boolean;
+  ariaLabel?: string;
+  ariaLabelledby?: string;
 }
 
 export const ComboboxContext = React.createContext<ComboboxContextProps>({
@@ -126,13 +134,17 @@ export const PickerToggleTrigger = React.forwardRef(
       size,
       trigger = 'click',
       responsive = true,
+      inputCombobox,
+      ariaLabel,
+      ariaLabelledby,
       onKeyDown,
       onClick,
       ...rest
     } = props;
     const pickerTriggerProps = pick(triggerProps, triggerPropKeys);
     const pickerId = useUniqueId('rs-', id);
-    const breakpoint = useBreakpointValue({ xsOnly: 'xs' }, { enabled: responsive });
+    const responsiveQuery = typeof responsive === 'string' ? responsive : 'xsOnly';
+    const breakpoint = useBreakpointValue({ [responsiveQuery]: 'xs' }, { enabled: !!responsive });
     // Only use the breakpoint value if not disabled
     const effectiveBreakpoint = disabled ? undefined : breakpoint;
 
@@ -143,9 +155,22 @@ export const PickerToggleTrigger = React.forwardRef(
         multiple,
         placement,
         breakpoint: effectiveBreakpoint,
-        popupType
+        popupType,
+        inputCombobox,
+        ariaLabel,
+        ariaLabelledby
       }),
-      [pickerId, multiple, placement, effectiveBreakpoint, popupType]
+      [
+        pickerId,
+        multiple,
+        placement,
+        effectiveBreakpoint,
+        popupType,
+        inputCombobox,
+        ariaLabel,
+        ariaLabelledby,
+        pickerTriggerProps.label
+      ]
     );
 
     const { withPrefix, merge } = useStyles(classPrefix);

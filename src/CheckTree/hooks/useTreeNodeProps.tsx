@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React, { useCallback } from 'react';
 import { isAllSiblingNodeUncheckable, getDisabledState, isNodeUncheckable } from '../utils';
 import { useItemDataKeys } from '@/internals/Tree/TreeProvider';

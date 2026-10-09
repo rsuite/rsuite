@@ -1,0 +1,86 @@
+[
+  {
+    "file": "before-chromium.json.gz",
+    "bytes": 8069,
+    "sha256": "488c22756bfe9b8c3fdd0bdd1f241dcac85b357c88dcd78870563848aa0afe02",
+    "uncompressedBytes": 332345,
+    "uncompressedSha256": "d14eb4e83a52feaca31a89181486d0b17194f17b40bcfde93e2b7147813130ff"
+  },
+  {
+    "file": "after-chromium.json.gz",
+    "bytes": 8101,
+    "sha256": "b10648a4d982cc1ffdc27cdce0219103a6e07b909e5e69bb52eb3507229af4cb",
+    "uncompressedBytes": 331758,
+    "uncompressedSha256": "54292bcff27f0fd1bf0f41a0ca09f824d9abd943454aa4cc3de13e3321a00559"
+  },
+  {
+    "file": "before-firefox.json.gz",
+    "bytes": 5719,
+    "sha256": "ab0922622e84ec407be9a072a9965bffec951cf97b1a8c0888eca4fc9361acdc",
+    "uncompressedBytes": 313410,
+    "uncompressedSha256": "f48bbed145d0a5053c08343afffb1cfb4b5dd17e62947c2fd31d874262eea8f0"
+  },
+  {
+    "file": "after-firefox.json.gz",
+    "bytes": 5608,
+    "sha256": "38239876cc3f71edd110550a9a0f3df0b9f4ba70c432d129fbb56660a077b0ac",
+    "uncompressedBytes": 313315,
+    "uncompressedSha256": "2cac145414ed321badfa3b878f3a2bf8db4f763e56f8f353c4fa418fde04d20f"
+  },
+  {
+    "file": "reverse-before-chromium.json.gz",
+    "bytes": 8013,
+    "sha256": "818496eb3ea2c3a90266fea7d67a9ac5eb8dfd011087b6baf2888dcb1f4634e9",
+    "uncompressedBytes": 332115,
+    "uncompressedSha256": "cb327d73e6b74537dc8f493401ead2925d1fc55bfb1415ee9cb77dd4425addb7"
+  },
+  {
+    "file": "reverse-after-chromium.json.gz",
+    "bytes": 8063,
+    "sha256": "e645f618fa5d961102df8bbed2e654509288babbbd6b66b902f74251ad2857b3",
+    "uncompressedBytes": 332147,
+    "uncompressedSha256": "e4fdc36d452a9f853bc6f0cd92a9cdc8197c9a2ce1f33bf7fa6b05ed5e566aa7"
+  },
+  {
+    "file": "reverse-before-firefox.json.gz",
+    "bytes": 5774,
+    "sha256": "74bcc8d26e9119e128604ace8538334818b2d408ec7ecfecf1d5f2de4f96535d",
+    "uncompressedBytes": 313416,
+    "uncompressedSha256": "214e7b82114d24ae99362e531800f8b6182532aa3634868a9daf0de168feac44"
+  },
+  {
+    "file": "reverse-after-firefox.json.gz",
+    "bytes": 5722,
+    "sha256": "21360f1e5d2f0f058eba647996abcc2c27980ca15ff288d9cb1ef187f19f90ee",
+    "uncompressedBytes": 313312,
+    "uncompressedSha256": "8eb4c467eaf7a969b171aab0e96d699b1accb8347247df90f25cfb367d60e896"
+  },
+  {
+    "file": "shared-process-opening-chromium.json.gz",
+    "bytes": 1955,
+    "sha256": "af1a968278601e4aadf6d0b1d0532f68420201603353fcf32d38e62fc4ae2753",
+    "uncompressedBytes": 50641,
+    "uncompressedSha256": "4e6848f9fe22e77b2a7d3a4b46976c4f46d936b31678a4650ddec03d1f08ad45"
+  },
+  {
+    "file": "shared-process-opening-firefox.json.gz",
+    "bytes": 1384,
+    "sha256": "11cdd67c552d3c5e38da4f31321fd36e3a75eff52375049c226dffada1604d66",
+    "uncompressedBytes": 47332,
+    "uncompressedSha256": "4febad4c4370947646b504163653df1b2f94ec8032ce6faac47c1b51135a2263"
+  },
+  {
+    "file": "portable-opening-chromium.json.gz",
+    "bytes": 2033,
+    "sha256": "dfbefeb52f12726c01064ca127408660dea15a14abffaadd0028393f4184894a",
+    "uncompressedBytes": 51108,
+    "uncompressedSha256": "cffcc31dcab8455807723a87eed074e5770d4a23bd0b6733090c109af5098f0e"
+  },
+  {
+    "file": "portable-opening-firefox.json.gz",
+    "bytes": 1559,
+    "sha256": "fe604b2e0cf74472110724d0bf8577ee5d0e0da89fa71de26d7c76aeeaa80861",
+    "uncompressedBytes": 48008,
+    "uncompressedSha256": "84a65a5840f87eea9868d420c6cca1bb4e765084542269fb3e3e23640a004f71"
+  }
+]

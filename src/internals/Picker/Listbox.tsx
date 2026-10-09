@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import isUndefined from 'lodash/isUndefined';
 import isString from 'lodash/isString';
 import isNumber from 'lodash/isNumber';
@@ -10,6 +10,10 @@ import getHeight from 'dom-lib/getHeight';
 import get from 'lodash/get';
 import classNames from 'classnames';
 import ListItemGroup from './ListItemGroup';
+import useVirtualizedListFocus from './hooks/useVirtualizedListFocus';
+import useActiveDescendant from './hooks/useActiveDescendant';
+import type { VirtualizedListHandle } from './hooks/useVirtualizedListFocus';
+import VirtualizedListItem, { ItemRendererProvider } from './VirtualizedListItem';
 import useCombobox from './hooks/useCombobox';
 import Highlight from '../../Highlight';
 import {
@@ -51,6 +55,8 @@ export interface ListboxProps<Multiple = false>
   activeItemValues?: any[];
   focusItemValue?: any;
   maxHeight?: number;
+  /** Content shown inside an empty listbox. */
+  emptyContent?: React.ReactNode;
 
   listItemAs: React.ElementType | string;
   listItemClassPrefix?: string;
@@ -64,6 +70,10 @@ export interface ListboxProps<Multiple = false>
   listProps?: Partial<ListProps>;
   /** */
   listRef?: React.Ref<ListHandle>;
+  /** Internal keyboard navigation for virtualized options. */
+  keyboardNavigationRef?: React.Ref<VirtualizedListHandle>;
+  /** Reports only the mounted logical focus target of an editable combobox. */
+  onActiveDescendantChange?: (id: string | undefined) => void;
 
   /**
    * Query string for filtering.
@@ -116,6 +126,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       data = [],
       groupBy,
       maxHeight = 320,
+      emptyContent,
       activeItemValues = [],
       disabledItemValues = [],
       classPrefix = 'listbox',
@@ -124,6 +135,8 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       virtualized,
       listProps,
       listRef: virtualizedListRef,
+      keyboardNavigationRef,
+      onActiveDescendantChange,
       className,
       style,
       focusItemValue,
@@ -151,6 +164,10 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
 
     const menuBodyContainerRef = useRef<HTMLDivElement>(null);
     const listRef = useRef<ListHandle>(null);
+    const mergedListRef = useMemo(
+      () => mergeRefs(mergeRefs(listRef, virtualizedListRef), listProps?.ref),
+      [virtualizedListRef, listProps?.ref]
+    );
 
     const [foldedGroupKeys, setFoldedGroupKeys] = useState<string[]>([]);
 
@@ -223,6 +240,25 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
         })
       : data;
     const rowCount = filteredItems.length;
+
+    const reportActiveDescendant = useActiveDescendant({
+      menuRef: menuBodyContainerRef,
+      focusItemValue,
+      onChange: onActiveDescendantChange
+    });
+
+    const handleItemsRendered = useVirtualizedListFocus({
+      items: filteredItems,
+      valueKey,
+      disabledItemValues,
+      menuRef: menuBodyContainerRef,
+      listRef,
+      navigationRef: keyboardNavigationRef,
+      onItemsRendered: props => {
+        reportActiveDescendant();
+        listProps?.onItemsRendered?.(props);
+      }
+    });
 
     const renderItem: any = ({
       index = 0,
@@ -311,23 +347,28 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
         style={styles}
         {...rest}
       >
-        {virtualized ? (
-          <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>
-            {({ height }) => (
-              <List
-                as={VariableSizeList}
-                ref={mergeRefs(listRef, virtualizedListRef)}
-                height={height || maxHeight}
-                itemCount={rowCount}
-                itemData={filteredItems}
-                itemSize={getRowHeight.bind(this, filteredItems)}
-                className={rootPrefix('virt-list')}
-                {...listProps}
-              >
-                {renderItem}
-              </List>
-            )}
-          </AutoSizer>
+        {rowCount === 0 ? (
+          emptyContent
+        ) : virtualized ? (
+          <ItemRendererProvider value={renderItem}>
+            <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>
+              {({ height }) => (
+                <List
+                  as={VariableSizeList}
+                  height={height || maxHeight}
+                  itemCount={rowCount}
+                  itemData={filteredItems}
+                  itemSize={getRowHeight.bind(this, filteredItems)}
+                  className={rootPrefix('virt-list')}
+                  {...listProps}
+                  ref={mergedListRef}
+                  onItemsRendered={handleItemsRendered}
+                >
+                  {VirtualizedListItem}
+                </List>
+              )}
+            </AutoSizer>
+          </ItemRendererProvider>
         ) : (
           filteredItems.map((item, index: number) => renderItem({ index, item }))
         )}

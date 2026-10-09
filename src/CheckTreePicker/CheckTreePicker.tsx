@@ -25,6 +25,7 @@ import {
   PositionChildProps
 } from '@/internals/Picker';
 import { getSelectedItems } from '../CheckTree/utils';
+import { formatNodeRefKey } from '../Tree/utils';
 import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
 import type { TreeNode } from '@/internals/Tree/types';
 import type { FormControlPickerProps, Option, DeprecatedMenuProps } from '@/internals/types';
@@ -257,6 +258,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
         uncheckableItemValues={uncheckableItemValues}
         cascade={cascade}
         data={treeData}
+        sourceData={data}
         height={treeHeight}
         showIndentLine={showIndentLine}
         listProps={listProps}
@@ -363,7 +365,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
         active={active}
         placement={placement}
         inputValue={value}
-        focusItemValue={focusItemValue}
+        focusItemValue={isNil(focusItemValue) ? undefined : formatNodeRefKey(focusItemValue)}
         size={size}
         {...rest}
       >

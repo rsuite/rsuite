@@ -1,0 +1,99 @@
+name: Firefox tests
+
+on:
+  workflow_call:
+    inputs:
+      react-version:
+        required: true
+        type: string
+      react-runtime:
+        required: true
+        type: string
+    secrets:
+      CODECOV_TOKEN:
+        required: false
+
+jobs:
+  test:
+    name: 'Firefox shard (${{ matrix.shard }}/2)'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      # Both independent runners must finish so failures cannot hide another shard.
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+    env:
+      VITE_RSUITE_REACT_VERSION: ${{ inputs.react-runtime }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Report runner disk space
+        if: runner.os == 'Linux' # ubuntu-latest is Linux
+        run: df -h
+
+      - name: Use Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+            ${{ runner.OS }}-
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: install react 18
+        if: ${{ inputs.react-version == 'React18' }}
+        run: npm run install:react-18
+
+      - name: install react 19
+        if: ${{ inputs.react-version == 'React19' }}
+        run: npm run install:react-19
+
+      - name: Install React 19.3.0
+        if: ${{ inputs.react-version == 'React19.3' }}
+        run: npm run install:react-19-3
+
+      - name: Verify installed React runtime
+        run: |
+          node <<'NODE'
+          const assert = require('node:assert/strict');
+          const React = require('react');
+          const ReactDOM = require('react-dom');
+          const expected = process.env.VITE_RSUITE_REACT_VERSION;
+          console.log({ expected, react: React.version, reactDOM: ReactDOM.version });
+          assert.equal(React.version, expected);
+          assert.equal(ReactDOM.version, expected);
+          if (expected === '19.3.0') assert.ok(React.Activity, 'Activity tests require this runtime');
+          NODE
+
+      # Provision the browser for the final dependency tree after selecting React.
+      - name: Install Playwright Browsers
+        run: node scripts/install-browser-ci.cjs firefox
+
+      - name: Run headless tests
+        run: npm run test:ci -- --browser.headless --shard=${{ matrix.shard }}/2
+        env:
+          CI: true
+          BROWSER: firefox
+          # Report native Playwright request failures for dynamic import diagnostics.
+          VITEST_PW_DEBUG: '1'
+
+      - name: Run native browser control tests
+        if: ${{ matrix.shard == 1 }}
+        run: npm run test:browser-controls
+        env:
+          BROWSER: firefox
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: firefox
+          fail_ci_if_error: true

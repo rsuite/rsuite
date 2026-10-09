@@ -64,7 +64,9 @@ By default, the popup becomes a full-width Drawer on extra-small screens only wh
 
 ### ARIA properties
 
-- TagPicker has role `combobox`.
+- When the picker has an editable input, it has role `combobox`. Its `id`, `tabIndex`, and ARIA properties belong to the input; the picker handle still targets the toggle frame. With `searchable={false}`, the toggle is the combobox.
+- Arrow navigation keeps DOM focus on the editable input so that you can continue typing. `aria-activedescendant` references the highlighted option while it is mounted.
+- In a responsive dialog, the external trigger has `aria-haspopup="dialog"`; the dialog search input controls the listbox.
 - Has the `aria-haspopup="listbox"` attribute to indicate that the combobox has a popup listbox.
 - Has the `aria-expanded` attribute to indicate whether the listbox is open or not.
 - Has the `aria-controls` attribute to indicate the ID of the listbox element.
@@ -74,10 +76,11 @@ By default, the popup becomes a full-width Drawer on extra-small screens only wh
 
 ### Keyboard interactions
 
-- <kbd>↓</kbd> - Move focus to the next option.
-- <kbd>↑</kbd> - Move focus to the previous option.
+- <kbd>↓</kbd> - Highlight the next option.
+- <kbd>↑</kbd> - Highlight the previous option.
 - <kbd>Enter</kbd> - Select the focused option.
 - <kbd>Esc</kbd> - Close the listbox.
+- <kbd>Tab</kbd> - Close the listbox and move to the next control. Home, End, and left/right arrows retain their text editing behavior in the editable input.
 
 ## Props
 

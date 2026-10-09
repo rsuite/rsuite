@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { CheckTreePicker, Box } from 'rsuite';
 import { mockTreeData } from '@/utils/mock';
 

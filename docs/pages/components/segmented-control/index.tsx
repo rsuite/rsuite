@@ -1,4 +1,3 @@
-import React from 'react';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { SegmentedControl, HStack, VStack, Text, Divider } from 'rsuite';

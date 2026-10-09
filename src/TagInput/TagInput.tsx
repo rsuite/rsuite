@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React, { useMemo } from 'react';
 import InputPicker, { InputPickerProps } from '../InputPicker/InputPicker';
 import { forwardRef } from '@/internals/utils';

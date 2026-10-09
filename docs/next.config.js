@@ -19,6 +19,7 @@ const {
 
 const __USE_SRC__ = VERCEL_ENV === 'preview' || VERCEL_ENV === 'local';
 const __DEV__ = VERCEL_ENV === 'local';
+const tsconfigPath = __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json';
 const BUILD_ID = format(new Date(), 'yyyyMMddHHmm');
 
 /**
@@ -34,10 +35,7 @@ module.exports = {
     defaultLocale: 'en',
     localeDetection: false
   },
-  eslint: {
-    // ESLint is ignored because it's already run in CI workflow
-    ignoreDuringBuilds: true
-  },
+  transpilePackages: __USE_SRC__ ? ['rsuite'] : undefined,
   experimental: {
     externalDir: true
   },
@@ -170,7 +168,11 @@ module.exports = {
     );
 
     if (__DEV__) {
-      config.plugins.push(new ForkTsCheckerWebpackPlugin());
+      config.plugins.push(
+        new ForkTsCheckerWebpackPlugin({
+          typescript: { configFile: path.resolve(__dirname, tsconfigPath) }
+        })
+      );
     }
 
     config.optimization.minimizer.push(
@@ -240,7 +242,7 @@ module.exports = {
     pagesBufferLength: 3 // default 2
   },
   typescript: {
-    tsconfigPath: __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json'
+    tsconfigPath
   },
   trailingSlash: true,
   pageExtensions: ['tsx', 'ts'],
@@ -253,7 +255,6 @@ module.exports = {
       }
     ];
   },
-  swcMinify: true,
   images: {
     remotePatterns: [
       {

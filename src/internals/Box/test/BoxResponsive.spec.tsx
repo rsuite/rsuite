@@ -644,9 +644,13 @@ describe('Box Responsive Props', () => {
 
     unmount();
 
-    expect(StyleManager.removeRule).toHaveBeenCalled();
-    expect(StyleManager.removeRule).toHaveBeenCalledWith('@media (min-width: 0px)');
-    expect(StyleManager.removeRule).toHaveBeenCalledWith('@media (min-width: 768px)');
+    const calls = vi.mocked(StyleManager.addRule).mock.calls;
+    const baseSelector = calls.find(call => call[0].startsWith('.'))?.[0];
+    const mediaKey = calls.find(call => call[0] === '@media (min-width: 768px)')?.[2]?.key;
+
+    expect(StyleManager.removeRule).toHaveBeenCalledTimes(2);
+    expect(StyleManager.removeRule).toHaveBeenCalledWith(baseSelector);
+    expect(StyleManager.removeRule).toHaveBeenCalledWith(mediaKey);
   });
 
   describe('Responsive Native CSS Properties', () => {

@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const VercelBanner = () => (
   <a
     href="https://vercel.com?utm_source=rsuite&utm_campaign=oss"

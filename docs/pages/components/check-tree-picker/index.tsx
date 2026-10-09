@@ -1,4 +1,3 @@
-import React from 'react';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
 import DefaultPage from '@/components/layout/Page';
