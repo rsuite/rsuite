@@ -84,6 +84,7 @@ const PaginationGroup = forwardRef<'div', PaginationGroupProps>((props, ref) => 
     maxButtons,
     onChangePage,
     onChangeLimit,
+    onSelect,
     ...rest
   } = propsWithDefaults;
 
@@ -94,6 +95,19 @@ const PaginationGroup = forwardRef<'div', PaginationGroupProps>((props, ref) => 
   const pages = Math.floor(total / limit) + (total % limit ? 1 : 0);
   const classes = merge(className, withPrefix());
   const locale = getLocale('Pagination', localeProp);
+
+  const handleSelect = useEventCallback((page: number | string, event: React.MouseEvent) => {
+    if (typeof page === 'number') {
+      setActivePage(page);
+    }
+
+    // Preserve the inherited onSelect callback's precedence over onChangePage.
+    if (onSelect) {
+      onSelect(page, event);
+    } else if (typeof page === 'number') {
+      onChangePage?.(page);
+    }
+  });
 
   const handleInputBlur = useEventCallback(event => {
     const value = parseInt(event.target.value);
@@ -136,7 +150,7 @@ const PaginationGroup = forwardRef<'div', PaginationGroupProps>((props, ref) => 
                 maxButtons={maxButtons}
                 pages={pages}
                 disabled={disabled}
-                onSelect={onChangePage as any} // fixme don't use any
+                onSelect={handleSelect}
                 activePage={activePage}
                 {...rest}
               />
