@@ -83,6 +83,10 @@ export default {
   Breadcrumb: {
     expandText: 'Yolu göster'
   },
+  Carousel: {
+    selectSlide: 'Slayt seç',
+    slideLabel: 'Slayt {0} / {1}'
+  },
   Toggle: {
     on: 'Açık',
     off: 'Kapalı'

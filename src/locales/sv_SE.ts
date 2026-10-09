@@ -87,6 +87,10 @@ export default {
   Breadcrumb: {
     expandText: 'Visa väg'
   },
+  Carousel: {
+    selectSlide: 'Välj bild',
+    slideLabel: 'Bild {0} av {1}'
+  },
   Toggle: {
     on: 'På',
     off: 'Av'

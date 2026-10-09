@@ -87,6 +87,10 @@ export default {
   Breadcrumb: {
     expandText: '경로 표시'
   },
+  Carousel: {
+    selectSlide: '슬라이드 선택',
+    slideLabel: '전체 {1}개 중 {0}번째 슬라이드'
+  },
   Toggle: {
     on: '켜기',
     off: '끄기'

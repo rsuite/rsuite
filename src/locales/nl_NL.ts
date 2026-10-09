@@ -83,6 +83,10 @@ export default {
   Breadcrumb: {
     expandText: 'Toon pad'
   },
+  Carousel: {
+    selectSlide: 'Dia kiezen',
+    slideLabel: 'Dia {0} van {1}'
+  },
   Toggle: {
     on: 'Open',
     off: 'Sluit'

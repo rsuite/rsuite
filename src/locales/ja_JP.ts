@@ -87,6 +87,10 @@ export default {
   Breadcrumb: {
     expandText: 'パス表示'
   },
+  Carousel: {
+    selectSlide: 'スライドを選択',
+    slideLabel: '{1}枚中{0}枚目のスライド'
+  },
   Toggle: {
     on: '開く',
     off: '閉じる'

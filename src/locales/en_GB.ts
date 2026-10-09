@@ -87,6 +87,10 @@ export default {
   Breadcrumb: {
     expandText: 'Show path'
   },
+  Carousel: {
+    selectSlide: 'Choose slide',
+    slideLabel: 'Slide {0} of {1}'
+  },
   Toggle: {
     on: 'ON',
     off: 'OFF'

@@ -2,6 +2,7 @@ import React from 'react';
 import DateInputSubpath, { useDateInputState } from 'rsuite/DateInput';
 import {
   Button,
+  Carousel,
   Fade,
   Animation,
   CustomProvider,
@@ -43,6 +44,26 @@ import SummarySubpath, {
 import ClipboardSubpath, { useClipboard as NamedClipboardSubpath } from 'rsuite/useClipboard';
 import SelectPickerSubpath from 'rsuite/SelectPicker';
 import DatePickerSubpath from 'rsuite/DatePicker';
+import CarouselSubpath, { CarouselProps } from 'rsuite/Carousel';
+import type { CarouselLocale, Locale } from 'rsuite/locales';
+
+const carouselLocale: CarouselLocale = { selectSlide: 'Stories', slideLabel: 'Story {0} of {1}' };
+const carouselProps: CarouselProps = { locale: { slideLabel: 'Item {0}/{1}' } };
+const providerLocale: Locale = { Carousel: { selectSlide: 'Slides', slideLabel: 'Slide {0}' } };
+export const namedCarousels = (
+  <CustomProvider locale={providerLocale}>
+    <Carousel locale={carouselLocale}>
+      <div>First</div>
+      <div>Second</div>
+    </Carousel>
+    <CarouselSubpath {...carouselProps}>
+      <div>First</div>
+    </CarouselSubpath>
+  </CustomProvider>
+);
+// @ts-expect-error Accessible label templates must remain strings.
+const invalidCarouselLocale: CarouselLocale = { slideLabel: 123 };
+void invalidCarouselLocale;
 
 const responsiveData = [{ label: 'Alpha', value: 'a' }];
 export const responsivePickers = (

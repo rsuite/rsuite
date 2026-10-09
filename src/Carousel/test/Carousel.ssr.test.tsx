@@ -22,7 +22,7 @@ describe('Carousel SSR hydration', () => {
             '/',
             `<!doctype html><html><body><div id="root">${markup}</div><script type="module" src="/src/Carousel/test/CarouselHydration.client.tsx"></script></body></html>`
           );
-          response.setHeader('Content-Type', 'text/html');
+          response.setHeader('Content-Type', 'text/html; charset=utf-8');
           response.end(html);
         });
       }
@@ -69,12 +69,26 @@ describe('Carousel SSR hydration', () => {
             id: input.id,
             name: input.getAttribute('name'),
             htmlFor: label?.htmlFor,
-            associated: label?.control === input
+            associated: label?.control === input,
+            label: input.getAttribute('aria-label')
           };
         })
       );
       const ids = indicators.map(indicator => indicator.id);
       expect(indicators).toEqual(result.initialIndicators);
+      expect(indicators.map(indicator => indicator.label)).toEqual([
+        'Slide 1 of 2',
+        'Slide 2 of 2',
+        '第 1 张，共 2 张',
+        '第 2 张，共 2 张'
+      ]);
+      expect(
+        await page
+          .getByRole('radiogroup')
+          .evaluateAll(groups => groups.map(group => group.getAttribute('aria-label')))
+      ).toEqual(result.initialGroups);
+      expect(result.initialGroups).toEqual(['Choose slide', '选择幻灯片']);
+      expect(await page.getByRole('radio', { name: '第 1 张，共 2 张' }).isChecked()).toBe(true);
       expect(indicators).toHaveLength(4);
       expect(new Set(ids).size).toBe(4);
       expect(indicators[0].name).toBe(indicators[1].name);

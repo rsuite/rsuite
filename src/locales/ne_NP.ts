@@ -87,6 +87,10 @@ export default {
   Breadcrumb: {
     expandText: 'स्थान देखाउनुहोस्'
   },
+  Carousel: {
+    selectSlide: 'स्लाइड छान्नुहोस्',
+    slideLabel: '{1} मध्ये स्लाइड {0}'
+  },
   Toggle: {
     on: 'खोल्नुहोस्',
     off: 'बन्द गर्नुहोस्'

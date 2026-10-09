@@ -83,6 +83,10 @@ export default {
   Breadcrumb: {
     expandText: 'Көрсету'
   },
+  Carousel: {
+    selectSlide: 'Слайдты таңдау',
+    slideLabel: '{1} слайдтың {0}-і'
+  },
   Toggle: {
     on: 'Қосу',
     off: 'Өшіру'

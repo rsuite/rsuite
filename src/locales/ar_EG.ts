@@ -84,6 +84,10 @@ export default {
   Breadcrumb: {
     expandText: 'عرض المسار'
   },
+  Carousel: {
+    selectSlide: 'اختيار شريحة',
+    slideLabel: 'الشريحة {0} من {1}'
+  },
   Toggle: {
     on: 'إيقاف',
     off: 'تشغيل'

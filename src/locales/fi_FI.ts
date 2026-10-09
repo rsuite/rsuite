@@ -87,6 +87,10 @@ export default {
   Breadcrumb: {
     expandText: 'Näytä polku'
   },
+  Carousel: {
+    selectSlide: 'Valitse dia',
+    slideLabel: 'Dia {0}/{1}'
+  },
   Toggle: {
     on: 'Päällä',
     off: 'Pois päältä'

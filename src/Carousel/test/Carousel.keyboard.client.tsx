@@ -3,6 +3,8 @@ import { version as reactDOMVersion } from 'react-dom';
 import { createRoot } from 'react-dom/client';
 import Carousel from '../Carousel';
 import type { CarouselProps } from '../Carousel';
+import CustomProvider from '../../CustomProvider';
+import zhCN from '../../locales/zh_CN';
 import '../styles/index.scss';
 
 const options = new URLSearchParams(window.location.hash.slice(1));
@@ -18,6 +20,7 @@ function Fixture() {
   const common = {
     placement: (options.get('placement') || 'bottom') as CarouselProps['placement'],
     shape: (options.get('shape') || 'dot') as CarouselProps['shape'],
+    locale: options.has('override') ? { selectSlide: 'Featured stories' } : undefined,
     style: { width: 300, height: 100, '--rs-focus-ring-color': 'rgb(1, 2, 3)' }
   };
   return (
@@ -33,8 +36,10 @@ function Fixture() {
           if (options.has('controlled')) setFirst(index);
         }}
       >
-        <div>First A</div>
-        <div>First B</div>
+        <div aria-label={options.has('named') ? 'Mountain view' : undefined}>First A</div>
+        <div aria-labelledby={options.has('named') ? 'named-slide-heading' : undefined}>
+          {options.has('named') ? <h2 id="named-slide-heading">City skyline</h2> : 'First B'}
+        </div>
         <div>First C</div>
       </Carousel>
       <button>Between</button>
@@ -69,7 +74,11 @@ declare global {
   }
 }
 
-const fixture = <Fixture />;
+const fixture = (
+  <CustomProvider locale={options.has('zh') ? zhCN : options.has('partial') ? {} : undefined}>
+    <Fixture />
+  </CustomProvider>
+);
 createRoot(document.getElementById('root')!).render(
   options.has('strict') ? <StrictMode>{fixture}</StrictMode> : fixture
 );

@@ -87,6 +87,10 @@ export default {
   Breadcrumb: {
     expandText: 'Zobrazit cestu'
   },
+  Carousel: {
+    selectSlide: 'Vybrat snímek',
+    slideLabel: 'Snímek {0} z {1}'
+  },
   Toggle: {
     on: 'Otevřít',
     off: 'Zavřít'
