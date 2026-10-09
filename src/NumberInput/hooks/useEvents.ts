@@ -85,20 +85,27 @@ export function useEvents(params: UseEventsParams) {
 
   const handleWheel = useEventCallback((event: React.WheelEvent<HTMLInputElement>) => {
     if (!scrollable) {
-      event.preventDefault();
       return;
     }
-    if (!disabled && !readOnly && event.target === document.activeElement) {
-      event.preventDefault();
-      const delta = event.deltaY;
-      if (delta > 0) {
-        onStepDown(event);
-      }
-      if (delta < 0) {
-        onStepUp(event);
-      }
-    }
     onWheelProp?.(event);
+
+    if (
+      event.defaultPrevented ||
+      disabled ||
+      readOnly ||
+      event.target !== document.activeElement ||
+      event.deltaY === 0
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    if (event.deltaY > 0) {
+      onStepDown(event);
+    }
+    if (event.deltaY < 0) {
+      onStepUp(event);
+    }
   });
 
   const onBlur = (event: React.FocusEvent<HTMLInputElement>) => {
