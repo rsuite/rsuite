@@ -1,6 +1,5 @@
 import { cleanup } from '@testing-library/react';
-import { afterEach, vi, beforeAll, afterAll } from 'vitest';
-import chai from 'chai';
+import { afterEach, vi, beforeAll, afterAll, chai } from 'vitest';
 import chaiDom from 'chai-dom';
 
 // Configure Chai
