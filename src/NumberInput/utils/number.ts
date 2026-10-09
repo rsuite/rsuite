@@ -45,6 +45,13 @@ export function restoreDecimalSeparator(value: string, decimalSeparator?: string
   return value.replace(separatorRegex, '.');
 }
 
+export function toNumber(value: number | string, decimalSeparator?: string): number {
+  const number = Number(value);
+  return Number.isNaN(number) && typeof value === 'string'
+    ? Number(restoreDecimalSeparator(value, decimalSeparator))
+    : number;
+}
+
 /**
  * Disable the upper limit of the number.
  * @param value
@@ -56,7 +63,7 @@ export function valueReachesMax(
   decimalSeparator?: string
 ) {
   if (!isNil(value)) {
-    return +restoreDecimalSeparator(value.toString(), decimalSeparator) >= max;
+    return toNumber(value, decimalSeparator) >= max;
   }
   return false;
 }
@@ -72,7 +79,7 @@ export function valueReachesMin(
   decimalSeparator?: string
 ) {
   if (!isNil(value)) {
-    return +restoreDecimalSeparator(value.toString(), decimalSeparator) <= min;
+    return toNumber(value, decimalSeparator) <= min;
   }
   return false;
 }

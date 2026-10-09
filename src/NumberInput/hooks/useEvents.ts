@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useEventCallback } from '@/internals/hooks';
 import { KEY_VALUES } from '@/internals/constants';
-import { clampValue, decimals, restoreDecimalSeparator } from '../utils/number';
+import { clampValue, decimals, restoreDecimalSeparator, toNumber } from '../utils/number';
 import { useWheelHandler } from './useWheelHandler';
 
 export interface UseEventsParams {
@@ -36,13 +36,13 @@ export function useEvents(params: UseEventsParams) {
   const getSafeValue = (value: number | string) => clampValue(value, min, max);
 
   const onStepUp = useEventCallback((event: React.SyntheticEvent) => {
-    const val = +restoreDecimalSeparator(String(value || 0), decimalSeparator);
+    const val = toNumber(value || 0, decimalSeparator);
     const bit = decimals(val, step);
     onChangeValue(getSafeValue((val + step).toFixed(bit)), event);
   });
 
   const onStepDown = useEventCallback((event: React.SyntheticEvent) => {
-    const val = +restoreDecimalSeparator(String(value || 0), decimalSeparator);
+    const val = toNumber(value || 0, decimalSeparator);
     const bit = decimals(val, step);
     onChangeValue(getSafeValue((val - step).toFixed(bit)), event);
   });
