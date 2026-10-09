@@ -84,6 +84,9 @@ export default {
     expandText: 'પાથ બતાવો'
   },
   Carousel: {
+    carouselRoleDescription: 'સ્લાઇડશો',
+    slideRoleDescription: 'સ્લાઇડ',
+    slidePosition: '{1} માંથી {0}',
     startRotation: 'સ્લાઇડનું આપમેળે બદલાવું શરૂ કરો',
     stopRotation: 'સ્લાઇડનું આપમેળે બદલાવું બંધ કરો',
     selectSlide: 'સ્લાઇડ પસંદ કરો',

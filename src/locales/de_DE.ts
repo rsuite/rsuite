@@ -88,6 +88,9 @@ export default {
     expandText: 'Pfad anzeigen'
   },
   Carousel: {
+    carouselRoleDescription: 'Karussell',
+    slideRoleDescription: 'Folie',
+    slidePosition: '{0} von {1}',
     startRotation: 'Automatischen Folienwechsel starten',
     stopRotation: 'Automatischen Folienwechsel stoppen',
     selectSlide: 'Folie auswählen',

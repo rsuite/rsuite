@@ -84,6 +84,9 @@ export default {
     expandText: 'Toon pad'
   },
   Carousel: {
+    carouselRoleDescription: 'carrousel',
+    slideRoleDescription: 'dia',
+    slidePosition: '{0} van {1}',
     startRotation: 'Automatische diawisseling starten',
     stopRotation: 'Automatische diawisseling stoppen',
     selectSlide: 'Dia kiezen',

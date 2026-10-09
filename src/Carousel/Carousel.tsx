@@ -17,7 +17,7 @@ export interface CarouselProps
   extends BoxProps,
     Pick<
       React.HTMLAttributes<HTMLElement>,
-      'onFocusCapture' | 'onPointerEnter' | 'onPointerLeave'
+      'role' | 'aria-roledescription' | 'onFocusCapture' | 'onPointerEnter' | 'onPointerLeave'
     > {
   /** Automatically rotate slides. Focus pauses rotation until the user restarts it. */
   autoplay?: boolean;
@@ -37,7 +37,10 @@ export interface CarouselProps
   /** Defaul initial index */
   defaultActiveIndex?: number;
 
-  /** Accessible control names. slideLabel supports {0} for the position and {1} for the total. */
+  /**
+   * Accessible names and role descriptions.
+   * slideLabel and slidePosition support {0} for the position and {1} for the total.
+   */
   locale?: CarouselLocale;
 
   /** Callback fired when the active item manually changes */
@@ -61,6 +64,8 @@ const Carousel = forwardRef<'div', CarouselProps>((props, ref) => {
     children,
     classPrefix = 'carousel',
     className,
+    role = 'group',
+    'aria-roledescription': roleDescription,
     placement = 'bottom',
     shape = 'dot',
     autoplay,
@@ -195,6 +200,13 @@ const Carousel = forwardRef<'div', CarouselProps>((props, ref) => {
   return (
     <Box
       as={as}
+      role={role}
+      aria-roledescription={
+        roleDescription ??
+        (role === 'group' || role === 'region'
+          ? locale?.carouselRoleDescription || enGB.Carousel.carouselRoleDescription
+          : undefined)
+      }
       {...rest}
       ref={mergeRefs(ref, rootRef)}
       className={classes}
@@ -231,12 +243,24 @@ const Carousel = forwardRef<'div', CarouselProps>((props, ref) => {
           onTransitionEnd={handleTransitionEnd}
         >
           {items?.map(
-            item =>
+            (item, index) =>
               item && (
                 <div
                   key={item.key}
                   className={prefix('item-wrapper')}
                   style={{ display: 'contents' }}
+                  role="group"
+                  aria-roledescription={
+                    locale?.slideRoleDescription || enGB.Carousel.slideRoleDescription
+                  }
+                  aria-labelledby={item.props['aria-labelledby']}
+                  aria-label={
+                    item.props['aria-label'] ||
+                    (locale?.slidePosition || enGB.Carousel.slidePosition).replace(
+                      /\{(0|1)\}/g,
+                      (_, position) => String(position === '0' ? index + 1 : count)
+                    )
+                  }
                   aria-hidden={item.props['aria-hidden']}
                   inert={item.props['aria-hidden'] ? inertValue : undefined}
                 >

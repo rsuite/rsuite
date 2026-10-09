@@ -90,6 +90,9 @@ export default {
     expandText: 'Útvonal megjelenítése'
   },
   Carousel: {
+    carouselRoleDescription: 'diavetítés',
+    slideRoleDescription: 'dia',
+    slidePosition: '{0}/{1}',
     startRotation: 'Diák automatikus váltásának indítása',
     stopRotation: 'Diák automatikus váltásának leállítása',
     selectSlide: 'Dia kiválasztása',

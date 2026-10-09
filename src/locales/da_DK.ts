@@ -88,6 +88,9 @@ export default {
     expandText: 'Vis sti'
   },
   Carousel: {
+    carouselRoleDescription: 'karrusel',
+    slideRoleDescription: 'dias',
+    slidePosition: '{0} af {1}',
     startRotation: 'Start automatisk diasskift',
     stopRotation: 'Stop automatisk diasskift',
     selectSlide: 'Vælg dias',

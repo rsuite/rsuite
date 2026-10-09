@@ -84,6 +84,9 @@ export default {
     expandText: 'نمایش مسیر'
   },
   Carousel: {
+    carouselRoleDescription: 'نمایش اسلاید',
+    slideRoleDescription: 'اسلاید',
+    slidePosition: '{0} از {1}',
     startRotation: 'شروع چرخش اسلایدها',
     stopRotation: 'توقف چرخش اسلایدها',
     selectSlide: 'انتخاب اسلاید',
