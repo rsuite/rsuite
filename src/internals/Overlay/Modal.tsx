@@ -230,8 +230,8 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
    *
    */
   const handleFocusDialog = useEventCallback((onBeforeFocusCallback?: () => void) => {
-    const currentActiveElement = document.activeElement as HTMLElement;
     const dialog = modal.dialog;
+    const currentActiveElement = dialog?.ownerDocument.activeElement as HTMLElement | null;
 
     if (dialog && currentActiveElement && !contains(dialog, currentActiveElement)) {
       onBeforeFocusCallback?.();
@@ -258,21 +258,24 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
   const documentFocusListener = useRef<{ off: () => void } | null>(null);
 
   const handleOpen = useEventCallback(() => {
+    const dialogDocument =
+      modal.dialog?.ownerDocument || containerElement?.ownerDocument || document;
     if (containerElement) {
       modal.add(containerElement, containerClassName);
     }
 
     if (!documentKeyDownListener.current) {
-      documentKeyDownListener.current = on(document, 'keydown', handleDocumentKeyDown);
+      documentKeyDownListener.current = on(dialogDocument, 'keydown', handleDocumentKeyDown);
     }
 
     if (!documentFocusListener.current) {
-      documentFocusListener.current = on(document, 'focus', handleEnforceFocus, true);
+      documentFocusListener.current = on(dialogDocument, 'focus', handleEnforceFocus, true);
     }
 
     if (autoFocus) {
       handleFocusDialog(() => {
-        lastFocus.current = document.activeElement as HTMLElement;
+        const focusDocument = dialogDocument.hasFocus() ? dialogDocument : document;
+        lastFocus.current = focusDocument.activeElement as HTMLElement;
       });
     }
 
