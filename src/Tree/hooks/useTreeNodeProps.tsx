@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React, { useCallback } from 'react';
 import { TREE_NODE_DROP_POSITION } from '@/internals/constants';
 import { shallowEqual as equal } from '@/internals/utils';

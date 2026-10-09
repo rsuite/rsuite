@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { VStack, HStack, Button } from 'rsuite';
 import Link from 'next/link';
 import DefaultPage from '@/components/layout/Page';

@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Box, useBreakpointValue, Stack, Button } from 'rsuite';
 
 const App = () => {

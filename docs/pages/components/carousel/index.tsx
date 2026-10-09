@@ -1,4 +1,3 @@
-import React from 'react';
 import { Carousel, SegmentedControl, Divider, Text } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';

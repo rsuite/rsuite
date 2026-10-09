@@ -1,4 +1,3 @@
-import React from 'react';
 import { Highlight, Input, List, Box } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';

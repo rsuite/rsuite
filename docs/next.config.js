@@ -35,10 +35,7 @@ module.exports = {
     defaultLocale: 'en',
     localeDetection: false
   },
-  eslint: {
-    // ESLint is ignored because it's already run in CI workflow
-    ignoreDuringBuilds: true
-  },
+  transpilePackages: __USE_SRC__ ? ['rsuite'] : undefined,
   experimental: {
     externalDir: true
   },
@@ -258,7 +255,6 @@ module.exports = {
       }
     ];
   },
-  swcMinify: true,
   images: {
     remotePatterns: [
       {

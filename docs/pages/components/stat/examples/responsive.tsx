@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Stat, StatGroup, HStack, useBreakpointValue } from 'rsuite';
 
 const App = () => {

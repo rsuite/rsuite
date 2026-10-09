@@ -1,4 +1,3 @@
-import React from 'react';
 import { TagInput, VStack, HStack, Text, Divider } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';

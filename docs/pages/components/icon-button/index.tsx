@@ -1,4 +1,3 @@
-import React from 'react';
 import DefaultPage from '@/components/layout/Page';
 import SearchIcon from '@rsuite/icons/Search';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';

@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { TagPicker, Box } from 'rsuite';
 
 const data = [

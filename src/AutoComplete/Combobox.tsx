@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import Input, { InputProps } from '../Input';
 import { useCombobox } from '@/internals/Picker';

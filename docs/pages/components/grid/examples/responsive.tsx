@@ -1,4 +1,3 @@
-import React from 'react';
 import { Grid, Row, Col, Divider, Center } from 'rsuite';
 
 const DecorativeBox = ({ children, ...rest }) => (
