@@ -127,15 +127,16 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
   );
 
   const uniqueId = useUniqueId('');
+  const indicatorName = `indicator_${uniqueId}`;
   const items = rch.map(children as React.ReactElement[], (child: ReactElement, index) => {
     if (!child) {
       return;
     }
-    const inputKey = `indicator_${uniqueId}_${index}`;
+    const inputKey = `${indicatorName}_${index}`;
     labels.push(
       <li key={`label${index}`} className={prefix('label-wrapper')}>
         <input
-          name={inputKey}
+          name={indicatorName}
           id={inputKey}
           type="radio"
           onChange={handleChange}
