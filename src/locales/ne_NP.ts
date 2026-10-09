@@ -88,6 +88,8 @@ export default {
     expandText: 'स्थान देखाउनुहोस्'
   },
   Carousel: {
+    startRotation: 'स्लाइडको स्वचालित परिवर्तन सुरु गर्नुहोस्',
+    stopRotation: 'स्लाइडको स्वचालित परिवर्तन रोक्नुहोस्',
     selectSlide: 'स्लाइड छान्नुहोस्',
     slideLabel: '{1} मध्ये स्लाइड {0}'
   },

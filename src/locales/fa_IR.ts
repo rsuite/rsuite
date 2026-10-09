@@ -84,6 +84,8 @@ export default {
     expandText: 'نمایش مسیر'
   },
   Carousel: {
+    startRotation: 'شروع چرخش اسلایدها',
+    stopRotation: 'توقف چرخش اسلایدها',
     selectSlide: 'انتخاب اسلاید',
     slideLabel: 'اسلاید {0} از {1}'
   },

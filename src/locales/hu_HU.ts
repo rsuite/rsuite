@@ -90,6 +90,8 @@ export default {
     expandText: 'Útvonal megjelenítése'
   },
   Carousel: {
+    startRotation: 'Diák automatikus váltásának indítása',
+    stopRotation: 'Diák automatikus váltásának leállítása',
     selectSlide: 'Dia kiválasztása',
     slideLabel: '{0}. dia, összesen {1}'
   },

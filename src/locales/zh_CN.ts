@@ -84,6 +84,8 @@ export default {
     expandText: '显示路径'
   },
   Carousel: {
+    startRotation: '开始自动播放',
+    stopRotation: '停止自动播放',
     selectSlide: '选择幻灯片',
     slideLabel: '第 {0} 张，共 {1} 张'
   },

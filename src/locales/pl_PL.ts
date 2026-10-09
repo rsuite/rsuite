@@ -84,6 +84,8 @@ export default {
     expandText: 'Pokaż ścieżkę'
   },
   Carousel: {
+    startRotation: 'Rozpocznij automatyczne zmienianie slajdów',
+    stopRotation: 'Zatrzymaj automatyczne zmienianie slajdów',
     selectSlide: 'Wybierz slajd',
     slideLabel: 'Slajd {0} z {1}'
   },

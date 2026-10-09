@@ -84,6 +84,8 @@ export default {
     expandText: 'Yolu göster'
   },
   Carousel: {
+    startRotation: 'Otomatik slayt geçişini başlat',
+    stopRotation: 'Otomatik slayt geçişini durdur',
     selectSlide: 'Slayt seç',
     slideLabel: 'Slayt {0} / {1}'
   },

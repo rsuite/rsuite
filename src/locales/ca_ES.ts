@@ -88,6 +88,8 @@ export default {
     expandText: 'Mostrar ruta'
   },
   Carousel: {
+    startRotation: 'Inicia la rotació de diapositives',
+    stopRotation: 'Atura la rotació de diapositives',
     selectSlide: 'Tria una diapositiva',
     slideLabel: 'Diapositiva {0} de {1}'
   },

@@ -89,6 +89,8 @@ export default {
     expandText: 'แสดงเส้นทาง'
   },
   Carousel: {
+    startRotation: 'เริ่มเปลี่ยนสไลด์อัตโนมัติ',
+    stopRotation: 'หยุดเปลี่ยนสไลด์อัตโนมัติ',
     selectSlide: 'เลือกสไลด์',
     slideLabel: 'สไลด์ {0} จาก {1}'
   },

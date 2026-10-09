@@ -84,6 +84,8 @@ export default {
     expandText: 'Показать путь'
   },
   Carousel: {
+    startRotation: 'Начать автоматическую смену слайдов',
+    stopRotation: 'Остановить автоматическую смену слайдов',
     selectSlide: 'Выбрать слайд',
     slideLabel: 'Слайд {0} из {1}'
   },

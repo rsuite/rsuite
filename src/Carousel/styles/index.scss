@@ -21,6 +21,28 @@
   overflow: hidden;
   background-color: var(--rs-carousel-bg);
 
+  &-rotation-control {
+    position: absolute;
+    top: var(--rs-carousel-toolbar-wrapper-margin);
+    inset-inline-end: var(--rs-carousel-toolbar-wrapper-margin);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid var(--rs-border-primary);
+    border-radius: var(--rs-radius-sm);
+    background: var(--rs-bg-overlay);
+    color: var(--rs-text-primary);
+    cursor: pointer;
+
+    &:focus-visible {
+      @include utils.focus-ring-slim;
+    }
+  }
+
   &-content {
     position: relative;
     width: 100%;
@@ -55,6 +77,14 @@
     &-vertical {
       animation: move-left-half-vertical var(--rs-carousel-animation-duration) ease forwards;
     }
+  }
+
+  &-reduce-motion &-slider {
+    transition: none;
+  }
+
+  &-reduce-motion &-slider-after {
+    display: none;
   }
 
   &-toolbar {

@@ -88,6 +88,8 @@ export default {
     expandText: 'Pfad anzeigen'
   },
   Carousel: {
+    startRotation: 'Automatischen Folienwechsel starten',
+    stopRotation: 'Automatischen Folienwechsel stoppen',
     selectSlide: 'Folie auswählen',
     slideLabel: 'Folie {0} von {1}'
   },
