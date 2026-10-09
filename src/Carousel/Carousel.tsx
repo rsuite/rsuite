@@ -1,13 +1,7 @@
-import React, { useState, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import Box, { BoxProps } from '@/internals/Box';
-import {
-  useStyles,
-  useCustom,
-  useControlled,
-  useUpdateEffect,
-  useTimeout
-} from '@/internals/hooks';
+import { useStyles, useCustom, useControlled, useTimeout } from '@/internals/hooks';
 import { forwardRef, guid, rch, mergeRefs } from '@/internals/utils';
 import type { ReactElement } from '@/internals/types';
 
@@ -76,14 +70,20 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
   const [lastIndex, setLastIndex] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
 
-  useUpdateEffect(() => {
-    // When the index is controlled, the index is not updated when the number of children changes.
-    if (isControlled) {
-      return;
+  const previousSelectionInputs = useRef({ children, isControlled });
+
+  useEffect(() => {
+    const previous = previousSelectionInputs.current;
+    previousSelectionInputs.current = { children, isControlled };
+
+    // Effect reconnection alone should preserve the user's selected slide.
+    if (
+      !isControlled &&
+      (previous.children !== children || previous.isControlled !== isControlled)
+    ) {
+      setActiveIndex(0);
     }
-    // Reset the index when the number of children changes.
-    setActiveIndex(0);
-  }, [children, isControlled]);
+  }, [children, isControlled, setActiveIndex]);
 
   // Set a timer for automatic playback.
   // `autoplay` needs to be cast to boolean type to avoid undefined parameters.
