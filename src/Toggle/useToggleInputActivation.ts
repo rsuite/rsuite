@@ -1,6 +1,14 @@
 import React, { useRef } from 'react';
 import { useEventCallback, useIsomorphicLayoutEffect } from '@/internals/hooks';
 
+type InputHandler = NonNullable<React.InputHTMLAttributes<HTMLInputElement>['onInput']>;
+
+function hasInputTarget(
+  event: React.SyntheticEvent<HTMLInputElement>
+): event is React.ChangeEvent<HTMLInputElement> {
+  return event.target === event.currentTarget;
+}
+
 interface Activation {
   sequence: number;
   input: HTMLInputElement;
@@ -81,40 +89,38 @@ function useToggleInputActivation({
     }
   });
 
-  const handleInput: React.ChangeEventHandler<HTMLInputElement> = useEventCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const callerOnInput = onInput;
-      const current = activation.current;
-      const input = event.currentTarget;
-      if (
-        current?.input === input &&
-        inputRef.current === input &&
-        current.sequence === sequence.current &&
-        event.target === input &&
-        event.nativeEvent.target === input &&
-        event.nativeEvent.type === 'input' &&
-        event.nativeEvent.isTrusted
-      ) {
-        const nextChecked = input.checked;
-        const shouldNotify =
-          !current.handled &&
-          !current.nativeClick.defaultPrevented &&
-          !controlled &&
-          !locked &&
-          nextChecked !== current.beforeChecked &&
-          nextChecked === current.checkedAtClick;
+  const handleInput: InputHandler = useEventCallback((event: Parameters<InputHandler>[0]) => {
+    const callerOnInput = onInput;
+    const current = activation.current;
+    const input = event.currentTarget;
+    if (
+      current?.input === input &&
+      inputRef.current === input &&
+      current.sequence === sequence.current &&
+      hasInputTarget(event) &&
+      event.nativeEvent.target === input &&
+      event.nativeEvent.type === 'input' &&
+      event.nativeEvent.isTrusted
+    ) {
+      const nextChecked = input.checked;
+      const shouldNotify =
+        !current.handled &&
+        !current.nativeClick.defaultPrevented &&
+        !controlled &&
+        !locked &&
+        nextChecked !== current.beforeChecked &&
+        nextChecked === current.checkedAtClick;
 
-        // Input events have no click identity. Consume this scoped association
-        // before callbacks so a reentrant activation can keep its own sequence.
-        clearActivation();
-        if (shouldNotify) {
-          setChecked(nextChecked);
-          onChange?.(nextChecked, event);
-        }
+      // Input events have no click identity. Consume this scoped association
+      // before callbacks so a reentrant activation can keep its own sequence.
+      clearActivation();
+      if (shouldNotify) {
+        setChecked(nextChecked);
+        onChange?.(nextChecked, event);
       }
-      callerOnInput?.(event);
     }
-  );
+    callerOnInput?.(event);
+  });
 
   useIsomorphicLayoutEffect(() => {
     if (activation.current && activation.current.input !== inputRef.current) {
