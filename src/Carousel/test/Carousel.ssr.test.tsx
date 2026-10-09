@@ -77,9 +77,12 @@ describe('Carousel SSR hydration', () => {
       expect(indicators).toEqual(result.initialIndicators);
       expect(indicators).toHaveLength(4);
       expect(new Set(ids).size).toBe(4);
+      expect(indicators[0].name).toBe(indicators[1].name);
+      expect(indicators[2].name).toBe(indicators[3].name);
+      expect(indicators[0].name).not.toBe(indicators[2].name);
       indicators.forEach(indicator => {
         expect(indicator.id).not.toBe('');
-        expect(indicator.name).toBe(indicator.id);
+        expect(indicator.name).toBeTruthy();
         expect(indicator.htmlFor).toBe(indicator.id);
         expect(indicator.associated).toBe(true);
       });
@@ -95,6 +98,18 @@ describe('Carousel SSR hydration', () => {
       expect(
         await page.evaluate(() => window.__RSUITE_CAROUSEL_HYDRATION_RESULT__?.selections)
       ).toEqual([{ carousel: 'first', index: 0, trusted: true }]);
+      await page.keyboard.press('ArrowRight');
+      await page.waitForFunction(
+        () => window.__RSUITE_CAROUSEL_HYDRATION_RESULT__?.selections.length === 2
+      );
+      expect(await page.getByText('First slide B').getAttribute('aria-hidden')).toBe('false');
+      expect(await page.getByText('Second slide A').getAttribute('aria-hidden')).toBe('false');
+      expect(
+        await page.evaluate(() => window.__RSUITE_CAROUSEL_HYDRATION_RESULT__?.selections)
+      ).toEqual([
+        { carousel: 'first', index: 0, trusted: true },
+        { carousel: 'first', index: 1, trusted: true }
+      ]);
       expect(
         await page
           .locator('input[type="radio"]')

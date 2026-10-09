@@ -50,10 +50,10 @@
     width: 100%;
     background-color: var(--rs-carousel-bg);
     top: 0;
-    animation: moveLeftHalf var(--rs-carousel-animation-duration) ease forwards;
+    animation: move-left-half var(--rs-carousel-animation-duration) ease forwards;
 
     &-vertical {
-      animation: moveLeftHalf-vertical var(--rs-carousel-animation-duration) ease forwards;
+      animation: move-left-half-vertical var(--rs-carousel-animation-duration) ease forwards;
     }
   }
 
@@ -85,6 +85,10 @@
     input:checked ~ label {
       background-color: var(--rs-carousel-indicator-active);
     }
+
+    input:focus-visible ~ label {
+      @include utils.focus-ring-slim;
+    }
   }
 
   &-label {
@@ -100,8 +104,7 @@
       position: absolute;
       top: var(--rs-carousel-dot-margin);
       bottom: var(--rs-carousel-dot-margin);
-      inset-inline-end: var(--rs-carousel-dot-margin);
-      inset-inline-start: var(--rs-carousel-dot-margin);
+      inset-inline: var(--rs-carousel-dot-margin);
     }
 
     &:hover {
@@ -182,7 +185,7 @@
     inset-inline-end: var(--rs-carousel-toolbar-wrapper-margin);
   }
 
-  @keyframes moveLeftHalf {
+  @keyframes move-left-half {
     0% {
       transform: none;
     }
@@ -192,7 +195,7 @@
     }
   }
 
-  @keyframes moveLeftHalf-vertical {
+  @keyframes move-left-half-vertical {
     0% {
       transform: none;
     }
