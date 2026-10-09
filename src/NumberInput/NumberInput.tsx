@@ -122,6 +122,7 @@ const NumberInput = forwardRef<typeof InputGroup, NumberInputProps>((props, ref)
     disabled,
     decimalSeparator,
     formatter,
+    inputMode = 'numeric',
     readOnly,
     plaintext,
     value: valueProp,
@@ -201,7 +202,7 @@ const NumberInput = forwardRef<typeof InputGroup, NumberInputProps>((props, ref)
       ref={plaintext ? (ref as any) : undefined}
       inputRef={inputRef}
       autoComplete="off"
-      inputMode="numeric"
+      inputMode={inputMode}
       step={step}
       value={inputValue}
       disabled={disabled}
