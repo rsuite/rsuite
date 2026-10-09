@@ -63,6 +63,7 @@ const defaultLimitOptions = [30, 50, 100];
  * @see https://rsuitejs.com/components/pagination
  */
 const PaginationGroup = forwardRef<'div', PaginationGroupProps>((props, ref) => {
+  const { propsWithDefaults, getLocale } = useCustom('Pagination', props);
   const {
     as,
     activePage: activePageProp,
@@ -84,7 +85,7 @@ const PaginationGroup = forwardRef<'div', PaginationGroupProps>((props, ref) => 
     onChangePage,
     onChangeLimit,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
   const { merge, prefix, withPrefix } = useStyles(classPrefix);
   const [limit, setLimit] = useControlled(limitProp, 30);
@@ -92,8 +93,6 @@ const PaginationGroup = forwardRef<'div', PaginationGroupProps>((props, ref) => 
 
   const pages = Math.floor(total / limit) + (total % limit ? 1 : 0);
   const classes = merge(className, withPrefix());
-
-  const { getLocale } = useCustom();
   const locale = getLocale('Pagination', localeProp);
 
   const handleInputBlur = useEventCallback(event => {
@@ -129,6 +128,7 @@ const PaginationGroup = forwardRef<'div', PaginationGroupProps>((props, ref) => 
               <Pagination
                 key={onlyKey}
                 size={size}
+                locale={locale}
                 prev={prev}
                 next={next}
                 first={first}

@@ -55,6 +55,9 @@ export function useCustomConfig<P = any>(
   } = useContext(CustomContext);
 
   const { locale: componentLocale, ...restProps } = (componentProps as any) || {};
+  const globalDefaultProps = componentName ? components[componentName]?.defaultProps : undefined;
+  const defaultLocale = (globalDefaultProps as { locale?: Record<string, any> } | undefined)
+    ?.locale;
   const code = globalLocale?.code;
 
   const getLocale = useCallback(
@@ -70,10 +73,17 @@ export function useCustomConfig<P = any>(
             ? assign({}, ...key.map(k => globalLocale?.[k]))
             : {};
 
-      // Merge all parts: public locale, specific locale, custom component locale
-      return assign({}, publicLocale, specificLocale, componentLocale, overrideLocale);
+      // Instance translations override component defaults, which override the provider locale.
+      return assign(
+        {},
+        publicLocale,
+        specificLocale,
+        defaultLocale,
+        componentLocale,
+        overrideLocale
+      );
     },
-    [globalLocale, componentLocale]
+    [globalLocale, defaultLocale, componentLocale]
   );
 
   const propsWithDefaults: P = useMemo(() => {
@@ -81,8 +91,6 @@ export function useCustomConfig<P = any>(
       return;
     }
 
-    //Memoize the global default props based on component name
-    const globalDefaultProps = components[componentName]?.defaultProps || {};
     const mergedProps = assign({}, globalDefaultProps, restProps);
     const localeKey = getComponentLocaleKey(componentName);
 
@@ -90,8 +98,10 @@ export function useCustomConfig<P = any>(
     if (Object.keys(enGB).includes(localeKey)) {
       return { ...mergedProps, locale: getLocale(localeKey as LocaleKey) };
     }
-    return mergedProps;
-  }, [componentName, components, getLocale, restProps]);
+    return componentLocale
+      ? { ...mergedProps, locale: assign({}, defaultLocale, componentLocale) }
+      : mergedProps;
+  }, [componentName, globalDefaultProps, defaultLocale, componentLocale, getLocale, restProps]);
 
   return {
     code,
