@@ -31,9 +31,9 @@ describe('Carousel autoplay controls', () => {
       if (message.type() === 'error') errors.push(message.text());
     });
     await page.emulateMedia({ reducedMotion: reducedMotion ? 'reduce' : 'no-preference' });
-    const time = new Date('2026-01-01T00:00:00Z');
-    await page.clock.install({ time });
-    await page.clock.pauseAt(time);
+    // Installation starts time flowing. Pause forward before the app creates any timers.
+    await page.clock.install({ time: new Date('2026-01-01T00:00:00Z') });
+    await page.clock.pauseAt(new Date('2026-01-01T01:00:00Z'));
     await page.goto(`${source.url}/#${new URLSearchParams(options)}`);
     await expect
       .poll(() => page.evaluate(() => window.__RSUITE_CAROUSEL_AUTOPLAY__?.snapshot().ready))
