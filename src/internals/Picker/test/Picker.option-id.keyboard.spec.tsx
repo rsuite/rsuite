@@ -3,6 +3,7 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@vitest/browser/context';
 import { describe, expect, it, vi } from 'vitest';
 import SelectPicker from '../../../SelectPicker';
+import CustomProvider from '../../../CustomProvider';
 import CheckPicker from '../../../CheckPicker';
 import AutoComplete from '../../../AutoComplete';
 import TreePicker from '../../../TreePicker';
@@ -102,9 +103,11 @@ describe.each(pickers)('$name encoded option IDs', picker => {
       const onEntered = vi.fn();
       const keys: KeyboardEvent[] = [];
       const capture = (event: KeyboardEvent) => keys.push(event);
-      const view = render(picker.render({ onChange, onEntered }));
+      const view = render(
+        <CustomProvider reduceMotion>{picker.render({ onChange, onEntered })}</CustomProvider>
+      );
       try {
-        await waitFor(() => expect(onEntered).toHaveBeenCalledTimes(1));
+        expect(onEntered).toHaveBeenCalledTimes(1);
         const combobox = screen.getByRole('combobox');
         const role = picker.tree ? 'treeitem' : 'option';
         const popup = document.getElementById(combobox.getAttribute('aria-controls')!);
@@ -154,7 +157,9 @@ describe('AutoComplete popup references', () => {
     async id => {
       const onChange = vi.fn();
       const view = render(
-        <AutoComplete id={id} data={data} filterBy={() => true} onChange={onChange} />
+        <CustomProvider reduceMotion>
+          <AutoComplete id={id} data={data} filterBy={() => true} onChange={onChange} />
+        </CustomProvider>
       );
       const keys: KeyboardEvent[] = [];
       const capture = (event: KeyboardEvent) => keys.push(event);
