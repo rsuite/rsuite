@@ -1,8 +1,8 @@
-import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import Box, { BoxProps } from '@/internals/Box';
-import { useStyles, useCustom, useControlled, useTimeout } from '@/internals/hooks';
-import { forwardRef, guid, rch, mergeRefs } from '@/internals/utils';
+import { useStyles, useCustom, useControlled, useTimeout, useUniqueId } from '@/internals/hooks';
+import { forwardRef, rch, mergeRefs } from '@/internals/utils';
 import type { ReactElement } from '@/internals/types';
 
 export interface CarouselProps extends BoxProps {
@@ -126,7 +126,7 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
     [activeIndex, onSlideEnd]
   );
 
-  const uniqueId = useMemo(() => guid(), []);
+  const uniqueId = useUniqueId('');
   const items = rch.map(children as React.ReactElement[], (child: ReactElement, index) => {
     if (!child) {
       return;
