@@ -45,7 +45,7 @@ import {
   PickerToggleProps
 } from '@/internals/Picker';
 import { getPositionStyle } from '@/internals/Overlay/Position';
-import type { Option, FormControlPickerProps } from '@/internals/types';
+import type { Option, FormControlPickerProps, SanitizedInputProps } from '@/internals/types';
 import type { InputPickerLocale } from '../locales';
 import type { SelectProps } from '../SelectPicker';
 import type { VirtualizedListHandle } from '@/internals/Picker/hooks/useVirtualizedListFocus';
@@ -54,6 +54,7 @@ export type ValueType = any;
 export interface InputPickerProps<V = ValueType>
   extends FormControlPickerProps<V, InputPickerLocale, InputOption>,
     Omit<SelectProps<V>, 'renderValue'>,
+    Pick<SanitizedInputProps, 'inputMode' | 'enterKeyHint'>,
     Pick<PickerToggleProps, 'caretAs' | 'loading' | 'label'> {
   tabIndex?: number;
 
@@ -130,6 +131,8 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     labelKey = 'label',
     listProps,
     id,
+    inputMode,
+    enterKeyHint,
     tabIndex,
     loading,
     label,
@@ -684,7 +687,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         searchInput={searchInput}
         active={open}
         activeDescendant={activeDescendant}
-        inputProps={inputAriaProps}
+        inputProps={{ inputMode, enterKeyHint, ...inputAriaProps }}
         onSearch={handleSearch}
       >
         {renderListbox ? renderListbox(listbox) : listbox}
@@ -795,7 +798,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         showTagList={multi}
         inputRef={inputRef}
         inputValue={open ? searchKeyword : ''}
-        inputProps={{ ...inputProps, ...inputAriaProps }}
+        inputProps={{ ...inputProps, inputMode, enterKeyHint, ...inputAriaProps }}
         active={open}
         activeDescendant={activeDescendant}
         ariaLabel={typeof placeholderNode === 'string' ? placeholderNode : locale?.placeholder}
