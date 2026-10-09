@@ -1,11 +1,16 @@
 import React from 'react';
-import { render, renderHook, screen } from '@testing-library/react';
+import { fireEvent, render, renderHook, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import CustomProvider from '../../../CustomProvider';
 import Button from '../../../Button';
 import { Fade, Bounce, Slide, Collapse } from '../../../Animation';
 import enGB from '../../../locales/en_GB';
 import useCustomConfig from '../useCustomConfig';
+import Toggle from '../../../Toggle';
+import Breadcrumb from '../../../Breadcrumb';
+import Pagination from '../../../Pagination';
+import Tag from '../../../Tag';
+import type { CustomProviderProps } from '../../../CustomProvider';
 
 describe('useCustomConfig', () => {
   it('Should preserve default props and instance overrides', () => {
@@ -132,5 +137,170 @@ describe('useCustomConfig', () => {
     expect(screen.getByText('bounce')).toHaveClass('rs-anim-bounce-in');
     expect(screen.getByText('slide')).toHaveClass('rs-anim-slide-in');
     expect(screen.getByText('collapse')).toHaveClass('rs-anim-in');
+  });
+});
+
+describe('component locale defaults', () => {
+  it('merges provider, default and instance translations without changing other defaults', () => {
+    const defaults = Object.freeze({ on: 'Default on', off: 'Default off' });
+    const wrapper = ({ children }) => (
+      <CustomProvider components={{ Toggle: { defaultProps: { size: 'lg', locale: defaults } } }}>
+        {children}
+      </CustomProvider>
+    );
+    const { result } = renderHook(
+      () => useCustomConfig('Toggle', { size: 'sm', locale: { off: 'Instance off' } }),
+      { wrapper }
+    );
+    expect(result.current.propsWithDefaults).toEqual({
+      size: 'sm',
+      locale: { ...enGB.common, on: 'Default on', off: 'Instance off' }
+    });
+    expect(defaults).toEqual({ on: 'Default on', off: 'Default off' });
+  });
+
+  it('applies the same precedence to multi-key lookups and call-site overrides', () => {
+    const wrapper = ({ children }) => (
+      <CustomProvider
+        locale={{ ...enGB, common: { ...enGB.common, remove: 'Erase' } }}
+        components={{
+          Toggle: { defaultProps: { locale: { on: 'Default on', off: 'Default off' } } }
+        }}
+      >
+        {children}
+      </CustomProvider>
+    );
+    const { result } = renderHook(
+      () => useCustomConfig('Toggle', { locale: { off: 'Instance off' } }),
+      { wrapper }
+    );
+    expect(result.current.getLocale(['Toggle', 'CloseButton'])).toEqual({
+      ...enGB.common,
+      remove: 'Erase',
+      closeLabel: 'Close',
+      on: 'Default on',
+      off: 'Instance off'
+    });
+    expect(result.current.getLocale(['Toggle', 'CloseButton'], { on: 'Override on' }).on).toBe(
+      'Override on'
+    );
+  });
+
+  it('keeps the lookup stable for unrelated defaults and responds to changed or removed translations', () => {
+    const locale = { on: 'Default on' };
+    let components: CustomProviderProps['components'] = {
+      Toggle: { defaultProps: { size: 'sm', locale } }
+    };
+    const wrapper = ({ children }) => (
+      <CustomProvider components={components}>{children}</CustomProvider>
+    );
+    const { result, rerender } = renderHook(() => useCustomConfig('Toggle'), { wrapper });
+    expect(result.current.getLocale('Toggle').on).toBe('Default on');
+    const initial = result.current.getLocale;
+    components = {
+      Toggle: { defaultProps: { size: 'lg', locale } },
+      Button: { defaultProps: { size: 'lg' } }
+    };
+    rerender();
+    expect(result.current.getLocale).toBe(initial);
+    expect(result.current.propsWithDefaults.size).toBe('lg');
+    components = { Toggle: { defaultProps: { locale: { on: 'Updated on' } } } };
+    rerender();
+    expect(result.current.getLocale).not.toBe(initial);
+    expect(result.current.propsWithDefaults.locale.on).toBe('Updated on');
+    components = {};
+    rerender();
+    expect(result.current.propsWithDefaults.locale).toEqual({ ...enGB.common, ...enGB.Toggle });
+  });
+
+  it('uses the selected component defaults without leaking them into another component', () => {
+    const wrapper = ({ children }) => (
+      <CustomProvider
+        components={{
+          Toggle: { defaultProps: { locale: { on: 'Default on' } } },
+          Breadcrumb: { defaultProps: { locale: { expandText: 'Show folders' } } }
+        }}
+      >
+        {children}
+      </CustomProvider>
+    );
+    const { result, rerender } = renderHook(
+      ({ component }: { component: 'Toggle' | 'Breadcrumb' }) => useCustomConfig(component),
+      { wrapper, initialProps: { component: 'Toggle' } }
+    );
+    expect(result.current.propsWithDefaults.locale.on).toBe('Default on');
+    rerender({ component: 'Breadcrumb' });
+    expect(result.current.propsWithDefaults.locale).toEqual({
+      ...enGB.common,
+      expandText: 'Show folders'
+    });
+  });
+
+  it.each(['Tag', 'Table', 'Tree', 'CheckTree'] as const)(
+    'preserves instance translations for %s with a shared locale namespace',
+    component => {
+      const wrapper = ({ children }) => (
+        <CustomProvider
+          components={{
+            [component]: { defaultProps: { locale: { ...enGB.common, remove: 'Default remove' } } }
+          }}
+        >
+          {children}
+        </CustomProvider>
+      );
+      const { result } = renderHook(
+        () => useCustomConfig(component, { locale: { remove: 'Instance remove' } }),
+        { wrapper }
+      );
+      expect(result.current.propsWithDefaults.locale).toEqual({
+        ...enGB.common,
+        remove: 'Instance remove'
+      });
+      expect(
+        result.current.getLocale('common', result.current.propsWithDefaults.locale).remove
+      ).toBe('Instance remove');
+    }
+  );
+
+  it('applies configured translations and other defaults to the public Pagination', () => {
+    render(
+      <CustomProvider
+        components={{
+          Pagination: { defaultProps: { first: true, locale: { next: 'Next batch' } } }
+        }}
+      >
+        <Pagination total={30} limit={10} next prev locale={{ prev: 'Previous batch' }} />
+      </CustomProvider>
+    );
+    expect(screen.getByRole('button', { name: 'Next batch' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Previous batch' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'First' })).toBeTruthy();
+  });
+
+  it('renders configured component names and honors instance overrides', () => {
+    render(
+      <CustomProvider
+        components={{
+          Toggle: { defaultProps: { locale: { on: 'Default on', off: 'Default off' } } },
+          Breadcrumb: { defaultProps: { maxItems: 2, locale: { expandText: 'Show folders' } } },
+          Tag: { defaultProps: { locale: { ...enGB.common, remove: 'Default remove' } } }
+        }}
+      >
+        <Toggle defaultChecked locale={{ off: 'Instance off' }} />
+        <Tag closable locale={{ ...enGB.common, remove: 'Instance remove' }}>
+          Tag
+        </Tag>
+        <Breadcrumb>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>Account</Breadcrumb.Item>
+          <Breadcrumb.Item>Billing</Breadcrumb.Item>
+        </Breadcrumb>
+      </CustomProvider>
+    );
+    fireEvent.click(screen.getByRole('switch', { name: 'Default on' }));
+    expect(screen.getByRole('switch', { name: 'Instance off' })).not.toBeChecked();
+    fireEvent.click(screen.getByRole('button', { name: 'Show folders' }));
+    expect(screen.getByText('Account')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Instance remove' })).toBeTruthy();
   });
 });
