@@ -137,6 +137,7 @@ const NumberInput = forwardRef<typeof InputGroup, NumberInputProps>((props, ref)
     scrollable = true,
     onChange,
     onWheel,
+    onKeyDown: onKeyDownProp,
     onBlur: onBlurProp,
     onFocus: onFocusProp,
     ...rest
@@ -206,7 +207,7 @@ const NumberInput = forwardRef<typeof InputGroup, NumberInputProps>((props, ref)
       disabled={disabled}
       readOnly={readOnly}
       plaintext={plaintext}
-      onKeyDown={onKeyDown}
+      onKeyDown={createChainedFunction(onKeyDownProp, onKeyDown)}
       onChange={handleChange}
       onBlur={createChainedFunction(onBlur, onBlurProp)}
       onFocus={createChainedFunction(onFocus, onFocusProp)}

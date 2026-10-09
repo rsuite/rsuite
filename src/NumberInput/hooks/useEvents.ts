@@ -48,6 +48,14 @@ export function useEvents(params: UseEventsParams) {
   });
 
   const onKeyDown = useEventCallback((event: React.KeyboardEvent) => {
+    if (
+      event.defaultPrevented ||
+      event.nativeEvent.isComposing ||
+      event.nativeEvent.keyCode === 229
+    ) {
+      return;
+    }
+
     switch (event.key) {
       case KEY_VALUES.UP:
         event.preventDefault();
