@@ -218,8 +218,8 @@ const NumberInput = forwardRef<typeof InputGroup, NumberInputProps>((props, ref)
     return input;
   }
 
-  const stepUpDisabled = disabled || readOnly || valueReachesMax(value, max);
-  const stepDownDisabled = disabled || readOnly || valueReachesMin(value, min);
+  const stepUpDisabled = disabled || readOnly || valueReachesMax(value, max, decimalSeparator);
+  const stepDownDisabled = disabled || readOnly || valueReachesMin(value, min, decimalSeparator);
 
   return (
     <InputGroup

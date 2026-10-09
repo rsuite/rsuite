@@ -33,14 +33,30 @@ export function decimals(...values: number[]): number {
   return Math.max(...lengths);
 }
 
+export function restoreDecimalSeparator(value: string, decimalSeparator?: string): string {
+  if (!decimalSeparator || !value || decimalSeparator === '.') {
+    return value;
+  }
+
+  const separatorRegex = new RegExp(
+    `[${decimalSeparator.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}.]`,
+    'g'
+  );
+  return value.replace(separatorRegex, '.');
+}
+
 /**
  * Disable the upper limit of the number.
  * @param value
  * @param max
  */
-export function valueReachesMax(value: number | string | null | undefined, max: number) {
+export function valueReachesMax(
+  value: number | string | null | undefined,
+  max: number,
+  decimalSeparator?: string
+) {
   if (!isNil(value)) {
-    return +value >= max;
+    return +restoreDecimalSeparator(value.toString(), decimalSeparator) >= max;
   }
   return false;
 }
@@ -50,9 +66,13 @@ export function valueReachesMax(value: number | string | null | undefined, max: 
  * @param value
  * @param min
  */
-export function valueReachesMin(value: number | string | null | undefined, min: number) {
+export function valueReachesMin(
+  value: number | string | null | undefined,
+  min: number,
+  decimalSeparator?: string
+) {
   if (!isNil(value)) {
-    return +value <= min;
+    return +restoreDecimalSeparator(value.toString(), decimalSeparator) <= min;
   }
   return false;
 }
