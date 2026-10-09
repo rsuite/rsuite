@@ -106,6 +106,12 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
   }, [appearance, children, endIcon, loading, prefix, ripple, startIcon]);
 
   const handleClick = useEventCallback((event: React.MouseEvent<HTMLElement>) => {
+    if (disabled || loading) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
     if (toggleable) {
       const nextActive = !active;
 
@@ -139,6 +145,8 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
       data-disabled={disabled}
       data-loading={loading}
       {...uncertainProps}
+      aria-disabled={disabled || loading || undefined}
+      aria-busy={loading || undefined}
       {...rest}
     >
       {buttonContent}
