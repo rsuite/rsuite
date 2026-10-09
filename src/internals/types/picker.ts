@@ -136,10 +136,13 @@ export interface PickerBaseProps<L = any>
   block?: boolean;
 
   /**
-   * Controls whether the popup adapts to a full-width Drawer on extra-small screens.
+   * Controls whether the popup adapts to a full-width Drawer.
+   * `true` uses extra-small screens (below 576px). A string specifies a breakpoint
+   * condition (e.g. `mdDown`) or a CSS media query (e.g. `(max-width: 1279px)`).
+   * `false` always keeps a positioned popup.
    * When omitted, each picker uses its existing default behavior.
    */
-  responsive?: boolean;
+  responsive?: boolean | string;
 
   /** Set the padding of the container. */
   containerPadding?: number;

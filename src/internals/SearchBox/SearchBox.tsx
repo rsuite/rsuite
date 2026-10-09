@@ -11,7 +11,8 @@ export interface SearchBoxProps extends WithAsProps {
   placeholder?: string;
   className?: string;
   inputRef?: React.Ref<HTMLInputElement>;
-  inputProps?: React.AriaAttributes & { role?: React.AriaRole; id?: string };
+  inputProps?: React.AriaAttributes &
+    Pick<React.InputHTMLAttributes<HTMLInputElement>, 'role' | 'id' | 'inputMode' | 'enterKeyHint'>;
   onChange?: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

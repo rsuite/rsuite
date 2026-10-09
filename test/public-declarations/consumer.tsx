@@ -12,6 +12,20 @@ import {
   FormErrorSummary,
   FormErrorSummaryItem,
   FormErrorSummaryProps,
+  AutoComplete,
+  InputPicker,
+  TagPicker,
+  SelectPicker,
+  CheckPicker,
+  Cascader,
+  MultiCascader,
+  TreePicker,
+  CheckTreePicker,
+  DatePicker,
+  DateRangePicker,
+  TimePicker,
+  TimeRangePicker,
+  TagInput,
   useClipboard
 } from 'rsuite';
 import ButtonSubpath, { ButtonProps } from 'rsuite/Button';
@@ -27,6 +41,40 @@ import SummarySubpath, {
   FormErrorSummaryProps as SummarySubpathProps
 } from 'rsuite/FormErrorSummary';
 import ClipboardSubpath, { useClipboard as NamedClipboardSubpath } from 'rsuite/useClipboard';
+import SelectPickerSubpath from 'rsuite/SelectPicker';
+import DatePickerSubpath from 'rsuite/DatePicker';
+
+const responsiveData = [{ label: 'Alpha', value: 'a' }];
+export const responsivePickers = (
+  <CustomProvider
+    components={{
+      SelectPicker: { defaultProps: { responsive: 'mdDown' } },
+      InputPicker: { defaultProps: { responsive: '(max-width: 1279px)' } },
+      TimeRangePicker: { defaultProps: { responsive: 'mdDown' } }
+    }}
+  >
+    <SelectPicker data={responsiveData} responsive="mdDown" />
+    <CheckPicker data={responsiveData} responsive="mdDown" />
+    <Cascader data={responsiveData} responsive="mdDown" />
+    <MultiCascader data={responsiveData} responsive="mdDown" />
+    <TreePicker data={responsiveData} responsive="mdDown" />
+    <CheckTreePicker data={responsiveData} responsive="mdDown" />
+    <InputPicker data={responsiveData} responsive="(max-width: 1279px)" />
+    <TagPicker data={responsiveData} responsive="(max-width: 1279px)" />
+    <DatePicker responsive="(max-width: 1279px)" />
+    <DateRangePicker responsive="(max-width: 1279px)" />
+    <TimePicker responsive="(max-width: 1279px)" />
+    <TimeRangePicker responsive="(max-width: 1279px)" />
+    <SelectPickerSubpath data={responsiveData} responsive="mdDown" />
+    <DatePickerSubpath responsive="(max-width: 1279px)" />
+    <SelectPicker data={responsiveData} responsive />
+    <DatePicker responsive={false} />
+  </CustomProvider>
+);
+// @ts-expect-error Responsive configuration accepts booleans or media query strings, not numbers.
+export const invalidResponsive = <SelectPicker data={responsiveData} responsive={992} />;
+// @ts-expect-error AutoComplete retains its positioned popup and has no responsive prop.
+export const unsupportedResponsive = <AutoComplete data={[]} responsive="mdDown" />;
 
 const providerProps: CustomProviderProps = {
   rtl: true,
@@ -199,3 +247,19 @@ clipboardResult.copy(123);
 // @ts-expect-error Reset has no arguments.
 clipboardResult.reset(1);
 void [clipboardFactories, clipboardWrite, clipboardReset, clipboardFeedback, clipboardError];
+
+export const editingHintOutput = (
+  <CustomProvider
+    components={{
+      AutoComplete: { defaultProps: { inputMode: 'email', enterKeyHint: 'next' } },
+      InputPicker: { defaultProps: { inputMode: 'decimal', enterKeyHint: 'done' } },
+      TagPicker: { defaultProps: { inputMode: 'text', enterKeyHint: 'search' } },
+      TagInput: { defaultProps: { inputMode: 'tel', enterKeyHint: 'enter' } }
+    }}
+  >
+    <AutoComplete data={[]} inputMode="text" enterKeyHint="search" />
+    <InputPicker data={[]} inputMode="decimal" enterKeyHint="done" />
+    <TagPicker data={[]} inputMode="text" enterKeyHint="next" />
+    <TagInput inputMode="email" enterKeyHint="enter" />
+  </CustomProvider>
+);

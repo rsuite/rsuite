@@ -29,7 +29,7 @@ jobs:
       - run: npm run lint
 
   test:
-    name: 'Test'
+    name: 'Test (${{ matrix.browser }}, ${{ matrix.react }})'
 
     runs-on: ubuntu-latest
 
@@ -37,7 +37,17 @@ jobs:
       fail-fast: false
       matrix:
         browser: [chromium]
-        react: ['React18', 'React19']
+        react: ['React18', 'React19', 'React19.3']
+        include:
+          - react: React18
+            version: 18.2.0
+          - react: React19
+            version: 19.0.0
+          - react: React19.3
+            version: 19.3.0
+
+    env:
+      VITE_RSUITE_REACT_VERSION: ${{ matrix.version }}
 
     steps:
       - uses: actions/checkout@v4
@@ -69,6 +79,23 @@ jobs:
       - name: install react 19
         if: ${{ matrix.react == 'React19' }}
         run: npm run install:react-19
+
+      - name: Install React 19.3.0
+        if: ${{ matrix.react == 'React19.3' }}
+        run: npm run install:react-19-3
+
+      - name: Verify installed React runtime
+        run: |
+          node <<'NODE'
+          const assert = require('node:assert/strict');
+          const React = require('react');
+          const ReactDOM = require('react-dom');
+          const expected = process.env.VITE_RSUITE_REACT_VERSION;
+          console.log({ expected, react: React.version, reactDOM: ReactDOM.version });
+          assert.equal(React.version, expected);
+          assert.equal(ReactDOM.version, expected);
+          if (expected === '19.3.0') assert.ok(React.Activity, 'Activity tests require this runtime');
+          NODE
 
       # Provision the browser for the final dependency tree after selecting React.
       - name: Install Playwright Browsers
@@ -102,6 +129,7 @@ jobs:
     uses: ./.github/workflows/firefox-tests.yml
     with:
       react-version: React18
+      react-runtime: 18.2.0
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
@@ -110,6 +138,16 @@ jobs:
     uses: ./.github/workflows/firefox-tests.yml
     with:
       react-version: React19
+      react-runtime: 19.0.0
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  firefox-react19-3:
+    name: 'Firefox runners (React19.3)'
+    uses: ./.github/workflows/firefox-tests.yml
+    with:
+      react-version: React19.3
+      react-runtime: 19.3.0
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
@@ -136,6 +174,18 @@ jobs:
       - name: Require all Firefox shards to pass
         env:
           SHARD_RESULT: ${{ needs.firefox-react19.result }}
+        run: test "$SHARD_RESULT" = success
+
+  firefox-react19-3-summary:
+    name: 'Test (firefox, React19.3)'
+    needs: firefox-react19-3
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      - name: Require all Firefox shards to pass
+        env:
+          SHARD_RESULT: ${{ needs.firefox-react19-3.result }}
         run: test "$SHARD_RESULT" = success
 
   public-declarations:

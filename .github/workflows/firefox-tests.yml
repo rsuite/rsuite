@@ -6,6 +6,9 @@ on:
       react-version:
         required: true
         type: string
+      react-runtime:
+        required: true
+        type: string
     secrets:
       CODECOV_TOKEN:
         required: false
@@ -20,6 +23,8 @@ jobs:
       fail-fast: false
       matrix:
         shard: [1, 2]
+    env:
+      VITE_RSUITE_REACT_VERSION: ${{ inputs.react-runtime }}
     steps:
       - uses: actions/checkout@v4
       - name: Report runner disk space
@@ -50,6 +55,23 @@ jobs:
       - name: install react 19
         if: ${{ inputs.react-version == 'React19' }}
         run: npm run install:react-19
+
+      - name: Install React 19.3.0
+        if: ${{ inputs.react-version == 'React19.3' }}
+        run: npm run install:react-19-3
+
+      - name: Verify installed React runtime
+        run: |
+          node <<'NODE'
+          const assert = require('node:assert/strict');
+          const React = require('react');
+          const ReactDOM = require('react-dom');
+          const expected = process.env.VITE_RSUITE_REACT_VERSION;
+          console.log({ expected, react: React.version, reactDOM: ReactDOM.version });
+          assert.equal(React.version, expected);
+          assert.equal(ReactDOM.version, expected);
+          if (expected === '19.3.0') assert.ok(React.Activity, 'Activity tests require this runtime');
+          NODE
 
       # Provision the browser for the final dependency tree after selecting React.
       - name: Install Playwright Browsers
