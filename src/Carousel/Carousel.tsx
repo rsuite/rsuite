@@ -15,7 +15,10 @@ const inertValue = 'inert' as unknown as boolean;
 
 export interface CarouselProps
   extends BoxProps,
-    Pick<React.HTMLAttributes<HTMLElement>, 'onFocusCapture' | 'onMouseEnter' | 'onMouseLeave'> {
+    Pick<
+      React.HTMLAttributes<HTMLElement>,
+      'onFocusCapture' | 'onPointerEnter' | 'onPointerLeave'
+    > {
   /** Automatically rotate slides. Focus pauses rotation until the user restarts it. */
   autoplay?: boolean;
 
@@ -69,8 +72,8 @@ const Carousel = forwardRef<'div', CarouselProps>((props, ref) => {
     onSlideStart,
     onSlideEnd,
     onFocusCapture,
-    onMouseEnter,
-    onMouseLeave,
+    onPointerEnter,
+    onPointerLeave,
     ...rest
   } = propsWithDefaults;
 
@@ -199,13 +202,13 @@ const Carousel = forwardRef<'div', CarouselProps>((props, ref) => {
         pause();
         onFocusCapture?.(event);
       }}
-      onMouseEnter={event => {
-        changeHovered(true);
-        onMouseEnter?.(event);
+      onPointerEnter={event => {
+        changeHovered(true, event.pointerType);
+        onPointerEnter?.(event);
       }}
-      onMouseLeave={event => {
-        changeHovered(false);
-        onMouseLeave?.(event);
+      onPointerLeave={event => {
+        changeHovered(false, event.pointerType);
+        onPointerLeave?.(event);
       }}
     >
       {canAutoplay && (

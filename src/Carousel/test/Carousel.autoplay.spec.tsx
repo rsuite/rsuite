@@ -80,8 +80,8 @@ describe('Carousel autoplay lifecycle', () => {
   it('retains controlled ownership and composes focus and hover callbacks', () => {
     const onSlideStart = vi.fn();
     const onFocusCapture = vi.fn();
-    const onMouseEnter = vi.fn();
-    const onMouseLeave = vi.fn();
+    const onPointerEnter = vi.fn();
+    const onPointerLeave = vi.fn();
     render(
       <Carousel
         data-testid="carousel"
@@ -90,8 +90,8 @@ describe('Carousel autoplay lifecycle', () => {
         autoplayInterval={1000}
         onSlideStart={onSlideStart}
         onFocusCapture={onFocusCapture}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
+        onPointerEnter={onPointerEnter}
+        onPointerLeave={onPointerLeave}
       >
         {slides}
       </Carousel>
@@ -100,14 +100,14 @@ describe('Carousel autoplay lifecycle', () => {
     expect(onSlideStart).toHaveBeenCalledWith(1, undefined);
     expect(screen.getAllByRole('radio')[0]).toBeChecked();
     const carousel = screen.getByTestId('carousel');
-    fireEvent.mouseEnter(carousel);
+    fireEvent.pointerEnter(carousel, { pointerType: 'mouse' });
     tick();
-    fireEvent.mouseLeave(carousel);
+    fireEvent.pointerLeave(carousel, { pointerType: 'mouse' });
     fireEvent.focus(screen.getAllByRole('radio')[0]);
     tick();
     expect(onSlideStart).toHaveBeenCalledTimes(1);
-    expect(onMouseEnter).toHaveBeenCalledTimes(1);
-    expect(onMouseLeave).toHaveBeenCalledTimes(1);
+    expect(onPointerEnter).toHaveBeenCalledTimes(1);
+    expect(onPointerLeave).toHaveBeenCalledTimes(1);
     expect(onFocusCapture).toHaveBeenCalledTimes(1);
   });
 

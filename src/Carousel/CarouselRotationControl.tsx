@@ -36,7 +36,11 @@ export default function CarouselRotationControl({
         onChange(!wasPlaying);
       }}
     >
-      {playing ? <PauseIcon aria-hidden /> : <PlayIcon aria-hidden />}
+      {playing ? (
+        <PauseIcon aria-hidden pointerEvents="none" />
+      ) : (
+        <PlayIcon aria-hidden pointerEvents="none" />
+      )}
     </button>
   );
 }

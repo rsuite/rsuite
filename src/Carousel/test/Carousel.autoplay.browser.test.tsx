@@ -19,8 +19,12 @@ describe('Carousel autoplay controls', () => {
   });
   afterAll(async () => source?.close());
 
-  async function open(options: Record<string, string> = {}, reducedMotion = false) {
-    const page = await source.browser.newPage();
+  async function open(
+    options: Record<string, string> = {},
+    reducedMotion = false,
+    hasTouch = false
+  ) {
+    const page = await source.browser.newPage({ hasTouch });
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(String(error)));
     page.on('console', message => {
@@ -197,6 +201,21 @@ describe('Carousel autoplay controls', () => {
       await tick(page);
       expect(await changes(page)).toEqual([1]);
       await page.emulateMedia({ reducedMotion: 'no-preference' });
+      await tick(page);
+      expect(await changes(page)).toEqual([1]);
+      expect(errors).toEqual([]);
+    } finally {
+      await page.close();
+    }
+  });
+
+  it('resumes from a touch activation without requiring the finger to hover away', async () => {
+    const { page, errors } = await open({}, false, true);
+    try {
+      await page.getByRole('button', { name: 'Stop slide rotation', exact: true }).tap();
+      await tick(page);
+      expect(await changes(page)).toEqual([]);
+      await page.getByRole('button', { name: 'Start slide rotation', exact: true }).tap();
       await tick(page);
       expect(await changes(page)).toEqual([1]);
       expect(errors).toEqual([]);
