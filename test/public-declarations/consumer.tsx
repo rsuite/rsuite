@@ -12,6 +12,10 @@ import {
   FormErrorSummary,
   FormErrorSummaryItem,
   FormErrorSummaryProps,
+  AutoComplete,
+  InputPicker,
+  TagPicker,
+  TagInput,
   useClipboard
 } from 'rsuite';
 import ButtonSubpath, { ButtonProps } from 'rsuite/Button';
@@ -199,3 +203,19 @@ clipboardResult.copy(123);
 // @ts-expect-error Reset has no arguments.
 clipboardResult.reset(1);
 void [clipboardFactories, clipboardWrite, clipboardReset, clipboardFeedback, clipboardError];
+
+export const editingHintOutput = (
+  <CustomProvider
+    components={{
+      AutoComplete: { defaultProps: { inputMode: 'email', enterKeyHint: 'next' } },
+      InputPicker: { defaultProps: { inputMode: 'decimal', enterKeyHint: 'done' } },
+      TagPicker: { defaultProps: { inputMode: 'text', enterKeyHint: 'search' } },
+      TagInput: { defaultProps: { inputMode: 'tel', enterKeyHint: 'enter' } }
+    }}
+  >
+    <AutoComplete data={[]} inputMode="text" enterKeyHint="search" />
+    <InputPicker data={[]} inputMode="decimal" enterKeyHint="done" />
+    <TagPicker data={[]} inputMode="text" enterKeyHint="next" />
+    <TagInput inputMode="email" enterKeyHint="enter" />
+  </CustomProvider>
+);

@@ -36,6 +36,7 @@ import type { BoxProps } from '@/internals/Box';
 
 export interface AutoCompleteProps<T = string>
   extends Omit<FormControlPickerProps<T, any, Option | string>, 'responsive'>,
+    Pick<SanitizedInputProps, 'inputMode' | 'enterKeyHint'>,
     ListboxProps,
     PopupProps,
     BoxProps {
