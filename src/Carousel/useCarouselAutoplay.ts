@@ -14,6 +14,7 @@ export default function useCarouselAutoplay(
   const [explicitPlay, setExplicitPlay] = useState(false);
   const [hovered, setHovered] = useState(false);
   const hoverPointer = useRef(true);
+  const previousReducedMotion = useRef(reducedMotion);
   const playing = enabled && !paused && (!reducedMotion || explicitPlay);
   const { clear, reset } = useTimeout(advance, interval, playing && !hovered);
 
@@ -24,17 +25,19 @@ export default function useCarouselAutoplay(
       clear();
       setPaused(true);
     }
-    const isHovered = !!root?.matches(':hover');
+    const isHovered = hoverPointer.current && !!root?.matches(':hover');
     if (isHovered) clear();
     setHovered(isHovered);
   }, [rootRef, clear]);
 
   useEffect(() => {
-    if (reducedMotion) {
+    // Reconnecting effects must preserve an explicit choice to play with reduced motion.
+    if (reducedMotion && !previousReducedMotion.current) {
       clear();
       setPaused(true);
       setExplicitPlay(false);
     }
+    previousReducedMotion.current = reducedMotion;
   }, [reducedMotion, clear]);
 
   const pause = () => {

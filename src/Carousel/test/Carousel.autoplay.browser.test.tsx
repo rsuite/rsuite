@@ -223,4 +223,69 @@ describe('Carousel autoplay controls', () => {
       await page.close();
     }
   });
+
+  for (const mode of ['automatic', 'touch', 'reduced motion', 'paused']) {
+    it(`preserves ${mode} playback across Activity reconnection`, async context => {
+      const { page, errors } = await open(
+        { activity: '', strict: '' },
+        mode === 'reduced motion',
+        mode === 'touch'
+      );
+      try {
+        if (!(await page.evaluate(() => window.__RSUITE_CAROUSEL_AUTOPLAY__.activitySupported))) {
+          context.skip();
+        }
+        if (mode === 'touch') {
+          await page.getByRole('button', { name: 'Stop slide rotation', exact: true }).tap();
+          await page.getByRole('button', { name: 'Start slide rotation', exact: true }).tap();
+        } else if (mode === 'reduced motion') {
+          await page.getByTestId('before').focus();
+          await page.keyboard.press('Tab');
+          await page.keyboard.press('Space');
+        } else if (mode === 'paused') {
+          await page.getByTestId('first-action').focus();
+        }
+        await page.getByTestId('outside-activity').focus();
+        await tick(page);
+        expect(await changes(page)).toEqual(mode === 'paused' ? [] : [1]);
+        await page.evaluate(() => window.__RSUITE_CAROUSEL_AUTOPLAY__.setActivityMode('hidden'));
+        await expect.poll(() => page.getByTestId('carousel').isVisible()).toBe(false);
+        await tick(page);
+        expect(await changes(page)).toEqual(mode === 'paused' ? [] : [1]);
+        await page.evaluate(() => window.__RSUITE_CAROUSEL_AUTOPLAY__.setActivityMode('visible'));
+        await expect.poll(() => page.getByTestId('carousel').isVisible()).toBe(true);
+        await tick(page);
+        expect(await changes(page)).toEqual(mode === 'paused' ? [] : [1, 0]);
+        expect(errors).toEqual([]);
+      } finally {
+        await page.close();
+      }
+    });
+  }
+
+  it('honors a motion preference changed while Activity was hidden', async context => {
+    const { page, errors } = await open({ activity: '', strict: '' });
+    try {
+      if (!(await page.evaluate(() => window.__RSUITE_CAROUSEL_AUTOPLAY__.activitySupported))) {
+        context.skip();
+      }
+      await tick(page);
+      expect(await changes(page)).toEqual([1]);
+      await page.evaluate(() => window.__RSUITE_CAROUSEL_AUTOPLAY__.setActivityMode('hidden'));
+      await expect.poll(() => page.getByTestId('carousel').isVisible()).toBe(false);
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.evaluate(() => window.__RSUITE_CAROUSEL_AUTOPLAY__.setActivityMode('visible'));
+      await expect
+        .poll(() => page.getByRole('button', { name: 'Start slide rotation', exact: true }).count())
+        .toBe(1);
+      await tick(page);
+      expect(await changes(page)).toEqual([1]);
+      await page.emulateMedia({ reducedMotion: 'no-preference' });
+      await tick(page);
+      expect(await changes(page)).toEqual([1]);
+      expect(errors).toEqual([]);
+    } finally {
+      await page.close();
+    }
+  });
 });
