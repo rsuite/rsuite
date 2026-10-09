@@ -117,6 +117,17 @@ async function createConfig() {
         instances: [
           {
             browser: BROWSER,
+            // Avoid Firefox's intermittent NS_ERROR_CORRUPTED_CONTENT on Vite's 304 responses.
+            // Fetch component test modules without relying on the browser HTTP cache.
+            launch:
+              BROWSER === 'firefox'
+                ? {
+                    firefoxUserPrefs: {
+                      'browser.cache.disk.enable': false,
+                      'browser.cache.memory.enable': false
+                    }
+                  }
+                : undefined,
             viewport: { width: 1280, height: 800 }
           }
         ]
