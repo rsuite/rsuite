@@ -56,6 +56,35 @@ const h = React.createElement;
 const ref = callback('ref');
 function fixtures(api) {
   return [
+    ...['mdDown', '(max-width: 1279px)'].flatMap(responsive =>
+      [
+        'SelectPicker',
+        'CheckPicker',
+        'Cascader',
+        'MultiCascader',
+        'TreePicker',
+        'CheckTreePicker',
+        'InputPicker',
+        'TagPicker',
+        'DatePicker',
+        'DateRangePicker',
+        'TimePicker',
+        'TimeRangePicker'
+      ].map(name => ({
+        name: name + ' renders responsive query ' + responsive + ' without DOM',
+        element: h(api.Root[name], {
+          id: 'responsive-picker',
+          'aria-label': 'Country',
+          responsive,
+          ...(/^(Date|Time)/.test(name) ? {} : { data: [{ label: 'Alpha', value: 'a' }] }),
+          onOpen: callback('responsive-open'),
+          onClose: callback('responsive-close'),
+          ref
+        }),
+        expected: [/id="responsive-picker"/, /aria-label="Country"/],
+        absent: [/rs-drawer/, /responsive=/]
+      }))
+    ),
     ...[undefined, true, false].map((reduceMotion, index) => ({
       name:
         'Animation renders motion policy ' + ['auto', 'reduce', 'allow'][index] + ' without DOM',
