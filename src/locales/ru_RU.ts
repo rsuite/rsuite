@@ -83,6 +83,10 @@ export default {
   Breadcrumb: {
     expandText: 'Показать путь'
   },
+  Carousel: {
+    selectSlide: 'Выбрать слайд',
+    slideLabel: 'Слайд {0} из {1}'
+  },
   Toggle: {
     on: 'Вкл',
     off: 'Выкл'

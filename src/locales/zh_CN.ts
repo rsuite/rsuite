@@ -83,6 +83,10 @@ export default {
   Breadcrumb: {
     expandText: '显示路径'
   },
+  Carousel: {
+    selectSlide: '选择幻灯片',
+    slideLabel: '第 {0} 张，共 {1} 张'
+  },
   Toggle: {
     on: '开启',
     off: '关闭'

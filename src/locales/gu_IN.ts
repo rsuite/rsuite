@@ -83,6 +83,10 @@ export default {
   Breadcrumb: {
     expandText: 'પાથ બતાવો'
   },
+  Carousel: {
+    selectSlide: 'સ્લાઇડ પસંદ કરો',
+    slideLabel: 'કુલ {1}માંથી સ્લાઇડ {0}'
+  },
   Toggle: {
     on: 'શરૂ',
     off: 'બંધ'

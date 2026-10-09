@@ -10,7 +10,9 @@ export interface CarouselHydrationResult {
     name: string | null;
     htmlFor: string | undefined;
     associated: boolean;
+    label: string | null;
   }[];
+  initialGroups: (string | null)[];
   reactVersion: string;
   reactDOMVersion: string;
   selections: { carousel: string; index: number; trusted: boolean }[];
@@ -37,9 +39,13 @@ const initialIndicators = Array.from(container.querySelectorAll('input[type="rad
       id: input.id,
       name: input.getAttribute('name'),
       htmlFor: label?.htmlFor,
-      associated: label?.control === input
+      associated: label?.control === input,
+      label: input.getAttribute('aria-label')
     };
   }
+);
+const initialGroups = Array.from(container.querySelectorAll('[role="radiogroup"]'), group =>
+  group.getAttribute('aria-label')
 );
 const originalConsoleError = console.error;
 
@@ -58,6 +64,7 @@ hydrateRoot(
       window.__RSUITE_CAROUSEL_HYDRATION_RESULT__ = {
         errors,
         initialIndicators,
+        initialGroups,
         reactVersion: React.version,
         reactDOMVersion,
         selections

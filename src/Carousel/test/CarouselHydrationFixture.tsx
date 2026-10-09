@@ -24,6 +24,7 @@ export default function CarouselHydrationFixture({
       </Carousel>
       <Carousel
         data-testid="second-carousel"
+        locale={{ selectSlide: '选择幻灯片', slideLabel: '第 {0} 张，共 {1} 张' }}
         onSelect={(index, event) => onSelect?.('second', index, event)}
       >
         <div>Second slide A</div>

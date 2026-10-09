@@ -83,6 +83,10 @@ export default {
   Breadcrumb: {
     expandText: '顯示路徑'
   },
+  Carousel: {
+    selectSlide: '選擇投影片',
+    slideLabel: '第 {0} 張，共 {1} 張'
+  },
   Toggle: {
     on: '開啟',
     off: '關閉'

@@ -4,6 +4,8 @@ import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useCustom, useControlled, useTimeout, useUniqueId } from '@/internals/hooks';
 import { forwardRef, rch, mergeRefs } from '@/internals/utils';
 import type { ReactElement } from '@/internals/types';
+import enGB from '../locales/en_GB';
+import type { CarouselLocale } from '../locales';
 
 // React 18 forwards inert as a string; React 19 treats it as a boolean attribute.
 // The nonempty attribute-name value works in both renderers, including SSR.
@@ -27,6 +29,9 @@ export interface CarouselProps extends BoxProps {
 
   /** Defaul initial index */
   defaultActiveIndex?: number;
+
+  /** Accessible indicator names. slideLabel supports {0} for the position and {1} for the total. */
+  locale?: CarouselLocale;
 
   /** Callback fired when the active item manually changes */
   onSelect?: (index: number, event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -55,6 +60,7 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
     autoplayInterval = 4000,
     activeIndex: activeIndexProp,
     defaultActiveIndex = 0,
+    locale,
     onSelect,
     onSlideStart,
     onSlideEnd,
@@ -138,7 +144,7 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
     }
     const inputKey = `${indicatorName}_${index}`;
     labels.push(
-      <li key={`label${index}`} className={prefix('label-wrapper')}>
+      <li key={`label${index}`} className={prefix('label-wrapper')} role="presentation">
         <input
           name={indicatorName}
           id={inputKey}
@@ -146,6 +152,13 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
           onChange={handleChange}
           value={index}
           checked={activeIndex === index}
+          aria-labelledby={child.props['aria-labelledby']}
+          aria-label={
+            child.props['aria-label'] ||
+            (locale?.slideLabel || enGB.Carousel.slideLabel).replace(/\{(0|1)\}/g, (_, position) =>
+              String(position === '0' ? index + 1 : count)
+            )
+          }
         />
         <label htmlFor={inputKey} className={prefix('label')} />
       </li>
@@ -211,7 +224,9 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
         )}
       </div>
       <div className={prefix('toolbar')}>
-        <ul>{labels}</ul>
+        <ul role="radiogroup" aria-label={locale?.selectSlide || enGB.Carousel.selectSlide}>
+          {labels}
+        </ul>
       </div>
     </Box>
   );

@@ -89,6 +89,10 @@ export default {
   Breadcrumb: {
     expandText: 'Útvonal megjelenítése'
   },
+  Carousel: {
+    selectSlide: 'Dia kiválasztása',
+    slideLabel: '{0}. dia, összesen {1}'
+  },
   Toggle: {
     on: 'Be',
     off: 'Ki'

@@ -88,6 +88,10 @@ export default {
   Breadcrumb: {
     expandText: 'แสดงเส้นทาง'
   },
+  Carousel: {
+    selectSlide: 'เลือกสไลด์',
+    slideLabel: 'สไลด์ {0} จาก {1}'
+  },
   Toggle: {
     on: 'เปิด',
     off: 'ปิด'

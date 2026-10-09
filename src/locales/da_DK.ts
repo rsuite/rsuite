@@ -87,6 +87,10 @@ export default {
   Breadcrumb: {
     expandText: 'Vis sti'
   },
+  Carousel: {
+    selectSlide: 'Vælg dias',
+    slideLabel: 'Dias {0} af {1}'
+  },
   Toggle: {
     on: 'på',
     off: 'Av'

@@ -49,6 +49,7 @@ export type UploaderLocale = PickKeys<typeof defaultLocale.Uploader> & CommonLoc
 export type CloseButtonLocale = PickKeys<typeof defaultLocale.CloseButton>;
 export type BreadcrumbLocale = PickKeys<typeof defaultLocale.Breadcrumb>;
 export type ToggleLocale = PickKeys<typeof defaultLocale.Toggle>;
+export type CarouselLocale = PickKeys<typeof defaultLocale.Carousel>;
 
 export interface CalendarLocale extends PickKeys<typeof defaultLocale.Calendar> {
   dateLocale?: DateFnsLocale;

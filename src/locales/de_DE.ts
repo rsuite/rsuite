@@ -87,6 +87,10 @@ export default {
   Breadcrumb: {
     expandText: 'Pfad anzeigen'
   },
+  Carousel: {
+    selectSlide: 'Folie auswählen',
+    slideLabel: 'Folie {0} von {1}'
+  },
   Toggle: {
     on: 'Öffnen',
     off: 'Schließen'

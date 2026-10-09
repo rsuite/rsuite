@@ -87,6 +87,10 @@ export default {
   Breadcrumb: {
     expandText: 'Vis sti'
   },
+  Carousel: {
+    selectSlide: 'Velg lysbilde',
+    slideLabel: 'Lysbilde {0} av {1}'
+  },
   Toggle: {
     on: 'PÅ',
     off: 'AV'

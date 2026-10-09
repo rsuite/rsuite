@@ -83,6 +83,10 @@ export default {
   Breadcrumb: {
     expandText: 'Pokaż ścieżkę'
   },
+  Carousel: {
+    selectSlide: 'Wybierz slajd',
+    slideLabel: 'Slajd {0} z {1}'
+  },
   Toggle: {
     on: 'Otwórz',
     off: 'Zamknij'

@@ -83,6 +83,10 @@ export default {
   Breadcrumb: {
     expandText: 'نمایش مسیر'
   },
+  Carousel: {
+    selectSlide: 'انتخاب اسلاید',
+    slideLabel: 'اسلاید {0} از {1}'
+  },
   Toggle: {
     on: 'باز کردن',
     off: 'بستن'

@@ -87,6 +87,10 @@ export default {
   Breadcrumb: {
     expandText: 'Mostrar ruta'
   },
+  Carousel: {
+    selectSlide: 'Elegir diapositiva',
+    slideLabel: 'Diapositiva {0} de {1}'
+  },
   Toggle: {
     on: 'Encender',
     off: 'Apagar'
