@@ -2,6 +2,7 @@ import React from 'react';
 import Carousel from '../Carousel';
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { userEvent } from '@vitest/browser/context';
 import { testStandardProps } from '@test/cases';
 
 describe('Carousel', () => {
@@ -35,20 +36,26 @@ describe('Carousel', () => {
     expect(container.firstChild).to.have.class('rs-carousel-shape-bar');
   });
 
-  it('Should be autoplay', async () => {
+  it('Should autoplay when focus and pointer are outside', async () => {
     const style = { height: 20 };
     const onSlideStart = vi.fn();
     render(
-      <Carousel
-        autoplay
-        autoplayInterval={500}
-        onSlideStart={onSlideStart}
-        style={{ width: 200, height: 20 }}
-      >
-        <div style={style}>1</div>
-        <div style={style}>2</div>
-      </Carousel>
+      <>
+        <button>Outside carousel</button>
+        <Carousel
+          autoplay
+          autoplayInterval={500}
+          onSlideStart={onSlideStart}
+          style={{ width: 200, height: 20 }}
+        >
+          <div style={style}>1</div>
+          <div style={style}>2</div>
+        </Carousel>
+      </>
     );
+
+    // A reused browser page can leave its pointer over newly mounted content.
+    await userEvent.hover(screen.getByRole('button', { name: 'Outside carousel' }));
 
     await waitFor(() => {
       expect(onSlideStart).toHaveBeenCalled();

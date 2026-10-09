@@ -84,6 +84,8 @@ export default {
     expandText: 'Mostrar caminho'
   },
   Carousel: {
+    startRotation: 'Iniciar rotação de slides',
+    stopRotation: 'Parar rotação de slides',
     selectSlide: 'Escolher slide',
     slideLabel: 'Slide {0} de {1}'
   },

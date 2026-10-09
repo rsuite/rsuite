@@ -88,6 +88,8 @@ export default {
     expandText: 'Show path'
   },
   Carousel: {
+    startRotation: 'Start slide rotation',
+    stopRotation: 'Stop slide rotation',
     selectSlide: 'Choose slide',
     slideLabel: 'Slide {0} of {1}'
   },

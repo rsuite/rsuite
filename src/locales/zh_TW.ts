@@ -84,6 +84,8 @@ export default {
     expandText: '顯示路徑'
   },
   Carousel: {
+    startRotation: '開始自動播放',
+    stopRotation: '停止自動播放',
     selectSlide: '選擇投影片',
     slideLabel: '第 {0} 張，共 {1} 張'
   },

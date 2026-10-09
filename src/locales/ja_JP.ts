@@ -88,6 +88,8 @@ export default {
     expandText: 'パス表示'
   },
   Carousel: {
+    startRotation: 'スライドの自動再生を開始',
+    stopRotation: 'スライドの自動再生を停止',
     selectSlide: 'スライドを選択',
     slideLabel: '{1}枚中{0}枚目のスライド'
   },

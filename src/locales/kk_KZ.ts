@@ -84,6 +84,8 @@ export default {
     expandText: 'Көрсету'
   },
   Carousel: {
+    startRotation: 'Слайдтарды автоматты ауыстыруды бастау',
+    stopRotation: 'Слайдтарды автоматты ауыстыруды тоқтату',
     selectSlide: 'Слайдты таңдау',
     slideLabel: '{1} слайдтың {0}-і'
   },

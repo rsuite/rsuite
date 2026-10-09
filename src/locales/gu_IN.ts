@@ -84,6 +84,8 @@ export default {
     expandText: 'પાથ બતાવો'
   },
   Carousel: {
+    startRotation: 'સ્લાઇડનું આપમેળે બદલાવું શરૂ કરો',
+    stopRotation: 'સ્લાઇડનું આપમેળે બદલાવું બંધ કરો',
     selectSlide: 'સ્લાઇડ પસંદ કરો',
     slideLabel: 'કુલ {1}માંથી સ્લાઇડ {0}'
   },

@@ -88,6 +88,8 @@ export default {
     expandText: 'Zobrazit cestu'
   },
   Carousel: {
+    startRotation: 'Spustit střídání snímků',
+    stopRotation: 'Zastavit střídání snímků',
     selectSlide: 'Vybrat snímek',
     slideLabel: 'Snímek {0} z {1}'
   },

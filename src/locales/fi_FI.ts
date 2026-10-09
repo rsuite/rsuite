@@ -88,6 +88,8 @@ export default {
     expandText: 'Näytä polku'
   },
   Carousel: {
+    startRotation: 'Aloita diojen automaattinen vaihto',
+    stopRotation: 'Pysäytä diojen automaattinen vaihto',
     selectSlide: 'Valitse dia',
     slideLabel: 'Dia {0}/{1}'
   },

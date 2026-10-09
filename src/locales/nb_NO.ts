@@ -88,6 +88,8 @@ export default {
     expandText: 'Vis sti'
   },
   Carousel: {
+    startRotation: 'Start automatisk lysbildeskift',
+    stopRotation: 'Stopp automatisk lysbildeskift',
     selectSlide: 'Velg lysbilde',
     slideLabel: 'Lysbilde {0} av {1}'
   },

@@ -88,6 +88,8 @@ export default {
     expandText: 'Visa väg'
   },
   Carousel: {
+    startRotation: 'Starta automatiskt bildbyte',
+    stopRotation: 'Stoppa automatiskt bildbyte',
     selectSlide: 'Välj bild',
     slideLabel: 'Bild {0} av {1}'
   },
