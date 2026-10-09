@@ -2,9 +2,11 @@ import React, { useCallback } from 'react';
 import { TREE_NODE_DROP_POSITION } from '@/internals/constants';
 import { shallowEqual as equal } from '@/internals/utils';
 import { useCombobox } from '@/internals/Picker/hooks';
+import getOptionId from '@/internals/Picker/getOptionId';
 import { useItemDataKeys } from '@/internals/Tree/TreeProvider';
 import { DragStatus } from '../TreeNode';
 import Highlight from '../../Highlight';
+import { formatNodeRefKey } from '../utils/formatNodeRefKey';
 
 interface Props {
   value: any;
@@ -74,7 +76,7 @@ function useTreeNodeProps(props: Props) {
       const focus = equal(nodeValue, focusItemValue);
 
       return {
-        id: id ? `${id}-opt-${nodeValue}` : undefined,
+        id: getOptionId(id, formatNodeRefKey(nodeValue)),
         value: nodeValue,
         label,
         index,

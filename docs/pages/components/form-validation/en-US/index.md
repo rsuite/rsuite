@@ -95,6 +95,18 @@ Under certain conditions, we need to perform asynchronous verification on the da
 - The validation rules for asynchronous validation add an object with a return value of Promise via the `addRule` method of `schema`.
 - The check can be triggered manually by calling `checkAsync` and `checkForFieldAsync` of `<Form>`.
 
+When validations overlap, a superseded request cannot replace the current errors or trigger `onCheck` or `onError` after its replacement. Each asynchronous method still resolves its own validation result. Schema checks for unrelated fields can complete independently. With `nestedField`, checking a parent or child path supersedes earlier checks of overlapping paths. A whole-form check or resolver result represents the entire form. Validators continue running to completion.
+
+Calling `reset` or `resetErrors` also invalidates pending validation results. Removing a `Form.Control` with `shouldResetWithUnmount` invalidates older checks for that field, overlapping nested paths, and the whole form. Unrelated schema field checks can still finish, and an older proxy check cannot restore the removed field's error. New checks remain available after reset or removal, including explicit checks for an unmounted schema field. Without `shouldResetWithUnmount`, removing a control retains its pending validation.
+
+When Form manages its own errors, `cleanErrors` clears them and invalidates pending results without calling `onCheck`, `onError`, or `onChange`. Each pending Promise still returns its own result, and new checks remain available. When `formError` is controlled, clear errors through the owning state: `cleanErrors` leaves the supplied errors and pending validations unchanged.
+
+Consecutive `cleanErrorForField` calls in one event use the latest accepted errors, including after `resetErrors` or `cleanErrors`. Clearing a field preserves other fields' messages and native invalidity without calling `onCheck`, `onError`, or `onChange`. A saved cleanup method uses the committed `nestedField` setting, including in child layout effects. With a controlled `formError`, update the owning state to clear errors.
+
+When Form manages its own errors, `cleanErrorForField` also invalidates older checks for that field, overlapping nested paths (including equivalent numeric paths), and whole-form or resolver checks. Unrelated schema field checks can still finish. Each pending Promise returns its own result, and new checks remain available. Cleanup inside `onCheck` prevents the older result from being published afterward or triggering a stale `onError`. With a controlled `formError`, rejected field cleanup leaves pending validations unchanged.
+
+Form field checks and asynchronous checks keep their results separate from the supplied model's `getCheckResult()` history. Read Form validation results from its methods or `onCheck`. A synchronous `checkForField` returns validity for the fields checked by that call, including proxy fields.
+
 <!--{include:`form-check-async.md`}-->
 
 ### Form Control
@@ -134,6 +146,14 @@ There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` compone
 
 <!--{include:`form-nested-fields.md`}-->
 
+With `nestedField`, resolver errors can use field names such as `products[0].name` or equivalent numeric paths such as `products.0.name`. An own entry matching the exact field name takes priority, including `undefined`, `null`, or an empty string. Otherwise, Form checks numeric aliases and then the structured schema error path. Quoted or escaped literal names remain separate from numeric aliases.
+
+Cleaning a field removes its exact entry, numeric aliases, and structured error leaf while preserving sibling errors and aggregate messages. A new native field check also replaces older resolver aliases for that field. A literal key such as `profile.object.name` belongs to that exact field name and does not replace the structured error for `profile.name`.
+
+Treat native error payloads as immutable. Once Form observes changes to an original payload's keys or validated entries, selecting that object again does not restore its original native validity; run a new validation to obtain a new result.
+
+With `nestedField`, field validation and error cleanup copy the changed object or array path. Earlier `onCheck` and `onError` payloads and supplied `formError` objects remain unchanged. Unchanged sibling errors retain their identity and native validation state, including invalid results with an empty message. For controlled errors, the displayed state changes only when the owner supplies the next `formError`.
+
 ### Proxy validation
 
 <!--{include:`form-check-proxy.md`}-->
@@ -145,6 +165,8 @@ There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` compone
 ![][6.0.0]
 
 The `useFormControl` hook allows you to create custom form fields that integrate seamlessly with the Form validation system. This approach gives you complete control over your form field's UI while maintaining all validation capabilities.
+
+When Form manages its own values, consecutive `setValue` or `onChange` calls in one event build on earlier updates, including nested fields. Field validation receives those updated values, so cross-field rules can read the latest sibling values. With controlled `formValue`, each change is a proposal based on the owner's committed values; proposals that the owner has not accepted do not become the basis for later changes.
 
 <!--{include:`use-form-control.md`}-->
 

@@ -1,6 +1,6 @@
 {
   "name": "docs",
-  "version": "6.2.4",
+  "version": "6.2.5",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -66,10 +66,10 @@
     "react-icons": "^5.0.1",
     "react-json-tree": "^0.20.0",
     "react-select": "^5.5.9",
-    "rsuite": "^6.2.4",
+    "rsuite": "^6.2.5",
     "superstruct": "^2.0.2",
     "svg-sprite-loader": "^6.0.11",
-    "svgo": "^2.3.1",
+    "svgo": "^2.8.4",
     "svgo-loader": "^3.0.3",
     "tinycolor2": "^1.4.1",
     "typanion": "^3.14.0",
@@ -86,7 +86,6 @@
     "@types/react-dom": "^18.2.0",
     "algoliasearch": "^4.2.0",
     "autoprefixer": "^10.2.4",
-    "concurrently": "^9.1.0",
     "cross-env": "^6.0.3",
     "css-loader": "^5.2.2",
     "css-minimizer-webpack-plugin": "^6.0.0",

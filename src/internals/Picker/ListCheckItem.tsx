@@ -1,5 +1,6 @@
 import React from 'react';
 import useCombobox from './hooks/useCombobox';
+import getOptionId from './getOptionId';
 import Checkbox, { CheckboxProps } from '../../Checkbox';
 import { useStyles, useEventCallback } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
@@ -79,7 +80,7 @@ const ListCheckItem = forwardRef<'div', ListCheckItemProps>((props, ref) => {
       role="option"
       aria-selected={active}
       aria-disabled={disabled}
-      id={id ? `${id}-opt-${value}` : undefined}
+      id={getOptionId(id, value)}
       data-key={value}
       {...rest}
       ref={ref}

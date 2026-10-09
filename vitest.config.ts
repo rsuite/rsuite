@@ -1,7 +1,8 @@
 import { defineConfig, ViteUserConfig, coverageConfigDefaults } from 'vitest/config';
 import { resolve } from 'path';
 
-const { M, F, RUN_ENV, VITEST_RUNNING_POSTBUILD } = process.env;
+const { M, F, RUN_ENV, VITEST_RUNNING_POSTBUILD, BROWSER = 'chromium' } = process.env;
+const nodeEnvironment = RUN_ENV === 'ssr' || RUN_ENV === 'browser-controls';
 
 let testPatterns: string;
 let testMainDescription: string;
@@ -9,6 +10,9 @@ let testMainDescription: string;
 if (RUN_ENV === 'ssr') {
   testPatterns = 'src/**/*.ssr.test.+(js|ts|tsx)';
   testMainDescription = `SSR tests: ${testPatterns}`;
+} else if (RUN_ENV === 'browser-controls') {
+  testPatterns = '{src,test/browser}/**/*.browser.test.+(js|ts|tsx)';
+  testMainDescription = `Native browser control tests: ${testPatterns}`;
 } else if (M) {
   testPatterns = `src/${M}/test/*.spec.+(js|ts|tsx)`;
   testMainDescription = `Module tests: ${testPatterns}`;
@@ -22,6 +26,9 @@ if (RUN_ENV === 'ssr') {
 }
 
 console.group('Vitest Config');
+console.log('Node.js Version:', process.version);
+console.log('Node.js Executable:', process.execPath);
+console.log('npm Node.js Executable:', process.env.npm_node_execpath);
 console.log(`Run Environment: ${RUN_ENV}`);
 console.log('Test Main:', testMainDescription); // Updated log message
 console.groupEnd();
@@ -52,7 +59,7 @@ async function createConfig() {
     },
     test: {
       include: [testPatterns],
-      setupFiles: RUN_ENV === 'ssr' ? [] : ['vitest.setup.ts'],
+      setupFiles: nodeEnvironment ? [] : ['vitest.setup.ts'],
       coverage: {
         provider: 'istanbul',
         exclude: [
@@ -75,22 +82,41 @@ async function createConfig() {
       config.test.environment = 'node';
       config.test.browser = { enabled: false }; // Explicitly disable browser mode
     }
-  } else if (RUN_ENV === 'ssr') {
+  } else if (nodeEnvironment) {
     if (config.test) {
       config.test.environment = 'node';
       config.test.browser = { enabled: false };
+      if (RUN_ENV === 'browser-controls') config.test.fileParallelism = false;
       config.test.hookTimeout = 30000;
       config.test.testTimeout = 30000;
     }
   } else {
     // Default browser configuration for other test runs
     if (config.test) {
+      const { trcTrustedResetClick, trcTrustedInputClick } = await import(
+        './test/browser/toggleCommands'
+      );
+      const { setMotionPreference } = await import('./test/browser/motionCommands');
+      const { createBrowserModuleDiagnostics } = await import(
+        './test/browser/moduleLoadDiagnostics'
+      );
+      const { plugin, observeBrowserModuleLoads } = createBrowserModuleDiagnostics();
+      config.plugins!.push(plugin);
+      config.test.setupFiles = ['test/browser/moduleLoadDiagnostics.setup.ts', 'vitest.setup.ts'];
       config.test.browser = {
         enabled: true,
         provider: 'playwright',
+        // Keep Firefox native focus and keyboard tests on one browser page at a time.
+        fileParallelism: BROWSER === 'firefox' ? false : undefined,
+        commands: {
+          trcTrustedResetClick,
+          trcTrustedInputClick,
+          setMotionPreference,
+          observeBrowserModuleLoads
+        },
         instances: [
           {
-            browser: 'chromium',
+            browser: BROWSER,
             viewport: { width: 1280, height: 800 }
           }
         ]

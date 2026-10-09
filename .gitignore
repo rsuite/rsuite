@@ -62,3 +62,9 @@ lib/
 # Environment variables
 .env
 .env.*
+
+# Public declaration consumer diagnostics
+test/public-declarations/results/
+
+# Public package runtime diagnostics
+test/public-runtime/results/
