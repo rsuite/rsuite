@@ -5,6 +5,10 @@ import { useStyles, useCustom, useControlled, useTimeout, useUniqueId } from '@/
 import { forwardRef, rch, mergeRefs } from '@/internals/utils';
 import type { ReactElement } from '@/internals/types';
 
+// React 18 forwards inert as a string; React 19 treats it as a boolean attribute.
+// The nonempty attribute-name value works in both renderers, including SSR.
+const inertValue = 'inert' as unknown as boolean;
+
 export interface CarouselProps extends BoxProps {
   /** Autoplay element */
   autoplay?: boolean;
@@ -175,10 +179,25 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
           style={sliderStyles}
           onTransitionEnd={handleTransitionEnd}
         >
-          {items}
+          {items?.map(
+            item =>
+              item && (
+                <div
+                  key={item.key}
+                  className={prefix('item-wrapper')}
+                  style={{ display: 'contents' }}
+                  aria-hidden={item.props['aria-hidden']}
+                  inert={item.props['aria-hidden'] ? inertValue : undefined}
+                >
+                  {item}
+                </div>
+              )
+          )}
         </div>
         {showMask && (
           <div
+            aria-hidden="true"
+            inert={inertValue}
             className={prefix('slider-after', { 'slider-after-vertical': vertical })}
             style={{ [lengthKey]: '200%' }}
           >
