@@ -86,7 +86,8 @@ async function createConfig() {
     if (config.test) {
       config.test.environment = 'node';
       config.test.browser = { enabled: false };
-      if (RUN_ENV === 'browser-controls') config.test.fileParallelism = false;
+      // SSR files also start browsers or compile declarations. Avoid competing for CI resources.
+      config.test.fileParallelism = false;
       config.test.hookTimeout = 30000;
       config.test.testTimeout = 30000;
     }
