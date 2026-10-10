@@ -22,9 +22,11 @@ function useSchemaModel(formModel: Schema, nestedField: boolean) {
     subRulesRef.current.push({ name, fieldRule });
   }, []);
 
-  const removeFieldRule = useCallback((name: string) => {
-    const index = subRulesRef.current.findIndex(v => v.name === name);
-    subRulesRef.current.splice(index, 1);
+  const removeFieldRule = useCallback((name: string, fieldRule: FieldRuleType) => {
+    const index = subRulesRef.current.findIndex(v => v.name === name && v.fieldRule === fieldRule);
+    if (index !== -1) {
+      subRulesRef.current.splice(index, 1);
+    }
   }, []);
 
   const getCombinedModel = useCallback(() => {
