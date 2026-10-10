@@ -208,6 +208,17 @@ const Checkbox = forwardRef<'div', CheckboxProps>((props: CheckboxProps, ref) =>
     }
   });
 
+  const handleCheckboxClick = useEventCallback((event: React.MouseEvent<HTMLInputElement>) => {
+    if (readOnly) {
+      event.preventDefault();
+
+      // Keep React's checked tracking in sync with the canceled native activation.
+      event.currentTarget.checked = checked;
+    }
+
+    onCheckboxClick?.(event);
+  });
+
   const labelId = useUniqueId('label-');
 
   if (plaintext) {
@@ -233,7 +244,7 @@ const Checkbox = forwardRef<'div', CheckboxProps>((props: CheckboxProps, ref) =>
         tabIndex={tabIndex}
         readOnly={readOnly}
         disabled={disabled}
-        onClick={onCheckboxClick}
+        onClick={handleCheckboxClick}
         onChange={handleChange}
       />
       <span className={prefix`inner`} aria-hidden data-testid="checkbox-control-inner" />
