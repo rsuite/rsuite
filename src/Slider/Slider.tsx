@@ -254,6 +254,16 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
     handleChangeCommitted(event);
   });
 
+  const handleInputChange = useEventCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    if (disabled || readOnly) {
+      return;
+    }
+
+    const nextValue = getValidValue(event.currentTarget.valueAsNumber) as number;
+    setValue(nextValue);
+    onChange?.(nextValue, event);
+  });
+
   const handleKeyDown = useEventCallback((event: React.KeyboardEvent) => {
     if (disabled || readOnly) {
       return;
@@ -339,6 +349,11 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
         className={handleClassName}
         style={handleStyle}
         disabled={disabled}
+        readOnly={readOnly}
+        min={min}
+        max={max}
+        step={step}
+        onInputChange={handleInputChange}
         vertical={vertical}
         tooltip={tooltip}
         value={value}
@@ -351,6 +366,7 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
         aria-orientation={vertical ? 'vertical' : 'horizontal'}
         aria-valuenow={value}
         aria-disabled={disabled}
+        aria-readonly={readOnly}
         aria-valuetext={getAriaValueText ? getAriaValueText(value) : ariaValuetext}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledby}

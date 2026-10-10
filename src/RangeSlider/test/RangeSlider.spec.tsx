@@ -85,7 +85,7 @@ describe('RangeSlider', () => {
   it('Should preserve the readOnly range when a focused handle receives arrow keys', () => {
     const onChange = vi.fn();
     render(<RangeSlider readOnly defaultValue={[10, 50]} onChange={onChange} />);
-    const handle = screen.getAllByTestId('slider-handle')[0];
+    const handle = screen.getAllByRole('slider')[0];
 
     userEvent.tab();
     expect(document.activeElement).to.equal(handle);

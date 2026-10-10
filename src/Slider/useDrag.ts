@@ -70,8 +70,6 @@ const useDrag = (props: DragProps) => {
     moveTracker.current = getMouseMoveTracker();
     moveTracker.current?.captureMoves(event);
 
-    rootRef.current?.focus();
-
     setActive(true);
     onDragStart?.(event);
   });
