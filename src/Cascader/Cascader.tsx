@@ -290,6 +290,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
 
     const onPickerKeyDown = useToggleKeyDownEvent({
       toggle: !focusItemValue || !active,
+      disabled,
       trigger,
       target,
       overlay,
@@ -358,6 +359,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
               labelKey={labelKey}
               locale={locale}
               parentMap={parentMap}
+              disabled={disabled || rest.readOnly || rest.loading}
               disabledItemValues={disabledItemValues}
               focusItemValue={focusItemValue}
               inputRef={searchInput}
@@ -371,6 +373,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
             <TreeView
               columnWidth={columnWidth}
               columnHeight={columnHeight}
+              disabled={disabled || rest.readOnly || rest.loading}
               disabledItemValues={disabledItemValues}
               loadingItemsSet={loadingItemsSet}
               valueKey={valueKey}
