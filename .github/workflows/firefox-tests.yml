@@ -17,7 +17,7 @@ jobs:
   test:
     name: 'Firefox shard (${{ matrix.shard }}/2)'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     strategy:
       # Both independent runners must finish so failures cannot hide another shard.
       fail-fast: false
@@ -86,8 +86,7 @@ jobs:
           VITEST_PW_DEBUG: '1'
 
       - name: Run native browser control tests
-        if: ${{ matrix.shard == 1 }}
-        run: npm run test:browser-controls
+        run: npm run test:browser-controls -- --shard=${{ matrix.shard }}/2
         env:
           BROWSER: firefox
 

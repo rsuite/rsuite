@@ -205,6 +205,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
 
   const onPickerKeydown = useToggleKeyDownEvent({
     toggle: !activeNode || !active,
+    disabled,
     trigger,
     target,
     overlay,
@@ -234,6 +235,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
     <TreeProvider value={treeContext}>
       <TreeView
         ref={treeView}
+        disabled={disabled || rest.readOnly || rest.loading}
         value={value}
         data={treeData}
         sourceData={data}

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState, useCallback, useSyncExternalStore } from 'react';
 import classNames from 'classnames';
 import contains from 'dom-lib/contains';
 import on from 'dom-lib/on';
@@ -78,6 +78,10 @@ export interface BaseModalProps
 
 let manager: ModalManager;
 
+const subscribeToClientRender = () => () => {};
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
+
 function getManager() {
   if (!manager) manager = new ModalManager();
   return manager;
@@ -136,6 +140,12 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
     ...rest
   } = props;
 
+  // Keep the first hydration render empty, matching the server's portal output.
+  const portalReady = useSyncExternalStore(
+    subscribeToClientRender,
+    getClientSnapshot,
+    getServerSnapshot
+  );
   const [exited, setExited] = useState(!open);
   const { Portal, target: containerElement } = usePortal({ container });
   const modal = useModalManager();
@@ -146,7 +156,7 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
     setExited(true);
   }
 
-  const mountModal = open || (Transition && !exited);
+  const mountModal = portalReady && (open || (Transition && !exited));
 
   const lastFocus = useRef<HTMLElement | null>(null);
   const startGuard = useRef<HTMLSpanElement>(null);
@@ -293,12 +303,12 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
   });
 
   useEffect(() => {
-    if (!open) {
+    if (!open || !portalReady) {
       return;
     }
 
     handleOpen();
-  }, [open, handleOpen]);
+  }, [open, portalReady, handleOpen]);
 
   useEffect(() => {
     if (!exited) {
