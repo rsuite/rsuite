@@ -235,6 +235,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
 
     const onPickerKeyDown = useToggleKeyDownEvent({
       toggle: isNil(focusItemValue) || !active,
+      disabled,
       trigger,
       target,
       overlay,
@@ -297,6 +298,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
 
       const listbox = items.length ? (
         <Listbox
+          disabled={disabled || rest.readOnly || rest.loading}
           listProps={listProps}
           listRef={list}
           keyboardNavigationRef={virtualized ? keyboardNavigationRef : undefined}
