@@ -7,6 +7,7 @@ import { isSomeChildChecked, getNodeParents } from './utils';
 import type { Option, WithAsProps } from '@/internals/types';
 
 interface SearchViewProps<T> extends WithAsProps {
+  disabled?: boolean;
   searchKeyword: string;
   labelKey: string;
   valueKey: string;
@@ -32,6 +33,7 @@ function SearchView<T>(props: SearchViewProps<T>) {
     valueKey,
     value,
     data,
+    disabled: disabledProp,
     disabledItemValues,
     inputRef,
     cascade,
@@ -62,14 +64,16 @@ function SearchView<T>(props: SearchViewProps<T>) {
       }
       return item[valueKey] === value;
     });
-    const disabled = disabledItemValues.some(value => nodes.some(node => node[valueKey] === value));
+    const disabled =
+      disabledProp ||
+      disabledItemValues.some(value => nodes.some(node => node[valueKey] === value));
 
     const rowClasses = prefix('row', { 'row-disabled': disabled });
     const indeterminate =
       cascade && !active && isSomeChildChecked<any>(item, value, { valueKey, childrenKey });
 
     const handleChange = (_value: any, checked: boolean, event: React.SyntheticEvent) => {
-      onCheck?.(item, event, checked);
+      if (!disabled) onCheck?.(item, event, checked);
     };
 
     return (

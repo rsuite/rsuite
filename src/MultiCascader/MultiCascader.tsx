@@ -240,6 +240,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
 
     const onPickerKeyDown = useToggleKeyDownEvent({
       toggle: isNil(focusItemValue) || !active,
+      disabled,
       trigger,
       target,
       overlay,
@@ -295,6 +296,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
               labelKey={labelKey}
               childrenKey={childrenKey}
               disabledItemValues={disabledItemValues}
+              disabled={disabled || rest.readOnly || rest.loading}
               inputRef={searchInput}
               onCheck={handleCheck}
               onSearch={handleSearch}
@@ -308,6 +310,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
               columnHeight={columnHeight}
               classPrefix="cascade-tree"
               uncheckableItemValues={uncheckableItemValues}
+              disabled={disabled || rest.readOnly || rest.loading}
               disabledItemValues={disabledItemValues}
               valueKey={valueKey}
               labelKey={labelKey}
