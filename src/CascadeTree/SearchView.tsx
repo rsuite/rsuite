@@ -6,6 +6,7 @@ import { useStyles, useCustom } from '@/internals/hooks';
 import { getPathTowardsItem } from '@/internals/Tree/utils';
 
 interface SearchViewProps<T> extends WithAsProps {
+  disabled?: boolean;
   searchKeyword: string;
   labelKey: string;
   valueKey: string;
@@ -32,6 +33,7 @@ function SearchView<T>(props: SearchViewProps<T>) {
     parentMap,
     data,
     focusItemValue,
+    disabled: disabledProp,
     disabledItemValues,
     inputRef,
     renderSearchItem,
@@ -58,9 +60,11 @@ function SearchView<T>(props: SearchViewProps<T>) {
       return { ...itemData, [labelKey]: label };
     });
 
-    const disabled = disabledItemValues.some(value =>
-      formattedNodes.some(itemData => itemData[valueKey] === value)
-    );
+    const disabled =
+      disabledProp ||
+      disabledItemValues.some(value =>
+        formattedNodes.some(itemData => itemData[valueKey] === value)
+      );
     const itemClasses = prefix('row', {
       'row-disabled': disabled,
       'row-focus': item[valueKey] === focusItemValue

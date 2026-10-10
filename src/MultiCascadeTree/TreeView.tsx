@@ -10,6 +10,7 @@ import type { Option, WithAsProps } from '@/internals/types';
 import type { CascadeColumn } from '../CascadeTree/types';
 
 export interface TreeViewProps<T = any> extends WithAsProps {
+  disabled?: boolean;
   disabledItemValues?: T[];
   value: T[];
   childrenKey: string;
@@ -38,6 +39,7 @@ const TreeView = forwardRef<'div', TreeViewProps>((props, ref) => {
     cascadeData = emptyArray,
     cascadePaths = emptyArray,
     childrenKey = 'children',
+    disabled: disabledProp,
     disabledItemValues = emptyArray,
     columnWidth = 156,
     columnHeight = 200,
@@ -73,6 +75,8 @@ const TreeView = forwardRef<'div', TreeViewProps>((props, ref) => {
   };
 
   const handleSelect = useEventCallback((layer: number, node: any, event: React.SyntheticEvent) => {
+    if (disabledProp) return;
+
     const cascadePaths = getCascadePaths(layer + 1, node);
 
     onSelect?.(node, cascadePaths, event);
@@ -91,9 +95,9 @@ const TreeView = forwardRef<'div', TreeViewProps>((props, ref) => {
     const nodeValue = node[valueKey];
     const label = node[labelKey];
 
-    const disabled = disabledItemValues.some(disabledValue =>
-      shallowEqual(disabledValue, nodeValue)
-    );
+    const disabled =
+      disabledProp ||
+      disabledItemValues.some(disabledValue => shallowEqual(disabledValue, nodeValue));
 
     // Use `value` in keys when If `value` is string or number
     const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
@@ -123,7 +127,9 @@ const TreeView = forwardRef<'div', TreeViewProps>((props, ref) => {
           cascade && !active && isSomeChildChecked(node, value, { valueKey, childrenKey })
         }
         onSelectItem={(_value, event) => handleSelect(layer, node, event)}
-        onCheck={(_value, event, checked) => onCheck?.(node, event, checked)}
+        onCheck={(_value, event, checked) => {
+          if (!disabled) onCheck?.(node, event, checked);
+        }}
         checkable={!uncheckable}
         labelClickable={false}
       >
