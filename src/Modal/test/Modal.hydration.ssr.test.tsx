@@ -1,6 +1,6 @@
 import React, { StrictMode } from 'react';
 import { renderToString, version as serverVersion } from 'react-dom/server';
-import { expect, it } from 'vitest';
+import { afterAll, beforeAll, expect, it } from 'vitest';
 import createSourceBrowser from '../../../test/browser/createSourceBrowser';
 import ModalHydrationFixture, { ModalHydrationFixtureProps } from './ModalHydrationFixture';
 
@@ -9,36 +9,48 @@ for (const kind of ['modal', 'drawer'] as const)
   for (const customContainer of [false, true])
     for (const reduceMotion of [false, true]) cases.push({ kind, customContainer, reduceMotion });
 
-it.each(cases)(
-  'hydrates an open $kind, custom container: $customContainer, reduced motion: $reduceMotion',
-  async props => {
-    expect(typeof document).toBe('undefined');
-    expect(serverVersion).toBe(React.version);
-    const markup = renderToString(
+let source: Awaited<ReturnType<typeof createSourceBrowser>>;
+
+beforeAll(async () => {
+  expect(typeof document).toBe('undefined');
+  expect(serverVersion).toBe(React.version);
+  const documents = cases.map(props =>
+    renderToString(
       <StrictMode>
         <ModalHydrationFixture {...props} />
       </StrictMode>
-    );
-    expect(markup).not.toContain('Initial dialog');
-    const source = await createSourceBrowser({
-      root: process.cwd(),
-      entry: '/src/Modal/test/Modal.hydration.client.tsx',
-      configureServer(server) {
-        server.middlewares.use(async (request, response, next) => {
-          if (request.url !== '/') return next();
-          response.setHeader('Content-Type', 'text/html; charset=utf-8');
-          response.end(
-            await server.transformIndexHtml(
-              '/',
-              `<!doctype html><html><body><div id="root">${markup}</div><div id="portal-target"></div><script type="module" src="/src/Modal/test/Modal.hydration.client.tsx"></script></body></html>`
-            )
-          );
-        });
-      }
-    });
+    )
+  );
+  documents.forEach(markup => expect(markup).not.toContain('Initial dialog'));
+  source = await createSourceBrowser({
+    root: process.cwd(),
+    entry: '/src/Modal/test/Modal.hydration.client.tsx',
+    configureServer(server) {
+      server.middlewares.use(async (request, response, next) => {
+        const url = new URL(request.url || '/', 'http://localhost');
+        if (url.pathname !== '/') return next();
+        const markup = documents[Number(url.searchParams.get('case'))];
+        if (markup === undefined) return next();
+        response.setHeader('Content-Type', 'text/html; charset=utf-8');
+        response.end(
+          await server.transformIndexHtml(
+            '/',
+            `<!doctype html><html><body><div id="root">${markup}</div><div id="portal-target"></div><script type="module" src="/src/Modal/test/Modal.hydration.client.tsx"></script></body></html>`
+          )
+        );
+      });
+    }
+  });
+});
+
+afterAll(async () => source?.close());
+
+it.each(cases.map((props, index) => ({ ...props, index })))(
+  'hydrates an open $kind, custom container: $customContainer, reduced motion: $reduceMotion',
+  async props => {
     const errors: string[] = [];
+    const page = await source.browser.newPage();
     try {
-      const page = await source.browser.newPage();
       page.on('pageerror', error => errors.push(String(error)));
       page.on('console', message => {
         if (message.type() === 'error') errors.push(message.text());
@@ -52,7 +64,9 @@ it.each(cases)(
       expect(source.reactVersion).toBe(React.version);
       await page.goto(
         source.url +
-          '/#kind=' +
+          '/?case=' +
+          props.index +
+          '#kind=' +
           props.kind +
           (props.customContainer ? '&custom' : '') +
           (props.reduceMotion ? '&reduced' : '')
@@ -119,7 +133,7 @@ it.each(cases)(
       expect(snapshot.errors).toEqual([]);
       expect(errors).toEqual([]);
     } finally {
-      await source.close();
+      await page.close();
     }
   }
 );
