@@ -51,6 +51,7 @@ export interface ListboxProps<Multiple = false>
     Partial<DataProps<InnerOption>>,
     HTMLPropsWithoutSelect {
   groupBy?: string;
+  disabled?: boolean;
   disabledItemValues?: any[];
   activeItemValues?: any[];
   focusItemValue?: any;
@@ -125,6 +126,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
     const {
       data = [],
       groupBy,
+      disabled: disabledProp,
       maxHeight = 320,
       emptyContent,
       activeItemValues = [],
@@ -182,6 +184,8 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
 
     const handleSelect = useEventCallback(
       (item: any, value: any, event: React.MouseEvent, checked?: boolean) => {
+        if (disabledProp) return;
+
         onSelect?.(value, item, event, checked);
       }
     );
@@ -304,9 +308,9 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
         throw Error(`valueKey "${valueKey}" is not defined in "data" : ${index} `);
       }
 
-      const disabled = disabledItemValues?.some(disabledValue =>
-        shallowEqual(disabledValue, value)
-      );
+      const disabled =
+        disabledProp ||
+        disabledItemValues?.some(disabledValue => shallowEqual(disabledValue, value));
       const active = activeItemValues?.some(v => shallowEqual(v, value));
       const focus = !isUndefined(focusItemValue) && shallowEqual(focusItemValue, value);
 

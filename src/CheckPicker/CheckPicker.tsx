@@ -206,6 +206,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
 
     const onPickerKeyDown = useToggleKeyDownEvent({
       toggle: isNil(focusItemValue) || !active,
+      disabled,
       trigger,
       target,
       overlay,
@@ -311,6 +312,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
       const listbox =
         items.length || filteredStickyItems.length ? (
           <Listbox<true>
+            disabled={disabled || rest.readOnly || rest.loading}
             listProps={listProps}
             listRef={list}
             keyboardNavigationRef={virtualized ? keyboardNavigationRef : undefined}
