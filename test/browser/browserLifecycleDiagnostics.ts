@@ -16,9 +16,11 @@ interface BrowserSnapshot {
   };
 }
 
-export interface BrowserLifecycleDiagnostic extends BrowserSnapshot {
-  event: 'crash' | 'close' | 'navigation';
-}
+export type BrowserLifecycleDiagnostic = BrowserSnapshot &
+  (
+    | { event: 'crash' | 'close' | 'navigation' }
+    | { event: 'rpc-close'; code: number; wasClean: boolean }
+  );
 
 const observers = new WeakMap<Page, () => BrowserSnapshot>();
 let nextPageId = 0;
@@ -82,5 +84,28 @@ export function observeBrowserLifecycle(
   });
   page.on('crash', () => report({ event: 'crash', ...snapshot() }));
   page.on('close', () => report({ event: 'close', ...snapshot() }));
+  page.on('console', message => {
+    const prefix = '[Browser RPC close] ';
+    const text = message.text();
+    if (!text.startsWith(prefix) || text.length > 200) return;
+    let close: { code?: unknown; wasClean?: unknown } | null;
+    try {
+      close = JSON.parse(text.slice(prefix.length));
+    } catch {
+      return;
+    }
+    if (
+      !close ||
+      typeof close.code !== 'number' ||
+      !Number.isInteger(close.code) ||
+      close.code < 1000 ||
+      close.code > 4999 ||
+      typeof close.wasClean !== 'boolean'
+    ) {
+      return;
+    }
+    // Keep only close metadata; never forward the socket URL, reason or payload.
+    report({ event: 'rpc-close', code: close.code, wasClean: close.wasClean, ...snapshot() });
+  });
   return snapshot;
 }
