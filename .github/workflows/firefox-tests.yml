@@ -86,8 +86,7 @@ jobs:
           VITEST_PW_DEBUG: '1'
 
       - name: Run native browser control tests
-        if: ${{ matrix.shard == 1 }}
-        run: npm run test:browser-controls
+        run: npm run test:browser-controls -- --shard=${{ matrix.shard }}/2
         env:
           BROWSER: firefox
 
