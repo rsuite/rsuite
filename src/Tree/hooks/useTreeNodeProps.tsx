@@ -11,6 +11,7 @@ import { formatNodeRefKey } from '../utils/formatNodeRefKey';
 
 interface Props {
   value: any;
+  disabled?: boolean;
   disabledItemValues: any[];
   loadingNodeValues: any[];
   focusItemValue: any;
@@ -26,6 +27,7 @@ function useTreeNodeProps(props: Props) {
 
   const {
     value,
+    disabled: disabledProp,
     disabledItemValues,
     loadingNodeValues,
     focusItemValue,
@@ -71,7 +73,8 @@ function useTreeNodeProps(props: Props) {
         }
       }
 
-      const disabled = disabledItemValues.some(disabledItem => equal(disabledItem, nodeValue));
+      const disabled =
+        disabledProp || disabledItemValues.some(disabledItem => equal(disabledItem, nodeValue));
       const loading = loadingNodeValues.some(item => equal(item, nodeValue));
       const active = equal(nodeValue, value);
       const focus = equal(nodeValue, focusItemValue);
@@ -95,6 +98,7 @@ function useTreeNodeProps(props: Props) {
     },
     [
       childrenKey,
+      disabledProp,
       disabledItemValues,
       dragNode,
       dragOverNodeKey,

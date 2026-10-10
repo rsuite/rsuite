@@ -62,6 +62,7 @@ const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
   const onToggle = useEventCallback((event: React.KeyboardEvent) => {
     // Keyboard events should not be processed when readOnly and disabled are set.
     if (readOnly || disabled || loading) {
+      onKeyDown?.(event);
       return;
     }
 
