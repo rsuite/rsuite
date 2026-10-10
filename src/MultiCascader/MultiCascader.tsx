@@ -5,7 +5,6 @@ import isNil from 'lodash/isNil';
 import TreeView from '../MultiCascadeTree/TreeView';
 import SearchView from '../MultiCascadeTree/SearchView';
 import useActive from '../Cascader/useActive';
-import { findNodeOfTree } from '@/internals/Tree/utils';
 import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { getColumnsAndPaths } from '../CascadeTree/utils';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
@@ -165,7 +164,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
         const { columns, path } = getColumnsAndPaths(
           data,
           flattenData.find(item => item[valueKey] === value),
-          { getParent: () => undefined, getChildren: item => item[childrenKey] }
+          { getParent: item => item.parent, getChildren: item => item[childrenKey] }
         );
 
         setColumnData(columns);
@@ -228,7 +227,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
     });
 
     const handleMenuPressEnter = useEventCallback((event: React.SyntheticEvent) => {
-      const focusItem = findNodeOfTree(data, item => item[valueKey] === focusItemValue);
+      const focusItem = flattenData.find(item => item[valueKey] === focusItemValue);
       const treeItem = Array.from(
         overlay.current?.querySelectorAll<HTMLElement>('[data-key]') ?? []
       ).find(item => item.getAttribute('data-key') === String(focusItemValue));
