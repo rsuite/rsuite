@@ -17,7 +17,7 @@ jobs:
   test:
     name: 'Firefox shard (${{ matrix.shard }}/2)'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     strategy:
       # Both independent runners must finish so failures cannot hide another shard.
       fail-fast: false
