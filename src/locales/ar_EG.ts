@@ -85,6 +85,9 @@ export default {
     expandText: 'عرض المسار'
   },
   Carousel: {
+    carouselRoleDescription: 'عرض شرائح',
+    slideRoleDescription: 'شريحة',
+    slidePosition: '{0} من {1}',
     startRotation: 'بدء التبديل التلقائي للشرائح',
     stopRotation: 'إيقاف التبديل التلقائي للشرائح',
     selectSlide: 'اختيار شريحة',

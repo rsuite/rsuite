@@ -88,6 +88,9 @@ export default {
     expandText: '경로 표시'
   },
   Carousel: {
+    carouselRoleDescription: '캐러셀',
+    slideRoleDescription: '슬라이드',
+    slidePosition: '{1}개 중 {0}번째',
     startRotation: '슬라이드 자동 재생 시작',
     stopRotation: '슬라이드 자동 재생 중지',
     selectSlide: '슬라이드 선택',

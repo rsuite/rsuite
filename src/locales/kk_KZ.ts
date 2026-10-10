@@ -84,6 +84,9 @@ export default {
     expandText: 'Көрсету'
   },
   Carousel: {
+    carouselRoleDescription: 'карусель',
+    slideRoleDescription: 'слайд',
+    slidePosition: '{1} ішінен {0}',
     startRotation: 'Слайдтарды автоматты ауыстыруды бастау',
     stopRotation: 'Слайдтарды автоматты ауыстыруды тоқтату',
     selectSlide: 'Слайдты таңдау',

@@ -88,6 +88,9 @@ export default {
     expandText: 'Näytä polku'
   },
   Carousel: {
+    carouselRoleDescription: 'karuselli',
+    slideRoleDescription: 'dia',
+    slidePosition: '{0}/{1}',
     startRotation: 'Aloita diojen automaattinen vaihto',
     stopRotation: 'Pysäytä diojen automaattinen vaihto',
     selectSlide: 'Valitse dia',

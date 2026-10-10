@@ -88,6 +88,9 @@ export default {
     expandText: 'Vis sti'
   },
   Carousel: {
+    carouselRoleDescription: 'karusell',
+    slideRoleDescription: 'lysbilde',
+    slidePosition: '{0} av {1}',
     startRotation: 'Start automatisk lysbildeskift',
     stopRotation: 'Stopp automatisk lysbildeskift',
     selectSlide: 'Velg lysbilde',

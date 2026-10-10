@@ -84,6 +84,9 @@ export default {
     expandText: 'Afficher le chemin'
   },
   Carousel: {
+    carouselRoleDescription: 'carrousel',
+    slideRoleDescription: 'diapositive',
+    slidePosition: '{0} sur {1}',
     startRotation: 'Démarrer le défilement des diapositives',
     stopRotation: 'Arrêter le défilement des diapositives',
     selectSlide: 'Choisir une diapositive',

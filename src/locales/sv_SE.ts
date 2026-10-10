@@ -88,6 +88,9 @@ export default {
     expandText: 'Visa väg'
   },
   Carousel: {
+    carouselRoleDescription: 'karusell',
+    slideRoleDescription: 'bild',
+    slidePosition: '{0} av {1}',
     startRotation: 'Starta automatiskt bildbyte',
     stopRotation: 'Stoppa automatiskt bildbyte',
     selectSlide: 'Välj bild',

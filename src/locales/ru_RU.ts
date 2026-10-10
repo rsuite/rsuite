@@ -84,6 +84,9 @@ export default {
     expandText: 'Показать путь'
   },
   Carousel: {
+    carouselRoleDescription: 'карусель',
+    slideRoleDescription: 'слайд',
+    slidePosition: '{0} из {1}',
     startRotation: 'Начать автоматическую смену слайдов',
     stopRotation: 'Остановить автоматическую смену слайдов',
     selectSlide: 'Выбрать слайд',

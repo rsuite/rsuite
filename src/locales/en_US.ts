@@ -84,6 +84,9 @@ export default {
     expandText: 'Show path'
   },
   Carousel: {
+    carouselRoleDescription: 'carousel',
+    slideRoleDescription: 'slide',
+    slidePosition: '{0} of {1}',
     startRotation: 'Start slide rotation',
     stopRotation: 'Stop slide rotation',
     selectSlide: 'Choose slide',

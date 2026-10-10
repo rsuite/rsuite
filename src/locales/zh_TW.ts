@@ -84,6 +84,9 @@ export default {
     expandText: '顯示路徑'
   },
   Carousel: {
+    carouselRoleDescription: '輪播',
+    slideRoleDescription: '幻燈片',
+    slidePosition: '第 {0} 張，共 {1} 張',
     startRotation: '開始自動播放',
     stopRotation: '停止自動播放',
     selectSlide: '選擇投影片',
