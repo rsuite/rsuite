@@ -70,7 +70,7 @@ describe('Slider native keyboard locking', () => {
       try {
         await page.getByRole('button', { name: 'Before' }).click();
         await page.keyboard.press('Tab');
-        const handle = page.getByTestId('slider-handle').first();
+        const handle = page.getByRole('slider').first();
         expect(await handle.evaluate(node => node === document.activeElement)).toBe(true);
         await page.keyboard.press('ArrowUp');
         expect((await values(page))[0]).toEqual({ value: 25, announced: 25 });
@@ -129,7 +129,7 @@ describe('Slider native keyboard locking', () => {
           await page.keyboard.press('Tab');
           expect(
             await page
-              .getByTestId('slider-handle')
+              .getByRole('slider')
               .nth(index)
               .evaluate(node => node === document.activeElement)
           ).toBe(true);

@@ -108,7 +108,7 @@
   }
 
   &:hover::before,
-  &:focus::before {
+  &:focus-within::before {
     box-shadow: var(--rs-slider-thumb-hover-shadow);
   }
 
