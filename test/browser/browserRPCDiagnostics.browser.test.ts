@@ -6,9 +6,25 @@ import { createServer } from 'vite';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { createBrowserRPCObserver } from './browserRPCDiagnostics';
 import { createBrowserModuleDiagnostics } from './moduleLoadDiagnostics';
+import { observeBrowserLifecycle } from './browserLifecycleDiagnostics';
 import type { AddressInfo } from 'node:net';
 import type { Browser, BrowserContext, Page } from 'playwright';
 import type { ViteDevServer } from 'vite';
+import type { BrowserLifecycleDiagnostic } from './browserLifecycleDiagnostics';
+
+// Run the production startup script against a real fixture socket instead of a Vitest session.
+const rpcClientFixture = {
+  name: 'rpc-close-client-fixture',
+  enforce: 'pre' as const,
+  resolveId(id: string) {
+    if (id === '@vitest/browser/client') return '\0rpc-close-client-fixture';
+  },
+  load(id: string) {
+    if (id === '\0rpc-close-client-fixture') {
+      return 'export const client = { ws: window.__RPC_DIAGNOSTIC_SOCKETS__[0] };';
+    }
+  }
+};
 
 declare global {
   interface Window {
@@ -34,6 +50,7 @@ beforeAll(async () => {
     logLevel: 'silent',
     cacheDir,
     optimizeDeps: { noDiscovery: true, entries: [] },
+    plugins: [rpcClientFixture],
     server: { host: '127.0.0.1', port: 0, hmr: { path: '/__vitest_browser_api__' } }
   });
   server.middlewares.use((_request, response) => {
@@ -101,6 +118,21 @@ async function connect(role = 'tester', count = 1) {
   );
 }
 
+async function installCloseDiagnostic() {
+  const errors: string[] = [];
+  const onError = (error: Error) => errors.push(error.message);
+  page.on('pageerror', onError);
+  try {
+    await page.addScriptTag({
+      type: 'module',
+      url: `${origin}/test/browser/browserRPCClose.orchestrator.js`
+    });
+    expect(errors).toEqual([]);
+  } finally {
+    page.off('pageerror', onError);
+  }
+}
+
 describe('Browser RPC transport diagnostics', () => {
   it('retains the plugin snapshot when Vite stops before the browser page', async () => {
     const { plugin } = createBrowserModuleDiagnostics();
@@ -128,7 +160,18 @@ describe('Browser RPC transport diagnostics', () => {
         url
       );
       expect(plugin.api?.rpc.snapshot().active).toHaveLength(1);
+      const diagnostics: (BrowserLifecycleDiagnostic & { stoppedAt: number | null })[] = [];
+      observeBrowserLifecycle(page, origin, diagnostic => {
+        diagnostics.push({ ...diagnostic, stoppedAt: plugin.api!.rpc.snapshot().stoppedAt });
+      });
+      await installCloseDiagnostic();
       await fixture.close();
+      await expect
+        .poll(() => diagnostics.filter(event => event.event === 'rpc-close').length)
+        .toBe(1);
+      const close = diagnostics.find(event => event.event === 'rpc-close')!;
+      expect(close.stoppedAt).toBeGreaterThan(0);
+      expect(close.browserConnected).toBe(true);
       const final = plugin.api?.rpc.snapshot();
       expect([...(final?.active || []), ...(final?.closed || [])]).toHaveLength(1);
       expect(final?.stoppedAt).toBeGreaterThan(0);
@@ -139,6 +182,39 @@ describe('Browser RPC transport diagnostics', () => {
       await fixture.close();
     }
   });
+
+  it.each([1000, 1001, 'terminate'] as const)(
+    'records the browser close event for %s while the server and page are still running',
+    async method => {
+      const diagnostics: BrowserLifecycleDiagnostic[] = [];
+      const report = (diagnostic: BrowserLifecycleDiagnostic) => diagnostics.push(diagnostic);
+      const snapshot = observeBrowserLifecycle(page, origin, report);
+      expect(observeBrowserLifecycle(page, origin, report)).toBe(snapshot);
+      await connect('orchestrator');
+      await installCloseDiagnostic();
+      expect(server.ws.clients.size).toBe(1);
+      expect(observer.snapshot().active.map(connection => connection.role)).toEqual([
+        'orchestrator'
+      ]);
+      expect(diagnostics).toEqual([]);
+      for (const client of server.ws.clients) {
+        if (method === 'terminate') client.socket.terminate();
+        else client.socket.close(method, 'private-close-reason');
+      }
+      await expect.poll(() => diagnostics.length).toBe(1);
+      expect(diagnostics[0]).toMatchObject({
+        event: 'rpc-close',
+        code: method === 'terminate' ? 1006 : method,
+        wasClean: method !== 'terminate',
+        browserConnected: true
+      });
+      expect(observer.snapshot().stoppedAt).toBeNull();
+      expect(page.isClosed()).toBe(false);
+      expect(await page.title()).toBe('RPC diagnostics');
+      expect(JSON.stringify(diagnostics)).not.toContain('private-');
+      expect(JSON.stringify(diagnostics)).not.toContain(server.config.webSocketToken);
+    }
+  );
 
   it('captures early orchestrators and testers without recording their URLs or messages', async () => {
     await connect('orchestrator');
