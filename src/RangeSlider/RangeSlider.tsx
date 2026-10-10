@@ -3,6 +3,7 @@ import getWidth from 'dom-lib/getWidth';
 import getHeight from 'dom-lib/getHeight';
 import getOffset from 'dom-lib/getOffset';
 import ProgressBar from '../Slider/ProgressBar';
+import useRangeHandleOrder from './useRangeHandleOrder';
 import Handle, { HandleProps } from '../Slider/Handle';
 import Graduated from '../Slider/Graduated';
 import Plaintext from '@/internals/Plaintext';
@@ -74,8 +75,6 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
 
   const barRef = useRef<HTMLDivElement>(null);
 
-  // Define the parameter position of the handle
-  const handleIndexs = useRef([0, 1]);
   const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const { rtl } = useCustom('RangeSlider');
   const classes = merge(className, withPrefix());
@@ -102,6 +101,7 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
   );
 
   const [value, setValue] = useControlled(getValidValue(valueProp), getValidValue(defaultValue));
+  const { handleOrder, prepareChange } = useRangeHandleOrder(value);
 
   // The count of values that can be entered.
   const count = useMemo(() => precisionMath((max - min) / step), [max, min, step]);
@@ -166,21 +166,7 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
       const value = range.split(',').map(i => +i) as Range;
       const nextValue = getValidValue(getRangeValue(value, eventKey, event));
 
-      const swapHandles = nextValue[0] >= nextValue[1];
-
-      if (swapHandles) {
-        /**
-         * When the value of `start` is greater than the value of` end`,
-         * the position of the handle is reversed.
-         */
-        if (eventKey === 'start') {
-          nextValue[0] = value[1];
-        } else {
-          nextValue[1] = value[0];
-        }
-      }
-
-      return { nextValue, swapHandles };
+      return nextValue.sort((a, b) => a - b) as Range;
     },
     [getRangeValue, getValidValue]
   );
@@ -199,13 +185,12 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
     [constraint]
   );
 
-  const setRangeValue = useEventCallback((nextValue: Range, swapHandles = false) => {
+  const setRangeValue = useEventCallback((nextValue: Range, valueIndex?: 0 | 1) => {
     if (!isRangeMatchingConstraint(nextValue)) {
       return false;
     }
 
-    // Keep handle identity unchanged when a constraint rejects the proposed value.
-    if (swapHandles) handleIndexs.current.reverse();
+    prepareChange(nextValue, valueIndex);
     setValue(nextValue);
     return true;
   });
@@ -219,9 +204,9 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
         return;
       }
 
-      const { nextValue, swapHandles } = getNextValue(event, dataset);
+      const nextValue = getNextValue(event, dataset);
 
-      if (setRangeValue(nextValue, swapHandles)) {
+      if (setRangeValue(nextValue, dataset.key === 'start' ? 0 : 1)) {
         onChange?.(nextValue, event);
       }
     }
@@ -236,9 +221,9 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
         return;
       }
 
-      const { nextValue, swapHandles } = getNextValue(event, dataset as HandleDataset);
+      const nextValue = getNextValue(event, dataset as HandleDataset);
 
-      if (setRangeValue(nextValue, swapHandles)) {
+      if (setRangeValue(nextValue, dataset?.key === 'start' ? 0 : 1)) {
         onChangeCommitted?.(nextValue, event);
       }
     }
@@ -277,13 +262,12 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
     }
 
     // When the start value is greater than the end value, let the handle and value switch positions.
-    const swapHandles = nextValue[0] >= nextValue[1];
-    if (swapHandles) nextValue.reverse();
+    nextValue.sort((a, b) => a - b);
 
     // Prevent scroll of the page
     event.preventDefault();
 
-    if (setRangeValue(nextValue, swapHandles)) {
+    if (setRangeValue(nextValue, valueIndex)) {
       onChange?.(nextValue, event);
     }
   });
@@ -295,11 +279,11 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
       }
 
       const nextValue: Range = [...value];
-      nextValue[key === 'start' ? 0 : 1] = checkValue(event.currentTarget.valueAsNumber, min, max);
-      const swapHandles = nextValue[0] >= nextValue[1];
-      if (swapHandles) nextValue.reverse();
+      const valueIndex = key === 'start' ? 0 : 1;
+      nextValue[valueIndex] = checkValue(event.currentTarget.valueAsNumber, min, max);
+      nextValue.sort((a, b) => a - b);
 
-      if (setRangeValue(nextValue, swapHandles)) {
+      if (setRangeValue(nextValue, valueIndex)) {
         onChange?.(nextValue, event);
       }
     }
@@ -418,11 +402,11 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
           />
         )}
       </div>
-      <Handle data-range={value} {...handleCommonProps} {...handleProps[handleIndexs.current[0]]}>
+      <Handle data-range={value} {...handleCommonProps} {...handleProps[handleOrder[0]]}>
         {handleTitle}
       </Handle>
 
-      <Handle data-range={value} {...handleCommonProps} {...handleProps[handleIndexs.current[1]]}>
+      <Handle data-range={value} {...handleCommonProps} {...handleProps[handleOrder[1]]}>
         {handleTitle}
       </Handle>
     </Box>
