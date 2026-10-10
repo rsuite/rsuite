@@ -8,10 +8,25 @@ import TreePicker from '../../TreePicker';
 import CheckTreePicker from '../../CheckTreePicker';
 import Button from '../../Button';
 import AddOutline from '@rsuite/icons/AddOutline';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
 describe('CustomProvider', () => {
+  it('Should render toast containers in the container returned by a function', () => {
+    const portalContainer = render(<div />).container;
+    const toastContainer = vi.fn(() => portalContainer);
+
+    render(
+      <CustomProvider toastContainer={toastContainer}>
+        <button>Save</button>
+      </CustomProvider>
+    );
+
+    expect(toastContainer).toHaveBeenCalled();
+    expect(portalContainer.querySelectorAll('.rs-toast-container')).to.have.length(6);
+    expect(portalContainer.contains(screen.getByRole('button', { name: 'Save' }))).to.be.false;
+  });
+
   it('Should render the correct local language', () => {
     render(
       <div>

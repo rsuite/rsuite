@@ -28,7 +28,11 @@ const MountedPortal = React.memo(function MountedPortal({
 
 export function usePortal(props: PortalProps = {}) {
   const { container, waitMount = false } = props;
-  const containerElement = typeof container === 'function' ? container() : container;
+  const containerElement = canUseDOM
+    ? typeof container === 'function'
+      ? container()
+      : container
+    : null;
   const rootElement = useMemo(
     () => (canUseDOM ? containerElement || document.body : null),
     [containerElement]
