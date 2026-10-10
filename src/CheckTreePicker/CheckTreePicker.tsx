@@ -192,6 +192,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
 
   const onPickerKeydown = useToggleKeyDownEvent({
     toggle: !focusItemValue || !active,
+    disabled,
     trigger,
     target,
     overlay,
@@ -253,6 +254,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
     <TreeProvider value={treeContext}>
       <CheckTreeView
         ref={treeView}
+        disabled={disabled || rest.readOnly || rest.loading}
         disabledItemValues={disabledItemValues}
         expandItemValues={expandItemValues}
         uncheckableItemValues={uncheckableItemValues}
