@@ -236,6 +236,10 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
   );
 
   const handleKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (disabled || readOnly) {
+      return;
+    }
+
     const target = event.target as HTMLElement;
     const { key } = target?.dataset || {};
     const nextValue: Range = [...value];
