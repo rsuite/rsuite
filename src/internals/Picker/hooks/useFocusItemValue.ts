@@ -208,10 +208,13 @@ const useFocusItemValue = <T, D>(
     const nextKeys = getSubMenuKeys(nextLayer);
 
     if (nextKeys) {
+      const focusItem = find(data, item => String(item[valueKey]) === nextKeys[0]);
+
+      if (isUndefined(focusItem)) return;
+
       setKeys(nextKeys);
       setLayer(nextLayer);
-      setFocusItemValue(nextKeys[0]);
-      focusCallback(nextKeys[0], event);
+      focusMenuItem(focusItem[valueKey], event);
     }
   });
 
