@@ -1,6 +1,7 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 import RangeSlider from '../RangeSlider';
+import CustomProvider from '../../CustomProvider';
 import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { addStyle } from 'dom-lib';
@@ -80,6 +81,50 @@ describe('RangeSlider', () => {
     expect(onChange).not.toHaveBeenCalled();
     expect(onChangeCommitted).not.toHaveBeenCalled();
   });
+
+  it('Should preserve the readOnly range when a focused handle receives arrow keys', () => {
+    const onChange = vi.fn();
+    render(<RangeSlider readOnly defaultValue={[10, 50]} onChange={onChange} />);
+    const handle = screen.getAllByTestId('slider-handle')[0];
+
+    userEvent.tab();
+    expect(document.activeElement).to.equal(handle);
+    userEvent.keyboard('{arrowright}');
+
+    expect(screen.getAllByRole('slider')[0]).to.have.value('10');
+    expect(screen.getAllByRole('slider')[0]).to.have.attr('aria-valuenow', '10');
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it.each(['disabled', 'readOnly'] as const)(
+    'Should ignore keyboard value changes while %s and allow changes when unlocked',
+    lockedProp => {
+      const onChange = vi.fn();
+      const { rerender } = render(
+        <RangeSlider defaultValue={[10, 50]} onChange={onChange} {...{ [lockedProp]: true }} />
+      );
+      const handles = screen.getAllByTestId('slider-handle');
+      const inputs = screen.getAllByRole('slider');
+
+      handles.forEach(handle => {
+        ['ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft', 'Home', 'End'].forEach(key => {
+          fireEvent.keyDown(handle, { key });
+
+          expect(inputs[0]).to.have.value('10');
+          expect(inputs[0]).to.have.attr('aria-valuenow', '10');
+          expect(inputs[1]).to.have.value('50');
+          expect(inputs[1]).to.have.attr('aria-valuenow', '50');
+          expect(onChange).not.toHaveBeenCalled();
+        });
+      });
+
+      rerender(<RangeSlider defaultValue={[10, 50]} onChange={onChange} />);
+      fireEvent.keyDown(handles[0], { key: 'ArrowRight' });
+
+      expect(inputs[0]).to.have.value('11');
+      expect(onChange).toHaveBeenCalledWith([11, 50], expect.any(Object));
+    }
+  );
 
   it('Should apply the specified size', () => {
     const { container, rerender } = render(<RangeSlider size="lg" />);
@@ -191,6 +236,21 @@ describe('RangeSlider', () => {
     fireEvent.keyDown(handle, { key: 'End' });
     expect(input).to.value('100');
     expect(input).to.have.attr('aria-valuenow', '100');
+  });
+
+  it('Should reverse horizontal keyboard direction in RTL', () => {
+    render(
+      <CustomProvider rtl>
+        <RangeSlider defaultValue={[10, 50]} />
+      </CustomProvider>
+    );
+    const handle = screen.getAllByTestId('slider-handle')[0];
+
+    fireEvent.keyDown(handle, { key: 'ArrowLeft' });
+    expect(screen.getAllByRole('slider')[0]).to.have.value('11');
+
+    fireEvent.keyDown(handle, { key: 'ArrowRight' });
+    expect(screen.getAllByRole('slider')[0]).to.have.value('10');
   });
 
   it('Should call `onChangeCommitted` callback', async () => {

@@ -255,6 +255,10 @@ const Slider = forwardRef<'div', SliderProps>((props, ref) => {
   });
 
   const handleKeyDown = useEventCallback((event: React.KeyboardEvent) => {
+    if (disabled || readOnly) {
+      return;
+    }
+
     let nextValue;
     const increaseKey = rtl ? 'ArrowLeft' : 'ArrowRight';
     const decreaseKey = rtl ? 'ArrowRight' : 'ArrowLeft';
