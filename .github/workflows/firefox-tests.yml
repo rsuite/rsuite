@@ -81,6 +81,8 @@ jobs:
         run: npm run test:ci -- --browser.headless --shard=${{ matrix.shard }}/2
         env:
           CI: true
+          # Keep browser stderr and process exits when an RPC connection disappears.
+          DEBUG: pw:browser
           BROWSER: firefox
           # Report native Playwright request failures for dynamic import diagnostics.
           VITEST_PW_DEBUG: '1'
