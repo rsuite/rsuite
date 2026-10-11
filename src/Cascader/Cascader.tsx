@@ -354,6 +354,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
           {searchable && (
             <SearchView<T>
               data={items}
+              value={value}
               searchKeyword={searchKeyword}
               valueKey={valueKey}
               labelKey={labelKey}

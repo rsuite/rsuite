@@ -291,6 +291,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
               data={items}
               value={value}
               searchKeyword={searchKeyword}
+              focusItemValue={focusItemValue}
               valueKey={valueKey}
               labelKey={labelKey}
               childrenKey={childrenKey}

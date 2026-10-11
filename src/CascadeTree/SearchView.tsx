@@ -1,9 +1,11 @@
 import React from 'react';
 import SearchBox from '@/internals/SearchBox';
 import getOptionKey from '@/internals/Picker/getOptionKey';
+import getOptionId from '@/internals/Picker/getOptionId';
+import { useCombobox } from '@/internals/Picker';
 import Highlight from '../Highlight';
 import { Option, WithAsProps } from '@/internals/types';
-import { useStyles, useCustom } from '@/internals/hooks';
+import { useStyles, useCustom, useUniqueId } from '@/internals/hooks';
 import { getPathTowardsItem } from '@/internals/Tree/utils';
 
 interface SearchViewProps<T> extends WithAsProps {
@@ -13,6 +15,7 @@ interface SearchViewProps<T> extends WithAsProps {
   valueKey: string;
   parentMap: WeakMap<Option<T>, Option<T>>;
   data: Option<T>[];
+  value?: T | null;
   focusItemValue?: T | null;
   disabledItemValues: any[];
   locale?: Record<string, string>;
@@ -33,6 +36,7 @@ function SearchView<T>(props: SearchViewProps<T>) {
     valueKey,
     parentMap,
     data,
+    value,
     focusItemValue,
     disabled: disabledProp,
     disabledItemValues,
@@ -47,6 +51,16 @@ function SearchView<T>(props: SearchViewProps<T>) {
   const classes = merge(className, withPrefix());
   const { getLocale } = useCustom();
   const { searchPlaceholder, noResultsText } = getLocale('Combobox', overrideLocale);
+  const { id, popupType, labelId } = useCombobox();
+  const searchId = useUniqueId('rs-cascade-search-', id);
+  const treeId = `${searchId}-${popupType || 'tree'}`;
+  const activeDescendant =
+    searchKeyword !== '' &&
+    focusItemValue !== undefined &&
+    focusItemValue !== null &&
+    data.some(item => item[valueKey] === focusItemValue)
+      ? getOptionId(searchId, focusItemValue)
+      : undefined;
 
   const renderSearchRow = (item: Option<T>, index: number) => {
     const nodeValue = item[valueKey];
@@ -91,6 +105,8 @@ function SearchView<T>(props: SearchViewProps<T>) {
     return (
       <div
         role="treeitem"
+        id={getOptionId(searchId, nodeValue)}
+        aria-selected={nodeValue === value}
         aria-disabled={disabled}
         aria-label={item[labelKey]}
         key={itemKey}
@@ -112,9 +128,19 @@ function SearchView<T>(props: SearchViewProps<T>) {
         onChange={onSearch}
         value={searchKeyword}
         inputRef={inputRef}
+        inputProps={{
+          'aria-controls': searchKeyword !== '' || id ? treeId : undefined,
+          'aria-activedescendant': activeDescendant
+        }}
       />
       {searchKeyword !== '' && (
-        <div className={prefix('panel')} data-layer={0} role="tree">
+        <div
+          className={prefix('panel')}
+          data-layer={0}
+          role="tree"
+          id={treeId}
+          aria-labelledby={labelId}
+        >
           {data.length ? (
             data.map(renderSearchRow)
           ) : (
