@@ -30,7 +30,13 @@ describe('Cascader parent values with native keyboard navigation', () => {
   });
   afterAll(async () => source?.close());
 
-  async function run(picker: string, value: string, custom: boolean, rtl: boolean) {
+  async function run(
+    picker: string,
+    value: string,
+    custom: boolean,
+    rtl: boolean,
+    child = 'string'
+  ) {
     const page = await source.browser.newPage();
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(String(error)));
@@ -41,6 +47,7 @@ describe('Cascader parent values with native keyboard navigation', () => {
       const params = new URLSearchParams({
         picker,
         value,
+        child,
         custom: String(custom),
         rtl: String(rtl)
       });
@@ -71,6 +78,7 @@ describe('Cascader parent values with native keyboard navigation', () => {
       expect(await item(page, 'Last').getAttribute('data-key')).toBe('last-key');
       const state = await page.evaluate(() => window.__RSUITE_CASCADER_PARENT_VALUES__.snapshot());
       expect(state.parentValue).toBe(value === 'zero' ? 0 : value === 'empty' ? '' : 'parent-key');
+      expect(state.childValue).toBe(child === 'numeric' ? 42 : 'child-key');
       expect(state.childPreserved).toBe(true);
       expect(state.changes).toBe(0);
       expect(state.selections).toBe(0);
@@ -98,6 +106,9 @@ describe('Cascader parent values with native keyboard navigation', () => {
       it.each(['zero', 'empty'])('returns to a %s parent with reversed RTL arrows', async value => {
         await run(picker, value, false, true);
       });
+      it.each([false, true])('returns from a numeric child with custom fields=%s', async custom =>
+        run(picker, 'nonempty', custom, false, 'numeric')
+      );
     });
   }
 });

@@ -19,7 +19,10 @@ const valueKey = custom ? 'code' : 'value';
 const childrenKey = custom ? 'nodes' : 'children';
 const value: Value =
   params.get('value') === 'zero' ? 0 : params.get('value') === 'empty' ? '' : 'parent-key';
-const child: Option<Value> = { [labelKey]: 'Child', [valueKey]: 'child-key' };
+const child: Option<Value> = {
+  [labelKey]: 'Child',
+  [valueKey]: params.get('child') === 'numeric' ? 42 : 'child-key'
+};
 const parent: Option<Value> = { [labelKey]: 'Parent', [valueKey]: value, [childrenKey]: [child] };
 const data = [parent, { [labelKey]: 'Last', [valueKey]: 'last-key' }];
 const keys: Key[] = [];
@@ -37,6 +40,7 @@ function Fixture() {
         ...events.current,
         keys,
         parentValue: parent[valueKey],
+        childValue: child[valueKey],
         childPreserved: parent[childrenKey][0] === child
       })
     };
@@ -75,6 +79,7 @@ declare global {
         selections: number;
         keys: Key[];
         parentValue: Value;
+        childValue: Value;
         childPreserved: boolean;
       };
     };

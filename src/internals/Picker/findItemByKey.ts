@@ -1,6 +1,12 @@
+import getOptionKey from './getOptionKey';
+
 function findItemByKey(container: Element | null | undefined, value: unknown) {
-  return Array.from(container?.querySelectorAll<HTMLElement>('[data-key]') ?? []).find(
-    item => item.getAttribute('data-key') === String(value)
+  const items = Array.from(container?.querySelectorAll<HTMLElement>('[data-key]') ?? []);
+  const key = getOptionKey(value);
+
+  return (
+    items.find(item => item.dataset.pickerKey === key) ||
+    items.find(item => item.dataset.pickerKey === undefined && item.dataset.key === String(value))
   );
 }
 

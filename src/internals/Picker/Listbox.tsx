@@ -10,6 +10,7 @@ import getHeight from 'dom-lib/getHeight';
 import get from 'lodash/get';
 import classNames from 'classnames';
 import ListItemGroup from './ListItemGroup';
+import getOptionKey from './getOptionKey';
 import useVirtualizedListFocus from './hooks/useVirtualizedListFocus';
 import useActiveDescendant from './hooks/useActiveDescendant';
 import type { VirtualizedListHandle } from './hooks/useVirtualizedListFocus';
@@ -286,7 +287,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       }
 
       // Use `value` in keys when If `value` is string or number
-      const itemKey = isString(value) || isNumber(value) ? value : index;
+      const itemKey = isString(value) || isNumber(value) ? getOptionKey(value) : index;
 
       //  Render <ListboxGroup> component when `groupBy` is defined
       if (groupable && item[RSUITE_PICKER_GROUP_KEY]) {
