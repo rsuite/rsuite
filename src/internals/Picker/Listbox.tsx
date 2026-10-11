@@ -26,7 +26,12 @@ import {
   ListChildComponentProps
 } from '@/internals/Windowing';
 import { RSUITE_PICKER_GROUP_KEY } from '@/internals/symbols';
-import { useStyles, useMount, useEventCallback } from '@/internals/hooks';
+import {
+  useStyles,
+  useMount,
+  useEventCallback,
+  useIsomorphicLayoutEffect
+} from '@/internals/hooks';
 import { shallowEqual, mergeRefs, mergeStyles, getCssValue } from '@/internals/utils';
 import { KEY_GROUP_TITLE } from '@/internals/utils/getDataGroupBy';
 import type {
@@ -56,6 +61,8 @@ export interface ListboxProps<Multiple = false>
   disabledItemValues?: any[];
   activeItemValues?: any[];
   focusItemValue?: any;
+  /** Keep a reconciled logical focus mounted without moving DOM focus. */
+  scrollToFocus?: boolean;
   maxHeight?: number;
   /** Content shown inside an empty listbox. */
   emptyContent?: React.ReactNode;
@@ -143,6 +150,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       className,
       style,
       focusItemValue,
+      scrollToFocus,
       listItemClassPrefix,
       listItemAs: ListItem,
       listItemProps,
@@ -246,6 +254,17 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       : data;
     const rowCount = filteredItems.length;
 
+    const focusItemIndex =
+      scrollToFocus && virtualized && focusItemValue != null
+        ? filteredItems.findIndex(
+            item => !item[RSUITE_PICKER_GROUP_KEY] && shallowEqual(item[valueKey], focusItemValue)
+          )
+        : -1;
+
+    useIsomorphicLayoutEffect(() => {
+      if (!disabledProp && focusItemIndex >= 0) listRef.current?.scrollToItem?.(focusItemIndex);
+    }, [disabledProp, focusItemIndex, focusItemValue]);
+
     const reportActiveDescendant = useActiveDescendant({
       menuRef: menuBodyContainerRef,
       focusItemValue,
@@ -335,7 +354,9 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
     };
 
     useMount(() => {
-      const itemIndex = findIndex(filteredItems, item => item[valueKey] === activeItemValues?.[0]);
+      const initialValue =
+        scrollToFocus && focusItemValue != null ? focusItemValue : activeItemValues?.[0];
+      const itemIndex = findIndex(filteredItems, item => item[valueKey] === initialValue);
       listRef.current?.scrollToItem?.(itemIndex);
     });
 
