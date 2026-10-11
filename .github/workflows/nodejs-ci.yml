@@ -105,6 +105,8 @@ jobs:
         run: npm run test:ci -- --browser.headless
         env:
           CI: true
+          # Keep browser stderr and process exits when an RPC connection disappears.
+          DEBUG: pw:browser
           BROWSER: ${{ matrix.browser }}
 
       - name: Run SSR hydration tests
