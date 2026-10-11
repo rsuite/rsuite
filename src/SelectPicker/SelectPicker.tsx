@@ -376,7 +376,6 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
           ref={target}
           appearance={appearance}
           onClean={createChainedFunction(handleClean, onClean)}
-          onKeyDown={onPickerKeyDown}
           as={toggleAs}
           disabled={disabled}
           cleanable={cleanable && !disabled}
@@ -386,6 +385,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
           active={active}
           placement={placement}
           {...rest}
+          onKeyDown={onPickerKeyDown}
         >
           {selectedElement || locale?.placeholder}
         </PickerToggle>

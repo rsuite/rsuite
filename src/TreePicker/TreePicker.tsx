@@ -323,7 +323,6 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
       <PickerToggle
         ref={target}
         appearance={appearance}
-        onKeyDown={onPickerKeydown}
         onClean={createChainedFunction(handleClean, onClean)}
         cleanable={cleanable && !disabled}
         as={toggleAs}
@@ -334,6 +333,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
         inputValue={value}
         focusItemValue={isNil(focusItemValue) ? undefined : formatNodeRefKey(focusItemValue)}
         {...rest}
+        onKeyDown={onPickerKeydown}
       >
         {selectedElement || locale?.placeholder}
       </PickerToggle>
