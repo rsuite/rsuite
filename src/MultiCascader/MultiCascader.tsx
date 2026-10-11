@@ -398,7 +398,6 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
           appearance={appearance}
           disabled={disabled}
           onClean={createChainedFunction(handleClean, onClean)}
-          onKeyDown={onPickerKeyDown}
           cleanable={cleanable && !disabled}
           countable={countable}
           hasValue={hasValue}
@@ -407,6 +406,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
           inputValue={value}
           size={size}
           {...rest}
+          onKeyDown={onPickerKeyDown}
         >
           {selectedElement || locale?.placeholder}
         </PickerToggle>
