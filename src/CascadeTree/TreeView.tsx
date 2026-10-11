@@ -9,6 +9,7 @@ import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
 import { forwardRef, shallowEqual, mergeRefs, mergeStyles } from '@/internals/utils';
 import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { ListItem, useCombobox } from '@/internals/Picker';
+import getOptionKey from '@/internals/Picker/getOptionKey';
 import type { Option, WithAsProps, DataProps, ToArray } from '@/internals/types';
 import type { SelectNode, CascadeColumn } from './types';
 
@@ -121,7 +122,8 @@ const TreeView = forwardRef<'div', TreeViewProps>((props: TreeViewProps, ref) =>
     const loading = loadingItemsSet?.has(itemData) ?? false;
 
     // Use `value` in keys when If `value` is string or number
-    const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
+    const onlyKey =
+      typeof value === 'number' || typeof value === 'string' ? getOptionKey(value) : index;
     const Icon = loading ? SpinnerIcon : rtl ? ArrowLeftLineIcon : ArrowRightLineIcon;
 
     return (

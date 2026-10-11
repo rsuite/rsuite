@@ -5,6 +5,7 @@ import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
 import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { forwardRef, shallowEqual, mergeStyles } from '@/internals/utils';
 import { ListCheckItem, useCombobox } from '@/internals/Picker';
+import getOptionKey from '@/internals/Picker/getOptionKey';
 import { isSomeParentChecked, isSomeChildChecked } from './utils';
 import type { Option, WithAsProps } from '@/internals/types';
 import type { CascadeColumn } from '../CascadeTree/types';
@@ -100,7 +101,10 @@ const TreeView = forwardRef<'div', TreeViewProps>((props, ref) => {
       disabledItemValues.some(disabledValue => shallowEqual(disabledValue, nodeValue));
 
     // Use `value` in keys when If `value` is string or number
-    const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
+    const onlyKey =
+      typeof nodeValue === 'number' || typeof nodeValue === 'string'
+        ? getOptionKey(nodeValue)
+        : index;
     const Icon = node.loading ? SpinnerIcon : rtl ? ArrowLeftLineIcon : ArrowRightLineIcon;
     let active = value.some(v => v === nodeValue);
 

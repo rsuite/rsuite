@@ -1,5 +1,6 @@
 import React from 'react';
 import SearchBox from '@/internals/SearchBox';
+import getOptionKey from '@/internals/Picker/getOptionKey';
 import Checkbox from '../Checkbox';
 import Highlight from '../Highlight';
 import { useStyles, useCustom } from '@/internals/hooks';
@@ -48,7 +49,12 @@ function SearchView<T>(props: SearchViewProps<T>) {
   const { getLocale } = useCustom();
   const { searchPlaceholder, noResultsText } = getLocale('Combobox', overrideLocale);
 
-  const renderSearchRow = (item: Option<T>, key: number) => {
+  const renderSearchRow = (item: Option<T>, index: number) => {
+    const nodeValue = item[valueKey];
+    const itemKey =
+      typeof nodeValue === 'number' || typeof nodeValue === 'string'
+        ? getOptionKey(nodeValue)
+        : index;
     const nodes = getNodeParents(item);
     const label = (
       <Highlight as="span" query={searchKeyword}>
@@ -80,9 +86,10 @@ function SearchView<T>(props: SearchViewProps<T>) {
       <div
         role="treeitem"
         aria-disabled={disabled}
-        key={key}
+        key={itemKey}
         className={rowClasses}
         data-key={item[valueKey]}
+        data-picker-key={getOptionKey(nodeValue)}
       >
         <Checkbox
           disabled={disabled}
