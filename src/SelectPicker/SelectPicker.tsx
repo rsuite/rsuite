@@ -152,6 +152,8 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
 
     const { trigger, root, target, overlay, list, searchInput } = usePickerRef(ref);
     const keyboardNavigationRef = useRef<VirtualizedListHandle>(null);
+    // Use component active state to support keyboard events.
+    const [active, setActive] = useState(false);
     const [value, setValue] = useControlled(valueProp, defaultValue) as [
       T | null | undefined,
       (value: React.SetStateAction<T | null>) => void,
@@ -166,6 +168,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
     } = useFocusItemValue(value, {
       data,
       valueKey,
+      reconcileFocus: active && !disabled && !rest.readOnly && !rest.loading,
       virtualizedList: virtualized ? keyboardNavigationRef : undefined,
       target: () => overlay.current
     });
@@ -180,9 +183,6 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
         onSearch?.(searchKeyword, event);
       }
     });
-
-    // Use component active state to support keyboard events.
-    const [active, setActive] = useState(false);
 
     const handleClose = useEventCallback(() => {
       trigger.current?.close?.();
