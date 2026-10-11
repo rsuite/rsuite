@@ -44,6 +44,33 @@ afterAll(async () => {
 });
 
 describe('Browser lifecycle diagnostics', () => {
+  it('ignores malformed close messages and keeps only bounded close metadata', async () => {
+    observeBrowserLifecycle(page, origin, diagnostic => diagnostics.push(diagnostic));
+    await page.evaluate(() => {
+      for (const payload of [
+        'not JSON',
+        'null',
+        '{}',
+        '{"code":"1000","wasClean":true}',
+        '{"code":999,"wasClean":true}',
+        '{"code":5000,"wasClean":true}',
+        '{"code":1000.5,"wasClean":true}',
+        '{"code":1000,"wasClean":"true"}',
+        JSON.stringify({ code: 1000, wasClean: true, reason: 'x'.repeat(200) })
+      ]) {
+        console.info('[Browser RPC close]', payload);
+      }
+      console.info('Unrelated console message', '{"code":1000,"wasClean":true}');
+      console.info(
+        '[Browser RPC close]',
+        JSON.stringify({ code: 1000, wasClean: true, reason: 'private-reason', url: 'private-url' })
+      );
+    });
+    await expect.poll(() => diagnostics.length).toBe(1);
+    expect(diagnostics[0]).toMatchObject({ event: 'rpc-close', code: 1000, wasClean: true });
+    expect(JSON.stringify(diagnostics)).not.toContain('private-');
+  });
+
   it('observes navigation and close once without exposing arbitrary URL parameters', async () => {
     const report = (diagnostic: BrowserLifecycleDiagnostic) => diagnostics.push(diagnostic);
     const snapshot = observeBrowserLifecycle(page, origin, report);
