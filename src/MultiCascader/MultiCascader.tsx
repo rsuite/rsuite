@@ -9,6 +9,7 @@ import { useStyles, useCustom, useControlled, useEventCallback } from '@/interna
 import { getColumnsAndPaths } from '../CascadeTree/utils';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
 import { useCascadeValue, useSearch, useSelect } from '../MultiCascadeTree/hooks';
+import findItemByKey from '@/internals/Picker/findItemByKey';
 import {
   PickerToggle,
   PickerPopup,
@@ -228,9 +229,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
 
     const handleMenuPressEnter = useEventCallback((event: React.SyntheticEvent) => {
       const focusItem = flattenData.find(item => item[valueKey] === focusItemValue);
-      const treeItem = Array.from(
-        overlay.current?.querySelectorAll<HTMLElement>('[data-key]') ?? []
-      ).find(item => item.getAttribute('data-key') === String(focusItemValue));
+      const treeItem = findItemByKey(overlay.current, focusItemValue);
       const checkbox = treeItem?.querySelector('[type="checkbox"]');
 
       if (checkbox) {

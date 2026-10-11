@@ -6,7 +6,7 @@ import TreeView from '../CascadeTree/TreeView';
 import SearchView from '../CascadeTree/SearchView';
 import { usePaths, useSelect, useSearch } from '../CascadeTree/hooks';
 import { flattenTree } from '../Tree/utils';
-import { findNodeOfTree, getParentMap } from '@/internals/Tree/utils';
+import { getParentMap } from '@/internals/Tree/utils';
 import { PickerLocale } from '../locales';
 import { useControlled, useStyles, useCustom, useEventCallback, useMap } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs, shallowEqual } from '@/internals/utils';
@@ -271,7 +271,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
     });
 
     const handleMenuPressEnter = useEventCallback((event: React.SyntheticEvent) => {
-      const focusItem = findNodeOfTree(data, item => item[valueKey] === focusItemValue);
+      const focusItem = flattenedData.find(item => item[valueKey] === focusItemValue);
       const isLeafNode = focusItem && !focusItem[childrenKey];
 
       if (isLeafNode) {

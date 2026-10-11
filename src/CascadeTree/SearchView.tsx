@@ -1,5 +1,6 @@
 import React from 'react';
 import SearchBox from '@/internals/SearchBox';
+import getOptionKey from '@/internals/Picker/getOptionKey';
 import Highlight from '../Highlight';
 import { Option, WithAsProps } from '@/internals/types';
 import { useStyles, useCustom } from '@/internals/hooks';
@@ -47,7 +48,12 @@ function SearchView<T>(props: SearchViewProps<T>) {
   const { getLocale } = useCustom();
   const { searchPlaceholder, noResultsText } = getLocale('Combobox', overrideLocale);
 
-  const renderSearchRow = (item: Option<T>, key: number) => {
+  const renderSearchRow = (item: Option<T>, index: number) => {
+    const nodeValue = item[valueKey];
+    const itemKey =
+      typeof nodeValue === 'number' || typeof nodeValue === 'string'
+        ? getOptionKey(nodeValue)
+        : index;
     const items = getPathTowardsItem(item, item => parentMap.get(item));
 
     const formattedNodes = items.map(itemData => {
@@ -87,8 +93,9 @@ function SearchView<T>(props: SearchViewProps<T>) {
         role="treeitem"
         aria-disabled={disabled}
         aria-label={item[labelKey]}
-        key={key}
+        key={itemKey}
         data-key={item[valueKey]}
+        data-picker-key={getOptionKey(nodeValue)}
         className={itemClasses}
         tabIndex={-1}
         onClick={handleCheck}
