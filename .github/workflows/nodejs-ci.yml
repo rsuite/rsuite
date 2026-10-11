@@ -28,102 +28,72 @@ jobs:
       - run: npm run format:check
       - run: npm run lint
 
-  test:
-    name: 'Test (${{ matrix.browser }}, ${{ matrix.react }})'
+  # Bound each Chromium browser run while keeping all tests across independent runners.
+  chromium-react18:
+    name: 'Chromium runners (React18)'
+    uses: ./.github/workflows/chromium-tests.yml
+    with:
+      react-version: React18
+      react-runtime: 18.2.0
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
+  chromium-react19:
+    name: 'Chromium runners (React19)'
+    uses: ./.github/workflows/chromium-tests.yml
+    with:
+      react-version: React19
+      react-runtime: 19.0.0
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  chromium-react19-3:
+    name: 'Chromium runners (React19.3)'
+    uses: ./.github/workflows/chromium-tests.yml
+    with:
+      react-version: React19.3
+      react-runtime: 19.3.0
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  chromium-react18-summary:
+    name: 'Test (chromium, React18)'
+    needs: chromium-react18
+    if: always()
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        browser: [chromium]
-        react: ['React18', 'React19', 'React19.3']
-        include:
-          - react: React18
-            version: 18.2.0
-          - react: React19
-            version: 19.0.0
-          - react: React19.3
-            version: 19.3.0
-
-    env:
-      VITE_RSUITE_REACT_VERSION: ${{ matrix.version }}
-
+    timeout-minutes: 1
     steps:
-      - uses: actions/checkout@v4
-      - name: Report runner disk space
-        if: runner.os == 'Linux' # ubuntu-latest is Linux
-        run: df -h
-
-      - name: Use Node.js LTS
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-
-      - name: Cache Node.js modules
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
-          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-node-
-            ${{ runner.OS }}-
-
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
-
-      - name: install react 18
-        if: ${{ matrix.react == 'React18' }}
-        run: npm run install:react-18
-
-      - name: install react 19
-        if: ${{ matrix.react == 'React19' }}
-        run: npm run install:react-19
-
-      - name: Install React 19.3.0
-        if: ${{ matrix.react == 'React19.3' }}
-        run: npm run install:react-19-3
-
-      - name: Verify installed React runtime
-        run: |
-          node <<'NODE'
-          const assert = require('node:assert/strict');
-          const React = require('react');
-          const ReactDOM = require('react-dom');
-          const expected = process.env.VITE_RSUITE_REACT_VERSION;
-          console.log({ expected, react: React.version, reactDOM: ReactDOM.version });
-          assert.equal(React.version, expected);
-          assert.equal(ReactDOM.version, expected);
-          if (expected === '19.3.0') assert.ok(React.Activity, 'Activity tests require this runtime');
-          NODE
-
-      # Provision the browser for the final dependency tree after selecting React.
-      - name: Install Playwright Browsers
-        run: node scripts/install-browser-ci.cjs ${{ matrix.browser }}
-
-      - name: Run headless tests
-        run: npm run test:ci -- --browser.headless
+      # Failed, cancelled, or skipped shards must fail the existing required check.
+      - name: Require all Chromium shards to pass
         env:
-          CI: true
-          # Keep browser stderr and process exits when an RPC connection disappears.
-          DEBUG: pw:browser
-          BROWSER: ${{ matrix.browser }}
+          SHARD_RESULT: ${{ needs.chromium-react18.result }}
+        run: test "$SHARD_RESULT" = success
 
-      - name: Run SSR hydration tests
-        if: ${{ matrix.browser == 'chromium' }}
-        run: npm run test:ssr
-
-      - name: Run native browser control tests
-        run: npm run test:browser-controls
+  chromium-react19-summary:
+    name: 'Test (chromium, React19)'
+    needs: chromium-react19
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      # Failed, cancelled, or skipped shards must fail the existing required check.
+      - name: Require all Chromium shards to pass
         env:
-          BROWSER: ${{ matrix.browser }}
+          SHARD_RESULT: ${{ needs.chromium-react19.result }}
+        run: test "$SHARD_RESULT" = success
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: ${{ matrix.browser }}
-          fail_ci_if_error: true
+  chromium-react19-3-summary:
+    name: 'Test (chromium, React19.3)'
+    needs: chromium-react19-3
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      # Failed, cancelled, or skipped shards must fail the existing required check.
+      - name: Require all Chromium shards to pass
+        env:
+          SHARD_RESULT: ${{ needs.chromium-react19-3.result }}
+        run: test "$SHARD_RESULT" = success
 
   # Keep each Firefox shard on its own runner so native keyboard tests retain one page.
   firefox-react18:
