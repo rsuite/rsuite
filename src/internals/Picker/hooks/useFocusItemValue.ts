@@ -17,6 +17,8 @@ interface FocusItemValueProps<T = unknown> {
   virtualizedList?: React.RefObject<VirtualizedListHandle | null>;
   /** Reconcile an open list picker's focus with its currently eligible options. */
   reconcileFocus?: boolean;
+  /** Initialize focus when an active search gains its first eligible result. */
+  focusFirst?: boolean;
   /**
    *  When the down arrow key is pressed, whether to automatically focus on the option
    */
@@ -46,6 +48,7 @@ const useFocusItemValue = <T, D>(
     data,
     virtualizedList,
     reconcileFocus = false,
+    focusFirst = false,
     target,
     rtl,
     callback,
@@ -130,7 +133,7 @@ const useFocusItemValue = <T, D>(
   };
 
   useIsomorphicLayoutEffect(() => {
-    if (!reconcileFocus || focusItemValue == null) return;
+    if (!reconcileFocus || (focusItemValue == null && !focusFirst)) return;
     const menu = isFunction(target) ? target() : target;
     if (!menu) return;
 
@@ -145,13 +148,7 @@ const useFocusItemValue = <T, D>(
       const first = menu.querySelector<HTMLElement>(focusableQueryKey);
       nextValue = first ? getItemByElement(first)?.[valueKey] : undefined;
     }
-    if (nextValue != null && virtualizedList?.current) {
-      virtualizedList.current.focusItem(nextValue, () => setFocusItemValue(nextValue), {
-        focus: false
-      });
-    } else {
-      setFocusItemValue(nextValue);
-    }
+    setFocusItemValue(nextValue);
   });
 
   /**

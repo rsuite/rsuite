@@ -34,7 +34,7 @@ describe('List picker result focus', () => {
   });
   afterAll(async () => source?.close());
 
-  const open = async (check: boolean, virtualized: boolean) => {
+  const open = async (check: boolean, virtualized: boolean, mode: Mode = 'all', query = 'cafe') => {
     const page = await source.browser.newPage();
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(String(error)));
@@ -42,7 +42,9 @@ describe('List picker result focus', () => {
       if (message.type() === 'error') errors.push(message.text());
     });
     await page.goto(
-      source.url + '/#' + [check ? 'check' : '', virtualized ? 'virtualized' : ''].join('&')
+      source.url +
+        '/#' +
+        [check ? 'check' : '', virtualized ? 'virtualized' : '', `mode=${mode}`].join('&')
     );
     await expect.poll(async () => (await snapshot(page)).entered).toBe(true);
     expect(await page.evaluate(() => window.__RSUITE_LIST_RESULTS__.runtime)).toEqual({
@@ -50,13 +52,71 @@ describe('List picker result focus', () => {
       reactDOM: source.reactVersion
     });
     await page.getByRole('searchbox').focus();
-    await page.keyboard.type('cafe');
-    expect(await activeOption(page)).toEqual({ text: 'Alpha', disabled: 'false' });
+    if (query) await page.keyboard.type(query);
+    expect(await activeOption(page)).toEqual(
+      mode === 'all' ? { text: 'Alpha', disabled: 'false' } : null
+    );
     return { page, errors };
   };
 
   describe.each([false, true])('CheckPicker=%s', check => {
     describe.each([false, true])('virtualized=%s', virtualized => {
+      it.each<Mode>(['empty-data', 'empty', 'all-disabled'])(
+        'selects the first arriving result for an active search after %s',
+        async mode => {
+          const { page, errors } = await open(check, virtualized, mode);
+          try {
+            await setMode(page, 'filtered');
+            expect((await snapshot(page)).changes).toEqual([]);
+            const aria = await activeOption(page);
+            expect(
+              await page.getByRole('searchbox').evaluate(node => node === document.activeElement)
+            ).toBe(true);
+            await page.keyboard.press('Enter');
+            expect((await snapshot(page)).selections).toEqual([{ value: '0', trusted: true }]);
+            expect(aria).toEqual({ text: 'Café', disabled: 'false' });
+            expect((await snapshot(page)).changes).toEqual([check ? ['alpha', '0'] : '0']);
+            expect(errors).toEqual([]);
+          } finally {
+            await page.close();
+          }
+        }
+      );
+
+      it('does not initialize focus when results arrive before the user searches', async () => {
+        const { page, errors } = await open(check, virtualized, 'empty-data', '');
+        try {
+          await setMode(page, 'filtered');
+          expect(await activeOption(page)).toBeNull();
+          await page.keyboard.press('Enter');
+          expect((await snapshot(page)).selections).toEqual([]);
+          expect((await snapshot(page)).changes).toEqual([]);
+          expect(errors).toEqual([]);
+        } finally {
+          await page.close();
+        }
+      });
+
+      it('mounts a distant first result after an initially empty search', async () => {
+        const { page, errors } = await open(check, virtualized, 'empty-data');
+        try {
+          await setMode(page, 'distant');
+          await expect
+            .poll(() => activeOption(page))
+            .toEqual({ text: 'Option 99', disabled: 'false' });
+          expect(
+            await page.getByRole('searchbox').evaluate(node => node === document.activeElement)
+          ).toBe(true);
+          await page.keyboard.press('Enter');
+          expect((await snapshot(page)).selections).toEqual([
+            { value: 'option-99', trusted: true }
+          ]);
+          expect(errors).toEqual([]);
+        } finally {
+          await page.close();
+        }
+      });
+
       it.each<Mode>(['filtered', 'removed', 'disabled'])(
         'selects the first eligible result after %s changes without another keystroke',
         async mode => {
@@ -109,6 +169,24 @@ describe('List picker result focus', () => {
           expect((await snapshot(page)).selections).toEqual([
             { value: 'option-99', trusted: true }
           ]);
+          expect(errors).toEqual([]);
+        } finally {
+          await page.close();
+        }
+      });
+
+      it('keeps a retained focus mounted after options move beyond the rendered range', async () => {
+        const { page, errors } = await open(check, virtualized);
+        try {
+          await setMode(page, 'reordered');
+          await expect.poll(() => activeOption(page)).toEqual({ text: 'Alpha', disabled: 'false' });
+          expect((await snapshot(page)).changes).toEqual([]);
+          expect(
+            await page.getByRole('searchbox').evaluate(node => node === document.activeElement)
+          ).toBe(true);
+          await page.keyboard.press('Enter');
+          expect((await snapshot(page)).selections).toEqual([{ value: 'alpha', trusted: true }]);
+          expect((await snapshot(page)).changes).toEqual([check ? [] : 'alpha']);
           expect(errors).toEqual([]);
         } finally {
           await page.close();

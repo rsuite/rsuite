@@ -160,19 +160,6 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       boolean
     ];
 
-    // Used to hover the focus item  when trigger `onKeydown`
-    const {
-      focusItemValue,
-      setFocusItemValue,
-      onKeyDown: onFocusItem
-    } = useFocusItemValue(value, {
-      data,
-      valueKey,
-      reconcileFocus: active && !disabled && !rest.readOnly && !rest.loading,
-      virtualizedList: virtualized ? keyboardNavigationRef : undefined,
-      target: () => overlay.current
-    });
-
     // Use search keywords to filter options.
     const { searchKeyword, filteredData, resetSearch, handleSearch } = useSearch(data, {
       labelKey,
@@ -182,6 +169,20 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
         setFocusItemValue(filteredData?.[0]?.[valueKey]);
         onSearch?.(searchKeyword, event);
       }
+    });
+
+    // Used to hover the focus item  when trigger `onKeydown`
+    const {
+      focusItemValue,
+      setFocusItemValue,
+      onKeyDown: onFocusItem
+    } = useFocusItemValue(value, {
+      data,
+      valueKey,
+      focusFirst: !!searchKeyword,
+      reconcileFocus: active && !disabled && !rest.readOnly && !rest.loading,
+      virtualizedList: virtualized ? keyboardNavigationRef : undefined,
+      target: () => overlay.current
     });
 
     const handleClose = useEventCallback(() => {
@@ -313,6 +314,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
           listItemAs={ListItem}
           activeItemValues={[value]}
           focusItemValue={focusItemValue}
+          scrollToFocus
           data={items}
           query={searchKeyword}
           groupBy={groupBy}

@@ -8,7 +8,17 @@ import '../../../styles/_themes.scss';
 import '../../../SelectPicker/styles/index.scss';
 import '../../../CheckPicker/styles/index.scss';
 
-type Mode = 'all' | 'filtered' | 'removed' | 'empty' | 'disabled' | 'loading' | 'distant';
+type Mode =
+  | 'all'
+  | 'filtered'
+  | 'removed'
+  | 'reordered'
+  | 'empty'
+  | 'empty-data'
+  | 'all-disabled'
+  | 'disabled'
+  | 'loading'
+  | 'distant';
 const options = new URLSearchParams(window.location.hash.slice(1));
 const data = [
   { label: 'Alpha', value: 'alpha' },
@@ -18,7 +28,7 @@ const data = [
 ];
 
 function Fixture() {
-  const [mode, setMode] = useState<Mode>('all');
+  const [mode, setMode] = useState<Mode>((options.get('mode') as Mode) || 'all');
   const events = useRef({
     entered: false,
     selections: [] as { value: unknown; trusted: boolean }[],
@@ -33,17 +43,26 @@ function Fixture() {
   });
   const common = {
     id: 'results-picker',
-    data: mode === 'removed' ? data.slice(1) : data,
+    data:
+      mode === 'empty-data'
+        ? []
+        : mode === 'removed'
+          ? data.slice(1)
+          : mode === 'reordered'
+            ? [...data].reverse()
+            : data,
     defaultOpen: true,
     virtualized: options.has('virtualized'),
     listboxMaxHeight: 180,
     loading: mode === 'loading',
     disabledItemValues:
-      mode === 'distant'
-        ? data.slice(0, -1).map(item => item.value)
-        : mode === 'disabled'
-          ? [0, 'alpha']
-          : [0],
+      mode === 'all-disabled'
+        ? data.map(item => item.value)
+        : mode === 'distant'
+          ? data.slice(0, -1).map(item => item.value)
+          : mode === 'disabled'
+            ? [0, 'alpha']
+            : [0],
     searchBy: (_query: string, _label: React.ReactNode, item: Option) =>
       mode !== 'empty' && (mode !== 'filtered' || item.value === 0 || item.value === '0'),
     onEntered: () => {
