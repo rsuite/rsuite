@@ -112,6 +112,9 @@ async function createConfig() {
       config.test.browser = {
         enabled: true,
         provider: 'playwright',
+        orchestratorScripts: [
+          { src: resolve(__dirname, 'test/browser/browserRPCClose.orchestrator.js') }
+        ],
         // Native focus and keyboard tests need one active browser page at a time.
         fileParallelism: false,
         commands: {
