@@ -119,19 +119,9 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
 
     const { trigger, root, target, overlay, list, searchInput } = usePickerRef(ref);
     const keyboardNavigationRef = useRef<VirtualizedListHandle>(null);
+    // Use component active state to support keyboard events.
+    const [active, setActive] = useState(false);
     const [value, setValue] = useControlled(valueProp, defaultValue || []);
-
-    // Used to hover the focuse item  when trigger `onKeydown`
-    const {
-      focusItemValue,
-      setFocusItemValue,
-      onKeyDown: onFocusItem
-    } = useFocusItemValue(value?.[0], {
-      data,
-      valueKey,
-      virtualizedList: virtualized ? keyboardNavigationRef : undefined,
-      target: () => overlay.current
-    });
 
     const handleSearchCallback = useEventCallback(
       (searchKeyword: string, filteredData: Option[], event: React.SyntheticEvent) => {
@@ -149,8 +139,19 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
         callback: handleSearchCallback
       });
 
-    // Use component active state to support keyboard events.
-    const [active, setActive] = useState(false);
+    // Used to hover the focuse item  when trigger `onKeydown`
+    const {
+      focusItemValue,
+      setFocusItemValue,
+      onKeyDown: onFocusItem
+    } = useFocusItemValue(value?.[0], {
+      data,
+      valueKey,
+      focusFirst: !!searchKeyword,
+      reconcileFocus: active && !disabled && !rest.readOnly && !rest.loading,
+      virtualizedList: virtualized ? keyboardNavigationRef : undefined,
+      target: () => overlay.current
+    });
 
     // A list of shortcut options.
     // when opened again, the selected options are displayed at the top.
@@ -326,6 +327,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
             listItemAs={ListCheckItem}
             activeItemValues={value}
             focusItemValue={focusItemValue}
+            scrollToFocus
             data={[...filteredStickyItems, ...items]}
             groupBy={groupBy}
             onSelect={handleItemSelect}

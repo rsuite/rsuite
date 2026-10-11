@@ -3,7 +3,7 @@ import isFunction from 'lodash/isFunction';
 import isUndefined from 'lodash/isUndefined';
 import find from 'lodash/find';
 import { getHeight } from 'dom-lib';
-import { useEventCallback } from '@/internals/hooks';
+import { useEventCallback, useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { shallowEqual } from '@/internals/utils';
 import { findNodeOfTree } from '../../Tree/utils';
 import { onMenuKeyDown } from '../utils';
@@ -15,6 +15,10 @@ interface FocusItemValueProps<T = unknown> {
   target: HTMLElement | null | (() => HTMLElement | null);
   data?: T[];
   virtualizedList?: React.RefObject<VirtualizedListHandle | null>;
+  /** Reconcile an open list picker's focus with its currently eligible options. */
+  reconcileFocus?: boolean;
+  /** Initialize focus when an active search gains its first eligible result. */
+  focusFirst?: boolean;
   /**
    *  When the down arrow key is pressed, whether to automatically focus on the option
    */
@@ -43,6 +47,8 @@ const useFocusItemValue = <T, D>(
     focusToOption = true,
     data,
     virtualizedList,
+    reconcileFocus = false,
+    focusFirst = false,
     target,
     rtl,
     callback,
@@ -125,6 +131,25 @@ const useFocusItemValue = <T, D>(
       getItemByElement
     );
   };
+
+  useIsomorphicLayoutEffect(() => {
+    if (!reconcileFocus || (focusItemValue == null && !focusFirst)) return;
+    const menu = isFunction(target) ? target() : target;
+    if (!menu) return;
+
+    // Results can change without a search event, including after an async data update.
+    let nextValue;
+    if (virtualizedList?.current) {
+      const items = virtualizedList.current.getFocusableItems();
+      if (items.some(item => shallowEqual(item[valueKey], focusItemValue))) return;
+      nextValue = items[0]?.[valueKey];
+    } else {
+      if (findItemByKey(menu, focusItemValue)?.matches(focusableQueryKey)) return;
+      const first = menu.querySelector<HTMLElement>(focusableQueryKey);
+      nextValue = first ? getItemByElement(first)?.[valueKey] : undefined;
+    }
+    setFocusItemValue(nextValue);
+  });
 
   /**
    * Get the index of the focus item.

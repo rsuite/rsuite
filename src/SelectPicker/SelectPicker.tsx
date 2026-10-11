@@ -152,23 +152,13 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
 
     const { trigger, root, target, overlay, list, searchInput } = usePickerRef(ref);
     const keyboardNavigationRef = useRef<VirtualizedListHandle>(null);
+    // Use component active state to support keyboard events.
+    const [active, setActive] = useState(false);
     const [value, setValue] = useControlled(valueProp, defaultValue) as [
       T | null | undefined,
       (value: React.SetStateAction<T | null>) => void,
       boolean
     ];
-
-    // Used to hover the focus item  when trigger `onKeydown`
-    const {
-      focusItemValue,
-      setFocusItemValue,
-      onKeyDown: onFocusItem
-    } = useFocusItemValue(value, {
-      data,
-      valueKey,
-      virtualizedList: virtualized ? keyboardNavigationRef : undefined,
-      target: () => overlay.current
-    });
 
     // Use search keywords to filter options.
     const { searchKeyword, filteredData, resetSearch, handleSearch } = useSearch(data, {
@@ -181,8 +171,19 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       }
     });
 
-    // Use component active state to support keyboard events.
-    const [active, setActive] = useState(false);
+    // Used to hover the focus item  when trigger `onKeydown`
+    const {
+      focusItemValue,
+      setFocusItemValue,
+      onKeyDown: onFocusItem
+    } = useFocusItemValue(value, {
+      data,
+      valueKey,
+      focusFirst: !!searchKeyword,
+      reconcileFocus: active && !disabled && !rest.readOnly && !rest.loading,
+      virtualizedList: virtualized ? keyboardNavigationRef : undefined,
+      target: () => overlay.current
+    });
 
     const handleClose = useEventCallback(() => {
       trigger.current?.close?.();
@@ -313,6 +314,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
           listItemAs={ListItem}
           activeItemValues={[value]}
           focusItemValue={focusItemValue}
+          scrollToFocus
           data={items}
           query={searchKeyword}
           groupBy={groupBy}
