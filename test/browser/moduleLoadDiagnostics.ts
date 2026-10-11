@@ -5,6 +5,7 @@ import type { BrowserCommandContext } from 'vitest/node';
 import type {} from '@vitest/browser/providers/playwright';
 import { observeBrowserLifecycle } from './browserLifecycleDiagnostics';
 import { createBrowserRPCObserver } from './browserRPCDiagnostics';
+import { observeBrowserProcesses } from './browserProcessDiagnostics';
 
 const observedPages = new WeakSet<Page>();
 const requestHeaders = [
@@ -158,7 +159,7 @@ export function createBrowserModuleDiagnostics() {
   };
   return {
     plugin,
-    observeBrowserModuleLoads({ page, project }: BrowserCommandContext) {
+    async observeBrowserModuleLoads({ page, project }: BrowserCommandContext) {
       // Vitest resolves the browser server separately from its command configuration.
       const serverPlugin = project.browser?.vite.config.plugins.find(
         candidate => candidate.name === plugin.name
@@ -166,11 +167,29 @@ export function createBrowserModuleDiagnostics() {
       if (!serverPlugin?.api) throw new Error('Browser module diagnostics plugin is missing');
       const serverObserver = serverPlugin.api;
       const origin = new URL(page.url()).origin;
+      const processes = await observeBrowserProcesses(page);
       const snapshot = observeBrowserLifecycle(page, origin, diagnostic => {
         console.info(
           '[Browser lifecycle]',
           JSON.stringify({ ...diagnostic, serverRPC: serverObserver.rpc.snapshot() })
         );
+        if (
+          processes &&
+          (diagnostic.event === 'crash' ||
+            (diagnostic.event === 'rpc-close' && !diagnostic.wasClean))
+        ) {
+          void processes.capture().then(processes => {
+            console.info(
+              '[Browser processes]',
+              JSON.stringify({
+                pageId: diagnostic.pageId,
+                event: diagnostic.event,
+                time: diagnostic.time,
+                ...processes
+              })
+            );
+          });
+        }
       });
       observeModuleLoads(page, origin, diagnostic => {
         console.error(
