@@ -99,6 +99,7 @@ async function createConfig() {
       );
       const { setMotionPreference } = await import('./test/browser/motionCommands');
       const { waitForBrowserTestFrame } = await import('./test/browser/testFrameReadiness');
+      const { collectBrowserGarbage } = await import('./test/browser/garbageCollection');
       const { createBrowserModuleDiagnostics } = await import(
         './test/browser/moduleLoadDiagnostics'
       );
@@ -107,6 +108,7 @@ async function createConfig() {
       config.test.setupFiles = [
         'test/browser/moduleLoadDiagnostics.setup.ts',
         'test/browser/testFrameReadiness.setup.ts',
+        'test/browser/garbageCollection.setup.ts',
         'vitest.setup.ts'
       ];
       config.test.browser = {
@@ -122,6 +124,7 @@ async function createConfig() {
           trcTrustedInputClick,
           setMotionPreference,
           waitForBrowserTestFrame,
+          collectBrowserGarbage,
           observeBrowserModuleLoads
         },
         instances: [
