@@ -2,12 +2,19 @@ import { describe, expect, it } from 'vitest';
 import getOptionId from '../getOptionId';
 
 describe('getOptionId', () => {
-  it.each([0, '', 'plain-value', 'quoted"value', 'left\\right', '中文', '🚀', 'foo\u00a0bar'])(
+  it.each(['', 'plain-value', 'quoted"value', 'left\\right', '中文', '🚀', 'foo\u00a0bar'])(
     'preserves the existing ID for %j',
     value => {
       expect(getOptionId('picker', value)).toBe(`picker-opt-${value}`);
     }
   );
+
+  it('distinguishes numbers, their strings, and strings resembling numeric IDs', () => {
+    const values = [0, '0', 42, '42', '%number:0', '%25number:0', 'number:0'];
+
+    expect(new Set(values.map(value => getOptionId('picker', value))).size).toBe(values.length);
+    expect(getOptionId('picker', 0)).toBe('picker-opt-%number:0');
+  });
 
   it.each([
     ['%', '%25'],

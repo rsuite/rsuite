@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import usePickerInputFocus from './hooks/usePickerInputFocus';
+import getOptionKey from '@/internals/Picker/getOptionKey';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import remove from 'lodash/remove';
@@ -599,7 +600,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
           <Tag
             role="option"
             {...tagRest}
-            key={tag}
+            key={getOptionKey(tag)}
             size={convertSize(size)}
             closable={!disabled && closable && !readOnly && !plaintext}
             title={typeof itemNode === 'string' ? itemNode : undefined}

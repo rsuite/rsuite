@@ -8,7 +8,8 @@ function getOptionId(id: string | undefined, value: unknown) {
     character => `%${character.charCodeAt(0).toString(16).padStart(2, '0')}`
   );
 
-  return `${id}-opt-${key}`;
+  // String values escape percent signs, so this numeric prefix cannot collide with them.
+  return `${id}-opt-${typeof value === 'number' ? '%number:' : ''}${key}`;
 }
 
 export default getOptionId;
