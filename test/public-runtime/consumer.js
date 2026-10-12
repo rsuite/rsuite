@@ -230,7 +230,28 @@ function fixtures(api) {
         'Save draft'
       ),
       expected: [/<button/, /type="button"/, /Save draft/]
-    }
+    },
+    ...[false, true].map(loading => ({
+      name: 'automatic Button renders controlled loading=' + loading + ' without running actions',
+      element: h(
+        api.Button.default,
+        {
+          autoLoading: true,
+          loading,
+          onClick: callback('automatic-button-click'),
+          onClickError: callback('automatic-button-error'),
+          ref
+        },
+        'Save action'
+      ),
+      expected: [
+        /<button/,
+        /Save action/,
+        new RegExp('data-loading="' + loading + '"'),
+        ...(loading ? [/aria-busy="true"/] : [])
+      ],
+      absent: [/autoLoading=/i, /onClickError=/i, ...(loading ? [] : [/aria-busy=/])]
+    }))
   ];
 }
 const cases = [];

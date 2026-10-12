@@ -47,6 +47,38 @@ import DatePickerSubpath from 'rsuite/DatePicker';
 import CarouselSubpath, { CarouselProps } from 'rsuite/Carousel';
 import type { CarouselLocale, Locale } from 'rsuite/locales';
 
+const automaticButtonProps: ButtonProps = {
+  autoLoading: true,
+  loading: false,
+  onClick: async event => {
+    const target: HTMLElement = event.currentTarget;
+    return target.id;
+  },
+  onClickError: (error, event) => {
+    const cause: unknown = error;
+    const target: HTMLElement = event.currentTarget;
+    void [cause, target];
+  }
+};
+export const automaticButtons = (
+  <>
+    <Button {...automaticButtonProps}>Save</Button>
+    <ButtonSubpath {...automaticButtonProps}>Save</ButtonSubpath>
+    <Button autoLoading onClick={() => 42}>
+      Synchronous result
+    </Button>
+  </>
+);
+// @ts-expect-error Automatic loading is an explicit boolean option.
+const invalidAutomaticButton: ButtonProps = { autoLoading: 'auto' };
+const invalidButtonErrorHandler: ButtonProps = {
+  // @ts-expect-error Error handlers receive a click event, not a keyboard event.
+  onClickError: (error, event: React.KeyboardEvent) => {
+    void [error, event];
+  }
+};
+void [invalidAutomaticButton, invalidButtonErrorHandler];
+
 const carouselLocale: CarouselLocale = { selectSlide: 'Stories', slideLabel: 'Story {0} of {1}' };
 const carouselProps: CarouselProps = { locale: { slideLabel: 'Item {0}/{1}' } };
 const providerLocale: Locale = { Carousel: { selectSlide: 'Slides', slideLabel: 'Slide {0}' } };
