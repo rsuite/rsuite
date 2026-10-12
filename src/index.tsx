@@ -154,6 +154,7 @@ export * from './useFormControl';
 export * from './useDialog';
 export * from './useClipboard';
 export * from './useAsyncSearch';
+export * from './useLocaleSearch';
 
 // Disclosure
 // --------------------------------------------------------
