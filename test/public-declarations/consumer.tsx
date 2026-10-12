@@ -284,3 +284,43 @@ export const editingHintOutput = (
     <TagInput inputMode="email" enterKeyHint="enter" />
   </CustomProvider>
 );
+
+// Asynchronous search is available through both root and natural subpath exports.
+import {
+  useAsyncSearch,
+  type AsyncSearchContext,
+  type UseAsyncSearchOptions,
+  type UseAsyncSearchReturn
+} from 'rsuite';
+import AsyncSearchSubpath, {
+  useAsyncSearch as NamedAsyncSearchSubpath
+} from 'rsuite/useAsyncSearch';
+const searchFactories: (typeof useAsyncSearch)[] = [AsyncSearchSubpath, NamedAsyncSearchSubpath];
+const searchOptions: UseAsyncSearchOptions<{ id: string }> = {
+  query: 'item',
+  dependencies: ['en-GB'],
+  search: async ({ query, signal }: AsyncSearchContext) => [{ id: signal.aborted ? '' : query }]
+};
+const searchResult: UseAsyncSearchReturn<{ id: string }> = useAsyncSearch(searchOptions);
+const searchId: string = searchResult.items[0].id;
+const inferredSearch = useAsyncSearch({ query: '', search: () => [{ value: 42 }] as const });
+const inferredValue: number = inferredSearch.items[0].value;
+const pickerSearchData = <SelectPicker data={inferredSearch.items} />;
+if (searchResult.status === 'error') {
+  const error: Error = searchResult.error;
+  void error;
+} else {
+  const error: null = searchResult.error;
+  void error;
+}
+// @ts-expect-error Query must be a string.
+useAsyncSearch({ query: 42, search: () => [] });
+// @ts-expect-error The search function must return an array or a promise of an array.
+useAsyncSearch({ query: '', search: () => 'invalid' });
+// @ts-expect-error Dependencies must be an array.
+useAsyncSearch({ query: '', search: () => [], dependencies: 'en-GB' });
+// @ts-expect-error Result inference preserves the item type.
+const wrongSearchItems: string[] = inferredSearch.items;
+// @ts-expect-error The enabled option must be a boolean.
+useAsyncSearch({ query: '', search: () => [], enabled: 'yes' });
+void [searchFactories, searchId, inferredValue, pickerSearchData, wrongSearchItems];

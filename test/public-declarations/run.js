@@ -12,7 +12,7 @@ const results = path.join(__dirname, 'results');
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const fixture = fs.readFileSync(path.join(__dirname, 'consumer.tsx'), 'utf8');
 assert.equal(ts.version, '5.7.3');
-assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 18);
+assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 23);
 for (const entry of ['package.json', 'esm/index.d.ts', 'cjs/index.d.ts']) {
   assert(fs.existsSync(path.join(lib, entry)), 'Build the public lib first: ' + entry);
 }
@@ -86,6 +86,7 @@ const cjsSpecifiers = {
   'rsuite/Form': 'rsuite/cjs/Form',
   'rsuite/FormErrorSummary': 'rsuite/cjs/FormErrorSummary',
   'rsuite/useClipboard': 'rsuite/cjs/useClipboard',
+  'rsuite/useAsyncSearch': 'rsuite/cjs/useAsyncSearch',
   'rsuite/SelectPicker': 'rsuite/cjs/SelectPicker',
   'rsuite/DatePicker': 'rsuite/cjs/DatePicker'
 };
@@ -277,7 +278,10 @@ try {
           'FormErrorSummary/index.d.ts',
           'FormErrorSummary/FormErrorSummary.d.ts',
           'useClipboard/index.d.ts',
-          'useClipboard/useClipboard.d.ts'
+          'useClipboard/useClipboard.d.ts',
+          'useAsyncSearch/index.d.ts',
+          'useAsyncSearch/types.d.ts',
+          'useAsyncSearch/useAsyncSearch.d.ts'
         ]) {
           if (!relative.includes(entry + '/' + required))
             issues.push('Public declaration not loaded: ' + required);
