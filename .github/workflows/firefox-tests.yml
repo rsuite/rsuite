@@ -9,9 +9,6 @@ on:
       react-runtime:
         required: true
         type: string
-    secrets:
-      CODECOV_TOKEN:
-        required: false
 
 jobs:
   test:
@@ -87,14 +84,18 @@ jobs:
           # Report native Playwright request failures for dynamic import diagnostics.
           VITEST_PW_DEBUG: '1'
 
+      - name: Retain browser coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-coverage-firefox-${{ inputs.react-version }}-${{ matrix.shard }}
+          path: |
+            coverage/coverage-final.json
+            coverage/clover.xml
+          if-no-files-found: error
+          retention-days: 7
+          overwrite: true
+
       - name: Run native browser control tests
         run: npm run test:browser-controls -- --shard=${{ matrix.shard }}/2
         env:
           BROWSER: firefox
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: firefox
-          fail_ci_if_error: true
