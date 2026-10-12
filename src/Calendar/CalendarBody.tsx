@@ -38,7 +38,8 @@ const CalendarBody = forwardRef<'div', CalendarBodyProps>((props, ref) => {
       <Grid
         rows={getWeekStartDates(yearMonth, {
           weekStart,
-          locale: locale?.dateLocale
+          locale: locale?.dateLocale,
+          calendarSystem: locale?.calendarSystem
         })}
         aria-label={getAriaLabelForMonth(yearMonth)}
       />

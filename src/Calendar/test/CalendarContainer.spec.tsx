@@ -4,7 +4,8 @@ import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, screen, within } from '@testing-library/react';
 import { parseISO } from 'date-fns';
 import { testStandardProps } from '@test/cases';
-import { enGB, enUS } from '@/locales';
+import { enGB, enUS, faIR } from '@/locales';
+import { getJalaliMonth, getJalaliYear } from '@/internals/utils/date/jalali';
 
 describe('CalendarContainer', () => {
   testStandardProps(
@@ -204,5 +205,72 @@ describe('CalendarContainer', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Collapse time view' }));
 
     expect(onToggleTimeDropdown).toHaveBeenCalledWith(false);
+  });
+
+  describe('Jalali calendar', () => {
+    // Jan 15, 2024 = Jalali 1402/10/25 (Dey 25, 1402)
+    const gregorianDate = new Date(2024, 0, 15);
+
+    it('Should display Jalali day numbers in grid cells', () => {
+      render(
+        <CalendarContainer
+          calendarDate={gregorianDate}
+          format="yyyy/MM/dd"
+          locale={faIR.Calendar}
+        />
+      );
+
+      // The first cell of the Jalali Dey 1402 month should show day 1 (not a Gregorian day number)
+      // Jalali 1402/10/01 = Dec 22, 2023
+      // The calendar shows Dey 1402 (Jalali month 10), so day 1 should be the Jalali day 1
+      const cells = screen.getAllByRole('gridcell');
+      const dayTexts = cells.map(c => c.querySelector('.rs-calendar-table-cell-day')?.textContent);
+      // Jalali Dey 1402 has 30 days (days 1-30), plus some days from neighboring months
+      // Day 1 should appear as "1", day 30 should appear as "30"
+      expect(dayTexts).to.include('1');
+      expect(dayTexts).to.include('30');
+      // Gregorian day 22 of Dec 2023 = Jalali day 1, so "22" should NOT appear as a main day number
+      // (it would be a Jalali day, not Gregorian)
+    });
+
+    it('Should navigate to the next Jalali month when clicking forward', () => {
+      const onMoveForward = vi.fn();
+      render(
+        <CalendarContainer
+          calendarDate={gregorianDate}
+          format="yyyy/MM/dd"
+          locale={faIR.Calendar}
+          onMoveForward={onMoveForward}
+        />
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
+
+      expect(onMoveForward).toHaveBeenCalledTimes(1);
+      const nextDate: Date = onMoveForward.mock.calls[0][0];
+      // Next Jalali month from 1402/10 should be 1402/11
+      expect(getJalaliYear(nextDate)).to.equal(1402);
+      expect(getJalaliMonth(nextDate)).to.equal(11);
+    });
+
+    it('Should navigate to the previous Jalali month when clicking backward', () => {
+      const onMoveBackward = vi.fn();
+      render(
+        <CalendarContainer
+          calendarDate={gregorianDate}
+          format="yyyy/MM/dd"
+          locale={faIR.Calendar}
+          onMoveBackward={onMoveBackward}
+        />
+      );
+
+      fireEvent.click(screen.getByRole('button', { name: 'Previous month' }));
+
+      expect(onMoveBackward).toHaveBeenCalledTimes(1);
+      const prevDate: Date = onMoveBackward.mock.calls[0][0];
+      // Previous Jalali month from 1402/10 should be 1402/09
+      expect(getJalaliYear(prevDate)).to.equal(1402);
+      expect(getJalaliMonth(prevDate)).to.equal(9);
+    });
   });
 });

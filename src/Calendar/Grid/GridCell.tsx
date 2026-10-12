@@ -7,6 +7,7 @@ import { useStyles, useCustom } from '@/internals/hooks';
 import { WithAsProps } from '@/internals/types';
 import { useCalendar } from '../hooks';
 import { getAriaLabel } from '../utils';
+import { getJalaliDay } from '@/internals/utils/date/jalali';
 
 export interface GridCellProps extends WithAsProps {
   date: PlainDate;
@@ -63,6 +64,9 @@ const GridCell = forwardRef<'div', GridCellProps>((props: GridCellProps, ref) =>
     cellClassName?.(date)
   );
 
+  const locale = getLocale('Calendar', overrideLocale);
+  const displayDay = locale?.calendarSystem === 'jalali' ? getJalaliDay(jsDate) : date.day;
+
   return (
     <Component
       ref={ref}
@@ -81,7 +85,7 @@ const GridCell = forwardRef<'div', GridCellProps>((props: GridCellProps, ref) =>
         {renderCellOnPicker ? (
           renderCellOnPicker(date)
         ) : (
-          <span className={prefix('cell-day')}>{date.day}</span>
+          <span className={prefix('cell-day')}>{displayDay}</span>
         )}
         {renderCell?.(date)}
       </div>
