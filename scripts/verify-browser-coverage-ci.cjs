@@ -12,7 +12,7 @@ function verifyBrowserCoverage(directory, browser) {
     expected,
     'Coverage must contain exactly both shards for each React runtime.'
   );
-  return expected.map(name => {
+  return expected.flatMap(name => {
     const file = path.join(directory, name, 'coverage-final.json');
     const report = JSON.parse(fs.readFileSync(file, 'utf8'));
     assert(
@@ -39,7 +39,15 @@ function verifyBrowserCoverage(directory, browser) {
         `${file}: invalid counts`
       );
     }
-    return file;
+    // Preserve both formats used by the existing Codecov upload.
+    const cloverFile = path.join(directory, name, 'clover.xml');
+    const clover = fs.readFileSync(cloverFile, 'utf8');
+    assert(
+      /^\s*<\?xml[^>]*>\s*<coverage\b[\s\S]*<\/coverage>\s*$/.test(clover) &&
+        /<project\b[\s\S]*<file\b[\s\S]*<\/file>[\s\S]*<\/project>/.test(clover),
+      `${cloverFile}: missing or incomplete Clover report`
+    );
+    return [file, cloverFile];
   });
 }
 
@@ -47,7 +55,7 @@ module.exports = { verifyBrowserCoverage };
 
 if (require.main === module) {
   const files = verifyBrowserCoverage(process.argv[2], process.argv[3]);
-  console.log(`Verified ${files.length} coverage reports: ${files.join(', ')}`);
+  console.log(`Verified ${files.length} coverage files: ${files.join(', ')}`);
   if (process.env.GITHUB_OUTPUT) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `files=${files.join(',')}\n`);
   }

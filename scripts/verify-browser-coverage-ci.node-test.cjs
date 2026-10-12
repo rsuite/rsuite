@@ -27,14 +27,19 @@ function fixture(t, browser = 'chromium') {
       fs.mkdirSync(folder);
       const file = path.join(folder, 'coverage-final.json');
       fs.writeFileSync(file, JSON.stringify(report));
-      files.push(file);
+      const clover = path.join(folder, 'clover.xml');
+      fs.writeFileSync(
+        clover,
+        '<?xml version="1.0"?><coverage><project><file name="component.tsx"></file></project></coverage>'
+      );
+      files.push(file, clover);
     }
   }
   return { directory, files, report };
 }
 
 for (const browser of ['chromium', 'firefox']) {
-  test(`accepts all six ${browser} reports without merging or overwriting shards`, t => {
+  test(`accepts both report formats from all six ${browser} shards without overwriting files`, t => {
     const { directory, files } = fixture(t, browser);
     assert.deepEqual(verifyBrowserCoverage(directory, browser).sort(), files.sort());
   });
@@ -56,6 +61,22 @@ test('fails for missing, malformed and empty reports', t => {
   for (const body of ['not JSON', '{}', 'null', '[]', '{"source":{}}']) {
     fs.writeFileSync(files[0], body);
     assert.throws(() => verifyBrowserCoverage(directory, 'chromium'));
+  }
+});
+
+test('requires a Clover report in the expected generated format alongside each Istanbul report', t => {
+  const { directory, files } = fixture(t);
+  const clover = files.find(file => file.endsWith('clover.xml'));
+  fs.unlinkSync(clover);
+  assert.throws(() => verifyBrowserCoverage(directory, 'chromium'), /ENOENT/);
+  for (const body of [
+    '',
+    'not XML',
+    '<?xml version="1.0"?><coverage>',
+    '<?xml version="1.0"?><coverage></coverage>'
+  ]) {
+    fs.writeFileSync(clover, body);
+    assert.throws(() => verifyBrowserCoverage(directory, 'chromium'), /Clover report/);
   }
 });
 

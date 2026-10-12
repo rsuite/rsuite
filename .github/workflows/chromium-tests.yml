@@ -86,7 +86,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: browser-coverage-chromium-${{ inputs.react-version }}-${{ matrix.shard }}
-          path: coverage/coverage-final.json
+          path: |
+            coverage/coverage-final.json
+            coverage/clover.xml
           if-no-files-found: error
           retention-days: 7
           overwrite: true
