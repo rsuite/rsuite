@@ -9,9 +9,6 @@ on:
       react-runtime:
         required: true
         type: string
-    secrets:
-      CODECOV_TOKEN:
-        required: false
 
 jobs:
   test:
@@ -85,6 +82,14 @@ jobs:
           DEBUG: pw:browser
           BROWSER: chromium
 
+      - name: Retain browser coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-coverage-chromium-${{ inputs.react-version }}-${{ matrix.shard }}
+          path: coverage/coverage-final.json
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Run SSR hydration tests
         if: ${{ matrix.shard == 1 }}
         run: npm run test:ssr
@@ -93,10 +98,3 @@ jobs:
         run: npm run test:browser-controls -- --shard=${{ matrix.shard }}/2
         env:
           BROWSER: chromium
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: chromium
-          fail_ci_if_error: true

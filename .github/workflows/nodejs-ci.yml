@@ -35,8 +35,6 @@ jobs:
     with:
       react-version: React18
       react-runtime: 18.2.0
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   chromium-react19:
     name: 'Chromium runners (React19)'
@@ -44,8 +42,6 @@ jobs:
     with:
       react-version: React19
       react-runtime: 19.0.0
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   chromium-react19-3:
     name: 'Chromium runners (React19.3)'
@@ -53,47 +49,48 @@ jobs:
     with:
       react-version: React19.3
       react-runtime: 19.3.0
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   chromium-react18-summary:
     name: 'Test (chromium, React18)'
-    needs: chromium-react18
+    needs: [chromium-react18, coverage]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 1
     steps:
-      # Failed, cancelled, or skipped shards must fail the existing required check.
+      # Preserve the existing required check for both tests and coverage delivery.
       - name: Require all Chromium shards to pass
         env:
           SHARD_RESULT: ${{ needs.chromium-react18.result }}
-        run: test "$SHARD_RESULT" = success
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
 
   chromium-react19-summary:
     name: 'Test (chromium, React19)'
-    needs: chromium-react19
+    needs: [chromium-react19, coverage]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 1
     steps:
-      # Failed, cancelled, or skipped shards must fail the existing required check.
+      # Preserve the existing required check for both tests and coverage delivery.
       - name: Require all Chromium shards to pass
         env:
           SHARD_RESULT: ${{ needs.chromium-react19.result }}
-        run: test "$SHARD_RESULT" = success
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
 
   chromium-react19-3-summary:
     name: 'Test (chromium, React19.3)'
-    needs: chromium-react19-3
+    needs: [chromium-react19-3, coverage]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 1
     steps:
-      # Failed, cancelled, or skipped shards must fail the existing required check.
+      # Preserve the existing required check for both tests and coverage delivery.
       - name: Require all Chromium shards to pass
         env:
           SHARD_RESULT: ${{ needs.chromium-react19-3.result }}
-        run: test "$SHARD_RESULT" = success
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
 
   # Keep each Firefox shard on its own runner so native keyboard tests retain one page.
   firefox-react18:
@@ -102,8 +99,6 @@ jobs:
     with:
       react-version: React18
       react-runtime: 18.2.0
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   firefox-react19:
     name: 'Firefox runners (React19)'
@@ -111,8 +106,6 @@ jobs:
     with:
       react-version: React19
       react-runtime: 19.0.0
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   firefox-react19-3:
     name: 'Firefox runners (React19.3)'
@@ -120,25 +113,24 @@ jobs:
     with:
       react-version: React19.3
       react-runtime: 19.3.0
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   firefox-react18-summary:
     name: 'Test (firefox, React18)'
-    needs: firefox-react18
+    needs: [firefox-react18, coverage]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 1
     steps:
-      # Keep the existing required check closed on failed, cancelled, or skipped shards.
+      # Failed, cancelled, or skipped tests or uploads must fail the existing required check.
       - name: Require all Firefox shards to pass
         env:
           SHARD_RESULT: ${{ needs.firefox-react18.result }}
-        run: test "$SHARD_RESULT" = success
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
 
   firefox-react19-summary:
     name: 'Test (firefox, React19)'
-    needs: firefox-react19
+    needs: [firefox-react19, coverage]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 1
@@ -146,11 +138,12 @@ jobs:
       - name: Require all Firefox shards to pass
         env:
           SHARD_RESULT: ${{ needs.firefox-react19.result }}
-        run: test "$SHARD_RESULT" = success
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
 
   firefox-react19-3-summary:
     name: 'Test (firefox, React19.3)'
-    needs: firefox-react19-3
+    needs: [firefox-react19-3, coverage]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 1
@@ -158,7 +151,49 @@ jobs:
       - name: Require all Firefox shards to pass
         env:
           SHARD_RESULT: ${{ needs.firefox-react19-3.result }}
-        run: test "$SHARD_RESULT" = success
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
+
+  coverage:
+    name: 'Coverage (${{ matrix.browser }})'
+    needs:
+      - chromium-react18
+      - chromium-react19
+      - chromium-react19-3
+      - firefox-react18
+      - firefox-react19
+      - firefox-react19-3
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Download browser coverage
+        uses: actions/download-artifact@v4
+        with:
+          pattern: browser-coverage-${{ matrix.browser }}-*
+          path: coverage-reports
+          # Every shard uses the same filename; retain its artifact directory.
+          merge-multiple: false
+      - name: Require every coverage report
+        id: coverage
+        env:
+          BROWSER: ${{ matrix.browser }}
+        run: node scripts/verify-browser-coverage-ci.cjs coverage-reports "$BROWSER"
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: ${{ matrix.browser }}
+          files: ${{ steps.coverage.outputs.files }}
+          disable_search: true
+          fail_ci_if_error: true
 
   public-declarations:
     name: 'Public declarations'

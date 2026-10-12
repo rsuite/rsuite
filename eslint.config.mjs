@@ -55,7 +55,7 @@ export default [
       'docs/next.config.js',
       'postcss.config.cjs',
       'docs/scripts/*.js',
-      'scripts/*.js'
+      'scripts/*.{js,cjs}'
     ],
     rules: {
       '@typescript-eslint/no-require-imports': 'off'
