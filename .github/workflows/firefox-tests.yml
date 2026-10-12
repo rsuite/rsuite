@@ -91,6 +91,7 @@ jobs:
           path: coverage/coverage-final.json
           if-no-files-found: error
           retention-days: 7
+          overwrite: true
 
       - name: Run native browser control tests
         run: npm run test:browser-controls -- --shard=${{ matrix.shard }}/2

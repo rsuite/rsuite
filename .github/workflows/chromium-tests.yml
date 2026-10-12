@@ -89,6 +89,7 @@ jobs:
           path: coverage/coverage-final.json
           if-no-files-found: error
           retention-days: 7
+          overwrite: true
 
       - name: Run SSR hydration tests
         if: ${{ matrix.shard == 1 }}
