@@ -2,6 +2,9 @@
   "name": "with-nextjs-app",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,7 +13,7 @@
   },
   "dependencies": {
     "@rsuite/icons": "^1.4.0",
-    "next": "^15.1.6",
+    "next": "^15.5.27",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
@@ -28,5 +31,11 @@
     ">0.3%",
     "not dead",
     "not op_mini all"
-  ]
+  ],
+  "pnpm": {
+    "overrides": {
+      "postcss": "^8.5.23",
+      "lodash": "^4.18.1"
+    }
+  }
 }
