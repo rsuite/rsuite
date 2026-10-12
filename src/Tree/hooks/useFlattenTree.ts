@@ -177,7 +177,7 @@ function useFlattenTree(data: TreeNode[], options: UseFlattenTreeOptions) {
       updateTreeNodeCheckState(value);
       forceUpdate();
     }
-  }, [data]);
+  }, [data, childrenKey, labelKey, valueKey]);
 
   useEffect(() => {
     if (multiple) {
