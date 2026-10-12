@@ -1,3 +1,3 @@
-import { Cell } from 'rsuite-table';
+import { Cell } from './internals';
 
 export default Cell;

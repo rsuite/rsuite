@@ -1,3 +1,3 @@
-import { Column } from 'rsuite-table';
+import { Column } from './internals';
 
 export default Column;
