@@ -392,7 +392,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
           <NodeRendererProvider value={renderVirtualListNode}>
             <AutoSizer
               defaultHeight={height}
-              style={{ width: 'auto', height: 'auto' }}
+              style={{ width: 'auto', height: listProps?.height ?? height }}
               className={prefix('virt-auto-sizer')}
             >
               {({ height }) => (
