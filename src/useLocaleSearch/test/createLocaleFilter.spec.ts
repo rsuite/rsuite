@@ -1,10 +1,16 @@
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createLocaleFilter } from '../createLocaleFilter';
+import type { LocaleSearchMatch } from '../types';
 import { matchingCases } from './matchingCases';
 
 const text = (value: string) => value;
 
 describe('locale matching', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
   it.each(matchingCases)('$name ($locale, $method)', async test => {
     const matches = await createLocaleFilter(test.locale, test.options)(
       [test.text],
@@ -54,6 +60,80 @@ describe('locale matching', () => {
     ).rejects.toThrow('getText must return a string.');
   });
 
+  it('Should reject an unknown matching mode before projecting records', async () => {
+    const getText = vi.fn(text);
+    await expect(
+      createLocaleFilter()(['a'], 'a', getText, 'unsupported' as LocaleSearchMatch)
+    ).rejects.toThrow('Unknown locale search method.');
+    expect(getText).not.toHaveBeenCalled();
+  });
+
+  it.each(['contains', 'startsWith', 'endsWith'] as const)(
+    'Should yield during %s comparisons and resume with the remaining records',
+    async method => {
+      let resume!: () => void;
+      const postTask = vi.fn(
+        (callback: () => void) =>
+          new Promise<void>(resolve => {
+            resume = () => {
+              callback();
+              resolve();
+            };
+          })
+      );
+      vi.stubGlobal('scheduler', { postTask });
+      vi.spyOn(performance, 'now').mockReturnValue(20).mockReturnValueOnce(0);
+      // Segmentation fits in one chunk; comparing this record exhausts the budget.
+      const first = 'a'.repeat(96);
+      const getText = vi.fn(text);
+      const controller = new AbortController();
+      const pending = createLocaleFilter()([first, 'z'], 'z', getText, method, {
+        signal: controller.signal
+      });
+      expect(postTask).toHaveBeenCalledTimes(1);
+      expect(postTask).toHaveBeenCalledWith(expect.any(Function), {
+        priority: 'background',
+        signal: controller.signal
+      });
+      expect(getText.mock.calls).toEqual([[first]]);
+      resume();
+      expect(await pending).toEqual(['z']);
+      expect(getText.mock.calls).toEqual([[first], ['z']]);
+    }
+  );
+
+  it.each(['contains', 'startsWith', 'endsWith'] as const)(
+    'Should stop a cancelled %s search even when the scheduler still resumes it',
+    async method => {
+      let resume!: () => void;
+      vi.stubGlobal('scheduler', {
+        postTask: () => new Promise<void>(resolve => (resume = resolve))
+      });
+      vi.spyOn(performance, 'now').mockReturnValue(20).mockReturnValueOnce(0);
+      const first = 'a'.repeat(96);
+      const getText = vi.fn(text);
+      const controller = new AbortController();
+      const reason = new Error('Query replaced while comparing');
+      const pending = createLocaleFilter()([first, 'z'], 'z', getText, method, {
+        signal: controller.signal
+      });
+      controller.abort(reason);
+      resume();
+      await expect(pending).rejects.toBe(reason);
+      expect(getText.mock.calls).toEqual([[first]]);
+    }
+  );
+
+  it('Should propagate scheduling failures without processing more records', async () => {
+    const error = new Error('Scheduler unavailable');
+    vi.stubGlobal('scheduler', { postTask: vi.fn().mockRejectedValue(error) });
+    vi.spyOn(performance, 'now').mockReturnValue(20).mockReturnValueOnce(0);
+    const first = 'a'.repeat(96);
+    const getText = vi.fn(text);
+    await expect(createLocaleFilter()([first, 'z'], 'z', getText)).rejects.toBe(error);
+    expect(getText.mock.calls).toEqual([[first]]);
+  });
+
   it('Should honor an aborted signal before touching text or Intl', async () => {
     const controller = new AbortController();
     const reason = new Error('Already cancelled');
@@ -89,11 +169,19 @@ describe('locale matching', () => {
   });
 
   it('Should preserve an input snapshot while yielding between records', async () => {
+    vi.stubGlobal('scheduler', undefined);
+    vi.spyOn(performance, 'now').mockReturnValue(20).mockReturnValueOnce(0);
+    const controller = new AbortController();
+    const add = vi.spyOn(controller.signal, 'addEventListener');
+    const remove = vi.spyOn(controller.signal, 'removeEventListener');
     const source = ['first', 'second'];
     const pending = createLocaleFilter()(source, '', text, 'contains', {
-      budgetMs: Number.MIN_VALUE
+      signal: controller.signal
     });
+    expect(add).toHaveBeenCalledWith('abort', expect.any(Function), { once: true });
     source.push('later');
     expect(await pending).toEqual(['first', 'second']);
+    expect(remove).toHaveBeenCalledWith('abort', add.mock.calls[0][1]);
+    expect(remove).toHaveBeenCalledTimes(1);
   });
 });
