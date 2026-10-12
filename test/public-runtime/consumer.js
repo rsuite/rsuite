@@ -20,7 +20,14 @@ const iconsReact = createRequire(ownRequire.resolve('@rsuite/icons/package.json'
 const tableReact = createRequire(ownRequire.resolve('rsuite-table/package.json'))('react');
 assert.equal(React, iconsReact, 'icons must share the selected React');
 assert.equal(React, tableReact, 'table must share the selected React');
-const names = ['Form', 'FormControl', 'FormErrorSummary', 'SelectPicker', 'Button'];
+const names = [
+  'Form',
+  'FormControl',
+  'FormErrorSummary',
+  'SelectPicker',
+  'Button',
+  'useAsyncSearch'
+];
 const cjs = { Root: require('rsuite') };
 for (const name of names) cjs[name] = require('rsuite/' + name);
 const esm = require('./esm-bundle.cjs');
@@ -54,8 +61,17 @@ const callback =
     calls.push({ name, argumentCount: args.length });
 const h = React.createElement;
 const ref = callback('ref');
+function SearchProbe({ hook: useSearch, enabled }) {
+  const result = useSearch({ query: 'q', enabled, search: callback('async-search') });
+  return h('output', null, [result.status, result.loading, result.items.length].join(':'));
+}
 function fixtures(api) {
   return [
+    ...[true, false].map(enabled => ({
+      name: 'Async search renders without starting work, enabled=' + enabled,
+      element: h(SearchProbe, { hook: api.Root.useAsyncSearch, enabled }),
+      expected: [new RegExp('<output>' + (enabled ? 'pending:true' : 'idle:false') + ':0</output>')]
+    })),
     ...['mdDown', '(max-width: 1279px)'].flatMap(responsive =>
       [
         'SelectPicker',

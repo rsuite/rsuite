@@ -12,7 +12,14 @@ const root = path.resolve(__dirname, '../..');
 const lib = path.join(root, 'lib');
 const supply = path.join(__dirname, 'node_modules');
 const results = path.join(__dirname, 'results');
-const entries = ['Form', 'FormControl', 'FormErrorSummary', 'SelectPicker', 'Button'];
+const entries = [
+  'Form',
+  'FormControl',
+  'FormErrorSummary',
+  'SelectPicker',
+  'Button',
+  'useAsyncSearch'
+];
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 assert.equal(esbuild.version, '0.25.2');
 assert(fs.existsSync(path.join(lib, 'package.json')), 'Run npm run build:ts first');

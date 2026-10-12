@@ -153,6 +153,7 @@ export * from './useBreakpointValue';
 export * from './useFormControl';
 export * from './useDialog';
 export * from './useClipboard';
+export * from './useAsyncSearch';
 
 // Disclosure
 // --------------------------------------------------------
