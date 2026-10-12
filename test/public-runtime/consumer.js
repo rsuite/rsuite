@@ -26,7 +26,8 @@ const names = [
   'FormErrorSummary',
   'SelectPicker',
   'Button',
-  'useAsyncSearch'
+  'useAsyncSearch',
+  'useLocaleSearch'
 ];
 const cjs = { Root: require('rsuite') };
 for (const name of names) cjs[name] = require('rsuite/' + name);
@@ -65,8 +66,24 @@ function SearchProbe({ hook: useSearch, enabled }) {
   const result = useSearch({ query: 'q', enabled, search: callback('async-search') });
   return h('output', null, [result.status, result.loading, result.items.length].join(':'));
 }
+const localeItems = ['Café'];
+function LocaleSearchProbe({ hook: useSearch, enabled }) {
+  const result = useSearch({
+    items: localeItems,
+    query: 'cafe',
+    locale: 'invalid_locale',
+    getText: callback('locale-search'),
+    enabled
+  });
+  return h('output', null, [result.status, result.loading, result.items.length].join(':'));
+}
 function fixtures(api) {
   return [
+    ...[true, false].map(enabled => ({
+      name: 'Locale search renders without starting work or initializing Intl, enabled=' + enabled,
+      element: h(LocaleSearchProbe, { hook: api.Root.useLocaleSearch, enabled }),
+      expected: [new RegExp('<output>' + (enabled ? 'pending:true' : 'idle:false') + ':0</output>')]
+    })),
     ...[true, false].map(enabled => ({
       name: 'Async search renders without starting work, enabled=' + enabled,
       element: h(SearchProbe, { hook: api.Root.useAsyncSearch, enabled }),

@@ -324,3 +324,61 @@ const wrongSearchItems: string[] = inferredSearch.items;
 // @ts-expect-error The enabled option must be a boolean.
 useAsyncSearch({ query: '', search: () => [], enabled: 'yes' });
 void [searchFactories, searchId, inferredValue, pickerSearchData, wrongSearchItems];
+
+// Locale search preserves record inference through root and natural subpath exports.
+import {
+  useLocaleSearch,
+  type LocaleSearchMatch,
+  type UseLocaleSearchOptions,
+  type UseLocaleSearchReturn
+} from 'rsuite';
+import LocaleSearchSubpath, {
+  useLocaleSearch as NamedLocaleSearchSubpath
+} from 'rsuite/useLocaleSearch';
+const localeSearchFactories: (typeof useLocaleSearch)[] = [
+  LocaleSearchSubpath,
+  NamedLocaleSearchSubpath
+];
+const localeSearchItems = [{ label: 'Café', value: 42 }] as const;
+const localeSearchMatch: LocaleSearchMatch = 'endsWith';
+const localeSearchOptions: UseLocaleSearchOptions<{ label: string; value: number }> = {
+  items: localeSearchItems,
+  query: 'cafe',
+  getText: item => item.label,
+  match: localeSearchMatch,
+  locale: ['fr-FR', 'en-GB'] as const,
+  collatorOptions: { sensitivity: 'base', numeric: true },
+  dependencies: ['label'],
+  enabled: true
+};
+const localeSearchResult: UseLocaleSearchReturn<{ label: string; value: number }> =
+  useLocaleSearch(localeSearchOptions);
+const inferredLocaleSearch = useLocaleSearch({
+  items: localeSearchItems,
+  query: 'cafe',
+  getText: item => item.label
+});
+const inferredLocaleValue: 42 = inferredLocaleSearch.items[0].value;
+const localePickerSearchData = <SelectPicker data={inferredLocaleSearch.items} />;
+if (localeSearchResult.status === 'error') {
+  const error: Error = localeSearchResult.error;
+  void error;
+} else {
+  const error: null = localeSearchResult.error;
+  void error;
+}
+// @ts-expect-error Records require an explicit text selector.
+useLocaleSearch({ items: localeSearchItems, query: 'cafe' });
+// @ts-expect-error Query must be a string.
+useLocaleSearch({ ...localeSearchOptions, query: 42 });
+// @ts-expect-error Selectors must return text.
+useLocaleSearch({ ...localeSearchOptions, getText: item => item.value });
+// @ts-expect-error Match must be a supported mode.
+useLocaleSearch({ ...localeSearchOptions, match: 'fuzzy' });
+// @ts-expect-error Dependencies must be an array.
+useLocaleSearch({ ...localeSearchOptions, dependencies: 'label' });
+// @ts-expect-error Enabled must be a boolean.
+useLocaleSearch({ ...localeSearchOptions, enabled: 'yes' });
+// @ts-expect-error Result inference preserves the record type.
+const wrongLocaleItems: string[] = inferredLocaleSearch.items;
+void [localeSearchFactories, inferredLocaleValue, localePickerSearchData, wrongLocaleItems];
