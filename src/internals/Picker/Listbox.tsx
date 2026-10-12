@@ -242,14 +242,11 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
           if (item[RSUITE_PICKER_GROUP_KEY]) return true;
 
           // Display items under the unfolded group
-          const groupValue =
-            get(item, groupBy, '') ||
-            // FIXME-Doma
-            // Usage of `item.parent` is strongly discouraged
-            // It's only here for legacy support
-            // Remove once `item.parent` is completely removed across related components
-            item.parent?.[KEY_GROUP_TITLE];
-          return !foldedGroupKeys.includes(groupValue);
+          const groupValue = get(item, groupBy);
+          // Legacy flattened data stores the group title on its parent.
+          const groupTitle = groupValue === undefined ? item.parent?.[KEY_GROUP_TITLE] : groupValue;
+          // getDataGroupBy uses object keys, so group titles are strings.
+          return !foldedGroupKeys.includes(String(groupTitle));
         })
       : data;
     const rowCount = filteredItems.length;
