@@ -224,15 +224,15 @@ describe('ColorPicker native browser interaction', () => {
         const session = await page.context().newCDPSession(page);
         try {
           const scrollBefore = await page.evaluate(() => window.scrollY);
-          await session.send('Input.dispatchTouchEvent', {
-            type: 'touchStart',
-            touchPoints: [{ x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 }]
+          // A raw, instantaneous drag can suppress the next tap on Linux Chromium.
+          await session.send('Input.synthesizeScrollGesture', {
+            x: rect.x + rect.width / 2,
+            y: rect.y + rect.height / 2,
+            xDistance: rect.width / 2 + 10,
+            yDistance: -rect.height / 2 - 10,
+            gestureSourceType: 'touch',
+            preventFling: true
           });
-          await session.send('Input.dispatchTouchEvent', {
-            type: 'touchMove',
-            touchPoints: [{ x: rect.x + rect.width + 10, y: rect.y - 10 }]
-          });
-          await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
           expect(await page.getByRole('slider', { name: 'Saturation' }).inputValue()).toBe('100');
           expect(await page.getByRole('slider', { name: 'Brightness' }).inputValue()).toBe('100');
           expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
