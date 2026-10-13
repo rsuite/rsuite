@@ -2,7 +2,15 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+Use Node.js 20.9 or later. The image optimizer's Sharp dependency requires this Node.js version.
+
+Install with npm and the committed lockfile so the patched transitive dependencies are preserved:
+
+```bash
+npm ci
+```
+
+Then run the development server:
 
 ```bash
 npm run dev
