@@ -130,19 +130,31 @@ describe('Whisper', () => {
     });
   });
 
-  it('Should call onEntered callback', async () => {
+  it('Should call onEntered callback', () => {
     const onEntered = vi.fn();
 
-    render(
-      <Whisper onEntered={onEntered} trigger="click" speaker={<Tooltip />}>
-        <button>button</button>
-      </Whisper>
-    );
+    vi.useFakeTimers();
+    let view: ReturnType<typeof render> | undefined;
+    try {
+      view = render(
+        <Whisper onEntered={onEntered} trigger="click" speaker={<Tooltip />}>
+          <button>button</button>
+        </Whisper>
+      );
 
-    fireEvent.click(screen.getByRole('button'));
-    await waitFor(() => {
+      fireEvent.click(screen.getByRole('button'));
+      const tooltip = screen.getByRole('tooltip');
+      expect(onEntered).not.toHaveBeenCalled();
+      act(() => vi.advanceTimersByTime(299));
+      expect(onEntered).not.toHaveBeenCalled();
+      act(() => vi.advanceTimersByTime(1));
+      expect(onEntered).toHaveBeenCalledExactlyOnceWith(tooltip);
+      act(() => vi.advanceTimersByTime(300));
       expect(onEntered).toHaveBeenCalledTimes(1);
-    });
+    } finally {
+      view?.unmount();
+      vi.useRealTimers();
+    }
   });
 
   it('Should call onClose callback', async () => {
@@ -161,20 +173,33 @@ describe('Whisper', () => {
     });
   });
 
-  it('Should call onExited callback', async () => {
+  it('Should call onExited callback', () => {
     const onExited = vi.fn();
 
-    render(
-      <Whisper onExited={onExited} trigger="click" speaker={<Tooltip />}>
-        <button>button</button>
-      </Whisper>
-    );
+    vi.useFakeTimers();
+    let view: ReturnType<typeof render> | undefined;
+    try {
+      view = render(
+        <Whisper onExited={onExited} trigger="click" speaker={<Tooltip />}>
+          <button>button</button>
+        </Whisper>
+      );
 
-    fireEvent.click(screen.getByRole('button'));
-    fireEvent.click(screen.getByRole('button'));
-    await waitFor(() => {
+      fireEvent.click(screen.getByRole('button'));
+      const tooltip = screen.getByRole('tooltip');
+      fireEvent.click(screen.getByRole('button'));
+      expect(onExited).not.toHaveBeenCalled();
+      act(() => vi.advanceTimersByTime(299));
+      expect(onExited).not.toHaveBeenCalled();
+      act(() => vi.advanceTimersByTime(1));
+      expect(onExited).toHaveBeenCalledExactlyOnceWith(tooltip);
+      expect(screen.queryByRole('tooltip')).toBeNull();
+      act(() => vi.advanceTimersByTime(300));
       expect(onExited).toHaveBeenCalledTimes(1);
-    });
+    } finally {
+      view?.unmount();
+      vi.useRealTimers();
+    }
   });
 
   it('Should pass transition callbacks to Transition', () => {
