@@ -14,6 +14,8 @@ interface SourceBrowserOptions {
   entry: string;
   runtimeRoot?: string;
   dependencyRoot?: string;
+  // React Refresh retains roots; memory-lifecycle tests can disable HMR.
+  hmr?: boolean;
   configureServer?: (server: ViteDevServer) => void;
 }
 
@@ -66,6 +68,7 @@ export default async function createSourceBrowser(options: SourceBrowserOptions)
         }
       },
       server: {
+        hmr: options.hmr,
         host: '127.0.0.1',
         port: 0,
         fs: { allow: [options.root, runtimeRoot, ...(dependencyRoot ? [dependencyRoot] : [])] }
