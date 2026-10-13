@@ -28,7 +28,8 @@ import {
   TimeRangePicker,
   TagInput,
   Whisper,
-  useClipboard
+  useClipboard,
+  useDialog
 } from 'rsuite';
 import ButtonSubpath, { ButtonProps } from 'rsuite/Button';
 import AnimationSubpath from 'rsuite/Animation';
@@ -43,11 +44,53 @@ import SummarySubpath, {
   FormErrorSummaryProps as SummarySubpathProps
 } from 'rsuite/FormErrorSummary';
 import ClipboardSubpath, { useClipboard as NamedClipboardSubpath } from 'rsuite/useClipboard';
+import DialogSubpath from 'rsuite/useDialog';
 import SelectPickerSubpath from 'rsuite/SelectPicker';
 import DatePickerSubpath from 'rsuite/DatePicker';
 import CarouselSubpath, { CarouselProps } from 'rsuite/Carousel';
 import WhisperSubpath from 'rsuite/Whisper';
 import { enGB, type CarouselLocale, type Locale } from 'rsuite/locales';
+
+export function dialogCloseCallbacks(
+  root: ReturnType<typeof useDialog>,
+  subpath: ReturnType<typeof DialogSubpath>
+) {
+  root.confirm('Continue?', {
+    onClose: result => {
+      const confirmed: boolean = result;
+      // @ts-expect-error Confirmation results are booleans.
+      const invalid: number = result;
+      void [confirmed, invalid];
+    }
+  });
+  root.prompt('Name', {
+    onClose: result => {
+      const value: string | false = result;
+      // @ts-expect-error Prompt results contain text or the cancellation sentinel.
+      const invalid: number = result;
+      void [value, invalid];
+    }
+  });
+  subpath.confirm('Continue?', {
+    onClose: result => {
+      const confirmed: boolean = result;
+      // @ts-expect-error Subpath confirmation results are booleans.
+      const invalid: string = result;
+      void [confirmed, invalid];
+    }
+  });
+  subpath.prompt('Name', {
+    onClose: result => {
+      const value: string | false = result;
+      // @ts-expect-error Subpath prompt results include cancellation.
+      const invalid: string = result;
+      void [value, invalid];
+    }
+  });
+  root.alert('Notice', { onClose: () => {} });
+  root.confirm('Continue?', { onClose: () => {} });
+  subpath.prompt('Name', { onClose: () => {} });
+}
 
 export const customSpeakers = (
   <>
