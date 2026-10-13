@@ -281,8 +281,8 @@ export function calcPosition(options: PositionOptions) {
       // Initialize position and arrow offset values
       let positionLeft;
       let positionTop;
-      let arrowOffsetLeft;
-      let arrowOffsetTop;
+      let arrowOffsetLeft: PositionType['arrowOffsetLeft'];
+      let arrowOffsetTop: PositionType['arrowOffsetTop'];
 
       // Handle basic left/right positions
       if (nextPlacement === 'left' || nextPlacement === 'right') {

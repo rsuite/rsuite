@@ -5,6 +5,42 @@ import { describe, expect, it, vi } from 'vitest';
 import { act, render, fireEvent, waitFor, screen } from '@testing-library/react';
 
 describe('Whisper', () => {
+  it.each([
+    ['top', '50%', 'absent'],
+    ['bottom', '50%', 'absent'],
+    ['left', 'absent', '50%'],
+    ['right', 'absent', '50%'],
+    ['bottomStart', 'absent', 'absent'],
+    ['rightEnd', 'absent', 'absent']
+  ] as const)('passes arrow offsets to a custom speaker for %s', async (placement, left, top) => {
+    const onEntered = vi.fn();
+    render(
+      <Whisper
+        defaultOpen
+        placement={placement}
+        onEntered={onEntered}
+        speaker={({ arrowOffsetLeft, arrowOffsetTop, className, left, top }, ref) => (
+          <div
+            ref={ref}
+            role="tooltip"
+            className={className}
+            data-offset-left={arrowOffsetLeft ?? 'absent'}
+            data-offset-top={arrowOffsetTop ?? 'absent'}
+            style={{ position: 'absolute', left, top, width: 100, height: 60 }}
+          >
+            Custom speaker
+          </div>
+        )}
+      >
+        <button>Anchor</button>
+      </Whisper>
+    );
+
+    await waitFor(() => expect(onEntered).toHaveBeenCalledTimes(1));
+    expect(screen.getByRole('tooltip').getAttribute('data-offset-left')).toBe(left);
+    expect(screen.getByRole('tooltip').getAttribute('data-offset-top')).toBe(top);
+  });
+
   it('Should create Whisper element', () => {
     const { container } = render(
       <Whisper speaker={<Tooltip>tooltip</Tooltip>}>

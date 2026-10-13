@@ -9,8 +9,8 @@ export interface PositionType {
   placement: Placement;
   positionLeft?: number;
   positionTop?: number;
-  arrowOffsetLeft?: number;
-  arrowOffsetTop?: number;
+  arrowOffsetLeft?: string;
+  arrowOffsetTop?: string;
 }
 
 export interface PositionOptions {
@@ -41,6 +41,8 @@ export interface PositionChildProps {
   placement: Placement;
   left?: number;
   top?: number;
-  arrowOffsetLeft?: number;
-  arrowOffsetTop?: number;
+  /** Horizontal arrow offset as a CSS percentage. */
+  arrowOffsetLeft?: string;
+  /** Vertical arrow offset as a CSS percentage. */
+  arrowOffsetTop?: string;
 }
