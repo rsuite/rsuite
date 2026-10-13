@@ -61,7 +61,6 @@ const usePosition = (
   } = props;
 
   const lastTargetRef = useRef<Element | null>(null);
-  const overlayResizeObserver = useRef<ResizeObserver>(null);
 
   const defaultPosition = {
     placement,
@@ -79,6 +78,15 @@ const usePosition = (
         padding: containerPadding
       }),
     [placement, preventOverflow, containerPadding]
+  );
+
+  const getContainerElement = useCallback(
+    () =>
+      getContainer(
+        typeof container === 'function' ? container() : (container ?? (null as any)),
+        ownerDocument(ref.current).body
+      ) as HTMLElement,
+    [container, ref]
   );
 
   const updatePosition = useCallback(
@@ -103,10 +111,7 @@ const usePosition = (
       }
 
       const overlay = getDOMNode(ref.current);
-      const containerElement = getContainer(
-        typeof container === 'function' ? container() : (container ?? (null as any)),
-        ownerDocument(ref.current).body
-      ) as HTMLElement;
+      const containerElement = getContainerElement();
 
       const posi = utils.calcOverlayPosition(
         overlay,
@@ -127,7 +132,7 @@ const usePosition = (
 
       lastTargetRef.current = targetElement;
     },
-    [container, ref, triggerTarget, utils, followCursor, cursorPosition]
+    [getContainerElement, ref, triggerTarget, utils, followCursor, cursorPosition]
   );
 
   useEffect(() => {
@@ -153,19 +158,20 @@ const usePosition = (
     const view = ownerDocument(overlay).defaultView;
     const resizeListener = view && on(view, 'resize', () => updatePosition(true, true));
 
-    if (overlay) {
-      // Update the position when the size of the overlay changes
-      overlayResizeObserver.current = new ResizeObserver(() => updatePosition(true, true));
-      overlayResizeObserver.current.observe(overlay);
-    }
+    const resizeObserver = new ResizeObserver(() => updatePosition(true, true));
+    // Trigger content and container layout can change without a window resize.
+    const observedElements = new Set([getDOMNode(triggerTarget), overlay, getContainerElement()]);
+    observedElements.forEach(element => {
+      if (isElement(element)) resizeObserver.observe(element, { box: 'border-box' });
+    });
 
     return () => {
       lastTargetRef.current = null;
       scrollListeners.forEach(listener => listener.off());
       resizeListener?.off();
-      overlayResizeObserver.current?.disconnect();
+      resizeObserver.disconnect();
     };
-  }, [ref, triggerTarget, updatePosition]);
+  }, [ref, triggerTarget, updatePosition, getContainerElement]);
 
   useUpdateEffect(() => updatePosition(), [updatePosition, placement]);
 

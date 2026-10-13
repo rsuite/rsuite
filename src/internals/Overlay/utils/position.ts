@@ -257,6 +257,9 @@ export function calcPosition(options: PositionOptions) {
       container: HTMLElement,
       cursorPosition?: CursorPosition | null
     ): PositionType {
+      // Share measurements within this calculation, while honoring every position update.
+      dimensionsCache.delete(container);
+
       // Cache commonly used values to avoid repeated calculations
       const ARROW_OFFSET_FACTOR = 50; // Arrow offset calculation factor
       const isRTL = ownerDocument(container).dir === 'rtl';
