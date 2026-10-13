@@ -22,6 +22,11 @@ const DateTimeFormats = {
   dateLocale: tr as any
 };
 
+const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+  ...DateTimeFormats,
+  openPicker: 'Seçiciyi aç'
+};
+
 const Combobox = {
   noResultsText: 'Sonuç bulunamadı',
   placeholder: 'Seç',
@@ -60,9 +65,9 @@ export default {
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Son 7 Gün'
   },
   Combobox,

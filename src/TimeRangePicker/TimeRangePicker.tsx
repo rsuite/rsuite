@@ -29,6 +29,13 @@ export interface TimeRangePickerProps
   editable?: boolean;
 
   /**
+   * Open the popup when the input is clicked. Set to false to use a separate open button.
+   * Keyboard and imperative opening remain available. `caretAs={null}` hides the button.
+   * @default true
+   */
+  openOnInputClick?: boolean;
+
+  /**
    * A label displayed at the beginning of toggle button
    */
   label?: React.ReactNode;

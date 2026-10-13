@@ -26,6 +26,11 @@ const DateTimeFormats = {
   dateLocale: ko as any
 };
 
+const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+  ...DateTimeFormats,
+  openPicker: '선택기 열기'
+};
+
 const Combobox = {
   noResultsText: '일치하지 않습니다',
   placeholder: '고르십시오',
@@ -64,9 +69,9 @@ export default {
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: '지난 7 일'
   },
   Combobox,

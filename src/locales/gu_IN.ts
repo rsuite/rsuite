@@ -22,6 +22,11 @@ const DateTimeFormats = {
   dateLocale: gu as any
 };
 
+const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+  ...DateTimeFormats,
+  openPicker: 'પસંદગીકાર ખોલો'
+};
+
 const Combobox = {
   noResultsText: 'કોઈ પરિણામો મળ્યા નથી',
   placeholder: 'પસંદ કરો',
@@ -60,9 +65,9 @@ export default {
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'છેલ્લા 7 દિવસ'
   },
   Combobox,

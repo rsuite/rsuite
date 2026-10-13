@@ -26,6 +26,11 @@ const DateTimeFormats = {
   dateLocale: ja as any
 };
 
+const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+  ...DateTimeFormats,
+  openPicker: '選択画面を開く'
+};
+
 const Combobox = {
   noResultsText: '結果は見つかりませんでした。',
   placeholder: '選択',
@@ -64,9 +69,9 @@ export default {
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: '直近7日間'
   },
   Combobox,

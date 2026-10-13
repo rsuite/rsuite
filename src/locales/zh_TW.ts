@@ -22,6 +22,11 @@ const DateTimeFormats = {
   dateLocale: zhTW as any
 };
 
+const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+  ...DateTimeFormats,
+  openPicker: '開啟選擇器'
+};
+
 const Combobox = {
   noResultsText: '沒有符合的選項',
   placeholder: '選擇',
@@ -60,9 +65,9 @@ export default {
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: '最近 7 天'
   },
   Combobox,

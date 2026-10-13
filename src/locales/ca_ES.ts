@@ -26,6 +26,11 @@ const DateTimeFormats = {
   dateLocale: ca
 };
 
+const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+  ...DateTimeFormats,
+  openPicker: 'Obre el selector'
+};
+
 const Combobox = {
   noResultsText: "No s'han trobat resultats",
   placeholder: 'Seleccionar',
@@ -64,9 +69,9 @@ export default {
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Últims 7 dies'
   },
   Combobox,

@@ -14,6 +14,10 @@
 // DatePicker Picker
 // ----------------------
 
+.rs-picker .rs-input-group .rs-picker-open-button:focus-visible {
+  @include utils.focus-ring-inset;
+}
+
 // Toolbar
 .rs-picker-toolbar {
   padding: var(--rs-calendar-base-spacing);

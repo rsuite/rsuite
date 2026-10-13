@@ -27,6 +27,11 @@ const DateTimeFormats = {
   dateLocale: th as any
 };
 
+const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+  ...DateTimeFormats,
+  openPicker: 'เปิดตัวเลือก'
+};
+
 const Combobox = {
   noResultsText: 'ไม่พบผลลัพธ์',
   placeholder: 'เลือก',
@@ -65,9 +70,9 @@ export default {
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: '7 วันที่ผ่านมา'
   },
   Combobox,

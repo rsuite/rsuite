@@ -26,6 +26,11 @@ const DateTimeFormats = {
   dateLocale: hu as any
 };
 
+const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+  ...DateTimeFormats,
+  openPicker: 'Választó megnyitása'
+};
+
 const Combobox = {
   noResultsText: 'Nincs találat',
   placeholder: 'Válassza ki',
@@ -66,9 +71,9 @@ export default {
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Utolsó 7 nap'
   },
   Combobox,

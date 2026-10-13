@@ -22,6 +22,11 @@ const DateTimeFormats = {
   dateLocale: kk as any
 };
 
+const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+  ...DateTimeFormats,
+  openPicker: 'Таңдау терезесін ашу'
+};
+
 const Combobox = {
   noResultsText: 'Нәтижелер жоқ',
   placeholder: 'Таңдаңыз',
@@ -60,9 +65,9 @@ export default {
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Соңғы 7 күн'
   },
   Combobox,

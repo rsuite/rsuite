@@ -100,3 +100,19 @@ export const WithRanges: Story = {
     ]
   }
 };
+
+export const IndependentOpening: Story = {
+  args: {
+    ...defaultArgs,
+    openOnInputClick: false,
+    defaultValue: [new Date(2024, 1, 12), new Date(2024, 1, 16)]
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Edit the input without opening the popup. Use the calendar button to open it; Escape returns focus to the button. The clear button remains available alongside it.'
+      }
+    }
+  }
+};
