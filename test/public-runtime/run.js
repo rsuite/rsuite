@@ -19,7 +19,8 @@ const entries = [
   'SelectPicker',
   'Button',
   'useAsyncSearch',
-  'useLocaleSearch'
+  'useLocaleSearch',
+  'ColorPicker'
 ];
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 assert.equal(esbuild.version, '0.25.2');

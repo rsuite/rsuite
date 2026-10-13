@@ -2,6 +2,7 @@ import React from 'react';
 import CustomProvider from '../../../CustomProvider';
 import enGB from '../../../locales/en_GB';
 import ruRU from '../../../locales/ru_RU';
+import type { Locale } from '../../../locales';
 import useCustom from '../useCustom';
 import { describe, expect, it, vi } from 'vitest';
 import { renderHook } from '@testing-library/react';
@@ -65,7 +66,7 @@ describe('useCustom', () => {
   });
 
   it('Should keep date callbacks stable and update them when the provider changes', () => {
-    let locale = enGB;
+    let locale: Locale = enGB;
     const wrapper = ({ children }) => <CustomProvider locale={locale}>{children}</CustomProvider>;
     const { result, rerender } = renderHook(() => useCustom(), { wrapper });
     const firstFormat = result.current.formatDate;

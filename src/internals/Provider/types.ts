@@ -26,6 +26,7 @@ import type { CheckTreePickerProps } from '../../CheckTreePicker';
 import type { CheckboxProps } from '../../Checkbox';
 import type { CheckboxGroupProps } from '../../CheckboxGroup';
 import type { ColProps } from '../../Col';
+import type { ColorPickerProps } from '../../ColorPicker';
 import type { ContainerProps } from '../../Container';
 import type { ContentProps } from '../../Content';
 import type { DateInputProps } from '../../DateInput';
@@ -151,6 +152,7 @@ export interface ReactSuiteComponents {
   Checkbox: ComponentProps<CheckboxProps>;
   CheckboxGroup: ComponentProps<CheckboxGroupProps>;
   Col: ComponentProps<ColProps>;
+  ColorPicker: ComponentProps<ColorPickerProps>;
   Container: ComponentProps<ContainerProps>;
   Content: ComponentProps<ContentProps>;
   DateInput: ComponentProps<DateInputProps>;

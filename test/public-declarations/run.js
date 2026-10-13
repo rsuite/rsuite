@@ -12,7 +12,7 @@ const results = path.join(__dirname, 'results');
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const fixture = fs.readFileSync(path.join(__dirname, 'consumer.tsx'), 'utf8');
 assert.equal(ts.version, '5.7.3');
-assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 42);
+assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 48);
 for (const entry of ['package.json', 'esm/index.d.ts', 'cjs/index.d.ts']) {
   assert(fs.existsSync(path.join(lib, entry)), 'Build the public lib first: ' + entry);
 }
@@ -91,7 +91,8 @@ const cjsSpecifiers = {
   'rsuite/useAsyncSearch': 'rsuite/cjs/useAsyncSearch',
   'rsuite/useLocaleSearch': 'rsuite/cjs/useLocaleSearch',
   'rsuite/SelectPicker': 'rsuite/cjs/SelectPicker',
-  'rsuite/DatePicker': 'rsuite/cjs/DatePicker'
+  'rsuite/DatePicker': 'rsuite/cjs/DatePicker',
+  'rsuite/ColorPicker': 'rsuite/cjs/ColorPicker'
 };
 function sourceFor(entry) {
   return fixture.replace(/from (['"])(rsuite(?:\/[^'"]+)?)\1/g, (original, quote, specifier) => {
@@ -290,7 +291,10 @@ try {
           'useAsyncSearch/useAsyncSearch.d.ts',
           'useLocaleSearch/index.d.ts',
           'useLocaleSearch/types.d.ts',
-          'useLocaleSearch/useLocaleSearch.d.ts'
+          'useLocaleSearch/useLocaleSearch.d.ts',
+          'ColorPicker/index.d.ts',
+          'ColorPicker/ColorPicker.d.ts',
+          'ColorPicker/types.d.ts'
         ]) {
           if (!relative.includes(entry + '/' + required))
             issues.push('Public declaration not loaded: ' + required);

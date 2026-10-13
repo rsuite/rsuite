@@ -560,3 +560,70 @@ useLocaleSearch({ ...localeSearchOptions, enabled: 'yes' });
 // @ts-expect-error Result inference preserves the record type.
 const wrongLocaleItems: string[] = inferredLocaleSearch.items;
 void [localeSearchFactories, inferredLocaleValue, localePickerSearchData, wrongLocaleItems];
+
+import {
+  ColorPicker,
+  type ColorPickerProps,
+  type ColorPickerPreset,
+  type ColorFormat,
+  type PickerHandle
+} from 'rsuite';
+import ColorPickerSubpath, { ColorPicker as NamedColorPickerSubpath } from 'rsuite/ColorPicker';
+import type { ColorPickerLocale } from 'rsuite/locales';
+
+const colorComponents: (typeof ColorPicker)[] = [ColorPickerSubpath, NamedColorPickerSubpath];
+const colorRef = React.createRef<PickerHandle>();
+const colorPresets: readonly ColorPickerPreset[] = [{ value: '#1234', label: 'Brand' }];
+const colorLocale: ColorPickerLocale = { hue: 'Hue', dialogTitle: 'Brand color' };
+const colorProps: ColorPickerProps = {
+  value: null,
+  defaultValue: 'hsl(120 100% 50% / 50%)',
+  format: 'rgb',
+  defaultFormat: 'hex',
+  presets: colorPresets,
+  form: 'profile',
+  responsive: 'mdDown',
+  locale: colorLocale,
+  onChange: (value, event) => {
+    const selected: string | null = value;
+    const source: React.SyntheticEvent = event;
+    void [selected, source];
+  },
+  onFormatChange: (format, event) => {
+    const selected: ColorFormat = format;
+    const source: React.SyntheticEvent = event;
+    void [selected, source];
+  }
+};
+export const colorPickerOutput = (
+  <CustomProvider
+    locale={{ ColorPicker: colorLocale }}
+    components={{ ColorPicker: { defaultProps: { disableAlpha: true, defaultFormat: 'hsl' } } }}
+  >
+    <ColorPickerSubpath {...colorProps} ref={colorRef} name="brand" />
+    <ColorPicker presets={['transparent', '#fff']} />
+  </CustomProvider>
+);
+colorRef.current?.open?.();
+colorRef.current?.close?.();
+// @ts-expect-error Color values must be strings or null.
+const invalidColorValue = <ColorPicker value={42} />;
+// @ts-expect-error Initial colors use the same value contract.
+const invalidColorDefault = <ColorPicker defaultValue={42} />;
+// @ts-expect-error Output formats are restricted to the public sRGB formats.
+const invalidColorFormat = <ColorPicker format="lab" />;
+// @ts-expect-error Preset values must be color strings.
+const invalidColorPreset = <ColorPicker presets={[{ value: 42 }]} />;
+// @ts-expect-error Changes provide a color string or null, not a numeric channel.
+const invalidColorChange = <ColorPicker onChange={(value: number) => void value} />;
+// @ts-expect-error ColorPicker exposes the picker handle, not a native input ref.
+const invalidColorRef = <ColorPicker ref={React.createRef<HTMLInputElement>()} />;
+void [
+  colorComponents,
+  invalidColorValue,
+  invalidColorDefault,
+  invalidColorFormat,
+  invalidColorPreset,
+  invalidColorChange,
+  invalidColorRef
+];

@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import CustomProvider from '../../CustomProvider';
 import enGB from '../../locales/en_GB';
 import trTR from '../../locales/tr_TR';
+import type { Locale } from '../../locales';
 import useLocaleSearch, { LocaleSearchMatch } from '..';
 
 const wrapper = StrictMode;
@@ -36,7 +37,7 @@ describe('useLocaleSearch', () => {
 
   it('Should follow provider locale while respecting an explicit override', async () => {
     const items = ['ISPARTA'];
-    let providerLocale = enGB;
+    let providerLocale: Locale = enGB;
     const { result, rerender } = renderHook(
       ({ locale }: { locale?: string }) =>
         useLocaleSearch({
