@@ -4,12 +4,12 @@ A modern Next.js application using the App Router with React Suite components.
 
 ## Features
 
-- ✨ **Next.js 15** - Latest version with App Router
+- ✨ **Next.js 15** - App Router
 - ⚛️ **React 19** - Cutting-edge React features
 - 🎨 **React Suite 6** - Modern UI component library
 - 📦 **TypeScript** - Full type safety
-- 🚀 **Server Components** - Optimized performance
-- 🎯 **Client Components** - Interactive UI elements
+- 🚀 **Server Components** - Root layout and pages render on the server
+- 🎯 **Client Components** - Theme provider and navigation handle browser interactions
 
 ## Installation
 
@@ -74,11 +74,12 @@ with-nextjs-app/
 ├── src/
 │   ├── app/
 │   │   ├── about/          # About page
-│   │   ├── layout.tsx      # Root layout with React Suite provider
+│   │   ├── layout.tsx      # Server layout with metadata and global styles
 │   │   ├── page.tsx        # Home page
 │   │   └── globals.css     # Global styles
 │   └── components/
-│       └── Navbar.tsx      # Navigation component
+│       ├── Navbar.tsx      # Client navigation with Next.js Link
+│       └── Providers.tsx   # Client theme provider
 ├── public/                 # Static assets
 ├── next.config.js         # Next.js configuration
 ├── tsconfig.json          # TypeScript configuration
@@ -87,11 +88,15 @@ with-nextjs-app/
 
 ## Key Technologies
 
-- **Next.js 15**: Latest Next.js with App Router and Server Components
-- **React 19**: Latest React with new concurrent features
+- **Next.js 15**: App Router and Server Components
+- **React 19**: React rendering and hydration
 - **React Suite**: A suite of React components for building enterprise applications
 - **TypeScript**: Type-safe development experience
 - **PostCSS**: CSS processing with modern features
+
+The root layout and both pages are Server Components. `Providers` listens for system theme changes in the browser and wraps the page content with `CustomProvider`. `Navbar` is a Client Component so it can compose `Nav.Item` with Next.js `Link`. Keep browser state and event handlers in these client boundaries; pass server-rendered page content through the provider's `children` prop.
+
+The About page imports `Stack` and `Button` from their individual `rsuite/Stack` and `rsuite/Button` entry points. Use these entry points when rendering React Suite components directly from a Server Component to avoid making the entire component barrel a client reference.
 
 ## Learn More
 
