@@ -5,16 +5,22 @@ import Uploader, { type FileType, type UploaderInstance } from '../Uploader';
 import '../styles/index.scss';
 
 const root = createRoot(document.getElementById('root')!);
-const createFile = (name: string, fileKey = name): FileType => ({
+const createFile = (name: string, fileKey: string | number = name): FileType => ({
   name: `${name}.txt`,
   fileKey,
   blobFile: new File(['upload bytes '.repeat(32768)], `${name}.txt`),
   status: 'inited'
 });
-type Options = { controlled?: boolean; strict?: boolean; action: string };
+type Options = {
+  controlled?: boolean;
+  strict?: boolean;
+  action: string;
+  fileKeys?: [string | number, string | number];
+};
 type NativeEvent = { name: string; trusted: boolean };
 const record = {
   uploads: [] as string[],
+  uploadKeys: [] as (string | number | undefined)[],
   successes: [] as NativeEvent[],
   progress: [] as (NativeEvent & { percent: number })[],
   aborts: [] as NativeEvent[],
@@ -44,10 +50,14 @@ document.addEventListener('click', event => {
   }
 });
 
-function Fixture({ controlled: initiallyControlled = false, action }: Options) {
+function Fixture({ controlled: initiallyControlled = false, action, fileKeys }: Options) {
   const ref = useRef<UploaderInstance>(null);
   const [controlled, setControlled] = useState(initiallyControlled);
-  const [files, setFiles] = useState(() => [createFile('alpha')]);
+  const [files, setFiles] = useState(() =>
+    fileKeys
+      ? [createFile('alpha', fileKeys[0]), createFile('gamma', fileKeys[1])]
+      : [createFile('alpha')]
+  );
   const [visible, setVisible] = useState(true);
   const settle = (value: boolean, all = false) => {
     const pending = approvals.filter(approval => !approval.settled);
@@ -99,6 +109,7 @@ function Fixture({ controlled: initiallyControlled = false, action }: Options) {
           }}
           onUpload={(file, _data, xhr) => {
             record.uploads.push(file.name!);
+            record.uploadKeys.push(file.fileKey);
             xhr.addEventListener('abort', event => {
               record.aborts.push({ name: file.name!, trusted: event.isTrusted });
             });
