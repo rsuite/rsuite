@@ -26,6 +26,11 @@ const DateTimeFormats = {
   dateLocale: fi as any
 };
 
+const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+  ...DateTimeFormats,
+  openPicker: 'Avaa valitsin'
+};
+
 const Combobox = {
   noResultsText: 'Ei tuloksia',
   placeholder: 'Valitse',
@@ -64,9 +69,9 @@ export default {
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Viimeiset 7 päivää'
   },
   Combobox,

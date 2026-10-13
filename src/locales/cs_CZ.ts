@@ -26,6 +26,11 @@ const DateTimeFormats = {
   dateLocale: cs as any
 };
 
+const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+  ...DateTimeFormats,
+  openPicker: 'Otevřít výběr'
+};
+
 const Combobox = {
   noResultsText: 'Nenalezeny žádné výsledky',
   placeholder: 'Vybrat',
@@ -64,9 +69,9 @@ export default {
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Posledních 7 dní'
   },
   Combobox,

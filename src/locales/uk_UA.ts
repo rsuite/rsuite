@@ -22,6 +22,11 @@ const DateTimeFormats = {
   dateLocale: uk as any
 };
 
+const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+  ...DateTimeFormats,
+  openPicker: 'Відкрити вікно вибору'
+};
+
 const Combobox = {
   noResultsText: 'Результати не знайдено',
   placeholder: 'Вибрати',
@@ -60,9 +65,9 @@ export default {
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Останні 7 днів'
   },
   Combobox,

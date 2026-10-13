@@ -45,7 +45,48 @@ import ClipboardSubpath, { useClipboard as NamedClipboardSubpath } from 'rsuite/
 import SelectPickerSubpath from 'rsuite/SelectPicker';
 import DatePickerSubpath from 'rsuite/DatePicker';
 import CarouselSubpath, { CarouselProps } from 'rsuite/Carousel';
-import type { CarouselLocale, Locale } from 'rsuite/locales';
+import { enGB, type CarouselLocale, type Locale } from 'rsuite/locales';
+
+const datePickerOpeningLocale: Locale = {
+  DatePicker: { ...enGB.DatePicker, openPicker: 'Open appointment' },
+  DateRangePicker: { ...enGB.DateRangePicker, openPicker: 'Open date range' }
+};
+const { openPicker: _dateOpeningLabel, ...legacyDateTranslations } = enGB.DatePicker;
+const { openPicker: _rangeOpeningLabel, ...legacyRangeTranslations } = enGB.DateRangePicker;
+const legacyDatePickerLocale: Locale = {
+  DatePicker: legacyDateTranslations,
+  DateRangePicker: legacyRangeTranslations
+};
+const legacyBundledDateTranslations: typeof enGB.DatePicker = legacyDateTranslations;
+const legacyBundledRangeTranslations: typeof enGB.DateRangePicker = legacyRangeTranslations;
+const independentDatePickerOpening = (
+  <CustomProvider
+    locale={datePickerOpeningLocale}
+    components={{
+      DatePicker: { defaultProps: { openOnInputClick: false } },
+      DateRangePicker: { defaultProps: { openOnInputClick: false } },
+      TimePicker: { defaultProps: { openOnInputClick: false } },
+      TimeRangePicker: { defaultProps: { openOnInputClick: false } }
+    }}
+  >
+    <DatePicker openOnInputClick={false} locale={{ openPicker: 'Open date' }} />
+    <DateRangePicker openOnInputClick={false} locale={{ openPicker: 'Open range' }} />
+    <TimePicker openOnInputClick={false} locale={{ openPicker: 'Open time' }} />
+    <TimeRangePicker openOnInputClick={false} locale={{ openPicker: 'Open time range' }} />
+    <DatePickerSubpath openOnInputClick={false} />
+  </CustomProvider>
+);
+// @ts-expect-error the input opening policy is a boolean.
+const invalidDatePickerOpening = <DatePickerSubpath openOnInputClick="manual" />;
+void [
+  independentDatePickerOpening,
+  invalidDatePickerOpening,
+  legacyDatePickerLocale,
+  legacyBundledDateTranslations,
+  legacyBundledRangeTranslations,
+  _dateOpeningLabel,
+  _rangeOpeningLabel
+];
 
 const automaticButtonProps: ButtonProps = {
   autoLoading: true,

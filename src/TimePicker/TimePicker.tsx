@@ -29,6 +29,13 @@ export interface TimePickerProps
   editable?: boolean;
 
   /**
+   * Open the popup when the input is clicked. Set to false to use a separate open button.
+   * Keyboard and imperative opening remain available. `caretAs={null}` hides the button.
+   * @default true
+   */
+  openOnInputClick?: boolean;
+
+  /**
    * Format date string
    */
   format?: string;

@@ -22,6 +22,11 @@ const DateTimeFormats = {
   dateLocale: ru as any
 };
 
+const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+  ...DateTimeFormats,
+  openPicker: 'Открыть окно выбора'
+};
+
 const Combobox = {
   noResultsText: 'Результаты не найдены',
   placeholder: 'Выбрать',
@@ -60,9 +65,9 @@ export default {
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Последние 7 дней'
   },
   Combobox,

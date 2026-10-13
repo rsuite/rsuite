@@ -26,6 +26,11 @@ const DateTimeFormats = {
   dateLocale: enGB as any
 };
 
+const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+  ...DateTimeFormats,
+  openPicker: 'चयनकर्ता खोल्नुहोस्'
+};
+
 const Combobox = {
   noResultsText: 'कुनै परिणाम फेला परेन',
   placeholder: 'चयन गर्नुहोस्',
@@ -64,9 +69,9 @@ export default {
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'पछिल्लो ७ दिन'
   },
   Combobox,

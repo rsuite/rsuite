@@ -22,6 +22,11 @@ const DateTimeFormats = {
   dateLocale: faIR as any
 };
 
+const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+  ...DateTimeFormats,
+  openPicker: 'باز کردن انتخابگر'
+};
+
 const Combobox = {
   noResultsText: 'نتیجه ایی یافت نشد',
   placeholder: 'انتخاب',
@@ -60,9 +65,9 @@ export default {
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: '7 روز اخر'
   },
   Combobox,

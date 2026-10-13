@@ -9,6 +9,8 @@ import PredefinedRanges from '../DatePicker/PredefinedRanges';
 import Stack from '../Stack';
 import DateRangeInput from '../DateRangeInput';
 import InputGroup from '../InputGroup';
+import DatePickerIndicator from '../DatePicker/DatePickerIndicator';
+import useOpenButton from '../DatePicker/hooks/useOpenButton';
 import Header from './Header';
 import useDateDisabled from './hooks/useDateDisabled';
 import useCustomizedInput from '../DatePicker/hooks/useCustomizedInput';
@@ -29,7 +31,6 @@ import { splitRanges } from '../DatePicker/utils';
 import {
   PickerPopup,
   PickerToggleTrigger,
-  PickerIndicator,
   PickerLabel,
   triggerPropKeys,
   PositionChildProps,
@@ -88,6 +89,13 @@ export interface DateRangePickerProps
    * @default true
    */
   editable?: boolean;
+
+  /**
+   * Open the popup when the input is clicked. Set to false to use a separate open button.
+   * Keyboard and imperative opening remain available. `caretAs={null}` hides the button.
+   * @default true
+   */
+  openOnInputClick?: boolean;
 
   /**
    * The date range that will be selected when you click on the date
@@ -282,6 +290,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       className,
       appearance = 'default',
       editable = true,
+      openOnInputClick = true,
       cleanable = true,
       character = ' ~ ',
       calendarSnapping,
@@ -338,6 +347,12 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
 
     const id = useUniqueId('rs-', idProp);
     const { trigger, root, target, overlay } = usePickerRef(ref);
+    const openButton = useOpenButton({
+      enabled: !openOnInputClick,
+      disabled: !!(disabled || readOnly || loading || plaintext),
+      trigger,
+      overlay
+    });
     const { merge, prefix } = useStyles(classPrefix);
 
     const formatStr = format || locale?.shortDateFormat || 'yyyy-MM-dd';
@@ -852,7 +867,9 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
     };
 
     const handleClose = useEventCallback(() => {
-      trigger.current?.close?.();
+      if (trigger.current?.getState().open) {
+        trigger.current.close();
+      }
     });
 
     const handleInputKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -939,6 +956,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       return (
         <PickerPopup
           role="dialog"
+          id={!openOnInputClick ? `${id}-popup` : undefined}
           aria-labelledby={label ? `${id}-label` : undefined}
           tabIndex={-1}
           className={classes}
@@ -1061,8 +1079,9 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
 
     const triggerProps = {
       ...pick(props, triggerPropKeys),
-      onEnter: createChainedFunction(events.onActive, handleEnter, onEnter),
-      onExit: createChainedFunction(events.onInactive, handleExit, onExit)
+      onEnter: createChainedFunction(events.onActive, openButton.onEnter, handleEnter, onEnter),
+      onEntered: createChainedFunction(openButton.onEntered, props.onEntered),
+      onExit: createChainedFunction(events.onInactive, openButton.onExit, handleExit, onExit)
     };
 
     return (
@@ -1079,7 +1098,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
         rootRef={root}
         ref={trigger}
         placement={placement}
-        trigger="active"
+        trigger={openOnInputClick ? 'active' : []}
         triggerProps={triggerProps}
         speaker={renderCalendarOverlay}
         data-cleanable={cleanable}
@@ -1114,12 +1133,24 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
               onChange={handleInputChange}
               onKeyDown={handleInputKeyDown}
             />
-            <PickerIndicator
+            <DatePickerIndicator
               size={size}
               loading={loading}
               caretAs={caretAs}
               onClose={handleClean}
               showCleanButton={showCleanButton}
+              openButton={
+                !openOnInputClick
+                  ? {
+                      ref: openButton.ref,
+                      expanded: openButton.expanded,
+                      controls: `${id}-popup`,
+                      disabled: !!(disabled || readOnly || loading),
+                      label: locale?.openPicker || 'Open picker',
+                      onClick: openButton.onClick
+                    }
+                  : undefined
+              }
             />
           </InputGroup>
         )}

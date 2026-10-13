@@ -22,6 +22,11 @@ const DateTimeFormats = {
   dateLocale: arSA as any
 };
 
+const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+  ...DateTimeFormats,
+  openPicker: 'فتح أداة الاختيار'
+};
+
 const Combobox = {
   noResultsText: 'لا يوجد نتائج',
   placeholder: 'إختيار',
@@ -61,9 +66,9 @@ export default {
   },
   DateTimeFormats,
   Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'أخر 7 أيام'
   },
   Combobox,
