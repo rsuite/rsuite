@@ -52,7 +52,7 @@ describe.each(components)('$name virtual height', ({ Component, picker }) => {
 
     for (const height of [420, 96, 240]) {
       rerender(view(height));
-      await waitFor(() => expectViewportHeight(height));
+      expectViewportHeight(height);
       expect(tree.querySelector('.rs-tree-virt-list,.rs-check-tree-virt-list')).toBe(viewport);
       expect(document.activeElement).toBe(focused);
     }
