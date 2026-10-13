@@ -188,6 +188,7 @@ const Checkbox = forwardRef<'div', CheckboxProps>((props: CheckboxProps, ref) =>
   }
 
   const checkboxRef = useIndeterminateCheckbox(indeterminate);
+  const mergedInputRef = useMemo(() => mergeRefs(checkboxRef, inputRef), [checkboxRef, inputRef]);
 
   const handleChange = useEventCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const nextChecked = event.target.checked;
@@ -240,7 +241,7 @@ const Checkbox = forwardRef<'div', CheckboxProps>((props: CheckboxProps, ref) =>
         name={name}
         value={value}
         type="checkbox"
-        ref={mergeRefs(checkboxRef, inputRef)}
+        ref={mergedInputRef}
         tabIndex={tabIndex}
         readOnly={readOnly}
         disabled={disabled}
