@@ -1,7 +1,7 @@
 import React from 'react';
 import Carousel from '../Carousel';
 import { describe, expect, it, vi } from 'vitest';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { act, render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { userEvent } from '@vitest/browser/context';
 import { testStandardProps } from '@test/cases';
 
@@ -39,27 +39,47 @@ describe('Carousel', () => {
   it('Should autoplay when focus and pointer are outside', async () => {
     const style = { height: 20 };
     const onSlideStart = vi.fn();
-    render(
+    const fixture = (showCarousel: boolean) => (
       <>
         <button>Outside carousel</button>
-        <Carousel
-          autoplay
-          autoplayInterval={500}
-          onSlideStart={onSlideStart}
-          style={{ width: 200, height: 20 }}
-        >
-          <div style={style}>1</div>
-          <div style={style}>2</div>
-        </Carousel>
+        {showCarousel && (
+          <Carousel
+            data-testid="carousel"
+            autoplay
+            autoplayInterval={500}
+            onSlideStart={onSlideStart}
+            style={{ width: 200, height: 20 }}
+          >
+            <div style={style}>1</div>
+            <div style={style}>2</div>
+          </Carousel>
+        )}
       </>
     );
+    const view = render(fixture(false));
+    const outside = screen.getByRole('button', { name: 'Outside carousel' });
 
-    // A reused browser page can leave its pointer over newly mounted content.
-    await userEvent.hover(screen.getByRole('button', { name: 'Outside carousel' }));
+    // Establish the initial interaction state before mounting the autoplay timer.
+    await userEvent.hover(outside);
+    outside.focus();
 
-    await waitFor(() => {
-      expect(onSlideStart).toHaveBeenCalled();
-    });
+    vi.useFakeTimers();
+    try {
+      view.rerender(fixture(true));
+      expect(outside).toHaveFocus();
+      expect(screen.getByTestId('carousel').matches(':hover')).toBe(false);
+
+      act(() => vi.advanceTimersByTime(499));
+      expect(onSlideStart).not.toHaveBeenCalled();
+      act(() => vi.advanceTimersByTime(1));
+      expect(onSlideStart).toHaveBeenCalledExactlyOnceWith(1, undefined);
+      act(() => vi.advanceTimersByTime(500));
+      expect(onSlideStart).toHaveBeenCalledTimes(2);
+      expect(onSlideStart).toHaveBeenLastCalledWith(0, undefined);
+    } finally {
+      view.unmount();
+      vi.useRealTimers();
+    }
   });
 
   it('Should call `onSlideStart` callback', async () => {
