@@ -49,14 +49,22 @@ export function useRootClose(
     event => {
       const triggerElement = getDOMNode(triggerTarget);
       const overlayElement = getDOMNode(overlayTarget);
+      // Shadow DOM can retarget event.target to a host outside these boundaries.
+      const path: EventTarget[] = event.composedPath?.() ?? [];
 
       // Check if the clicked element is a trigger.
-      if (triggerElement && contains(triggerElement, event.target)) {
+      if (
+        triggerElement &&
+        (contains(triggerElement, event.target) || path.includes(triggerElement))
+      ) {
         return;
       }
 
       // Check if the clicked element is a overlay.
-      if (overlayElement && contains(overlayElement, event.target)) {
+      if (
+        overlayElement &&
+        (contains(overlayElement, event.target) || path.includes(overlayElement))
+      ) {
         return;
       }
 
