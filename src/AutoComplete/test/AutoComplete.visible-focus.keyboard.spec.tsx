@@ -3,10 +3,17 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@vitest/browser/context';
 import { describe, expect, it, vi } from 'vitest';
 import AutoComplete from '../AutoComplete';
+import CustomProvider from '../../CustomProvider';
 import '../styles/index.scss';
 
 const data = ['alpha', 'beta', 'gamma'];
 const modes = ['uncontrolled', 'controlled'] as const;
+
+function renderWithReducedMotion(ui: React.ReactElement) {
+  return render(ui, {
+    wrapper: ({ children }) => <CustomProvider reduceMotion>{children}</CustomProvider>
+  });
+}
 
 async function key(value: string) {
   await act(() => userEvent.keyboard(`{${value}}`));
@@ -47,7 +54,7 @@ describe.each(modes)('AutoComplete visible focus (%s)', mode => {
 
   it('ignores Enter for a query that is not an option and allows subsequent navigation', async () => {
     const events = callbacks();
-    render(<AutoComplete data={data} {...valueProps('a')} {...events} />);
+    renderWithReducedMotion(<AutoComplete data={data} {...valueProps('a')} {...events} />);
     const { input, listbox } = await open(events);
 
     expect.soft(input.getAttribute('aria-activedescendant')).toBeNull();
@@ -81,7 +88,7 @@ describe.each(modes)('AutoComplete visible focus (%s)', mode => {
     async update => {
       const events = callbacks();
       const props = { ...valueProps('a'), ...events };
-      const view = render(<AutoComplete data={data} {...props} />);
+      const view = renderWithReducedMotion(<AutoComplete data={data} {...props} />);
       const { input, listbox } = await open(events);
       await key('ArrowDown');
       expectActiveOption(input, listbox, 'alpha');
@@ -116,7 +123,7 @@ describe.each(modes)('AutoComplete visible focus (%s)', mode => {
 
   it('preserves Enter selection of an initially matching option', async () => {
     const events = callbacks();
-    render(<AutoComplete data={data} {...valueProps('alpha')} {...events} />);
+    renderWithReducedMotion(<AutoComplete data={data} {...valueProps('alpha')} {...events} />);
     const { input, listbox } = await open(events);
     expectActiveOption(input, listbox, 'alpha');
     await key('Enter');
@@ -134,7 +141,7 @@ describe.each(modes)('AutoComplete visible focus (%s)', mode => {
 
 it('ignores a focused option hidden by a controlled query update', async () => {
   const events = callbacks();
-  const view = render(<AutoComplete data={data} value="a" {...events} />);
+  const view = renderWithReducedMotion(<AutoComplete data={data} value="a" {...events} />);
   const { input, listbox } = await open(events);
   await key('ArrowDown');
   expectActiveOption(input, listbox, 'alpha');
