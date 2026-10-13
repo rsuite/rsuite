@@ -14,6 +14,7 @@ export default function useCarouselAutoplay(
   const [explicitPlay, setExplicitPlay] = useState(false);
   const [hovered, setHovered] = useState(false);
   const hoverPointer = useRef(true);
+  const hoverCancelledTimer = useRef(false);
   const previousReducedMotion = useRef(reducedMotion);
   const playing = enabled && !paused && (!reducedMotion || explicitPlay);
   const { clear, reset } = useTimeout(advance, interval, playing && !hovered);
@@ -26,7 +27,10 @@ export default function useCarouselAutoplay(
       setPaused(true);
     }
     const isHovered = hoverPointer.current && !!root?.matches(':hover');
-    if (isHovered) clear();
+    if (isHovered) {
+      clear();
+      hoverCancelledTimer.current = true;
+    }
     setHovered(isHovered);
   }, [rootRef, clear]);
 
@@ -55,7 +59,14 @@ export default function useCarouselAutoplay(
   const changeHovered = (next: boolean, pointerType: string) => {
     hoverPointer.current = pointerType !== 'touch';
     const hovered = hoverPointer.current && next;
-    if (hovered) clear();
+    if (hovered) {
+      clear();
+      hoverCancelledTimer.current = true;
+    } else if (hoverCancelledTimer.current) {
+      // Batched enter/leave can leave the state unchanged after clearing the timer.
+      hoverCancelledTimer.current = false;
+      reset();
+    }
     setHovered(hovered);
   };
 
