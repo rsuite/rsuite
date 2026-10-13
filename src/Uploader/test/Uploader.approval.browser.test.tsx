@@ -71,6 +71,69 @@ describe('Uploader approvals with native events and HTTP', () => {
   };
 
   it.each([
+    { scenario: 'typed keys', fileKeys: [7, '7'] },
+    { scenario: 'falsy keys', fileKeys: [0, ''] },
+    { scenario: 'prototype keys', fileKeys: ['__proto__', 'constructor'] }
+  ] as const)(
+    'aborts only the selected HTTP request with $scenario',
+    async ({ scenario, fileKeys }) => {
+      const page = await source.browser.newPage();
+      const errors: string[] = [];
+      page.on('pageerror', error => errors.push(String(error)));
+      try {
+        await page.goto(source.url);
+        await page.waitForFunction(() => Boolean(window.__RSUITE_UPLOAD_APPROVAL__));
+        await page.evaluate(
+          ({ scenario, fileKeys }) =>
+            window.__RSUITE_UPLOAD_APPROVAL__.mount({
+              action: `/upload?scenario=${encodeURIComponent(scenario)}&hold`,
+              fileKeys: [...fileKeys]
+            }),
+          { scenario, fileKeys }
+        );
+        await click(page, 'Start batch');
+        await click(page, 'Approve all');
+        await expect.poll(() => uploadsFor(scenario).length).toBe(2);
+        for (const name of ['alpha.txt', 'gamma.txt']) {
+          await expect
+            .poll(() =>
+              uploadsFor(scenario).some(request => request.body.includes(`filename="${name}"`))
+            )
+            .toBe(true);
+        }
+        expect((await snapshot(page)).uploadKeys).toEqual(fileKeys);
+
+        await click(page, 'Remove file: alpha.txt');
+        const selected = uploadsFor(scenario).find(request =>
+          request.body.includes('filename="alpha.txt"')
+        )!;
+        const retained = uploadsFor(scenario).find(request =>
+          request.body.includes('filename="gamma.txt"')
+        )!;
+        await expect.poll(() => selected.closed).toBe(true);
+        expect(retained.closed).toBe(false);
+        expect((await snapshot(page)).aborts).toEqual([{ name: 'alpha.txt', trusted: true }]);
+        expect((await snapshot(page)).completions).toEqual([]);
+
+        await click(page, 'Remove file: gamma.txt');
+        await completed(page, 1);
+        await expect.poll(() => retained.closed).toBe(true);
+        const result = await snapshot(page);
+        expect(result.aborts).toEqual([
+          { name: 'alpha.txt', trusted: true },
+          { name: 'gamma.txt', trusted: true }
+        ]);
+        expect(result.completions).toEqual([{ completed: [], failed: ['alpha.txt', 'gamma.txt'] }]);
+        expect(result.errors).toEqual([]);
+        expect(result.rejections).toEqual([]);
+        expect(errors).toEqual([]);
+      } finally {
+        await page.close();
+      }
+    }
+  );
+
+  it.each([
     'retained',
     'denied',
     'rejected',

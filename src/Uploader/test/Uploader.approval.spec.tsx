@@ -319,7 +319,7 @@ describe('Uploader pending shouldUpload approvals', () => {
   });
 
   it.each([undefined, 0, ''] as const)(
-    'keeps a controlled file with generated key from %j',
+    'keeps a controlled file whose supplied key is %j',
     async fileKey => {
       const approval = deferred();
       const file = { ...createFile('generated'), fileKey };

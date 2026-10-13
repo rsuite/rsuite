@@ -193,7 +193,7 @@ const createFile = (file: FileType) => {
   const { fileKey } = file;
   return {
     ...file,
-    fileKey: fileKey || guid(),
+    fileKey: fileKey ?? guid(),
     progress: 0
   };
 };
@@ -317,7 +317,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   const classes = merge(className, withPrefix());
 
   const rootRef = useRef<HTMLDivElement>(null);
-  const xhrs = useRef({});
+  const xhrs = useRef(new Map<string | number, XMLHttpRequest>());
   const trigger = useRef<UploadTriggerInstance>(null);
 
   const uploadingCount = useRef(0);
@@ -348,7 +348,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
     }
 
     return fileListProp?.some(queued =>
-      queued.fileKey
+      queued.fileKey !== undefined && queued.fileKey !== null
         ? queued.fileKey === file.fileKey
         : queued.blobFile === file.blobFile && queued.name === file.name
     );
@@ -474,8 +474,8 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
 
     updateFileStatus({ ...file, status: 'uploading' });
 
-    if (file.fileKey) {
-      xhrs.current[file.fileKey] = xhr;
+    if (file.fileKey !== undefined && file.fileKey !== null) {
+      xhrs.current.set(file.fileKey, xhr);
     }
 
     onUpload?.(file, uploadData, xhr);
@@ -577,7 +577,8 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
     const nextFileList = fileList.current.filter(f => f.fileKey !== fileKey);
 
     const canceledFiles = cancelApprovals(pendingFile => pendingFile.fileKey === fileKey);
-    const xhr = xhrs.current[file.fileKey];
+    const xhr = xhrs.current.get(fileKey);
+    xhrs.current.delete(fileKey);
     const uploading = xhr && xhr.readyState !== 4;
 
     if (uploading) {
@@ -642,10 +643,10 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   if (fileListVisible) {
     renderList.push(
       <div key="items" className={prefix('file-items')}>
-        {fileList.current.map((file, index) => (
+        {fileList.current.map(file => (
           <FileItem
             locale={locale}
-            key={file.fileKey || index}
+            key={`${typeof file.fileKey}:${file.fileKey}`}
             file={file}
             maxPreviewFileSize={maxPreviewFileSize}
             listType={listType}
