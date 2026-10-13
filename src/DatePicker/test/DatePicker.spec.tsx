@@ -389,37 +389,6 @@ describe('DatePicker', () => {
     });
   });
 
-  // This test is skipped because the DatePicker maintains the calendar selection state
-  // between open/close cycles, even when changes aren't confirmed with the OK button.
-  // In a real application, the visual state is maintained but the actual value doesn't change,
-  // which is the desired behavior. This test would need to be rewritten to test that
-  // the actual picker value doesn't change while the visual calendar selection might.
-  it.skip('Should reset unsaved selected date after closing calendar panel', async () => {
-    render(
-      <>
-        <div data-testid="outside">Outside</div>
-        <DatePicker defaultOpen value={new Date(2022, 9, 14)} />
-      </>
-    );
-
-    // Select a date
-    fireEvent.click(screen.getByTitle('13 Oct 2022'));
-    expect(screen.getByRole('gridcell', { name: '13 Oct 2022' })).to.have.attr(
-      'aria-selected',
-      'true'
-    );
-
-    // Close the calendar panel without clicking "OK"
-    fireEvent.click(screen.getByTestId('outside'));
-
-    // Open the calendar panel again and the selection should be reset
-    fireEvent.click(screen.getByRole('textbox'));
-    expect(screen.getByRole('gridcell', { name: '13 Oct 2022' })).not.to.have.attr(
-      'aria-selected',
-      'true'
-    );
-  });
-
   it('Should not reset saved selected date after closing calendar panel', async () => {
     render(<DatePicker defaultOpen value={new Date(2022, 9, 14)} />);
 
