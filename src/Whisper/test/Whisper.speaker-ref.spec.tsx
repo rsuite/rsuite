@@ -17,7 +17,7 @@ function fixture(
 ) {
   return (
     <CustomProvider reduceMotion>
-      <Whisper defaultOpen placement="bottom" speaker={speaker} {...props}>
+      <Whisper defaultOpen trigger="click" placement="bottom" speaker={speaker} {...props}>
         <button type="button">Anchor</button>
       </Whisper>
     </CustomProvider>
@@ -65,9 +65,11 @@ describe('Whisper speaker refs', () => {
       fireEvent.mouseDown(node);
       expect(whisperRef.current?.getState().open).toBe(true);
       fireEvent.mouseDown(document.body);
-      await waitFor(() => expect(onExited).toHaveBeenCalledTimes(1));
-      expect(speakerRef.current).toBeNull();
-      expect(node.isConnected).toBe(false);
+      await waitFor(() => {
+        expect(onExited).toHaveBeenCalledTimes(1);
+        expect(speakerRef.current).toBeNull();
+        expect(node.isConnected).toBe(false);
+      });
     });
   }
 
@@ -143,8 +145,11 @@ describe('Whisper speaker refs', () => {
     const first = await entered(onEntered);
     expect(speakerRef.mock.calls).toEqual([[first]]);
     view.rerender(content(false));
-    await waitFor(() => expect(onExited).toHaveBeenCalledTimes(1));
-    expect(speakerRef.mock.calls).toEqual([[first], [null]]);
+    await waitFor(() => {
+      expect(onExited).toHaveBeenCalledTimes(1);
+      expect(speakerRef.mock.calls).toEqual([[first], [null]]);
+      expect(first.isConnected).toBe(false);
+    });
     view.rerender(content(true));
     await waitFor(() => expect(onEntered).toHaveBeenCalledTimes(2));
     const second = screen.getByTestId('speaker');
