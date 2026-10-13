@@ -27,7 +27,8 @@ const names = [
   'SelectPicker',
   'Button',
   'useAsyncSearch',
-  'useLocaleSearch'
+  'useLocaleSearch',
+  'ColorPicker'
 ];
 const cjs = { Root: require('rsuite') };
 for (const name of names) cjs[name] = require('rsuite/' + name);
@@ -79,6 +80,44 @@ function LocaleSearchProbe({ hook: useSearch, enabled }) {
 }
 function fixtures(api) {
   return [
+    ...[
+      {},
+      { defaultOpen: true },
+      { open: true },
+      { plaintext: true },
+      { disabled: true },
+      { readOnly: true }
+    ].map(props => ({
+      name: 'ColorPicker preserves the native color without DOM: ' + JSON.stringify(props),
+      element: h(api.ColorPicker.default, {
+        name: 'brand',
+        form: 'profile',
+        defaultValue: '#1234',
+        presets: ['#fff'],
+        onChange: callback('color-change'),
+        onOpen: callback('color-open'),
+        onClose: callback('color-close'),
+        ref,
+        ...props
+      }),
+      expected: [/name="brand"/, /form="profile"/, /value="#1234"/],
+      absent: [/rs-color-picker-panel/]
+    })),
+    {
+      name: 'ColorPicker controlled null overrides a default color',
+      element: h(api.Root.ColorPicker, { name: 'brand', value: null, defaultValue: '#fff' }),
+      expected: [/name="brand"/, /value=""/],
+      absent: [/value="#fff"/]
+    },
+    {
+      name: 'ColorPicker receives its selected value from Form.Control during SSR',
+      element: h(
+        api.Root.Form,
+        { formDefaultValue: { brand: '#00ff0080' } },
+        h(api.Root.Form.Control, { name: 'brand', accepter: api.Root.ColorPicker })
+      ),
+      expected: [/name="brand"/, /value="#00ff0080"/]
+    },
     ...[true, false].map(enabled => ({
       name: 'Locale search renders without starting work or initializing Intl, enabled=' + enabled,
       element: h(LocaleSearchProbe, { hook: api.Root.useLocaleSearch, enabled }),

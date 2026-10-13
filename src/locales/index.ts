@@ -36,8 +36,9 @@ type PickKeys<T> = {
   [keys in keyof T]?: T[keys];
 };
 
-export type Locale = PickKeys<Omit<typeof defaultLocale, 'Carousel'>> & {
+export type Locale = PickKeys<Omit<typeof defaultLocale, 'Carousel' | 'ColorPicker'>> & {
   Carousel?: CarouselLocale;
+  ColorPicker?: ColorPickerLocale;
 };
 export type CommonLocale = typeof defaultLocale.common;
 export type PlaintextLocale = PickKeys<typeof defaultLocale.Plaintext>;
@@ -51,6 +52,7 @@ export type UploaderLocale = PickKeys<typeof defaultLocale.Uploader> & CommonLoc
 export type CloseButtonLocale = PickKeys<typeof defaultLocale.CloseButton>;
 export type BreadcrumbLocale = PickKeys<typeof defaultLocale.Breadcrumb>;
 export type ToggleLocale = PickKeys<typeof defaultLocale.Toggle>;
+export type ColorPickerLocale = PickKeys<typeof defaultLocale.ColorPicker>;
 export type CarouselLocale = PickKeys<typeof defaultLocale.Carousel>;
 
 export interface CalendarLocale extends PickKeys<typeof defaultLocale.Calendar> {

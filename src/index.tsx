@@ -81,6 +81,7 @@ export * from './RadioGroup';
 export * from './RadioTile';
 export * from './RadioTileGroup';
 export * from './SelectPicker';
+export * from './ColorPicker';
 export * from './SegmentedControl';
 export * from './CheckPicker';
 export * from './InputPicker';

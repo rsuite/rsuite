@@ -101,6 +101,20 @@ export default {
     on: '開啟',
     off: '關閉'
   },
+  ColorPicker: {
+    placeholder: '選擇顏色',
+    dialogTitle: '選擇顏色',
+    hue: '色相',
+    saturation: '飽和度',
+    brightness: '亮度',
+    opacity: '不透明度',
+    format: '格式',
+    value: '顏色值',
+    presets: '預設顏色',
+    invalidColor: '請輸入有效的 HEX、RGB 或 HSL 顏色。',
+    clear: '清除',
+    done: '完成'
+  },
   Dialog: {
     alert: '提醒',
     confirm: '確認',
