@@ -3,7 +3,6 @@ import useToaster from '../useToaster';
 import CustomProvider from '../../CustomProvider';
 import Uploader from '../../Uploader';
 import zhCN from '../../locales/zh_CN';
-import Message from '../../Message';
 import { describe, expect, it, vi } from 'vitest';
 import { screen, render, act, fireEvent, waitFor, renderHook } from '@testing-library/react';
 
@@ -147,22 +146,6 @@ describe('useToaster', () => {
     });
 
     expect(screen.getByTestId('msg-1')).to.have.text('10');
-  });
-
-  it.skip('Should call onClose callback with duration', async () => {
-    const onClose = vi.fn();
-    const toaster = renderHook(() => useToaster(), { wrapper: CustomProvider }).result.current;
-
-    toaster.push(
-      <Message data-testid="msg-1" onClose={onClose}>
-        message
-      </Message>,
-      { duration: 200 }
-    );
-
-    await waitFor(() => {
-      expect(onClose).toHaveBeenCalled();
-    });
   });
 
   it('Should keep the same reference when useToaster re-renders', async () => {
