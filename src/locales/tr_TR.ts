@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { tr } from 'date-fns/locale/tr';
 
 const DateTimeFormats = {
@@ -22,8 +23,16 @@ const DateTimeFormats = {
   dateLocale: tr as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: 'Önceki ay',
+  nextMonth: 'Sonraki ay',
+  selectMonth: 'Ay seç',
+  selectTime: 'Saat seç'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: 'Seçiciyi aç'
 };
 
@@ -64,7 +73,7 @@ export default {
     skip: 'Git{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,

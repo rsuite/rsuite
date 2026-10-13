@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { gu } from 'date-fns/locale/gu';
 
 const DateTimeFormats = {
@@ -22,8 +23,16 @@ const DateTimeFormats = {
   dateLocale: gu as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: 'પાછલો મહિનો',
+  nextMonth: 'આગલો મહિનો',
+  selectMonth: 'મહિનો પસંદ કરો',
+  selectTime: 'સમય પસંદ કરો'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: 'પસંદગીકાર ખોલો'
 };
 
@@ -64,7 +73,7 @@ export default {
     skip: 'જા ઑ{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,

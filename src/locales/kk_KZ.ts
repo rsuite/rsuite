@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { kk } from 'date-fns/locale/kk';
 
 const DateTimeFormats = {
@@ -22,8 +23,16 @@ const DateTimeFormats = {
   dateLocale: kk as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: 'Алдыңғы ай',
+  nextMonth: 'Келесі ай',
+  selectMonth: 'Айды таңдау',
+  selectTime: 'Уақытты таңдау'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: 'Таңдау терезесін ашу'
 };
 
@@ -64,7 +73,7 @@ export default {
     skip: '{0}-бетке өтіңіз'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,
