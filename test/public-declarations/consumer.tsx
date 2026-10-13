@@ -51,6 +51,33 @@ import CarouselSubpath, { CarouselProps } from 'rsuite/Carousel';
 import WhisperSubpath from 'rsuite/Whisper';
 import { enGB, type CarouselLocale, type Locale } from 'rsuite/locales';
 
+export function externalPickerForms() {
+  const data = [{ value: 0, label: 'Zero' }];
+  // @ts-expect-error A form owner is an element ID, not an element.
+  const elementOwner = <SelectPicker data={data} form={document.createElement('form')} />;
+  // @ts-expect-error Editable pickers also require a string form ID.
+  const numericOwner = <InputPicker data={data} form={42} />;
+  // @ts-expect-error TagInput inherits the string form ID contract.
+  const booleanOwner = <TagInput form={true} />;
+  void [elementOwner, numericOwner, booleanOwner];
+  return (
+    <>
+      <SelectPicker data={data} name="select" form="settings" />
+      <SelectPickerSubpath data={data} name="subpath" form="settings" />
+      <CheckPicker data={data} name="check" form="settings" />
+      <TreePicker data={data} name="tree" form="settings" />
+      <CheckTreePicker data={data} name="checkTree" form="settings" />
+      <Cascader data={data} name="cascader" form="settings" />
+      <MultiCascader data={data} name="multiCascader" form="settings" />
+      <InputPicker data={data} name="input" form="settings" />
+      <TagPicker data={data} name="tags" form="settings" />
+      <TagInput name="tagInput" form="settings" />
+      <AutoComplete data={[]} name="complete" form="settings" />
+      <Form.Control name="field" accepter={SelectPicker} data={data} form="settings" />
+    </>
+  );
+}
+
 export function dialogCloseCallbacks(
   root: ReturnType<typeof useDialog>,
   subpath: ReturnType<typeof DialogSubpath>

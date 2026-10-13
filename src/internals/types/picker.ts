@@ -201,6 +201,9 @@ export interface FormControlPickerProps<T = any, L = any, D = Record<string, any
   extends DataProps<D>,
     PickerBaseProps<L>,
     FormControlBaseProps<T> {
+  /** ID of the form that owns the selected value. */
+  form?: string;
+
   /**
    * Disabled items
    */
