@@ -568,7 +568,12 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
 
   const handleInputKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
     onMenuKeyDown(event, {
-      esc: handleClose,
+      esc: () => {
+        if (trigger.current?.getState().open) {
+          resetCalendarDate();
+          handleClose();
+        }
+      },
       enter: () => {
         const { open } = trigger.current?.getState() || {};
         if (open) {
