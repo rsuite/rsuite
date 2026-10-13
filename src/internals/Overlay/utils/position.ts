@@ -17,8 +17,8 @@ export const AutoPlacement = {
   bottom: 'End'
 } as const;
 
-// Cache for memoization
-const dimensionsCache = new Map<HTMLElement, { dimensions: Dimensions; timestamp: number }>();
+// Cache dimensions without retaining containers after they are unmounted.
+const dimensionsCache = new WeakMap<HTMLElement, { dimensions: Dimensions; timestamp: number }>();
 
 // Cache expiry time (milliseconds)
 const CACHE_EXPIRY = 100;
