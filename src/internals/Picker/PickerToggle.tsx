@@ -164,6 +164,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
         <Stack.Item grow={1} overflow="hidden">
           <input
             readOnly
+            disabled={disabled}
             aria-hidden={true}
             tabIndex={-1}
             data-testid="picker-toggle-input"
