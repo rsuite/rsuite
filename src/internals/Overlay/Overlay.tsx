@@ -29,9 +29,14 @@ function OverlayElement({
 }: OverlayElementProps) {
   const description = useContext(TooltipDescriptionObserverContext);
   const onNodeChange = description?.onNodeChange;
+  // React 19 stores refs in props; React 18 exposes them on the element.
+  const originalChildRef =
+    Number.parseInt(React.version, 10) >= 19
+      ? child.props.ref
+      : (child as React.DetailedReactHTMLElement<any, HTMLElement>).ref;
   const ref = useMemo(
-    () => mergeRefs(mergeRefs(childRef, overlayTarget), onNodeChange),
-    [childRef, overlayTarget, onNodeChange]
+    () => mergeRefs(mergeRefs(mergeRefs(childRef, overlayTarget), onNodeChange), originalChildRef),
+    [childRef, overlayTarget, onNodeChange, originalChildRef]
   );
 
   useIsomorphicLayoutEffect(() => {
