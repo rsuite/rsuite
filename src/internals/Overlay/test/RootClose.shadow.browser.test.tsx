@@ -32,8 +32,18 @@ it.each(cases)(
     page.on('pageerror', error => errors.push(error.message));
     const snapshot = () => page.evaluate(() => window.__RSUITE_SHADOW_ROOT_CLOSE__.snapshot());
     const click = async (target: 'anchor' | 'action' | 'sibling' | 'outside') => {
-      const position = (await snapshot())[target]!;
-      await page.mouse.click(position.x, position.y);
+      if (target === 'action' && mode === 'closed-content') {
+        // The closed root hides its button; its host shares the button's bounds.
+        await page.locator('#content-host').click();
+        return;
+      }
+      const names = {
+        anchor: 'Anchor',
+        action: 'Speaker action',
+        sibling: 'Sibling outside',
+        outside: 'Document outside'
+      };
+      await page.getByRole('button', { name: names[target], exact: true }).click();
     };
     const entered = async (count: number) => {
       await expect.poll(async () => (await snapshot()).entered).toBe(count);
@@ -81,8 +91,7 @@ it.each(cases)(
         await exited(2);
         await click('anchor');
         await entered(3);
-        const anchor = (await snapshot()).anchor!;
-        await page.mouse.move(anchor.x, anchor.y);
+        await page.getByRole('button', { name: 'Anchor', exact: true }).hover();
         await page.mouse.down();
         await page.evaluate(() => window.__RSUITE_SHADOW_ROOT_CLOSE__.settle());
         const pressed = await snapshot();

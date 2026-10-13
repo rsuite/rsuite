@@ -80,7 +80,7 @@ function ClosedContent() {
       widgetButton = null;
     };
   }, []);
-  return <div ref={ref} id="content-host" />;
+  return <div ref={ref} id="content-host" style={{ width: 120, height: 30 }} />;
 }
 
 function Fixture() {
