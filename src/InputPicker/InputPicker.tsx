@@ -771,6 +771,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     >
       <PickerToggle
         name={name}
+        form={propsWithDefaults.form}
         inputAriaProps={inputAriaProps}
         loading={loading}
         label={label}

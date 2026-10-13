@@ -39,6 +39,7 @@ export interface PickerToggleProps<T = OptionValue> extends ToggleButtonProps {
   loading?: boolean;
   label?: React.ReactNode;
   name?: string;
+  form?: string;
   inputValue?: T | T[];
   focusItemValue?: T | null;
   onClean?: (event: React.MouseEvent) => void;
@@ -169,6 +170,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
             tabIndex={-1}
             data-testid="picker-toggle-input"
             name={name}
+            form={props.form}
             value={inputValue}
             className={prefix('textbox')}
             style={{ pointerEvents: 'none' }}
