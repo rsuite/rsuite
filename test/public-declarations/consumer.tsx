@@ -27,6 +27,7 @@ import {
   TimePicker,
   TimeRangePicker,
   TagInput,
+  Whisper,
   useClipboard
 } from 'rsuite';
 import ButtonSubpath, { ButtonProps } from 'rsuite/Button';
@@ -45,7 +46,41 @@ import ClipboardSubpath, { useClipboard as NamedClipboardSubpath } from 'rsuite/
 import SelectPickerSubpath from 'rsuite/SelectPicker';
 import DatePickerSubpath from 'rsuite/DatePicker';
 import CarouselSubpath, { CarouselProps } from 'rsuite/Carousel';
+import WhisperSubpath from 'rsuite/Whisper';
 import { enGB, type CarouselLocale, type Locale } from 'rsuite/locales';
+
+export const customSpeakers = (
+  <>
+    <Whisper
+      speaker={({ arrowOffsetLeft, arrowOffsetTop, left, top }, ref) => {
+        const horizontal: string | undefined = arrowOffsetLeft;
+        const vertical: string | undefined = arrowOffsetTop;
+        // @ts-expect-error Arrow offsets are CSS percentages, not numeric coordinates.
+        const numericLeft: number | undefined = arrowOffsetLeft;
+        // @ts-expect-error Both arrow axes use the same percentage representation.
+        const numericTop: number | undefined = arrowOffsetTop;
+        void [numericLeft, numericTop];
+        return (
+          <div ref={ref} style={{ left, top }}>
+            <span style={{ left: horizontal, top: vertical }} />
+          </div>
+        );
+      }}
+    >
+      <button>Root import</button>
+    </Whisper>
+    <WhisperSubpath
+      speaker={({ arrowOffsetLeft, arrowOffsetTop }, ref) => (
+        <div ref={ref}>
+          {arrowOffsetLeft?.endsWith('%')}
+          {arrowOffsetTop?.endsWith('%')}
+        </div>
+      )}
+    >
+      <button>Subpath import</button>
+    </WhisperSubpath>
+  </>
+);
 
 const datePickerOpeningLocale: Locale = {
   DatePicker: { ...enGB.DatePicker, openPicker: 'Open appointment' },

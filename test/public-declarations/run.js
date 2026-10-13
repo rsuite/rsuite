@@ -12,7 +12,7 @@ const results = path.join(__dirname, 'results');
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const fixture = fs.readFileSync(path.join(__dirname, 'consumer.tsx'), 'utf8');
 assert.equal(ts.version, '5.7.3');
-assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 33);
+assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 35);
 for (const entry of ['package.json', 'esm/index.d.ts', 'cjs/index.d.ts']) {
   assert(fs.existsSync(path.join(lib, entry)), 'Build the public lib first: ' + entry);
 }
@@ -77,6 +77,7 @@ const cjsSpecifiers = {
   'rsuite/DateInput': 'rsuite/cjs/DateInput',
   'rsuite/Button': 'rsuite/cjs/Button',
   'rsuite/Carousel': 'rsuite/cjs/Carousel',
+  'rsuite/Whisper': 'rsuite/cjs/Whisper',
   'rsuite/locales': 'rsuite/cjs/locales',
   'rsuite/Animation': 'rsuite/cjs/Animation',
   'rsuite/CustomProvider': 'rsuite/cjs/CustomProvider',
