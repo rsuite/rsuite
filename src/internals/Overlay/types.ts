@@ -3,8 +3,6 @@ import type { Placement } from '@/internals/types';
 export type CursorPosition = {
   top: number;
   left: number;
-  clientTop: number;
-  clientLeft: number;
 };
 
 export interface PositionType {
