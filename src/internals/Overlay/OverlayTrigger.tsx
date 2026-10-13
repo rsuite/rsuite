@@ -16,7 +16,7 @@ import contains from 'dom-lib/contains';
 import Overlay, { OverlayProps } from './Overlay';
 import { useOverlay } from './OverlayProvider';
 import { usePortal, useControlled } from '../hooks';
-import { createChainedFunction, isOneOf } from '@/internals/utils';
+import { createChainedFunction, isOneOf, mergeRefs } from '@/internals/utils';
 import { isFragment } from '@/internals/utils';
 import type {
   AnimationEventProps,
@@ -564,6 +564,21 @@ const OverlayTrigger = React.forwardRef(
           ? ((speaker as ReactElement).props.id ?? controlId)
           : controlId;
 
+    // React 19 stores refs in props; React 18 exposes them on the element.
+    const originalChildRef =
+      isValidElement(children) && !isFragment(children)
+        ? Number.parseInt(React.version, 10) >= 19
+          ? (children as ReactElement).props.ref
+          : (children as React.DetailedReactHTMLElement<any, HTMLElement>).ref
+        : undefined;
+    const triggerElementRef = useMemo(
+      () =>
+        originalChildRef && typeof originalChildRef !== 'string'
+          ? mergeRefs(triggerRef, originalChildRef)
+          : triggerRef,
+      [triggerRef, originalChildRef]
+    );
+
     const triggerElement = useMemo(() => {
       if (typeof children === 'function') {
         return children(triggerEvents, triggerRef);
@@ -583,11 +598,11 @@ const OverlayTrigger = React.forwardRef(
         .filter(Boolean);
 
       return cloneElement(childElement, {
-        ref: triggerRef,
+        ref: triggerElementRef,
         'aria-describedby': Array.from(new Set(descriptionIds)).join(' ') || undefined,
         ...mergeEvents(triggerEvents, childElement.props)
       });
-    }, [children, descriptionId, triggerEvents]);
+    }, [children, descriptionId, triggerEvents, triggerElementRef, triggerRef]);
 
     return (
       <TooltipDescriptionContext.Provider value={undefined}>
