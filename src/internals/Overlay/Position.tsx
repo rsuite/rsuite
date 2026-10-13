@@ -21,6 +21,10 @@ import type { CursorPosition, PositionType, PositionChildProps } from './types';
 const CSS_POSITION_X = '--rs-position-x';
 const CSS_POSITION_Y = '--rs-position-y';
 
+function getParent(node: Node): Node | null {
+  return (node as Element).assignedSlot || node.parentNode || (node as ShadowRoot).host || null;
+}
+
 export const getPositionStyle = (x?: number, y?: number) => {
   return {
     [CSS_POSITION_X]: x !== undefined ? `${x}px` : undefined,
@@ -56,7 +60,6 @@ const usePosition = (
     cursorPosition
   } = props;
 
-  const containerRef = useRef<Element | null>(null);
   const lastTargetRef = useRef<Element | null>(null);
   const overlayResizeObserver = useRef<ResizeObserver>(null);
 
@@ -122,7 +125,6 @@ const usePosition = (
         setPosition(posi);
       }
 
-      containerRef.current = containerElement;
       lastTargetRef.current = targetElement;
     },
     [container, ref, triggerTarget, utils, followCursor, cursorPosition]
@@ -131,18 +133,25 @@ const usePosition = (
   useEffect(() => {
     updatePosition(false);
     const overlay = getDOMNode(ref.current);
-    let containerScrollListener;
-    if (containerRef.current && preventOverflow) {
-      // Update the overlay position when the container scroll bar is scrolling
-      containerScrollListener = on(
-        containerRef.current?.tagName === 'BODY' ? window : containerRef.current,
-        'scroll',
-        () => updatePosition(true, true)
-      );
+    const scrollParents = new Set<Node>();
+
+    // Either side of a portal can move independently. Element scroll events do
+    // not bubble, so listen to each ancestor, including those across a shadow root.
+    for (const element of [getDOMNode(triggerTarget), overlay]) {
+      let parent = element ? getParent(element) : null;
+      while (parent) {
+        scrollParents.add(parent);
+        parent = getParent(parent);
+      }
     }
 
+    const scrollListeners = Array.from(scrollParents, parent =>
+      on(parent, 'scroll', () => updatePosition(true, true))
+    );
+
     // Update the position when the window size changes
-    const resizeListener = on(window, 'resize', () => updatePosition(true, true));
+    const view = ownerDocument(overlay).defaultView;
+    const resizeListener = view && on(view, 'resize', () => updatePosition(true, true));
 
     if (overlay) {
       // Update the position when the size of the overlay changes
@@ -152,11 +161,11 @@ const usePosition = (
 
     return () => {
       lastTargetRef.current = null;
-      containerScrollListener?.off();
+      scrollListeners.forEach(listener => listener.off());
       resizeListener?.off();
       overlayResizeObserver.current?.disconnect();
     };
-  }, [preventOverflow, ref, updatePosition]);
+  }, [ref, triggerTarget, updatePosition]);
 
   useUpdateEffect(() => updatePosition(), [updatePosition, placement]);
 

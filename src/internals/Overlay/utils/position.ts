@@ -1,11 +1,8 @@
 import maxBy from 'lodash/maxBy';
 import minBy from 'lodash/minBy';
 import ownerDocument from 'dom-lib/ownerDocument';
-import getOffset from 'dom-lib/getOffset';
 import scrollTop from 'dom-lib/scrollTop';
 import scrollLeft from 'dom-lib/scrollLeft';
-import getPosition from 'dom-lib/getPosition';
-import getStyle from 'dom-lib/getStyle';
 import nodeName from 'dom-lib/nodeName';
 import type { Offset, Placement } from '@/internals/types';
 import type { CursorPosition, Dimensions, PositionOptions, PositionType } from '../types';
@@ -22,6 +19,36 @@ const dimensionsCache = new WeakMap<HTMLElement, { dimensions: Dimensions; times
 
 // Cache expiry time (milliseconds)
 const CACHE_EXPIRY = 100;
+
+function getOffset(node: HTMLElement): Offset {
+  // Document.contains excludes shadow-tree descendants, including connected ones.
+  if (!node.isConnected) {
+    return { top: 0, left: 0, width: 0, height: 0 };
+  }
+
+  const { top, left, width, height } = node.getBoundingClientRect();
+  if (!width && !height) return { top, left, width, height };
+
+  const { documentElement, defaultView } = node.ownerDocument;
+  return {
+    top: top + (defaultView?.scrollY ?? documentElement.scrollTop) - documentElement.clientTop,
+    left: left + (defaultView?.scrollX ?? documentElement.scrollLeft) - documentElement.clientLeft,
+    width,
+    height
+  };
+}
+
+function getRelativeOffset(offset: Offset, container: HTMLElement): Offset {
+  if (container.tagName === 'BODY') return offset;
+
+  const containerOffset =
+    nodeName(container) === 'html' ? { top: 0, left: 0 } : getOffset(container);
+  return {
+    ...offset,
+    top: offset.top - containerOffset.top - container.clientTop + scrollTop(container),
+    left: offset.left - containerOffset.left - container.clientLeft + scrollLeft(container)
+  };
+}
 
 /**
  * Get the external dimensions of the container with memoization for performance
@@ -44,8 +71,9 @@ function getContainerDimensions(containerNode: HTMLElement): Dimensions {
   let scrollY: number;
 
   if (containerNode.tagName === 'BODY') {
-    width = window.innerWidth;
-    height = window.innerHeight;
+    const { defaultView, documentElement } = ownerDocument(containerNode);
+    width = defaultView?.innerWidth ?? documentElement.clientWidth;
+    height = defaultView?.innerHeight ?? documentElement.clientHeight;
     scrollY = scrollTop(ownerDocument(containerNode).documentElement) || scrollTop(containerNode);
     scrollX = scrollLeft(ownerDocument(containerNode).documentElement) || scrollLeft(containerNode);
   } else {
@@ -137,58 +165,13 @@ export function calcPosition(options: PositionOptions) {
 
   return {
     getPosition(target: HTMLElement, container: HTMLElement) {
-      const offset =
-        container.tagName === 'BODY' ? getOffset(target) : getPosition(target, container, false);
-      return offset;
+      // The overlay is positioned in the container even when its trigger is fixed.
+      return getRelativeOffset(getOffset(target), container);
     },
 
-    getCursorOffsetPosition(
-      target: HTMLElement,
-      container: HTMLElement,
-      cursorPosition: CursorPosition
-    ): Offset {
-      const { left, top, clientLeft, clientTop } = cursorPosition;
-
-      const offset = {
-        left,
-        top,
-        width: 10,
-        height: 10
-      };
-
-      if (getStyle(target, 'position') === 'fixed') {
-        offset.left = clientLeft;
-        offset.top = clientTop;
-        return offset;
-      }
-
-      if (container.tagName === 'BODY') {
-        return offset;
-      }
-
-      const containerOffset = {
-        top: 0,
-        left: 0
-      };
-
-      if (nodeName(container) !== 'html') {
-        const nextParentOffset = getOffset(container);
-
-        if (nextParentOffset) {
-          containerOffset.top = nextParentOffset.top;
-          containerOffset.left = nextParentOffset.left;
-        }
-      }
-
-      containerOffset.top +=
-        parseInt(getStyle(container, 'borderTopWidth') as string, 10) - scrollTop(container) || 0;
-      containerOffset.left +=
-        parseInt(getStyle(container, 'borderLeftWidth') as string, 10) - scrollLeft(container) || 0;
-
-      offset.left = left - containerOffset.left;
-      offset.top = top - containerOffset.top;
-
-      return offset;
+    getCursorOffsetPosition(container: HTMLElement, cursorPosition: CursorPosition): Offset {
+      // Mouse page coordinates use the same document space as element offsets.
+      return getRelativeOffset({ ...cursorPosition, width: 10, height: 10 }, container);
     },
 
     /**
@@ -276,11 +259,11 @@ export function calcPosition(options: PositionOptions) {
     ): PositionType {
       // Cache commonly used values to avoid repeated calculations
       const ARROW_OFFSET_FACTOR = 50; // Arrow offset calculation factor
-      const isRTL = document.dir === 'rtl';
+      const isRTL = ownerDocument(container).dir === 'rtl';
 
       // Get target element offset
       const childOffset: Offset = cursorPosition
-        ? this.getCursorOffsetPosition(target, container, cursorPosition)
+        ? this.getCursorOffsetPosition(container, cursorPosition)
         : (this.getPosition(target, container) as Offset);
       const { height: overlayHeight, width: overlayWidth } = getOffset(overlayNode) as Offset;
       const { top, left } = childOffset;
