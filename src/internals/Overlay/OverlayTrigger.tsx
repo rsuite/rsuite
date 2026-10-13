@@ -407,9 +407,7 @@ const OverlayTrigger = React.forwardRef(
     const handledMoveOverlay = useCallback((event: React.MouseEvent<Element, MouseEvent>) => {
       setCursorPosition(() => ({
         top: event.pageY,
-        left: event.pageX,
-        clientTop: event.clientX,
-        clientLeft: event.clientY
+        left: event.pageX
       }));
     }, []);
 
