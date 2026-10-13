@@ -142,6 +142,78 @@ describe('AutoSizer', () => {
       expect(onResize).toHaveBeenLastCalledWith({ width: 150, height: 80 });
     });
 
+    it('measures React-driven parent dimensions before the next paint', () => {
+      const onResize = vi.fn();
+      const view = (width: number, height: number) => (
+        <Container
+          width={width}
+          height={height}
+          defaultWidth={200}
+          defaultHeight={100}
+          onResize={onResize}
+        />
+      );
+      const { container, rerender } = render(view(200, 100), { wrapper });
+      const child = container.firstElementChild?.firstElementChild?.firstElementChild;
+      expect(onResize).not.toHaveBeenCalled();
+
+      for (const [index, [width, height]] of [
+        [320, 160],
+        [150, 80],
+        [0, 0],
+        [200, 100]
+      ].entries()) {
+        rerender(view(width, height));
+        expect(container).to.contain.text(`width:${width}, height:${height}`);
+        expect(container.firstElementChild?.firstElementChild?.firstElementChild).toBe(child);
+        expect(onResize).toHaveBeenCalledTimes(index + 1);
+        expect(onResize).toHaveBeenLastCalledWith({ width, height });
+        rerender(view(width, height));
+        expect(onResize).toHaveBeenCalledTimes(index + 1);
+      }
+    });
+
+    it('measures React-driven padding changes with an unchanged outer size', () => {
+      const onResize = vi.fn();
+      const view = (padding: number) => (
+        <Container
+          defaultWidth={200}
+          defaultHeight={100}
+          paddingTop={padding}
+          paddingBottom={padding}
+          paddingLeft={padding}
+          paddingRight={padding}
+          onResize={onResize}
+        />
+      );
+      const { container, rerender } = render(view(0), { wrapper });
+      rerender(view(10));
+      expect(container).to.contain.text('width:180, height:80');
+      expect(onResize).toHaveBeenCalledExactlyOnceWith({ width: 200, height: 100 });
+      rerender(view(0));
+      expect(container).to.contain.text('width:200, height:100');
+      expect(onResize).toHaveBeenCalledTimes(2);
+    });
+
+    it.each(['width', 'height'])(
+      'keeps the %s axis disabled during a React-driven resize',
+      disabled => {
+        const view = (width: number, height: number) => (
+          <Container
+            width={width}
+            height={height}
+            disableWidth={disabled === 'width'}
+            disableHeight={disabled === 'height'}
+          />
+        );
+        const { container, rerender } = render(view(200, 100), { wrapper });
+        rerender(view(320, 160));
+        expect(container).to.contain.text(
+          disabled === 'width' ? 'width:undefined, height:160' : 'width:320, height:undefined'
+        );
+      }
+    );
+
     it('should measure a parent revealed after initially mounting hidden', async () => {
       const { getByTestId } = render(
         <div data-testid="parent" style={{ display: 'none', width: 200, height: 100 }}>
