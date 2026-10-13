@@ -50,12 +50,13 @@ jobs:
       react-version: React19.3
       react-runtime: 19.3.0
 
+  # Allow time for runner setup and finalization around the required checks.
   chromium-react18-summary:
     name: 'Test (chromium, React18)'
     needs: [chromium-react18, coverage]
     if: always()
     runs-on: ubuntu-latest
-    timeout-minutes: 1
+    timeout-minutes: 5
     steps:
       # Preserve the existing required check for both tests and coverage delivery.
       - name: Require all Chromium shards to pass
@@ -69,7 +70,7 @@ jobs:
     needs: [chromium-react19, coverage]
     if: always()
     runs-on: ubuntu-latest
-    timeout-minutes: 1
+    timeout-minutes: 5
     steps:
       # Preserve the existing required check for both tests and coverage delivery.
       - name: Require all Chromium shards to pass
@@ -83,7 +84,7 @@ jobs:
     needs: [chromium-react19-3, coverage]
     if: always()
     runs-on: ubuntu-latest
-    timeout-minutes: 1
+    timeout-minutes: 5
     steps:
       # Preserve the existing required check for both tests and coverage delivery.
       - name: Require all Chromium shards to pass
@@ -119,7 +120,7 @@ jobs:
     needs: [firefox-react18, coverage]
     if: always()
     runs-on: ubuntu-latest
-    timeout-minutes: 1
+    timeout-minutes: 5
     steps:
       # Failed, cancelled, or skipped tests or uploads must fail the existing required check.
       - name: Require all Firefox shards to pass
@@ -133,7 +134,7 @@ jobs:
     needs: [firefox-react19, coverage]
     if: always()
     runs-on: ubuntu-latest
-    timeout-minutes: 1
+    timeout-minutes: 5
     steps:
       - name: Require all Firefox shards to pass
         env:
@@ -146,7 +147,7 @@ jobs:
     needs: [firefox-react19-3, coverage]
     if: always()
     runs-on: ubuntu-latest
-    timeout-minutes: 1
+    timeout-minutes: 5
     steps:
       - name: Require all Firefox shards to pass
         env:
