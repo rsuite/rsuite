@@ -278,42 +278,6 @@ describe('CheckPicker', () => {
     );
   });
 
-  it.skip('Should update scroll position when the focus is not within the viewport and key=ArrowDown', () => {
-    // Skip this test as scrolling behavior is not reliable in the test environment
-    // The actual implementation works correctly in the browser
-    render(
-      <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} listboxMaxHeight={72} />
-    );
-
-    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
-    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
-
-    // In a real browser, scrollTop would change, but it's not reliable in the test environment
-    // expect(screen.getByRole('listbox').scrollTop).to.not.equal(0);
-
-    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
-
-    // expect(screen.getByRole('listbox').scrollTop).to.equal(0);
-  });
-
-  it.skip('Should update scroll position when the focus is not within the viewport and key=ArrowUp', () => {
-    // Skip this test as scrolling behavior is not reliable in the test environment
-    // The actual implementation works correctly in the browser
-    render(
-      <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} listboxMaxHeight={72} />
-    );
-
-    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
-    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
-
-    // In a real browser, scrollTop would change, but it's not reliable in the test environment
-    // expect(screen.getByRole('listbox').scrollTop).to.not.equal(0);
-
-    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
-
-    // expect(screen.getByRole('listbox').scrollTop).to.equal(0);
-  });
-
   it('Should focus item by key=ArrowUp ', () => {
     render(<CheckPicker defaultOpen data={data} defaultValue={['Kariane']} />);
 

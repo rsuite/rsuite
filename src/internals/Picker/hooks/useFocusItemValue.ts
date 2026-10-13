@@ -2,7 +2,6 @@ import { useState } from 'react';
 import isFunction from 'lodash/isFunction';
 import isUndefined from 'lodash/isUndefined';
 import find from 'lodash/find';
-import { getHeight } from 'dom-lib';
 import { useEventCallback, useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { shallowEqual } from '@/internals/utils';
 import { findNodeOfTree } from '../../Tree/utils';
@@ -172,18 +171,23 @@ const useFocusItemValue = <T, D>(
       const container = getScrollContainer() as HTMLElement;
       const item = findItemByKey(container, itemValue);
 
-      if (willOverflow && container) {
+      if (!item || !container || container.scrollHeight <= container.clientHeight) return;
+
+      if (willOverflow) {
         const { scrollHeight, clientHeight } = container;
         container.scrollTop = direction === 'top' ? scrollHeight - clientHeight : 0;
-        return;
       }
 
-      if (item && container) {
-        if (!isVisible(item, container, direction)) {
-          const height = getHeight(item);
+      // Reveal the whole option, including after wrapping past disabled boundary items.
+      // A single row's height is not enough when navigation skips disabled options.
+      const { top, bottom } = item.getBoundingClientRect();
+      const viewportTop = container.getBoundingClientRect().top + container.clientTop;
+      const viewportBottom = viewportTop + container.clientHeight;
 
-          scrollTo(container, direction, height);
-        }
+      if (direction === 'top' && top < viewportTop) {
+        container.scrollTop += top - viewportTop;
+      } else if (direction === 'bottom' && bottom > viewportBottom) {
+        container.scrollTop += bottom - viewportBottom;
       }
     }
   );
@@ -278,35 +282,5 @@ const useFocusItemValue = <T, D>(
     onKeyDown: handleKeyDown
   };
 };
-
-function scrollTo(container: HTMLElement, direction: 'top' | 'bottom', step: number) {
-  const { scrollTop } = container;
-  container.scrollTop = direction === 'top' ? scrollTop - step : scrollTop + step;
-}
-
-/**
- * Checks if the element has a vertical scrollbar.
- */
-function hasVerticalScroll(element: HTMLElement) {
-  const { scrollHeight, clientHeight } = element;
-  return scrollHeight > clientHeight;
-}
-
-/**
- * Checks if the element is within the visible area of the container
- */
-function isVisible(element: HTMLElement, container: HTMLElement, direction: 'top' | 'bottom') {
-  if (!hasVerticalScroll(container)) {
-    return true;
-  }
-
-  const { top, bottom, height } = element.getBoundingClientRect();
-  const { top: containerTop, bottom: containerBottom } = container.getBoundingClientRect();
-
-  if (direction === 'top') {
-    return top + height > containerTop;
-  }
-  return bottom - height < containerBottom;
-}
 
 export default useFocusItemValue;
