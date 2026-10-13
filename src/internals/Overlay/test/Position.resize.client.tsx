@@ -27,6 +27,7 @@ let manual: { elapsed: number; firstLeft: number; secondLeft: number } | undefin
 function change() {
   if (mode === 'anchor-height') find('#anchor').style.height = '80px';
   else if (mode === 'anchor-width') find('#anchor').style.width = '200px';
+  else if (mode === 'anchor-border') find('#anchor').style.borderWidth = '12px';
   else if (mode === 'container-width') find('#container').style.width = '300px';
   else if (mode === 'container-height') find('#container').style.height = '180px';
   else if (mode === 'overlay-width') find('[data-testid="overlay"]').style.width = '180px';
@@ -60,7 +61,7 @@ function Fixture() {
     };
     ready = true;
   }, []);
-  const centered = mode === 'anchor-width' || mode === 'overlay-width';
+  const centered = mode === 'anchor-width' || mode === 'overlay-width' || mode === 'anchor-border';
   return (
     <CustomProvider reduceMotion>
       <button
@@ -114,7 +115,16 @@ function Fixture() {
         >
           <button
             id="anchor"
-            style={{ position: 'absolute', top: 100, left: 220, width: 100, height: 28 }}
+            style={{
+              position: 'absolute',
+              top: 100,
+              left: 220,
+              width: 100,
+              height: 28,
+              boxSizing: mode === 'anchor-border' ? 'content-box' : undefined,
+              padding: mode === 'anchor-border' ? 0 : undefined,
+              border: mode === 'anchor-border' ? '0 solid' : undefined
+            }}
           >
             Anchor
           </button>

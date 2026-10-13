@@ -162,7 +162,7 @@ const usePosition = (
     // Trigger content and container layout can change without a window resize.
     const observedElements = new Set([getDOMNode(triggerTarget), overlay, getContainerElement()]);
     observedElements.forEach(element => {
-      if (isElement(element)) resizeObserver.observe(element);
+      if (isElement(element)) resizeObserver.observe(element, { box: 'border-box' });
     });
 
     return () => {

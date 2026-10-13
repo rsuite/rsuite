@@ -50,7 +50,7 @@ it.each([false, true])('observes only active geometry custom=%s', async custom =
 });
 afterAll(async () => source?.close());
 
-const cases = ['anchor-height', 'anchor-width', 'overlay-width'].flatMap(mode =>
+const cases = ['anchor-height', 'anchor-width', 'anchor-border', 'overlay-width'].flatMap(mode =>
   [false, true].map(custom => ({ mode, custom }))
 );
 cases.push(
@@ -86,6 +86,16 @@ it.each(cases)('repositions for $mode custom=$custom', async ({ mode, custom }) 
             if (mode === 'container-width') return state.overlay!.right - state.container.right;
             if (mode === 'container-height') return state.overlay!.bottom - state.anchor.top;
             if (mode === 'anchor-height') return state.overlay!.top - state.anchor.bottom;
+            if (mode === 'anchor-border')
+              return Math.max(
+                Math.abs(state.overlay!.top - state.anchor.bottom),
+                Math.abs(
+                  state.overlay!.left +
+                    state.overlay!.width / 2 -
+                    state.anchor.left -
+                    state.anchor.width / 2
+                )
+              );
             return (
               state.overlay!.left +
               state.overlay!.width / 2 -
