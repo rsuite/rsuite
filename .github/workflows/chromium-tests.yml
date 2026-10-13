@@ -75,6 +75,7 @@ jobs:
         run: node scripts/install-browser-ci.cjs chromium
 
       - name: Run headless tests
+        id: component-tests
         run: npm run test:ci -- --browser.headless --shard=${{ matrix.shard }}/2
         env:
           CI: true
@@ -94,10 +95,12 @@ jobs:
           overwrite: true
 
       - name: Run SSR hydration tests
-        if: ${{ matrix.shard == 1 }}
+        # An artifact-service failure must not suppress independent test results.
+        if: ${{ !cancelled() && steps.component-tests.outcome == 'success' && matrix.shard == 1 }}
         run: npm run test:ssr
 
       - name: Run native browser control tests
+        if: ${{ !cancelled() && steps.component-tests.outcome == 'success' }}
         run: npm run test:browser-controls -- --shard=${{ matrix.shard }}/2
         env:
           BROWSER: chromium

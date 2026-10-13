@@ -75,6 +75,7 @@ jobs:
         run: node scripts/install-browser-ci.cjs firefox
 
       - name: Run headless tests
+        id: component-tests
         run: npm run test:ci -- --browser.headless --shard=${{ matrix.shard }}/2
         env:
           CI: true
@@ -96,6 +97,8 @@ jobs:
           overwrite: true
 
       - name: Run native browser control tests
+        # An artifact-service failure must not suppress independent test results.
+        if: ${{ !cancelled() && steps.component-tests.outcome == 'success' }}
         run: npm run test:browser-controls -- --shard=${{ matrix.shard }}/2
         env:
           BROWSER: firefox
