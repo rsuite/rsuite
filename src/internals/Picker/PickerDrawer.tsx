@@ -14,7 +14,8 @@ const speakerRef = () => {
 
 export const PickerDrawer = React.forwardRef((props: PickerDrawerProps, ref: React.Ref<any>) => {
   const { placement = 'bottom', speaker, onClose, open, ...rest } = props;
-  const { id, inputCombobox, labelId, ariaLabel, ariaLabelledby } = useCombobox();
+  const { id, inputCombobox, popupType, labelId, ariaLabel, ariaLabelledby } = useCombobox();
+  const namedDialog = inputCombobox || popupType === 'dialog';
   const { getLocale } = useCustom();
   const dialogLabelId = `${id}-dialog-label`;
   const useDialogLabel = !(ariaLabelledby || labelId);
@@ -25,20 +26,21 @@ export const PickerDrawer = React.forwardRef((props: PickerDrawerProps, ref: Rea
       onClose={onClose}
       open={open}
       ref={ref}
-      // Editable pickers manage their input focus and restore it after closing.
-      autoFocus={inputCombobox ? false : undefined}
-      enforceFocus={inputCombobox ? !!open : undefined}
+      // These pickers manage their input focus and restore it after closing.
+      autoFocus={namedDialog ? false : undefined}
+      enforceFocus={namedDialog ? !!open : undefined}
+      {...(popupType === 'dialog' ? { size: 'lg' as const, style: { maxHeight: '100dvh' } } : {})}
       {...rest}
-      id={inputCombobox ? `${id}-dialog` : rest.id}
+      id={namedDialog ? `${id}-dialog` : rest.id}
       aria-labelledby={
-        inputCombobox
+        namedDialog
           ? useDialogLabel
             ? dialogLabelId
             : ariaLabelledby || labelId
           : rest['aria-labelledby']
       }
     >
-      {inputCombobox && useDialogLabel && (
+      {namedDialog && useDialogLabel && (
         <span id={dialogLabelId} hidden>
           {ariaLabel || getLocale('Combobox').placeholder}
         </span>

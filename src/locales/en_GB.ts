@@ -75,6 +75,20 @@ export default {
     last7Days: 'Last 7 Days'
   },
   Combobox,
+  ColorPicker: {
+    placeholder: 'Select color',
+    dialogTitle: 'Choose color',
+    hue: 'Hue',
+    saturation: 'Saturation',
+    brightness: 'Brightness',
+    opacity: 'Opacity',
+    format: 'Format',
+    value: 'Color value',
+    presets: 'Preset colors',
+    invalidColor: 'Enter a valid HEX, RGB or HSL color.',
+    clear: 'Clear',
+    done: 'Done'
+  },
   InputPicker: CreatableComboBox,
   TagPicker: CreatableComboBox,
   Uploader: {
