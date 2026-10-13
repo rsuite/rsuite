@@ -132,6 +132,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     labelKey = 'label',
     listProps,
     id,
+    name,
     inputMode,
     enterKeyHint,
     tabIndex,
@@ -741,6 +742,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   return (
     <PickerToggleTrigger
       id={id}
+      name={name}
       multiple={multi}
       pickerType={multi ? 'tag' : 'input'}
       block={block}
@@ -768,6 +770,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       {...rootProps}
     >
       <PickerToggle
+        name={name}
         inputAriaProps={inputAriaProps}
         loading={loading}
         label={label}
