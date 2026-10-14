@@ -13,7 +13,6 @@
 @use './mixin';
 @use './variables';
 
-//
 // Pickers
 // --------------------------------------------------
 
@@ -67,6 +66,7 @@
 
   &-value-list {
     flex: 0 1 auto;
+
     @include utils.ellipsis-basic;
   }
 
@@ -89,6 +89,7 @@
   &-toggle[data-active='true'],
   &[data-focus='true'] {
     --rs-picker-toggle-border-color: var(--rs-input-focus-border);
+
     @include utils.focus-ring;
   }
 
@@ -200,6 +201,7 @@
     .rs-check-tree {
       display: flex;
       flex-direction: column;
+
       &-view {
         max-height: unset;
         flex: 1 1 auto;
@@ -246,6 +248,7 @@
 
   &-value {
     display: block;
+
     @include utils.ellipsis;
   }
 
@@ -313,6 +316,7 @@
 
   &[data-size='lg'] {
     --rs-badge-one-char-size: 20px;
+
     .rs-picker-clean {
       .rs-icon {
         width: 16px;
@@ -327,6 +331,7 @@
 
   &[data-size='sm'] {
     --rs-badge-one-char-size: 16px;
+
     .rs-picker-clean {
       height: 18px;
     }
@@ -334,8 +339,10 @@
 
   &[data-size='xs'] {
     --rs-badge-one-char-size: 14px;
+
     .rs-picker-clean {
       height: 18px;
+
       .rs-icon {
         width: 12px;
         height: 12px;

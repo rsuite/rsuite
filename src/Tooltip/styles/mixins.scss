@@ -3,7 +3,6 @@
 
 // Draw a triangle towards given direction
 // @mixin tooltip-arrow($direction, $size, $color)
-//
 // $direction: top | right | bottom | left
 // $size:      Size (height) of the triangle
 // $color:     Filling color of the triangle
@@ -39,7 +38,12 @@
 // $bg:        The arrow's background color, usually equal to tooltip's background
 // $border:    The arrow's border color, usually equal to tooltip's border (which only take effect
 //             in high-contrast theme)
-@mixin with-tooltip-arrow($direction, $size: 6px, $bg: var(--rs-tooltip-bg), $border: var(--rs-tooltip-border)) {
+@mixin with-tooltip-arrow(
+  $direction,
+  $size: 6px,
+  $bg: var(--rs-tooltip-bg),
+  $border: var(--rs-tooltip-border)
+) {
   &::after {
     @include tooltip-arrow($direction, $size, $bg);
   }

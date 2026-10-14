@@ -2,7 +2,6 @@
 @use './mixin';
 @use './variables';
 
-//
 // Loader
 // --------------------------------------------------
 
@@ -18,6 +17,7 @@
   &-spin {
     position: relative;
     display: inline-block;
+
     @include mixin.loader-size(var(--rs-loader-size));
     @include mixin.loader-spin;
   }
@@ -37,14 +37,14 @@
   }
 
   // Vertical
-  &[data-direction="vertical"] {
+  &[data-direction='vertical'] {
     .rs-loader-box {
       flex-direction: column;
     }
   }
 
   // inverse
-  &[data-inverse="true"] {
+  &[data-inverse='true'] {
     .rs-loader-content {
       color: var(--rs-text-inverse);
     }
@@ -63,24 +63,24 @@
   }
 
   // Loader speeds
-  &[data-speed="fast"] &-spin::after {
+  &[data-speed='fast'] &-spin::after {
     animation-duration: var(--rs-loader-duration-fast);
   }
 
-  &[data-speed="normal"] &-spin::after {
+  &[data-speed='normal'] &-spin::after {
     animation-duration: var(--rs-loader-duration-normal);
   }
 
-  &[data-speed="slow"] &-spin::after {
+  &[data-speed='slow'] &-spin::after {
     animation-duration: var(--rs-loader-duration-slow);
   }
 
-  &[data-speed="paused"] &-spin::after {
+  &[data-speed='paused'] &-spin::after {
     animation-play-state: var(--rs-loader-duration-paused);
   }
 
   // Position center
-  &[data-center="true"] {
+  &[data-center='true'] {
     position: absolute;
     top: 0;
     bottom: 0;

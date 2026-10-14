@@ -5,7 +5,6 @@
 @use './variables';
 @use '../../Animation/styles/reduced-motion';
 
-//
 // Modals
 // Figma: https://www.figma.com/file/uEq9QBplcKUYZrcWWA3RK2/NXT-UI?node-id=0%3A1348&t=H5h3Dd3AnJVgbAbz-4
 // --------------------------------------------------
@@ -14,6 +13,7 @@
 .rs-modal {
   display: none;
   overflow: visible;
+
   // Prevent Chrome on Windows from adding a focus outline. For details, see
   // https://github.com/twbs/bootstrap/pull/10951.
   outline: 0;
@@ -76,6 +76,7 @@
     background-color: var(--rs-bg-overlay);
     border: var(--rs-modal-border, none);
     border-radius: var(--rs-radius-md);
+
     // Remove focus outline from opened modal
     outline: 0;
     box-shadow: var(--rs-modal-shadow);
@@ -106,6 +107,7 @@
     display: block;
     color: var(--rs-text-heading);
     margin: 0;
+
     @include utils.ellipsis;
   }
 
@@ -113,8 +115,8 @@
   // Where all modal content resides (sibling of .modal-header and .modal-footer)
   .rs-modal-body {
     position: relative;
-
     margin-top: var(--rs-modal-body-padding);
+
     // Make sure input error message don't overflow.
     padding-bottom: var(--rs-modal-body-padding);
   }

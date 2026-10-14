@@ -3,7 +3,6 @@
 @use '../../toaster/styles/animation';
 @use '../../Animation/styles/reduced-motion';
 
-//
 // Notifications
 // --------------------------------------------------
 
@@ -28,7 +27,6 @@
   display: inline-flex;
   align-items: center;
   gap: var(--rs-notify-spacing);
-
   border-radius: var(--rs-notify-border-radius);
   background: var(--rs-bg-overlay);
   box-shadow: var(--rs-notify-box-shadow);

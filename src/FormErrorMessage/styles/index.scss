@@ -98,6 +98,7 @@
 
     .rs-form-error-message {
       top: 0;
+
       &-show {
         animation-name: errorMessageSlideDownIn;
       }
@@ -113,6 +114,7 @@
 
     .rs-form-error-message {
       bottom: 0;
+
       &-show {
         animation-name: errorMessageSlideUpIn;
       }
@@ -126,9 +128,11 @@
   // Inline start/end positions
   &:where([data-placement='bottom-start'], [data-placement='top-start']) {
     inset-inline-start: 0;
+
     .rs-form-error-message {
       inset-inline-start: 0;
     }
+
     .rs-form-error-message-arrow {
       @include arrow-position(inset-inline-start, var(--rs-form-errormessage-triangle-gap));
     }
@@ -136,9 +140,11 @@
 
   &:where([data-placement='bottom-end'], [data-placement='top-end']) {
     inset-inline-end: 0;
+
     .rs-form-error-message {
       inset-inline-end: 0;
     }
+
     .rs-form-error-message-arrow {
       @include arrow-position(inset-inline-end, var(--rs-form-errormessage-triangle-gap));
     }

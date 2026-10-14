@@ -4,7 +4,6 @@
 @use '../../Loader/styles/_mixin' as loader-mixins;
 @use 'mixin' as table-mixin;
 
-//
 // Table
 // --------------------------------------------------
 
@@ -138,6 +137,7 @@
     background-color: var(--rs-loader-backdrop);
     opacity: 0;
     transition: opacity 0.2s ease-in;
+
     @include utils.pointer-event-none;
   }
 
@@ -156,6 +156,7 @@
       display: inline-block;
       position: relative;
       margin-inline-end: var(--rs-loader-content-spin-spacing-horizontal);
+
       // Make sure loader vertical-align center
       padding-top: 3px;
     }
@@ -165,6 +166,7 @@
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
+
     // When loading cover scrollbar.
     z-index: 1;
   }
@@ -406,6 +408,7 @@
     background var(--rs-table-scrollbar-timing-duration) linear,
     transform var(--rs-table-scrollbar-timing-duration) linear;
   opacity: 0.6;
+
   // Make sure Scrollbar on the loader.
   z-index: 1;
 
@@ -453,6 +456,7 @@
     top: 0;
     inset-inline-end: 0;
     width: var(--rs-table-scrollbar-width);
+
     // Reserve scroll bar position.
     bottom: var(--rs-table-scrollbar-width);
     background-color: var(--rs-table-scrollbar-vertical-track);

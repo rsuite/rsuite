@@ -2,7 +2,6 @@
 @use 'sass:list';
 @use './mixin' as m;
 
-//
 // Placeholder
 // --------------------------------------------------
 
@@ -86,6 +85,7 @@
 
     .rs-placeholder-row {
       $widths: 100% 50% 80% 65% 90% 70% 85% 60% 75%;
+
       @include m.generate-row-width($widths, list.length($widths));
     }
   }
@@ -106,12 +106,14 @@
       gap: var(--rs-placeholder-row-spacing);
 
       &:first-child {
-        align-items: flex-start; //first col align left
+        align-items: flex-start; // first col align left
       }
 
       .rs-placeholder-row {
         width: 30%;
+
         $widths: 50% 25% 35%;
+
         @include m.generate-row-width($widths, list.length($widths));
       }
     }

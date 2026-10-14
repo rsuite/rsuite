@@ -32,6 +32,7 @@
   &-panel &-header {
     width: 100%;
     padding-bottom: 6px;
+
     @include utils.clearfix;
   }
 
@@ -253,6 +254,7 @@
   width: var(--rs-calendar-header-width);
   padding-inline-start: var(--rs-calendar-base-spacing);
   padding-inline-end: var(--rs-calendar-base-spacing);
+
   @include utils.clearfix;
 
   // Month toolbar && Time toolbar
@@ -307,6 +309,7 @@
     display: block;
     text-align: center;
     width: 100%;
+
     @include utils.clearfix;
   }
 
@@ -492,6 +495,7 @@
     padding-inline-start: calc(
       var(--rs-calendar-base-spacing) + 38px
     ); // 30px for the year label + 8px gap
+
     padding-inline-end: var(--rs-calendar-base-spacing);
     padding-top: 5px;
     padding-bottom: 5px;

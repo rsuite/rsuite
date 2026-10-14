@@ -3,7 +3,6 @@
 @use '../../Tooltip/styles/index' as tooltip;
 @use '../../styles/mixins/color-modes' as color-modes;
 
-//
 // Slider
 // --------------------------------------------------
 .rs-slider {
@@ -35,7 +34,7 @@
   }
 
   &[data-with-mark='true']:not([data-direction='vertical']) {
-    //White space for mark
+    // White space for mark
     margin-bottom: calc(var(--rs-line-height-base) + var(--rs-slider-mark-mt));
   }
 
@@ -166,6 +165,7 @@
 // Graduator
 .rs-slider-graduator {
   --rs-slider-tick-offset: 0;
+
   width: 100%;
 
   .rs-slider-tick {
@@ -173,6 +173,7 @@
       visibility: hidden;
     }
   }
+
   &[data-with-marks='true'] {
     .rs-slider-tick {
       position: absolute;
