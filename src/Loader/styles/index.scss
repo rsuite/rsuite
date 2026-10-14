@@ -79,6 +79,16 @@
     animation-play-state: var(--rs-loader-duration-paused);
   }
 
+  &[data-rs-motion='reduce'] > .rs-loader-box > .rs-loader-spin::after {
+    animation: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &[data-rs-motion='auto'] > .rs-loader-box > .rs-loader-spin::after {
+      animation: none;
+    }
+  }
+
   // Position center
   &[data-center='true'] {
     position: absolute;
