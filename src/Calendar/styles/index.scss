@@ -477,6 +477,16 @@
     height: 100%;
   }
 
+  &[data-rs-motion='reduce'] &-scroll {
+    animation: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &[data-rs-motion='auto'] &-scroll {
+      animation: none;
+    }
+  }
+
   &-row {
     position: relative;
     padding-inline-start: calc(
