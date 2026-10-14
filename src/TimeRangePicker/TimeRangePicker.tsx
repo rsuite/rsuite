@@ -50,6 +50,15 @@ export interface TimeRangePickerProps
    */
   showMeridiem?: boolean;
 
+  /** Disable specific hour options */
+  shouldDisableHour?: (hour: number, date: Date) => boolean;
+
+  /** Disable specific minute options */
+  shouldDisableMinute?: (minute: number, date: Date) => boolean;
+
+  /** Disable specific second options */
+  shouldDisableSecond?: (second: number, date: Date) => boolean;
+
   /**
    * Whether to display the formatted date range at the header of the calendar
    */

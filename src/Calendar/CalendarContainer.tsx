@@ -22,7 +22,12 @@ import { CalendarLocale } from '../locales';
 import { type CalendarContextValue, CalendarProvider } from './CalendarProvider';
 import { useCalendarState, CalendarState } from './hooks';
 import { MonthDropdownProps } from './types';
-import type { PlainDate, PlainTime, PlainYearMonth } from '@/internals/utils/date/types';
+import type {
+  PlainDate,
+  PlainDateTime,
+  PlainTime,
+  PlainYearMonth
+} from '@/internals/utils/date/types';
 import { isEveryDayInMonth, toPlainDateTime } from '@/internals/utils/date/plainDate';
 import { useIsDateTimeDisabled } from '@/internals/utils/date/disableTime';
 
@@ -422,7 +427,7 @@ CalendarContainer.displayName = 'CalendarContainer';
 export default CalendarContainer;
 
 /**
- * Convert the `hide*` and `disabled*` props from CalendarProps to handle PlainDate instead of Date,
+ * Convert the `hide*` and `disabled*` props to handle PlainDateTime instead of Date,
  * to be passed to TimeDropdown.
  */
 function useTimeDropdownProps(
@@ -433,17 +438,18 @@ function useTimeDropdownProps(
 
   return useMemo(
     () => ({
-      hideHours: (hour: number, date: PlainDate) => hideHours?.(hour, toJsDate(date)) ?? false,
-      hideMinutes: (minute: number, date: PlainDate) =>
-        hideMinutes?.(minute, toJsDate(date)) ?? false,
-      hideSeconds: (second: number, date: PlainDate) =>
-        hideSeconds?.(second, toJsDate(date)) ?? false,
-      disabledHours: (hour: number, date: PlainDate) =>
-        disabledHours?.(hour, toJsDate(date)) ?? false,
-      disabledMinutes: (minute: number, date: PlainDate) =>
-        disabledMinutes?.(minute, toJsDate(date)) ?? false,
-      disabledSeconds: (second: number, date: PlainDate) =>
-        disabledSeconds?.(second, toJsDate(date)) ?? false
+      hideHours: (hour: number, date: PlainDateTime) =>
+        hideHours?.(hour, toJsDateTime(date)) ?? false,
+      hideMinutes: (minute: number, date: PlainDateTime) =>
+        hideMinutes?.(minute, toJsDateTime(date)) ?? false,
+      hideSeconds: (second: number, date: PlainDateTime) =>
+        hideSeconds?.(second, toJsDateTime(date)) ?? false,
+      disabledHours: (hour: number, date: PlainDateTime) =>
+        disabledHours?.(hour, toJsDateTime(date)) ?? false,
+      disabledMinutes: (minute: number, date: PlainDateTime) =>
+        disabledMinutes?.(minute, toJsDateTime(date)) ?? false,
+      disabledSeconds: (second: number, date: PlainDateTime) =>
+        disabledSeconds?.(second, toJsDateTime(date)) ?? false
     }),
     [hideHours, hideMinutes, hideSeconds, disabledHours, disabledMinutes, disabledSeconds]
   );
@@ -451,4 +457,8 @@ function useTimeDropdownProps(
 
 function toJsDate(date: PlainDate): Date {
   return new Date(date.year, date.month - 1, date.day);
+}
+
+function toJsDateTime(date: PlainDateTime): Date {
+  return new Date(date.year, date.month - 1, date.day, date.hour, date.minute, date.second);
 }
