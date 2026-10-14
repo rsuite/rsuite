@@ -149,4 +149,14 @@
       @include arrow-position(inset-inline-end, var(--rs-form-errormessage-triangle-gap));
     }
   }
+
+  &[data-rs-motion='reduce'] > .rs-form-error-message {
+    animation: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &[data-rs-motion='auto'] > .rs-form-error-message {
+      animation: none;
+    }
+  }
 }

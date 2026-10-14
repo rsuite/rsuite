@@ -1,6 +1,7 @@
 /* @jsxRuntime classic */
-import React from 'react';
+import React, { useContext } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef, kebabPlace } from '@/internals/utils';
 import type { ErrorMessagePlacement } from '@/internals/types';
@@ -19,6 +20,7 @@ export interface FormErrorMessageProps extends BoxProps {
  */
 const FormErrorMessage = forwardRef<'div', FormErrorMessageProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('FormErrorMessage', props);
+  const { reduceMotion } = useContext(CustomContext);
   const {
     as,
     classPrefix = 'form-error-message',
@@ -40,6 +42,7 @@ const FormErrorMessage = forwardRef<'div', FormErrorMessageProps>((props, ref) =
       data-placement={kebabPlace(placement)}
       className={wrapperClasses}
       {...rest}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
     >
       <span className={classes}>
         <span className={prefix`arrow`} />
