@@ -47,9 +47,115 @@ import ClipboardSubpath, { useClipboard as NamedClipboardSubpath } from 'rsuite/
 import DialogSubpath from 'rsuite/useDialog';
 import SelectPickerSubpath from 'rsuite/SelectPicker';
 import DatePickerSubpath from 'rsuite/DatePicker';
+import TimePickerSubpath, { TimePickerProps } from 'rsuite/TimePicker';
+import TimeRangePickerSubpath, { TimeRangePickerProps } from 'rsuite/TimeRangePicker';
 import CarouselSubpath, { CarouselProps } from 'rsuite/Carousel';
 import WhisperSubpath from 'rsuite/Whisper';
 import { enGB, type CarouselLocale, type Locale } from 'rsuite/locales';
+
+const timePickerOptions = {
+  shouldDisableHour: (hour, date) => {
+    const value: number = hour;
+    const current: Date = date;
+    // @ts-expect-error Time callbacks receive a number, not a string or any.
+    const invalidHour: string = hour;
+    // @ts-expect-error Time callbacks receive a Date, not a date range or any.
+    const invalidDate: [Date, Date] = date;
+    void [invalidHour, invalidDate];
+    return value < current.getHours();
+  },
+  shouldDisableMinute: (minute, date) => minute < date.getMinutes(),
+  shouldDisableSecond: (second, date) => second < date.getSeconds(),
+  ranges: [
+    { label: 'Fixed time', value: new Date(), closeOverlay: true },
+    {
+      label: 'Current time',
+      value: current => {
+        const value: Date | null | undefined = current;
+        // @ts-expect-error Time shortcuts receive a single date, not a range or any.
+        const invalid: [Date, Date] = current;
+        void invalid;
+        return value ?? new Date();
+      }
+    },
+    { label: 'Clear', value: null }
+  ]
+} satisfies TimePickerProps;
+const timeRangePickerOptions = {
+  shouldDisableHour: (hour, date) => hour < date.getHours(),
+  shouldDisableMinute: (minute, date) => {
+    const value: number = minute;
+    const current: Date = date;
+    // @ts-expect-error Each range endpoint callback receives one Date, not the whole range.
+    const invalidDate: [Date, Date] = date;
+    // @ts-expect-error Range time callbacks receive numbers, not strings or any.
+    const invalidMinute: string = minute;
+    void [invalidDate, invalidMinute];
+    return value < current.getMinutes();
+  },
+  shouldDisableSecond: (second, date) => second < date.getSeconds(),
+  ranges: [
+    { label: 'Fixed range', value: [new Date(), new Date()] },
+    {
+      label: 'Current range',
+      value: current => {
+        const value: [Date, Date] | null | undefined = current;
+        // @ts-expect-error Range shortcuts receive a tuple, not a single date or any.
+        const invalid: Date = current;
+        void invalid;
+        return value ?? [new Date(), new Date()];
+      }
+    },
+    { label: 'Clear range', value: null }
+  ]
+} satisfies TimeRangePickerProps;
+export const timePickerPublicProps = (
+  <CustomProvider
+    components={{
+      TimePicker: { defaultProps: timePickerOptions },
+      TimeRangePicker: { defaultProps: timeRangePickerOptions }
+    }}
+  >
+    <TimePicker {...timePickerOptions} />
+    <TimePickerSubpath {...timePickerOptions} />
+    <TimeRangePicker {...timeRangePickerOptions} />
+    <TimeRangePickerSubpath {...timeRangePickerOptions} />
+  </CustomProvider>
+);
+// @ts-expect-error Disabled hours must return a boolean.
+const invalidTimeHour = <TimePicker shouldDisableHour={() => 'disabled'} />;
+// @ts-expect-error Disabled minutes must return a boolean.
+const invalidTimeMinute = <TimePickerSubpath shouldDisableMinute={() => 1} />;
+// @ts-expect-error Disabled seconds must return a boolean.
+const invalidTimeSecond = <TimePicker shouldDisableSecond={() => new Date()} />;
+// @ts-expect-error Range disabled hours must return a boolean.
+const invalidRangeHour = <TimeRangePickerSubpath shouldDisableHour={() => 'disabled'} />;
+// @ts-expect-error Range disabled minutes must return a boolean.
+const invalidRangeMinute = <TimeRangePicker shouldDisableMinute={() => 1} />;
+// @ts-expect-error Range disabled seconds must return a boolean.
+const invalidRangeSecond = <TimeRangePickerSubpath shouldDisableSecond={() => new Date()} />;
+type TimePresetValue = NonNullable<TimePickerProps['ranges']>[number]['value'];
+type TimeRangePresetValue = NonNullable<TimeRangePickerProps['ranges']>[number]['value'];
+// @ts-expect-error TimePicker shortcuts reject date ranges.
+const invalidTimePreset: TimePresetValue = [new Date(), new Date()];
+// @ts-expect-error TimePicker shortcut functions return a Date or null.
+const invalidTimePresetFunction: TimePresetValue = () => 42;
+// @ts-expect-error TimeRangePicker shortcuts require a date range.
+const invalidRangePreset: TimeRangePresetValue = new Date();
+// @ts-expect-error Range shortcut functions return two dates or null.
+const invalidRangePresetFunction: TimeRangePresetValue = () => [new Date()];
+void [
+  invalidTimeHour,
+  invalidTimeMinute,
+  invalidTimeSecond,
+  invalidRangeHour,
+  invalidRangeMinute,
+  invalidRangeSecond,
+  invalidTimePreset,
+  invalidTimePresetFunction,
+  invalidRangePreset,
+  invalidRangePresetFunction
+];
 
 export function externalPickerForms() {
   const data = [{ value: 0, label: 'Zero' }];

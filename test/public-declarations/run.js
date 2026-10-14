@@ -12,7 +12,7 @@ const results = path.join(__dirname, 'results');
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const fixture = fs.readFileSync(path.join(__dirname, 'consumer.tsx'), 'utf8');
 assert.equal(ts.version, '5.7.3');
-assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 51);
+assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 67);
 for (const entry of ['package.json', 'esm/index.d.ts', 'cjs/index.d.ts']) {
   assert(fs.existsSync(path.join(lib, entry)), 'Build the public lib first: ' + entry);
 }
@@ -92,6 +92,8 @@ const cjsSpecifiers = {
   'rsuite/useLocaleSearch': 'rsuite/cjs/useLocaleSearch',
   'rsuite/SelectPicker': 'rsuite/cjs/SelectPicker',
   'rsuite/DatePicker': 'rsuite/cjs/DatePicker',
+  'rsuite/TimePicker': 'rsuite/cjs/TimePicker',
+  'rsuite/TimeRangePicker': 'rsuite/cjs/TimeRangePicker',
   'rsuite/Calendar': 'rsuite/cjs/Calendar',
   'rsuite/ColorPicker': 'rsuite/cjs/ColorPicker'
 };
@@ -278,6 +280,10 @@ try {
           'internals/Provider/CustomContext.d.ts',
           'DateInput/DateField.d.ts',
           'DateInput/hooks/useDateInputState.d.ts',
+          'TimePicker/index.d.ts',
+          'TimePicker/TimePicker.d.ts',
+          'TimeRangePicker/index.d.ts',
+          'TimeRangePicker/TimeRangePicker.d.ts',
           'Form/index.d.ts',
           'Form/Form.d.ts',
           'FormErrorSummary/index.d.ts',
