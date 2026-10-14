@@ -534,6 +534,16 @@
 }
 
 // Calendar time dropdown
+@mixin reduce-time-dropdown-motion {
+  .rs-calendar-time-dropdown-content {
+    animation: none;
+  }
+
+  .rs-calendar-time-dropdown-column > ul {
+    scroll-behavior: auto;
+  }
+}
+
 .rs-calendar-time-dropdown {
   display: none;
   position: absolute;
@@ -551,6 +561,16 @@
 
   .rs-calendar-time-view &-content {
     animation: 0.3s linear slideDown;
+  }
+
+  &[data-rs-motion='reduce'] {
+    @include reduce-time-dropdown-motion;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &[data-rs-motion='auto'] {
+      @include reduce-time-dropdown-motion;
+    }
   }
 
   &-row {
