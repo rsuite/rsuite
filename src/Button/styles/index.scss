@@ -292,10 +292,23 @@
 
 // Button Loading state
 .rs-btn[data-loading='true'] {
+  // Resolve each button's motion policy without inheriting an ancestor's value.
+  --rs-btn-loading-animation-name: initial;
+
   color: transparent !important;
   position: relative;
   cursor: default;
   pointer-events: none;
+
+  &[data-rs-motion='reduce'] {
+    --rs-btn-loading-animation-name: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &[data-rs-motion='auto'] {
+      --rs-btn-loading-animation-name: none;
+    }
+  }
 
   // Spinner
   > .rs-btn-spin {
@@ -335,7 +348,7 @@
       border-width: var(--rs-btn-loading-spin-ring-wide);
       border-color: var(--rs-loader-rotor) transparent transparent;
       border-style: solid;
-      animation: buttonSpin 0.6s infinite linear;
+      animation: var(--rs-btn-loading-animation-name, buttonSpin) 0.6s infinite linear;
 
       .rs-btn[data-appearance='primary'] & {
         border-top-color: #fff;
