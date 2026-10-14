@@ -12,13 +12,15 @@ on:
 
 jobs:
   test:
-    name: 'Chromium shard (${{ matrix.shard }}/2)'
+    # Preserve component check names while giving native tests their own runners.
+    name: "${{ matrix.suite == 'native' && 'Chromium native' || 'Chromium' }} shard (${{ matrix.shard }}/2)"
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
-      # Both independent runners must finish so failures cannot hide another shard.
+      # Keep independent suites and shards running when another one fails.
       fail-fast: false
       matrix:
+        suite: [components, native]
         shard: [1, 2]
     env:
       VITE_RSUITE_REACT_VERSION: ${{ inputs.react-runtime }}
@@ -76,6 +78,7 @@ jobs:
 
       - name: Run headless tests
         id: component-tests
+        if: matrix.suite == 'components'
         run: npm run test:ci -- --browser.headless --shard=${{ matrix.shard }}/2
         env:
           CI: true
@@ -84,6 +87,7 @@ jobs:
           BROWSER: chromium
 
       - name: Retain browser coverage
+        if: matrix.suite == 'components'
         uses: actions/upload-artifact@v4
         with:
           name: browser-coverage-chromium-${{ inputs.react-version }}-${{ matrix.shard }}
@@ -100,7 +104,8 @@ jobs:
         run: npm run test:ssr
 
       - name: Run native browser control tests
-        if: ${{ !cancelled() && steps.component-tests.outcome == 'success' }}
+        # Component tests and coverage uploads run on separate runners.
+        if: matrix.suite == 'native'
         run: npm run test:browser-controls -- --shard=${{ matrix.shard }}/2
         env:
           BROWSER: chromium
