@@ -9,17 +9,18 @@ import { getHours, omitHideDisabledProps } from '@/internals/utils/date';
 import { useCalendar } from '../hooks';
 import { WithAsProps } from '@/internals/types';
 import { getTimeLimits, getClockTime, scrollToTime, formatWithLeadingZero } from './utils';
-import type { PlainDate, PlainTime } from '@/internals/utils/date/types';
+import type { PlainDateTime, PlainTime } from '@/internals/utils/date/types';
+import { toPlainDateTime } from '@/internals/utils/date/plainDate';
 
 export interface TimeDropdownProps extends WithAsProps {
   show?: boolean;
   showMeridiem?: boolean;
-  disabledHours?: (hour: number, date: PlainDate) => boolean;
-  disabledMinutes?: (minute: number, date: PlainDate) => boolean;
-  disabledSeconds?: (second: number, date: PlainDate) => boolean;
-  hideHours?: (hour: number, date: PlainDate) => boolean;
-  hideMinutes?: (minute: number, date: PlainDate) => boolean;
-  hideSeconds?: (second: number, date: PlainDate) => boolean;
+  disabledHours?: (hour: number, date: PlainDateTime) => boolean;
+  disabledMinutes?: (minute: number, date: PlainDateTime) => boolean;
+  disabledSeconds?: (second: number, date: PlainDateTime) => boolean;
+  hideHours?: (hour: number, date: PlainDateTime) => boolean;
+  hideMinutes?: (minute: number, date: PlainDateTime) => boolean;
+  hideSeconds?: (second: number, date: PlainDateTime) => boolean;
 }
 
 type TimeType = 'hours' | 'minutes' | 'seconds';
@@ -87,14 +88,7 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
 
   const { prefix, rootPrefix, merge } = useStyles(classPrefix);
 
-  const plainDate =
-    typeof date !== 'undefined'
-      ? {
-          year: date.getFullYear(),
-          month: date.getMonth() + 1,
-          day: date.getDate()
-        }
-      : undefined;
+  const plainDateTime = date ? toPlainDateTime(date) : undefined;
 
   const renderColumn = (type: TimeType, value?: number | null) => {
     if (!isNumber(value)) {
@@ -106,8 +100,8 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
     const disabledFunc = props[camelCase(`disabled_${type}`)];
 
     for (let i = start; i <= end; i += 1) {
-      if (!hideFunc?.(i, plainDate)) {
-        const disabled = disabledFunc?.(i, plainDate);
+      if (!hideFunc?.(i, plainDateTime)) {
+        const disabled = disabledFunc?.(i, plainDateTime);
         const itemClasses = prefix('cell', {
           'cell-active': value === i,
           'cell-disabled': disabled
