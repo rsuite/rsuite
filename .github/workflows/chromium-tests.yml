@@ -83,6 +83,17 @@ jobs:
           DEBUG: pw:browser
           BROWSER: chromium
 
+      - name: Retain component failure screenshots
+        if: ${{ !cancelled() && steps.component-tests.outcome == 'failure' }}
+        uses: actions/upload-artifact@v4
+        timeout-minutes: 2
+        with:
+          name: component-failure-screenshots-chromium-${{ inputs.react-version }}-${{ matrix.shard }}-attempt-${{ github.run_attempt }}
+          path: src/**/__screenshots__/**/*.png
+          if-no-files-found: warn
+          retention-days: 7
+          compression-level: 0
+
       - name: Retain browser coverage
         uses: actions/upload-artifact@v4
         with:
