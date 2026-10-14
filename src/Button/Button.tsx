@@ -3,6 +3,7 @@ import useCustomConfig from '@/internals/hooks/useCustomConfig';
 import Ripple from '@/internals/Ripple';
 import Box, { BoxProps } from '@/internals/Box';
 import SafeAnchor from '@/internals/SafeAnchor';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import ButtonGroupContext from '../ButtonGroup/ButtonGroupContext';
 import useButtonLoading from './useButtonLoading';
 import { forwardRef, isOneOf, isDisableableElement } from '@/internals/utils';
@@ -68,6 +69,7 @@ export interface ButtonProps extends BoxProps, Omit<React.HTMLAttributes<HTMLEle
  */
 const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
   const { propsWithDefaults } = useCustomConfig('Button', props);
+  const { reduceMotion } = useContext(CustomContext);
   const buttonGroup = useContext(ButtonGroupContext);
   const {
     as,
@@ -167,6 +169,7 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
       aria-disabled={disabled || loading || undefined}
       aria-busy={loading || undefined}
       {...rest}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
     >
       {buttonContent}
     </Box>
