@@ -30,10 +30,11 @@ jobs:
         if: runner.os == 'Linux' # ubuntu-latest is Linux
         run: df -h
 
-      - name: Use Node.js LTS
+      - name: Use Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
+          # Use the runner cache without a network lookup for the LTS alias.
+          node-version: '24'
 
       - name: Cache Node.js modules
         uses: actions/cache@v4
