@@ -1,10 +1,11 @@
 /* @jsxRuntime classic */
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import MonthDropdownItem from './MonthDropdownItem';
 import { forwardRef } from '@/internals/utils';
 import { getMonth, getYear } from '@/internals/utils/date';
 import { AutoSizer, FixedSizeList, ListChildComponentProps } from '@/internals/Windowing';
 import { useStyles } from '@/internals/hooks';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import { WithAsProps } from '@/internals/types';
 import { useCalendar } from '../hooks';
 import { plainYearMonthToString } from '@/internals/utils/date/plainDate';
@@ -40,6 +41,7 @@ const MonthDropdown = forwardRef<'div', MonthDropdownProps>((props: MonthDropdow
   } = props;
 
   const { date = new Date(), targetId, monthDropdownProps } = useCalendar();
+  const { reduceMotion } = useContext(CustomContext);
   const { prefix, merge, withPrefix } = useStyles(classPrefix);
   const thisYear = getYear(new Date());
   const startYear = limitStartYear ? thisYear - limitStartYear + 1 : 1900;
@@ -116,6 +118,7 @@ const MonthDropdown = forwardRef<'div', MonthDropdownProps>((props: MonthDropdow
       id={targetId ? `${targetId}-calendar-month-dropdown` : undefined}
       data-testid="calendar-month-dropdown"
       {...rest}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
     >
       <div className={prefix('scroll')}>
         <AutoSizer defaultHeight={defaultHeight} defaultWidth={defaultWidth}>
