@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import ProgressInfo from './ProgressInfo';
 import ProgressStroke from './ProgressStroke';
 import ProgressSections from './ProgressSections';
@@ -57,6 +58,7 @@ export interface ProgressLineProps extends BoxProps {
  */
 const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('ProgressLine', props);
+  const { reduceMotion } = useContext(CustomContext);
   const {
     as,
     className,
@@ -121,6 +123,7 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
       data-placement={percentPlacement}
       style={styles}
       {...rest}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
     >
       <div className={prefix('outer')}>
         <div className={prefix('trail')}>

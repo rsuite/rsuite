@@ -10,12 +10,29 @@
   --rs-progress-line-stripe-size: 16px;
   --rs-progress-line-section-gap: 0px;
   --rs-progress-bg-transition: 0.2s ease-in-out;
+  --rs-progress-line-animation-name: initial;
+  --rs-progress-line-transition: initial;
+  --rs-progress-line-will-change: initial;
 
   display: flex;
   align-items: center;
   width: 100%;
   gap: calc(var(--rs-spacing) * 3);
   font-size: var(--rs-font-size-sm);
+
+  &[data-rs-motion='reduce'] {
+    --rs-progress-line-animation-name: none;
+    --rs-progress-line-transition: none;
+    --rs-progress-line-will-change: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &[data-rs-motion='auto'] {
+      --rs-progress-line-animation-name: none;
+      --rs-progress-line-transition: none;
+      --rs-progress-line-will-change: auto;
+    }
+  }
 
   &:where([data-status='active']) {
     .rs-progress-line-stroke {
@@ -31,7 +48,8 @@
         inset-inline-end: 0;
         background-color: #fff;
         border-radius: var(--rs-radius-lg);
-        animation: progress-active 1.2s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+        animation: var(--rs-progress-line-animation-name, progress-active) 1.2s
+          cubic-bezier(0.23, 1, 0.32, 1) infinite;
       }
     }
   }
@@ -128,7 +146,7 @@
     align-items: center;
     background: var(--rs-progress-line-color);
     border-radius: var(--rs-progress-line-radius);
-    transition: var(--rs-progress-bg-transition);
+    transition: var(--rs-progress-line-transition, var(--rs-progress-bg-transition));
     transition-property: width, height, background-color;
     width: var(--rs-progress-line-stroke);
     height: var(--rs-progress-line-size);
@@ -251,7 +269,7 @@
   }
 
   &.rs-progress-line-vertical:where([data-status='active']) .rs-progress-line-stroke::before {
-    animation-name: progress-active-vertical;
+    animation-name: var(--rs-progress-line-animation-name, progress-active-vertical);
   }
 
   // Striped effect
@@ -279,7 +297,7 @@
   }
 
   &-striped:where([data-status='active']) .rs-progress-line-stroke::after {
-    animation: progress-stripe 1s linear infinite;
+    animation: var(--rs-progress-line-animation-name, progress-stripe) 1s linear infinite;
   }
 
   &.rs-progress-line-vertical.rs-progress-line-striped .rs-progress-line-stroke::after {
@@ -297,7 +315,7 @@
 
   &.rs-progress-line-vertical.rs-progress-line-striped:where([data-status='active'])
     .rs-progress-line-stroke::after {
-    animation: progress-stripe-vertical 1s linear infinite;
+    animation: var(--rs-progress-line-animation-name, progress-stripe-vertical) 1s linear infinite;
   }
 
   // Indeterminate animation
@@ -315,9 +333,11 @@
         left: 0;
         bottom: 0;
         width: 30%;
+        opacity: 1;
         background-color: var(--rs-progress-line-color);
-        will-change: transform;
-        animation: progress-indeterminate 1.5s ease-in-out infinite;
+        will-change: var(--rs-progress-line-will-change, transform);
+        animation: var(--rs-progress-line-animation-name, progress-indeterminate) 1.5s ease-in-out
+          infinite;
       }
     }
   }
@@ -337,8 +357,9 @@
         width: 100%;
         height: 30%;
         background-color: var(--rs-progress-line-color);
-        will-change: transform;
-        animation: progress-indeterminate-vertical 1.5s ease-in-out infinite;
+        will-change: var(--rs-progress-line-will-change, transform);
+        animation: var(--rs-progress-line-animation-name, progress-indeterminate-vertical) 1.5s
+          ease-in-out infinite;
       }
     }
   }
