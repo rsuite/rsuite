@@ -143,6 +143,16 @@
       background-size: var(--rs-placeholder-active-bg-size) !important;
       animation: placeholder-active 1.5s ease infinite;
     }
+
+    &[data-rs-motion='reduce'] {
+      @include m.reduce-motion;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &[data-rs-motion='auto'] {
+        @include m.reduce-motion;
+      }
+    }
   }
 
   @keyframes placeholder-active {
