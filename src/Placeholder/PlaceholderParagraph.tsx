@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef, mergeStyles, getCssValue } from '@/internals/utils';
 export interface PlaceholderParagraphProps extends BoxProps {
@@ -46,6 +47,7 @@ export interface PlaceholderParagraphProps extends BoxProps {
 const PlaceholderParagraph = forwardRef<'div', PlaceholderParagraphProps>(
   (props: PlaceholderParagraphProps, ref) => {
     const { propsWithDefaults } = useCustom('PlaceholderParagraph', props);
+    const { reduceMotion } = useContext(CustomContext);
     const {
       as,
       className,
@@ -81,7 +83,15 @@ const PlaceholderParagraph = forwardRef<'div', PlaceholderParagraphProps>(
     const graphClasses = prefix('paragraph-graph');
 
     return (
-      <Box as={as} ref={ref} className={classes} style={styles} data-active={active} {...rest}>
+      <Box
+        as={as}
+        ref={ref}
+        className={classes}
+        style={styles}
+        data-active={active}
+        {...rest}
+        data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
+      >
         {graphShape && (
           <div className={graphClasses} data-shape={graphShape}>
             <span className={prefix('paragraph-graph-inner')} />
