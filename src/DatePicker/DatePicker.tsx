@@ -444,9 +444,9 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   /**
    *  A callback triggered when the time on the calendar changes.
    */
-  const handleChangeTime = useEventCallback((nextPageTime: Date) => {
+  const handleChangeTime = useEventCallback((nextPageTime: Date, event: React.SyntheticEvent) => {
     setCalendarDate(nextPageTime);
-    handleDateChange(nextPageTime);
+    handleDateChange(nextPageTime, event);
   });
 
   /**
