@@ -160,7 +160,7 @@ export interface CalendarProps
   /**
    * Callback after the time has changed
    */
-  onChangeTime?: (nextPageTime: Date, event: React.MouseEvent) => void;
+  onChangeTime?: (nextPageTime: Date, event: React.SyntheticEvent) => void;
 
   /**
    * Callback after mouse enter other date cell
@@ -332,7 +332,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     [renderCellOnPickerProp]
   );
 
-  const handleChangeTime = useEventCallback((time: PlainTime, event: React.MouseEvent) => {
+  const handleChangeTime = useEventCallback((time: PlainTime, event: React.SyntheticEvent) => {
     let nextDate = calendarDate || startOfToday();
 
     nextDate = setHours(nextDate, time.hour);

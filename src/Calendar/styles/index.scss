@@ -575,6 +575,10 @@
       padding: 0;
     }
 
+    > ul > li:focus-visible {
+      @include utils.focus-ring-slim-inset;
+    }
+
     > ul {
       height: 230px;
       overflow-y: auto;

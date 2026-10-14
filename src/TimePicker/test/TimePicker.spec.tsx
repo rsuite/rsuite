@@ -122,9 +122,13 @@ describe('TimePicker', () => {
 
       expect(screen.getByRole('option', { name: 'PM' })).to.be.attribute('aria-selected', 'true');
 
-      fireEvent.click(screen.getByRole('option', { name: 'AM' }));
+      const event = new MouseEvent('click', { bubbles: true });
+      fireEvent(screen.getByRole('option', { name: 'AM' }), event);
 
-      expect(onSelect).toHaveBeenCalledWith(new Date('2017-08-14 01:00:00'), undefined);
+      expect(onSelect).toHaveBeenCalledExactlyOnceWith(
+        new Date('2017-08-14 01:00:00'),
+        expect.objectContaining({ type: 'click', nativeEvent: event })
+      );
     });
   });
 

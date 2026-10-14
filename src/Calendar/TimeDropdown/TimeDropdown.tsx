@@ -3,6 +3,7 @@ import partial from 'lodash/partial';
 import camelCase from 'lodash/camelCase';
 import isNumber from 'lodash/isNumber';
 import TimeColumn from './TimeColumn';
+import type { TimeOption } from './useTimeKeyboard';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useEventCallback } from '@/internals/hooks';
 import { getHours, omitHideDisabledProps } from '@/internals/utils/date';
@@ -47,7 +48,7 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
 
   const time = getClockTime({ format, date, showMeridiem });
 
-  const handleClick = useEventCallback((type: TimeType, d: number, event: React.MouseEvent) => {
+  const handleClick = useEventCallback((type: TimeType, d: number, event: React.SyntheticEvent) => {
     const nextTime = {
       hour: (time.hours ?? 0) + (showMeridiem && time.meridiem === 'PM' ? 12 : 0),
       minute: time.minutes ?? 0,
@@ -69,21 +70,23 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
     onChangeTime?.(nextTime, event);
   });
 
-  const handleClickMeridiem = useEventCallback((meridiem: 'AM' | 'PM', event: React.MouseEvent) => {
-    const nextTime = {
-      hour: (time.hours ?? 0) + (showMeridiem && time.meridiem === 'PM' ? 12 : 0),
-      minute: time.minutes ?? 0,
-      second: time.seconds ?? 0
-    } satisfies PlainTime;
+  const handleClickMeridiem = useEventCallback(
+    (meridiem: 'AM' | 'PM', event: React.SyntheticEvent) => {
+      const nextTime = {
+        hour: (time.hours ?? 0) + (showMeridiem && time.meridiem === 'PM' ? 12 : 0),
+        minute: time.minutes ?? 0,
+        second: time.seconds ?? 0
+      } satisfies PlainTime;
 
-    if (meridiem === 'AM' && nextTime.hour >= 12) {
-      nextTime.hour -= 12;
-    } else if (meridiem === 'PM' && nextTime.hour < 12) {
-      nextTime.hour += 12;
+      if (meridiem === 'AM' && nextTime.hour >= 12) {
+        nextTime.hour -= 12;
+      } else if (meridiem === 'PM' && nextTime.hour < 12) {
+        nextTime.hour += 12;
+      }
+
+      onChangeTime?.(nextTime, event);
     }
-
-    onChangeTime?.(nextTime, event);
-  });
+  );
 
   const { prefix, rootPrefix, merge } = useStyles(classPrefix);
 
@@ -101,34 +104,20 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
       return null;
     }
     const { start, end } = getTimeLimits(showMeridiem)[type];
-    const items: React.ReactElement[] = [];
+    const items: TimeOption<number>[] = [];
     const hideFunc = props[camelCase(`hide_${type}`)];
     const disabledFunc = props[camelCase(`disabled_${type}`)];
 
     for (let i = start; i <= end; i += 1) {
       if (!hideFunc?.(i, plainDate)) {
         const disabled = disabledFunc?.(i, plainDate);
-        const itemClasses = prefix('cell', {
-          'cell-active': value === i,
-          'cell-disabled': disabled
+        items.push({
+          value: i,
+          label: showMeridiem && type === 'hours' && i === 0 ? '12' : formatWithLeadingZero(i),
+          ariaLabel: `${i} ${type}`,
+          selected: value === i,
+          disabled
         });
-
-        items.push(
-          <li
-            key={i}
-            role="option"
-            tabIndex={-1}
-            aria-label={`${i} ${type}`}
-            aria-selected={value === i}
-            aria-disabled={disabled}
-            data-key={`${type}-${i}`}
-            onClick={!disabled ? partial(handleClick, type, i) : undefined}
-          >
-            <span className={itemClasses}>
-              {showMeridiem && type === 'hours' && i === 0 ? 12 : formatWithLeadingZero(i)}
-            </span>
-          </li>
-        );
       }
     }
 
@@ -136,39 +125,31 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
       <TimeColumn
         prefix={prefix}
         title={locale?.[type]}
-        data-type={type}
+        type={type}
         aria-label={`Select ${type}`}
-      >
-        {items}
-      </TimeColumn>
+        options={items}
+        onSelect={partial(handleClick, type)}
+      />
     );
   };
 
   const renderMeridiemColumn = () => {
-    const columns = ['AM', 'PM'];
+    const columns = ['AM', 'PM'] as const;
+    const ampm = date && (getHours(date) >= 12 ? 'PM' : 'AM');
     return (
-      <TimeColumn prefix={prefix} title={'AM/PM'} data-type="meridiem" aria-label="Select meridiem">
-        {columns.map((meridiem, index) => {
-          const ampm = date && (getHours(date) >= 12 ? 'PM' : 'AM');
-          const itemClasses = prefix('cell', {
-            'cell-active': ampm === meridiem
-          });
-
-          return (
-            <li
-              key={index}
-              role="option"
-              tabIndex={-1}
-              aria-label={meridiem}
-              aria-selected={ampm === meridiem}
-              data-key={`meridiem-${meridiem}`}
-              onClick={partial(handleClickMeridiem, meridiem)}
-            >
-              <span className={itemClasses}>{meridiem}</span>
-            </li>
-          );
-        })}
-      </TimeColumn>
+      <TimeColumn
+        prefix={prefix}
+        title="AM/PM"
+        type="meridiem"
+        aria-label="Select meridiem"
+        options={columns.map(value => ({
+          value,
+          label: value,
+          ariaLabel: value,
+          selected: ampm === value
+        }))}
+        onSelect={handleClickMeridiem}
+      />
     );
   };
 
