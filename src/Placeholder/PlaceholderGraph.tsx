@@ -1,6 +1,7 @@
 /* @jsxRuntime classic */
-import React from 'react';
+import React, { useContext } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
 
@@ -31,6 +32,7 @@ export interface PlaceholderGraphProps extends BoxProps {
  */
 const PlaceholderGraph = forwardRef<'div', PlaceholderGraphProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('PlaceholderGraph', props);
+  const { reduceMotion } = useContext(CustomContext);
   const {
     as,
     className,
@@ -52,7 +54,15 @@ const PlaceholderGraph = forwardRef<'div', PlaceholderGraphProps>((props, ref) =
   );
 
   return (
-    <Box as={as} ref={ref} className={classes} style={styles} data-active={active} {...rest} />
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      style={styles}
+      data-active={active}
+      {...rest}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
+    />
   );
 });
 
