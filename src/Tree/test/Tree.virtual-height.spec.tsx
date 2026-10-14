@@ -19,7 +19,7 @@ const components = [
 
 const data = Array.from({ length: 100 }, (_, value) => ({ value, label: `Node ${value}` }));
 
-describe.each(components)('$name virtual height', ({ Component, picker }) => {
+describe.each(components)('$name virtual height', ({ name, Component, picker }) => {
   const heightProps = (height: number) =>
     picker ? { treeHeight: height, defaultOpen: true, searchable: false } : { height };
 
@@ -85,11 +85,65 @@ describe.each(components)('$name virtual height', ({ Component, picker }) => {
     const parent = screen
       .getByRole('tree')
       .querySelector<HTMLElement>('.rs-tree-root,.rs-check-tree-root')!;
-    for (const height of [240, 96, 420]) {
-      act(() => {
-        parent.style.height = `${height}px`;
-      });
-      await waitFor(() => expectViewportHeight(height));
+    const viewport = getViewport();
+    const started = performance.now();
+    const elapsedMs = () => Math.round(performance.now() - started);
+    const visibility = [{ state: document.visibilityState, elapsedMs: 0 }];
+    const recordVisibility = () => {
+      if (visibility.length === 8) visibility.shift();
+      visibility.push({ state: document.visibilityState, elapsedMs: elapsedMs() });
+    };
+    const completedHeights: number[] = [];
+    document.addEventListener('visibilitychange', recordVisibility);
+
+    try {
+      for (const height of [240, 96, 420]) {
+        let attempts = 0;
+        act(() => {
+          parent.style.height = `${height}px`;
+        });
+        try {
+          await waitFor(() => {
+            attempts += 1;
+            expectViewportHeight(height);
+          });
+        } catch (error) {
+          const layout = (element: HTMLElement) => {
+            const style = getComputedStyle(element);
+            return {
+              connected: element.isConnected,
+              inlineHeight: element.style.height,
+              computedHeight: style.height,
+              clientHeight: element.clientHeight,
+              offsetHeight: element.offsetHeight,
+              bounds: element.getBoundingClientRect().toJSON(),
+              display: style.display,
+              visibility: style.visibility,
+              paddingTop: style.paddingTop,
+              paddingBottom: style.paddingBottom
+            };
+          };
+          // console.error is mocked by the shared setup. Preserve the assertion and its DOM dump.
+          console.info(
+            '[Tree CSS resize timeout]',
+            JSON.stringify({
+              component: name,
+              expectedHeight: height,
+              completedHeights,
+              attempts,
+              elapsedMs: elapsedMs(),
+              visibility,
+              documentFocused: document.hasFocus(),
+              parent: layout(parent),
+              viewport: layout(viewport)
+            })
+          );
+          throw error;
+        }
+        completedHeights.push(height);
+      }
+    } finally {
+      document.removeEventListener('visibilitychange', recordVisibility);
     }
   });
 
