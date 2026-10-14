@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { zhTW } from 'date-fns/locale/zh-TW';
 
 const DateTimeFormats = {
@@ -22,8 +23,16 @@ const DateTimeFormats = {
   dateLocale: zhTW as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: '上個月',
+  nextMonth: '下個月',
+  selectMonth: '選擇月份',
+  selectTime: '選擇時間'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: '開啟選擇器'
 };
 
@@ -64,7 +73,7 @@ export default {
     skip: '跳至{0}頁'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,

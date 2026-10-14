@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { fr } from 'date-fns/locale/fr';
 
 const DateTimeFormats = {
@@ -22,8 +23,16 @@ const DateTimeFormats = {
   dateLocale: fr as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: 'Mois précédent',
+  nextMonth: 'Mois suivant',
+  selectMonth: 'Sélectionner le mois',
+  selectTime: 'Sélectionner l’heure'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: 'Ouvrir le sélecteur'
 };
 
@@ -64,7 +73,7 @@ export default {
     skip: 'Aller à{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,

@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { arSA } from 'date-fns/locale/ar-SA';
 
 const DateTimeFormats = {
@@ -22,8 +23,16 @@ const DateTimeFormats = {
   dateLocale: arSA as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: 'الشهر السابق',
+  nextMonth: 'الشهر التالي',
+  selectMonth: 'اختر الشهر',
+  selectTime: 'اختر الوقت'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: 'فتح أداة الاختيار'
 };
 
@@ -65,7 +74,7 @@ export default {
     skip: 'اذهب إل {0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,

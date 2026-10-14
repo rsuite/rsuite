@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { faIR } from 'date-fns/locale/fa-IR';
 
 const DateTimeFormats = {
@@ -22,8 +23,16 @@ const DateTimeFormats = {
   dateLocale: faIR as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: 'ماه قبل',
+  nextMonth: 'ماه بعد',
+  selectMonth: 'انتخاب ماه',
+  selectTime: 'انتخاب زمان'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: 'باز کردن انتخابگر'
 };
 
@@ -64,7 +73,7 @@ export default {
     skip: 'برو به{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,

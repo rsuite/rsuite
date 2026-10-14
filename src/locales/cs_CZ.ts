@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { cs } from 'date-fns/locale/cs';
 
 const DateTimeFormats = {
@@ -26,8 +27,16 @@ const DateTimeFormats = {
   dateLocale: cs as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: 'Předchozí měsíc',
+  nextMonth: 'Následující měsíc',
+  selectMonth: 'Vybrat měsíc',
+  selectTime: 'Vybrat čas'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: 'Otevřít výběr'
 };
 
@@ -68,7 +77,7 @@ export default {
     skip: 'Jít na {0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,

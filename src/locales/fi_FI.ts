@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { fi } from 'date-fns/locale/fi';
 
 const DateTimeFormats = {
@@ -26,8 +27,16 @@ const DateTimeFormats = {
   dateLocale: fi as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: 'Edellinen kuukausi',
+  nextMonth: 'Seuraava kuukausi',
+  selectMonth: 'Valitse kuukausi',
+  selectTime: 'Valitse aika'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: 'Avaa valitsin'
 };
 
@@ -68,7 +77,7 @@ export default {
     skip: 'Mene{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,

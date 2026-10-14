@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { zhCN } from 'date-fns/locale/zh-CN';
 
 const DateTimeFormats = {
@@ -22,8 +23,16 @@ const DateTimeFormats = {
   dateLocale: zhCN as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: '上个月',
+  nextMonth: '下个月',
+  selectMonth: '选择月份',
+  selectTime: '选择时间'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: '打开选择器'
 };
 
@@ -64,7 +73,7 @@ export default {
     skip: '跳至{0}页'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,
