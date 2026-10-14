@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import partial from 'lodash/partial';
 import camelCase from 'lodash/camelCase';
 import isNumber from 'lodash/isNumber';
@@ -6,6 +6,7 @@ import TimeColumn from './TimeColumn';
 import type { TimeOption } from './useTimeKeyboard';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useEventCallback } from '@/internals/hooks';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import { getHours, omitHideDisabledProps } from '@/internals/utils/date';
 import { useCalendar } from '../hooks';
 import { WithAsProps } from '@/internals/types';
@@ -37,6 +38,7 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
   } = props;
 
   const { locale, format, date, onChangeTime, targetId } = useCalendar();
+  const { reduceMotion } = useContext(CustomContext);
   const rowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -155,6 +157,7 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
       tabIndex={-1}
       id={targetId ? `${targetId}-${classPrefix}` : undefined}
       {...omitHideDisabledProps<TimeDropdownProps>(rest)}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
       ref={ref}
       className={classes}
     >
