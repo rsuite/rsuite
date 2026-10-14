@@ -509,9 +509,28 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   });
 
   const handlePickerPopupKeyDown = useEventCallback((event: React.KeyboardEvent) => {
-    onKeyFocusEvent(event, { date: calendarDate, callback: setCalendarDate });
+    const target = event.target as HTMLElement;
+    const role = target.getAttribute('role');
+    const gridId = `${id}-${showMonth ? 'calendar-month-dropdown' : 'calendar-table'}`;
+    const isGrid =
+      (role === 'grid' || role === 'gridcell') && target.closest('[role="grid"]')?.id === gridId;
+    const isTimeOption =
+      role === 'option' && target.closest('[role="group"]')?.id === `${id}-calendar-time-dropdown`;
+
+    // Nested controls handle their own keyboard activation and text navigation.
+    if (
+      event.defaultPrevented ||
+      (event.target !== event.currentTarget && !isGrid && !isTimeOption)
+    ) {
+      return;
+    }
+
+    if (!isTimeOption && mode !== DateMode.Time) {
+      onKeyFocusEvent(event, { date: calendarDate, callback: setCalendarDate });
+    }
 
     if (event.key === 'Enter') {
+      event.preventDefault();
       handleOK(event);
     }
   });
