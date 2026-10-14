@@ -96,6 +96,32 @@ describe.each([
     expect(onClose).not.toHaveBeenCalled();
   });
 
+  it('uses the updated duration when native hover restarts the timer', async () => {
+    const onClose = vi.fn();
+    const view = render(ui(onClose, true));
+    advance(200);
+    view.rerender(ui(onClose, true, true, 2000));
+    const element = screen.getByRole('alert');
+    await act(() => userEvent.hover(element));
+    await act(() => userEvent.unhover(element));
+    advance(1999);
+    expect(onClose).not.toHaveBeenCalled();
+    advance(1);
+    expect(onClose).toHaveBeenCalledOnce();
+  });
+
+  it('removes native hover listeners when mouseReset is disabled', async () => {
+    const onClose = vi.fn();
+    const view = render(ui(onClose, true));
+    advance(200);
+    view.rerender(ui(onClose, true, false));
+    await act(() => userEvent.hover(screen.getByRole('alert')));
+    advance(799);
+    expect(onClose).not.toHaveBeenCalled();
+    advance(1);
+    expect(onClose).toHaveBeenCalledOnce();
+  });
+
   it.skipIf(!Activity)(
     'removes listeners while hidden and restores native hover on show',
     async () => {

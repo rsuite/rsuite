@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { uk } from 'date-fns/locale/uk';
 
 const DateTimeFormats = {
@@ -22,8 +23,16 @@ const DateTimeFormats = {
   dateLocale: uk as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: 'Попередній місяць',
+  nextMonth: 'Наступний місяць',
+  selectMonth: 'Вибрати місяць',
+  selectTime: 'Вибрати час'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: 'Відкрити вікно вибору'
 };
 
@@ -64,7 +73,7 @@ export default {
     skip: 'Перейти до {0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,

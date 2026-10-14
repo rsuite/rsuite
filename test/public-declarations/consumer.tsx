@@ -627,3 +627,53 @@ void [
   invalidColorChange,
   invalidColorRef
 ];
+
+// Calendar navigation names are optional for legacy provider and bundled locales.
+import CalendarSubpath from 'rsuite/Calendar';
+import {
+  zhCN,
+  type CalendarLocale,
+  type DatePickerLocale,
+  type DateRangePickerLocale
+} from 'rsuite/locales';
+const calendarNavigationLocale: CalendarLocale = {
+  previousMonth: 'Previous',
+  nextMonth: 'Next',
+  selectMonth: 'Month',
+  selectTime: 'Time'
+};
+const calendarLegacyLocale: Locale = {
+  Calendar: enGB.DateTimeFormats,
+  DatePicker: enGB.DateTimeFormats,
+  DateRangePicker: { ...enGB.DateTimeFormats, last7Days: 'Last week' }
+};
+const calendarLegacyBundle: typeof enGB.Calendar = enGB.DateTimeFormats;
+const chineseCalendarLegacyBundle: typeof zhCN.Calendar = zhCN.DateTimeFormats;
+const chineseDateLegacyBundle: typeof zhCN.DatePicker = zhCN.DateTimeFormats;
+const chineseRangeLegacyBundle: typeof zhCN.DateRangePicker = {
+  ...zhCN.DateTimeFormats,
+  last7Days: 'Last week'
+};
+const calendarNavigationConsumers = (
+  <CustomProvider locale={calendarLegacyLocale}>
+    <CalendarSubpath locale={calendarNavigationLocale} />
+    <DatePicker locale={calendarNavigationLocale} />
+    <DateRangePicker locale={calendarNavigationLocale} />
+  </CustomProvider>
+);
+// @ts-expect-error Calendar labels must be strings.
+const invalidCalendarLabel: CalendarLocale = { nextMonth: 123 };
+// @ts-expect-error DatePicker labels must be strings.
+const invalidDatePickerLabel: Partial<DatePickerLocale> = { selectMonth: false };
+// @ts-expect-error DateRangePicker labels must be strings.
+const invalidDateRangeLabel: Partial<DateRangePickerLocale> = { selectTime: 123 };
+void [
+  calendarLegacyBundle,
+  chineseCalendarLegacyBundle,
+  chineseDateLegacyBundle,
+  chineseRangeLegacyBundle,
+  calendarNavigationConsumers,
+  invalidCalendarLabel,
+  invalidDatePickerLabel,
+  invalidDateRangeLabel
+];

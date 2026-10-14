@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { ja } from 'date-fns/locale/ja';
 
 const DateTimeFormats = {
@@ -26,8 +27,16 @@ const DateTimeFormats = {
   dateLocale: ja as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: '前の月',
+  nextMonth: '次の月',
+  selectMonth: '月を選択',
+  selectTime: '時刻を選択'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: '選択画面を開く'
 };
 
@@ -68,7 +77,7 @@ export default {
     skip: '{0}に逝く'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,

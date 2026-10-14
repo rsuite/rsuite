@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { ko } from 'date-fns/locale/ko';
 
 const DateTimeFormats = {
@@ -26,8 +27,16 @@ const DateTimeFormats = {
   dateLocale: ko as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: '이전 달',
+  nextMonth: '다음 달',
+  selectMonth: '월 선택',
+  selectTime: '시간 선택'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: '선택기 열기'
 };
 
@@ -68,7 +77,7 @@ export default {
     skip: '이동{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,

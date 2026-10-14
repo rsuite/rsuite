@@ -1,6 +1,6 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import on from 'dom-lib/on';
-import { useTimeout, useMount } from '@/internals/hooks';
+import { useTimeout } from '@/internals/hooks';
 import ToastContext from '../ToastContext';
 
 interface UseDelayedClosureProps {
@@ -34,7 +34,7 @@ function useDelayedClosure(props: UseDelayedClosureProps) {
 
   const { clear, reset } = useTimeout(onClose, duration, usedToaster && duration > 0);
 
-  useMount(() => {
+  useEffect(() => {
     if (targetRef?.current && mouseReset) {
       const mouseEnter = on(targetRef.current, 'mouseenter', clear);
       const mouseLeave = on(targetRef.current, 'mouseleave', reset);
@@ -44,7 +44,7 @@ function useDelayedClosure(props: UseDelayedClosureProps) {
         mouseLeave.off();
       };
     }
-  });
+  }, [targetRef, mouseReset, clear, reset]);
 
   return { clear, reset };
 }

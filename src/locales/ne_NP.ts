@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { enGB } from 'date-fns/locale/en-GB';
 
 const DateTimeFormats = {
@@ -26,8 +27,16 @@ const DateTimeFormats = {
   dateLocale: enGB as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: 'अघिल्लो महिना',
+  nextMonth: 'अर्को महिना',
+  selectMonth: 'महिना छान्नुहोस्',
+  selectTime: 'समय छान्नुहोस्'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: 'चयनकर्ता खोल्नुहोस्'
 };
 
@@ -68,7 +77,7 @@ export default {
     skip: '{0} पृष्ठमा जानुहोस्'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,

@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { hu } from 'date-fns/locale/hu';
 
 const DateTimeFormats = {
@@ -26,8 +27,16 @@ const DateTimeFormats = {
   dateLocale: hu as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: 'Előző hónap',
+  nextMonth: 'Következő hónap',
+  selectMonth: 'Hónap kiválasztása',
+  selectTime: 'Idő kiválasztása'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: 'Választó megnyitása'
 };
 
@@ -70,7 +79,7 @@ export default {
     skip: 'Lapozz ide: {0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,

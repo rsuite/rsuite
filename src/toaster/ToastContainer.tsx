@@ -160,8 +160,19 @@ const ToastContainer: ToastContainerComponent = forwardRef<
 
   const elements = messages.map(item => {
     const { mouseReset, duration, node } = item;
+    const handleClose = createChainedFunction<NonNullable<NodeProps['onClose']>>(
+      node.props?.onClose ?? null,
+      () => remove(item.key)
+    );
     return (
-      <ToastContext.Provider value={{ usedToaster: true, mouseReset, duration }} key={item.key}>
+      <ToastContext.Provider
+        value={{
+          usedToaster: true,
+          mouseReset: item.visible && mouseReset,
+          duration: item.visible ? duration : 0
+        }}
+        key={item.key}
+      >
         <Transition
           in={item.visible}
           exitedClassName={rootPrefix('toast-fade-exited')}
@@ -176,7 +187,9 @@ const ToastContainer: ToastContainerComponent = forwardRef<
               ...rest,
               ref,
               duration,
-              onClose: createChainedFunction(node.props?.onClose, () => remove(item.key)),
+              onClose: (...args: Parameters<NonNullable<NodeProps['onClose']>>) => {
+                if (item.visible) handleClose(...args);
+              },
               className: merge(rootPrefix('toast'), node.props?.className, transitionClassName)
             });
           }}

@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { ru } from 'date-fns/locale/ru';
 
 const DateTimeFormats = {
@@ -22,8 +23,16 @@ const DateTimeFormats = {
   dateLocale: ru as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: 'Предыдущий месяц',
+  nextMonth: 'Следующий месяц',
+  selectMonth: 'Выбрать месяц',
+  selectTime: 'Выбрать время'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: 'Открыть окно выбора'
 };
 
@@ -64,7 +73,7 @@ export default {
     skip: 'Перейти к {0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,

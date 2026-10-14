@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { sv } from 'date-fns/locale/sv';
 
 const DateTimeFormats = {
@@ -26,8 +27,16 @@ const DateTimeFormats = {
   dateLocale: sv as any
 };
 
-const DatePicker: typeof DateTimeFormats & { openPicker?: string } = {
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
   ...DateTimeFormats,
+  previousMonth: 'Föregående månad',
+  nextMonth: 'Nästa månad',
+  selectMonth: 'Välj månad',
+  selectTime: 'Välj tid'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
   openPicker: 'Öppna väljare'
 };
 
@@ -68,7 +77,7 @@ export default {
     skip: 'Gå til{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
+  Calendar,
   DatePicker,
   DateRangePicker: {
     ...DatePicker,
