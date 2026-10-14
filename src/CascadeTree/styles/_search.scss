@@ -30,7 +30,7 @@
   display: inline-block;
 
   &::after {
-    content: '\00a0/\00a0'; //content:' / '
+    content: '\00a0/\00a0'; // content:' / '
   }
 
   &:last-child::after {

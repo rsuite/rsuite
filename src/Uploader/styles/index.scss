@@ -184,7 +184,6 @@
     border: 2px dotted var(--rs-border-primary);
     border-radius: var(--rs-radius-md);
     margin-top: var(--rs-uploader-picture-item-gap);
-
     width: var(--rs-uploader-picture-side-length);
     height: var(--rs-uploader-picture-side-length);
     margin: 0;
@@ -341,6 +340,7 @@
     flex-direction: column;
     gap: var(--rs-uploader-item-spacing);
   }
+
   .rs-uploader-file-item {
     position: relative;
     height: var(--rs-uploader-picture-text-preview-side-length);
@@ -392,6 +392,7 @@
 
       .rs-uploader-file-item-title {
         color: var(--rs-text-primary);
+
         @include utils.ellipsis;
       }
 

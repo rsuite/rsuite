@@ -6,7 +6,6 @@
 @use 'variables' as vars;
 @use 'mixin';
 
-//
 // Buttons
 // --------------------------------------------------
 
@@ -25,6 +24,7 @@
   cursor: pointer;
   white-space: nowrap;
   transition: var(--rs-btn-transition);
+
   // Reset border style in all browser
   border-width: 0;
   border-style: solid;

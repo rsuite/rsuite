@@ -15,6 +15,7 @@
   z-index: var(--rs-zindex-drawer);
   box-shadow: var(--rs-drawer-shadow);
   pointer-events: auto;
+
   // Prevent Chrome on Windows from adding a focus outline. For details, see
   // https://github.com/twbs/bootstrap/pull/10951.
   outline: 0;
@@ -179,10 +180,12 @@
     margin-inline-start: 10px;
     margin-bottom: 0; // account for input[type="submit"] which gets the bottom margin like all other inputs
   }
+
   // but override that for button groups
   .rs-btn-group .rs-btn + .rs-btn {
     margin-inline-start: -1px;
   }
+
   // and override it for block buttons as well
   .rs-btn-block + .rs-btn-block {
     margin-inline-start: 0;
@@ -234,10 +237,12 @@
     margin-inline-start: 10px;
     margin-bottom: 0; // account for input[type="submit"] which gets the bottom margin like all other inputs
   }
+
   // but override that for button groups
   .rs-btn-group .rs-btn + .rs-btn {
     margin-inline-start: -1px;
   }
+
   // and override it for block buttons as well
   .rs-btn-block + .rs-btn-block {
     margin-inline-start: 0;

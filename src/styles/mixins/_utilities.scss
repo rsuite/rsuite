@@ -35,6 +35,7 @@
 
 @mixin ellipsis($substract: 0) {
   @include ellipsis-basic;
+
   width: 100% - $substract;
 }
 
@@ -72,17 +73,20 @@
 
 @mixin focus-ring-slim {
   @include focus-ring;
+
   outline-width: 2px;
   outline-offset: 0;
 }
 
 @mixin focus-ring-inset {
   @include focus-ring;
+
   outline-offset: -3px;
 }
 
 @mixin focus-ring-slim-inset {
   @include focus-ring-inset;
+
   outline-width: 2px;
 }
 

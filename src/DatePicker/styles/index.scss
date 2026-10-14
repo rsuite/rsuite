@@ -61,6 +61,7 @@
 .rs-picker-popup {
   $calendar-width: 264px; // This is a fixed value per design.
   $calendar-padding-x: 15px;
+
   // The padding used when show week numbers.
   $calendar-padding-x-condensed: 12px;
 
@@ -80,6 +81,7 @@
     --rs-calendar-in-menu-content-side-length: 30px;
 
     min-width: $calendar-width;
+
     // To make sure <Calendar/> horizontal align at center when toolbar width is so long.
     display: block;
     margin: 0 auto;
@@ -117,6 +119,7 @@
     &-table-cell {
       &:focus-visible {
         outline: none;
+
         .rs-calendar-table-cell-content {
           outline: 3px solid var(--rs-focus-ring-color);
         }

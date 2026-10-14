@@ -18,6 +18,7 @@
 
   &:where([data-underline='hover']) {
     text-decoration: none;
+
     &:hover {
       text-decoration: underline;
     }
@@ -29,6 +30,7 @@
 
   &:where([data-underline='not-hover']) {
     text-decoration: underline;
+
     &:hover {
       text-decoration: none;
     }

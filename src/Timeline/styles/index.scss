@@ -3,7 +3,6 @@
 @use '../../styles/mixins/color-modes' as color-modes;
 @use './mixin';
 
-//
 // Time lines
 // --------------------------------------------------
 
@@ -17,6 +16,7 @@
   --rs-time-line-alternate-time-offset: calc(
     var(--rs-time-line-dot-side-length) / 2 + var(--rs-time-line-item-content-margin)
   ); // 5px + 12px
+
   --rs-time-line-dot-center-gap: calc(var(--rs-time-line-dot-side-length) / 2);
   --rs-time-line-item-content-padding-bottom: 18px;
   --rs-time-line-tail-width: 2px;
