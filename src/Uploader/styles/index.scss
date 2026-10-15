@@ -47,13 +47,42 @@
     }
   }
 
+  &-file-item-btn-preview,
+  &-file-item-title[data-rs-uploader-action='preview'] {
+    appearance: none;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+
+  &-file-item-btn-preview {
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    > img {
+      @include uploader-mixin.img-cover;
+    }
+  }
+
+  &-file-item-btn-preview:disabled,
+  &-file-item-title[data-rs-uploader-action='preview']:disabled {
+    cursor: not-allowed;
+  }
+
   &:focus-visible,
-  &-file-item:focus-visible {
+  &-file-item:focus-visible,
+  &-file-item:has(.rs-uploader-file-item-btn-preview:focus-visible) {
     // Keep the outline outside the picture status overlay.
     outline: 2px solid var(--rs-focus-ring-color);
     outline-offset: 2px;
   }
 
+  &-file-item-title[data-rs-uploader-action='preview']:focus-visible,
   &-file-item-btn-remove:focus-visible,
   &-file-item-btn-reupload:focus-visible {
     outline: 2px solid var(--rs-focus-ring-color) !important;

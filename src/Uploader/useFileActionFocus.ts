@@ -110,7 +110,7 @@ export default function useFileActionFocus({
     const focusFile = (key: FileKey) => {
       const row = fileElements.current.get(key);
       if (!row || row.dataset.disabled === 'true') return false;
-      for (const action of ['remove', 'retry']) {
+      for (const action of ['remove', 'retry', 'preview']) {
         if (focus(row.querySelector<HTMLElement>(`[data-rs-uploader-action="${action}"]`)))
           return true;
       }
