@@ -336,7 +336,7 @@
       border: var(--rs-btn-loading-spin-ring-wide) solid var(--rs-loader-ring);
 
       .rs-btn[data-appearance='primary'] & {
-        border-color: rgba(248, 247, 250, 0.3);
+        border-color: rgb(248 247 250 / 30%);
 
         @include color-modes.high-contrast-mode {
           border-color: var(--rs-loader-ring-inverse);
