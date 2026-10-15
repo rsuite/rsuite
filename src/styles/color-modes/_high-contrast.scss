@@ -7,7 +7,7 @@
 @use 'sass:color';
 
 // Only include high contrast mode styles if enabled
-@if (vars.$enable-high-contrast) {
+@if vars.$enable-high-contrast {
   // High contrast theme CSS custom properties
   [data-theme='high-contrast'],
   .rs-theme-high-contrast {
