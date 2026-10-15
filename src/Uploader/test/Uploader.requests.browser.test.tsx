@@ -154,9 +154,14 @@ describe('Uploader request ownership with native HTTP', () => {
               await nextBatch(page, scenario, 1);
             } else if (mode === 'external abort') {
               await click(page, 'Abort first');
-              await expect.poll(() => uploads(scenario)[0].closed).toBe(true);
+              await expect
+                .poll(() => uploads(scenario).filter(request => request.closed).length)
+                .toBe(1);
               expect((await snapshot(page)).completions).toEqual([]);
-              finish(scenario, 1);
+              // Parallel requests can reach the server in a different order than they start.
+              uploads(scenario)
+                .find(request => !request.closed)!
+                .response.end('{}');
               await expect
                 .poll(async () => (await snapshot(page)).completions)
                 .toEqual([{ completed: ['alpha.txt'], failed: ['alpha.txt'] }]);
