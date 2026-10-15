@@ -417,11 +417,13 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
         progress: 100
       };
       updateFileStatus(nextFile);
-      onSuccess?.(response, nextFile, event, xhr);
-
-      uploadingCount.current--;
-      uploadResults.current.completed.push(nextFile);
-      completeUploadBatch();
+      try {
+        onSuccess?.(response, nextFile, event, xhr);
+      } finally {
+        uploadingCount.current--;
+        uploadResults.current.completed.push(nextFile);
+        completeUploadBatch();
+      }
     },
     [completeUploadBatch, finishRequest, onSuccess, updateFileStatus]
   );
@@ -441,11 +443,13 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
         status: 'error'
       };
       updateFileStatus(nextFile);
-      onError?.(status, nextFile, event, xhr);
-
-      uploadingCount.current--;
-      uploadResults.current.failed.push(nextFile);
-      completeUploadBatch();
+      try {
+        onError?.(status, nextFile, event, xhr);
+      } finally {
+        uploadingCount.current--;
+        uploadResults.current.failed.push(nextFile);
+        completeUploadBatch();
+      }
     },
     [completeUploadBatch, finishRequest, onError, updateFileStatus]
   );
@@ -493,21 +497,28 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
       uploadingCount.current--;
       return;
     }
-    const { xhr, data: uploadData } = ajaxUpload({
-      name,
-      timeout,
-      headers,
-      data,
-      method,
-      withCredentials,
-      disableMultipart,
-      file: file.blobFile as File,
-      url: action,
-      onError: handleAjaxUploadError.bind(null, file),
-      onAbort: handleAjaxUploadAbort.bind(null, file),
-      onSuccess: handleAjaxUploadSuccess.bind(null, file),
-      onProgress: handleAjaxUploadProgress.bind(null, file)
-    });
+    let request: ReturnType<typeof ajaxUpload>;
+    try {
+      request = ajaxUpload({
+        name,
+        timeout,
+        headers,
+        data,
+        method,
+        withCredentials,
+        disableMultipart,
+        file: file.blobFile as File,
+        url: action,
+        onError: handleAjaxUploadError.bind(null, file),
+        onAbort: handleAjaxUploadAbort.bind(null, file),
+        onSuccess: handleAjaxUploadSuccess.bind(null, file),
+        onProgress: handleAjaxUploadProgress.bind(null, file)
+      });
+    } catch (error) {
+      uploadingCount.current--;
+      throw error;
+    }
+    const { xhr, data: uploadData } = request;
 
     registerRequest(xhr, file);
     updateFileStatus({ ...file, status: 'uploading' });
