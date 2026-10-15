@@ -8,6 +8,7 @@ import Box, { BaseBoxProps } from '@/internals/Box';
 import { forwardRef, guid } from '@/internals/utils';
 import { useStyles, useCustom, useWillUnmount, useEventCallback } from '@/internals/hooks';
 import usePendingUploadApprovals, { type PendingUploadApproval } from './usePendingUploadApprovals';
+import useFileActionFocus from './useFileActionFocus';
 import type { UploaderLocale } from '../locales';
 
 export interface FileType {
@@ -327,6 +328,12 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   });
 
   const [fileList, dispatch] = useFileList(fileListProp || defaultFileList);
+  const { registerFile, requestFocus, completeFocusRequest } = useFileActionFocus({
+    rootRef,
+    triggerRef: trigger,
+    triggerAvailable: !disabled && !readOnly,
+    files: fileList.current
+  });
 
   const completeUploadBatch = useCallback(() => {
     if (uploadingCount.current === 0) {
@@ -573,6 +580,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   );
 
   const handleRemoveFile = useEventCallback((fileKey: string | number, event: React.MouseEvent) => {
+    requestFocus(fileKey, event, 'remove');
     const file: any = find(fileList.current, f => f.fileKey === fileKey);
     const nextFileList = fileList.current.filter(f => f.fileKey !== fileKey);
 
@@ -595,12 +603,15 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
     onRemove?.(file);
     onChange?.(nextFileList, event);
     cleanInputValue();
+    completeFocusRequest();
   });
 
-  const handleReupload = useEventCallback((file: FileType) => {
+  const handleReupload = useEventCallback((file: FileType, event: React.MouseEvent) => {
+    requestFocus(file.fileKey, event, 'retry');
     uploadingCount.current++;
     autoUpload && handleUploadFile(file);
     onReupload?.(file);
+    completeFocusRequest();
   });
 
   // public API
@@ -645,6 +656,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
       <div key="items" className={prefix('file-items')}>
         {fileList.current.map(file => (
           <FileItem
+            ref={element => registerFile(file.fileKey, element)}
             locale={locale}
             key={`${typeof file.fileKey}:${file.fileKey}`}
             file={file}
@@ -682,7 +694,17 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   }
 
   return (
-    <Box as={as} ref={rootRef} className={classes} style={style} {...dataAttributes}>
+    <Box
+      as={as}
+      ref={rootRef}
+      role={typeof as === 'string' && !['div', 'span'].includes(as) ? undefined : 'group'}
+      tabIndex={-1}
+      aria-label={rest['aria-label'] || locale?.upload}
+      aria-labelledby={rest['aria-labelledby']}
+      className={classes}
+      style={style}
+      {...dataAttributes}
+    >
       {renderList}
     </Box>
   );
