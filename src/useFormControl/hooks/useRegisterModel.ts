@@ -15,7 +15,7 @@ export function useRegisterModel(
   useEffect(() => {
     pushFieldRule?.(name, refRule);
     return () => {
-      removeFieldRule?.(name);
+      removeFieldRule?.(name, refRule);
     };
   }, [name, pushFieldRule, removeFieldRule]);
 }
