@@ -127,7 +127,7 @@ const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
   );
 
   const handleReupload = useCallback(
-    (event: React.MouseEvent<HTMLAnchorElement>) => {
+    (event: React.MouseEvent<HTMLButtonElement>) => {
       if (disabled) {
         return;
       }
@@ -220,7 +220,7 @@ const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
       <CloseButton
         className={prefix('btn-remove')}
         onClick={handleRemove}
-        tabIndex={-1}
+        disabled={disabled}
         locale={{ closeLabel }}
         aria-hidden={disabled}
       />
@@ -236,9 +236,15 @@ const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
         <div className={prefix('status')}>
           {<span>{locale?.error}</span>}
           {allowReupload && (
-            <a role="button" tabIndex={-1} onClick={handleReupload} aria-label="Retry">
+            <button
+              type="button"
+              className={prefix('btn-reupload')}
+              disabled={disabled}
+              onClick={handleReupload}
+              aria-label="Retry"
+            >
               <Reload className={prefix('icon-reupload')} />
-            </a>
+            </button>
           )}
         </div>
       );
