@@ -26,6 +26,8 @@ jobs:
       - name: Test build scripts
         run: node --test scripts/*.node-test.cjs
       - run: npm ci --legacy-peer-deps
+      - name: Test Sass mixins
+        run: node --test test/scss/*.node-test.cjs
       - run: npm run format:check
       - run: npm run lint
 

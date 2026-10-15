@@ -1,3 +1,6 @@
+@use 'sass:color';
+@use 'sass:selector';
+
 // WebKit-style focus
 @mixin tab-focus {
   outline: 0;
@@ -16,11 +19,17 @@
 }
 
 @mixin text-emphasis-variant($color) {
+  $link-selector: selector.unify(&, 'a');
+
   color: $color;
 
-  a&:hover,
-  a&:focus {
-    color: darken($color, 10%);
+  @if $link-selector {
+    @at-root #{$link-selector} {
+      &:hover,
+      &:focus {
+        color: color.adjust($color, $lightness: -10%, $space: hsl);
+      }
+    }
   }
 }
 
