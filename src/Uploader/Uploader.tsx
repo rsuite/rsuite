@@ -603,6 +603,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
       }
 
       const upload = () => {
+        if (!isUploaderActive()) return;
         onChange?.(nextFileList, event);
 
         if (rootRef.current) {
@@ -614,8 +615,9 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
 
       if (checkState instanceof Promise) {
         checkState.then(res => {
-          res && upload();
-        });
+          if (res) upload();
+          else cleanInputValue();
+        }, cleanInputValue);
         return;
       }
 
