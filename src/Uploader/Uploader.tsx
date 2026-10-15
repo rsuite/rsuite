@@ -551,14 +551,20 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
 
   const handleAjaxUpload = useEventCallback(() => {
     fileList.current.forEach(file => {
+      if (!isUploaderActive()) return;
       const checkState = shouldUpload?.(file);
 
       if (checkState instanceof Promise) {
-        const pending = createApproval(file);
-        uploadingCount.current++;
+        // Approval may unmount synchronously; still handle a rejected promise.
+        const pending = isUploaderActive() ? createApproval(file) : null;
+        if (pending) uploadingCount.current++;
         checkState.then(
-          res => handleUploadApproval(pending, res),
-          () => handleUploadApproval(pending, false)
+          res => {
+            if (pending) handleUploadApproval(pending, res);
+          },
+          () => {
+            if (pending) handleUploadApproval(pending, false);
+          }
         );
         return;
       } else if (checkState === false) {
@@ -651,6 +657,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   // public API
   const start = useCallback(
     (file?: FileType) => {
+      if (!isUploaderActive()) return;
       if (file) {
         uploadingCount.current++;
         handleUploadFile(file);
@@ -658,7 +665,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
       }
       handleAjaxUpload();
     },
-    [handleAjaxUpload, handleUploadFile]
+    [handleAjaxUpload, handleUploadFile, isUploaderActive]
   );
 
   useImperativeHandle(ref, () => ({
