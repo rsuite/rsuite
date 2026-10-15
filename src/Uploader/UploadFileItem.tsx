@@ -218,6 +218,7 @@ const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
 
     return (
       <CloseButton
+        data-rs-uploader-action="remove"
         className={prefix('btn-remove')}
         onClick={handleRemove}
         disabled={disabled}
@@ -237,6 +238,7 @@ const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
           {<span>{locale?.error}</span>}
           {allowReupload && (
             <button
+              data-rs-uploader-action="retry"
               type="button"
               className={prefix('btn-reupload')}
               disabled={disabled}
@@ -290,6 +292,9 @@ const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
   const boxProps = {
     as,
     ref,
+    role: typeof as === 'string' && !['div', 'span'].includes(as) ? undefined : 'group',
+    tabIndex: -1,
+    'aria-label': file.name || locale?.upload,
     className: classes,
     ...dataAttributes,
     ...rest

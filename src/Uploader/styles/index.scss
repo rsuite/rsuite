@@ -47,6 +47,13 @@
     }
   }
 
+  &:focus-visible,
+  &-file-item:focus-visible {
+    // Keep the outline outside the picture status overlay.
+    outline: 2px solid var(--rs-focus-ring-color);
+    outline-offset: 2px;
+  }
+
   &-file-item-btn-remove:focus-visible,
   &-file-item-btn-reupload:focus-visible {
     outline: 2px solid var(--rs-focus-ring-color) !important;
