@@ -78,6 +78,7 @@ const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
   };
 
   const [previewImage, setPreviewImage] = useState(file.url ? file.url : null);
+  const previewLabel = file.name ? `Preview: ${file.name}` : 'Preview';
 
   /**
    * Get thumbnail of image file
@@ -161,17 +162,31 @@ const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
       <img
         role="presentation"
         src={previewImage}
-        alt={file.name}
-        onClick={handlePreview}
-        aria-label={`Preview: ${file.name}`}
+        alt={onPreview ? '' : file.name}
+        onClick={onPreview ? undefined : handlePreview}
+        aria-label={onPreview ? undefined : previewLabel}
       />
     ) : (
       <Attachment className={prefix('icon')} />
     );
+    const preview = onPreview ? (
+      <button
+        type="button"
+        className={prefix('btn-preview')}
+        data-rs-uploader-action="preview"
+        disabled={disabled}
+        onClick={handlePreview}
+        aria-label={previewLabel}
+      >
+        {thumbnail}
+      </button>
+    ) : (
+      thumbnail
+    );
 
     return (
       <div className={prefix('preview')}>
-        {renderThumbnail ? renderThumbnail(file, thumbnail) : thumbnail}
+        {renderThumbnail ? renderThumbnail(file, preview) : preview}
       </div>
     );
   };
@@ -268,15 +283,18 @@ const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
    * Render file panel
    */
   const renderFilePanel = () => {
+    const Title = onPreview ? 'button' : 'div';
     const fileElement = (
-      <div
+      <Title
         className={prefix('title')}
-        tabIndex={-1}
+        {...(onPreview
+          ? { type: 'button' as const, disabled, 'data-rs-uploader-action': 'preview' }
+          : { tabIndex: -1 })}
         onClick={handlePreview}
-        aria-label={`Preview: ${file.name}`}
+        aria-label={previewLabel}
       >
         {file.name}
-      </div>
+      </Title>
     );
     return (
       <div className={prefix('panel')}>
