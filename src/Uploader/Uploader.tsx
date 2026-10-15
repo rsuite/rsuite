@@ -614,8 +614,10 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
 
   const handleReupload = useEventCallback((file: FileType, event: React.MouseEvent) => {
     requestFocus(file.fileKey, event, 'retry');
-    uploadingCount.current++;
-    autoUpload && handleUploadFile(file);
+    if (autoUpload) {
+      uploadingCount.current++;
+      handleUploadFile(file);
+    }
     onReupload?.(file);
     completeFocusRequest();
   });
