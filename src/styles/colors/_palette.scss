@@ -35,20 +35,12 @@
  * Convert color to hex format for consistent output
  */
 @function color-to-hex($color) {
-  @return if(
-    color.alpha($color) < 1,
-    string.unquote(
-      '#' + decimal-to-hex(color.channel($color, 'red')) +
-        decimal-to-hex(color.channel($color, 'green')) +
-        decimal-to-hex(color.channel($color, 'blue')) +
-        decimal-to-hex(math.round(color.alpha($color) * 255))
-    ),
-    string.unquote(
-      '#' + decimal-to-hex(color.channel($color, 'red')) +
-        decimal-to-hex(color.channel($color, 'green')) +
-        decimal-to-hex(color.channel($color, 'blue'))
-    )
-  );
+  $red: decimal-to-hex(color.channel($color, 'red'));
+  $green: decimal-to-hex(color.channel($color, 'green'));
+  $blue: decimal-to-hex(color.channel($color, 'blue'));
+  $alpha: if(color.alpha($color) < 1, decimal-to-hex(math.round(color.alpha($color) * 255)), '');
+
+  @return string.unquote('##{$red}#{$green}#{$blue}#{$alpha}');
 }
 
 /**
@@ -163,26 +155,6 @@
     // Otherwise treat it as a string (e.g., a CSS variable)
     @return string.unquote('rgba(#{$color}, #{$alpha})');
   }
-}
-
-/**
- * Convert color to hex format for consistent output
- */
-@function color-to-hex($color) {
-  @return if(
-    color.alpha($color) < 1,
-    string.unquote(
-      '#' + decimal-to-hex(color.channel($color, 'red')) +
-        decimal-to-hex(color.channel($color, 'green')) +
-        decimal-to-hex(color.channel($color, 'blue')) +
-        decimal-to-hex(math.round(color.alpha($color) * 255))
-    ),
-    string.unquote(
-      '#' + decimal-to-hex(color.channel($color, 'red')) +
-        decimal-to-hex(color.channel($color, 'green')) +
-        decimal-to-hex(color.channel($color, 'blue'))
-    )
-  );
 }
 
 /**

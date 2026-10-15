@@ -8,7 +8,7 @@
 @use 'sass:color';
 
 // Only include dark mode styles if enabled
-@if (vars.$enable-dark-mode) {
+@if vars.$enable-dark-mode {
   // Dark theme CSS custom properties
   [data-theme='dark'],
   .rs-theme-dark {

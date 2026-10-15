@@ -31,7 +31,7 @@
     gap: var(--rs-breadcrumb-spacing);
 
     &:focus {
-      @include utils.tab-focus();
+      @include utils.tab-focus;
     }
 
     &[data-active='true'] {
