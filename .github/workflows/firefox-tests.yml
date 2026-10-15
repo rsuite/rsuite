@@ -118,3 +118,5 @@ jobs:
         run: npm run test:browser-controls -- --shard=${{ matrix.shard }}/2
         env:
           BROWSER: firefox
+          # Retain process shutdown evidence when a native test cleanup times out.
+          DEBUG: pw:browser

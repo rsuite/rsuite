@@ -3,6 +3,7 @@ import { once } from 'node:events';
 import { chromium, firefox } from 'playwright';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { createModuleRequestObserver, observeModuleLoads } from './moduleLoadDiagnostics';
+import { closeServer } from './closeServer';
 import type { AddressInfo } from 'node:net';
 import type { Browser, BrowserContext, Page } from 'playwright';
 import type { ModuleLoadDiagnostic } from './moduleLoadDiagnostics';
@@ -95,8 +96,11 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-  await browser?.close();
-  if (server.listening) await new Promise<void>(resolve => server.close(() => resolve()));
+  try {
+    await browser?.close();
+  } finally {
+    await closeServer(server);
+  }
 });
 
 describe('Browser module response diagnostics', () => {
