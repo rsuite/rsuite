@@ -97,14 +97,16 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
     style
   );
 
-  const info = (
-    <ProgressInfo
-      percent={percent}
-      renderInfo={renderInfo}
-      status={status}
-      classPrefix={classPrefix}
-    />
-  );
+  const showDefaultInfo = !indeterminate || status === 'success' || status === 'fail';
+  const info =
+    showInfo && (renderInfo || showDefaultInfo) ? (
+      <ProgressInfo
+        percent={totalPercent}
+        renderInfo={renderInfo}
+        status={status}
+        classPrefix={classPrefix}
+      />
+    ) : null;
 
   // Determine if the info should be placed inside the stroke
   const isInsidePlacement = percentPlacement?.startsWith('inside');
@@ -116,7 +118,7 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
       role="progressbar"
       aria-valuemin="0"
       aria-valuemax="100"
-      aria-valuenow={totalPercent}
+      aria-valuenow={indeterminate ? undefined : totalPercent}
       data-status={status}
       data-placement={percentPlacement}
       style={styles}
@@ -132,12 +134,12 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
               percent={indeterminate ? 100 : percent}
               vertical={vertical}
             >
-              {showInfo && isInsidePlacement ? info : null}
+              {isInsidePlacement ? info : null}
             </ProgressStroke>
           )}
         </div>
       </div>
-      {showInfo && !isInsidePlacement ? info : null}
+      {!isInsidePlacement ? info : null}
     </Box>
   );
 });
