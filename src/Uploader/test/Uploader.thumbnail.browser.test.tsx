@@ -154,14 +154,15 @@ describe('Uploader thumbnail updates with native FileReader', () => {
         await start(page);
         await expect.poll(() => uploadsFor(scenario).length).toBe(1);
         await expect.poll(() => state(page).getAttribute('data-status')).toBe('uploading');
-        const progress = await state(page).getAttribute('data-progress');
+        // Holding the response does not stop request-body upload progress.
+        await expect.poll(() => state(page).getAttribute('data-progress')).toBe('100');
         await render(page, { ...options, url: 'second' });
         expect(await page.locator('img').getAttribute('src')).toBe(
           await page.evaluate(() => window.__RSUITE_THUMBNAIL__.images.second)
         );
         await image(page, 'second');
         expect(await state(page).getAttribute('data-status')).toBe('uploading');
-        expect(await state(page).getAttribute('data-progress')).toBe(progress);
+        expect(await state(page).getAttribute('data-progress')).toBe('100');
         await complete(page, scenario, 0);
         expect(await state(page).getAttribute('data-status')).toBe('finished');
         expect(await state(page).getAttribute('data-progress')).toBe('100');
