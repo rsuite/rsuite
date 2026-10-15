@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import Attachment from '@rsuite/icons/Attachment';
 import Reload from '@rsuite/icons/Reload';
 import CloseButton from '@/internals/CloseButton';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
-import { previewFile } from './utils/previewFile';
+import useFilePreview from './useFilePreview';
 import type { FileType } from './Uploader';
 import type { UploaderLocale } from '../locales';
 
@@ -77,35 +77,8 @@ const UploadFileItem = forwardRef<'div', UploadFileItemProps>((props, ref) => {
     'data-has-error': file.status === 'error'
   };
 
-  const [previewImage, setPreviewImage] = useState(file.url ? file.url : null);
+  const previewImage = useFilePreview(file, listType, maxPreviewFileSize);
   const previewLabel = file.name ? `Preview: ${file.name}` : 'Preview';
-
-  /**
-   * Get thumbnail of image file
-   */
-  const getThumbnail = useCallback(
-    callback => {
-      if (!~['picture-text', 'picture'].indexOf(listType)) {
-        return;
-      }
-
-      // The thumbnail file size cannot be larger than the preset value.
-      if (!file.blobFile || file?.blobFile?.size > maxPreviewFileSize) {
-        return;
-      }
-
-      previewFile(file.blobFile, callback);
-    },
-    [file, listType, maxPreviewFileSize]
-  );
-
-  useEffect(() => {
-    if (!file.url) {
-      getThumbnail((previewImage: any) => {
-        setPreviewImage(previewImage);
-      });
-    }
-  }, [file.url, getThumbnail]);
 
   const handlePreview = useCallback(
     (event: React.MouseEvent) => {

@@ -218,15 +218,21 @@ function fileListReducer(files: FileType[], action: ActionType) {
     // Update a file
     case 'updateFile':
       return files.map(file => {
-        return file.fileKey === action.file.fileKey ? action.file : file;
+        if (file.fileKey !== action.file.fileKey || file.blobFile !== action.file.blobFile) {
+          return file;
+        }
+        // A transfer updates its own state, not newer controlled file metadata.
+        return { ...file, status: action.file.status, progress: action.file.progress };
       });
 
     // Initialization file list
     case 'init':
       return (
         action.files?.map(file => {
-          // The state of the file needs to be preserved when the `fileList` is controlled.
-          return files.find(f => f.fileKey === file.fileKey) || createFile(file);
+          const previous = files.find(f => f.fileKey === file.fileKey);
+          if (!previous || previous.blobFile !== file.blobFile) return createFile(file);
+          // Controlled metadata can change while this file's upload is in progress.
+          return { ...file, status: previous.status, progress: previous.progress };
         }) || []
       );
     default:
@@ -356,7 +362,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
 
     return fileListProp?.some(queued =>
       queued.fileKey !== undefined && queued.fileKey !== null
-        ? queued.fileKey === file.fileKey
+        ? queued.fileKey === file.fileKey && queued.blobFile === file.blobFile
         : queued.blobFile === file.blobFile && queued.name === file.name
     );
   });
