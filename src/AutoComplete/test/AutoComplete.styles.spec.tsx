@@ -2,7 +2,7 @@ import React from 'react';
 import AutoComplete from '../index';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { toRGB, inChrome } from '@test/utils';
+import { toRGB } from '@test/utils';
 import '../styles/index.scss';
 
 describe('AutoComplete styles', () => {
@@ -16,14 +16,23 @@ describe('AutoComplete styles', () => {
   });
 
   it('Should render the correct styles when set `open`', () => {
-    render(<AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" />);
+    render(
+      <>
+        <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" />
+        <div
+          data-testid="focused-background"
+          style={{ backgroundColor: 'rgb(from #cce9ff r g b / 50%)' }}
+        />
+      </>
+    );
 
     const options = screen.getAllByRole('option');
 
     // Focused option
-    const focusedBgColor = inChrome
-      ? 'color(srgb 0.8 0.913725 1 / 0.5)'
-      : 'color(srgb 0.8 0.913726 1 / 0.5)';
+    // Let each browser serialize the expected color instead of guessing its precision.
+    const focusedBgColor = getComputedStyle(
+      screen.getByTestId('focused-background')
+    ).backgroundColor;
     expect(options[0].firstChild).to.have.style('color', toRGB('#1675e0'));
     expect(options[0].firstChild).to.have.style('background-color', focusedBgColor);
 
