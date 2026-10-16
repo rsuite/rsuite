@@ -54,7 +54,11 @@ function expectMotion(
     ? 'errorMessageSlideUpIn'
     : placement?.startsWith('bottom')
       ? 'errorMessageSlideDownIn'
-      : 'none';
+      : placement?.startsWith('left')
+        ? 'errorMessageSlideRightIn'
+        : placement?.startsWith('right')
+          ? 'errorMessageSlideLeftIn'
+          : 'none';
   expect(style.animationName).toBe(reduced ? 'none' : animation);
   if (!reduced && animation !== 'none') expect(style.animationDuration).toBe('0.3s');
   if (reduced) expect(style.transform).toBe('none');

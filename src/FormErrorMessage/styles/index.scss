@@ -20,10 +20,10 @@
   }
 }
 
-@mixin arrow-border($direction, $w1, $w2, $w3, $position, $offset) {
+@mixin arrow-border($direction, $w1, $w2, $w3, $position, $offset, $w4: null) {
   &::before,
   &::after {
-    border-width: $w1 $w2 $w3;
+    border-width: $w1 $w2 $w3 $w4;
     border-#{$direction}-color: var(--rs-form-errormessage-border);
     #{$position}: -1 * $offset;
   }
@@ -61,6 +61,63 @@
 
 .rs-form-error-message-wrapper {
   position: absolute;
+
+  // Left/right placements remain physical in both LTR and RTL layouts.
+  &:where([data-placement='left-start'], [data-placement='left-end']) {
+    left: 0;
+
+    .rs-form-error-message {
+      right: 0;
+
+      &-show {
+        animation-name: errorMessageSlideRightIn;
+      }
+    }
+
+    .rs-form-error-message-arrow {
+      @include arrow-border(left, 6px, 0, 6px, right, 6px, 6px);
+    }
+  }
+
+  &:where([data-placement='right-start'], [data-placement='right-end']) {
+    right: 0;
+
+    .rs-form-error-message {
+      left: 0;
+
+      &-show {
+        animation-name: errorMessageSlideLeftIn;
+      }
+    }
+
+    .rs-form-error-message-arrow {
+      @include arrow-border(right, 6px, 6px, 6px, left, 6px, 0);
+    }
+  }
+
+  &:where([data-placement='left-start'], [data-placement='right-start']) {
+    top: 0;
+
+    .rs-form-error-message {
+      top: 0;
+    }
+
+    .rs-form-error-message-arrow {
+      @include arrow-position(top, var(--rs-form-errormessage-triangle-vertical));
+    }
+  }
+
+  &:where([data-placement='left-end'], [data-placement='right-end']) {
+    bottom: 0;
+
+    .rs-form-error-message {
+      bottom: 0;
+    }
+
+    .rs-form-error-message-arrow {
+      @include arrow-position(bottom, var(--rs-form-errormessage-triangle-vertical));
+    }
+  }
 
   &[data-placement='static'] {
     --rs-form-errormessage-text: var(--rs-color-red);
