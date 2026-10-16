@@ -9,8 +9,14 @@ export interface TimelineProps extends BoxProps {
   /** The content of the component */
   children?: React.ReactNode;
 
-  /** TimeLine content relative position  **/
+  /**
+   * Content position relative to the timeline.
+   * On horizontal timelines, `left` places content below and `right` above the line.
+   */
   align?: 'left' | 'right' | 'alternate';
+
+  /** Display events horizontally. */
+  horizontal?: boolean;
 
   /** Timeline endless **/
   endless?: boolean;
@@ -46,13 +52,14 @@ const SubcomponentsAndStaticMethods = {
  */
 const Timeline = forwardRef<'div', TimelineProps, typeof SubcomponentsAndStaticMethods>(
   (props, ref) => {
-    const { propsWithDefaults } = useCustom('Timeline', props);
+    const { propsWithDefaults, rtl } = useCustom('Timeline', props);
     const {
       as = 'ul',
       children,
       classPrefix = 'timeline',
       className,
       align = 'left',
+      horizontal,
       endless,
       reverse,
       isItemActive = ACTIVE_LAST,
@@ -65,14 +72,20 @@ const Timeline = forwardRef<'div', TimelineProps, typeof SubcomponentsAndStaticM
 
     const classes = merge(
       className,
-      withPrefix(`align-${align}`, { endless, 'with-time': withTime, reverse })
+      withPrefix(`align-${align}`, { endless, 'with-time': withTime, reverse, horizontal })
     );
 
     const childrenArray = React.Children.toArray(children);
     const orderedChildren = reverse ? [...childrenArray].reverse() : childrenArray;
 
     return (
-      <Box as={as} ref={ref} className={classes} {...rest}>
+      <Box
+        as={as}
+        ref={ref}
+        className={classes}
+        dir={horizontal && rtl ? 'rtl' : undefined}
+        {...rest}
+      >
         {orderedChildren.map((child: any, domIndex: number) => {
           const logicalIndex = reverse ? count - 1 - domIndex : domIndex;
           return React.cloneElement(child, {

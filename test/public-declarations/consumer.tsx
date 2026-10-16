@@ -783,3 +783,25 @@ void [
   invalidDatePickerLabel,
   invalidDateRangeLabel
 ];
+
+import { Timeline, type TimelineProps } from 'rsuite';
+import TimelineSubpath from 'rsuite/Timeline';
+const horizontalTimelineProps: TimelineProps = {
+  horizontal: true,
+  align: 'alternate',
+  reverse: true,
+  endless: true
+};
+const horizontalTimelineConsumers = (
+  <CustomProvider components={{ Timeline: { defaultProps: { horizontal: true } } }}>
+    <Timeline {...horizontalTimelineProps}>
+      <Timeline.Item time="09:00">Event</Timeline.Item>
+    </Timeline>
+    <TimelineSubpath horizontal align="right">
+      <TimelineSubpath.Item>Event</TimelineSubpath.Item>
+    </TimelineSubpath>
+  </CustomProvider>
+);
+// @ts-expect-error Horizontal layout accepts a boolean, not an orientation string.
+const invalidHorizontalTimeline = <Timeline horizontal="horizontal" />;
+void [horizontalTimelineConsumers, invalidHorizontalTimeline];
