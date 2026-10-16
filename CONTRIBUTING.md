@@ -66,6 +66,8 @@ git clone https://github.com/<your-username>/rsuite.git
 cd rsuite
 ```
 
+- Use Node.js 22 or 24 to develop and test RSuite.
+
 - Install project dependencies, executing at the project root:
 
 ```bash

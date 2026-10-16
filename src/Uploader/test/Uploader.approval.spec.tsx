@@ -36,7 +36,7 @@ beforeEach(() => {
   requests = [];
   vi.stubGlobal(
     'XMLHttpRequest',
-    vi.fn(() => {
+    vi.fn(function () {
       const request: RequestMock = {
         readyState: 1,
         open: vi.fn(),

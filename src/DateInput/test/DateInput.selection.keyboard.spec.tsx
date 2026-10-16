@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { userEvent } from '@vitest/browser/context';
-import type {} from '@vitest/browser/providers/playwright';
+import { userEvent } from 'vitest/browser';
+import type {} from '@vitest/browser-playwright';
 import { format } from 'date-fns/format';
 import DateInput from '..';
 import DateRangeInput from '../../DateRangeInput';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import { page } from '@vitest/browser/context';
+import { page } from 'vitest/browser';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import Container from '@/Container';
 import Text from '@/Text';

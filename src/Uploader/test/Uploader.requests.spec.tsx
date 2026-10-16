@@ -29,7 +29,7 @@ beforeEach(() => {
   requests = [];
   vi.stubGlobal(
     'XMLHttpRequest',
-    vi.fn(() => {
+    vi.fn(function () {
       const request = new RequestMock();
       requests.push(request);
       return request;

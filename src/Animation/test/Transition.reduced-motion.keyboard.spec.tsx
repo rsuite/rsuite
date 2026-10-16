@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
-import { commands, userEvent } from '@vitest/browser/context';
+import { commands, userEvent } from 'vitest/browser';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import Bounce from '../Bounce';
 import Slide from '../Slide';
@@ -10,7 +10,7 @@ import '../styles/index.scss';
 import '../../Modal/styles/index.scss';
 import '../../Drawer/styles/index.scss';
 
-declare module '@vitest/browser/context' {
+declare module 'vitest/browser' {
   interface BrowserCommands {
     setMotionPreference: (preference: 'reduce' | 'no-preference') => Promise<void>;
   }

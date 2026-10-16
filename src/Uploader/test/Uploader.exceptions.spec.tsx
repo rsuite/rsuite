@@ -49,7 +49,7 @@ beforeEach(() => {
   requests = [];
   vi.stubGlobal(
     'XMLHttpRequest',
-    vi.fn(() => {
+    vi.fn(function () {
       if (failureStage === 'constructor') throw fault;
       const request = new RequestMock();
       requests.push(request);
