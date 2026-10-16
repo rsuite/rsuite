@@ -71,6 +71,9 @@ export interface InputPickerProps<V = ValueType>
   /** The `onFocus` attribute for the `input` element. */
   onFocus?: React.FocusEventHandler;
 
+  /** Called after the picker's keyboard handling. */
+  onKeyDown?: React.KeyboardEventHandler;
+
   /** Called when the option is created */
   onCreate?: (value: V, item: Option, event: React.SyntheticEvent) => void;
 
@@ -155,6 +158,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     onSelect,
     onBlur,
     onFocus,
+    onKeyDown: onKeyDownProp,
     searchBy,
     ...rest
   } = propsWithDefaults;
@@ -491,6 +495,10 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   };
 
   const handleKeyPress = useEventCallback((event: React.KeyboardEvent<any>) => {
+    if (disabled || readOnly || loading || event.nativeEvent.isComposing) {
+      return;
+    }
+
     // When typing a space, create a tag.
     if (isOneOf('Space', trigger) && event.key === KEY_VALUES.SPACE) {
       handleTagKeyPress(event);
@@ -525,7 +533,8 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     readOnly,
     disabled,
     ...events,
-    ...rest
+    ...rest,
+    onKeyDown: createChainedFunction(events.onKeyDown, onKeyDownProp)
   });
 
   const handleExited = useEventCallback(() => {
