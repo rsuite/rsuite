@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import { describe, expect, it, vi } from 'vitest';
 import SelectPicker from '../../../SelectPicker';
 import CustomProvider from '../../../CustomProvider';
@@ -29,7 +29,7 @@ const values = [
   'foo%25bar'
 ];
 const data = values.map((value, index) => ({ value, label: `Option ${index}` }));
-type Callbacks = { onChange: ReturnType<typeof vi.fn>; onEntered: ReturnType<typeof vi.fn> };
+type Callbacks = { onChange: (...args: unknown[]) => void; onEntered: () => void };
 type PickerCase = {
   name: string;
   tree: boolean;

@@ -144,7 +144,7 @@ describe('Uploader', () => {
 
     const xhrMocks: any[] = [];
     const OriginalXHR = window.XMLHttpRequest;
-    window.XMLHttpRequest = vi.fn(() => {
+    window.XMLHttpRequest = vi.fn(function () {
       const xhrMock = {
         open: vi.fn(),
         send: vi.fn(),
@@ -190,7 +190,7 @@ describe('Uploader', () => {
 
     const xhrMocks: any[] = [];
     const OriginalXHR = window.XMLHttpRequest;
-    window.XMLHttpRequest = vi.fn(() => {
+    window.XMLHttpRequest = vi.fn(function () {
       const xhrMock = {
         open: vi.fn(),
         send: vi.fn(),
@@ -235,7 +235,7 @@ describe('Uploader', () => {
 
     const xhrMocks: any[] = [];
     const OriginalXHR = window.XMLHttpRequest;
-    window.XMLHttpRequest = vi.fn(() => {
+    window.XMLHttpRequest = vi.fn(function () {
       const xhrMock = {
         open: vi.fn(),
         send: vi.fn(),
@@ -318,7 +318,7 @@ describe('Uploader', () => {
 
     const xhrMocks: any[] = [];
     const OriginalXHR = window.XMLHttpRequest;
-    window.XMLHttpRequest = vi.fn(() => {
+    window.XMLHttpRequest = vi.fn(function () {
       const xhrMock = {
         open: vi.fn(),
         send: vi.fn(),

@@ -1,6 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { userEvent as nativeUserEvent } from '@vitest/browser/context';
+import { userEvent as nativeUserEvent } from 'vitest/browser';
 import DatePicker from '../DatePicker';
 import GearIcon from '@rsuite/icons/Gear';
 import CustomProvider from '@/CustomProvider';

@@ -21,7 +21,7 @@ beforeEach(() => {
   requests = [];
   vi.stubGlobal(
     'XMLHttpRequest',
-    vi.fn(() => {
+    vi.fn(function () {
       const request: Request = {
         readyState: 1,
         open: vi.fn(),

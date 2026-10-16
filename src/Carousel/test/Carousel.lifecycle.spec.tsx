@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, cleanup, render, screen, within } from '@testing-library/react';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import { afterEach, describe, expect, it } from 'vitest';
 import Carousel from '../Carousel';
 

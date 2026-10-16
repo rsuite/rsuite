@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, render, screen, waitFor } from '@testing-library/react';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import Whisper from '../Whisper';
 import Tooltip from '../../Tooltip';
 import CustomProvider from '../../CustomProvider';

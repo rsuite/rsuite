@@ -1,7 +1,7 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { userEvent as browserUserEvent } from '@vitest/browser/context';
-import type {} from '@vitest/browser/providers/playwright';
+import { userEvent as browserUserEvent } from 'vitest/browser';
+import type {} from '@vitest/browser-playwright';
 import DateInput from '../DateInput';
 import CustomProvider from '../../CustomProvider';
 import zhCN from '../../locales/zh_CN';

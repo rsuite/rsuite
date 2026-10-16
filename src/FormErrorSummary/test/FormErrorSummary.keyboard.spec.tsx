@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
-import { server, userEvent } from '@vitest/browser/context';
+import { server, userEvent } from 'vitest/browser';
 import { describe, expect, it, vi } from 'vitest';
 import { flushSync } from 'react-dom';
 import FormErrorSummary from '../FormErrorSummary';
