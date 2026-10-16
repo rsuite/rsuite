@@ -1,6 +1,7 @@
 import React from 'react';
 import type { StoryObj } from '@storybook/react';
 import Timeline, { TimelineProps } from '../Timeline';
+import CustomProvider from '../../CustomProvider';
 import CreditCardIcon from '@rsuite/icons/legacy/CreditCard';
 import PlaneIcon from '@rsuite/icons/legacy/Plane';
 import TruckIcon from '@rsuite/icons/legacy/Truck';
@@ -73,6 +74,54 @@ export const ReverseEndless: Story = {
     reverse: true,
     endless: true
   }
+};
+
+const horizontalArgs: TimelineProps = {
+  horizontal: true,
+  style: { maxWidth: 720 },
+  children: [
+    <Timeline.Item key="placed" time="09:00">
+      Order placed
+    </Timeline.Item>,
+    <Timeline.Item
+      key="packed"
+      time={
+        <>
+          Tuesday
+          <br />
+          10:30
+        </>
+      }
+    >
+      Order packed
+      <br />
+      Ready for collection
+    </Timeline.Item>,
+    <Timeline.Item key="delivered" time="Next day" dot={<CheckIcon style={{ fontSize: 28 }} />}>
+      Delivered
+    </Timeline.Item>
+  ]
+};
+
+export const Horizontal: Story = { args: horizontalArgs };
+
+export const HorizontalAbove: Story = { args: { ...horizontalArgs, align: 'right' } };
+
+export const HorizontalAlternate: Story = { args: { ...horizontalArgs, align: 'alternate' } };
+
+export const HorizontalReverseEndless: Story = {
+  args: { ...horizontalArgs, reverse: true, endless: true }
+};
+
+export const HorizontalRTL: Story = {
+  args: horizontalArgs,
+  decorators: [
+    Story => (
+      <CustomProvider rtl>
+        <Story />
+      </CustomProvider>
+    )
+  ]
 };
 
 export const CustomIcon: Story = {
