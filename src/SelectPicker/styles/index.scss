@@ -9,7 +9,7 @@
 
 // Menu Items (the listbox)
 .rs-picker-select-menu-items {
-  @include picker-mixin.picker-listbox-reset();
+  @include picker-mixin.picker-listbox-reset;
   @include picker-mixin.picker-menu-group-common(picker);
   @include picker-mixin.picker-menu-group-title(picker);
   @include picker-mixin.picker-menu-group-closed(picker);
@@ -21,16 +21,16 @@
 
 // Menu item (the option)
 .rs-picker-select-menu-item {
-  @include listbox.listbox-option();
+  @include listbox.listbox-option;
 
   &:hover,
   &:focus,
   &.rs-picker-select-menu-item-focus {
-    @include listbox.listbox-option-active();
+    @include listbox.listbox-option-active;
   }
 
   &.rs-picker-select-menu-item-active {
-    @include picker-mixin.picker-item-active();
+    @include picker-mixin.picker-item-active;
 
     color: var(--rs-listbox-option-selected-text);
     background-color: var(--rs-listbox-option-selected-bg);

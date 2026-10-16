@@ -3,7 +3,7 @@ import { getTransitionEnd } from '../../Animation/utils';
 import InputPicker from '../InputPicker';
 import TagPicker from '../../TagPicker';
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import { describe, expect, it, vi } from 'vitest';
 import '../styles/index.scss';
 import '../../TagPicker/styles/index.scss';

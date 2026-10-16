@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect, useRef } from 'react';
 import on from 'dom-lib/on';
 import { useTimeout } from '@/internals/hooks';
 import ToastContext from '../ToastContext';
@@ -31,22 +31,67 @@ interface UseDelayedClosureProps {
 function useDelayedClosure(props: UseDelayedClosureProps) {
   const { onClose, duration: durationProp, targetRef } = props;
   const { usedToaster, duration = durationProp, mouseReset } = useContext(ToastContext);
+  const paused = useRef(false);
+  const dismissed = useRef(false);
 
   const { clear, reset } = useTimeout(onClose, duration, usedToaster && duration > 0);
 
+  const dismiss = useCallback(() => {
+    dismissed.current = true;
+    clear();
+  }, [clear]);
+
+  // Read the committed element on every render, including when `as` replaces the host.
   useEffect(() => {
-    if (targetRef?.current && mouseReset) {
-      const mouseEnter = on(targetRef.current, 'mouseenter', clear);
-      const mouseLeave = on(targetRef.current, 'mouseleave', reset);
-
-      return () => {
-        mouseEnter.off();
-        mouseLeave.off();
-      };
+    if (dismissed.current) {
+      clear();
+      return;
     }
-  }, [targetRef, mouseReset, clear, reset]);
 
-  return { clear, reset };
+    const element = targetRef?.current;
+    if (!element) return;
+
+    let hovered = !!mouseReset && element.matches(':hover');
+    let focused = element.matches(':focus-within');
+    const update = () => {
+      if (dismissed.current) return;
+      const next = hovered || focused;
+      if (next) clear();
+      else if (paused.current) reset();
+      paused.current = next;
+    };
+    update();
+
+    const focusIn = on(element, 'focusin', () => {
+      focused = true;
+      update();
+    });
+    const focusOut = on(element, 'focusout', event => {
+      focused = element.contains(event.relatedTarget as Node | null);
+      update();
+    });
+    const mouseEnter = mouseReset
+      ? on(element, 'mouseenter', () => {
+          hovered = true;
+          update();
+        })
+      : null;
+    const mouseLeave = mouseReset
+      ? on(element, 'mouseleave', () => {
+          hovered = false;
+          update();
+        })
+      : null;
+
+    return () => {
+      focusIn.off();
+      focusOut.off();
+      mouseEnter?.off();
+      mouseLeave?.off();
+    };
+  });
+
+  return { clear: dismiss, reset };
 }
 
 export default useDelayedClosure;

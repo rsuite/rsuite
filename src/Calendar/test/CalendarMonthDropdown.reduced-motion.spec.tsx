@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server.browser';
 import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
-import { commands, userEvent } from '@vitest/browser/context';
+import { commands, userEvent } from 'vitest/browser';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import CalendarContainer from '../CalendarContainer';
 import { CalendarState } from '../hooks';

@@ -23,6 +23,7 @@ export interface UploadTriggerProps extends ButtonProps {
 }
 
 export interface UploadTriggerInstance {
+  root: HTMLElement | null;
   clearInput: () => void;
 }
 
@@ -126,6 +127,7 @@ const UploadTrigger = forwardRef<typeof Button, UploadTriggerProps>((props, ref)
   return (
     <div ref={rootRef} className={classes} data-disabled={disabled}>
       <input
+        data-rs-uploader-input=""
         type="file"
         name={name}
         multiple={multiple}

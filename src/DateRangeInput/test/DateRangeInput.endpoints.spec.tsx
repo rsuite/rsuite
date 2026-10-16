@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { userEvent } from '@vitest/browser/context';
-import type {} from '@vitest/browser/providers/playwright';
+import { userEvent } from 'vitest/browser';
+import type {} from '@vitest/browser-playwright';
 import DateRangeInput from '..';
 
 type RangeValue = [Date | null, Date | null] | null;
@@ -21,7 +21,7 @@ function Owner({
   controlled: boolean;
   initial: [Date, Date];
   inputRef: React.Ref<HTMLInputElement>;
-  onChange: ReturnType<typeof vi.fn>;
+  onChange: NonNullable<React.ComponentProps<typeof DateRangeInput>['onChange']>;
   observation?: Observation;
 }) {
   const [value, setValue] = useState<RangeValue>(initial);

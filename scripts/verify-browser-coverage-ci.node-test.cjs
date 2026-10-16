@@ -64,6 +64,21 @@ test('fails for missing, malformed and empty reports', t => {
   }
 });
 
+test('rejects a nonempty shard report missing an uncovered source file', t => {
+  const { directory, files, report } = fixture(t);
+  const uncovered = structuredClone(report['/src/component.tsx']);
+  uncovered.path = '/src/unloaded.tsx';
+  uncovered.s = { 0: 0 };
+  uncovered.b = { 0: [0, 0] };
+  report[uncovered.path] = uncovered;
+  const reports = files.filter(file => file.endsWith('coverage-final.json'));
+  for (const file of reports) fs.writeFileSync(file, JSON.stringify(report));
+  assert.equal(verifyBrowserCoverage(directory, 'chromium').length, 12);
+  delete report[uncovered.path];
+  fs.writeFileSync(reports.at(-1), JSON.stringify(report));
+  assert.throws(() => verifyBrowserCoverage(directory, 'chromium'), /same source files/);
+});
+
 test('requires a Clover report in the expected generated format alongside each Istanbul report', t => {
   const { directory, files } = fixture(t);
   const clover = files.find(file => file.endsWith('clover.xml'));

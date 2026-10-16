@@ -1,6 +1,6 @@
 import type { Page } from 'playwright';
 import type { BrowserCommandContext } from 'vitest/node';
-import type {} from '@vitest/browser/providers/playwright';
+import type {} from '@vitest/browser-playwright';
 
 /** Resolve the caller's iframe through the live DOM, including when its URL is reused. */
 export async function waitForTestFrame(page: Page, token: string, timeout = 30000) {

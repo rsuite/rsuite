@@ -155,7 +155,16 @@ describe('Cascader mixed value identity with native input', () => {
           if (view === 'search') await enter(page, view);
           await reorder(page);
           if (view === 'column') await enter(page, view);
-          else await page.keyboard.press('ArrowDown');
+          else {
+            // Flattened search results update after the fixture's data revision.
+            await expect
+              .poll(() => page.getByRole('treeitem').allTextContents())
+              .toEqual([
+                expect.stringContaining('Second target'),
+                expect.stringContaining('First target')
+              ]);
+            await page.keyboard.press('ArrowDown');
+          }
           await checked(page, 'Second target', true);
           await checked(page, 'First target', false);
           if (view === 'column') await focus(page, 'Second target');

@@ -1,5 +1,7 @@
-import { defineConfig, ViteUserConfig, coverageConfigDefaults } from 'vitest/config';
+import { defineConfig, ViteUserConfig } from 'vitest/config';
+import { playwright } from '@vitest/browser-playwright';
 import { resolve } from 'path';
+import { normalizePath } from 'vite';
 
 const { M, F, RUN_ENV, VITEST_RUNNING_POSTBUILD, BROWSER = 'chromium' } = process.env;
 const nodeEnvironment = RUN_ENV === 'ssr' || RUN_ENV === 'browser-controls';
@@ -48,13 +50,39 @@ async function createConfig() {
     define: {
       __DEV__: true
     },
+    server: {
+      // Keep Istanbul's synchronous uncovered-file instrumentation serial.
+      preTransformRequests: false
+    },
+    // Unloaded benchmark CLIs must not prebundle Node-only tooling for browser coverage.
+    optimizeDeps: {
+      exclude: ['vite', 'playwright'],
+      // Resolve test-only imports before execution so optimizer reloads cannot split React.
+      include: [
+        'react',
+        'react-dom',
+        'react-dom/client',
+        'react-dom/server',
+        'react-dom/server.browser',
+        '@testing-library/react',
+        '@testing-library/jest-dom/vitest',
+        '@rsuite/icons/AddOutline',
+        '@rsuite/icons/Gear',
+        '@rsuite/icons/Heart',
+        '@rsuite/icons/Page'
+      ]
+    },
     plugins: [tsconfigPaths({ ignoreConfigErrors: true }), react()],
     resolve: {
+      dedupe: ['react', 'react-dom'],
       alias: {
         '@test': resolve(__dirname, './test'),
         '@/internals': resolve(__dirname, './src/internals'),
         '@': resolve(__dirname, './src'),
-        '@/storybook': resolve(__dirname, './storybook')
+        '@/storybook': resolve(__dirname, './storybook'),
+        // Istanbul also transforms unloaded standalone benchmark fixtures.
+        'rsuite-benchmark/SelectPicker': resolve(__dirname, './src/SelectPicker/index.tsx'),
+        'rsuite-benchmark/styles': resolve(__dirname, './src/styles/index.scss')
       }
     },
     test: {
@@ -62,8 +90,27 @@ async function createConfig() {
       setupFiles: nodeEnvironment ? [] : ['vitest.setup.ts'],
       coverage: {
         provider: 'istanbul',
+        // Preserve v3's unloaded-file coverage and exclusions after their defaults changed.
+        include: ['**/*.{js,cjs,mjs,ts,mts,tsx,jsx,vue,svelte,marko,astro}'],
+        // Anchor exclusions so a hidden parent directory does not exclude the project.
         exclude: [
-          ...coverageConfigDefaults.exclude,
+          'coverage/**',
+          'dist/**',
+          '**/node_modules/**',
+          '**/[.]**',
+          'packages/*/test?(s)/**',
+          '**/*.d.ts',
+          '**/virtual:*',
+          '**/__x00__*',
+          '**/\\0*',
+          'cypress/**',
+          'test?(s)/**',
+          'test?(-*).?(c|m)[jt]s?(x)',
+          '**/*{.,-}{test,spec,bench,benchmark}?(-d).?(c|m)[jt]s?(x)',
+          '**/__tests__/**',
+          '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*',
+          '**/vitest.{workspace,projects}.[jt]s?(on)',
+          '**/.{eslint,mocha,prettier}rc.{?(c|m)js,yml}',
           'docs/**',
           'examples/**',
           'storybook/**',
@@ -71,7 +118,7 @@ async function createConfig() {
           'src/**/stories/**',
           '**/*.js',
           '**/*.cjs'
-        ]
+        ].map(pattern => normalizePath(__dirname) + '/' + pattern)
       }
     }
   };
@@ -111,14 +158,26 @@ async function createConfig() {
         'test/browser/garbageCollection.setup.ts',
         'vitest.setup.ts'
       ];
+      // Native focus and keyboard tests need one active browser page at a time.
+      config.test.fileParallelism = false;
       config.test.browser = {
         enabled: true,
-        provider: 'playwright',
+        provider: playwright({
+          // Avoid Firefox's intermittent NS_ERROR_CORRUPTED_CONTENT on Vite's 304 responses.
+          // Fetch component test modules without relying on the browser HTTP cache.
+          launchOptions:
+            BROWSER === 'firefox'
+              ? {
+                  firefoxUserPrefs: {
+                    'browser.cache.disk.enable': false,
+                    'browser.cache.memory.enable': false
+                  }
+                }
+              : undefined
+        }),
         orchestratorScripts: [
           { src: resolve(__dirname, 'test/browser/browserRPCClose.orchestrator.js') }
         ],
-        // Native focus and keyboard tests need one active browser page at a time.
-        fileParallelism: false,
         commands: {
           trcTrustedResetClick,
           trcTrustedInputClick,
@@ -130,17 +189,6 @@ async function createConfig() {
         instances: [
           {
             browser: BROWSER,
-            // Avoid Firefox's intermittent NS_ERROR_CORRUPTED_CONTENT on Vite's 304 responses.
-            // Fetch component test modules without relying on the browser HTTP cache.
-            launch:
-              BROWSER === 'firefox'
-                ? {
-                    firefoxUserPrefs: {
-                      'browser.cache.disk.enable': false,
-                      'browser.cache.memory.enable': false
-                    }
-                  }
-                : undefined,
             viewport: { width: 1280, height: 800 }
           }
         ]

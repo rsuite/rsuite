@@ -44,7 +44,7 @@
   .rs-tag {
     vertical-align: top;
 
-    @include utils.ellipsis-basic();
+    @include utils.ellipsis-basic;
   }
 
   .rs-picker-search {

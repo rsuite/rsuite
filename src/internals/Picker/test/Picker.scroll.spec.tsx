@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, render, screen, waitFor, within } from '@testing-library/react';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import { describe, expect, it, vi } from 'vitest';
 import InputPicker from '../../../InputPicker';
 import TagPicker from '../../../TagPicker';

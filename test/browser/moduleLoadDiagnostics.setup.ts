@@ -1,6 +1,6 @@
-import { commands } from '@vitest/browser/context';
+import { commands } from 'vitest/browser';
 
-declare module '@vitest/browser/context' {
+declare module 'vitest/browser' {
   interface BrowserCommands {
     observeBrowserModuleLoads: () => Promise<void>;
   }

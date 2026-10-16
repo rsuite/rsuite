@@ -12,6 +12,7 @@ function verifyBrowserCoverage(directory, browser) {
     expected,
     'Coverage must contain exactly both shards for each React runtime.'
   );
+  let sourceFiles;
   return expected.flatMap(name => {
     const file = path.join(directory, name, 'coverage-final.json');
     const report = JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -38,6 +39,12 @@ function verifyBrowserCoverage(directory, browser) {
         counts.every(count => Number.isSafeInteger(count) && count >= 0),
         `${file}: invalid counts`
       );
+    }
+    const paths = entries.map(entry => entry.path).sort();
+    if (sourceFiles) {
+      assert.deepEqual(paths, sourceFiles, `${file}: shards must cover the same source files`);
+    } else {
+      sourceFiles = paths;
     }
     // Preserve both formats used by the existing Codecov upload.
     const cloverFile = path.join(directory, name, 'clover.xml');

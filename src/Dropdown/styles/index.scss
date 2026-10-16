@@ -87,7 +87,7 @@
   outline: 0;
 
   &:focus-visible {
-    @include utils.focus-ring();
+    @include utils.focus-ring;
   }
 
   .rs-dropdown & {

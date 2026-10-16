@@ -133,7 +133,7 @@
 }
 
 kbd.rs-text {
-  @include kbd.kbd();
+  @include kbd.kbd;
 }
 
 blockquote.rs-text {

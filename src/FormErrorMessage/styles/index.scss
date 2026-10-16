@@ -40,7 +40,7 @@
   background-color: var(--rs-form-errormessage-bg);
   border: 1px solid var(--rs-form-errormessage-border);
   border-radius: var(--rs-radius-md);
-  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 0 6px rgb(0 0 0 / 10%));
   z-index: var(--rs-zindex-form-error-message);
   color: var(--rs-form-errormessage-text);
   font-size: var(--rs-form-errormessage-font-size);

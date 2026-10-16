@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server.browser';
 import { act, cleanup, fireEvent, render } from '@testing-library/react';
-import { commands } from '@vitest/browser/context';
+import { commands } from 'vitest/browser';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import FormErrorMessage, { FormErrorMessageProps } from '../FormErrorMessage';
 import CustomProvider from '../../CustomProvider';

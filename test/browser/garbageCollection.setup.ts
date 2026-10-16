@@ -1,6 +1,6 @@
-import { commands, server } from '@vitest/browser/context';
+import { commands, server } from 'vitest/browser';
 
-declare module '@vitest/browser/context' {
+declare module 'vitest/browser' {
   interface BrowserCommands {
     collectBrowserGarbage: () => Promise<void>;
   }

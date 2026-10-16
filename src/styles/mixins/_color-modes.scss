@@ -2,7 +2,7 @@
 
 // Rules that take effect in dark mode.
 @mixin dark-mode {
-  @if (vars.$enable-dark-mode) {
+  @if vars.$enable-dark-mode {
     [data-theme='dark'] &,
     .rs-theme-dark & {
       @content;
@@ -11,7 +11,7 @@
 }
 
 @mixin high-contrast-mode {
-  @if (vars.$enable-high-contrast) {
+  @if vars.$enable-high-contrast {
     [data-theme='high-contrast'] &,
     .rs-theme-high-contrast & {
       @content;

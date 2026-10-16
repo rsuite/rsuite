@@ -4,6 +4,7 @@ import { chromium, firefox } from 'playwright';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { observeBrowserProcesses } from './browserProcessDiagnostics';
 import { createBrowserModuleDiagnostics } from './moduleLoadDiagnostics';
+import { closeServer } from './closeServer';
 import type { Browser, BrowserContext, Page } from 'playwright';
 import type { BrowserCommandContext } from 'vitest/node';
 import type { AddressInfo } from 'node:net';
@@ -38,8 +39,25 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-  await browser?.close();
-  if (server.listening) await new Promise<void>(resolve => server.close(() => resolve()));
+  let phase = 'browser.close';
+  const diagnostic = setTimeout(() => {
+    console.error('[Process diagnostics teardown]', {
+      phase,
+      browserConnected: browser?.isConnected(),
+      browserContexts: browser?.contexts().length,
+      serverListening: server.listening
+    });
+  }, 10000);
+  try {
+    try {
+      await browser?.close();
+    } finally {
+      phase = 'server.close';
+      await closeServer(server);
+    }
+  } finally {
+    clearTimeout(diagnostic);
+  }
 });
 
 describe('Browser process diagnostics', () => {

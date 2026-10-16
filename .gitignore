@@ -59,6 +59,7 @@ lib/
 
 # test screenshots (visual regression baselines generated at runtime)
 **/__screenshots__/
+.vitest-attachments/
 # Environment variables
 .env
 .env.*

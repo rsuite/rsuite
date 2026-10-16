@@ -1,7 +1,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import { act, fireEvent, render, renderHook, screen } from '@testing-library/react';
 import Dialog, { DialogProps } from '../Dialog';
 import useDialog from '../useDialog';

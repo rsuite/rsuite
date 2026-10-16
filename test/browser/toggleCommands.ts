@@ -1,5 +1,5 @@
 import type { BrowserCommandContext } from 'vitest/node';
-import type {} from '@vitest/browser/providers/playwright';
+import type {} from '@vitest/browser-playwright';
 
 export async function trcTrustedResetClick(
   context: BrowserCommandContext,

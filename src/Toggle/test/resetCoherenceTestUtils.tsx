@@ -1,11 +1,11 @@
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
-import { commands } from '@vitest/browser/context';
+import { commands } from 'vitest/browser';
 import { expect, vi } from 'vitest';
 import Toggle from '../Toggle';
 import type { ToggleProps } from '../Toggle';
 
-declare module '@vitest/browser/context' {
+declare module 'vitest/browser' {
   interface BrowserCommands {
     trcTrustedResetClick: (buttonId: string) => Promise<{ buttonId: string }>;
     trcTrustedInputClick: (inputId: string) => Promise<{ inputId: string }>;
