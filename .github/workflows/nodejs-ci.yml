@@ -213,13 +213,17 @@ jobs:
         run: npm ci --prefix test/public-declarations --legacy-peer-deps --ignore-scripts
       - name: Install locked runtime consumers
         run: npm ci --prefix test/public-runtime --legacy-peer-deps --ignore-scripts
-      - name: Build the public declaration package
-        run: npm run build:ts && npm run build:types
+      - name: Install UMD consumer browsers
+        run: npx playwright install --with-deps chromium firefox
+      - name: Build the public package entries
+        run: npm run build:ts && npm run build:types && npm run dist
       - name: Check React 18 and 19 public declarations
         run: npm run test:public-types
       - name: Check React 18 and 19 package runtime SSR
         run: npm run test:public-runtime
-      - name: Retain declaration diagnostics and loaded types
+      - name: Check React 18 and 19 UMD browser runtime
+        run: npm run test:public-umd
+      - name: Retain public consumer diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
