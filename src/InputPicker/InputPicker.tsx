@@ -28,7 +28,8 @@ import {
   mergeRefs,
   isOneOf,
   mergeStyles,
-  partitionHTMLProps
+  partitionHTMLProps,
+  isComposingEvent
 } from '@/internals/utils';
 import {
   Listbox,
@@ -495,7 +496,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   };
 
   const handleKeyPress = useEventCallback((event: React.KeyboardEvent<any>) => {
-    if (disabled || readOnly || loading || event.nativeEvent.isComposing) {
+    if (disabled || readOnly || loading || isComposingEvent(event)) {
       return;
     }
 
