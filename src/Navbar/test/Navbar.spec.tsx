@@ -14,8 +14,11 @@ describe('Navbar', () => {
   testStandardProps(<Navbar />);
 
   it('Should render a navbar', () => {
-    const { container } = render(<Navbar />);
+    const ref = React.createRef<HTMLElement>();
+    const { container } = render(<Navbar ref={ref} />);
     expect(container.firstChild).to.have.class('rs-navbar');
+    expect(container.firstChild).to.have.tagName('NAV');
+    expect(ref.current).toBe(container.firstChild);
   });
 
   it('Should render a navbar with default appearance', () => {

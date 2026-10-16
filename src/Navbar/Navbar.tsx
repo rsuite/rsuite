@@ -43,7 +43,7 @@ const Subcomponents = {
  * The `Navbar` component is a wrapper that positions navigation elements.
  * @see https://rsuitejs.com/components/navbar
  */
-const Navbar = forwardRef<'div', NavbarProps, typeof Subcomponents>((props, ref) => {
+const Navbar = forwardRef<'nav', NavbarProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Navbar', props);
   const {
     className,
