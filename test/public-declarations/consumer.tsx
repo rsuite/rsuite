@@ -850,3 +850,47 @@ void [
   invalidDefaultTimelineItemRef,
   invalidTimelineItemValue
 ];
+
+import { Breadcrumb, Navbar, Sidenav } from 'rsuite';
+import BreadcrumbSubpath from 'rsuite/Breadcrumb';
+import NavbarSubpath from 'rsuite/Navbar';
+import SidenavSubpath from 'rsuite/Sidenav';
+const navigationRef = React.createRef<HTMLElement>();
+const navigationDefaultElementConsumers = (
+  <>
+    <Breadcrumb
+      ref={navigationRef}
+      onClick={event => {
+        const element: HTMLElement = event.currentTarget;
+        // @ts-expect-error A default Breadcrumb ref targets the outer nav, not its inner ol.
+        const invalid: HTMLOListElement = event.currentTarget;
+        void [element, invalid];
+      }}
+    />
+    <BreadcrumbSubpath ref={navigationRef} />
+    <Navbar
+      ref={navigationRef}
+      onClick={event => {
+        const element: HTMLElement = event.currentTarget;
+        // @ts-expect-error A default Navbar renders nav, which has no div align property.
+        const invalid: HTMLDivElement = event.currentTarget;
+        void [element, invalid];
+      }}
+    />
+    <NavbarSubpath ref={navigationRef} />
+    <Sidenav
+      ref={navigationRef}
+      onClick={event => {
+        const element: HTMLElement = event.currentTarget;
+        // @ts-expect-error A default Sidenav renders nav, which has no div align property.
+        const invalid: HTMLDivElement = event.currentTarget;
+        void [element, invalid];
+      }}
+    />
+    <SidenavSubpath ref={navigationRef} />
+    <Breadcrumb as="ol" start={3} ref={React.createRef<HTMLOListElement>()} />
+    <Navbar as="div" ref={React.createRef<HTMLDivElement>()} />
+    <Sidenav as="div" ref={React.createRef<HTMLDivElement>()} />
+  </>
+);
+void navigationDefaultElementConsumers;
