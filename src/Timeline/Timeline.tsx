@@ -50,7 +50,7 @@ const SubcomponentsAndStaticMethods = {
  *
  * @see https://rsuitejs.com/components/timeline
  */
-const Timeline = forwardRef<'div', TimelineProps, typeof SubcomponentsAndStaticMethods>(
+const Timeline = forwardRef<'ul', TimelineProps, typeof SubcomponentsAndStaticMethods>(
   (props, ref) => {
     const { propsWithDefaults, rtl } = useCustom('Timeline', props);
     const {
