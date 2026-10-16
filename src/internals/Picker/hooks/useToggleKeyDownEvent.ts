@@ -1,5 +1,6 @@
 import { KEY_VALUES } from '@/internals/constants';
 import { useEventCallback } from '@/internals/hooks';
+import { isComposingEvent } from '@/internals/utils';
 
 interface ToggleKeyDownEventProps {
   toggle?: boolean;
@@ -60,8 +61,7 @@ const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
   });
 
   const onToggle = useEventCallback((event: React.KeyboardEvent) => {
-    // Keyboard events should not be processed when readOnly and disabled are set.
-    if (readOnly || disabled || loading) {
+    if (readOnly || disabled || loading || isComposingEvent(event)) {
       onKeyDown?.(event);
       return;
     }
@@ -105,6 +105,11 @@ const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     }
 
     if (event.key === KEY_VALUES.ESC || event.key === KEY_VALUES.TAB) {
+      const isOpen = trigger.current?.getState?.()?.open ?? active;
+      if (event.key === KEY_VALUES.ESC && isOpen) {
+        // A surrounding dialog must not handle the same Escape again.
+        event.preventDefault();
+      }
       handleClose();
     }
 

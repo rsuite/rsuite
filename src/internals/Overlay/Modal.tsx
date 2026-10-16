@@ -9,7 +9,7 @@ import Box, { BoxProps } from '@/internals/Box';
 import { OverlayProvider } from './OverlayProvider';
 import { KEY_VALUES } from '@/internals/constants';
 import { usePortal, useWillUnmount, useEventCallback } from '@/internals/hooks';
-import { forwardRef, mergeRefs, createChainedFunction } from '@/internals/utils';
+import { forwardRef, mergeRefs, createChainedFunction, isComposingEvent } from '@/internals/utils';
 import type { AnimationEventProps } from '@/internals/types';
 
 export interface BaseModalProps
@@ -194,9 +194,9 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
   };
 
   const handleDocumentKeyDown = useEventCallback((event: React.KeyboardEvent) => {
-    if (!modal.isTopModal()) return;
+    if (!modal.isTopModal() || isComposingEvent(event)) return;
 
-    if (keyboard && event.key === KEY_VALUES.ESC) {
+    if (keyboard && event.key === KEY_VALUES.ESC && !event.defaultPrevented) {
       onEsc?.(event);
       onClose?.(event);
     }
