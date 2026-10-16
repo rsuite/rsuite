@@ -2,6 +2,7 @@
 @use '../../styles/mixins/utilities' as utils;
 @use '../../styles/mixins/color-modes' as color-modes;
 @use './mixin';
+@use './horizontal';
 
 // Time lines
 // --------------------------------------------------
@@ -198,3 +199,5 @@
     padding-inline-start: var(--rs-time-line-alternate-time-offset);
   }
 }
+
+@include horizontal.timeline-horizontal;
