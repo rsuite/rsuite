@@ -48,9 +48,11 @@
       }
 
       > .rs-timeline-item-dot {
+        display: grid;
         position: relative;
         z-index: 1;
         grid-area: 2 / 1;
+        place-items: center;
         place-self: center;
         inset: auto;
         padding-block: var(--rs-time-line-item-content-margin);

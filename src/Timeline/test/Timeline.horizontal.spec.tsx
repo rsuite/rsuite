@@ -62,6 +62,26 @@ describe('Horizontal Timeline', () => {
     });
   });
 
+  it('centers an inline SVG marker on the rail without a text baseline offset', () => {
+    render(
+      <Timeline horizontal style={{ width: 400, fontSize: 20 }}>
+        <Timeline.Item
+          dot={
+            <svg data-testid="marker" width="28" height="28">
+              <circle cx="14" cy="14" r="14" />
+            </svg>
+          }
+        >
+          Custom marker
+        </Timeline.Item>
+        <Timeline.Item>Default marker</Timeline.Item>
+      </Timeline>
+    );
+    const marker = center(screen.getByTestId('marker').getBoundingClientRect());
+    const item = geometry(screen.getAllByRole('listitem')[1]);
+    close(marker.y, item.dot.y);
+  });
+
   describe.each(['left', 'right', 'alternate'] as const)('align=%s', align => {
     it.each([false, true])('keeps content and rail aligned with rtl=%s', rtl => {
       render(<Example align={align} rtl={rtl} />);
