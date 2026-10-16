@@ -51,6 +51,59 @@ function Example({ rtl = false, ...props }: TimelineProps & { rtl?: boolean; dir
 }
 
 describe('Horizontal Timeline', () => {
+  describe.each([false, true])('fragment children with reverse=%s', reverse => {
+    it.each([false, true])(
+      'preserves item order, active state and rail geometry with rtl=%s',
+      rtl => {
+        render(
+          <CustomProvider rtl={rtl}>
+            <Timeline horizontal reverse={reverse} align="alternate" style={{ width: 640 }}>
+              <>
+                <Timeline.Item time="09:00">Order placed</Timeline.Item>
+                {false}
+                <React.Fragment key="later">
+                  <Timeline.Item time="10:00">Packed</Timeline.Item>
+                  <Timeline.Item time="11:00">Delivered</Timeline.Item>
+                </React.Fragment>
+              </>
+            </Timeline>
+          </CustomProvider>
+        );
+        const list = screen.getByRole('list');
+        const nodes = screen.getAllByRole('listitem');
+        const labels = ['Order placed', 'Packed', 'Delivered'];
+        expect(list).to.have.class('rs-timeline-with-time');
+        expect(nodes).toHaveLength(3);
+        nodes.forEach((node, index) => {
+          expect(node.parentElement).toBe(list);
+          expect(node.querySelector('.rs-timeline-item-content')).to.have.text(
+            labels[reverse ? 2 - index : index]
+          );
+          expect(node.classList.contains('rs-timeline-item-active')).toBe(
+            index === (reverse ? 0 : 2)
+          );
+        });
+        const items = nodes.map(geometry);
+        items.forEach((item, index) => {
+          close(item.dot.y, items[0].dot.y);
+          if (index === 1) {
+            expect(item.content.bottom).toBeLessThan(item.dot.y);
+            expect(item.time!.top).toBeGreaterThan(item.dot.y);
+          } else {
+            expect(item.content.top).toBeGreaterThan(item.dot.y);
+            expect(item.time!.bottom).toBeLessThan(item.dot.y);
+          }
+          if (index < items.length - 1) {
+            expect(Math.sign(items[index + 1].dot.x - item.dot.x)).toBe(rtl ? -1 : 1);
+            close(rtl ? item.tail.right : item.tail.left, item.dot.x);
+            close(rtl ? item.tail.left : item.tail.right, items[index + 1].dot.x);
+          }
+        });
+        expect(items[2].tail.width).toBe(0);
+      }
+    );
+  });
+
   it('aligns unequal labels and custom dots on one horizontal rail', () => {
     render(<Example />);
     const items = screen.getAllByRole('listitem').map(geometry);

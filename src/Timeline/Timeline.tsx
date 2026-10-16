@@ -1,9 +1,9 @@
 import React from 'react';
-import some from 'lodash/some';
 import TimelineItem from './TimelineItem';
+import getTimelineItems from './getTimelineItems';
 import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useCustom } from '@/internals/hooks';
-import { forwardRef, rch } from '@/internals/utils';
+import { forwardRef } from '@/internals/utils';
 
 export interface TimelineProps extends BoxProps {
   /** The content of the component */
@@ -67,15 +67,15 @@ const Timeline = forwardRef<'ul', TimelineProps, typeof SubcomponentsAndStaticMe
     } = propsWithDefaults;
 
     const { merge, withPrefix } = useStyles(classPrefix);
-    const count = rch.count(children);
-    const withTime = some(React.Children.toArray(children), (item: any) => item?.props?.time);
+    const childrenArray = getTimelineItems(children);
+    const count = childrenArray.length;
+    const withTime = childrenArray.some(item => item.props.time);
 
     const classes = merge(
       className,
       withPrefix(`align-${align}`, { endless, 'with-time': withTime, reverse, horizontal })
     );
 
-    const childrenArray = React.Children.toArray(children);
     const orderedChildren = reverse ? [...childrenArray].reverse() : childrenArray;
 
     return (
@@ -86,7 +86,7 @@ const Timeline = forwardRef<'ul', TimelineProps, typeof SubcomponentsAndStaticMe
         dir={horizontal && rtl ? 'rtl' : undefined}
         {...rest}
       >
-        {orderedChildren.map((child: any, domIndex: number) => {
+        {orderedChildren.map((child, domIndex) => {
           const logicalIndex = reverse ? count - 1 - domIndex : domIndex;
           return React.cloneElement(child, {
             last: logicalIndex + 1 === count,
