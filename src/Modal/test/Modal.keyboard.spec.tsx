@@ -18,6 +18,12 @@ afterEach(() => {
   expect(nativeKeys.every(event => event.isTrusted)).toBe(true);
 });
 
+// Clicking a button need not focus it; establish the starting point for native keys.
+function focusControl(control: HTMLElement) {
+  control.focus();
+  expect(control).toHaveFocus();
+}
+
 describe.each([
   ['Modal', Modal],
   ['Drawer', Drawer]
@@ -50,7 +56,7 @@ describe.each([
       document.addEventListener('keydown', capture, true);
       try {
         await act(async () => {
-          await userEvent.click(start);
+          focusControl(start);
           await userEvent.keyboard(direction === 'forward' ? '{Tab}' : '{Shift>}{Tab}{/Shift}');
         });
         expect(events.some(event => event.key === 'Tab')).toBe(true);
@@ -73,7 +79,7 @@ describe.each([
     );
     await waitFor(() => expect(onEntered).toHaveBeenCalledOnce());
     await act(async () => {
-      await userEvent.click(screen.getByRole('button', { name: 'First action' }));
+      focusControl(screen.getByRole('button', { name: 'First action' }));
       await userEvent.keyboard('{Tab}');
     });
     expect(screen.getByRole('button', { name: 'Last action' })).toHaveFocus();
@@ -106,14 +112,14 @@ describe.each([
     );
     await waitFor(() => expect(onEntered).toHaveBeenCalledOnce());
     await act(async () => {
-      await userEvent.click(screen.getByRole('button', { name: 'Last DOM action' }));
+      focusControl(screen.getByRole('button', { name: 'Last DOM action' }));
       await userEvent.keyboard('{Tab}');
     });
     expect(screen.getByRole('button', { name: 'First ordered action' })).toHaveFocus();
     await act(async () => userEvent.keyboard('{Tab}'));
     expect(screen.getByRole('button', { name: 'Second ordered action' })).toHaveFocus();
     await act(async () => {
-      await userEvent.click(screen.getByRole('button', { name: 'First ordered action' }));
+      focusControl(screen.getByRole('button', { name: 'First ordered action' }));
       await userEvent.keyboard('{Shift>}{Tab}{/Shift}');
     });
     expect(screen.getByRole('button', { name: 'Last DOM action' })).toHaveFocus();
@@ -134,7 +140,7 @@ describe.each([
     );
     await waitFor(() => expect(onEntered).toHaveBeenCalledOnce());
     await act(async () => {
-      await userEvent.click(screen.getByRole('button', { name: 'Last ordered action' }));
+      focusControl(screen.getByRole('button', { name: 'Last ordered action' }));
       await userEvent.keyboard('{Tab}');
     });
     expect(screen.getByRole('button', { name: 'First ordinary action' })).toHaveFocus();
@@ -160,7 +166,7 @@ describe.each([
     await waitFor(() => expect(onEntered).toHaveBeenCalledOnce());
     const only = screen.getByRole('button', { name: 'Only action' });
     await act(async () => {
-      await userEvent.click(only);
+      focusControl(only);
       await userEvent.keyboard('{Tab}');
     });
     expect(only).toHaveFocus();
@@ -185,7 +191,7 @@ describe.each([
     await waitFor(() => expect(onEntered).toHaveBeenCalledOnce());
     const checked = screen.getByRole('radio', { name: 'Checked option' });
     await act(async () => {
-      await userEvent.click(checked);
+      focusControl(checked);
       await userEvent.keyboard('{Tab}');
     });
     expect(checked).toHaveFocus();
@@ -297,7 +303,7 @@ describe.each([
     await waitFor(() => expect(onEntered).toHaveBeenCalledOnce());
     const only = screen.getByRole('button', { name: 'Only action' });
     await act(async () => {
-      await userEvent.click(only);
+      focusControl(only);
       await userEvent.keyboard('{Escape}{Tab}');
     });
     expect(only).toHaveFocus();
@@ -315,7 +321,7 @@ describe.each([
     await waitFor(() => expect(onEntered).toHaveBeenCalledOnce());
     const last = screen.getByRole('button', { name: 'Last action' });
     await act(async () => {
-      await userEvent.click(last);
+      focusControl(last);
       await userEvent.keyboard('{Tab}');
     });
     expect(last).toHaveFocus();
@@ -353,7 +359,10 @@ describe.each([
       };
       render(<Fixture />);
       const opener = screen.getByRole('button', { name: 'Open dialog' });
-      await act(async () => userEvent.click(opener));
+      await act(async () => {
+        focusControl(opener);
+        await userEvent.keyboard('{Enter}');
+      });
       await waitFor(() => expect(onEntered).toHaveBeenCalledOnce());
       expect(opener).toHaveFocus();
       await act(async () =>
@@ -399,10 +408,11 @@ it('cycles only the top nested dialog and restores its opener after Escape', asy
   const entered = vi.fn();
   const closed = vi.fn();
   const outerClosed = vi.fn();
+  const outerEntered = vi.fn();
   function Example() {
     const [open, setOpen] = React.useState(false);
     return (
-      <Modal open animationTimeout={0} onClose={outerClosed}>
+      <Modal open animationTimeout={0} onEntered={outerEntered} onClose={outerClosed}>
         <button onClick={() => setOpen(true)}>Open inner dialog</button>
         <button>Outer action</button>
         <Drawer
@@ -421,11 +431,15 @@ it('cycles only the top nested dialog and restores its opener after Escape', asy
     );
   }
   render(<Example />);
+  await waitFor(() => expect(outerEntered).toHaveBeenCalledOnce());
   const opener = screen.getByRole('button', { name: 'Open inner dialog' });
-  await act(async () => userEvent.click(opener));
+  await act(async () => {
+    focusControl(opener);
+    await userEvent.keyboard('{Enter}');
+  });
   await waitFor(() => expect(entered).toHaveBeenCalledOnce());
   await act(async () => {
-    await userEvent.click(screen.getByRole('button', { name: 'Inner last' }));
+    focusControl(screen.getByRole('button', { name: 'Inner last' }));
     await userEvent.keyboard('{Tab}');
   });
   expect(screen.getByRole('button', { name: 'Inner first' })).toHaveFocus();
