@@ -1,15 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const __DEV__ = process.env.NODE_ENV === 'development';
 const filename = __DEV__ ? '[name].js' : '[name].min.js';
 
+// Keep full Lodash semantics: Form's immutable updates rely on exotic values and Symbol keys.
 const plugins = [
-  new LodashModuleReplacementPlugin({
-    currying: true
-  }),
   new webpack.SourceMapDevToolPlugin({
     filename: `${filename}.map`
   })
