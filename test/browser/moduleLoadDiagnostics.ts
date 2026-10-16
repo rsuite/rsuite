@@ -2,7 +2,7 @@ import type { Page, Request, Response } from 'playwright';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { Plugin } from 'vite';
 import type { BrowserCommandContext } from 'vitest/node';
-import type {} from '@vitest/browser/providers/playwright';
+import type {} from '@vitest/browser-playwright';
 import { observeBrowserLifecycle } from './browserLifecycleDiagnostics';
 import { createBrowserRPCObserver } from './browserRPCDiagnostics';
 import { observeBrowserProcesses } from './browserProcessDiagnostics';

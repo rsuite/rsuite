@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, cleanup, fireEvent, renderHook, screen } from '@testing-library/react';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import CustomProvider from '../../CustomProvider';
 import Message from '../../Message';

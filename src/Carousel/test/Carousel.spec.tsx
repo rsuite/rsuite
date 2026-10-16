@@ -2,7 +2,7 @@ import React from 'react';
 import Carousel from '../Carousel';
 import { describe, expect, it, vi } from 'vitest';
 import { act, render, screen, waitFor, fireEvent } from '@testing-library/react';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import { testStandardProps } from '@test/cases';
 
 describe('Carousel', () => {

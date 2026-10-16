@@ -1,7 +1,7 @@
 import React from 'react';
 import { getTransitionEnd } from '../../Animation/utils';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import { describe, expect, it, vi } from 'vitest';
 import InputPicker from '..';
 import TagPicker from '../../TagPicker';

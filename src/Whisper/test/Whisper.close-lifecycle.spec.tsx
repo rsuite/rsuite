@@ -1,7 +1,7 @@
 import React from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../../Tooltip';
 import '../../Tooltip/styles/index.scss';

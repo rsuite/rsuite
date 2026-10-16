@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import Modal from '..';
 import Drawer from '../../Drawer';

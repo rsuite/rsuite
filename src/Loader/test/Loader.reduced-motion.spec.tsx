@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server.browser';
 import { act, cleanup, render } from '@testing-library/react';
-import { commands } from '@vitest/browser/context';
+import { commands } from 'vitest/browser';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import Loader from '../Loader';
 import CustomProvider from '../../CustomProvider';

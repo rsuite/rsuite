@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, render, screen } from '@testing-library/react';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import DatePicker from '..';
 import TimePicker from '../../TimePicker';

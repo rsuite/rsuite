@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import { describe, expect, it, vi } from 'vitest';
 import Pagination from '..';
 
