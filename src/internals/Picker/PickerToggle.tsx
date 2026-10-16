@@ -33,6 +33,7 @@ export interface PickerToggleProps<T = OptionValue> extends ToggleButtonProps {
   readOnly?: boolean;
   plaintext?: boolean;
   tabIndex?: number;
+  inputTabStop?: boolean;
   /**
    * Whether to display an loading indicator on toggle button
    */
@@ -64,6 +65,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
     cleanable,
     countable,
     tabIndex = 0,
+    inputTabStop,
     inputValue: inputValueProp,
     focusItemValue,
     placement = 'bottomStart',
@@ -145,7 +147,13 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
       data-active={active}
       ref={mergeRefs(combobox, ref)}
       disabled={disabled}
-      tabIndex={disabled ? undefined : inlineCombobox ? -1 : tabIndex}
+      tabIndex={
+        disabled
+          ? undefined
+          : inlineCombobox || (inputTabStop && breakpoint !== 'xs')
+            ? -1
+            : tabIndex
+      }
       className={classes}
       {...(inlineCombobox
         ? customOpener

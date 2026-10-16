@@ -323,7 +323,9 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
 
   const handleExited = useCallback(() => {
     setExited(true);
-  }, []);
+    // Release the focus trap before consumers choose their next focus destination.
+    handleClose();
+  }, [handleClose]);
 
   const overlayContainer = useCallback(() => {
     return modal.dialog;

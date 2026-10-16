@@ -535,7 +535,8 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     disabled,
     ...events,
     ...rest,
-    onKeyDown: createChainedFunction(events.onKeyDown, onKeyDownProp)
+    onKeyDown: createChainedFunction(events.onKeyDown, onKeyDownProp),
+    focusOnClose: false
   });
 
   const handleExited = useEventCallback(() => {
@@ -771,6 +772,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       className={className}
       responsive={responsive ?? searchable === false}
       inputCombobox={editable && !disabledOptions}
+      focusOnClose={false}
       ariaLabel={inputAriaProps['aria-label']}
       ariaLabelledby={inputAriaProps['aria-labelledby']}
       onClick={focus}
@@ -792,6 +794,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         as={toggleAs}
         caretAs={caretAs}
         tabIndex={tabIndex}
+        inputTabStop={disabledOptions && editable}
         onClean={handleClean}
         onCleanFocus={handleCleanFocus}
         onFocus={event => {
@@ -819,6 +822,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         ariaLabel={typeof placeholderNode === 'string' ? placeholderNode : locale?.placeholder}
         hasDescription={!!(!searching && !(multi && hasValue) && (itemNode || placeholderNode))}
         tabIndex={tabIndex}
+        inputTabStop={disabledOptions && editable}
         tags={tagElements}
         editable={editable}
         readOnly={readOnly}
