@@ -1,7 +1,7 @@
 import React from 'react';
 import { version as reactDOMVersion } from 'react-dom';
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import Message from '../../Message';
 import Notification from '../../Notification';
