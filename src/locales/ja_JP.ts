@@ -20,8 +20,8 @@ const DateTimeFormats = {
    * Format of the string is based on Unicode Technical Standard #35:
    * https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
    **/
-  formattedMonthPattern: 'yyyy年 MMM',
-  formattedDayPattern: 'yyyy年 MMM dd',
+  formattedMonthPattern: 'yyyy年MM月',
+  formattedDayPattern: 'yyyy年MM月dd日',
   shortDateFormat: 'yyyy/MM/dd',
   shortTimeFormat: 'HH:mm',
   dateLocale: ja as any
