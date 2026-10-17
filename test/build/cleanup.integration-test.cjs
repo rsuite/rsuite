@@ -5,7 +5,7 @@ const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const test = require('node:test');
 
-const projectRoot = path.resolve(__dirname, '..');
+const projectRoot = path.resolve(__dirname, '../..');
 const gulpSource = fs.readFileSync(path.join(projectRoot, 'gulpfile.js'), 'utf8');
 const gulpRoot = path.dirname(require.resolve('gulp'));
 const gulpBin = JSON.parse(fs.readFileSync(path.join(gulpRoot, 'package.json'), 'utf8')).bin.gulp;
