@@ -88,6 +88,14 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
   useIsomorphicLayoutEffect(() => {
     if (!shouldApplyStyles) return;
 
+    // The identifier starts with rs-; escape other characters without requiring CSS.escape.
+    const escapedId = componentId.replace(
+      /[^\w-]/gu,
+      char => `\\${char.codePointAt(0)!.toString(16)} `
+    );
+    // Require the class while raising priority above component and state selectors.
+    const selector = `.${escapedId}:is(#${escapedId}, .${escapedId})`;
+
     // Create base CSS rules for the variables
     let baseVarRules = '';
     let basePropRules = '';
@@ -141,8 +149,8 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
     const baseCssRules = baseVarRules + basePropRules;
 
     // Add the base rule to the style manager
-    StyleManager.addRule(`.${componentId}`, baseCssRules, { nonce: csp?.nonce });
-    const ruleKeys = [`.${componentId}`];
+    StyleManager.addRule(selector, baseCssRules, { nonce: csp?.nonce });
+    const ruleKeys = [selector];
 
     // Process responsive variables
     if (!isEmpty(responsiveVars)) {
@@ -208,11 +216,10 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
           const bp = breakpoint as Breakpoints;
           const minWidth = breakpointValues[bp];
           const key = `${componentId}-${breakpoint}`;
-          StyleManager.addRule(
-            `@media (min-width: ${minWidth}px)`,
-            `.${componentId} { ${rules} }`,
-            { nonce: csp?.nonce, key }
-          );
+          StyleManager.addRule(`@media (min-width: ${minWidth}px)`, `${selector} { ${rules} }`, {
+            nonce: csp?.nonce,
+            key
+          });
           ruleKeys.push(key);
         }
       });
