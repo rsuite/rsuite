@@ -208,10 +208,16 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
       }
     }
     // Handle arrow keys
-    else if (e.key === 'ArrowLeft') {
-      focusPrevInput(index);
-    } else if (e.key === 'ArrowRight') {
-      focusNextInput(index);
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      // Telephone input text can remain LTR inside an RTL row.
+      const row = e.currentTarget.parentElement ?? e.currentTarget;
+      const rtl = row.ownerDocument.defaultView?.getComputedStyle(row).direction === 'rtl';
+      const nextKey = rtl ? 'ArrowLeft' : 'ArrowRight';
+      if (e.key === nextKey) {
+        focusNextInput(index);
+      } else {
+        focusPrevInput(index);
+      }
     }
     // Allow only keys matching allowedKeys
     else if (
