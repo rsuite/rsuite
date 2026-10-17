@@ -106,6 +106,10 @@ export default {
     selectSlide: '选择幻灯片',
     slideLabel: '第 {0} 张，共 {1} 张'
   },
+  PinInput: {
+    groupLabel: 'PIN 码输入',
+    characterLabel: '第 {0} 个字符，共 {1} 个'
+  },
   Toggle: {
     on: '开启',
     off: '关闭'
