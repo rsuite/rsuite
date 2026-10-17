@@ -43,11 +43,11 @@ describe('useDialog standalone styles', () => {
 
   for (const theme of ['light', 'dark', 'high-contrast'] as const) {
     for (const dir of ['ltr', 'rtl'] as const) {
-      it.each(['alert', 'confirm', 'prompt', 'prompt-invalid'] as const)(
+      it.each(['alert', 'confirm', 'prompt', 'prompt-invalid', 'prompt-custom-color'] as const)(
         `styles %s with the ${theme} theme in ${dir}`,
         kind => {
           document.documentElement.dir = dir;
-          const type = kind === 'prompt-invalid' ? 'prompt' : kind;
+          const type = kind.startsWith('prompt') ? 'prompt' : (kind as 'alert' | 'confirm');
           render(
             <CustomProvider theme={theme} rtl={dir === 'rtl'} reduceMotion>
               <Dialog
@@ -62,12 +62,17 @@ describe('useDialog standalone styles', () => {
                 animationTimeout={0}
                 autoFocus={false}
                 enforceFocus={false}
+                style={
+                  kind === 'prompt-custom-color'
+                    ? ({ '--rs-color-red': '#800080' } as React.CSSProperties)
+                    : undefined
+                }
               />
             </CustomProvider>
           );
           act(() => vi.advanceTimersByTime(1000));
           const button = screen.getByRole('button', { name: 'Continue' });
-          if (kind === 'prompt-invalid') fireEvent.click(button);
+          if (kind === 'prompt-invalid' || kind === 'prompt-custom-color') fireEvent.click(button);
 
           const modal = screen.getByRole('dialog', { name: 'Standalone dialog' });
           const stack = modal.querySelector('.rs-stack') as HTMLElement;
@@ -89,10 +94,12 @@ describe('useDialog standalone styles', () => {
             expect(bounds.height).toBeCloseTo(36, 1);
             expect(bounds.width).toBeCloseTo(stack.getBoundingClientRect().width, 1);
             expect(bounds.top - label.getBoundingClientRect().bottom).toBeCloseTo(6, 1);
-            if (kind === 'prompt-invalid') {
+            if (kind === 'prompt-invalid' || kind === 'prompt-custom-color') {
               const error = screen.getByRole('alert');
               expect(error.getBoundingClientRect().top - bounds.bottom).toBeCloseTo(6, 1);
-              expect(getComputedStyle(error).color).toBe(palette[theme].error);
+              expect(getComputedStyle(error).color).toBe(
+                kind === 'prompt-custom-color' ? 'rgb(128, 0, 128)' : palette[theme].error
+              );
               expect(getComputedStyle(error).marginBlockStart).toBe('0px');
             }
           }
