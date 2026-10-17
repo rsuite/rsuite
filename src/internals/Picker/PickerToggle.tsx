@@ -1,3 +1,6 @@
+import pick from 'lodash/pick';
+import omit from 'lodash/omit';
+import isNil from 'lodash/isNil';
 import React, { useRef, useMemo } from 'react';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
 import PickerIndicator from './PickerIndicator';
@@ -11,7 +14,6 @@ import { forwardRef, mergeRefs } from '@/internals/utils';
 import { triggerPropKeys } from './PickerToggleTrigger';
 import type { IconProps } from '@rsuite/icons/Icon';
 import type { Placement, OptionValue } from '@/internals/types';
-import { isNil, omit, pick } from 'lodash';
 
 export interface PickerToggleProps<T = OptionValue> extends ToggleButtonProps {
   active?: boolean;
