@@ -26,7 +26,7 @@ function useFocusState(props: FocusStateProps) {
 
   const onExit = useEventCallback((node: HTMLElement) => {
     setActive(false);
-    focusTarget();
+    if (node.contains(node.ownerDocument.activeElement)) focusTarget();
     props.onExit?.(node);
   });
 
