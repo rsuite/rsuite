@@ -111,9 +111,22 @@ jobs:
           overwrite: true
 
       - name: Run SSR hydration tests
+        id: ssr-tests
         # An artifact-service failure must not suppress independent test results.
         if: ${{ !cancelled() && steps.component-tests.outcome == 'success' && matrix.shard == 1 }}
-        run: npm run test:ssr
+        run: npm run test:ssr -- --coverage --coverage.reportsDirectory=coverage-ssr
+
+      - name: Retain SSR coverage
+        if: ${{ !cancelled() && steps.ssr-tests.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-coverage-${{ inputs.react-version }}
+          path: |
+            coverage-ssr/coverage-final.json
+            coverage-ssr/clover.xml
+          if-no-files-found: error
+          retention-days: 7
+          overwrite: true
 
       - name: Run native browser control tests
         # Component tests and coverage uploads run on separate runners.
