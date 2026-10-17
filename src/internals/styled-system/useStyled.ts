@@ -7,6 +7,7 @@ import { isResponsiveValue } from './responsive';
 import { cssSystemPropAlias } from './css-alias';
 import { isSupportedCSSProperty } from './css-properties';
 import { StyleManager } from './style-manager';
+import { encodeStyleId } from './style-id';
 import type { Breakpoints, WithResponsive, ResponsiveValue } from '@/internals/types';
 
 interface UseStyledOptions {
@@ -78,7 +79,7 @@ export function useStyled(options: UseStyledOptions): UseStyledResult {
   const { csp } = useContext(CustomContext);
 
   // Generate a unique ID for this component instance
-  const uniqueId = useId().replace(/:/g, '');
+  const uniqueId = encodeStyleId(useId());
   const componentId = `rs-${prefix}-${uniqueId}`;
 
   // Only apply styling if enabled and there are CSS variables
