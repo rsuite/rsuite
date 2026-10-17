@@ -1312,12 +1312,12 @@ describe('DatePicker', () => {
               clicks.push({ target: event.target, trusted: event.isTrusted })
             }
           >
-            <button type="button">Outside owner</button>
+            <input type="search" aria-label="Outside owner" />
             <Owner />
           </div>
         );
         const input = screen.getByRole('textbox') as HTMLInputElement;
-        const outside = screen.getByRole('button', { name: 'Outside owner' });
+        const outside = screen.getByRole('searchbox', { name: 'Outside owner' });
         await nativeUserEvent.click(input, { position: { x: 4, y: 10 } });
         await waitFor(() => {
           expect(document.activeElement).toBe(input);
