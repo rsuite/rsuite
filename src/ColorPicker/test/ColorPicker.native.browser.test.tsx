@@ -255,6 +255,13 @@ describe('ColorPicker native browser interaction', () => {
     try {
       await page.getByRole('combobox', { name: 'Brand', exact: true }).click();
       const done = page.getByRole('button', { name: 'Done', exact: true });
+      // The panel mounts before its initial overflow-aware position is applied.
+      await expect
+        .poll(async () => {
+          const bounds = await done.boundingBox();
+          return !!bounds && bounds.y >= 0 && bounds.y + bounds.height <= 400;
+        })
+        .toBe(true);
       const bounds = (await done.boundingBox())!;
       expect(bounds.y).toBeGreaterThanOrEqual(0);
       expect(bounds.y + bounds.height).toBeLessThanOrEqual(400);

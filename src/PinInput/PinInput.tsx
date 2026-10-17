@@ -3,6 +3,7 @@ import React, { KeyboardEvent, ClipboardEvent, ChangeEvent } from 'react';
 import Input from '../Input';
 import usePinInputRefs from './hooks/usePinInputRefs';
 import usePinValue from './hooks/usePinValue';
+import useNativeFormReset from '@/internals/hooks/useNativeFormReset';
 import { Box, BoxProps } from '@/internals/Box';
 import { HStack } from '../Stack';
 import { forwardRef, isComposingEvent } from '@/internals/utils';
@@ -53,6 +54,9 @@ export interface PinInputProps extends BoxProps {
   /** Name for form submission */
   name?: string;
 
+  /** The ID of the form that owns the input */
+  form?: string;
+
   /** Whether to optimize for one-time password (OTP) input */
   otp?: boolean;
 
@@ -86,6 +90,7 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
     classPrefix = 'pin-input',
     defaultValue = '',
     disabled,
+    form,
     length = 4,
     mask,
     name,
@@ -117,13 +122,14 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
   );
 
   // Use our custom hook for managing PIN values
-  const { valueArray, setDigit, clearDigit, updateValue } = usePinValue(
+  const { valueArray, setDigit, clearDigit, updateValue, resetValue } = usePinValue(
     controlValue,
     defaultValue,
     length,
     onChange,
     onComplete
   );
+  const nativeInput = useNativeFormReset(resetValue);
 
   const filterCharacters = (value: string) =>
     value.split('').filter(char => allowedKeys.test(char));
@@ -244,7 +250,15 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
 
   return (
     <Box as={as} ref={ref} className={classes} {...rest}>
-      <input type="hidden" value={valueArray.join('')} name={name} aria-label="Pin input" />
+      <input
+        ref={nativeInput}
+        type="hidden"
+        value={valueArray.join('')}
+        name={name}
+        form={form}
+        disabled={disabled}
+        aria-label="Pin input"
+      />
       <HStack spacing={attached ? 0 : 8}>
         {Array.from({ length }).map((_, index) => (
           <Input
@@ -256,6 +270,7 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
             onKeyDown={e => handleKeyDown(e, index)}
             onPaste={e => handlePaste(e, index)}
             disabled={disabled}
+            form={form}
             readOnly={readOnly}
             maxLength={1}
             autoComplete={otp ? 'one-time-code' : 'off'}
