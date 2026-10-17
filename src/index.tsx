@@ -146,6 +146,8 @@ export * from './Animation';
 export * from './DOMHelper';
 export * from './Affix';
 export * from './CustomProvider';
+export * from './StyleRegistry';
+export * from './createStyleRegistry';
 
 // Hooks
 // --------------------------------------------------------
