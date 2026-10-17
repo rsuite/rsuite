@@ -75,6 +75,8 @@ const unstyledComponents: string[] = [
   'Affix',
   'internals',
   'CustomProvider',
+  'StyleRegistry',
+  'createStyleRegistry',
   'locales',
   'MaskedInput'
 ];
