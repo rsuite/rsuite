@@ -5,7 +5,7 @@ import usePinInputRefs from './hooks/usePinInputRefs';
 import usePinValue from './hooks/usePinValue';
 import { Box, BoxProps } from '@/internals/Box';
 import { HStack } from '../Stack';
-import { forwardRef } from '@/internals/utils';
+import { forwardRef, isComposingEvent } from '@/internals/utils';
 import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import type { BasicSize } from '@/internals/types';
 
@@ -14,7 +14,8 @@ import type { BasicSize } from '@/internals/types';
  */
 function getAllowedKeys(type: PinInputProps['type']): RegExp {
   if (type instanceof RegExp) {
-    return type;
+    // Each character is a separate match; keep the supplied RegExp state untouched.
+    return new RegExp(type.source, type.flags.replace(/[gy]/g, ''));
   }
   switch (type) {
     case 'alphabetic':
@@ -135,7 +136,7 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
       const char = inputValue.length > 0 ? inputValue.charAt(inputValue.length - 1) : '';
 
       // Filter by allowedKeys if provided
-      if (!allowedKeys.test(char)) {
+      if (char && !allowedKeys.test(char)) {
         return;
       }
 
@@ -159,13 +160,14 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
   // Handle key down
   const handleKeyDown = useEventCallback((e: KeyboardEvent<HTMLInputElement>, index: number) => {
     // Safety check for event object
-    if (!e) return;
+    if (!e || e.defaultPrevented || isComposingEvent(e)) return;
 
     const target = e.target as HTMLInputElement;
     const inputValue = target?.value || '';
 
     // Handle backspace
     if (e.key === 'Backspace') {
+      e.preventDefault();
       if (inputValue === '') {
         // Focus the previous input if the current one is empty
         if (index > 0) {
@@ -184,15 +186,16 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
       focusNextInput(index);
     }
     // Allow only keys matching allowedKeys
-    else if (allowedKeys.test(e.key)) {
-      setDigit(index, e.key);
-
-      // Move focus to the next input if there is one
-      if (index < length - 1) {
-        setTimeout(() => {
-          focusNextInput(index);
-        }, 10);
-      }
+    else if (
+      Array.from(e.key).length === 1 &&
+      !e.ctrlKey &&
+      !e.metaKey &&
+      !e.altKey &&
+      allowedKeys.test(e.key)
+    ) {
+      // Let the native input event commit the character once, including in Firefox.
+      // Selecting the current digit allows native typing to overwrite a filled slot.
+      e.currentTarget.select();
     }
   });
 
