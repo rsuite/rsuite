@@ -70,6 +70,8 @@ export default function createTextMaskInputElement(config?) {
       // In framework components that support reactivity, it's possible to turn off masking by passing
       // `false` for `mask` after initialization. See https://github.com/text-mask/text-mask/pull/359
       if (providedMask === false) {
+        const value = getSafeRawValue(rawValue);
+        if (inputElement.value !== value) inputElement.value = value;
         return;
       }
 
@@ -96,6 +98,7 @@ export default function createTextMaskInputElement(config?) {
 
         // disable masking if `mask` is `false`
         if (mask === false) {
+          if (inputElement.value !== safeRawValue) inputElement.value = safeRawValue;
           return;
         }
 
