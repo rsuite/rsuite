@@ -64,9 +64,8 @@ describe('CustomProvider', () => {
     expect(screen.getByText('мая, 2021')).to.exist;
   });
 
-  // TODO: This is a side-effect test, which will affect the style check test.
   it('Should be rendered as a dark theme', () => {
-    render(
+    const { unmount } = render(
       <div>
         <CustomProvider theme="dark">
           <div />
@@ -76,7 +75,8 @@ describe('CustomProvider', () => {
 
     expect(document.body.classList.contains('rs-theme-dark')).to.be.true;
 
-    document.body.classList.remove('rs-theme-dark');
+    unmount();
+    expect(document.body.classList.contains('rs-theme-dark')).to.be.false;
   });
 
   it('Should be to disable the ripple effect', () => {
