@@ -144,4 +144,40 @@ describe('CustomProvider theme lifetime', () => {
     expectThemes('rs-theme-light');
     expect(document.body.classList.contains('route-ready')).toBe(true);
   });
+
+  it('releases its own class when an external theme is added', () => {
+    const view = render(<CustomProvider theme="dark" />);
+    document.body.classList.add('rs-theme-high-contrast');
+    view.unmount();
+    expectThemes('rs-theme-high-contrast');
+  });
+
+  it('preserves an external addition while older live roots clean up', () => {
+    const first = render(<CustomProvider theme="dark" />);
+    const second = render(<CustomProvider theme="light" />);
+    document.body.classList.add('rs-theme-high-contrast');
+    first.unmount();
+    expectThemes('rs-theme-high-contrast');
+    second.unmount();
+    expectThemes('rs-theme-high-contrast');
+  });
+
+  it('returns to an external addition after a subsequent provider unmounts', () => {
+    const first = render(<CustomProvider theme="dark" />);
+    document.body.classList.add('rs-theme-high-contrast');
+    const second = render(<CustomProvider theme="light" />);
+    expectThemes('rs-theme-light');
+    second.unmount();
+    expectThemes('rs-theme-high-contrast');
+    first.unmount();
+    expectThemes('rs-theme-high-contrast');
+  });
+
+  it('retains an authored class when an external theme is added', () => {
+    document.body.classList.add('rs-theme-dark');
+    const view = render(<CustomProvider theme="dark" />);
+    document.body.classList.add('rs-theme-high-contrast');
+    view.unmount();
+    expectThemes('rs-theme-dark', 'rs-theme-high-contrast');
+  });
 });
