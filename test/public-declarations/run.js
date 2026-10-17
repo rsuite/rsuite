@@ -15,6 +15,11 @@ assert.equal(ts.version, '5.7.3');
 assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 74);
 const polymorphicFixture = fs.readFileSync(path.join(__dirname, 'polymorphic.tsx'), 'utf8');
 assert.equal((polymorphicFixture.match(/@ts-expect-error/g) || []).length, 19);
+const pinInputAccessibilityFixture = fs.readFileSync(
+  path.join(__dirname, 'pin-input-accessibility.tsx'),
+  'utf8'
+);
+assert.equal((pinInputAccessibilityFixture.match(/@ts-expect-error/g) || []).length, 6);
 for (const entry of ['package.json', 'esm/index.d.ts', 'cjs/index.d.ts']) {
   assert(fs.existsSync(path.join(lib, entry)), 'Build the public lib first: ' + entry);
 }
@@ -177,6 +182,11 @@ try {
         fs.writeFileSync(consumer, sourceFor(entry));
         const polymorphicConsumer = path.join(project, 'polymorphic.tsx');
         fs.writeFileSync(polymorphicConsumer, sourceFor(entry, polymorphicFixture));
+        const pinInputAccessibilityConsumer = path.join(project, 'pin-input-accessibility.tsx');
+        fs.writeFileSync(
+          pinInputAccessibilityConsumer,
+          sourceFor(entry, pinInputAccessibilityFixture)
+        );
         const options = {
           strict,
           noEmit: true,
@@ -197,6 +207,9 @@ try {
               ...fs.readFileSync(consumer, 'utf8').matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g),
               ...fs
                 .readFileSync(polymorphicConsumer, 'utf8')
+                .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g),
+              ...fs
+                .readFileSync(pinInputAccessibilityConsumer, 'utf8')
                 .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g)
             ].map(match => match[1])
           )
@@ -211,7 +224,10 @@ try {
             item.resolved && fs.realpathSync(item.resolved).startsWith(published + path.sep),
             'Missing natural public declaration entry: ' + item.specifier
           );
-        const program = ts.createProgram([consumer, polymorphicConsumer], options);
+        const program = ts.createProgram(
+          [consumer, polymorphicConsumer, pinInputAccessibilityConsumer],
+          options
+        );
         const diagnostics = ts.getPreEmitDiagnostics(program);
         const files = program.getSourceFiles().map(file => {
           const physical = fs.realpathSync(file.fileName);
@@ -252,6 +268,7 @@ try {
           if (
             file.physical === consumer ||
             file.physical === polymorphicConsumer ||
+            file.physical === pinInputAccessibilityConsumer ||
             file.physical.startsWith(published + path.sep)
           )
             continue;
@@ -350,6 +367,7 @@ try {
           fixtureLockSHA256: hash(path.join(__dirname, 'package-lock.json')),
           consumerSHA256: hash(consumer),
           polymorphicConsumerSHA256: hash(polymorphicConsumer),
+          pinInputAccessibilityConsumerSHA256: hash(pinInputAccessibilityConsumer),
           files,
           diagnostics: diagnostics.map(d => ({
             code: d.code,
