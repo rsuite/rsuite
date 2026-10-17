@@ -13,6 +13,8 @@ const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).d
 const fixture = fs.readFileSync(path.join(__dirname, 'consumer.tsx'), 'utf8');
 assert.equal(ts.version, '5.7.3');
 assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 74);
+const polymorphicFixture = fs.readFileSync(path.join(__dirname, 'polymorphic.tsx'), 'utf8');
+assert.equal((polymorphicFixture.match(/@ts-expect-error/g) || []).length, 19);
 for (const entry of ['package.json', 'esm/index.d.ts', 'cjs/index.d.ts']) {
   assert(fs.existsSync(path.join(lib, entry)), 'Build the public lib first: ' + entry);
 }
@@ -99,10 +101,22 @@ const cjsSpecifiers = {
   'rsuite/Timeline': 'rsuite/cjs/Timeline',
   'rsuite/Breadcrumb': 'rsuite/cjs/Breadcrumb',
   'rsuite/Navbar': 'rsuite/cjs/Navbar',
-  'rsuite/Sidenav': 'rsuite/cjs/Sidenav'
+  'rsuite/Sidenav': 'rsuite/cjs/Sidenav',
+  'rsuite/PinInput': 'rsuite/cjs/PinInput',
+  'rsuite/Input': 'rsuite/cjs/Input',
+  'rsuite/Stack': 'rsuite/cjs/Stack',
+  'rsuite/Divider': 'rsuite/cjs/Divider',
+  'rsuite/Badge': 'rsuite/cjs/Badge',
+  'rsuite/Box': 'rsuite/cjs/Box',
+  'rsuite/TagInput': 'rsuite/cjs/TagInput',
+  'rsuite/Checkbox': 'rsuite/cjs/Checkbox',
+  'rsuite/Radio': 'rsuite/cjs/Radio',
+  'rsuite/Toggle': 'rsuite/cjs/Toggle',
+  'rsuite/Slider': 'rsuite/cjs/Slider',
+  'rsuite/esm/internals/types/shared': 'rsuite/cjs/internals/types/shared'
 };
-function sourceFor(entry) {
-  return fixture.replace(/from (['"])(rsuite(?:\/[^'"]+)?)\1/g, (original, quote, specifier) => {
+function sourceFor(entry, source = fixture) {
+  return source.replace(/from (['"])(rsuite(?:\/[^'"]+)?)\1/g, (original, quote, specifier) => {
     assert(Object.hasOwn(cjsSpecifiers, specifier), 'Unmapped public entry: ' + specifier);
     return entry === 'esm' ? original : 'from ' + quote + cjsSpecifiers[specifier] + quote;
   });
@@ -161,6 +175,8 @@ try {
         );
         const consumer = path.join(project, 'consumer.tsx');
         fs.writeFileSync(consumer, sourceFor(entry));
+        const polymorphicConsumer = path.join(project, 'polymorphic.tsx');
+        fs.writeFileSync(polymorphicConsumer, sourceFor(entry, polymorphicFixture));
         const options = {
           strict,
           noEmit: true,
@@ -178,7 +194,10 @@ try {
         const publicEntries = [
           ...new Set(
             [
-              ...fs.readFileSync(consumer, 'utf8').matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g)
+              ...fs.readFileSync(consumer, 'utf8').matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g),
+              ...fs
+                .readFileSync(polymorphicConsumer, 'utf8')
+                .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g)
             ].map(match => match[1])
           )
         ];
@@ -192,7 +211,7 @@ try {
             item.resolved && fs.realpathSync(item.resolved).startsWith(published + path.sep),
             'Missing natural public declaration entry: ' + item.specifier
           );
-        const program = ts.createProgram([consumer], options);
+        const program = ts.createProgram([consumer, polymorphicConsumer], options);
         const diagnostics = ts.getPreEmitDiagnostics(program);
         const files = program.getSourceFiles().map(file => {
           const physical = fs.realpathSync(file.fileName);
@@ -230,7 +249,11 @@ try {
           )
         );
         for (const file of files) {
-          if (file.physical === consumer || file.physical.startsWith(published + path.sep))
+          if (
+            file.physical === consumer ||
+            file.physical === polymorphicConsumer ||
+            file.physical.startsWith(published + path.sep)
+          )
             continue;
           if (
             file.package?.root === compilerRoot &&
@@ -326,6 +349,7 @@ try {
           rootLockSHA256: hash(path.join(root, 'package-lock.json')),
           fixtureLockSHA256: hash(path.join(__dirname, 'package-lock.json')),
           consumerSHA256: hash(consumer),
+          polymorphicConsumerSHA256: hash(polymorphicConsumer),
           files,
           diagnostics: diagnostics.map(d => ({
             code: d.code,
