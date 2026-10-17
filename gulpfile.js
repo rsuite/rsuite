@@ -1,6 +1,5 @@
 const fs = require('fs');
 const util = require('util');
-const del = require('del');
 const path = require('path');
 const babel = require('gulp-babel');
 const insert = require('gulp-insert');
@@ -24,7 +23,7 @@ const tsSources = [
 ];
 
 function clean(done) {
-  del.sync([libRoot], { force: true });
+  fs.rmSync(libRoot, { recursive: true, force: true });
   done();
 }
 
@@ -81,9 +80,7 @@ function copyDocs() {
 }
 
 function copyScssFiles() {
-  return gulp
-    .src([`${srcRoot}/**/*.scss`])
-    .pipe(gulp.dest(libRoot));
+  return gulp.src([`${srcRoot}/**/*.scss`]).pipe(gulp.dest(libRoot));
 }
 
 function createPkgFile(done) {

@@ -3,7 +3,7 @@
 import { expect, it, describe } from 'vitest';
 import fs from 'fs';
 import path from 'path';
-import glob from 'glob';
+import { globSync } from 'tinyglobby';
 import flatten from 'lodash/flatten';
 import { findResources } from '../scripts/proxy-directories.js';
 
@@ -148,7 +148,9 @@ describe('Build Validation Tests', () => {
   });
 
   it('Prepends the `use client` directive to components', () => {
-    const libfiles = glob.sync('lib/{cjs,esm}/**/*.js', { cwd: projectRoot });
+    const libfiles = globSync('lib/{cjs,esm}/**/*.js', { cwd: projectRoot }).sort((a, b) =>
+      a.localeCompare(b, 'en')
+    );
 
     expect(libfiles.length).toBeGreaterThan(0); // Ensure glob found files
 
@@ -163,7 +165,9 @@ describe('Build Validation Tests', () => {
   });
 
   it('Should not include @/internals in d.ts files', () => {
-    const dtsFiles = glob.sync('lib/{cjs,esm}/**/*.d.ts', { cwd: projectRoot });
+    const dtsFiles = globSync('lib/{cjs,esm}/**/*.d.ts', { cwd: projectRoot }).sort((a, b) =>
+      a.localeCompare(b, 'en')
+    );
 
     expect(dtsFiles.length).toBeGreaterThan(0); // Ensure glob found files
 
@@ -192,7 +196,9 @@ describe('Build Validation Tests', () => {
   });
 
   it('Should include all SCSS source files', () => {
-    const scssFiles = glob.sync('lib/**/*.scss', { cwd: projectRoot });
+    const scssFiles = globSync('lib/**/*.scss', { cwd: projectRoot }).sort((a, b) =>
+      a.localeCompare(b, 'en')
+    );
 
     expect(scssFiles.length).toBeGreaterThan(0); // Ensure SCSS files are copied
 

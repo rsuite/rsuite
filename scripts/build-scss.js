@@ -1,7 +1,7 @@
 const sass = require('sass');
 const fs = require('fs-extra');
 const path = require('path');
-const glob = require('glob');
+const { globSync } = require('tinyglobby');
 const postcss = require('postcss');
 const postcssPruneVar = require('postcss-prune-var');
 const postcssDiscardEmpty = require('postcss-discard-empty');
@@ -80,7 +80,7 @@ async function buildMainStyles() {
 
 // --- Each component style (supports CSS Modules) ---
 const buildComponentStyles = async () => {
-  const files = glob.sync('src/*/styles/index.scss');
+  const files = globSync('src/*/styles/index.scss').sort((a, b) => a.localeCompare(b, 'en'));
 
   for (const file of files) {
     const outputFile = file.replace('src/', `${componentOutDir}/`).replace(/\.scss$/, '.css');
