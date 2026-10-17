@@ -9,6 +9,8 @@ import { HStack } from '../Stack';
 import { forwardRef, isComposingEvent } from '@/internals/utils';
 import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import type { BasicSize } from '@/internals/types';
+import enGB from '../locales/en_GB';
+import type { PinInputLocale } from '../locales';
 
 /**
  * Map `type` prop to regex for allowed keys
@@ -29,7 +31,7 @@ function getAllowedKeys(type: PinInputProps['type']): RegExp {
   }
 }
 
-export interface PinInputProps extends BoxProps {
+export interface PinInputProps extends BoxProps, React.AriaAttributes {
   /** Whether input fields are attached (no gap between) */
   attached?: boolean;
 
@@ -47,6 +49,9 @@ export interface PinInputProps extends BoxProps {
 
   /** Number of PIN digits */
   length?: number;
+
+  /** Custom labels. characterLabel supports {0} for the position and {1} for the total. */
+  locale?: PinInputLocale;
 
   /** Whether to mask PIN input (like password) */
   mask?: boolean;
@@ -82,6 +87,11 @@ export interface PinInputProps extends BoxProps {
 const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('PinInput', props);
   const {
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledby,
+    'aria-describedby': ariaDescribedby,
+    'aria-invalid': ariaInvalid,
+    'aria-errormessage': ariaErrorMessage,
     type = 'number',
     as,
     autoFocus,
@@ -92,6 +102,7 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
     disabled,
     form,
     length = 4,
+    locale,
     mask,
     name,
     otp,
@@ -253,9 +264,23 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
   });
 
   const classes = merge(className, withPrefix({ attached }));
+  const characterLabel = locale?.characterLabel || enGB.PinInput.characterLabel;
 
   return (
-    <Box as={as} ref={ref} className={classes} {...rest}>
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      role="group"
+      aria-label={
+        ariaLabel ?? (ariaLabelledby ? undefined : locale?.groupLabel || enGB.PinInput.groupLabel)
+      }
+      aria-labelledby={ariaLabelledby}
+      aria-describedby={ariaDescribedby}
+      aria-invalid={ariaInvalid}
+      aria-errormessage={ariaErrorMessage}
+      {...rest}
+    >
       <input
         ref={nativeInput}
         type="hidden"
@@ -263,7 +288,6 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
         name={name}
         form={form}
         disabled={disabled}
-        aria-label="Pin input"
       />
       <HStack spacing={attached ? 0 : 8}>
         {Array.from({ length }).map((_, index) => (
@@ -272,6 +296,12 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
             className={prefix('segment', { masked: mask })}
             size={size}
             value={valueArray[index] || ''}
+            aria-label={characterLabel.replace(/\{(0|1)\}/g, (_, position) =>
+              String(position === '0' ? index + 1 : length)
+            )}
+            aria-describedby={ariaDescribedby}
+            aria-invalid={ariaInvalid}
+            aria-errormessage={ariaErrorMessage}
             onChange={(v, e) => handleInputChange(v, e, index)}
             onKeyDown={e => handleKeyDown(e, index)}
             onPaste={e => handlePaste(e, index)}
