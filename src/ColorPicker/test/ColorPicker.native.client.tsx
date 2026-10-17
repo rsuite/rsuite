@@ -15,7 +15,12 @@ function Fixture() {
   const [submits, setSubmits] = useState(0);
   return (
     <CustomProvider rtl={options.has('rtl')}>
-      <div data-testid="runtime" data-react={React.version} data-react-dom={ReactDOM.version} />
+      <div
+        data-testid="runtime"
+        data-react={React.version}
+        data-react-dom={ReactDOM.version}
+        data-options={options.toString()}
+      />
       <button type="button">Before</button>
       <form
         onSubmit={event => {

@@ -36,6 +36,9 @@ describe('ColorPicker native browser interaction', () => {
     expect(await page.getByTestId('runtime').getAttribute('data-react-dom')).toBe(
       source.reactVersion
     );
+    expect(await page.getByTestId('runtime').getAttribute('data-options')).toBe(
+      new URLSearchParams(options).toString()
+    );
     return { page, errors };
   };
   const value = (page: Page) =>
@@ -177,7 +180,7 @@ describe('ColorPicker native browser interaction', () => {
     }
   );
 
-  it('resets through a native reset button and keeps readonly and disabled values distinct', async () => {
+  it('resets through a native reset button', async () => {
     const { page, errors } = await open();
     try {
       await page.getByRole('combobox', { name: 'Brand', exact: true }).click();
@@ -188,15 +191,23 @@ describe('ColorPicker native browser interaction', () => {
       expect(await events(page)).toEqual([
         expect.objectContaining({ value: '#00ff00', trusted: true })
       ]);
-      for (const lock of ['readonly', 'disabled']) {
-        await page.goto(source.url + '/#' + lock);
-        await page.reload();
-        await page.getByTestId('runtime').waitFor({ state: 'attached' });
-        const trigger = page.getByRole('combobox', { name: 'Brand', exact: true });
-        if (lock === 'readonly') await trigger.click();
-        expect(await page.getByRole('dialog').count()).toBe(0);
-        expect(await value(page)).toEqual(lock === 'readonly' ? ['#ff0000'] : []);
-      }
+      expect(errors).toEqual([]);
+    } finally {
+      await page.close();
+    }
+  });
+
+  it.each(['readonly', 'disabled'])('keeps the native form value distinct (%s)', async lock => {
+    const { page, errors } = await open(lock);
+    try {
+      const trigger = page.getByRole('combobox', { name: 'Brand', exact: true });
+      if (lock === 'readonly') await trigger.click();
+      expect(await page.getByRole('dialog').count()).toBe(0);
+      expect(await page.locator('input[type="hidden"][name="brand"]').isDisabled()).toBe(
+        lock === 'disabled'
+      );
+      expect(await value(page)).toEqual(lock === 'readonly' ? ['#ff0000'] : []);
+      expect(await events(page)).toEqual([]);
       expect(errors).toEqual([]);
     } finally {
       await page.close();
