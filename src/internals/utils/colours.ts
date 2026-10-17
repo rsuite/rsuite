@@ -11,7 +11,7 @@ export const getColorValue = (color: Color | string | undefined): string | undef
   if (!color) return undefined;
 
   // Check if color is a base color (e.g., 'red', 'blue')
-  const baseColorRegex = /^(red|orange|yellow|green|cyan|blue|violet|gray)$/;
+  const baseColorRegex = /^(red|orange|yellow|green|cyan|blue|violet)$/;
   if (baseColorRegex.test(color as string)) {
     return `var(--rs-color-${color})`;
   }
