@@ -1,1 +1,6 @@
+@use '../../Stack/styles/index' as stack;
+
 // RadioTileGroup
+.rs-radio-tile-group {
+  display: flex;
+}
