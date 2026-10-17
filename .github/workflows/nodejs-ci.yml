@@ -159,7 +159,7 @@ jobs:
         run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
 
   coverage:
-    name: 'Coverage (${{ matrix.browser }})'
+    name: 'Coverage (${{ matrix.kind }})'
     needs:
       - chromium-react18
       - chromium-react19
@@ -172,29 +172,34 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser: [chromium, firefox]
+        kind: [chromium, firefox, ssr]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Download browser coverage
+      - name: Download coverage
         uses: actions/download-artifact@v4
         with:
-          pattern: browser-coverage-${{ matrix.browser }}-*
+          pattern: ${{ matrix.kind == 'ssr' && 'server-coverage-*' || format('browser-coverage-{0}-*', matrix.kind) }}
           path: coverage-reports
           # Every shard uses the same filename; retain its artifact directory.
           merge-multiple: false
       - name: Require every coverage report
         id: coverage
         env:
-          BROWSER: ${{ matrix.browser }}
-        run: node scripts/verify-browser-coverage-ci.cjs coverage-reports "$BROWSER"
+          COVERAGE_KIND: ${{ matrix.kind }}
+        run: |
+          if [ "$COVERAGE_KIND" = "ssr" ]; then
+            node scripts/verify-ssr-coverage-ci.cjs coverage-reports
+          else
+            node scripts/verify-browser-coverage-ci.cjs coverage-reports "$COVERAGE_KIND"
+          fi
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          flags: ${{ matrix.browser }}
+          flags: ${{ matrix.kind }}
           files: ${{ steps.coverage.outputs.files }}
           disable_search: true
           fail_ci_if_error: true
