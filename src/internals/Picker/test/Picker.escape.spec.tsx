@@ -33,11 +33,13 @@ it('closes a responsive picker once on a normal Escape', async () => {
 describe.each([
   ['Modal', Modal],
   ['Drawer', Drawer]
-] as const)('%s Escape ownership', (_name, Component) => {
+] as const)('%s Escape ownership', (name, Component) => {
   it('closes the picker before its surrounding dialog without stopping propagation', async () => {
     const onEntered = vi.fn();
     const onPickerEntered = vi.fn();
     const onPickerClose = vi.fn();
+    const onPickerExit = vi.fn<(node: HTMLElement) => void>();
+    const onPickerExiting = vi.fn();
     const onPickerExited = vi.fn();
     const onClose = vi.fn();
     const onKeyDown = vi.fn();
@@ -53,6 +55,8 @@ describe.each([
           container={() => screen.getByRole('dialog')}
           onEntered={onPickerEntered}
           onClose={onPickerClose}
+          onExit={onPickerExit}
+          onExiting={onPickerExiting}
           onExited={onPickerExited}
         />
       </Component>
@@ -60,13 +64,51 @@ describe.each([
     await waitFor(() => expect(onPickerEntered).toHaveBeenCalledOnce());
     const input = screen.getByRole('searchbox');
     input.focus();
+    const escapeStartedAt = performance.now();
     await userEvent.keyboard('{Escape}');
     expect(onPickerClose).toHaveBeenCalledOnce();
     expect(onClose).not.toHaveBeenCalled();
     expect(onKeyDown).toHaveBeenCalledOnce();
     expect(onKeyDown.mock.calls[0][0].nativeEvent.defaultPrevented).to.be.true;
     expect(onKeyDown.mock.calls[0][0].nativeEvent.isTrusted).to.be.true;
-    await waitFor(() => expect(onPickerExited).toHaveBeenCalledOnce());
+    try {
+      await waitFor(() => expect(onPickerExited).toHaveBeenCalledOnce());
+    } catch (error) {
+      const exitNode = onPickerExit.mock.calls[0]?.[0];
+      const popup = exitNode instanceof Element ? exitNode : undefined;
+      const style = popup && getComputedStyle(popup);
+      const focused = document.activeElement;
+      console.info(
+        'Picker escape exit diagnostics',
+        JSON.stringify({
+          dialog: name,
+          elapsedMs: performance.now() - escapeStartedAt,
+          visibility: document.visibilityState,
+          documentHasFocus: document.hasFocus(),
+          callbacks: {
+            entered: onPickerEntered.mock.calls.length,
+            exit: onPickerExit.mock.calls.length,
+            exiting: onPickerExiting.mock.calls.length,
+            exited: onPickerExited.mock.calls.length
+          },
+          popup: popup && {
+            connected: popup.isConnected,
+            className: popup.getAttribute('class'),
+            motion: popup.getAttribute('data-rs-motion'),
+            display: style?.display,
+            opacity: style?.opacity,
+            transitionDuration: style?.transitionDuration,
+            transitionDelay: style?.transitionDelay
+          },
+          focus: focused && {
+            tag: focused.tagName,
+            role: focused.getAttribute('role'),
+            insidePopup: popup?.contains(focused) ?? false
+          }
+        })
+      );
+      throw error;
+    }
     const toggle = screen.getByRole('combobox');
     expect(toggle).to.have.attr('aria-expanded', 'false');
     toggle.focus();
