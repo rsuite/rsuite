@@ -235,3 +235,36 @@ it('allows a bubbling listener to cancel the reset after the input subscription'
     document.removeEventListener('reset', cancel);
   }
 });
+
+describe.each([false, true])('PinInput autofill and native forms (controlled=%s)', controlled => {
+  it.each([false, true])('resets and submits an autofilled OTP (outside=%s)', async outside => {
+    const state = fixture({ controlled, outside, form: 'first', otp: true });
+    act(() => state.segments()[2].focus());
+    fireEvent.input(state.segments()[2], {
+      target: { value: '9876' },
+      inputType: 'insertReplacementText'
+    });
+    expect(state.onChange).toHaveBeenCalledExactlyOnceWith('9876');
+    expect(state.onComplete).toHaveBeenCalledExactlyOnceWith('9876');
+    expect(state.value()).toBe(controlled ? '5678' : '9876');
+    expect(new FormData(state.first).getAll('pin')).toEqual([controlled ? '5678' : '9876']);
+    state.onChange.mockClear();
+    state.onComplete.mockClear();
+
+    await act(async () => {
+      await userEvent.click(state.first.querySelector<HTMLButtonElement>('button[type="reset"]')!);
+    });
+    await waitFor(() => expect(state.value()).toBe(controlled ? '5678' : '1234'));
+    expect(state.onReset).toHaveBeenCalledExactlyOnceWith(true);
+    expect(state.onChange).not.toHaveBeenCalled();
+    expect(state.onComplete).not.toHaveBeenCalled();
+
+    await act(async () => {
+      await userEvent.click(state.segments()[0]);
+      await userEvent.keyboard('{Enter}');
+    });
+    expect(state.onSubmit).toHaveBeenCalledExactlyOnceWith([controlled ? '5678' : '1234'], true);
+    expect(state.onChange).not.toHaveBeenCalled();
+    expect(state.onComplete).not.toHaveBeenCalled();
+  });
+});
