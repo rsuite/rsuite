@@ -36,6 +36,7 @@ function fixture(props: Partial<PinInputProps> = {}, controlled = false) {
     onChange,
     onComplete,
     onInput,
+    hiddenValue: () => container.querySelector<HTMLInputElement>('input[type="hidden"]')!.value,
     formValue: () => new FormData(container.querySelector('form')!).get('pin')
   };
 }
@@ -155,7 +156,8 @@ describe.each([false, true])('PinInput multi-character input (controlled=%s)', c
     replace(state, 0, '5678');
     expect(state.onChange).not.toHaveBeenCalled();
     expect(state.onComplete).not.toHaveBeenCalled();
-    expect(state.formValue()).toBe('1234');
+    expect(state.hiddenValue()).toBe('1234');
+    expect(state.formValue()).toBe(prop === 'disabled' ? null : '1234');
   });
 });
 
