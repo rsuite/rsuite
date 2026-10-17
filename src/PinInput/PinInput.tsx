@@ -125,15 +125,37 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
     onComplete
   );
 
+  const filterCharacters = (value: string) =>
+    value.split('').filter(char => allowedKeys.test(char));
+
+  const fillInputs = useEventCallback((characters: string[], index: number) => {
+    if (characters.length === 0) return;
+
+    const newValueArray = [...valueArray];
+    for (let i = 0; i < characters.length && index + i < length; i++) {
+      newValueArray[index + i] = characters[i];
+    }
+    updateValue(newValueArray.join(''));
+
+    return Math.min(index + characters.length, length - 1);
+  });
+
   // Handle input change
   const handleInputChange = useEventCallback(
     (inputValue: string, e: ChangeEvent<HTMLInputElement>, index: number) => {
       // Safety check for event object
       if (!e || !e.target) return;
 
-      // For single character input, use it directly
-      // For longer input (like paste or browser autofill), take the last character
-      const char = inputValue.length > 0 ? inputValue.charAt(inputValue.length - 1) : '';
+      if (inputValue.length > 1) {
+        const characters = filterCharacters(inputValue);
+        // A complete autofilled OTP replaces the code even when another segment is focused.
+        const startIndex = otp && characters.length >= length ? 0 : index;
+        const nextIndex = fillInputs(characters, startIndex);
+        if (nextIndex !== undefined) focusInput(nextIndex);
+        return;
+      }
+
+      const char = inputValue;
 
       // Filter by allowedKeys if provided
       if (char && !allowedKeys.test(char)) {
@@ -209,25 +231,9 @@ const PinInput = forwardRef<'div', PinInputProps>((props, ref) => {
     e.preventDefault();
     const pastedData = e.clipboardData.getData('text') || '';
 
-    // Filter pasted data by allowedKeys
-    const filteredData = pastedData
-      .split('')
-      .filter(ch => allowedKeys.test(ch))
-      .join('');
-
-    if (filteredData) {
-      // Create a new value with pasted characters
-      const newValueArray = [...valueArray];
-      for (let i = 0; i < filteredData.length && index + i < length; i++) {
-        newValueArray[index + i] = filteredData[i];
-      }
-
-      // Update value with our hook
-      updateValue(newValueArray.join(''));
-
-      // Focus the input after the last pasted character or the last input
+    const nextIndex = fillInputs(filterCharacters(pastedData), index);
+    if (nextIndex !== undefined) {
       // Use setTimeout to ensure focus happens after DOM updates
-      const nextIndex = Math.min(index + filteredData.length, length - 1);
       setTimeout(() => {
         focusInput(nextIndex);
       }, 10);
