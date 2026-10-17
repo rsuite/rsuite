@@ -1,6 +1,8 @@
 const fs = require('fs');
 const util = require('util');
 const path = require('path');
+const { Readable } = require('stream');
+const Vinyl = require('vinyl');
 const babel = require('gulp-babel');
 const insert = require('gulp-insert');
 const gulp = require('gulp');
@@ -14,23 +16,16 @@ const libRoot = path.join(__dirname, './lib');
 
 const esmRoot = path.join(libRoot, 'esm');
 const cjsRoot = path.join(libRoot, 'cjs');
-const tsSources = [
-  `${srcRoot}/**/*.tsx`,
-  `${srcRoot}/**/*.ts`,
-  `!${srcRoot}/**/*.d.ts`,
-  `!${srcRoot}/**/test/*`,
-  `!${srcRoot}/**/stories/*`
-];
+const tsSources = ['**/*.tsx', '**/*.ts', '!**/*.d.ts', '!**/test/*', '!**/stories/*'];
 
 function clean(done) {
   fs.rmSync(libRoot, { recursive: true, force: true });
   done();
 }
 
-function buildCjs() {
+function compileCjs(source) {
   return (
-    gulp
-      .src(tsSources)
+    source
       .pipe(babel(babelrc()))
       // adds the "use-client" directive to /cjs exported from rsuite
       .pipe(insert.prepend(`'use client';\n`))
@@ -38,10 +33,14 @@ function buildCjs() {
   );
 }
 
+function buildCjs() {
+  return compileCjs(gulp.src(tsSources, { cwd: srcRoot, base: srcRoot }));
+}
+
 function buildEsm() {
   return (
     gulp
-      .src(tsSources)
+      .src(tsSources, { cwd: srcRoot, base: srcRoot })
       .pipe(
         babel(
           babelrc(null, {
@@ -56,17 +55,38 @@ function buildEsm() {
 }
 
 function copyTypescriptDeclarationFiles() {
-  return gulp.src(`${srcRoot}/**/*.d.ts`).pipe(gulp.dest(cjsRoot)).pipe(gulp.dest(esmRoot));
+  return gulp
+    .src('**/*.d.ts', { cwd: srcRoot, base: srcRoot })
+    .pipe(gulp.dest(cjsRoot))
+    .pipe(gulp.dest(esmRoot));
 }
 
 function watch() {
-  const watcher = gulp.watch(tsSources);
+  // Watch the literal directory: Chokidar also expands braces in absolute glob roots.
+  const watcher = gulp.watch(srcRoot, { disableGlobbing: true });
   watcher.on('change', filePath => {
+    if (
+      !['.ts', '.tsx'].includes(path.extname(filePath)) ||
+      filePath.endsWith('.d.ts') ||
+      ['test', 'stories'].includes(path.basename(path.dirname(filePath)))
+    ) {
+      return;
+    }
     console.log('File ' + filePath + ' was changed, running tasks...');
-    const cjsPath = filePath.replace('src/', 'cjs/').replace(/\/[a-z|A-Z]+.(tsx|ts)/, '');
-
-    return gulp.src(filePath).pipe(babel(babelrc())).pipe(gulp.dest(cjsPath));
+    // The watcher supplies a literal filename, which may itself contain glob characters.
+    const source = Readable.from(
+      (async function* () {
+        yield new Vinyl({
+          cwd: __dirname,
+          base: srcRoot,
+          path: path.resolve(srcRoot, filePath),
+          contents: await fs.promises.readFile(path.resolve(srcRoot, filePath))
+        });
+      })()
+    );
+    return compileCjs(source);
   });
+  return watcher;
 }
 
 function buildDirectories(done) {
@@ -75,12 +95,17 @@ function buildDirectories(done) {
   });
 }
 
-function copyDocs() {
-  return gulp.src(['./README.md', './CHANGELOG.md', './LICENSE']).pipe(gulp.dest(libRoot));
+async function copyDocs() {
+  await fs.promises.mkdir(libRoot, { recursive: true });
+  await Promise.all(
+    ['README.md', 'CHANGELOG.md', 'LICENSE'].map(file =>
+      fs.promises.copyFile(path.join(__dirname, file), path.join(libRoot, file))
+    )
+  );
 }
 
 function copyScssFiles() {
-  return gulp.src([`${srcRoot}/**/*.scss`]).pipe(gulp.dest(libRoot));
+  return gulp.src('**/*.scss', { cwd: srcRoot, base: srcRoot }).pipe(gulp.dest(libRoot));
 }
 
 function createPkgFile(done) {
