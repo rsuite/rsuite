@@ -12,9 +12,9 @@ const gulpBin = JSON.parse(fs.readFileSync(path.join(gulpRoot, 'package.json'), 
 const gulpCli = path.resolve(gulpRoot, gulpBin);
 
 function createFixture(directory) {
-  const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'rsuite-build-source-'));
-  // A parent named src must not be mistaken for this project's source directory.
-  const root = path.join(temporary, 'src', directory);
+  const temporary = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'rsuite-build-source-')));
+  // Parent test/src directories must not be mistaken for source subdirectories.
+  const root = path.join(temporary, 'test', 'src', directory);
   fs.mkdirSync(path.join(root, 'scripts'), { recursive: true });
   fs.symlinkSync(
     path.join(projectRoot, 'node_modules'),
@@ -39,6 +39,15 @@ function createFixture(directory) {
     'src/nested-dir/styles/index.scss': '.fixture { color: red; }\n',
     'src/nested-dir/test/invalid.ts': 'intentionally invalid typescript',
     'src/nested-dir/stories/invalid.tsx': 'intentionally invalid typescript',
+    'src/nested-dir/test/nested/fixture.ts': "export const testOnly = 'fixture';\n",
+    'src/nested-dir/stories/nested/fixture.tsx': "export const storyOnly = 'fixture';\n",
+    'src/nested-dir/test/nested/fixture.d.ts': 'export declare const testOnly: string;\n',
+    'src/nested-dir/stories/nested/fixture.d.ts': 'export declare const storyOnly: string;\n',
+    'src/nested-dir/test/nested/fixture.scss': '.test-only { color: red; }\n',
+    'src/nested-dir/stories/nested/fixture.scss': '.story-only { color: red; }\n',
+    'src/nested-dir/contest/test.ts': "export const production = 'preserved';\n",
+    'src/nested-dir/testable/handwritten.d.ts': 'export declare const production: string;\n',
+    'src/nested-dir/stories-archive/styles.scss': '.production { color: blue; }\n',
     'src/locales/index.ts': 'export {};\n',
     'src/locales/en_US.ts': "export default { name: 'fixture' };\n"
   };
@@ -76,13 +85,43 @@ for (const directory of ['project with spaces', 'project[fixture]', 'project{one
           fs.readFileSync(path.join(root, 'lib', format, 'nested-dir/handwritten.d.ts'), 'utf8'),
           files['src/nested-dir/handwritten.d.ts']
         );
-        for (const excluded of ['test/invalid.js', 'stories/invalid.js']) {
+        for (const excluded of [
+          'test/invalid.js',
+          'stories/invalid.js',
+          'test/nested/fixture.js',
+          'stories/nested/fixture.js',
+          'test/nested/fixture.d.ts',
+          'stories/nested/fixture.d.ts'
+        ]) {
           assert.equal(
             fs.existsSync(path.join(root, 'lib', format, 'nested-dir', excluded)),
             false
           );
         }
       }
+      for (const format of ['cjs', 'esm']) {
+        assert.match(
+          fs.readFileSync(path.join(root, 'lib', format, 'nested-dir/contest/test.js'), 'utf8'),
+          /preserved/
+        );
+        assert.equal(
+          fs.readFileSync(
+            path.join(root, 'lib', format, 'nested-dir/testable/handwritten.d.ts'),
+            'utf8'
+          ),
+          files['src/nested-dir/testable/handwritten.d.ts']
+        );
+      }
+      for (const directory of ['test', 'stories']) {
+        assert.equal(
+          fs.existsSync(path.join(root, 'lib/nested-dir', directory, 'nested/fixture.scss')),
+          false
+        );
+      }
+      assert.equal(
+        fs.readFileSync(path.join(root, 'lib/nested-dir/stories-archive/styles.scss'), 'utf8'),
+        files['src/nested-dir/stories-archive/styles.scss']
+      );
       for (const file of ['README.md', 'CHANGELOG.md', 'LICENSE']) {
         assert.equal(fs.readFileSync(path.join(root, 'lib', file), 'utf8'), files[file]);
       }
@@ -119,6 +158,7 @@ for (const directory of ['project', 'project[fixture]', 'project{one,two}']) {
 gulp.watch = (...args) => {
   const watcher = originalWatch(...args);
   watcher.once('ready', () => console.log('RSUITE_FIXTURE_WATCH_READY'));
+  watcher.on('all', (event, filePath) => console.log('RSUITE_FIXTURE_WATCH_EVENT ' + JSON.stringify({ event, filePath })));
   return watcher;
 };\n`
       );
@@ -130,6 +170,20 @@ gulp.watch = (...args) => {
         () => diagnostics.includes('RSUITE_FIXTURE_WATCH_READY'),
         () => diagnostics
       );
+      for (const relative of ['test/nested/fixture.ts', 'stories/nested/fixture.tsx']) {
+        const ignored = path.join(root, 'src/nested-dir', relative);
+        const emitted = path.join(root, 'lib/cjs/nested-dir', relative.replace(/\.tsx?$/, '.js'));
+        assert.equal(fs.existsSync(emitted), false);
+        fs.writeFileSync(ignored, 'intentionally invalid typescript after watch is ready');
+        const event =
+          'RSUITE_FIXTURE_WATCH_EVENT ' + JSON.stringify({ event: 'change', filePath: ignored });
+        await waitFor(
+          () => diagnostics.includes(event) || child.exitCode !== null,
+          () => diagnostics
+        );
+        assert.equal(child.exitCode, null, diagnostics);
+        assert.equal(fs.existsSync(emitted), false);
+      }
       const source = path.join(root, 'src/nested-dir/value[fixture].ts');
       const output = path.join(root, 'lib/cjs/nested-dir/value[fixture].js');
       fs.writeFileSync(source, "export default 'updated';\n");
