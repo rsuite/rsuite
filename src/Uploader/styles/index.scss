@@ -3,7 +3,58 @@
 @use '../../styles/mixins/color-modes' as color-modes;
 @use '../../Loader/styles/mixin' as loader;
 @use '../../Button/styles/index' as button;
+@use '../../Button/styles/mixin' as button-mixin;
 @use './mixin' as uploader-mixin;
+
+:where(.rs-uploader-trigger > input[type='file']:focus-visible) + .rs-uploader-trigger-btn {
+  outline: 2px solid currentcolor;
+  outline-offset: -2px;
+
+  &:where(button, input) {
+    outline-color: ButtonText;
+  }
+
+  :where(.rs-uploader[data-list-type='picture'], .rs-uploader[data-draggable='true'])
+    &:where(button, input) {
+    outline-color: currentcolor;
+  }
+
+  // Attribute matching avoids extending the frame onto custom picture triggers.
+  &[class~='rs-btn'] {
+    --rs-uploader-focus-inner-band: 2px;
+    --rs-uploader-focus-outline-offset: 0px;
+
+    outline-color: CanvasText;
+    outline-offset: var(--rs-uploader-focus-outline-offset);
+
+    @include button-mixin.button-focus-indicator(
+      $high-contrast-inset: 0,
+      $inner-width: var(--rs-uploader-focus-inner-band),
+      $forced-control-offset: var(--rs-uploader-focus-outline-offset),
+      $forced-outline-offset: calc(-2px - var(--rs-uploader-focus-inner-band))
+    );
+
+    @include color-modes.high-contrast-mode {
+      --rs-uploader-focus-inner-band: 1px;
+      --rs-uploader-focus-outline-offset: -1px;
+    }
+
+    &[data-appearance='primary'] {
+      outline-color: var(--rs-btn-primary-text);
+    }
+
+    &[data-appearance='ghost'] {
+      --rs-uploader-focus-inner-band: 1px;
+      --rs-uploader-focus-outline-offset: -1px;
+
+      outline-color: CanvasText;
+    }
+
+    @media (forced-colors: active) {
+      outline-color: CanvasText;
+    }
+  }
+}
 
 // Uploader
 // ----------------------

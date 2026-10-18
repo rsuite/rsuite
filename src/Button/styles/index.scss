@@ -46,35 +46,7 @@
   @include utils.with-focus-ring;
 
   &:focus-visible {
-    // Keep both bands inside clipped containers and above icons and ripple effects.
-    &::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      border: 2px solid CanvasText;
-      border-radius: inherit;
-      box-shadow: inset 0 0 0 2px Canvas;
-      pointer-events: none;
-    }
-
-    @include color-modes.high-contrast-mode {
-      &::after {
-        inset: -1px;
-      }
-    }
-
-    @media (forced-colors: active) {
-      outline-color: CanvasText;
-      outline-offset: -2px;
-
-      &::after {
-        // Forced colors can remove shadows, so draw the inner band with an outline.
-        box-shadow: none;
-        outline: 2px solid Canvas;
-        outline-offset: -4px;
-      }
-    }
+    @include mixin.button-focus-indicator;
   }
 
   @include mixin.button-activated {
