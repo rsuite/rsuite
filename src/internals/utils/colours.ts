@@ -91,7 +91,15 @@ export const getContrastText = (bgColor: string): string => {
   }
 
   const luminance = getLuminance(bgColor);
-  return luminance > 0.5 ? '#000000' : '#ffffff';
+
+  // Alpha colors also depend on the backdrop; preserve their existing behavior.
+  if (!/^#(?:[\da-f]{3}|[\da-f]{6})$/i.test(bgColor)) {
+    return luminance > 0.5 ? '#000000' : '#ffffff';
+  }
+
+  const blackContrast = (luminance + 0.05) / 0.05;
+  const whiteContrast = 1.05 / (luminance + 0.05);
+  return blackContrast > whiteContrast ? '#000000' : '#ffffff';
 };
 
 /**

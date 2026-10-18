@@ -1,0 +1,9 @@
+@use 'sass:math';
+
+// Select black or white using WCAG relative luminance after CSS variables resolve.
+@function text-color($background) {
+  $threshold: math.sqrt(0.05 * 1.05) - 0.05;
+  $channel: calc(1 - clamp(0, sign(r * 0.2126 + g * 0.7152 + b * 0.0722 - $threshold), 1));
+
+  @return color(from #{$background} srgb-linear #{$channel} #{$channel} #{$channel} / 1);
+}

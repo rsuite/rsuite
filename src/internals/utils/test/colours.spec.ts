@@ -7,7 +7,7 @@ describe('colours utils', () => {
       const result = createColorVariables('#ff5733', '--rs-bg', '--rs-text');
       expect(result).to.deep.equal({
         '--rs-bg': '#ff5733',
-        '--rs-text': '#ffffff'
+        '--rs-text': '#000000'
       });
     });
 
@@ -15,7 +15,7 @@ describe('colours utils', () => {
       const result = createColorVariables('#f00', '--rs-bg', '--rs-text');
       expect(result).to.deep.equal({
         '--rs-bg': '#ff0000',
-        '--rs-text': '#ffffff'
+        '--rs-text': '#000000'
       });
     });
 
@@ -86,14 +86,43 @@ describe('colours utils', () => {
   describe('getContrastText', () => {
     it('should return white text for dark backgrounds', () => {
       expect(getContrastText('#000000')).to.equal('#ffffff');
-      expect(getContrastText('#ff5733')).to.equal('#ffffff');
-      expect(getContrastText('#2196f3')).to.equal('#ffffff');
+      expect(getContrastText('#673ab7')).to.equal('#ffffff');
+      expect(getContrastText('#757575')).to.equal('#ffffff');
     });
 
     it('should return black text for light backgrounds', () => {
       expect(getContrastText('#ffffff')).to.equal('#000000');
       expect(getContrastText('#ffeb3b')).to.equal('#000000');
       expect(getContrastText('#e1f5fe')).to.equal('#000000');
+    });
+
+    it('chooses black when it provides more contrast on a mid-tone background', () => {
+      expect(getContrastText('#ff5733')).to.equal('#000000');
+      expect(getContrastText('#2196f3')).to.equal('#000000');
+      expect(getContrastText('#767676')).to.equal('#000000');
+      expect(getContrastText('#F00')).to.equal('#000000');
+    });
+
+    it('provides at least 4.5:1 contrast across an opaque RGB color grid', () => {
+      const channels = ['00', '33', '66', '99', 'cc', 'ff'];
+      for (const red of channels) {
+        for (const green of channels) {
+          for (const blue of channels) {
+            const background = `#${red}${green}${blue}`;
+            const foreground = getContrastText(background);
+            const first = getLuminance(background);
+            const second = getLuminance(foreground);
+            expect(
+              (Math.max(first, second) + 0.05) / (Math.min(first, second) + 0.05)
+            ).to.be.at.least(4.5);
+          }
+        }
+      }
+    });
+
+    it('preserves alpha hex handling when the backdrop is unknown', () => {
+      expect(getContrastText('#2196f380')).to.equal('#ffffff');
+      expect(getContrastText('#ffeb3b80')).to.equal('#000000');
     });
 
     it('should return default text color for non-hex colors', () => {
