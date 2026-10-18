@@ -1,12 +1,15 @@
 @use '../../../IconButton/styles/index' as icon-button;
+@use '../../../styles/mixins/utilities' as utils;
 
 // Close button
 .rs-btn-close {
   border: none;
-  outline: none !important;
+  outline: none;
   background: transparent;
   line-height: 1;
   cursor: pointer;
+
+  @include utils.with-focus-ring;
 
   .rs-icon {
     vertical-align: bottom;
