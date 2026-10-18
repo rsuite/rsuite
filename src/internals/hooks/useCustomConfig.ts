@@ -1,6 +1,6 @@
 import assign from 'lodash/assign';
 import enGB from '../../locales/en_GB';
-import { useContext, useCallback, useMemo } from 'react';
+import { useContext, useCallback } from 'react';
 import { CustomContext } from '@/internals/Provider/CustomContext';
 import type { ReactSuiteComponents } from '@/internals/Provider/types';
 
@@ -86,22 +86,20 @@ export function useCustomConfig<P = any>(
     [globalLocale, defaultLocale, componentLocale]
   );
 
-  const propsWithDefaults: P = useMemo(() => {
-    if (!componentName) {
-      return;
-    }
-
-    const mergedProps = assign({}, globalDefaultProps, restProps);
+  // restProps is new on every render. Merging directly also keeps old props out
+  // of the closure shared with the stable getLocale callback.
+  let propsWithDefaults: P = componentName ? assign({}, globalDefaultProps, restProps) : undefined;
+  if (componentName) {
+    const mergedProps = propsWithDefaults;
     const localeKey = getComponentLocaleKey(componentName);
 
     // If the default locale has the component name, then merge the locale.
-    if (Object.keys(enGB).includes(localeKey)) {
-      return { ...mergedProps, locale: getLocale(localeKey as LocaleKey) };
-    }
-    return componentLocale
-      ? { ...mergedProps, locale: assign({}, defaultLocale, componentLocale) }
-      : mergedProps;
-  }, [componentName, globalDefaultProps, defaultLocale, componentLocale, getLocale, restProps]);
+    propsWithDefaults = Object.keys(enGB).includes(localeKey)
+      ? { ...mergedProps, locale: getLocale(localeKey as LocaleKey) }
+      : componentLocale
+        ? { ...mergedProps, locale: assign({}, defaultLocale, componentLocale) }
+        : mergedProps;
+  }
 
   return {
     code,
