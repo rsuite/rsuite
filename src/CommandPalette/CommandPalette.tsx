@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import Modal from '../Modal';
 import Input from '../Input';
 import Button from '../Button';
@@ -9,8 +9,8 @@ import { isComposingEvent, mergeRefs } from '@/internals/utils';
 import enGB from '../locales/en_GB';
 import CommandResults from './CommandResults';
 import useCommandNavigation from './useCommandNavigation';
+import useCommandSelection from './useCommandSelection';
 import { createCommandEntries, getCommandText, groupCommands } from './commandUtils';
-import type { CommandEntry } from './commandUtils';
 import type { CommandDataItem, CommandPaletteComponent, CommandPaletteProps } from './types';
 
 const emptyEntries: never[] = [];
@@ -83,14 +83,15 @@ const CommandPalette = React.forwardRef(function CommandPalette<T extends Comman
     ? `${listId}-option-${navigation.active.sourceIndex}`
     : undefined;
 
-  const handleSelect = useCallback(
-    (entry: CommandEntry<T>, event: React.SyntheticEvent) => {
-      if (!open || busy || error || entry.item.disabled || !visible.includes(entry)) return;
-      onSelect?.(entry.item.value, entry.item, event);
-      if (closeOnSelect && !event.defaultPrevented) onClose?.(event);
-    },
-    [open, busy, error, visible, onSelect, closeOnSelect, onClose]
-  );
+  const handleSelect = useCommandSelection<T>({
+    open,
+    busy,
+    error,
+    visible,
+    onSelect,
+    closeOnSelect,
+    onClose
+  });
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     inputProps?.onKeyDown?.(event);
     if (
