@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import Button from '../Button';
 import IconButton from '../../IconButton';
 import CustomProvider from '../../CustomProvider';
+import { rgba } from '../../../test/browser/contrast';
 import '../styles/index.scss';
 import '../../IconButton/styles/index.scss';
 
@@ -42,23 +43,13 @@ describe.each(['light', 'dark', 'high-contrast'] as const)(
             <span
               data-testid="ring"
               style={{
-                color:
-                  appearance === 'primary'
-                    ? theme === 'high-contrast'
-                      ? 'var(--rs-loader-ring-inverse)'
-                      : 'rgba(248, 247, 250, 0.3)'
-                    : 'var(--rs-loader-ring)'
+                color: appearance === 'primary' ? 'rgba(0, 0, 0, 0.3)' : 'var(--rs-loader-ring)'
               }}
             />
             <span
               data-testid="rotor"
               style={{
-                color:
-                  appearance === 'primary'
-                    ? theme === 'high-contrast'
-                      ? 'var(--rs-loader-rotor-inverse)'
-                      : '#fff'
-                    : 'var(--rs-loader-rotor)'
+                color: appearance === 'primary' ? '#000' : 'var(--rs-loader-rotor)'
               }}
             />
           </CustomProvider>
@@ -70,11 +61,15 @@ describe.each(['light', 'dark', 'high-contrast'] as const)(
           expect(style.width).toBe(size === 'xs' ? '16px' : '18px');
           expect(style.height).toBe(size === 'xs' ? '16px' : '18px');
         }
-        expect(getComputedStyle(spinner, '::before').borderTopColor).toBe(
-          getComputedStyle(screen.getByTestId('ring')).color
+        expect(rgba(getComputedStyle(spinner, '::before').borderTopColor)).toEqual(
+          appearance === 'primary'
+            ? [0, 0, 0, 0.3]
+            : rgba(getComputedStyle(screen.getByTestId('ring')).color)
         );
-        expect(getComputedStyle(spinner, '::after').borderTopColor).toBe(
-          getComputedStyle(screen.getByTestId('rotor')).color
+        expect(rgba(getComputedStyle(spinner, '::after').borderTopColor)).toEqual(
+          appearance === 'primary'
+            ? [0, 0, 0, 1]
+            : rgba(getComputedStyle(screen.getByTestId('rotor')).color)
         );
         expect(button).toHaveAttribute('aria-busy', 'true');
         expect(button).toHaveAccessibleName('Action');
