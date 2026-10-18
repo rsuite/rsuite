@@ -45,6 +45,38 @@
 
   @include utils.with-focus-ring;
 
+  &:focus-visible {
+    // Keep both bands inside clipped containers and above icons and ripple effects.
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      border: 2px solid CanvasText;
+      border-radius: inherit;
+      box-shadow: inset 0 0 0 2px Canvas;
+      pointer-events: none;
+    }
+
+    @include color-modes.high-contrast-mode {
+      &::after {
+        inset: -1px;
+      }
+    }
+
+    @media (forced-colors: active) {
+      outline-color: CanvasText;
+      outline-offset: -2px;
+
+      &::after {
+        // Forced colors can remove shadows, so draw the inner band with an outline.
+        box-shadow: none;
+        outline: 2px solid Canvas;
+        outline-offset: -4px;
+      }
+    }
+  }
+
   @include mixin.button-activated {
     color: var(--rs-btn-default-hover-text);
     background-color: var(--rs-btn-default-hover-bg);
@@ -177,6 +209,10 @@
   border: var(--rs-btn-ghost-border-width) solid var(--rs-btn-ghost-border);
   padding-inline: calc(var(--rs-btn-padding-inline) - var(--rs-btn-ghost-border-width));
 
+  &:focus-visible::after {
+    inset: calc(-1 * var(--rs-btn-ghost-border-width));
+  }
+
   @include mixin.button-activated {
     color: var(--rs-btn-ghost-hover-text);
     background-color: transparent;
@@ -296,9 +332,14 @@
   --rs-btn-loading-animation-name: initial;
 
   color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
   position: relative;
   cursor: default;
   pointer-events: none;
+
+  > :not(.rs-btn-spin) {
+    opacity: 0 !important;
+  }
 
   &[data-rs-motion='reduce'] {
     --rs-btn-loading-animation-name: none;
@@ -325,23 +366,10 @@
       inset-inline-start: 0;
       border-radius: var(--rs-radius-full);
       z-index: 1;
-
-      .rs-btn[data-size='xs'] & {
-        width: var(--rs-btn-loading-spin-xs-diameter);
-        height: var(--rs-btn-loading-spin-xs-diameter);
-      }
     }
 
     &::before {
       border: var(--rs-btn-loading-spin-ring-wide) solid var(--rs-loader-ring);
-
-      .rs-btn[data-appearance='primary'] & {
-        border-color: rgb(248 247 250 / 30%);
-
-        @include color-modes.high-contrast-mode {
-          border-color: var(--rs-loader-ring-inverse);
-        }
-      }
     }
 
     &::after {
@@ -349,13 +377,31 @@
       border-color: var(--rs-loader-rotor) transparent transparent;
       border-style: solid;
       animation: var(--rs-btn-loading-animation-name, buttonSpin) 0.6s infinite linear;
+    }
+  }
 
-      .rs-btn[data-appearance='primary'] & {
-        border-top-color: #fff;
+  &[data-size='xs'] > .rs-btn-spin {
+    &::before,
+    &::after {
+      width: var(--rs-btn-loading-spin-xs-diameter);
+      height: var(--rs-btn-loading-spin-xs-diameter);
+    }
+  }
 
-        @include color-modes.high-contrast-mode {
-          border-top-color: var(--rs-loader-rotor-inverse);
-        }
+  &[data-appearance='primary'] > .rs-btn-spin {
+    &::before {
+      border-color: rgb(248 247 250 / 30%);
+
+      @include color-modes.high-contrast-mode {
+        border-color: var(--rs-loader-ring-inverse);
+      }
+    }
+
+    &::after {
+      border-top-color: #fff;
+
+      @include color-modes.high-contrast-mode {
+        border-top-color: var(--rs-loader-rotor-inverse);
       }
     }
   }

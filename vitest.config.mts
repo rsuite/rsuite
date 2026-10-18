@@ -145,6 +145,7 @@ async function createConfig() {
         './test/browser/toggleCommands'
       );
       const { setMotionPreference } = await import('./test/browser/motionCommands');
+      const { setForcedColors } = await import('./test/browser/forcedColorsCommands');
       const { waitForBrowserTestFrame } = await import('./test/browser/testFrameReadiness');
       const { collectBrowserGarbage } = await import('./test/browser/garbageCollection');
       const { createBrowserModuleDiagnostics } = await import(
@@ -182,6 +183,7 @@ async function createConfig() {
           trcTrustedResetClick,
           trcTrustedInputClick,
           setMotionPreference,
+          setForcedColors,
           waitForBrowserTestFrame,
           collectBrowserGarbage,
           observeBrowserModuleLoads
