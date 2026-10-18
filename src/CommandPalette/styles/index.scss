@@ -33,7 +33,6 @@
     cursor: pointer;
 
     &[aria-selected='true'] {
-      color: var(--rs-listbox-option-selected-text);
       background: var(--rs-listbox-option-selected-bg);
       outline: 2px solid currentcolor;
       outline-offset: -2px;
