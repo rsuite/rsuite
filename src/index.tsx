@@ -25,6 +25,7 @@ export * from './Drawer';
 // --------------------------------------------------------
 export * from './Notification';
 export * from './Message';
+export * from './EmptyState';
 export * from './Loader';
 export * from './Placeholder';
 export * from './Badge';

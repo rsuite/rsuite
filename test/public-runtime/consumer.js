@@ -28,7 +28,8 @@ const names = [
   'Button',
   'useAsyncSearch',
   'useLocaleSearch',
-  'ColorPicker'
+  'ColorPicker',
+  'EmptyState'
 ];
 const cjs = { Root: require('rsuite') };
 for (const name of names) cjs[name] = require('rsuite/' + name);
@@ -80,6 +81,40 @@ function LocaleSearchProbe({ hook: useSearch, enabled }) {
 }
 function fixtures(api) {
   return [
+    {
+      name: 'EmptyState renders an accessible recovery action through the root entry',
+      element: h(
+        api.Root.EmptyState,
+        {
+          as: 'section',
+          'aria-label': 'Projects',
+          title: 'No projects',
+          description: 'Create one to get started.',
+          headingLevel: 2,
+          icon: h('svg'),
+          ref
+        },
+        h('button', { type: 'button', onClick: callback('empty-action') }, 'Create project')
+      ),
+      expected: [
+        /aria-label="Projects"/,
+        /<h2 class="rs-empty-state-title">No projects<\/h2>/,
+        /aria-hidden="true"/,
+        /Create project<\/button>/
+      ],
+      absent: [/aria-live=/, /role="alert"/]
+    },
+    {
+      name: 'EmptyState subpath honors provider defaults and numeric content',
+      element: h(
+        api.Root.CustomProvider,
+        {
+          components: { EmptyState: { defaultProps: { size: 'sm', align: 'start' } } }
+        },
+        h(api.EmptyState.default, { title: 0, description: 0 })
+      ),
+      expected: [/data-size="sm"/, /data-align="start"/, /<h3 class="rs-empty-state-title">0<\/h3>/]
+    },
     ...[
       {},
       { defaultOpen: true },
