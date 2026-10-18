@@ -27,6 +27,8 @@ const providerComponentsFixture = fs.readFileSync(
   'utf8'
 );
 assert.equal((providerComponentsFixture.match(/@ts-expect-error/g) || []).length, 4);
+const customAsRefsFixture = fs.readFileSync(path.join(__dirname, 'custom-as-refs.tsx'), 'utf8');
+assert.equal((customAsRefsFixture.match(/@ts-expect-error/g) || []).length, 12);
 for (const entry of ['package.json', 'esm/index.d.ts', 'cjs/index.d.ts']) {
   assert(fs.existsSync(path.join(lib, entry)), 'Build the public lib first: ' + entry);
 }
@@ -90,6 +92,7 @@ const cjsSpecifiers = {
   rsuite: 'rsuite/cjs',
   'rsuite/DateInput': 'rsuite/cjs/DateInput',
   'rsuite/Button': 'rsuite/cjs/Button',
+  'rsuite/IconButton': 'rsuite/cjs/IconButton',
   'rsuite/Carousel': 'rsuite/cjs/Carousel',
   'rsuite/Whisper': 'rsuite/cjs/Whisper',
   'rsuite/locales': 'rsuite/cjs/locales',
@@ -199,6 +202,8 @@ try {
         fs.writeFileSync(emptyStateConsumer, sourceFor(entry, emptyStateFixture));
         const providerComponentsConsumer = path.join(project, 'provider-components.tsx');
         fs.writeFileSync(providerComponentsConsumer, sourceFor(entry, providerComponentsFixture));
+        const customAsRefsConsumer = path.join(project, 'custom-as-refs.tsx');
+        fs.writeFileSync(customAsRefsConsumer, sourceFor(entry, customAsRefsFixture));
         const options = {
           strict,
           noEmit: true,
@@ -228,6 +233,9 @@ try {
                 .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g),
               ...fs
                 .readFileSync(providerComponentsConsumer, 'utf8')
+                .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g),
+              ...fs
+                .readFileSync(customAsRefsConsumer, 'utf8')
                 .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g)
             ].map(match => match[1])
           )
@@ -248,7 +256,8 @@ try {
             polymorphicConsumer,
             pinInputAccessibilityConsumer,
             emptyStateConsumer,
-            providerComponentsConsumer
+            providerComponentsConsumer,
+            customAsRefsConsumer
           ],
           options
         );
@@ -295,6 +304,7 @@ try {
             file.physical === pinInputAccessibilityConsumer ||
             file.physical === emptyStateConsumer ||
             file.physical === providerComponentsConsumer ||
+            file.physical === customAsRefsConsumer ||
             file.physical.startsWith(published + path.sep)
           )
             continue;
@@ -396,6 +406,7 @@ try {
           pinInputAccessibilityConsumerSHA256: hash(pinInputAccessibilityConsumer),
           emptyStateConsumerSHA256: hash(emptyStateConsumer),
           providerComponentsConsumerSHA256: hash(providerComponentsConsumer),
+          customAsRefsConsumerSHA256: hash(customAsRefsConsumer),
           files,
           diagnostics: diagnostics.map(d => ({
             code: d.code,

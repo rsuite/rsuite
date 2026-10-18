@@ -1,4 +1,3 @@
-import React from 'react';
 import type { CSSProperties, ElementType, ReactNode } from 'react';
 import type { ReplaceProps } from './utils';
 
@@ -48,9 +47,7 @@ export interface InternalRefForwardingComponent<
   OmitKeys extends keyof any = never
 > {
   <As extends ElementType = T>(
-    props: ReplaceProps<As, Omit<WithAsProps<As>, OmitKeys> & PropsWithoutDefaultAs<P>> & {
-      ref?: React.Ref<any>;
-    },
+    props: ReplaceProps<As, Omit<WithAsProps<As>, OmitKeys> & PropsWithoutDefaultAs<P>>,
     context?: any
   ): any;
   contextTypes?: any;
