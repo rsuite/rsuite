@@ -16,7 +16,9 @@ const libRoot = path.join(__dirname, './lib');
 
 const esmRoot = path.join(libRoot, 'esm');
 const cjsRoot = path.join(libRoot, 'cjs');
-const tsSources = ['**/*.tsx', '**/*.ts', '!**/*.d.ts', '!**/test/*', '!**/stories/*'];
+const excludedSourceDirectories = ['test', 'stories'];
+const sourceExclusions = excludedSourceDirectories.map(directory => `!**/${directory}/**`);
+const tsSources = ['**/*.tsx', '**/*.ts', '!**/*.d.ts', ...sourceExclusions];
 
 function clean(done) {
   fs.rmSync(libRoot, { recursive: true, force: true });
@@ -56,7 +58,7 @@ function buildEsm() {
 
 function copyTypescriptDeclarationFiles() {
   return gulp
-    .src('**/*.d.ts', { cwd: srcRoot, base: srcRoot })
+    .src(['**/*.d.ts', ...sourceExclusions], { cwd: srcRoot, base: srcRoot })
     .pipe(gulp.dest(cjsRoot))
     .pipe(gulp.dest(esmRoot));
 }
@@ -65,10 +67,14 @@ function watch() {
   // Watch the literal directory: Chokidar also expands braces in absolute glob roots.
   const watcher = gulp.watch(srcRoot, { disableGlobbing: true });
   watcher.on('change', filePath => {
+    const directories = path
+      .relative(srcRoot, path.resolve(srcRoot, filePath))
+      .split(path.sep)
+      .slice(0, -1);
     if (
       !['.ts', '.tsx'].includes(path.extname(filePath)) ||
       filePath.endsWith('.d.ts') ||
-      ['test', 'stories'].includes(path.basename(path.dirname(filePath)))
+      directories.some(directory => excludedSourceDirectories.includes(directory))
     ) {
       return;
     }
@@ -105,7 +111,9 @@ async function copyDocs() {
 }
 
 function copyScssFiles() {
-  return gulp.src('**/*.scss', { cwd: srcRoot, base: srcRoot }).pipe(gulp.dest(libRoot));
+  return gulp
+    .src(['**/*.scss', ...sourceExclusions], { cwd: srcRoot, base: srcRoot })
+    .pipe(gulp.dest(libRoot));
 }
 
 function createPkgFile(done) {

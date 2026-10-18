@@ -3,5 +3,5 @@
   "compilerOptions": {
     "moduleResolution": "node"
   },
-  "exclude": ["./src/**/test/*.ts", "./src/**/test/*.tsx", "./src/**/stories/*"]
+  "exclude": ["./src/**/test/**", "./src/**/stories/**"]
 }
