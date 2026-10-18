@@ -36,6 +36,7 @@ import type { DateRangePickerProps } from '../../DateRangePicker';
 import type { DividerProps } from '../../Divider';
 import type { DrawerProps } from '../../Drawer';
 import type { DropdownProps } from '../../Dropdown';
+import type { EmptyStateProps } from '../../EmptyState';
 import type { FlexboxGridProps } from '../../FlexboxGrid';
 import type { FooterProps } from '../../Footer';
 import type { FormProps } from '../../Form';
@@ -162,6 +163,7 @@ export interface ReactSuiteComponents {
   Divider: ComponentProps<DividerProps>;
   Drawer: ComponentProps<DrawerProps>;
   Dropdown: ComponentProps<DropdownProps>;
+  EmptyState: ComponentProps<EmptyStateProps>;
   Dialog: ComponentProps<DialogProps>;
   FlexboxGrid: ComponentProps<FlexboxGridProps>;
   Footer: ComponentProps<FooterProps>;
