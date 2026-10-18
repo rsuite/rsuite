@@ -263,7 +263,8 @@ describe('Uploader focus after native file actions', () => {
   it('does not steal focus from a pointer action that did not focus the remove button', async () => {
     const page = await open({ scenario: 'pointer', single: true, keepPointerFocus: true });
     try {
-      await page.getByRole('button', { name: 'After uploader', exact: true }).click();
+      await page.getByRole('button', { name: 'After uploader', exact: true }).focus();
+      expect((await active(page)).text).toBe('After uploader');
       await remove(page).click();
       expect((await active(page)).text).toBe('After uploader');
       expect((await snapshot(page)).removals).toEqual(['alpha.txt']);
