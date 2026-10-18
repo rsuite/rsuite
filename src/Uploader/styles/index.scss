@@ -40,7 +40,7 @@
     }
 
     &[data-appearance='primary'] {
-      outline-color: var(--rs-btn-primary-text);
+      outline-color: var(--rs-btn-primary-foreground);
     }
 
     &[data-appearance='ghost'] {

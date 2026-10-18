@@ -5,6 +5,7 @@
 @use '../../styles/mixins/color-modes';
 @use 'variables' as vars;
 @use 'mixin';
+@use 'primary';
 
 // Buttons
 // --------------------------------------------------
@@ -107,25 +108,7 @@
 
 // Primary Button
 .rs-btn[data-appearance='primary'] {
-  color: var(--rs-btn-primary-text);
-  background-color: var(--rs-btn-primary-bg);
-  border-color: var(--rs-btn-primary-border-color);
-
-  @include mixin.button-activated {
-    color: var(--rs-btn-primary-text);
-    background-color: var(--rs-btn-primary-hover-bg);
-  }
-
-  @include mixin.button-pressed {
-    color: var(--rs-btn-primary-text);
-    background-color: var(--rs-btn-primary-active-bg);
-  }
-
-  @include mixin.button-disabled {
-    color: var(--rs-btn-primary-text);
-    background-color: var(--rs-btn-primary-bg);
-    opacity: 0.3;
-  }
+  @include primary.appearance;
 }
 
 // Subtle Button
@@ -370,10 +353,16 @@
     }
 
     &::after {
-      border-top-color: #fff;
+      border-top-color: var(--rs-btn-primary-foreground);
+    }
 
-      @include color-modes.high-contrast-mode {
-        border-top-color: var(--rs-loader-rotor-inverse);
+    @supports (color: color(from red srgb-linear calc(sign(r)) g b)) {
+      &::before {
+        border-color: rgb(from var(--rs-btn-primary-foreground) r g b / 30%);
+
+        @include color-modes.high-contrast-mode {
+          border-color: rgb(from var(--rs-btn-primary-foreground) r g b / 30%);
+        }
       }
     }
   }
