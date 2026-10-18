@@ -80,6 +80,10 @@ export default {
     last7Days: '最近 7 天'
   },
   Combobox,
+  CommandPalette: {
+    errorText: '暂时无法搜索命令。',
+    retryText: '重试'
+  },
   InputPicker: CreatableComboBox,
   TagPicker: CreatableComboBox,
   Uploader: {

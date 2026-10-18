@@ -84,6 +84,10 @@ export default {
     last7Days: 'Last 7 Days'
   },
   Combobox,
+  CommandPalette: {
+    errorText: 'Unable to search commands.',
+    retryText: 'Try again'
+  },
   ColorPicker: {
     placeholder: 'Select color',
     dialogTitle: 'Choose color',

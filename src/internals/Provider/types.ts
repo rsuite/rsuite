@@ -27,6 +27,7 @@ import type { CheckboxGroupProps } from '../../CheckboxGroup';
 import type { ColProps } from '../../Col';
 import type { CollapseProps } from '../../Animation/Collapse';
 import type { ColorPickerProps } from '../../ColorPicker';
+import type { CommandPaletteProps } from '../../CommandPalette';
 import type { ContainerProps } from '../../Container';
 import type { ContentProps } from '../../Content';
 import type { DateInputProps } from '../../DateInput';
@@ -166,6 +167,7 @@ export interface ReactSuiteComponents {
   Col: ComponentProps<ColProps>;
   Collapse: ComponentProps<CollapseProps>;
   ColorPicker: ComponentProps<ColorPickerProps>;
+  CommandPalette: ComponentProps<CommandPaletteProps>;
   Container: ComponentProps<ContainerProps>;
   Content: ComponentProps<ContentProps>;
   DateInput: ComponentProps<DateInputProps>;

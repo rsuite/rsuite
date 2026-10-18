@@ -29,6 +29,8 @@ const providerComponentsFixture = fs.readFileSync(
 assert.equal((providerComponentsFixture.match(/@ts-expect-error/g) || []).length, 4);
 const customAsRefsFixture = fs.readFileSync(path.join(__dirname, 'custom-as-refs.tsx'), 'utf8');
 assert.equal((customAsRefsFixture.match(/@ts-expect-error/g) || []).length, 12);
+const commandPaletteFixture = fs.readFileSync(path.join(__dirname, 'command-palette.tsx'), 'utf8');
+assert.equal((commandPaletteFixture.match(/@ts-expect-error/g) || []).length, 16);
 for (const entry of ['package.json', 'esm/index.d.ts', 'cjs/index.d.ts']) {
   assert(fs.existsSync(path.join(lib, entry)), 'Build the public lib first: ' + entry);
 }
@@ -93,6 +95,7 @@ const cjsSpecifiers = {
   'rsuite/DateInput': 'rsuite/cjs/DateInput',
   'rsuite/Button': 'rsuite/cjs/Button',
   'rsuite/IconButton': 'rsuite/cjs/IconButton',
+  'rsuite/CommandPalette': 'rsuite/cjs/CommandPalette',
   'rsuite/Carousel': 'rsuite/cjs/Carousel',
   'rsuite/Whisper': 'rsuite/cjs/Whisper',
   'rsuite/locales': 'rsuite/cjs/locales',
@@ -204,6 +207,8 @@ try {
         fs.writeFileSync(providerComponentsConsumer, sourceFor(entry, providerComponentsFixture));
         const customAsRefsConsumer = path.join(project, 'custom-as-refs.tsx');
         fs.writeFileSync(customAsRefsConsumer, sourceFor(entry, customAsRefsFixture));
+        const commandPaletteConsumer = path.join(project, 'command-palette.tsx');
+        fs.writeFileSync(commandPaletteConsumer, sourceFor(entry, commandPaletteFixture));
         const options = {
           strict,
           noEmit: true,
@@ -236,6 +241,9 @@ try {
                 .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g),
               ...fs
                 .readFileSync(customAsRefsConsumer, 'utf8')
+                .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g),
+              ...fs
+                .readFileSync(commandPaletteConsumer, 'utf8')
                 .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g)
             ].map(match => match[1])
           )
@@ -257,7 +265,8 @@ try {
             pinInputAccessibilityConsumer,
             emptyStateConsumer,
             providerComponentsConsumer,
-            customAsRefsConsumer
+            customAsRefsConsumer,
+            commandPaletteConsumer
           ],
           options
         );
@@ -305,6 +314,7 @@ try {
             file.physical === emptyStateConsumer ||
             file.physical === providerComponentsConsumer ||
             file.physical === customAsRefsConsumer ||
+            file.physical === commandPaletteConsumer ||
             file.physical.startsWith(published + path.sep)
           )
             continue;
@@ -407,6 +417,7 @@ try {
           emptyStateConsumerSHA256: hash(emptyStateConsumer),
           providerComponentsConsumerSHA256: hash(providerComponentsConsumer),
           customAsRefsConsumerSHA256: hash(customAsRefsConsumer),
+          commandPaletteConsumerSHA256: hash(commandPaletteConsumer),
           files,
           diagnostics: diagnostics.map(d => ({
             code: d.code,
