@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import useIsomorphicLayoutEffect from '@/internals/hooks/useIsomorphicLayoutEffect';
 import type { UseAsyncSearchOptions, UseAsyncSearchReturn } from './types';
 
@@ -22,7 +22,7 @@ type Result<T> =
  */
 export function useAsyncSearch<T>(options: UseAsyncSearchOptions<T>): UseAsyncSearchReturn<T> {
   const { query, search, enabled = true, dependencies = [] } = options;
-  const [revision, setRevision] = useState(0);
+  const [revision, reload] = useReducer((value: number) => value + 1, 0);
   const [storedRequest, setRequest] = useState<Request<T>>(() => ({
     query,
     enabled,
@@ -32,7 +32,6 @@ export function useAsyncSearch<T>(options: UseAsyncSearchOptions<T>): UseAsyncSe
   }));
   const [result, setResult] = useState<Result<T> | null>(null);
   const searchRef = useRef(search);
-  const reload = useCallback(() => setRevision(value => value + 1), []);
   let request = storedRequest;
 
   // React discards this render and immediately retries with the new request.
@@ -53,7 +52,10 @@ export function useAsyncSearch<T>(options: UseAsyncSearchOptions<T>): UseAsyncSe
   });
 
   useEffect(() => {
-    if (!request.enabled) return;
+    if (!request.enabled) {
+      setResult(null);
+      return;
+    }
 
     const controller = new AbortController();
     const runSearch = searchRef.current;

@@ -161,6 +161,87 @@ describe('useAsyncSearch request identity', () => {
     expect(result.current.items).toHaveLength(1);
   });
 
+  it.each(['success', 'error'] as const)(
+    'Should discard settled %s state and use the latest callback after re-enabling',
+    async initial => {
+      const calls: string[] = [];
+      const { result, rerender } = renderHook(
+        ({ enabled, label }) =>
+          useAsyncSearch({
+            query: 'same query',
+            enabled,
+            search: () => {
+              calls.push(label);
+              if (initial === 'error' && label === 'previous') throw new Error('Previous failure');
+              return [label];
+            }
+          }),
+        { initialProps: { enabled: true, label: 'previous' }, wrapper }
+      );
+      await waitFor(() => expect(result.current.status).toBe(initial));
+      rerender({ enabled: false, label: 'current' });
+      act(() => result.current.reload());
+      await act(async () => {});
+      expect(result.current).toMatchObject({
+        status: 'idle',
+        items: [],
+        error: null,
+        loading: false
+      });
+      expect(calls).toEqual(['previous']);
+      rerender({ enabled: true, label: 'current' });
+      expect(result.current.items).toEqual([]);
+      expect(result.current.error).toBeNull();
+      await waitFor(() => expect(result.current.items).toEqual(['current']));
+      expect(calls).toEqual(['previous', 'current']);
+    }
+  );
+
+  it('Should preserve committed results when a disabled render is abandoned', async () => {
+    const calls: string[] = [];
+    const suspended = new Promise<never>(() => {});
+    let disable!: React.Dispatch<React.SetStateAction<boolean>>;
+    let reload!: () => void;
+    let attempted = false;
+    function Probe() {
+      const [enabled, setEnabled] = useState(true);
+      disable = setEnabled;
+      const result = useAsyncSearch({
+        query: 'q',
+        enabled,
+        search: () => {
+          const label = enabled ? 'committed' : 'abandoned';
+          calls.push(label);
+          return [label];
+        }
+      });
+      if (!enabled) {
+        attempted = true;
+        throw suspended;
+      }
+      reload = result.reload;
+      return (
+        <output>
+          {result.status}:{result.items.join(',')}
+        </output>
+      );
+    }
+    render(
+      <StrictMode>
+        <Suspense fallback="Waiting">
+          <Probe />
+        </Suspense>
+      </StrictMode>
+    );
+    await screen.findByText('success:committed');
+    act(() => startTransition(() => disable(false)));
+    await waitFor(() => expect(attempted).toBe(true));
+    expect(screen.getByText('success:committed')).toBeTruthy();
+    act(() => reload());
+    await waitFor(() => expect(calls).toEqual(['committed', 'committed']));
+    expect(screen.getByText('success:committed')).toBeTruthy();
+  });
+
   it('Should contain rejection values that cannot be converted to text', async () => {
     const { result } = renderHook(
       () => useAsyncSearch({ query: '', search: () => Promise.reject(Object.create(null)) }),
