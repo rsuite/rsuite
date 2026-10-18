@@ -22,6 +22,11 @@ const pinInputAccessibilityFixture = fs.readFileSync(
 assert.equal((pinInputAccessibilityFixture.match(/@ts-expect-error/g) || []).length, 6);
 const emptyStateFixture = fs.readFileSync(path.join(__dirname, 'empty-state.tsx'), 'utf8');
 assert.equal((emptyStateFixture.match(/@ts-expect-error/g) || []).length, 4);
+const providerComponentsFixture = fs.readFileSync(
+  path.join(__dirname, 'provider-components.tsx'),
+  'utf8'
+);
+assert.equal((providerComponentsFixture.match(/@ts-expect-error/g) || []).length, 4);
 for (const entry of ['package.json', 'esm/index.d.ts', 'cjs/index.d.ts']) {
   assert(fs.existsSync(path.join(lib, entry)), 'Build the public lib first: ' + entry);
 }
@@ -192,6 +197,8 @@ try {
         );
         const emptyStateConsumer = path.join(project, 'empty-state.tsx');
         fs.writeFileSync(emptyStateConsumer, sourceFor(entry, emptyStateFixture));
+        const providerComponentsConsumer = path.join(project, 'provider-components.tsx');
+        fs.writeFileSync(providerComponentsConsumer, sourceFor(entry, providerComponentsFixture));
         const options = {
           strict,
           noEmit: true,
@@ -218,6 +225,9 @@ try {
                 .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g),
               ...fs
                 .readFileSync(emptyStateConsumer, 'utf8')
+                .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g),
+              ...fs
+                .readFileSync(providerComponentsConsumer, 'utf8')
                 .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g)
             ].map(match => match[1])
           )
@@ -233,7 +243,13 @@ try {
             'Missing natural public declaration entry: ' + item.specifier
           );
         const program = ts.createProgram(
-          [consumer, polymorphicConsumer, pinInputAccessibilityConsumer, emptyStateConsumer],
+          [
+            consumer,
+            polymorphicConsumer,
+            pinInputAccessibilityConsumer,
+            emptyStateConsumer,
+            providerComponentsConsumer
+          ],
           options
         );
         const diagnostics = ts.getPreEmitDiagnostics(program);
@@ -278,6 +294,7 @@ try {
             file.physical === polymorphicConsumer ||
             file.physical === pinInputAccessibilityConsumer ||
             file.physical === emptyStateConsumer ||
+            file.physical === providerComponentsConsumer ||
             file.physical.startsWith(published + path.sep)
           )
             continue;
@@ -378,6 +395,7 @@ try {
           polymorphicConsumerSHA256: hash(polymorphicConsumer),
           pinInputAccessibilityConsumerSHA256: hash(pinInputAccessibilityConsumer),
           emptyStateConsumerSHA256: hash(emptyStateConsumer),
+          providerComponentsConsumerSHA256: hash(providerComponentsConsumer),
           files,
           diagnostics: diagnostics.map(d => ({
             code: d.code,
