@@ -26,6 +26,8 @@ jobs:
       - name: Test build scripts
         run: node --test scripts/*.node-test.cjs
       - run: npm ci --legacy-peer-deps
+      - name: Check component defaults registry
+        run: npm run test:component-registry && npm run check:component-types
       - name: Test Sass mixins
         run: node --test test/scss/*.node-test.cjs
       - run: npm run format:check
