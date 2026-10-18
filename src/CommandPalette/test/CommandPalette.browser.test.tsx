@@ -1,5 +1,9 @@
-import { dirname, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
+import { createRequire } from 'node:module';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
+import { build } from 'esbuild';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import type { Page } from 'playwright';
 import createSourceBrowser from '../../../test/browser/createSourceBrowser';
@@ -7,10 +11,48 @@ import type {} from './CommandPalette.client';
 
 describe('CommandPalette native browser interaction', () => {
   let source: Awaited<ReturnType<typeof createSourceBrowser>>;
+  let ssrDirectory: string | undefined;
+  let ssrFile: string | undefined;
+  const nodeRequire = createRequire(import.meta.url);
   beforeAll(async () => {
+    const root = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
+    const runtimeRoot =
+      process.env.RSUITE_TEST_RUNTIME_ROOT ||
+      dirname(dirname(nodeRequire.resolve('react/package.json')));
+    const runtimeRequire = createRequire(join(runtimeRoot, 'react/package.json'));
+    ssrDirectory = await mkdtemp(join(tmpdir(), 'rsuite-command-ssr-'));
+    ssrFile = join(ssrDirectory, 'renderer.cjs');
+    await build({
+      absWorkingDir: root,
+      entryPoints: [join(root, 'src/CommandPalette/test/CommandPalette.ssr-renderer.tsx')],
+      outfile: ssrFile,
+      bundle: true,
+      platform: 'node',
+      format: 'cjs',
+      jsx: 'transform',
+      define: { __DEV__: 'true', 'process.env.NODE_ENV': '"development"' },
+      plugins: [
+        {
+          name: 'command-ssr-exact-react-runtime',
+          setup(builder) {
+            builder.onResolve({ filter: /^react(?:-dom)?(?:\/.*)?$/ }, args => ({
+              path: runtimeRequire.resolve(args.path)
+            }));
+          }
+        }
+      ]
+    });
+    const payload = nodeRequire(ssrFile).renderCommandPaletteHydration();
     source = await createSourceBrowser({
-      root: resolve(dirname(fileURLToPath(import.meta.url)), '../../..'),
-      entry: '/src/CommandPalette/test/CommandPalette.client.tsx'
+      root,
+      entry: '/src/CommandPalette/test/CommandPalette.client.tsx',
+      configureServer(server) {
+        server.middlewares.use((request, response, next) => {
+          if (request.url !== '/command-palette-ssr') return next();
+          response.setHeader('Content-Type', 'application/json');
+          response.end(JSON.stringify(payload));
+        });
+      }
     });
     console.info('CommandPalette runtime', {
       browser: source.browserName,
@@ -18,7 +60,14 @@ describe('CommandPalette native browser interaction', () => {
       react: source.reactVersion
     });
   });
-  afterAll(async () => source?.close());
+  afterAll(async () => {
+    try {
+      await source?.close();
+    } finally {
+      if (ssrFile) delete nodeRequire.cache[ssrFile];
+      if (ssrDirectory) await rm(ssrDirectory, { recursive: true, force: true });
+    }
+  });
   const snapshot = (page: Page) =>
     page.evaluate(() => window.__RSUITE_COMMAND_PALETTE__.snapshot());
   const run = async (
@@ -299,7 +348,16 @@ describe('CommandPalette native browser interaction', () => {
       page.on('console', message => {
         if (message.type() === 'error') warnings.push(message.text());
       });
-      expect(await page.evaluate(() => window.__RSUITE_COMMAND_PALETTE__.hydrate())).toBe('');
+      const response = await page.request.get(`${source.url}/command-palette-ssr`);
+      expect(response.ok(), await response.text()).toBe(true);
+      const payload = await response.json();
+      expect(payload).toEqual({
+        html: '',
+        react: source.reactVersion,
+        reactDOM: source.reactVersion,
+        domAvailable: false
+      });
+      await page.evaluate(html => window.__RSUITE_COMMAND_PALETTE__.hydrate(html), payload.html);
       await page.waitForFunction(() => document.querySelectorAll('[role="option"]').length === 6);
       await page.evaluate(
         () => new Promise<void>(resolve => requestAnimationFrame(() => resolve()))

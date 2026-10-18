@@ -429,6 +429,57 @@ describe('CommandPalette', () => {
     expect(document.activeElement).not.toBe(input());
   });
 
+  it('keeps its div wrapper ref when Modal provider defaults change as', async () => {
+    const ref = React.createRef<HTMLDivElement>();
+    render(
+      <CustomProvider components={{ Modal: { defaultProps: { as: 'section' } } }}>
+        <CommandPalette open reduceMotion title="Commands" data={data} ref={ref} />
+      </CustomProvider>
+    );
+    await ready();
+    expect(ref.current?.tagName).toBe('DIV');
+  });
+
+  it('owns its dialog renderer when Modal provider defaults replace dialogAs', async () => {
+    render(
+      <CustomProvider components={{ Modal: { defaultProps: { dialogAs: 'article' } } }}>
+        <CommandPalette open reduceMotion title="Commands" data={data} />
+      </CustomProvider>
+    );
+    await ready();
+    expect(screen.getByRole('dialog').tagName).toBe('DIV');
+    expect(screen.getByRole('document')).toBeTruthy();
+  });
+
+  it('keeps modal semantics when Modal provider defaults request a drawer', async () => {
+    render(
+      <CustomProvider components={{ Modal: { defaultProps: { isDrawer: true } } }}>
+        <CommandPalette open reduceMotion title="Commands" data={data} />
+      </CustomProvider>
+    );
+    await ready();
+    expect(screen.queryByTestId('drawer-wrapper')).toBeNull();
+    expect(screen.getByTestId('modal-wrapper')).toBeTruthy();
+  });
+
+  it('owns its header close control independently of Modal body defaults', async () => {
+    render(
+      <CustomProvider
+        components={{
+          Modal: {
+            defaultProps: {
+              closeButton: <button>Global body close</button>
+            }
+          }
+        }}
+      >
+        <CommandPalette open reduceMotion title="Commands" data={data} closeButton={false} />
+      </CustomProvider>
+    );
+    await ready();
+    expect(screen.queryByRole('button')).toBeNull();
+  });
+
   it('lets onOpen choose a focus target after the default search focus', async () => {
     const target = React.createRef<HTMLButtonElement>();
     renderPalette({

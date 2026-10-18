@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import ReactDOM, { createPortal, flushSync } from 'react-dom';
 import { createRoot, hydrateRoot } from 'react-dom/client';
-import { renderToString } from 'react-dom/server.browser';
+import CommandPaletteHydrationFixture, { commands as defaults } from './CommandPalette.hydration';
 import CommandPalette from '../CommandPalette';
 import Modal from '../../Modal';
 import type { CommandDataItem } from '../types';
@@ -18,11 +18,6 @@ interface Options {
   inFrame?: boolean;
   editingControl?: boolean;
 }
-const defaults = [
-  { value: 'projects', label: 'Open projects', group: 'Workspace' },
-  { value: 'archive', label: 'Archive project', group: 'Workspace', disabled: true },
-  { value: 0, label: 'Open settings', group: 'Account' }
-];
 const root = createRoot(document.getElementById('root')!);
 let frame: HTMLIFrameElement | undefined;
 let renderKey = 0;
@@ -34,15 +29,6 @@ let closed = 0;
 let submitted = 0;
 let openingFocus = '';
 let hydrationErrors: string[] = [];
-
-function HydrationFixture() {
-  return (
-    <>
-      <CommandPalette open reduceMotion title="First commands" data={defaults} />
-      <CommandPalette open reduceMotion title="Second commands" data={defaults} />
-    </>
-  );
-}
 
 function observeKeys(doc: Document) {
   doc.addEventListener(
@@ -150,7 +136,7 @@ declare global {
       runtime: { react: string; reactDOM: string };
       mount(options?: Options): Promise<void>;
       update(options: Partial<Options>): void;
-      hydrate(): string;
+      hydrate(html: string): void;
       snapshot(): {
         selections: typeof selections;
         events: typeof events;
@@ -194,16 +180,14 @@ window.__RSUITE_COMMAND_PALETTE__ = {
   update(options) {
     flushSync(() => update(current => ({ ...current, ...options })));
   },
-  hydrate() {
+  hydrate(html) {
     hydrationErrors = [];
     const host = document.createElement('div');
     document.body.append(host);
-    const html = renderToString(<HydrationFixture />);
     host.innerHTML = html;
-    hydrateRoot(host, <HydrationFixture />, {
+    hydrateRoot(host, <CommandPaletteHydrationFixture />, {
       onRecoverableError: error => hydrationErrors.push(String(error))
     });
-    return html;
   },
   snapshot: () => ({
     selections,

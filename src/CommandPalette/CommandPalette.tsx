@@ -119,6 +119,10 @@ const CommandPalette = React.forwardRef(function CommandPalette<T extends Comman
   return (
     <Modal
       {...rest}
+      as="div"
+      dialogAs={Modal.Dialog}
+      isDrawer={false}
+      closeButton={false}
       ref={ref}
       open={open}
       role="dialog"
