@@ -2,27 +2,36 @@
   "name": "with-nextjs-pages-and-less",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "^20.19.0 || ^22.13.0 || >=24"
+  },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint src --max-warnings=0"
   },
   "dependencies": {
-    "next": "14.0.4",
+    "next": "16.4.2",
     "react": "^18",
     "react-dom": "^18",
     "rsuite": "^5.49.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@next/eslint-plugin-next": "16.4.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "eslint": "^10.13.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^16.4.0",
     "less": "^4.2.0",
     "less-loader": "^11.1.4",
     "next-with-less": "^3.0.1",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^9.3.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "typescript-eslint": "^8.71.2"
   }
 }

@@ -30,10 +30,10 @@ export default function Home() {
             alt="Next.js Logo"
             width={180}
             height={37}
-            priority
+            preload
           />
 
-          <Image src="/rsuite.svg" alt="React Suite Logo" width={60} height={60} priority />
+          <Image src="/rsuite.svg" alt="React Suite Logo" width={60} height={60} preload />
         </div>
 
         <Stack spacing={20}>
