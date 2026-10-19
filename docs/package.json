@@ -52,7 +52,7 @@
     "joi": "^18.2.9",
     "lunar-typescript": "^1.7.6",
     "lz-string": "^1.4.4",
-    "next": "^16.4.0",
+    "next": "^16.4.1",
     "nope-validator": "^1.1.1",
     "nprogress": "^0.2.0",
     "react": "^18.2.0",
