@@ -9,6 +9,7 @@ import { inputs, packageFingerprint, hash } from './integrity.mjs';
 import { serve } from './runner/server.mjs';
 import { runWorkload } from './runner/workloads.mjs';
 import { summarize } from './runner/summary.mjs';
+import { captureFailureArtifacts } from './runner/diagnostics.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const { values } = parseArgs({
@@ -137,21 +138,18 @@ try {
             path.dirname(output),
             path.basename(output, '.json') + '-' + library + '-' + mode + '-' + size + '.png'
           );
-          await page.screenshot({ path: screenshot, fullPage: true }).catch(() => {});
-          const diagnostic = await page
-            .evaluate(() => ({
-              snapshot: window.pickerBenchmark?.snapshot(),
-              measurement: window.pickerBenchmark?.result(),
-              focusedElement: document.activeElement?.outerHTML
-            }))
-            .catch(() => null);
-          report.cases.push({
+          const failure = {
             ...id,
             status: 'failed',
             error: String(error),
-            diagnostic,
+            diagnostic: null,
+            diagnosticStatus: 'pending',
             screenshot
-          });
+          };
+          report.cases.push(failure);
+          save();
+          await captureFailureArtifacts(page, failure);
+          save();
           console.log('FAIL', library, mode, size, String(error));
         } finally {
           await context.close();
