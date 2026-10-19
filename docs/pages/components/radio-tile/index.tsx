@@ -1,4 +1,3 @@
-import React from 'react';
 import { Form, RadioGroup, Button, Radio, RadioTile, RadioTileGroup, useMediaQuery } from 'rsuite';
 import Icon from '@rsuite/icons/Icon';
 import {

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Grid, GridProps } from 'rsuite';
 import styles from './layout.module.scss';
 

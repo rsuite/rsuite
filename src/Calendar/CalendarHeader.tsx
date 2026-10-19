@@ -94,15 +94,15 @@ const CalendarHeader = forwardRef<'div', CalendarHeaderPrivateProps>((props, ref
     <div className={prefix('month-toolbar')}>
       <IconButton
         {...btnProps}
-        // TODO: aria-label should be translated by i18n
-        aria-label="Previous month"
+        aria-label={locale?.previousMonth || 'Previous month'}
         className={backwardClass}
-        onClick={disabledBackward ? undefined : onMoveBackward}
+        disabled={disabledBackward}
+        onClick={onMoveBackward}
         icon={<PagePreviousIcon />}
       />
       <Button
         {...btnProps}
-        aria-label="Select month"
+        aria-label={locale?.selectMonth || 'Select month'}
         id={targetId ? `${targetId}-grid-label` : undefined}
         className={dateTitleClasses}
         onClick={onToggleMonthDropdown}
@@ -111,9 +111,10 @@ const CalendarHeader = forwardRef<'div', CalendarHeaderPrivateProps>((props, ref
       </Button>
       <IconButton
         {...btnProps}
-        aria-label="Next month"
+        aria-label={locale?.nextMonth || 'Next month'}
         className={forwardClass}
-        onClick={disabledForward ? undefined : onMoveForward}
+        disabled={disabledForward}
+        onClick={onMoveForward}
         icon={<PageNextIcon />}
       />
     </div>
@@ -132,7 +133,7 @@ const CalendarHeader = forwardRef<'div', CalendarHeaderPrivateProps>((props, ref
         <div className={prefix('time-toolbar')}>
           <Button
             {...btnProps}
-            aria-label="Select time"
+            aria-label={locale?.selectTime || 'Select time'}
             className={timeTitleClasses}
             onClick={onToggleTimeDropdown}
             disabled={disableSelectTime}

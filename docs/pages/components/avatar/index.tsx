@@ -1,4 +1,3 @@
-import React from 'react';
 import { Avatar, AvatarGroup, Badge } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';

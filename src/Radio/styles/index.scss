@@ -140,8 +140,10 @@
 
 // Colorful radios
 @each $color in colors.$spectrum {
+  $color-name: '' + $color;
+
   .rs-radio[data-color='#{$color}'] {
-    --rs-radio-checked-bg: var(--rs-#{'' + $color}-500);
-    --rs-radio-border: var(--rs-#{'' + $color}-500);
+    --rs-radio-checked-bg: var(--rs-#{$color-name}-500);
+    --rs-radio-border: var(--rs-#{$color-name}-500);
   }
 }

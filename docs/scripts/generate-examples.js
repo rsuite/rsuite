@@ -1,9 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-// Get the project root directory (where package.json is located)
-const projectRoot = path.resolve(__dirname, '../..');
-console.log('Generating examples in:', projectRoot);
+const docsRoot = path.resolve(__dirname, '..');
+console.log('Generating examples in:', docsRoot);
 
 function ensureDirectoryExists(dir) {
   if (!fs.existsSync(dir)) {
@@ -15,11 +14,12 @@ function ensureDirectoryExists(dir) {
 function generateExampleFiles(componentsDir) {
   if (!fs.existsSync(componentsDir)) {
     console.error(`Components directory not found: ${componentsDir}`);
+    process.exitCode = 1;
     return;
   }
 
   // Create docs/public/examples directory
-  const publicDir = path.join(projectRoot, 'docs', 'public');
+  const publicDir = path.join(docsRoot, 'public');
   const examplesDir = path.join(publicDir, 'examples');
   ensureDirectoryExists(examplesDir);
 
@@ -74,15 +74,17 @@ function generateExampleFiles(componentsDir) {
             fs.writeFileSync(outputPath, JSON.stringify(exampleData, null, 2));
           } catch (err) {
             console.error(`Error processing example file ${file}:`, err.message);
+            process.exitCode = 1;
           }
         }
       });
     } catch (err) {
       console.error(`Error processing component ${component}:`, err.message);
+      process.exitCode = 1;
     }
   });
 }
 
 // Generate example files
-const componentsDir = path.join(projectRoot, 'docs', 'pages', 'components');
+const componentsDir = path.join(docsRoot, 'pages', 'components');
 generateExampleFiles(componentsDir);

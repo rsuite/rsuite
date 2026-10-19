@@ -36,7 +36,14 @@ type PickKeys<T> = {
   [keys in keyof T]?: T[keys];
 };
 
-export type Locale = PickKeys<typeof defaultLocale>;
+export type Locale = PickKeys<
+  Omit<typeof defaultLocale, 'Carousel' | 'ColorPicker' | 'PinInput' | 'CommandPalette'>
+> & {
+  Carousel?: CarouselLocale;
+  ColorPicker?: ColorPickerLocale;
+  PinInput?: PinInputLocale;
+  CommandPalette?: CommandPaletteLocale;
+};
 export type CommonLocale = typeof defaultLocale.common;
 export type PlaintextLocale = PickKeys<typeof defaultLocale.Plaintext>;
 export type PaginationLocale = PickKeys<typeof defaultLocale.Pagination>;
@@ -49,6 +56,11 @@ export type UploaderLocale = PickKeys<typeof defaultLocale.Uploader> & CommonLoc
 export type CloseButtonLocale = PickKeys<typeof defaultLocale.CloseButton>;
 export type BreadcrumbLocale = PickKeys<typeof defaultLocale.Breadcrumb>;
 export type ToggleLocale = PickKeys<typeof defaultLocale.Toggle>;
+export type ColorPickerLocale = PickKeys<typeof defaultLocale.ColorPicker>;
+export type CarouselLocale = PickKeys<typeof defaultLocale.Carousel>;
+export type PinInputLocale = PickKeys<typeof defaultLocale.PinInput>;
+export type CommandPaletteLocale = PickKeys<typeof defaultLocale.CommandPalette> &
+  Partial<Pick<PickerLocale, 'searchPlaceholder' | 'noResultsText' | 'loading'>>;
 
 export interface CalendarLocale extends PickKeys<typeof defaultLocale.Calendar> {
   dateLocale?: DateFnsLocale;

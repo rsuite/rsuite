@@ -33,14 +33,37 @@ export function decimals(...values: number[]): number {
   return Math.max(...lengths);
 }
 
+export function restoreDecimalSeparator(value: string, decimalSeparator?: string): string {
+  if (!decimalSeparator || !value || decimalSeparator === '.') {
+    return value;
+  }
+
+  const separatorRegex = new RegExp(
+    `[${decimalSeparator.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}.]`,
+    'g'
+  );
+  return value.replace(separatorRegex, '.');
+}
+
+export function toNumber(value: number | string, decimalSeparator?: string): number {
+  const number = Number(value);
+  return Number.isNaN(number) && typeof value === 'string'
+    ? Number(restoreDecimalSeparator(value, decimalSeparator))
+    : number;
+}
+
 /**
  * Disable the upper limit of the number.
  * @param value
  * @param max
  */
-export function valueReachesMax(value: number | string | null | undefined, max: number) {
+export function valueReachesMax(
+  value: number | string | null | undefined,
+  max: number,
+  decimalSeparator?: string
+) {
   if (!isNil(value)) {
-    return +value >= max;
+    return toNumber(value, decimalSeparator) >= max;
   }
   return false;
 }
@@ -50,9 +73,13 @@ export function valueReachesMax(value: number | string | null | undefined, max: 
  * @param value
  * @param min
  */
-export function valueReachesMin(value: number | string | null | undefined, min: number) {
+export function valueReachesMin(
+  value: number | string | null | undefined,
+  min: number,
+  decimalSeparator?: string
+) {
   if (!isNil(value)) {
-    return +value <= min;
+    return toNumber(value, decimalSeparator) <= min;
   }
   return false;
 }

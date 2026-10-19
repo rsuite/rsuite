@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React, { useContext, useEffect } from 'react';
 import NavItem, { NavItemProps } from './NavItem';
 import NavDropdownItem from './NavDropdownItem';

@@ -21,82 +21,221 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
+          # Use the runner cache without a network lookup for the LTS alias.
+          node-version: '24'
+      - name: Test build scripts
+        run: node --test scripts/*.node-test.cjs
       - run: npm ci --legacy-peer-deps
+      - name: Check component defaults registry
+        run: npm run test:component-registry && npm run check:component-types
+      - name: Test Sass mixins
+        run: node --test test/scss/*.node-test.cjs
       - run: npm run format:check
       - run: npm run lint
 
-  test:
-    name: 'Test'
+  # Bound each Chromium browser run while keeping all tests across independent runners.
+  chromium-react18:
+    name: 'Chromium runners (React18)'
+    uses: ./.github/workflows/chromium-tests.yml
+    with:
+      react-version: React18
+      react-runtime: 18.2.0
 
+  chromium-react19:
+    name: 'Chromium runners (React19)'
+    uses: ./.github/workflows/chromium-tests.yml
+    with:
+      react-version: React19
+      react-runtime: 19.0.0
+
+  chromium-react19-3:
+    name: 'Chromium runners (React19.3)'
+    uses: ./.github/workflows/chromium-tests.yml
+    with:
+      react-version: React19.3
+      react-runtime: 19.3.0
+
+  # Allow time for runner setup and finalization around the required checks.
+  chromium-react18-summary:
+    name: 'Test (chromium, React18)'
+    needs: [chromium-react18, coverage]
+    if: always()
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Preserve the existing required check for both tests and coverage delivery.
+      - name: Require all Chromium shards to pass
+        env:
+          SHARD_RESULT: ${{ needs.chromium-react18.result }}
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
 
+  chromium-react19-summary:
+    name: 'Test (chromium, React19)'
+    needs: [chromium-react19, coverage]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Preserve the existing required check for both tests and coverage delivery.
+      - name: Require all Chromium shards to pass
+        env:
+          SHARD_RESULT: ${{ needs.chromium-react19.result }}
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
+
+  chromium-react19-3-summary:
+    name: 'Test (chromium, React19.3)'
+    needs: [chromium-react19-3, coverage]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Preserve the existing required check for both tests and coverage delivery.
+      - name: Require all Chromium shards to pass
+        env:
+          SHARD_RESULT: ${{ needs.chromium-react19-3.result }}
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
+
+  # Keep each Firefox shard on its own runner so native keyboard tests retain one page.
+  firefox-react18:
+    name: 'Firefox runners (React18)'
+    uses: ./.github/workflows/firefox-tests.yml
+    with:
+      react-version: React18
+      react-runtime: 18.2.0
+
+  firefox-react19:
+    name: 'Firefox runners (React19)'
+    uses: ./.github/workflows/firefox-tests.yml
+    with:
+      react-version: React19
+      react-runtime: 19.0.0
+
+  firefox-react19-3:
+    name: 'Firefox runners (React19.3)'
+    uses: ./.github/workflows/firefox-tests.yml
+    with:
+      react-version: React19.3
+      react-runtime: 19.3.0
+
+  firefox-react18-summary:
+    name: 'Test (firefox, React18)'
+    needs: [firefox-react18, coverage]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Failed, cancelled, or skipped tests or uploads must fail the existing required check.
+      - name: Require all Firefox shards to pass
+        env:
+          SHARD_RESULT: ${{ needs.firefox-react18.result }}
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
+
+  firefox-react19-summary:
+    name: 'Test (firefox, React19)'
+    needs: [firefox-react19, coverage]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require all Firefox shards to pass
+        env:
+          SHARD_RESULT: ${{ needs.firefox-react19.result }}
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
+
+  firefox-react19-3-summary:
+    name: 'Test (firefox, React19.3)'
+    needs: [firefox-react19-3, coverage]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require all Firefox shards to pass
+        env:
+          SHARD_RESULT: ${{ needs.firefox-react19-3.result }}
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
+
+  coverage:
+    name: 'Coverage (${{ matrix.kind }})'
+    needs:
+      - chromium-react18
+      - chromium-react19
+      - chromium-react19-3
+      - firefox-react18
+      - firefox-react19
+      - firefox-react19-3
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     strategy:
+      fail-fast: false
       matrix:
-        browser: [chromium, firefox]
-        react: ['React18', 'React19']
-
+        kind: [chromium, firefox, ssr]
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js LTS
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
-
-      - name: Free disk space on runner
-        if: runner.os == 'Linux' # ubuntu-latest is Linux
-        run: |
-          echo "Initial disk space:"
-          df -h
-          sudo docker image prune -a -f || echo "Docker image prune failed or Docker not available"
-          sudo rm -rf /usr/share/dotnet || echo "Failed to remove dotnet or it doesn't exist"
-          sudo rm -rf /opt/ghc || echo "Failed to remove ghc or it doesn't exist"
-          sudo rm -rf /usr/local/lib/android || echo "Failed to remove android or it doesn't exist"
-          sudo rm -rf /usr/local/share/powershell || echo "Failed to remove powershell or it doesn't exist"
-          sudo rm -rf /usr/local/share/rust || echo "Failed to remove rust or it doesn't exist"
-          sudo rm -rf /opt/hostedtoolcache || echo "Failed to remove hostedtoolcache"
-          sudo apt-get clean
-          sudo apt-get autoremove -y
-          sudo rm -rf /var/lib/apt/lists/*
-          npm cache clean --force || echo "npm cache clean failed"
-          echo "Disk space after cleanup:"
-          df -h
-
-      - name: Cache Node.js modules
-        uses: actions/cache@v4
+          node-version: '22'
+      - name: Download coverage
+        uses: actions/download-artifact@v4
         with:
-          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
-          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-node-
-            ${{ runner.OS }}-
-
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
-      - name: install react 18
-        if: ${{ matrix.react == 'React18' }}
-        run: npm run install:react-18
-
-      - name: install react 19
-        if: ${{ matrix.react == 'React19' }}
-        run: npm run install:react-19
-
-      - name: Run headless tests
-        run: npm run test:ci --browser.name=${{ env.BROWSER }} --browser.headless
+          pattern: ${{ matrix.kind == 'ssr' && 'server-coverage-*' || format('browser-coverage-{0}-*', matrix.kind) }}
+          path: coverage-reports
+          # Every shard uses the same filename; retain its artifact directory.
+          merge-multiple: false
+      - name: Require every coverage report
+        id: coverage
         env:
-          CI: true
-          BROWSER: ${{ matrix.browser }}
-
-      - name: Run SSR hydration tests
-        if: ${{ matrix.browser == 'chromium' }}
-        run: npm run test:ssr
-
+          COVERAGE_KIND: ${{ matrix.kind }}
+        run: |
+          if [ "$COVERAGE_KIND" = "ssr" ]; then
+            node scripts/verify-ssr-coverage-ci.cjs coverage-reports
+          else
+            node scripts/verify-browser-coverage-ci.cjs coverage-reports "$COVERAGE_KIND"
+          fi
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4.2.0
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          flags: ${{ matrix.browser }}
+          flags: ${{ matrix.kind }}
+          files: ${{ steps.coverage.outputs.files }}
+          disable_search: true
+          fail_ci_if_error: true
+
+  public-declarations:
+    name: 'Public declarations'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --legacy-peer-deps
+      - name: Install locked declaration consumers
+        run: npm ci --prefix test/public-declarations --legacy-peer-deps --ignore-scripts
+      - name: Install locked runtime consumers
+        run: npm ci --prefix test/public-runtime --legacy-peer-deps --ignore-scripts
+      - name: Install UMD consumer browsers
+        run: npx playwright install --with-deps chromium firefox
+      - name: Build the public package entries
+        run: npm run build:ts && npm run build:types && npm run dist
+      - name: Check React 18 and 19 public declarations
+        run: npm run test:public-types
+      - name: Check React 18 and 19 package runtime SSR
+        run: npm run test:public-runtime
+      - name: Check React 18 and 19 UMD browser runtime
+        run: npm run test:public-umd
+      - name: Retain public consumer diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-declaration-consumers
+          path: |
+            test/public-declarations/results
+            test/public-runtime/results
+          if-no-files-found: ignore

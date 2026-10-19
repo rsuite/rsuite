@@ -17,7 +17,6 @@
 
   // Ensure the value is within range
   $int-value: math.min(math.max($int-value, 0), 255);
-
   $hex-digits: '0123456789ABCDEF';
   $result: '';
 
@@ -36,20 +35,12 @@
  * Convert color to hex format for consistent output
  */
 @function color-to-hex($color) {
-  @return if(
-    color.alpha($color) < 1,
-    string.unquote(
-      '#' + decimal-to-hex(color.channel($color, 'red')) +
-        decimal-to-hex(color.channel($color, 'green')) +
-        decimal-to-hex(color.channel($color, 'blue')) +
-        decimal-to-hex(math.round(color.alpha($color) * 255))
-    ),
-    string.unquote(
-      '#' + decimal-to-hex(color.channel($color, 'red')) +
-        decimal-to-hex(color.channel($color, 'green')) +
-        decimal-to-hex(color.channel($color, 'blue'))
-    )
-  );
+  $red: decimal-to-hex(color.channel($color, 'red'));
+  $green: decimal-to-hex(color.channel($color, 'green'));
+  $blue: decimal-to-hex(color.channel($color, 'blue'));
+  $alpha: if(color.alpha($color) < 1, decimal-to-hex(math.round(color.alpha($color) * 255)), '');
+
+  @return string.unquote('##{$red}#{$green}#{$blue}#{$alpha}');
 }
 
 /**
@@ -62,7 +53,6 @@
   $r: math.div(color.channel($color, 'red'), 255);
   $g: math.div(color.channel($color, 'green'), 255);
   $b: math.div(color.channel($color, 'blue'), 255);
-
   $max: max($r, $g, $b);
   $min: min($r, $g, $b);
   $delta: $max - $min;
@@ -102,11 +92,9 @@
 @function hsv-to-rgb($h, $s, $v) {
   // Ensure hue is between 0 and 360
   $h: $h % 360;
-
   $c: $v * $s; // Chroma
   $x: $c * (1 - math.abs(math.div($h, 60) % 2 - 1));
   $m: $v - $c;
-
   $r-temp: 0;
   $g-temp: 0;
   $b-temp: 0;
@@ -161,31 +149,12 @@
     $r: color.channel($color, 'red');
     $g: color.channel($color, 'green');
     $b: color.channel($color, 'blue');
+
     @return string.unquote('rgba(#{$r}, #{$g}, #{$b}, #{$alpha})');
   } @else {
     // Otherwise treat it as a string (e.g., a CSS variable)
     @return string.unquote('rgba(#{$color}, #{$alpha})');
   }
-}
-
-/**
- * Convert color to hex format for consistent output
- */
-@function color-to-hex($color) {
-  @return if(
-    color.alpha($color) < 1,
-    string.unquote(
-      '#' + decimal-to-hex(color.channel($color, 'red')) +
-        decimal-to-hex(color.channel($color, 'green')) +
-        decimal-to-hex(color.channel($color, 'blue')) +
-        decimal-to-hex(math.round(color.alpha($color) * 255))
-    ),
-    string.unquote(
-      '#' + decimal-to-hex(color.channel($color, 'red')) +
-        decimal-to-hex(color.channel($color, 'green')) +
-        decimal-to-hex(color.channel($color, 'blue'))
-    )
-  );
 }
 
 /**
@@ -209,6 +178,7 @@ $color-number-set: '50', '100', '200', '300', '400', '500', '600', '700', '800',
 @function calculate-hue($original-hue, $index) {
   // Use 360 if original-hue is 0 or undefined (matches JS || operator)
   $original-hue: math.round($original-hue);
+
   @if $original-hue == 0 {
     $original-hue: 360;
   }
@@ -282,6 +252,7 @@ $color-number-set: '50', '100', '200', '300', '400', '500', '600', '700', '800',
       $basic-gap: math.ceil(math.div(math.div($original-brightness - 40, 4), 4));
       $levels: math.abs($step);
       $n: math.div(($levels + 1) * $levels, 2); // Sum of arithmetic progression
+
       @return -1 * $basic-gap * $n; // Negative adjustment to reduce brightness
     } @else {
       // For colors already dark (brightness <= 40%), use a simpler reduction
@@ -350,12 +321,14 @@ $color-levels: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900;
 
   // Convert $level to string for comparison if it's a number
   $level-str: $level;
+
   @if meta.type-of($level) == 'number' {
     $level-str: '#{$level}';
   }
 
   // Match index with JavaScript implementation - use loop to find exact position
   $found: false;
+
   @for $i from 1 through list.length($color-number-set) {
     @if not $found and list.nth($color-number-set, $i) == $level-str {
       $index: $i - 1; // Convert to 0-based index

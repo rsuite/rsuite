@@ -3,8 +3,8 @@
 @use '../../styles/mixins/utilities' as utils;
 @use '../../styles/mixins/color-modes' as color-modes;
 @use './mixins';
+@use '../../Animation/styles/reduced-motion';
 
-//
 // Popovers
 // --------------------------------------------------
 .rs-popover {
@@ -107,6 +107,7 @@
   // Vertical placement styles (top/bottom)
   &:where([data-placement*='top']) {
     margin-top: calc((var(--rs-popover-arrow-width) + 2px) * -1);
+
     @include utils.set-translate-transition(0, calc(var(--rs-popover-translate-distance) * -1));
 
     > .rs-popover-arrow {
@@ -119,6 +120,7 @@
 
   &:where([data-placement*='bottom']) {
     margin-top: calc(var(--rs-popover-arrow-width) + 2px);
+
     @include utils.set-translate-transition(0, var(--rs-popover-translate-distance));
 
     > .rs-popover-arrow {
@@ -161,6 +163,7 @@
 
   &:where([data-placement*='right']) {
     margin-inline-start: calc(var(--rs-popover-arrow-width) + 2px);
+
     @include utils.set-translate-transition(var(--rs-popover-translate-distance), 0);
 
     > .rs-popover-arrow {
@@ -172,6 +175,7 @@
 
     [dir='rtl'] & {
       margin-inline-end: calc(var(--rs-popover-arrow-width) + 2px);
+
       > .rs-popover-arrow {
         inset-inline-start: auto;
         inset-inline-end: var(--rs-popover-arrow-offset);
@@ -181,6 +185,7 @@
 
   &:where([data-placement*='left']) {
     margin-inline-start: calc((var(--rs-popover-arrow-width) + 2px) * -1);
+
     @include utils.set-translate-transition(calc(var(--rs-popover-translate-distance) * -1), 0);
 
     > .rs-popover-arrow {
@@ -192,6 +197,7 @@
 
     [dir='rtl'] & {
       margin-inline-end: calc((var(--rs-popover-arrow-width) + 2px) * -1);
+
       > .rs-popover-arrow {
         inset-inline-start: var(--rs-popover-arrow-offset);
         inset-inline-end: auto;

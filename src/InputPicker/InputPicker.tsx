@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import usePickerInputFocus from './hooks/usePickerInputFocus';
+import getOptionKey from '@/internals/Picker/getOptionKey';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import remove from 'lodash/remove';
@@ -25,7 +27,9 @@ import {
   tplTransform,
   mergeRefs,
   isOneOf,
-  mergeStyles
+  mergeStyles,
+  partitionHTMLProps,
+  isComposingEvent
 } from '@/internals/utils';
 import {
   Listbox,
@@ -43,14 +47,16 @@ import {
   PickerToggleProps
 } from '@/internals/Picker';
 import { getPositionStyle } from '@/internals/Overlay/Position';
-import type { Option, FormControlPickerProps } from '@/internals/types';
+import type { Option, FormControlPickerProps, SanitizedInputProps } from '@/internals/types';
 import type { InputPickerLocale } from '../locales';
 import type { SelectProps } from '../SelectPicker';
+import type { VirtualizedListHandle } from '@/internals/Picker/hooks/useVirtualizedListFocus';
 
 export type ValueType = any;
 export interface InputPickerProps<V = ValueType>
   extends FormControlPickerProps<V, InputPickerLocale, InputOption>,
     Omit<SelectProps<V>, 'renderValue'>,
+    Pick<SanitizedInputProps, 'inputMode' | 'enterKeyHint'>,
     Pick<PickerToggleProps, 'caretAs' | 'loading' | 'label'> {
   tabIndex?: number;
 
@@ -65,6 +71,9 @@ export interface InputPickerProps<V = ValueType>
 
   /** The `onFocus` attribute for the `input` element. */
   onFocus?: React.FocusEventHandler;
+
+  /** Called after the picker's keyboard handling. */
+  onKeyDown?: React.KeyboardEventHandler;
 
   /** Called when the option is created */
   onCreate?: (value: V, item: Option, event: React.SyntheticEvent) => void;
@@ -127,6 +136,9 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     labelKey = 'label',
     listProps,
     id,
+    name,
+    inputMode,
+    enterKeyHint,
     tabIndex,
     loading,
     label,
@@ -147,6 +159,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     onSelect,
     onBlur,
     onFocus,
+    onKeyDown: onKeyDownProp,
     searchBy,
     ...rest
   } = propsWithDefaults;
@@ -159,9 +172,23 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   }
 
   const { trigger: triggerRef, root, target, overlay, list, searchInput } = usePickerRef(ref);
+  const keyboardNavigationRef = useRef<VirtualizedListHandle>(null);
   const { prefix, merge } = useStyles(classPrefix);
   const [open, setOpen] = useControlled(controlledOpen, defaultOpen);
-  const { inputRef, inputProps, focus, blur } = useInput({ multi, triggerRef });
+  const { inputRef, inputProps, getInput, focus } = useInput({ multi, triggerRef });
+  const [activeDescendant, setActiveDescendant] = useState<string>();
+  const {
+    handleClose,
+    handleCleanFocus,
+    prepareOpen,
+    prepareExit,
+    restoreFocusAfterExit,
+    shouldOpenOnFocus
+  } = usePickerInputFocus({ getInput, root, target, overlay, triggerRef });
+  const [inputAriaProps, rootProps] = partitionHTMLProps(rest, { htmlProps: [] }) as [
+    React.AriaAttributes & { role?: React.AriaRole },
+    typeof rest
+  ];
 
   const handleDataChange = (data: Option[]) => {
     setFocusItemValue(data?.[0]?.[valueKey]);
@@ -180,14 +207,13 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
 
   const cloneValue = () => (multi ? clone(value) || [] : value);
 
-  const handleClose = useEventCallback(() => {
-    triggerRef?.current?.close();
-
-    // The focus is on the trigger button after closing
-    target.current?.focus?.();
-  });
-
-  const focusItemValueOptions = { data: dataWithCache, valueKey, target: () => overlay.current };
+  const focusItemValueOptions = {
+    data: dataWithCache,
+    valueKey,
+    focusToOption: !searchable,
+    virtualizedList: virtualized ? keyboardNavigationRef : undefined,
+    target: () => overlay.current
+  };
 
   // Used to hover the focuse item  when trigger `onKeydown`
   const { focusItemValue, setFocusItemValue, onKeyDown } = useFocusItemValue(
@@ -202,7 +228,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         let firstItemValue = filteredData?.[0]?.[valueKey];
 
         // If there is no value in the option and new options are supported, the search keyword is the first option
-        if (!firstItemValue && creatable) {
+        if (isNil(firstItemValue) && creatable) {
           firstItemValue = searchKeyword;
         }
 
@@ -301,7 +327,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       resetSearch();
       handleSelect(value, item, event);
       handleChange(value, event);
-      handleClose();
+      handleClose(event.target);
     }
   );
 
@@ -336,14 +362,14 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       return;
     }
     const val = cloneValue();
-    let newItemValue = focusItemValue || '';
+    let newItemValue = focusItemValue;
 
     // In TagInput
     if (multi && disabledOptions) {
       newItemValue = searchKeyword;
     }
 
-    if (!newItemValue || !data) {
+    if (isNil(newItemValue) || !data || (disabledOptions && newItemValue === '')) {
       return;
     }
 
@@ -352,13 +378,18 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       return;
     }
 
+    let focusItem = data.find(item => shallowEqual(item?.[valueKey], newItemValue));
+
+    // Empty strings can identify existing options, but cannot create a blank tag.
+    if (!focusItem && newItemValue === '') {
+      return;
+    }
+
     if (!val.some(v => shallowEqual(v, newItemValue))) {
       val.push(newItemValue);
     } else if (!disabledOptions) {
       remove(val, itemVal => shallowEqual(itemVal, newItemValue));
     }
-
-    let focusItem = data.find(item => shallowEqual(item?.[valueKey], newItemValue));
 
     if (!focusItem) {
       focusItem = createOption(newItemValue);
@@ -376,7 +407,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       return;
     }
 
-    if (!focusItemValue || !controlledData) {
+    if (isNil(focusItemValue) || !controlledData) {
       return;
     }
 
@@ -387,6 +418,10 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
 
     // Find active `MenuItem` by `value`
     let focusItem = data.find(item => shallowEqual(item[valueKey], focusItemValue));
+
+    if (!focusItem && focusItemValue === '') {
+      return;
+    }
 
     // FIXME Bad state flow
     if (!focusItem && focusItemValue === searchKeyword) {
@@ -399,7 +434,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       handleSelect(focusItemValue, focusItem, event);
     }
     handleChange(focusItemValue, event);
-    handleClose();
+    handleClose(event.target);
   });
 
   /**
@@ -445,12 +480,26 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
 
   const events = {
     onMenuPressBackspace: multi ? removeLastItem : handleClean,
-    onMenuKeyDown: onKeyDown,
+    onMenuKeyDown: (event: React.KeyboardEvent) => {
+      if (
+        searchable &&
+        (event.target as HTMLElement).tagName === 'INPUT' &&
+        (event.nativeEvent.isComposing ||
+          event.key === KEY_VALUES.HOME ||
+          event.key === KEY_VALUES.END)
+      )
+        return;
+      onKeyDown(event);
+    },
     onMenuPressEnter: undefined as React.ReactEventHandler | undefined,
     onKeyDown: undefined as React.ReactEventHandler | undefined
   };
 
   const handleKeyPress = useEventCallback((event: React.KeyboardEvent<any>) => {
+    if (disabled || readOnly || loading || isComposingEvent(event)) {
+      return;
+    }
+
     // When typing a space, create a tag.
     if (isOneOf('Space', trigger) && event.key === KEY_VALUES.SPACE) {
       handleTagKeyPress(event);
@@ -482,21 +531,23 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     overlay,
     searchInput,
     loading,
+    readOnly,
+    disabled,
     ...events,
-    ...rest
+    ...rest,
+    onKeyDown: createChainedFunction(events.onKeyDown, onKeyDownProp),
+    focusOnClose: false
   });
 
   const handleExited = useEventCallback(() => {
     setFocusItemValue(multi ? value?.[0] : value);
     resetSearch();
-
-    if (typeof requestAnimationFrame !== 'undefined') {
-      requestAnimationFrame(() => target.current?.focus?.());
-    }
+    restoreFocusAfterExit();
   });
 
   const handleFocus = useEventCallback((event: React.FocusEvent) => {
-    if (!readOnly) {
+    if (!readOnly && shouldOpenOnFocus()) {
+      prepareOpen();
       setOpen(true);
       triggerRef.current?.open();
     }
@@ -504,12 +555,13 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   });
 
   const handleEnter = useEventCallback(() => {
+    prepareOpen();
     focus();
     setOpen(true);
   });
 
   const handleExit = useEventCallback(() => {
-    blur();
+    prepareExit();
     setOpen(false);
   });
 
@@ -560,7 +612,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
           <Tag
             role="option"
             {...tagRest}
-            key={tag}
+            key={getOptionKey(tag)}
             size={convertSize(size)}
             closable={!disabled && closable && !readOnly && !plaintext}
             title={typeof itemNode === 'string' ? itemNode : undefined}
@@ -607,10 +659,12 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       return <PickerPopup ref={mergeRefs(overlay, speakerRef)} />;
     }
 
-    const listbox = items.length ? (
+    const listbox = (
       <Listbox
         listProps={listProps}
         listRef={list}
+        keyboardNavigationRef={virtualized ? keyboardNavigationRef : undefined}
+        onActiveDescendantChange={searchable ? setActiveDescendant : undefined}
         disabledItemValues={disabledItemValues}
         valueKey={valueKey}
         labelKey={labelKey}
@@ -622,6 +676,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         focusItemValue={focusItemValue}
         maxHeight={listboxMaxHeight}
         data={items}
+        emptyContent={<div className={prefix`none`}>{locale?.noResultsText}</div>}
         query={searchKeyword}
         groupBy={groupBy}
         onSelect={multi ? handleCheckTag : handleSelectItem}
@@ -629,8 +684,6 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         renderOption={renderListItem}
         virtualized={virtualized}
       />
-    ) : (
-      <div className={prefix`none`}>{locale?.noResultsText}</div>
     );
 
     return (
@@ -645,6 +698,9 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         searchKeyword={searchKeyword}
         searchPlaceholder={locale?.searchPlaceholder}
         searchInput={searchInput}
+        active={open}
+        activeDescendant={activeDescendant}
+        inputProps={{ inputMode, enterKeyHint, ...inputAriaProps }}
         onSearch={handleSearch}
       >
         {renderListbox ? renderListbox(listbox) : listbox}
@@ -697,6 +753,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   return (
     <PickerToggleTrigger
       id={id}
+      name={name}
       multiple={multi}
       pickerType={multi ? 'tag' : 'input'}
       block={block}
@@ -714,13 +771,20 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       classPrefix={classPrefix}
       className={className}
       responsive={responsive ?? searchable === false}
+      inputCombobox={editable && !disabledOptions}
+      focusOnClose={false}
+      ariaLabel={inputAriaProps['aria-label']}
+      ariaLabelledby={inputAriaProps['aria-labelledby']}
       onClick={focus}
       onKeyDown={onPickerKeyDown}
       data-focus={open}
       data-disabled-options={disabledOptions}
-      {...rest}
+      {...rootProps}
     >
       <PickerToggle
+        name={name}
+        form={propsWithDefaults.form}
+        inputAriaProps={inputAriaProps}
         loading={loading}
         label={label}
         appearance={appearance}
@@ -730,7 +794,12 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         as={toggleAs}
         caretAs={caretAs}
         tabIndex={tabIndex}
+        inputTabStop={disabledOptions && editable}
         onClean={handleClean}
+        onCleanFocus={handleCleanFocus}
+        onFocus={event => {
+          if (event.target === event.currentTarget) focus();
+        }}
         cleanable={cleanable && !disabled}
         hasValue={hasValue}
         active={open}
@@ -747,7 +816,13 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         showTagList={multi}
         inputRef={inputRef}
         inputValue={open ? searchKeyword : ''}
-        inputProps={inputProps}
+        inputProps={{ ...inputProps, inputMode, enterKeyHint, ...inputAriaProps }}
+        active={open}
+        activeDescendant={activeDescendant}
+        ariaLabel={typeof placeholderNode === 'string' ? placeholderNode : locale?.placeholder}
+        hasDescription={!!(!searching && !(multi && hasValue) && (itemNode || placeholderNode))}
+        tabIndex={tabIndex}
+        inputTabStop={disabledOptions && editable}
         tags={tagElements}
         editable={editable}
         readOnly={readOnly}

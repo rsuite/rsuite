@@ -5,8 +5,8 @@
 @use '../../styles/mixins/color-modes';
 @use 'variables' as vars;
 @use 'mixin';
+@use 'primary';
 
-//
 // Buttons
 // --------------------------------------------------
 
@@ -25,6 +25,7 @@
   cursor: pointer;
   white-space: nowrap;
   transition: var(--rs-btn-transition);
+
   // Reset border style in all browser
   border-width: 0;
   border-style: solid;
@@ -44,6 +45,10 @@
   }
 
   @include utils.with-focus-ring;
+
+  &:focus-visible {
+    @include mixin.button-focus-indicator;
+  }
 
   @include mixin.button-activated {
     color: var(--rs-btn-default-hover-text);
@@ -103,25 +108,7 @@
 
 // Primary Button
 .rs-btn[data-appearance='primary'] {
-  color: var(--rs-btn-primary-text);
-  background-color: var(--rs-btn-primary-bg);
-  border-color: var(--rs-btn-primary-border-color);
-
-  @include mixin.button-activated {
-    color: var(--rs-btn-primary-text);
-    background-color: var(--rs-btn-primary-hover-bg);
-  }
-
-  @include mixin.button-pressed {
-    color: var(--rs-btn-primary-text);
-    background-color: var(--rs-btn-primary-active-bg);
-  }
-
-  @include mixin.button-disabled {
-    color: var(--rs-btn-primary-text);
-    background-color: var(--rs-btn-primary-bg);
-    opacity: 0.3;
-  }
+  @include primary.appearance;
 }
 
 // Subtle Button
@@ -176,6 +163,10 @@
   background-color: transparent;
   border: var(--rs-btn-ghost-border-width) solid var(--rs-btn-ghost-border);
   padding-inline: calc(var(--rs-btn-padding-inline) - var(--rs-btn-ghost-border-width));
+
+  &:focus-visible::after {
+    inset: calc(-1 * var(--rs-btn-ghost-border-width));
+  }
 
   @include mixin.button-activated {
     color: var(--rs-btn-ghost-hover-text);
@@ -292,10 +283,28 @@
 
 // Button Loading state
 .rs-btn[data-loading='true'] {
+  // Resolve each button's motion policy without inheriting an ancestor's value.
+  --rs-btn-loading-animation-name: initial;
+
   color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
   position: relative;
   cursor: default;
   pointer-events: none;
+
+  > :not(.rs-btn-spin) {
+    opacity: 0 !important;
+  }
+
+  &[data-rs-motion='reduce'] {
+    --rs-btn-loading-animation-name: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &[data-rs-motion='auto'] {
+      --rs-btn-loading-animation-name: none;
+    }
+  }
 
   // Spinner
   > .rs-btn-spin {
@@ -312,36 +321,47 @@
       inset-inline-start: 0;
       border-radius: var(--rs-radius-full);
       z-index: 1;
-
-      .rs-btn[data-size='xs'] & {
-        width: var(--rs-btn-loading-spin-xs-diameter);
-        height: var(--rs-btn-loading-spin-xs-diameter);
-      }
     }
 
     &::before {
       border: var(--rs-btn-loading-spin-ring-wide) solid var(--rs-loader-ring);
-
-      .rs-btn[data-appearance='primary'] & {
-        border-color: rgba(248, 247, 250, 0.3);
-
-        @include color-modes.high-contrast-mode {
-          border-color: var(--rs-loader-ring-inverse);
-        }
-      }
     }
 
     &::after {
       border-width: var(--rs-btn-loading-spin-ring-wide);
       border-color: var(--rs-loader-rotor) transparent transparent;
       border-style: solid;
-      animation: buttonSpin 0.6s infinite linear;
+      animation: var(--rs-btn-loading-animation-name, buttonSpin) 0.6s infinite linear;
+    }
+  }
 
-      .rs-btn[data-appearance='primary'] & {
-        border-top-color: #fff;
+  &[data-size='xs'] > .rs-btn-spin {
+    &::before,
+    &::after {
+      width: var(--rs-btn-loading-spin-xs-diameter);
+      height: var(--rs-btn-loading-spin-xs-diameter);
+    }
+  }
+
+  &[data-appearance='primary'] > .rs-btn-spin {
+    &::before {
+      border-color: rgb(248 247 250 / 30%);
+
+      @include color-modes.high-contrast-mode {
+        border-color: var(--rs-loader-ring-inverse);
+      }
+    }
+
+    &::after {
+      border-top-color: var(--rs-btn-primary-foreground);
+    }
+
+    @supports (color: color(from red srgb-linear calc(sign(r)) g b)) {
+      &::before {
+        border-color: rgb(from var(--rs-btn-primary-foreground) r g b / 30%);
 
         @include color-modes.high-contrast-mode {
-          border-top-color: var(--rs-loader-rotor-inverse);
+          border-color: rgb(from var(--rs-btn-primary-foreground) r g b / 30%);
         }
       }
     }

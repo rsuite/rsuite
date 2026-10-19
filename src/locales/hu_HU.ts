@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { hu } from 'date-fns/locale/hu';
 
 const DateTimeFormats = {
@@ -24,6 +25,19 @@ const DateTimeFormats = {
   shortDateFormat: 'yyyy. MM. dd.',
   shortTimeFormat: 'HH:mm',
   dateLocale: hu as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Előző hónap',
+  nextMonth: 'Következő hónap',
+  selectMonth: 'Hónap kiválasztása',
+  selectTime: 'Idő kiválasztása'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Választó megnyitása'
 };
 
 const Combobox = {
@@ -65,10 +79,10 @@ export default {
     skip: 'Lapozz ide: {0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Utolsó 7 nap'
   },
   Combobox,
@@ -88,6 +102,15 @@ export default {
   },
   Breadcrumb: {
     expandText: 'Útvonal megjelenítése'
+  },
+  Carousel: {
+    carouselRoleDescription: 'diavetítés',
+    slideRoleDescription: 'dia',
+    slidePosition: '{0}/{1}',
+    startRotation: 'Diák automatikus váltásának indítása',
+    stopRotation: 'Diák automatikus váltásának leállítása',
+    selectSlide: 'Dia kiválasztása',
+    slideLabel: '{0}. dia, összesen {1}'
   },
   Toggle: {
     on: 'Be',

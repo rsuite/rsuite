@@ -1,4 +1,3 @@
-import React from 'react';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import { ProgressCircle, Button, ButtonGroup, VStack, HStack, Box, Text } from 'rsuite';

@@ -10,6 +10,7 @@
 export const StyleManager = {
   styleElement: null as HTMLStyleElement | null,
   styleMap: new Map<string, string>(),
+  ruleSelectors: new Map<string, string>(),
   nonce: undefined as string | undefined,
 
   /**
@@ -54,22 +55,30 @@ export const StyleManager = {
    * @param cssText - CSS properties and values
    * @param options - Optional configuration options
    * @param options.nonce - CSP nonce to apply to the style element
+   * @param options.key - Unique storage key for rules sharing the same selector
    */
-  addRule(selector: string, cssText: string, options?: { nonce?: string }): void {
+  addRule(selector: string, cssText: string, options?: { nonce?: string; key?: string }): void {
     this.init(options);
-    if (!this.styleMap.has(selector) || this.styleMap.get(selector) !== cssText) {
-      this.styleMap.set(selector, cssText);
+    const key = options?.key ?? selector;
+    if (
+      !this.styleMap.has(key) ||
+      this.styleMap.get(key) !== cssText ||
+      this.ruleSelectors.get(key) !== selector
+    ) {
+      this.styleMap.set(key, cssText);
+      this.ruleSelectors.set(key, selector);
       this.updateStyles();
     }
   },
 
   /**
    * Remove a CSS rule from the style sheet
-   * @param selector - CSS selector to remove
+   * @param key - Storage key or CSS selector to remove
    */
-  removeRule(selector: string): void {
-    if (this.styleMap.has(selector)) {
-      this.styleMap.delete(selector);
+  removeRule(key: string): void {
+    if (this.styleMap.has(key)) {
+      this.styleMap.delete(key);
+      this.ruleSelectors.delete(key);
       this.updateStyles();
     }
   },
@@ -81,7 +90,8 @@ export const StyleManager = {
     if (!this.styleElement) return;
 
     let cssText = '';
-    this.styleMap.forEach((rules, selector) => {
+    this.styleMap.forEach((rules, key) => {
+      const selector = this.ruleSelectors.get(key) ?? key;
       cssText += `${selector} { ${rules} }\n`;
     });
 
@@ -93,6 +103,7 @@ export const StyleManager = {
    */
   clearRules(): void {
     this.styleMap.clear();
+    this.ruleSelectors.clear();
     if (this.styleElement) {
       this.styleElement.textContent = '';
     }

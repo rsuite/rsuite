@@ -124,6 +124,7 @@
 
   // Size variants
   $sizes: xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl;
+
   @each $size in $sizes {
     &:where([style*='size-#{$size}']) {
       --rs-text-line-height: var(--rs-text-line-height-#{$size});
@@ -132,7 +133,7 @@
 }
 
 kbd.rs-text {
-  @include kbd.kbd();
+  @include kbd.kbd;
 }
 
 blockquote.rs-text {

@@ -1,4 +1,3 @@
-import React from 'react';
 import type { CSSProperties, ElementType, ReactNode } from 'react';
 import type { ReplaceProps } from './utils';
 
@@ -32,15 +31,23 @@ export interface WithAsPropsWithoutChildren<As extends ElementType | string = El
   as?: As;
 }
 
+// Infer the element from the call signature instead of its inherited broad default.
+// Keep explicit element restrictions and required `as` props intact.
+type PropsWithoutDefaultAs<P> = P extends { as: unknown }
+  ? P
+  : P extends { as?: infer As }
+    ? ElementType extends As
+      ? Omit<P, 'as'>
+      : P
+    : P;
+
 export interface InternalRefForwardingComponent<
   T extends ElementType,
   P = unknown,
   OmitKeys extends keyof any = never
 > {
   <As extends ElementType = T>(
-    props: ReplaceProps<As, Omit<WithAsProps<As>, OmitKeys> & P> & {
-      ref?: React.Ref<any>;
-    },
+    props: ReplaceProps<As, Omit<WithAsProps<As>, OmitKeys> & PropsWithoutDefaultAs<P>>,
     context?: any
   ): any;
   contextTypes?: any;

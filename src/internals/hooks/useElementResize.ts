@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { ResizeObserver } from '@juggle/resize-observer';
+import useEventCallback from './useEventCallback';
 
 /**
  * Attach the event handler directly to the specified DOM element,
@@ -14,8 +15,9 @@ export function useElementResize(
 ) {
   const resizeObserver = useRef<ResizeObserver | null>(null);
   const currentElement = useRef<Element | null>(null);
+  const handleResize = useEventCallback(listener);
 
-  // Create the observer
+  // Refs and stable getters can resolve to a different element after a render.
   useEffect(() => {
     // Get the target element
     let target: Element | null = null;
@@ -30,46 +32,29 @@ export function useElementResize(
       }
     }
 
-    // If target changed, disconnect the previous observer
-    if (currentElement.current !== target) {
-      if (resizeObserver.current) {
-        resizeObserver.current.disconnect();
-        resizeObserver.current = null;
-      }
-      currentElement.current = target;
+    if (currentElement.current === target) {
+      return;
     }
 
-    // If we have a target and no observer, create one
-    if (target && !resizeObserver.current) {
-      const observer = new ResizeObserver(listener);
+    resizeObserver.current?.disconnect();
+    resizeObserver.current = null;
+    currentElement.current = target;
+
+    if (target) {
+      const observer = new ResizeObserver(handleResize);
       observer.observe(target);
       resizeObserver.current = observer;
     }
+  });
 
-    // Cleanup function
-    return () => {
-      if (resizeObserver.current) {
-        resizeObserver.current.disconnect();
-        resizeObserver.current = null;
-      }
+  useEffect(
+    () => () => {
+      resizeObserver.current?.disconnect();
+      resizeObserver.current = null;
       currentElement.current = null;
-    };
-  }, [eventTarget, listener]);
-
-  // Update the current element reference if it changes
-  useEffect(() => {
-    if (eventTarget) {
-      if (typeof eventTarget === 'function') {
-        currentElement.current = eventTarget();
-      } else if ('current' in eventTarget) {
-        currentElement.current = eventTarget.current;
-      } else {
-        currentElement.current = eventTarget;
-      }
-    } else {
-      currentElement.current = null;
-    }
-  }, [eventTarget]);
+    },
+    []
+  );
 }
 
 export default useElementResize;

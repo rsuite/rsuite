@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import { useStyles } from '@/internals/hooks';
 import { compareAsc } from '@/internals/utils/date';

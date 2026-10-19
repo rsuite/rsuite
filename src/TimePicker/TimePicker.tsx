@@ -29,6 +29,13 @@ export interface TimePickerProps
   editable?: boolean;
 
   /**
+   * Open the popup when the input is clicked. Set to false to use a separate open button.
+   * Keyboard and imperative opening remain available. `caretAs={null}` hides the button.
+   * @default true
+   */
+  openOnInputClick?: boolean;
+
+  /**
    * Format date string
    */
   format?: string;
@@ -53,10 +60,22 @@ export interface TimePickerProps
    */
   readOnly?: boolean;
 
+  /** Predefined time shortcuts */
+  ranges?: DateOptionPreset<Date | null>[];
+
   /**
    * Meridiem format for 12-hour time
    */
   showMeridiem?: boolean;
+
+  /** Disable specific hour options */
+  shouldDisableHour?: (hour: number, date: Date) => boolean;
+
+  /** Disable specific minute options */
+  shouldDisableMinute?: (minute: number, date: Date) => boolean;
+
+  /** Disable specific second options */
+  shouldDisableSecond?: (second: number, date: Date) => boolean;
 
   /**
    * Hide specific hour options

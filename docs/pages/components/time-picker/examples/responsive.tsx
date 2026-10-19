@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { TimePicker, Box } from 'rsuite';
 
 const App = () => {

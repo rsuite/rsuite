@@ -1,0 +1,18 @@
+// Only the transition's own node is affected; nested content keeps its animations.
+@mixin reduce-motion {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition: none !important;
+}
+
+[data-rs-motion='reduce'] {
+  @include reduce-motion;
+}
+
+// This also applies to server-rendered markup before React hydrates it.
+@media (prefers-reduced-motion: reduce) {
+  [data-rs-motion='auto'] {
+    @include reduce-motion;
+  }
+}

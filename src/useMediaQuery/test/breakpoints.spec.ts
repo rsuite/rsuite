@@ -32,23 +32,23 @@ describe('createBreakpoints', () => {
   });
 
   it('Should generate correct down media queries', () => {
-    // down(breakpoint) 应该返回 max-width 为下一个断点减 0.01 的媒体查询
-    // 例如：down('sm') 应该返回 max-width 为 md 断点值减 0.01，即 767.99px
-    expect(breakpointSystem.down('xs')).to.equal('(max-width: 575.99px)');
-    expect(breakpointSystem.down('sm')).to.equal('(max-width: 767.99px)');
-    expect(breakpointSystem.down('md')).to.equal('(max-width: 991.99px)');
-    expect(breakpointSystem.down('lg')).to.equal('(max-width: 1199.99px)');
-    expect(breakpointSystem.down('xl')).to.equal('(max-width: 1399.99px)');
+    // down(breakpoint) 应该返回 max-width 为下一个断点减 0.02 的媒体查询
+    // 例如：down('sm') 应该返回 max-width 为 md 断点值减 0.02，即 767.98px
+    expect(breakpointSystem.down('xs')).to.equal('(max-width: 575.98px)');
+    expect(breakpointSystem.down('sm')).to.equal('(max-width: 767.98px)');
+    expect(breakpointSystem.down('md')).to.equal('(max-width: 991.98px)');
+    expect(breakpointSystem.down('lg')).to.equal('(max-width: 1199.98px)');
+    expect(breakpointSystem.down('xl')).to.equal('(max-width: 1399.98px)');
     // xxl 是最后一个断点，没有下一个断点，所以 max 为 null，返回空字符串
     expect(breakpointSystem.down('xxl')).to.equal('');
   });
 
   it('Should generate correct only media queries', () => {
-    expect(breakpointSystem.only('xs')).to.equal('(min-width: 0px) and (max-width: 575.99px)');
-    expect(breakpointSystem.only('sm')).to.equal('(min-width: 576px) and (max-width: 767.99px)');
-    expect(breakpointSystem.only('md')).to.equal('(min-width: 768px) and (max-width: 991.99px)');
-    expect(breakpointSystem.only('lg')).to.equal('(min-width: 992px) and (max-width: 1199.99px)');
-    expect(breakpointSystem.only('xl')).to.equal('(min-width: 1200px) and (max-width: 1399.99px)');
+    expect(breakpointSystem.only('xs')).to.equal('(min-width: 0px) and (max-width: 575.98px)');
+    expect(breakpointSystem.only('sm')).to.equal('(min-width: 576px) and (max-width: 767.98px)');
+    expect(breakpointSystem.only('md')).to.equal('(min-width: 768px) and (max-width: 991.98px)');
+    expect(breakpointSystem.only('lg')).to.equal('(min-width: 992px) and (max-width: 1199.98px)');
+    expect(breakpointSystem.only('xl')).to.equal('(min-width: 1200px) and (max-width: 1399.98px)');
     expect(breakpointSystem.only('xxl')).to.equal('(min-width: 1400px)');
   });
 
@@ -56,15 +56,15 @@ describe('createBreakpoints', () => {
     // between(min, max) should return a media query with min-width set to the min breakpoint value
     // and max-width set to the max breakpoint's max value
     // For example: between('xs', 'sm') should return min-width as xs breakpoint value
-    // and max-width as sm breakpoint's max value, which is md breakpoint value minus 0.01 (767.99px)
+    // and max-width as sm breakpoint's max value, which is md breakpoint value minus 0.02 (767.98px)
     expect(breakpointSystem.between('xs', 'sm')).to.equal(
-      '(min-width: 0px) and (max-width: 767.99px)'
+      '(min-width: 0px) and (max-width: 767.98px)'
     );
     expect(breakpointSystem.between('sm', 'lg')).to.equal(
-      '(min-width: 576px) and (max-width: 1199.99px)'
+      '(min-width: 576px) and (max-width: 1199.98px)'
     );
     expect(breakpointSystem.between('md', 'xl')).to.equal(
-      '(min-width: 768px) and (max-width: 1399.99px)'
+      '(min-width: 768px) and (max-width: 1399.98px)'
     );
     // From lg to xxl, since xxl is the last breakpoint with no max value, only min-width is returned
     expect(breakpointSystem.between('lg', 'xxl')).to.equal('(min-width: 992px)');
@@ -78,19 +78,19 @@ describe('createBreakpoints', () => {
     expect(conditions.sm).to.equal('(min-width: 576px)');
 
     // Down conditions
-    // xsDown should be max-width as sm breakpoint value minus 0.01, i.e. 575.99px
-    expect(conditions.xsDown).to.equal('(max-width: 575.99px)');
-    // smDown should be max-width as md breakpoint value minus 0.01, i.e. 767.99px
-    expect(conditions.smDown).to.equal('(max-width: 767.99px)');
+    // xsDown should be max-width as sm breakpoint value minus 0.02, i.e. 575.98px
+    expect(conditions.xsDown).to.equal('(max-width: 575.98px)');
+    // smDown should be max-width as md breakpoint value minus 0.02, i.e. 767.98px
+    expect(conditions.smDown).to.equal('(max-width: 767.98px)');
 
     // Only conditions
-    expect(conditions.xsOnly).to.equal('(min-width: 0px) and (max-width: 575.99px)');
-    expect(conditions.smOnly).to.equal('(min-width: 576px) and (max-width: 767.99px)');
+    expect(conditions.xsOnly).to.equal('(min-width: 0px) and (max-width: 575.98px)');
+    expect(conditions.smOnly).to.equal('(min-width: 576px) and (max-width: 767.98px)');
 
     // Range conditions
-    expect(conditions.xsToSm).to.equal('(min-width: 0px) and (max-width: 767.99px)');
-    expect(conditions.smToMd).to.equal('(min-width: 576px) and (max-width: 991.99px)');
-    expect(conditions.mdToLg).to.equal('(min-width: 768px) and (max-width: 1199.99px)');
+    expect(conditions.xsToSm).to.equal('(min-width: 0px) and (max-width: 767.98px)');
+    expect(conditions.smToMd).to.equal('(min-width: 576px) and (max-width: 991.98px)');
+    expect(conditions.mdToLg).to.equal('(min-width: 768px) and (max-width: 1199.98px)');
   });
 
   it('Should return correct keys', () => {
@@ -101,10 +101,10 @@ describe('createBreakpoints', () => {
   it('Should get condition by key', () => {
     expect(breakpointSystem.getCondition('md')).to.equal('(min-width: 768px)');
     expect(breakpointSystem.getCondition('lgOnly')).to.equal(
-      '(min-width: 992px) and (max-width: 1199.99px)'
+      '(min-width: 992px) and (max-width: 1199.98px)'
     );
     expect(breakpointSystem.getCondition('smToLg')).to.equal(
-      '(min-width: 576px) and (max-width: 1199.99px)'
+      '(min-width: 576px) and (max-width: 1199.98px)'
     );
     expect(breakpointSystem.getCondition('nonExistent')).to.equal('');
   });
@@ -125,7 +125,7 @@ describe('createBreakpoints', () => {
 
     // Use separate assertions to verify critical breakpoint mappings
     // Basic breakpoints
-    expect(mediaQuerySizeMap.xs).to.equal('(max-width: 575.99px)');
+    expect(mediaQuerySizeMap.xs).to.equal('(max-width: 575.98px)');
     expect(mediaQuerySizeMap.sm).to.equal('(min-width: 576px)');
     expect(mediaQuerySizeMap.md).to.equal('(min-width: 768px)');
     expect(mediaQuerySizeMap.lg).to.equal('(min-width: 992px)');
@@ -134,29 +134,29 @@ describe('createBreakpoints', () => {
     expect(mediaQuerySizeMap['2xl']).to.equal('(min-width: 1400px)');
 
     // down conditions
-    expect(mediaQuerySizeMap.xsDown).to.equal('(max-width: 575.99px)');
-    expect(mediaQuerySizeMap.smDown).to.equal('(max-width: 767.99px)');
-    expect(mediaQuerySizeMap.mdDown).to.equal('(max-width: 991.99px)');
-    expect(mediaQuerySizeMap.lgDown).to.equal('(max-width: 1199.99px)');
-    expect(mediaQuerySizeMap.xlDown).to.equal('(max-width: 1399.99px)');
-    expect(mediaQuerySizeMap.xxlDown).to.equal('(max-width: 1399.99px)');
+    expect(mediaQuerySizeMap.xsDown).to.equal('(max-width: 575.98px)');
+    expect(mediaQuerySizeMap.smDown).to.equal('(max-width: 767.98px)');
+    expect(mediaQuerySizeMap.mdDown).to.equal('(max-width: 991.98px)');
+    expect(mediaQuerySizeMap.lgDown).to.equal('(max-width: 1199.98px)');
+    expect(mediaQuerySizeMap.xlDown).to.equal('(max-width: 1399.98px)');
+    expect(mediaQuerySizeMap.xxlDown).to.equal('(max-width: 1399.98px)');
     expect(mediaQuerySizeMap['2xlDown']).to.equal('');
 
     // only conditions
-    expect(mediaQuerySizeMap.xsOnly).to.equal('(min-width: 0px) and (max-width: 575.99px)');
-    expect(mediaQuerySizeMap.smOnly).to.equal('(min-width: 576px) and (max-width: 767.99px)');
-    expect(mediaQuerySizeMap.mdOnly).to.equal('(min-width: 768px) and (max-width: 991.99px)');
-    expect(mediaQuerySizeMap.lgOnly).to.equal('(min-width: 992px) and (max-width: 1199.99px)');
-    expect(mediaQuerySizeMap.xlOnly).to.equal('(min-width: 1200px) and (max-width: 1399.99px)');
-    expect(mediaQuerySizeMap.xxlOnly).to.equal('(min-width: 1400px) and (max-width: 1399.99px)');
+    expect(mediaQuerySizeMap.xsOnly).to.equal('(min-width: 0px) and (max-width: 575.98px)');
+    expect(mediaQuerySizeMap.smOnly).to.equal('(min-width: 576px) and (max-width: 767.98px)');
+    expect(mediaQuerySizeMap.mdOnly).to.equal('(min-width: 768px) and (max-width: 991.98px)');
+    expect(mediaQuerySizeMap.lgOnly).to.equal('(min-width: 992px) and (max-width: 1199.98px)');
+    expect(mediaQuerySizeMap.xlOnly).to.equal('(min-width: 1200px) and (max-width: 1399.98px)');
+    expect(mediaQuerySizeMap.xxlOnly).to.equal('(min-width: 1400px) and (max-width: 1399.98px)');
     expect(mediaQuerySizeMap['2xlOnly']).to.equal('(min-width: 1400px)');
 
     // Test some critical between conditions
-    expect(mediaQuerySizeMap.xsToSm).to.equal('(min-width: 0px) and (max-width: 767.99px)');
-    expect(mediaQuerySizeMap.smToMd).to.equal('(min-width: 576px) and (max-width: 991.99px)');
-    expect(mediaQuerySizeMap.mdToLg).to.equal('(min-width: 768px) and (max-width: 1199.99px)');
-    expect(mediaQuerySizeMap.lgToXl).to.equal('(min-width: 992px) and (max-width: 1399.99px)');
-    expect(mediaQuerySizeMap.xlToXxl).to.equal('(min-width: 1200px) and (max-width: 1399.99px)');
+    expect(mediaQuerySizeMap.xsToSm).to.equal('(min-width: 0px) and (max-width: 767.98px)');
+    expect(mediaQuerySizeMap.smToMd).to.equal('(min-width: 576px) and (max-width: 991.98px)');
+    expect(mediaQuerySizeMap.mdToLg).to.equal('(min-width: 768px) and (max-width: 1199.98px)');
+    expect(mediaQuerySizeMap.lgToXl).to.equal('(min-width: 992px) and (max-width: 1399.98px)');
+    expect(mediaQuerySizeMap.xlToXxl).to.equal('(min-width: 1200px) and (max-width: 1399.98px)');
 
     // Verify that the object contains all expected keys
     const expectedKeys = [
@@ -211,7 +211,7 @@ describe('createBreakpoints', () => {
 
   it('Should generate correct legacy media query map', () => {
     expect(breakpointSystem.legacyMap).to.deep.equal({
-      xs: '(max-width: 575.99px)',
+      xs: '(max-width: 575.98px)',
       sm: '(min-width: 576px)',
       md: '(min-width: 768px)',
       lg: '(min-width: 992px)',

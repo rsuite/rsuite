@@ -2,9 +2,9 @@
 @use '../../internals/CloseButton/styles/index' as close-button;
 @use '../../styles/mixins/utilities' as utils;
 @use '../../styles/mixins/color-modes' as color-modes;
+@use '../../styles/colors/contrast';
 @use 'variables';
 
-//
 // Tags
 // --------------------------------------------------
 
@@ -24,6 +24,13 @@
   // Close icon
   &-icon-close {
     padding: 0;
+
+    &:focus-visible {
+      // Keep either band visible against preset and custom tag backgrounds.
+      outline: 2px solid CanvasText;
+      outline-offset: 2px;
+      box-shadow: 0 0 0 2px Canvas;
+    }
   }
 
   // Size variants
@@ -57,6 +64,12 @@
     &[data-color='#{$color}'] {
       --rs-tag-bg: var(--rs-#{$color}-500);
       --rs-tag-text: #fff;
+    }
+  }
+
+  @supports (color: color(from red srgb-linear calc(sign(r)) g b)) {
+    &[data-color]:not([data-color='default']) {
+      --rs-tag-text: #{contrast.text-color('var(--rs-tag-bg)')};
     }
   }
 }

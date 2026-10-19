@@ -344,6 +344,11 @@ describe('DateRangeInput', () => {
 
     it('Should support the hour format', () => {
       testContinuousKeyPress({
+        selectBeforeKey: input => {
+          // Each assertion edits the Start field, even after automatic advancement to End.
+          input.setSelectionRange(0, 0);
+          fireEvent.click(input);
+        },
         format: 'HH',
         defaultValue: [new Date('2023-10-01 10:20:30'), null],
         keySequences: [
@@ -366,6 +371,11 @@ describe('DateRangeInput', () => {
 
     it('Should support the minute format', () => {
       testContinuousKeyPress({
+        selectBeforeKey: input => {
+          // Each assertion edits the Start field, even after automatic advancement to End.
+          input.setSelectionRange(0, 0);
+          fireEvent.click(input);
+        },
         format: 'mm',
         defaultValue: [new Date('2023-10-01 10:20:30'), null],
         keySequences: [
@@ -377,6 +387,11 @@ describe('DateRangeInput', () => {
 
     it('Should support the second format', () => {
       testContinuousKeyPress({
+        selectBeforeKey: input => {
+          // Each assertion edits the Start field, even after automatic advancement to End.
+          input.setSelectionRange(0, 0);
+          fireEvent.click(input);
+        },
         format: 'ss',
         defaultValue: [new Date('2023-10-01 10:20:30'), null],
         keySequences: [
@@ -423,9 +438,13 @@ describe('DateRangeInput', () => {
       testContinuousKeyPress({
         format: 'HH:mm aa',
         defaultValue: [new Date('2023-10-01 13:30:00'), null],
+        selectBeforeKey: input => {
+          input.setSelectionRange(6, 8);
+          fireEvent.click(input);
+        },
         keySequences: [
-          { key: '{arrowright}{arrowright}a', expected: '01:30 AM ~ HH:mm aa' },
-          { key: '{arrowright}{arrowright}p', expected: '13:30 PM ~ HH:mm aa' }
+          { key: 'a', expected: '01:30 AM ~ HH:mm aa' },
+          { key: 'p', expected: '13:30 PM ~ HH:mm aa' }
         ]
       });
     });
@@ -443,6 +462,11 @@ describe('DateRangeInput', () => {
 
     it('Should support the year format', () => {
       testContinuousKeyPress({
+        selectBeforeKey: input => {
+          // Each assertion edits the Start field, even after automatic advancement to End.
+          input.setSelectionRange(0, 0);
+          fireEvent.click(input);
+        },
         format: 'yyyy',
         defaultValue: [new Date('2023-10-01'), null],
         keySequences: [
@@ -460,6 +484,11 @@ describe('DateRangeInput', () => {
 
     it('Should support the month format', () => {
       testContinuousKeyPress({
+        selectBeforeKey: input => {
+          // Each assertion edits the Start field, even after automatic advancement to End.
+          input.setSelectionRange(0, 0);
+          fireEvent.click(input);
+        },
         format: 'MM',
         defaultValue: [new Date('2023-10-01'), null],
         keySequences: [
@@ -475,6 +504,11 @@ describe('DateRangeInput', () => {
 
     it('Should use numeric input to match to month', () => {
       testContinuousKeyPress({
+        selectBeforeKey: input => {
+          // Each assertion edits the Start field, even after automatic advancement to End.
+          input.setSelectionRange(0, 0);
+          fireEvent.click(input);
+        },
         format: 'MMMM',
         defaultValue: [new Date('2023-10-01'), null],
         keySequences: [
@@ -490,6 +524,11 @@ describe('DateRangeInput', () => {
 
     it('Should use numeric input to match to abbreviated month', () => {
       testContinuousKeyPress({
+        selectBeforeKey: input => {
+          // Each assertion edits the Start field, even after automatic advancement to End.
+          input.setSelectionRange(0, 0);
+          fireEvent.click(input);
+        },
         format: 'MMM',
         defaultValue: [new Date('2023-10-01'), null],
         keySequences: [
@@ -505,6 +544,11 @@ describe('DateRangeInput', () => {
 
     it('Should support the day format', () => {
       testContinuousKeyPress({
+        selectBeforeKey: input => {
+          // Each assertion edits the Start field, even after automatic advancement to End.
+          input.setSelectionRange(0, 0);
+          fireEvent.click(input);
+        },
         format: 'dd',
         defaultValue: [new Date('2023-10-10'), null],
         keySequences: [
@@ -520,6 +564,11 @@ describe('DateRangeInput', () => {
 
     it('Should support the hour format', () => {
       testContinuousKeyPress({
+        selectBeforeKey: input => {
+          // Each assertion edits the Start field, even after automatic advancement to End.
+          input.setSelectionRange(0, 0);
+          fireEvent.click(input);
+        },
         format: 'HH',
         defaultValue: [new Date('2023-10-01 00:00:00'), null],
         keySequences: [
@@ -535,6 +584,11 @@ describe('DateRangeInput', () => {
 
     it('Should support the minute format', () => {
       testContinuousKeyPress({
+        selectBeforeKey: input => {
+          // Each assertion edits the Start field, even after automatic advancement to End.
+          input.setSelectionRange(0, 0);
+          fireEvent.click(input);
+        },
         format: 'mm',
         defaultValue: [new Date('2023-10-01 00:00:00'), null],
         keySequences: [
@@ -550,6 +604,11 @@ describe('DateRangeInput', () => {
 
     it('Should support the second format', () => {
       testContinuousKeyPress({
+        selectBeforeKey: input => {
+          // Each assertion edits the Start field, even after automatic advancement to End.
+          input.setSelectionRange(0, 0);
+          fireEvent.click(input);
+        },
         format: 'ss',
         defaultValue: [new Date('2023-10-01 00:00:00'), null],
         keySequences: [

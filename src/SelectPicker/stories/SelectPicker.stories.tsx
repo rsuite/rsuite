@@ -97,3 +97,10 @@ export const Block: Story = {
     }
   }
 };
+
+export const ResponsiveQuery: Story = {
+  args: {
+    ...defaultArgs,
+    responsive: '(max-width: 1279px)'
+  }
+};

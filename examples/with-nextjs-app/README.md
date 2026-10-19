@@ -13,18 +13,12 @@ A modern Next.js application using the App Router with React Suite components.
 
 ## Installation
 
+Use Node.js 20.9 or later and pnpm 8. The image optimizer's Sharp dependency requires this Node.js version.
+
+Install with the committed lockfile and pnpm overrides so the patched transitive dependencies are preserved:
+
 ```bash
-# Using npm
-npm install
-
-# Using yarn
-yarn
-
-# Using pnpm
-pnpm install
-
-# Using bun
-bun install
+pnpm install --frozen-lockfile
 ```
 
 ## Development

@@ -9,6 +9,10 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
+  {
+    ...pluginReact.configs.flat['jsx-runtime'],
+    files: ['docs/**/*.tsx']
+  },
   eslintConfigPrettier,
   {
     languageOptions: {
@@ -51,7 +55,7 @@ export default [
       'docs/next.config.js',
       'postcss.config.cjs',
       'docs/scripts/*.js',
-      'scripts/*.js'
+      'scripts/*.{js,cjs}'
     ],
     rules: {
       '@typescript-eslint/no-require-imports': 'off'

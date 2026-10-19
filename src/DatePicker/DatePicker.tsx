@@ -9,6 +9,8 @@ import Stack from '../Stack';
 import PredefinedRanges from './PredefinedRanges';
 import DateInput from '../DateInput';
 import InputGroup from '../InputGroup';
+import DatePickerIndicator from './DatePickerIndicator';
+import useOpenButton from './hooks/useOpenButton';
 import useMonthView from './hooks/useMonthView';
 import useFocus from './hooks/useFocus';
 import useCustomizedInput from './hooks/useCustomizedInput';
@@ -40,7 +42,6 @@ import {
 import {
   PickerPopup,
   PickerLabel,
-  PickerIndicator,
   PickerToggleTrigger,
   triggerPropKeys,
   PositionChildProps,
@@ -79,6 +80,13 @@ export interface DatePickerProps
    * Rendered as an input, the date can be entered via the keyboard
    */
   editable?: boolean;
+
+  /**
+   * Open the popup when the input is clicked. Set to false to use a separate open button.
+   * Keyboard and imperative opening remain available. `caretAs={null}` hides the button.
+   * @default true
+   */
+  openOnInputClick?: boolean;
 
   /**
    * Format date string
@@ -269,6 +277,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
     cleanable = true,
     caretAs: caretAsProp,
     editable = true,
+    openOnInputClick = true,
     defaultValue,
     disabled,
     readOnly: readOnly,
@@ -319,6 +328,12 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
 
   const id = useUniqueId('rs-', idProp);
   const { trigger, root, target, overlay } = usePickerRef(ref);
+  const openButton = useOpenButton({
+    enabled: !openOnInputClick,
+    disabled: !!(disabled || readOnly || loading || plaintext),
+    trigger,
+    overlay
+  });
   const formatStr = format || locale?.shortDateFormat || 'yyyy-MM-dd';
   const { merge, prefix } = useStyles(classPrefix);
   const [value, setValue] = useControlled(valueProp, defaultValue);
@@ -333,11 +348,19 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   // Show only the calendar month panel. formatStr = 'yyyy-MM'
   const showMonth = mode === DateMode.Month || monthView;
 
-  const { focusInput, focusSelectedDate, onKeyFocusEvent } = useFocus({
+  const {
+    focusInput: focusDateInput,
+    focusSelectedDate,
+    onKeyFocusEvent
+  } = useFocus({
     target,
     showMonth,
     id,
     locale
+  });
+
+  const focusInput = useEventCallback(() => {
+    if (!openButton.restoreFocus()) focusDateInput();
   });
 
   /**
@@ -421,16 +444,18 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   /**
    *  A callback triggered when the time on the calendar changes.
    */
-  const handleChangeTime = useEventCallback((nextPageTime: Date) => {
+  const handleChangeTime = useEventCallback((nextPageTime: Date, event: React.SyntheticEvent) => {
     setCalendarDate(nextPageTime);
-    handleDateChange(nextPageTime);
+    handleDateChange(nextPageTime, event);
   });
 
   /**
    * Close the calendar panel.
    */
   const handleClose = useEventCallback(() => {
-    trigger.current?.close?.();
+    if (trigger.current?.getState().open) {
+      trigger.current.close();
+    }
   });
 
   const updateValue = (event: React.SyntheticEvent, date?: Date | null, closeOverlay = true) => {
@@ -484,9 +509,28 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   });
 
   const handlePickerPopupKeyDown = useEventCallback((event: React.KeyboardEvent) => {
-    onKeyFocusEvent(event, { date: calendarDate, callback: setCalendarDate });
+    const target = event.target as HTMLElement;
+    const role = target.getAttribute('role');
+    const gridId = `${id}-${showMonth ? 'calendar-month-dropdown' : 'calendar-table'}`;
+    const isGrid =
+      (role === 'grid' || role === 'gridcell') && target.closest('[role="grid"]')?.id === gridId;
+    const isTimeOption =
+      role === 'option' && target.closest('[role="group"]')?.id === `${id}-calendar-time-dropdown`;
+
+    // Nested controls handle their own keyboard activation and text navigation.
+    if (
+      event.defaultPrevented ||
+      (event.target !== event.currentTarget && !isGrid && !isTimeOption)
+    ) {
+      return;
+    }
+
+    if (!isTimeOption && mode !== DateMode.Time) {
+      onKeyFocusEvent(event, { date: calendarDate, callback: setCalendarDate });
+    }
 
     if (event.key === 'Enter') {
+      event.preventDefault();
       handleOK(event);
     }
   });
@@ -543,7 +587,12 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
 
   const handleInputKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
     onMenuKeyDown(event, {
-      esc: handleClose,
+      esc: () => {
+        if (trigger.current?.getState().open) {
+          resetCalendarDate();
+          handleClose();
+        }
+      },
       enter: () => {
         const { open } = trigger.current?.getState() || {};
         if (open) {
@@ -572,6 +621,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
     return (
       <PickerPopup
         role="dialog"
+        id={!openOnInputClick ? `${id}-popup` : undefined}
         aria-labelledby={label ? `${id}-label` : undefined}
         tabIndex={-1}
         className={classes}
@@ -668,8 +718,9 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   const triggerProps = {
     ...pick(props, triggerPropKeys),
     onClose: handleTriggerClose,
-    onEnter: createChainedFunction(events.onActive, onEnter),
-    onExit: createChainedFunction(events.onInactive, onExit)
+    onEnter: createChainedFunction(events.onActive, openButton.onEnter, onEnter),
+    onEntered: createChainedFunction(openButton.onEntered, props.onEntered),
+    onExit: createChainedFunction(events.onInactive, openButton.onExit, onExit)
   };
 
   return (
@@ -684,7 +735,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
       appearance={appearance}
       style={style}
       rootRef={root}
-      trigger="active"
+      trigger={openOnInputClick ? 'active' : []}
       triggerProps={triggerProps}
       ref={trigger}
       placement={placement}
@@ -721,12 +772,24 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
             onKeyDown={handleInputKeyDown}
           />
 
-          <PickerIndicator
+          <DatePickerIndicator
             size={size}
             loading={loading}
             caretAs={caretAs}
             onClose={handleClean}
             showCleanButton={showCleanButton}
+            openButton={
+              !openOnInputClick
+                ? {
+                    ref: openButton.ref,
+                    expanded: openButton.expanded,
+                    controls: `${id}-popup`,
+                    disabled: !!(disabled || readOnly || loading),
+                    label: locale?.openPicker || 'Open picker',
+                    onClick: openButton.onClick
+                  }
+                : undefined
+            }
           />
         </InputGroup>
       )}

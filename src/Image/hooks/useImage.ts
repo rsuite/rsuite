@@ -10,21 +10,25 @@ interface UseImageProps {
 }
 
 export const useImage = (props: UseImageProps) => {
-  const { src, fallbackSrc } = props;
-  const [imgSrc, setImgSrc] = useState<string | null>(src || fallbackSrc || null);
-  const [isLoading, setIsLoading] = useState<boolean>(!!src);
+  const { src, srcSet, fallbackSrc } = props;
+  const [imgSrc, setImgSrc] = useState<string | null>(src || (srcSet ? null : fallbackSrc) || null);
+  const [imgSrcSet, setImgSrcSet] = useState(srcSet);
+  const [isLoading, setIsLoading] = useState<boolean>(!!(src || srcSet));
   const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!src) {
+    setImgSrcSet(srcSet);
+    if (!src && !srcSet) {
+      setImgSrc(fallbackSrc || null);
       setIsLoading(false);
+      setError(false);
       return;
     }
 
-    setImgSrc(src);
+    setImgSrc(src || null);
     setIsLoading(true);
     setError(false);
-  }, [src]);
+  }, [src, srcSet]);
 
   const handleLoad = () => {
     setIsLoading(false);
@@ -34,11 +38,13 @@ export const useImage = (props: UseImageProps) => {
   const handleError = () => {
     setIsLoading(false);
     setError(true);
+    setImgSrcSet(undefined);
     setImgSrc(fallbackSrc || null);
   };
 
   return {
     imgSrc,
+    imgSrcSet,
     isLoading,
     error,
     onLoad: handleLoad,

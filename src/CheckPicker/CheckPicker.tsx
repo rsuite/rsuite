@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import clone from 'lodash/clone';
 import isFunction from 'lodash/isFunction';
 import remove from 'lodash/remove';
@@ -33,6 +33,7 @@ import {
 import type { PickerLocale } from '../locales';
 import type { Option, FormControlPickerProps } from '@/internals/types';
 import type { SelectProps } from '../SelectPicker';
+import type { VirtualizedListHandle } from '@/internals/Picker/hooks/useVirtualizedListFocus';
 
 export type ValueType = (number | string)[];
 export interface CheckPickerProps<T = any>
@@ -117,18 +118,10 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
     } = propsWithDefaults;
 
     const { trigger, root, target, overlay, list, searchInput } = usePickerRef(ref);
+    const keyboardNavigationRef = useRef<VirtualizedListHandle>(null);
+    // Use component active state to support keyboard events.
+    const [active, setActive] = useState(false);
     const [value, setValue] = useControlled(valueProp, defaultValue || []);
-
-    // Used to hover the focuse item  when trigger `onKeydown`
-    const {
-      focusItemValue,
-      setFocusItemValue,
-      onKeyDown: onFocusItem
-    } = useFocusItemValue(value?.[0], {
-      data,
-      valueKey,
-      target: () => overlay.current
-    });
 
     const handleSearchCallback = useEventCallback(
       (searchKeyword: string, filteredData: Option[], event: React.SyntheticEvent) => {
@@ -146,8 +139,19 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
         callback: handleSearchCallback
       });
 
-    // Use component active state to support keyboard events.
-    const [active, setActive] = useState(false);
+    // Used to hover the focuse item  when trigger `onKeydown`
+    const {
+      focusItemValue,
+      setFocusItemValue,
+      onKeyDown: onFocusItem
+    } = useFocusItemValue(value?.[0], {
+      data,
+      valueKey,
+      focusFirst: !!searchKeyword,
+      reconcileFocus: active && !disabled && !rest.readOnly && !rest.loading,
+      virtualizedList: virtualized ? keyboardNavigationRef : undefined,
+      target: () => overlay.current
+    });
 
     // A list of shortcut options.
     // when opened again, the selected options are displayed at the top.
@@ -185,7 +189,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
     const handleMenuPressEnter = (event: React.KeyboardEvent<HTMLElement>) => {
       const nextValue = clone(value);
 
-      if (!focusItemValue) {
+      if (isNil(focusItemValue)) {
         return;
       }
 
@@ -202,7 +206,8 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
     };
 
     const onPickerKeyDown = useToggleKeyDownEvent({
-      toggle: !focusItemValue || !active,
+      toggle: isNil(focusItemValue) || !active,
+      disabled,
       trigger,
       target,
       overlay,
@@ -308,8 +313,10 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
       const listbox =
         items.length || filteredStickyItems.length ? (
           <Listbox<true>
+            disabled={disabled || rest.readOnly || rest.loading}
             listProps={listProps}
             listRef={list}
+            keyboardNavigationRef={virtualized ? keyboardNavigationRef : undefined}
             disabledItemValues={disabledItemValues}
             valueKey={valueKey}
             labelKey={labelKey}
@@ -320,6 +327,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
             listItemAs={ListCheckItem}
             activeItemValues={value}
             focusItemValue={focusItemValue}
+            scrollToFocus
             data={[...filteredStickyItems, ...items]}
             groupBy={groupBy}
             onSelect={handleItemSelect}
@@ -384,7 +392,6 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
           appearance={appearance}
           disabled={disabled}
           onClean={handleClean}
-          onKeyDown={onPickerKeyDown}
           as={toggleAs}
           cleanable={cleanable && !disabled}
           countable={countable}
@@ -395,6 +402,7 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
           focusItemValue={focusItemValue}
           size={size}
           {...rest}
+          onKeyDown={onPickerKeyDown}
         >
           {selectedElement || locale?.placeholder}
         </PickerToggle>

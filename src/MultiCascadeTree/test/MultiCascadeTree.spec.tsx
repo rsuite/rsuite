@@ -1,7 +1,7 @@
 import React from 'react';
 import MultiCascadeTree from '../MultiCascadeTree';
 import { describe, expect, it, vi } from 'vitest';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, act, waitFor } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
 import { mockTreeData } from '@test/mocks/data-mock';
 
@@ -124,26 +124,40 @@ describe('MultiCascadeTree', () => {
     expect(screen.getByRole('treeitem', { name: '2' })).to.exist;
   });
 
-  it('Should present an asyn loading state', () => {
-    function fetchNodes() {
-      return new Promise<{ label: string; value: string }[]>(resolve => {
-        setTimeout(() => {
-          resolve([{ label: '2', value: '2' }]);
-        }, 500);
+  it('Should present an async loading state', async () => {
+    const data = [{ label: '1', value: '1', children: [] }];
+    const loadedChildren = [{ label: '2', value: '2' }];
+    let resolveChildren!: (children: typeof loadedChildren) => void;
+    const childrenPromise = new Promise<typeof loadedChildren>(resolve => {
+      resolveChildren = resolve;
+    });
+    const getChildren = vi.fn(() => childrenPromise);
+    const finishLoading = () =>
+      act(async () => {
+        resolveChildren(loadedChildren);
+        await childrenPromise;
       });
+
+    try {
+      render(<MultiCascadeTree data={data} getChildren={getChildren} />);
+
+      const parent = screen.getByRole('treeitem', { name: '1' });
+      fireEvent.click(parent.firstChild as HTMLElement);
+
+      expect(getChildren).toHaveBeenCalledTimes(1);
+      expect(parent.querySelector('.rs-icon-spin')).to.exist;
+      expect(screen.queryByRole('treeitem', { name: '2' })).to.not.exist;
+
+      await finishLoading();
+
+      await waitFor(() => {
+        expect(screen.getByRole('treeitem', { name: '2' })).to.exist;
+        expect(parent.querySelector('.rs-icon-spin')).to.not.exist;
+      });
+      expect(getChildren).toHaveBeenCalledTimes(1);
+    } finally {
+      await finishLoading();
     }
-
-    render(
-      <MultiCascadeTree
-        data={[{ label: '1', value: '1', children: [] }]}
-        getChildren={fetchNodes}
-      />
-    );
-
-    fireEvent.click(screen.getByRole('treeitem', { name: '1' }).firstChild as HTMLElement);
-
-    expect(screen.getByRole('treeitem', { name: '1' }).querySelector('.rs-icon.rs-icon-spin')).to
-      .exist;
   });
 
   it('Should call `onSearch` callback ', () => {

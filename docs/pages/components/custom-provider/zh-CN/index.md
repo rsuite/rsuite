@@ -60,6 +60,21 @@ return (
 );
 ```
 
+### 减少动态效果
+
+内置 Animation 组件、Modal 和 Drawer 默认遵循系统的 `prefers-reduced-motion` 偏好。使用 `reduceMotion` 可以全局覆盖此设置：
+
+```jsx
+<CustomProvider reduceMotion>
+  <Modal open />
+  <Animation.Fade in reduceMotion={false}>
+    <div>这个动画被显式允许。</div>
+  </Animation.Fade>
+</CustomProvider>
+```
+
+组件的 `reduceMotion` 设置优先于全局设置。`false` 显式允许动画；两处均未设置时遵循系统偏好。支持内置过渡、默认 Modal/Drawer 背景板和静态背景板的抖动，并保留过渡回调。其他使用 `Animation.Transition` 的组件也会继承此策略。不使用它的动画（包括自定义内容动画）继续使用各自的设置。生命周期与自定义动画说明见 [Animation](../animation/#减少动态效果)。
+
 ### Content Security Policy
 
 在 `@rsuite/icons` 中的图标动画使用了内联样式，如果您的项目启用了 [Content Security Policy][csp]，请确保配置了 [nonce][nonce] 值。
@@ -85,6 +100,7 @@ return (
 | formatDate          | (date: Date, format?: string) => string | 以给定格式返回格式化的日期字符串，结果可能因地区而异                      |             |
 | locale              | [Locale][locale] [`(en-GB)`][en_gb]     | 语言包配置                                                                |             |
 | parseDate           | (date: string, format: string) => Date  | 使用给定的格式字符串返回从字符串解析的日期                                |             |
+| reduceMotion        | boolean                                 | 减少内置过渡动态效果；未设置时遵循系统偏好                                |             |
 | rtl                 | boolean                                 | 可设置文本和其他元素的默认方向是从左到右                                  |             |
 | theme               | 'light' \| 'dark' \| 'high-contrast'    | 支持的主题                                                                |             |
 

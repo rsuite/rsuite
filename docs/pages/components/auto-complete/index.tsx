@@ -1,4 +1,3 @@
-import React from 'react';
 import { AutoComplete, InputGroup, VStack, HStack, Text, Divider } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import SearchIcon from '@rsuite/icons/Search';

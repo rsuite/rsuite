@@ -72,9 +72,11 @@ export function keyPressTests(TestComponent: React.FC<any>) {
   function testContinuousKeyPress({
     keySequences,
     defaultValue,
-    format
+    format,
+    selectBeforeKey
   }: {
     format?: string;
+    selectBeforeKey?: (input: HTMLInputElement) => void;
     defaultValue?: Date | [Date | null, Date | null];
     keySequences: {
       key: string;
@@ -96,6 +98,7 @@ export function keyPressTests(TestComponent: React.FC<any>) {
     userEvent.click(input);
 
     for (const { key, expected } of keySequences) {
+      selectBeforeKey?.(input);
       userEvent.type(input, key);
       expect(input).to.value(expected);
     }

@@ -6,12 +6,10 @@
 @use './row';
 @use './columns';
 
-//
 // Grid system
 // --------------------------------------------------
 
 // Container widths
-//
 // Set the container width, and override it for fixed navbars in media queries.
 
 .rs-grid-container {
@@ -46,7 +44,6 @@
 }
 
 // Fluid container
-//
 // Utilizes the mixin meant for fixed width containers, but without any defined
 // width for fluid, full width layouts.
 
@@ -55,14 +52,12 @@
 }
 
 // Extra small grid
-//
 // Columns, offsets, pushes, and pulls for extra small devices like
 // smartphones.
 
 @include mixin.make-grid(xs);
 
 // Small grid
-//
 // Columns, offsets, pushes, and pulls for the small device range, from phones
 // to tablets / phones.
 
@@ -87,7 +82,6 @@
 }
 
 // Hiddens
-//
 // All hidden styles.
 
 @media (max-width: (vars.$screen-sm - 1)) {

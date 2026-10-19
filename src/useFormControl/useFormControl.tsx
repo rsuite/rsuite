@@ -49,6 +49,7 @@ export function useFormControl(props: UseFormControlProps) {
     formError,
     nestedField,
     onFieldChange,
+    getFormValue,
     removeFieldValue,
     removeFieldError,
     checkTrigger: contextCheckTrigger,
@@ -85,6 +86,7 @@ export function useFormControl(props: UseFormControlProps) {
     name,
     errorMessage,
     formValue,
+    getFormValue,
     formError,
     value: controlledValue,
     nestedField,
@@ -124,8 +126,8 @@ export function useFormControl(props: UseFormControlProps) {
   });
 
   /**
-   * Directly sets the field value without triggering validation or onChange events.
-   * Useful for programmatically updating field values.
+   * Sets the field value through the Form's change handler.
+   * Validation is optional for programmatic updates.
    * @param value The new value to set
    * @param shouldValidate Whether to trigger validation (defaults to false)
    */

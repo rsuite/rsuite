@@ -82,9 +82,9 @@ export interface CalendarInnerContextValue {
   /**
    * A callback function that is called when the time is changed in the calendar.
    * @param time - The newly selected time.
-   * @param event - The mouse event.
+   * @param event - The selection event.
    */
-  onChangeTime?: (time: PlainTime, event: React.MouseEvent) => void;
+  onChangeTime?: (time: PlainTime, event: React.SyntheticEvent) => void;
 
   /**
    * A callback function that is called when the mouse moves over a date in the calendar.

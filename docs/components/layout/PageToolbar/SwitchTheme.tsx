@@ -1,4 +1,3 @@
-import React from 'react';
 import ThemeIcon from '@/components/ThemeIcon';
 import { CustomProviderProps, Box, HStack } from 'rsuite';
 import { useApp } from '@/hooks/useApp';

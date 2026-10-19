@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
+import useCustomConfig from '@/internals/hooks/useCustomConfig';
 import getStyle from 'dom-lib/getStyle';
 import addStyle from 'dom-lib/addStyle';
 import get from 'lodash/get';
 import capitalize from 'lodash/capitalize';
 import Transition, { TransitionProps } from './Transition';
-import { useStyles, useCustom } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { createChainedFunction } from '@/internals/utils';
 
 export enum DIMENSION {
@@ -48,7 +49,7 @@ function getScrollDimensionValue(elem: Element, dimension: DIMENSION) {
  * @see https://rsuitejs.com/components/animation/#collapse
  */
 const Collapse = React.forwardRef((props: CollapseProps, ref: React.Ref<any>) => {
-  const { propsWithDefaults } = useCustom('Collapse', props);
+  const { propsWithDefaults } = useCustomConfig('Collapse', props);
   const {
     className,
     timeout = 300,

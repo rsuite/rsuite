@@ -131,7 +131,7 @@ interface PromptOptions {
   cancelText?: string; // Text for the Cancel button
   defaultValue?: string; // Default value for the input field
   validate?: (value: string) => [isValid: boolean, errorMessage?: string]; // Validation function
-  onClose?: (result: string) => void; // Callback when dialog is closed
+  onClose?: (result: string | false) => void; // Input value, or false when cancelled
 }
 ```
 

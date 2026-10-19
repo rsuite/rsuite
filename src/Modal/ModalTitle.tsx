@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React, { useContext } from 'react';
 import Box from '@/internals/Box';
 import { ModalContext } from './ModalContext';

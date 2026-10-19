@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React, { useMemo } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';

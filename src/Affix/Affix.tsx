@@ -63,10 +63,10 @@ function useOffset(
   useMount(updateOffset);
 
   // Update after window size changes
-  useEventListener(window, 'resize', updateOffset, false);
+  useEventListener(() => window, 'resize', updateOffset, false);
 
   // Update after window scroll
-  useEventListener(window, 'scroll', debounce(updateOffset, 100), false);
+  useEventListener(() => window, 'scroll', debounce(updateOffset, 100), false);
 
   return offset;
 }
@@ -119,7 +119,7 @@ function useFixed(offset: Offset | null, containerOffset: Offset | null, props: 
   }, [offset, top, containerOffset, fixed, onChange]);
 
   // Add scroll event to window
-  useEventListener(window, 'scroll', handleScroll, false);
+  useEventListener(() => window, 'scroll', handleScroll, false);
 
   return fixed;
 }

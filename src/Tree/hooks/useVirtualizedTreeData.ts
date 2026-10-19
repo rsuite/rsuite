@@ -4,6 +4,7 @@ import isUndefined from 'lodash/isUndefined';
 import { getNodeParentKeys } from '../utils/getNodeParentKeys';
 import { isSearching } from '../utils/isSearching';
 import { UNSAFE_flattenTree } from '../utils/flattenTree';
+import { getTreeNodePositions, TREE_NODE_POSITION } from '../utils/getTreeNodePositions';
 import { getNodeCheckState } from '../../CheckTree/utils';
 import { useItemDataKeys } from '@/internals/Tree/TreeProvider';
 import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
@@ -36,6 +37,8 @@ function useVirtualizedTreeData(
    */
   return useCallback((): TreeNode[] => {
     const { cascade, searchKeyword, expandItemValues, disabledItemValues = [] } = options;
+    const searching = isSearching(searchKeyword);
+    const positions = getTreeNodePositions(data, childrenKey, searching);
 
     return UNSAFE_flattenTree(data, childrenKey, (node: any) => {
       let formatted = {};
@@ -54,7 +57,7 @@ function useVirtualizedTreeData(
        * when searching, every node default expand
        * the node's visible should follow the original state
        */
-      if (isSearching(searchKeyword)) {
+      if (searching) {
         visible = node.visible;
       }
       if (curNode) {
@@ -75,7 +78,8 @@ function useVirtualizedTreeData(
           layer: curNode.layer,
           parent: curNode.parent,
           checkState,
-          visible
+          visible,
+          [TREE_NODE_POSITION]: positions.get(node)
         };
       }
       return formatted;

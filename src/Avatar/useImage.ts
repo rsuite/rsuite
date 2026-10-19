@@ -1,5 +1,5 @@
-import { ImgHTMLAttributes, useCallback, useEffect, useRef, useState } from 'react';
-import { useIsomorphicLayoutEffect } from '@/internals/hooks';
+import { ImgHTMLAttributes, useState } from 'react';
+import { useEventCallback, useIsomorphicLayoutEffect } from '@/internals/hooks';
 
 interface UseImageProps {
   /**
@@ -43,61 +43,46 @@ type Status = 'pending' | 'loading' | 'error' | 'loaded';
 const useImage = (props: UseImageProps) => {
   const { src, srcSet, sizes, crossOrigin, onError } = props;
   const [status, setStatus] = useState<Status>('pending');
+  const handleError = useEventCallback(onError);
 
-  const imgRef = useRef<HTMLImageElement | null>(null);
-
-  const flush = () => {
-    if (imgRef.current) {
-      imgRef.current.onload = null;
-      imgRef.current.onerror = null;
-      imgRef.current = null;
-    }
-  };
-
-  const handleLoad = useCallback(() => {
-    setStatus('loaded');
-    flush();
-  }, []);
-
-  const handleError = useCallback(
-    event => {
-      setStatus('error');
-      flush();
-      onError?.(event);
-    },
-    [onError]
-  );
-
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setStatus(src ? 'loading' : 'pending');
-  }, [src]);
-
-  const loadImge = useCallback(() => {
     if (!src) {
       return;
     }
 
-    const img = new Image();
-    img.onload = handleLoad;
-    img.onerror = handleError;
+    let active = true;
+    let image: HTMLImageElement | null = new Image();
 
-    if (src) img.src = src;
-    if (srcSet) img.srcset = srcSet;
-    if (sizes) img.sizes = sizes;
-    if (crossOrigin) img.crossOrigin = crossOrigin;
+    const cleanup = () => {
+      active = false;
+      if (image) {
+        image.onload = null;
+        image.onerror = null;
+        image = null;
+      }
+    };
 
-    imgRef.current = img;
-  }, [crossOrigin, handleError, handleLoad, sizes, src, srcSet]);
+    image.onload = () => {
+      if (!active) return;
+      cleanup();
+      setStatus('loaded');
+    };
 
-  useIsomorphicLayoutEffect(() => {
-    if (status === 'loading') {
-      loadImge();
-    }
-  }, [loadImge, status]);
+    image.onerror = event => {
+      if (!active) return;
+      cleanup();
+      setStatus('error');
+      handleError(event);
+    };
 
-  useEffect(() => {
-    return flush;
-  }, []);
+    if (crossOrigin !== undefined) image.crossOrigin = crossOrigin;
+    if (sizes !== undefined) image.sizes = sizes;
+    if (srcSet !== undefined) image.srcset = srcSet;
+    image.src = src;
+
+    return cleanup;
+  }, [crossOrigin, handleError, sizes, src, srcSet]);
 
   return {
     loaded: status === 'loaded',

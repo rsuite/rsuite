@@ -1,3 +1,6 @@
+@use 'sass:color';
+@use 'sass:selector';
+
 // WebKit-style focus
 @mixin tab-focus {
   outline: 0;
@@ -16,11 +19,17 @@
 }
 
 @mixin text-emphasis-variant($color) {
+  $link-selector: selector.unify(&, 'a');
+
   color: $color;
 
-  a&:hover,
-  a&:focus {
-    color: darken($color, 10%);
+  @if $link-selector {
+    @at-root #{$link-selector} {
+      &:hover,
+      &:focus {
+        color: color.adjust($color, $lightness: -10%, $space: hsl);
+      }
+    }
   }
 }
 
@@ -35,6 +44,7 @@
 
 @mixin ellipsis($substract: 0) {
   @include ellipsis-basic;
+
   width: 100% - $substract;
 }
 
@@ -72,17 +82,20 @@
 
 @mixin focus-ring-slim {
   @include focus-ring;
+
   outline-width: 2px;
   outline-offset: 0;
 }
 
 @mixin focus-ring-inset {
   @include focus-ring;
+
   outline-offset: -3px;
 }
 
 @mixin focus-ring-slim-inset {
   @include focus-ring-inset;
+
   outline-width: 2px;
 }
 

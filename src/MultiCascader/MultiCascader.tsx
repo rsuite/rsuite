@@ -5,11 +5,11 @@ import isNil from 'lodash/isNil';
 import TreeView from '../MultiCascadeTree/TreeView';
 import SearchView from '../MultiCascadeTree/SearchView';
 import useActive from '../Cascader/useActive';
-import { findNodeOfTree } from '@/internals/Tree/utils';
 import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { getColumnsAndPaths } from '../CascadeTree/utils';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
 import { useCascadeValue, useSearch, useSelect } from '../MultiCascadeTree/hooks';
+import findItemByKey from '@/internals/Picker/findItemByKey';
 import {
   PickerToggle,
   PickerPopup,
@@ -165,7 +165,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
         const { columns, path } = getColumnsAndPaths(
           data,
           flattenData.find(item => item[valueKey] === value),
-          { getParent: () => undefined, getChildren: item => item[childrenKey] }
+          { getParent: item => item.parent, getChildren: item => item[childrenKey] }
         );
 
         setColumnData(columns);
@@ -228,10 +228,9 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
     });
 
     const handleMenuPressEnter = useEventCallback((event: React.SyntheticEvent) => {
-      const focusItem = findNodeOfTree(data, item => item[valueKey] === focusItemValue);
-      const checkbox = overlay.current?.querySelector(
-        `[data-key="${focusItemValue}"] [type="checkbox"]`
-      );
+      const focusItem = flattenData.find(item => item[valueKey] === focusItemValue);
+      const treeItem = findItemByKey(overlay.current, focusItemValue);
+      const checkbox = treeItem?.querySelector('[type="checkbox"]');
 
       if (checkbox) {
         handleCheck(focusItem, event, checkbox?.getAttribute('aria-checked') !== 'true');
@@ -239,7 +238,8 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
     });
 
     const onPickerKeyDown = useToggleKeyDownEvent({
-      toggle: !focusItemValue || !active,
+      toggle: isNil(focusItemValue) || !active,
+      disabled,
       trigger,
       target,
       overlay,
@@ -291,10 +291,12 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
               data={items}
               value={value}
               searchKeyword={searchKeyword}
+              focusItemValue={focusItemValue}
               valueKey={valueKey}
               labelKey={labelKey}
               childrenKey={childrenKey}
               disabledItemValues={disabledItemValues}
+              disabled={disabled || rest.readOnly || rest.loading}
               inputRef={searchInput}
               onCheck={handleCheck}
               onSearch={handleSearch}
@@ -308,6 +310,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
               columnHeight={columnHeight}
               classPrefix="cascade-tree"
               uncheckableItemValues={uncheckableItemValues}
+              disabled={disabled || rest.readOnly || rest.loading}
               disabledItemValues={disabledItemValues}
               valueKey={valueKey}
               labelKey={labelKey}
@@ -395,7 +398,6 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
           appearance={appearance}
           disabled={disabled}
           onClean={createChainedFunction(handleClean, onClean)}
-          onKeyDown={onPickerKeyDown}
           cleanable={cleanable && !disabled}
           countable={countable}
           hasValue={hasValue}
@@ -404,6 +406,7 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
           inputValue={value}
           size={size}
           {...rest}
+          onKeyDown={onPickerKeyDown}
         >
           {selectedElement || locale?.placeholder}
         </PickerToggle>

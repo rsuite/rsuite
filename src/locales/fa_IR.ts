@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { faIR } from 'date-fns/locale/fa-IR';
 
 const DateTimeFormats = {
@@ -20,6 +21,19 @@ const DateTimeFormats = {
   shortDateFormat: 'yyyy/MM/dd',
   shortTimeFormat: 'hh:mm aa',
   dateLocale: faIR as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'ماه قبل',
+  nextMonth: 'ماه بعد',
+  selectMonth: 'انتخاب ماه',
+  selectTime: 'انتخاب زمان'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'باز کردن انتخابگر'
 };
 
 const Combobox = {
@@ -59,10 +73,10 @@ export default {
     skip: 'برو به{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: '7 روز اخر'
   },
   Combobox,
@@ -82,6 +96,15 @@ export default {
   },
   Breadcrumb: {
     expandText: 'نمایش مسیر'
+  },
+  Carousel: {
+    carouselRoleDescription: 'نمایش اسلاید',
+    slideRoleDescription: 'اسلاید',
+    slidePosition: '{0} از {1}',
+    startRotation: 'شروع چرخش اسلایدها',
+    stopRotation: 'توقف چرخش اسلایدها',
+    selectSlide: 'انتخاب اسلاید',
+    slideLabel: 'اسلاید {0} از {1}'
   },
   Toggle: {
     on: 'باز کردن',

@@ -1,12 +1,12 @@
 @use '../../internals/Box/styles/index' as box;
 @use '../../Input/styles/index' as input;
+@use '../../Stack/styles/index' as stack;
 
 .rs-pin-input {
   --rs-pin-input-size-lg: 42px;
   --rs-pin-input-size-md: 36px;
   --rs-pin-input-size-sm: 30px;
   --rs-pin-input-size-xs: 24px;
-
   --rs-pin-input-size: var(--rs-pin-input-size-md);
 
   display: inline-flex;

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import getStyle from 'dom-lib/getStyle';
 import { useCallback } from 'react';
-import { useElementResize, useMount } from '@/internals/hooks';
+import { useElementResize, useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { mergeRefs, mergeStyles } from '@/internals/utils';
 
 export interface Size {
@@ -93,8 +93,9 @@ const AutoSizer = React.forwardRef<HTMLDivElement, AutoSizerProps>((props, ref) 
     }
   }, [disableHeight, disableWidth, getParentNode, height, onResize, width]);
 
-  useMount(handleResize);
-  useElementResize(getParentNode(), handleResize);
+  // React-driven layout changes should reach children before the next paint.
+  useIsomorphicLayoutEffect(handleResize);
+  useElementResize(getParentNode, handleResize);
 
   const outerStyle: React.CSSProperties = { overflow: 'visible' };
   const childParams: Size = { width: 0, height: 0 };

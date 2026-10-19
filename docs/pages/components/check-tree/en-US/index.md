@@ -65,6 +65,7 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 - Has the `aria-expanded` attribute to indicate whether the tree is open or not.
 - Has the `aria-checked` attribute to indicate whether the tree node is checked or not.
 - Has the `aria-level` attribute to indicate the level of the tree node.
+- Virtualized nodes have `aria-posinset` and `aria-setsize` to describe their position and count among siblings in the filtered tree, including siblings outside the mounted window.
 - Has the `aria-disabled` attribute to indicate whether the tree node is disabled or not.
 
 ### Keyboard interactions

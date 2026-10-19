@@ -1,5 +1,6 @@
 import { KEY_VALUES } from '@/internals/constants';
 import { useEventCallback } from '@/internals/hooks';
+import { isComposingEvent } from '@/internals/utils';
 
 interface ToggleKeyDownEventProps {
   toggle?: boolean;
@@ -8,6 +9,8 @@ interface ToggleKeyDownEventProps {
   overlay?: React.RefObject<any>;
   searchInput?: React.RefObject<any>;
   active?: boolean;
+  /** Editable pickers manage their own input focus. */
+  focusOnClose?: boolean;
   readOnly?: boolean;
   disabled?: boolean;
   loading?: boolean;
@@ -30,6 +33,7 @@ const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     overlay,
     searchInput,
     active,
+    focusOnClose = true,
     readOnly,
     disabled,
     loading,
@@ -40,11 +44,23 @@ const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     onMenuPressBackspace
   } = props;
 
-  const handleClose = useEventCallback(() => {
+  const handleClose = useEventCallback((event?: React.KeyboardEvent) => {
+    if (!(trigger.current?.getState?.()?.open ?? active)) return;
+
+    const toggle = target.current as HTMLElement | null;
+    const popup = overlay?.current as HTMLElement | null;
     trigger.current?.close?.();
 
-    // The focus is on the trigger button after closing
-    trigger.current?.focus?.();
+    // Start the browser's Tab navigation at the toggle without consuming the key.
+    // A close callback may already have chosen another focus destination.
+    if (
+      focusOnClose &&
+      event?.key === KEY_VALUES.TAB &&
+      toggle?.isConnected &&
+      popup?.contains(toggle.ownerDocument.activeElement)
+    ) {
+      toggle.focus();
+    }
   });
 
   const handleOpen = useEventCallback(() => {
@@ -60,8 +76,8 @@ const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
   });
 
   const onToggle = useEventCallback((event: React.KeyboardEvent) => {
-    // Keyboard events should not be processed when readOnly and disabled are set.
-    if (readOnly || disabled || loading) {
+    if (readOnly || disabled || loading || isComposingEvent(event)) {
+      onKeyDown?.(event);
       return;
     }
 
@@ -104,7 +120,12 @@ const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     }
 
     if (event.key === KEY_VALUES.ESC || event.key === KEY_VALUES.TAB) {
-      handleClose();
+      const isOpen = trigger.current?.getState?.()?.open ?? active;
+      if (event.key === KEY_VALUES.ESC && isOpen) {
+        // A surrounding dialog must not handle the same Escape again.
+        event.preventDefault();
+      }
+      handleClose(event);
     }
 
     // Native event callback

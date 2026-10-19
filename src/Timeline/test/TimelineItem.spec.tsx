@@ -8,8 +8,11 @@ describe('TimelineItem', () => {
   testStandardProps(<TimelineItem />);
 
   it('Should output a TimelineItem', () => {
-    const { container } = render(<TimelineItem />);
+    const ref = React.createRef<HTMLLIElement>();
+    const { container } = render(<TimelineItem ref={ref} />);
     expect(container.firstChild).to.have.class('rs-timeline-item');
+    expect(container.firstChild).to.have.tagName('LI');
+    expect(ref.current).toBe(container.firstChild);
     expect(container.querySelector('.rs-timeline-item-dot')).to.have.class('rs-timeline-item-dot');
     expect(container.querySelector('.rs-timeline-item-tail')).to.have.class(
       'rs-timeline-item-tail'

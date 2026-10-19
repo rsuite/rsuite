@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import MainNav from '@/components/layout/MainNav';
 import Head from '@/components/layout/Head';
 import PageToolbar from '@/components/layout/PageToolbar';

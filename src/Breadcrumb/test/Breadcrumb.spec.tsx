@@ -9,10 +9,12 @@ describe('Breadcrumb', () => {
   testSizeStyle(Breadcrumb, { sizes: ['sm', 'md', 'lg'] });
 
   it('Should apply id to the wrapper nav element', () => {
-    render(<Breadcrumb id="custom-id" />);
+    const ref = React.createRef<HTMLElement>();
+    render(<Breadcrumb id="custom-id" ref={ref} />);
 
     expect(screen.getByRole('navigation')).to.have.tagName('NAV');
     expect(screen.getByRole('navigation')).to.have.id('custom-id');
+    expect(ref.current).toBe(screen.getByRole('navigation'));
   });
 
   it('Should have breadcrumb class', () => {

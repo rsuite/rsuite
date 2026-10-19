@@ -1,7 +1,5 @@
-import { useRef, useCallback } from 'react';
-import omit from 'lodash/omit';
-import set from 'lodash/set';
-import { useControlled } from '@/internals/hooks';
+import { useRef, useCallback, useInsertionEffect, useState } from 'react';
+import { setFieldValue as setValue, removeFieldValue } from '../utils/fieldValue';
 
 type RecordAny = Record<string, any>;
 interface UseFormValueProps<V = RecordAny> {
@@ -11,22 +9,41 @@ interface UseFormValueProps<V = RecordAny> {
 
 export default function useFormValue<V>(controlledValue, props: UseFormValueProps<V>) {
   const { formDefaultValue, nestedField } = props;
-  const [formValue, setFormValue] = useControlled(controlledValue, formDefaultValue);
-
+  const [uncontrolledValue, setUncontrolledValue] = useState(formDefaultValue);
+  const isControlled = controlledValue !== undefined;
+  const formValue = isControlled ? controlledValue : uncontrolledValue;
   const realFormValueRef = useRef(formValue);
-  realFormValueRef.current = formValue;
+  const committedValueRef = useRef({ formValue, isControlled });
+
+  // Publish committed values before child layout callbacks, without exposing suspended renders.
+  useInsertionEffect(() => {
+    realFormValueRef.current = formValue;
+    committedValueRef.current = { formValue, isControlled };
+  });
+
+  const getFormValue = useCallback(
+    () =>
+      committedValueRef.current.isControlled
+        ? committedValueRef.current.formValue
+        : realFormValueRef.current,
+    []
+  );
+
+  const setFormValue = useCallback(nextValue => {
+    if (committedValueRef.current.isControlled) return;
+    realFormValueRef.current = nextValue;
+    setUncontrolledValue(nextValue);
+  }, []);
 
   const setFieldValue = useCallback(
     (fieldName: string, fieldValue: any) => {
-      const nextFormError = nestedField
-        ? set({ ...formValue }, fieldName, fieldValue)
-        : { ...formValue, [fieldName]: fieldValue };
+      const nextFormValue = setValue(getFormValue(), fieldName, fieldValue, nestedField);
 
-      setFormValue(nextFormError);
+      setFormValue(nextFormValue);
 
-      return nextFormError;
+      return nextFormValue;
     },
-    [formValue, nestedField, setFormValue]
+    [getFormValue, nestedField, setFormValue]
   );
 
   const onRemoveValue = useCallback(
@@ -35,7 +52,7 @@ export default function useFormValue<V>(controlledValue, props: UseFormValueProp
        * when this function is called when the children component is unmount,
        * it's an old render frame so use Ref to get future value
        */
-      const formValue = omit(realFormValueRef.current, [name]);
+      const formValue = removeFieldValue(realFormValueRef.current, name);
       realFormValueRef.current = formValue;
 
       setFormValue(formValue);
@@ -57,6 +74,7 @@ export default function useFormValue<V>(controlledValue, props: UseFormValueProp
 
   return {
     formValue,
+    getFormValue,
     setFormValue,
     setFieldValue,
     onRemoveValue,

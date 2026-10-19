@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React, { useRef } from 'react';
 import SelectPicker, { type SelectPickerProps } from '../SelectPicker';
 import { forwardRef, mergeRefs, tplTransform } from '@/internals/utils';

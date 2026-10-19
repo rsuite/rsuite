@@ -188,6 +188,7 @@ const Checkbox = forwardRef<'div', CheckboxProps>((props: CheckboxProps, ref) =>
   }
 
   const checkboxRef = useIndeterminateCheckbox(indeterminate);
+  const mergedInputRef = useMemo(() => mergeRefs(checkboxRef, inputRef), [checkboxRef, inputRef]);
 
   const handleChange = useEventCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const nextChecked = event.target.checked;
@@ -206,6 +207,17 @@ const Checkbox = forwardRef<'div', CheckboxProps>((props: CheckboxProps, ref) =>
     if (!labelClickable && event.target !== checkboxRef.current) {
       event.preventDefault();
     }
+  });
+
+  const handleCheckboxClick = useEventCallback((event: React.MouseEvent<HTMLInputElement>) => {
+    if (readOnly) {
+      event.preventDefault();
+
+      // Keep React's checked tracking in sync with the canceled native activation.
+      event.currentTarget.checked = checked;
+    }
+
+    onCheckboxClick?.(event);
   });
 
   const labelId = useUniqueId('label-');
@@ -229,11 +241,11 @@ const Checkbox = forwardRef<'div', CheckboxProps>((props: CheckboxProps, ref) =>
         name={name}
         value={value}
         type="checkbox"
-        ref={mergeRefs(checkboxRef, inputRef)}
+        ref={mergedInputRef}
         tabIndex={tabIndex}
         readOnly={readOnly}
         disabled={disabled}
-        onClick={onCheckboxClick}
+        onClick={handleCheckboxClick}
         onChange={handleChange}
       />
       <span className={prefix`inner`} aria-hidden data-testid="checkbox-control-inner" />

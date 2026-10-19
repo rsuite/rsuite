@@ -3,7 +3,58 @@
 @use '../../styles/mixins/color-modes' as color-modes;
 @use '../../Loader/styles/mixin' as loader;
 @use '../../Button/styles/index' as button;
+@use '../../Button/styles/mixin' as button-mixin;
 @use './mixin' as uploader-mixin;
+
+:where(.rs-uploader-trigger > input[type='file']:focus-visible) + .rs-uploader-trigger-btn {
+  outline: 2px solid currentcolor;
+  outline-offset: -2px;
+
+  &:where(button, input) {
+    outline-color: ButtonText;
+  }
+
+  :where(.rs-uploader[data-list-type='picture'], .rs-uploader[data-draggable='true'])
+    &:where(button, input) {
+    outline-color: currentcolor;
+  }
+
+  // Attribute matching avoids extending the frame onto custom picture triggers.
+  &[class~='rs-btn'] {
+    --rs-uploader-focus-inner-band: 2px;
+    --rs-uploader-focus-outline-offset: 0px;
+
+    outline-color: CanvasText;
+    outline-offset: var(--rs-uploader-focus-outline-offset);
+
+    @include button-mixin.button-focus-indicator(
+      $high-contrast-inset: 0,
+      $inner-width: var(--rs-uploader-focus-inner-band),
+      $forced-control-offset: var(--rs-uploader-focus-outline-offset),
+      $forced-outline-offset: calc(-2px - var(--rs-uploader-focus-inner-band))
+    );
+
+    @include color-modes.high-contrast-mode {
+      --rs-uploader-focus-inner-band: 1px;
+      --rs-uploader-focus-outline-offset: -1px;
+    }
+
+    &[data-appearance='primary'] {
+      outline-color: var(--rs-btn-primary-foreground);
+    }
+
+    &[data-appearance='ghost'] {
+      --rs-uploader-focus-inner-band: 1px;
+      --rs-uploader-focus-outline-offset: -1px;
+
+      outline-color: CanvasText;
+    }
+
+    @media (forced-colors: active) {
+      outline-color: CanvasText;
+    }
+  }
+}
 
 // Uploader
 // ----------------------
@@ -28,6 +79,65 @@
       position: absolute !important;
       clip: rect(1px 1px 1px 1px);
     }
+  }
+
+  &-file-item-btn-reupload {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--rs-text-link);
+    font: inherit;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--rs-text-link-hover);
+    }
+
+    &:active {
+      color: var(--rs-text-link-active);
+    }
+  }
+
+  &-file-item-btn-preview,
+  &-file-item-title[data-rs-uploader-action='preview'] {
+    appearance: none;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+
+  &-file-item-btn-preview {
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    > img {
+      @include uploader-mixin.img-cover;
+    }
+  }
+
+  &-file-item-btn-preview:disabled,
+  &-file-item-title[data-rs-uploader-action='preview']:disabled {
+    cursor: not-allowed;
+  }
+
+  &:focus-visible,
+  &-file-item:focus-visible,
+  &-file-item:has(.rs-uploader-file-item-btn-preview:focus-visible) {
+    // Keep the outline outside the picture status overlay.
+    outline: 2px solid var(--rs-focus-ring-color);
+    outline-offset: 2px;
+  }
+
+  &-file-item-title[data-rs-uploader-action='preview']:focus-visible,
+  &-file-item-btn-remove:focus-visible,
+  &-file-item-btn-reupload:focus-visible {
+    outline: 2px solid var(--rs-focus-ring-color) !important;
+    outline-offset: -2px;
   }
 
   &-file-item[data-disabled='true'] {
@@ -184,7 +294,6 @@
     border: 2px dotted var(--rs-border-primary);
     border-radius: var(--rs-radius-md);
     margin-top: var(--rs-uploader-picture-item-gap);
-
     width: var(--rs-uploader-picture-side-length);
     height: var(--rs-uploader-picture-side-length);
     margin: 0;
@@ -287,7 +396,7 @@
       background-color: var(--rs-uploader-item-hover-bg);
       border-radius: 50%;
       opacity: 0;
-      visibility: hidden;
+      pointer-events: none;
       transition: opacity 0.3s ease-in;
       display: flex;
       align-items: center;
@@ -300,9 +409,10 @@
       }
     }
 
-    &:hover .rs-uploader-file-item-btn-remove {
+    &:hover .rs-uploader-file-item-btn-remove,
+    &:focus-within .rs-uploader-file-item-btn-remove {
       opacity: 1;
-      visibility: visible;
+      pointer-events: auto;
     }
 
     &-icon-loading {
@@ -341,6 +451,7 @@
     flex-direction: column;
     gap: var(--rs-uploader-item-spacing);
   }
+
   .rs-uploader-file-item {
     position: relative;
     height: var(--rs-uploader-picture-text-preview-side-length);
@@ -392,6 +503,7 @@
 
       .rs-uploader-file-item-title {
         color: var(--rs-text-primary);
+
         @include utils.ellipsis;
       }
 

@@ -8,13 +8,20 @@ const strNone = 'none';
 export function safeSetSelection(
   element: HTMLInputElement,
   selectionStart: number,
-  selectionEnd: number
+  selectionEnd: number,
+  canSetSelection?: () => boolean
 ) {
   if (document.activeElement === element) {
     if (isAndroid()) {
-      requestAnimationFrame(() => element.setSelectionRange(selectionStart, selectionEnd, strNone));
+      requestAnimationFrame(() => {
+        if (!canSetSelection || canSetSelection()) {
+          element.setSelectionRange(selectionStart, selectionEnd, strNone);
+        }
+      });
     } else {
-      element.setSelectionRange(selectionStart, selectionEnd, strNone);
+      if (!canSetSelection || canSetSelection()) {
+        element.setSelectionRange(selectionStart, selectionEnd, strNone);
+      }
     }
   }
 }

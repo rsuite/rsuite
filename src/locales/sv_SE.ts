@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { sv } from 'date-fns/locale/sv';
 
 const DateTimeFormats = {
@@ -24,6 +25,19 @@ const DateTimeFormats = {
   shortDateFormat: 'yyyy-MM-dd',
   shortTimeFormat: 'HH:mm',
   dateLocale: sv as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Föregående månad',
+  nextMonth: 'Nästa månad',
+  selectMonth: 'Välj månad',
+  selectTime: 'Välj tid'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Öppna väljare'
 };
 
 const Combobox = {
@@ -63,10 +77,10 @@ export default {
     skip: 'Gå til{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Senaste 7 dagarna'
   },
   Combobox,
@@ -86,6 +100,15 @@ export default {
   },
   Breadcrumb: {
     expandText: 'Visa väg'
+  },
+  Carousel: {
+    carouselRoleDescription: 'karusell',
+    slideRoleDescription: 'bild',
+    slidePosition: '{0} av {1}',
+    startRotation: 'Starta automatiskt bildbyte',
+    stopRotation: 'Stoppa automatiskt bildbyte',
+    selectSlide: 'Välj bild',
+    slideLabel: 'Bild {0} av {1}'
   },
   Toggle: {
     on: 'På',

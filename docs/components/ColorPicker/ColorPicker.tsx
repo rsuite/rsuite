@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Input, InputGroup } from 'rsuite';
 import loadable from '@loadable/component';
 import styles from './ColorPicker.module.scss';

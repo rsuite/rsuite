@@ -4,7 +4,8 @@ import FormErrorMessage from '../FormErrorMessage';
 import Toggle from '../Toggle';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
-import { useStyles, useCustom } from '@/internals/hooks';
+import { useStyles, useCustom, useIsomorphicLayoutEffect } from '@/internals/hooks';
+import { useFormContext } from '../Form/FormContext';
 import { useFormGroup } from '../FormGroup';
 import { useFormControl } from '../useFormControl';
 import type { CheckType } from 'schema-typed';
@@ -155,7 +156,22 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
     [valueKey]: fieldValue === undefined ? defaultValue : fieldValue
   };
 
+  const {
+    formError,
+    nestedField,
+    errorFromContext,
+    readNativeValidation,
+    commitNativeValidationRetirement
+  } = useFormContext();
+  const nativeRead = readNativeValidation?.(formError, name, !!nestedField);
+  const retirementToken = nativeRead?.retirementToken;
+  useIsomorphicLayoutEffect(() => {
+    if (retirementToken) commitNativeValidationRetirement?.(retirementToken);
+  }, [retirementToken, commitNativeValidationRetirement]);
+
   const hasError = Boolean(fieldError);
+  const nativeInvalid =
+    errorMessage === undefined && errorFromContext && nativeRead?.invalid === true;
 
   return (
     <Box as={as} className={classes} ref={ref} data-testid="form-control-wrapper">
@@ -163,7 +179,7 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
         id={controlId}
         aria-labelledby={labelId}
         aria-describedby={helpTextId}
-        aria-invalid={hasError || undefined}
+        aria-invalid={hasError || nativeInvalid || undefined}
         aria-errormessage={hasError ? errorMessageId : undefined}
         {...accepterProps}
         {...rest}

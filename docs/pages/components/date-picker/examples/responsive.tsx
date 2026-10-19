@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { DatePicker, Box } from 'rsuite';
 
 const App = () => {

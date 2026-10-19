@@ -93,6 +93,7 @@
 
 // Spectrum color classes
 $badge-spectrum: 'red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet', 'pink';
+
 @each $color in $badge-spectrum {
   .rs-badge[data-color='#{$color}'] {
     --rs-badge-bg: var(--rs-#{$color}-500);
@@ -101,6 +102,7 @@ $badge-spectrum: 'red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet', '
 
 // Size classes
 $badge-sizes: 'xs', 'sm', 'md', 'lg', 'xl';
+
 @each $size in $badge-sizes {
   .rs-badge[data-size='#{$size}'] {
     --rs-badge-font-size: var(--rs-badge-font-size-#{$size});

@@ -21,7 +21,7 @@ function findResources(options) {
   const resources = [];
   fs.readdirSync(dir).forEach(item => {
     const itemPath = path.resolve(dir, item);
-    const pathname = itemPath.replace(/[-_a-z0-9]*\//gi, '').replace('.ts', '');
+    const pathname = path.basename(itemPath).replace('.ts', '');
 
     if (fs.statSync(itemPath).isDirectory()) {
       resources.push(pathname);

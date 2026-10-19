@@ -1,4 +1,3 @@
-import React from 'react';
 import classNames from 'classnames';
 import canUseDOM from 'dom-lib/canUseDOM';
 import Bug from '@rsuite/icons/legacy/Bug';

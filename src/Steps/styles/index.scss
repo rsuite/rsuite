@@ -2,7 +2,6 @@
 @use '../../styles/mixins/utilities' as utils;
 @use '../../styles/mixins/color-modes' as color-modes;
 
-//
 // Steps
 // --------------------------------------------------
 .rs-steps {
@@ -34,6 +33,7 @@
   .rs-steps-item-content {
     color: var(--rs-text-secondary);
     display: inline-block;
+
     // Change static to relative, Make `z-index` more than Tail line
     position: relative;
     width: 100%;
@@ -54,7 +54,6 @@
     line-height: var(--rs-steps-title-line-height);
     min-height: var(--rs-steps-title-min-height);
     padding-inline-end: calc(var(--rs-spacing) * 2.5);
-
     display: inline-block;
 
     &:empty {

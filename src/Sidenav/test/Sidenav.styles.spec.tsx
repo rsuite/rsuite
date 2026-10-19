@@ -3,7 +3,7 @@ import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
 import Sidenav from '../Sidenav';
 import { describe, expect, it } from 'vitest';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { getDefaultPalette } from '@test/utils';
 
 import '../styles/index.scss';
@@ -45,25 +45,19 @@ describe('Sidenav styles', () => {
     expect(dropdownMenu).to.have.style('display', 'none');
   });
 
-  it('Should display expanded dropdown menu', async () => {
+  it('Should display expanded dropdown menu', () => {
     render(
-      <Sidenav>
+      <Sidenav defaultOpenKeys={['dropdown']}>
         <Nav>
-          <Dropdown title="Dropdown">
+          <Dropdown eventKey="dropdown" title="Dropdown">
             <Dropdown.Item>Dropdown Item</Dropdown.Item>
           </Dropdown>
         </Nav>
       </Sidenav>
     );
 
-    fireEvent.click(screen.getByText('Dropdown'));
-
     const dropdownMenu = screen.getByText('Dropdown Item').closest('ul');
-
-    await waitFor(() => {
-      expect(dropdownMenu).to.have.class('rs-dropdown-menu-collapse-in');
-    });
-
+    expect(dropdownMenu).to.have.class('rs-dropdown-menu-collapse-in');
     expect(dropdownMenu).to.have.style('display', 'flex');
   });
 

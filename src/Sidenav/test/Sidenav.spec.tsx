@@ -10,8 +10,11 @@ describe('<Sidenav>', () => {
   testStandardProps(<Sidenav />);
 
   it('Should render a navigation', () => {
-    const { container } = render(<Sidenav />);
+    const ref = React.createRef<HTMLElement>();
+    const { container } = render(<Sidenav ref={ref} />);
     expect(container.firstChild).to.have.class('rs-sidenav');
+    expect(container.firstChild).to.have.tagName('NAV');
+    expect(ref.current).toBe(container.firstChild);
   });
 
   it('Should render a navigation with subtle appearance', () => {

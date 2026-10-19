@@ -1,4 +1,5 @@
 import { useReducer } from 'react';
+import type { Dispatch } from 'react';
 import type { Locale, Month } from 'date-fns';
 import { isValid } from 'date-fns/isValid';
 import { modifyDate } from './utils';
@@ -73,8 +74,8 @@ interface Action {
 }
 
 export const useDateField = (format: string, localize: Locale['localize'], date?: Date | null) => {
-  const [dateField, dispatch] = useReducer(
-    (state: DateField, action: Action) => {
+  const [dateField, dispatch]: [DateField, Dispatch<Action>] = useReducer(
+    (state: DateField, action: Action): DateField => {
       switch (action.type) {
         case 'setYear':
           return { ...state, year: action.value };
@@ -97,14 +98,15 @@ export const useDateField = (format: string, localize: Locale['localize'], date?
     new DateField(format, date)
   );
 
-  const toDateString = () => {
+  const toDateString = (type?: string, value?: number | null) => {
+    const fields = typeof type === 'string' ? { ...dateField, [type]: value } : dateField;
     let str = format;
 
     dateField.patternArray.forEach(item => {
       const { key, pattern } = item;
-      const hour = dateField.hour;
+      const hour = fields.hour;
 
-      let value = dateField[key];
+      let value = fields[key];
 
       if (value !== null) {
         if (pattern === 'MMM' && typeof value === 'number') {
@@ -113,7 +115,7 @@ export const useDateField = (format: string, localize: Locale['localize'], date?
           value = localize?.month((value - 1) as Month, { width: 'wide' });
         } else if (pattern === 'aa') {
           if (typeof hour === 'number') {
-            value = hour > 12 ? 'PM' : 'AM';
+            value = hour >= 12 ? 'PM' : 'AM';
           } else {
             value = 'aa';
           }
@@ -192,7 +194,7 @@ export const useDateField = (format: string, localize: Locale['localize'], date?
     }
 
     if (type === 'meridiem' && typeof hour === 'number') {
-      const newHour = hour > 12 ? hour - 12 : hour + 12;
+      const newHour = hour >= 12 ? hour - 12 : hour + 12;
       type = 'hour';
       value = newHour as number;
     }
