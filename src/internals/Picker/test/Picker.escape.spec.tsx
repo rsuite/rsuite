@@ -1,15 +1,22 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from 'vitest/browser';
-import { describe, it, expect, vi } from 'vitest';
+import { afterEach, describe, it, expect, vi } from 'vitest';
 import SelectPicker from '../../../SelectPicker';
 import Modal from '../../../Modal';
 import Drawer from '../../../Drawer';
+import { observePickerTransitions } from './transitionDiagnostics';
 import '../../../SelectPicker/styles/index.scss';
 import '../../../Modal/styles/index.scss';
 import '../../../Drawer/styles/index.scss';
 
 const data = [{ label: 'Alpha', value: 'a' }];
+let transitionDiagnostics: ReturnType<typeof observePickerTransitions> | undefined;
+
+afterEach(() => {
+  transitionDiagnostics?.restore();
+  transitionDiagnostics = undefined;
+});
 
 it('closes a responsive picker once on a normal Escape', async () => {
   const onEntered = vi.fn();
@@ -35,6 +42,7 @@ describe.each([
   ['Drawer', Drawer]
 ] as const)('%s Escape ownership', (name, Component) => {
   it('closes the picker before its surrounding dialog without stopping propagation', async () => {
+    transitionDiagnostics = observePickerTransitions();
     const onEntered = vi.fn();
     const onPickerEntered = vi.fn();
     const onPickerClose = vi.fn();
@@ -85,6 +93,7 @@ describe.each([
           elapsedMs: performance.now() - escapeStartedAt,
           visibility: document.visibilityState,
           documentHasFocus: document.hasFocus(),
+          transition: transitionDiagnostics?.snapshot(),
           callbacks: {
             entered: onPickerEntered.mock.calls.length,
             exit: onPickerExit.mock.calls.length,
