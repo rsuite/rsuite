@@ -67,8 +67,11 @@ build manifest identifies the exact JavaScript and CSS assets, versions and sour
 Timing starts in document capture before the component handles the trusted event. A shared
 MutationObserver and geometry checks detect the visible outcome. `domReadyMs` includes this
 instrumentation; `frameReadyMs` includes two subsequent animation frames and is frame-quantized,
-not a direct measurement of screen presentation. Painted rows are located by viewport hit tests;
-offscreen rows are counted without a per-row geometry scan. Instrumentation cost still depends
+not a direct measurement of screen presentation. Visible options are checked by physical row
+geometry and ancestor clipping, independently of pointer hit testing. Small virtual windows are
+scanned directly; large ordinary lists use bounded indexing under this fixture's uniform,
+DOM-ordered row contract, with first/middle/last geometry checks. Offscreen rows are counted
+without a per-row geometry scan. Instrumentation cost still depends
 on DOM structure. Preserve raw samples and account for it when interpreting differences.
 Nearest-rank p50/p95 values are descriptive, without pass thresholds or confidence claims.
 

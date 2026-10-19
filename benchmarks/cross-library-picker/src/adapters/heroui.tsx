@@ -17,7 +17,7 @@ export default function HerouiAdapter({ items, virtualized, onSelectionChange }:
         <ListBox.Item
           id={item.value}
           textValue={item.label}
-          style={{ height: rowHeight, minHeight: rowHeight, paddingBlock: 0 }}
+          style={{ height: rowHeight, minHeight: rowHeight, paddingBlock: 0, marginBlock: 0 }}
         >
           <OptionLabel item={item} />
         </ListBox.Item>
