@@ -26,7 +26,8 @@ const packages = [
   '@tanstack/react-virtual',
   'tailwindcss',
   'vite',
-  'playwright'
+  'playwright',
+  'axe-core'
 ];
 const versions = Object.fromEntries(
   packages.map(name => {
@@ -34,6 +35,10 @@ const versions = Object.fromEntries(
     return [name, p.version];
   })
 );
+const auditEngine = {
+  version: versions['axe-core'],
+  sourceSHA256: hash(fs.readFileSync(path.join(root, 'node_modules/axe-core/axe.min.js')))
+};
 const builds = {};
 for (const library of libraries) {
   const result = spawnSync(
@@ -71,7 +76,9 @@ for (const library of libraries) {
 }
 if (
   JSON.stringify(sourceInputs) !== JSON.stringify(inputs(root)) ||
-  candidateFingerprint !== packageFingerprint(root)
+  candidateFingerprint !== packageFingerprint(root) ||
+  auditEngine.sourceSHA256 !==
+    hash(fs.readFileSync(path.join(root, 'node_modules/axe-core/axe.min.js')))
 )
   throw new Error('Build inputs changed during build');
 const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim();
@@ -82,6 +89,7 @@ fs.writeFileSync(
       generatedAt: new Date().toISOString(),
       node: process.version,
       versions,
+      auditEngine,
       candidateSourceCommit: git('rev-parse', 'HEAD'),
       candidateWorkingTreeStatus: git('status', '--porcelain', '--untracked-files=all'),
       sourceInputs,

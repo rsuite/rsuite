@@ -24,6 +24,7 @@ export function inputs(root) {
       'tsconfig.json',
       'build.mjs',
       'run.mjs',
+      'audit.mjs',
       'integrity.mjs'
     ].map(name => path.join(root, name))
   ];
