@@ -193,7 +193,7 @@
     --rs-menuitem-bg-active: rgb(from var(--rs-primary-900) r g b / 20%);
     --rs-menuitem-text-active: var(--rs-primary-500);
     --rs-menuitem-active-bg: var(--rs-gray-600);
-    --rs-menuitem-active-text: currentColor;
+    --rs-menuitem-active-text: currentcolor;
 
     // Steps
     --rs-steps-border: var(--rs-gray-200);
@@ -275,7 +275,7 @@
     // ARIA Listboxes
     --rs-listbox-option-group-bg: var(--rs-gray-700);
     --rs-listbox-option-hover-bg: var(--rs-gray-600);
-    --rs-listbox-option-hover-text: currentColor;
+    --rs-listbox-option-hover-text: var(--rs-text-primary);
     --rs-listbox-option-selected-text: var(--rs-primary-500);
     --rs-listbox-option-selected-bg: rgb(from var(--rs-primary-900) r g b / 20%);
     --rs-listbox-option-disabled-text: var(--rs-gray-500);
