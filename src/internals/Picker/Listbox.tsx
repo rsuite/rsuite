@@ -4,13 +4,12 @@ import isString from 'lodash/isString';
 import isNumber from 'lodash/isNumber';
 import findIndex from 'lodash/findIndex';
 import pickBy from 'lodash/pickBy';
-import getPosition from 'dom-lib/getPosition';
 import scrollTop from 'dom-lib/scrollTop';
-import getHeight from 'dom-lib/getHeight';
 import get from 'lodash/get';
 import classNames from 'classnames';
 import ListItemGroup from './ListItemGroup';
 import getOptionKey from './getOptionKey';
+import getOptionId from './getOptionId';
 import useVirtualizedListFocus from './hooks/useVirtualizedListFocus';
 import useActiveDescendant from './hooks/useActiveDescendant';
 import type { VirtualizedListHandle } from './hooks/useVirtualizedListFocus';
@@ -34,13 +33,7 @@ import {
 } from '@/internals/hooks';
 import { shallowEqual, mergeRefs, mergeStyles, getCssValue } from '@/internals/utils';
 import { KEY_GROUP_TITLE } from '@/internals/utils/getDataGroupBy';
-import type {
-  StandardProps,
-  Option,
-  Offset,
-  DataProps,
-  HTMLPropsWithoutSelect
-} from '@/internals/types';
+import type { StandardProps, Option, DataProps, HTMLPropsWithoutSelect } from '@/internals/types';
 interface InnerOption extends Option {
   [RSUITE_PICKER_GROUP_KEY]?: boolean;
 }
@@ -64,7 +57,7 @@ export interface ListboxProps<Multiple = false>
   /** Keep a reconciled logical focus mounted without moving DOM focus. */
   scrollToFocus?: boolean;
   maxHeight?: number;
-  /** Content shown inside an empty listbox. */
+  /** Content shown as a disabled, unselected option in an empty listbox. */
   emptyContent?: React.ReactNode;
 
   listItemAs: React.ElementType | string;
@@ -216,25 +209,33 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
         return;
       }
 
-      let activeItem = container.querySelector(`.${prefix('item-focus')}`);
-
-      if (!activeItem) {
-        activeItem = container.querySelector(`.${prefix('item-active')}`);
-      }
+      const focusId = focusItemValue == null ? undefined : getOptionId(id, focusItemValue);
+      const focusedItem = focusId
+        ? container.querySelector<HTMLElement>(`#${CSS.escape(focusId)}`)
+        : null;
+      const activeItem =
+        focusedItem && container.contains(focusedItem)
+          ? focusedItem
+          : container.querySelector<HTMLElement>(`.${prefix('item-focus')}`) ||
+            container.querySelector<HTMLElement>('[role="option"][aria-selected="true"]') ||
+            container.querySelector<HTMLElement>(`.${prefix('item-active')}`);
 
       if (!activeItem) {
         return;
       }
 
-      const position = getPosition(activeItem, container) as Offset;
-      const sTop = scrollTop(container);
-      const sHeight = getHeight(container);
-      if (sTop > position.top) {
-        scrollTop(container, Math.max(0, position.top - 20));
-      } else if (position.top > sTop + sHeight) {
-        scrollTop(container, Math.max(0, position.top - sHeight + 32));
+      const option = activeItem.closest<HTMLElement>('[role="option"]');
+      const optionBounds = (
+        option && container.contains(option) ? option : activeItem
+      ).getBoundingClientRect();
+      const contentTop = container.getBoundingClientRect().top + container.clientTop;
+      const contentBottom = contentTop + container.clientHeight;
+      if (optionBounds.top < contentTop) {
+        scrollTop(container, scrollTop(container) + optionBounds.top - contentTop);
+      } else if (optionBounds.bottom > contentBottom) {
+        scrollTop(container, scrollTop(container) + optionBounds.bottom - contentBottom);
       }
-    }, [focusItemValue, menuBodyContainerRef, prefix]);
+    }, [focusItemValue, id, prefix]);
 
     const filteredItems = groupable
       ? data.filter(item => {
@@ -371,7 +372,12 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
         {...rest}
       >
         {rowCount === 0 ? (
-          emptyContent
+          emptyContent != null &&
+          typeof emptyContent !== 'boolean' && (
+            <div role="option" aria-disabled="true" aria-selected="false">
+              {emptyContent}
+            </div>
+          )
         ) : virtualized ? (
           <ItemRendererProvider value={renderItem}>
             <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>

@@ -71,7 +71,12 @@ describe.each(components)('$name editable input semantics', ({ Picker }) => {
       expect(document.getElementById(input.getAttribute('aria-controls')!)).to.equal(
         document.querySelector('.rs-picker-listbox')
       );
-      expect(screen.queryAllByRole('option')).to.have.length(0);
+      const notice = screen.getByRole('option', { name: 'No results found' });
+      expect(screen.queryAllByRole('option')).to.have.length(1);
+      expect(notice).to.have.attr('aria-disabled', 'true');
+      expect(notice).to.have.attr('aria-selected', 'false');
+      expect(notice).not.to.have.attr('data-key');
+      expect(notice).not.to.have.attr('tabindex');
       expect(screen.getByText('No results found')).to.exist;
     }
   );

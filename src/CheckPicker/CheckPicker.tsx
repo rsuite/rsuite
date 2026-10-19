@@ -310,9 +310,11 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
         items = items.sort(sort(false));
       }
 
+      // Remount result lists after an empty state to retain selected-item initialization.
       const listbox =
         items.length || filteredStickyItems.length ? (
           <Listbox<true>
+            key="results"
             disabled={disabled || rest.readOnly || rest.loading}
             listProps={listProps}
             listRef={list}
@@ -336,7 +338,13 @@ const CheckPicker = forwardRef<'div', CheckPickerProps>(
             query={searchKeyword}
           />
         ) : (
-          <div className={prefix`none`}>{locale?.noResultsText}</div>
+          <Listbox<true>
+            key="empty"
+            classPrefix="picker-check-menu"
+            listItemAs={ListCheckItem}
+            maxHeight={listboxMaxHeight}
+            emptyContent={<div className={prefix`none`}>{locale?.noResultsText}</div>}
+          />
         );
 
       return (
