@@ -1,16 +1,23 @@
 import React, { useRef, useEffect, useState, useCallback, useSyncExternalStore } from 'react';
-import classNames from 'classnames';
 import contains from 'dom-lib/contains';
 import on from 'dom-lib/on';
-import ModalManager, { ModalInstance } from './ModalManager';
 import getTabbableElements from './getTabbableElements';
-import Fade from '../../Animation/Fade';
+import useModalManager from './useModalManager';
+import renderModalBackdrop from './ModalBackdrop';
 import Box, { BoxProps } from '@/internals/Box';
 import { OverlayProvider } from './OverlayProvider';
 import { KEY_VALUES } from '@/internals/constants';
 import { usePortal, useWillUnmount, useEventCallback } from '@/internals/hooks';
 import { forwardRef, mergeRefs, createChainedFunction, isComposingEvent } from '@/internals/utils';
 import type { AnimationEventProps } from '@/internals/types';
+import {
+  restoreModalFocus,
+  finishModalExit,
+  getModalDialog,
+  clearModalTabNavigation,
+  moveModalFocus,
+  handleModalFocusGuard
+} from './modalCallbacks';
 
 export interface BaseModalProps
   extends Omit<BoxProps, 'children' | 'transition' | 'color' | 'overflow'>,
@@ -76,37 +83,9 @@ export interface BaseModalProps
   onBackdropClick?: React.MouseEventHandler;
 }
 
-let manager: ModalManager;
-
 const subscribeToClientRender = () => () => {};
 const getClientSnapshot = () => true;
 const getServerSnapshot = () => false;
-
-function getManager() {
-  if (!manager) manager = new ModalManager();
-  return manager;
-}
-
-const useModalManager = () => {
-  const modalManager = getManager();
-  const modal = useRef<ModalInstance>({ dialog: null, backdrop: null });
-
-  return {
-    get dialog() {
-      return modal.current?.dialog;
-    },
-    add: (containerElement: HTMLElement, containerClassName?: string) =>
-      modalManager.add(modal.current, containerElement, containerClassName),
-    remove: () => modalManager.remove(modal.current),
-    isTopModal: () => modalManager.isTopModal(modal.current),
-    setDialogRef: useCallback((ref: HTMLElement | null) => {
-      modal.current.dialog = ref;
-    }, []),
-    setBackdropRef: useCallback((ref: HTMLElement | null) => {
-      modal.current.backdrop = ref;
-    }, [])
-  };
-};
 
 const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) => {
   const {
@@ -164,34 +143,17 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
   const tabNavigation = useRef<{ source: Element | null; backwards: boolean } | null>(null);
   const tabNavigationTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  const clearTabNavigation = () => {
-    clearTimeout(tabNavigationTimer.current);
-    tabNavigation.current = null;
-  };
-
-  const focusNext = (source: Element | null, backwards: boolean) => {
-    const dialog = modal.dialog;
-    if (!dialog) return;
-    const elements = getTabbableElements(dialog, backwards, source);
-    const index = elements.indexOf(source as HTMLElement);
-    const next =
-      index < 0
-        ? backwards
-          ? elements[elements.length - 1]
-          : elements[0]
-        : elements[(index + (backwards ? -1 : 1) + elements.length) % elements.length];
-    (next || dialog).focus();
-  };
-
-  const handleFocusGuard = (event: React.FocusEvent) => {
-    if (!enforceFocus || !modal.isTopModal()) return;
-    const navigation = tabNavigation.current;
-    clearTabNavigation();
-    focusNext(
-      navigation?.source || null,
-      navigation?.backwards ?? event.target === startGuard.current
-    );
-  };
+  const clearTabNavigation = clearModalTabNavigation.bind(null, tabNavigationTimer, tabNavigation);
+  const focusNext = moveModalFocus.bind(null, modal);
+  const handleFocusGuard = handleModalFocusGuard.bind(
+    null,
+    enforceFocus,
+    modal,
+    tabNavigation,
+    clearTabNavigation,
+    focusNext,
+    startGuard
+  );
 
   const handleDocumentKeyDown = useEventCallback((event: React.KeyboardEvent) => {
     if (!modal.isTopModal() || isComposingEvent(event)) return;
@@ -227,12 +189,7 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
     }
   });
 
-  const restoreLastFocus = useCallback(() => {
-    if (lastFocus.current) {
-      lastFocus.current.focus?.();
-      lastFocus.current = null;
-    }
-  }, []);
+  const restoreLastFocus = useCallback(restoreModalFocus.bind(null, lastFocus), []);
 
   /**
    * Determines if the currently focused element is inside the dialog,
@@ -321,48 +278,15 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
     handleClose();
   });
 
-  const handleExited = useCallback(() => {
-    setExited(true);
-    // Release the focus trap before consumers choose their next focus destination.
-    handleClose();
-  }, [handleClose]);
+  const handleExited = useCallback(finishModalExit.bind(null, setExited, handleClose), [
+    handleClose
+  ]);
 
-  const overlayContainer = useCallback(() => {
-    return modal.dialog;
-  }, [modal.dialog]);
+  const overlayContainer = useCallback(getModalDialog.bind(null, modal), [modal.dialog]);
 
   if (!mountModal) {
     return null;
   }
-
-  const renderBackdrop = () => {
-    if (Transition) {
-      return (
-        <Fade
-          transitionAppear
-          in={open}
-          timeout={backdropTransitionTimeout}
-          reduceMotion={reduceMotion}
-        >
-          {(fadeProps, ref) => {
-            const { className, ...rest } = fadeProps;
-            return (
-              <div
-                aria-hidden
-                data-testid="backdrop"
-                {...rest}
-                style={backdropStyle}
-                ref={mergeRefs(modal.setBackdropRef, ref)}
-                className={classNames(backdropClassName, className)}
-              />
-            );
-          }}
-        </Fade>
-      );
-    }
-
-    return <div aria-hidden style={backdropStyle} className={backdropClassName} />;
-  };
 
   const dialogElement = Transition ? (
     <Transition
@@ -397,7 +321,16 @@ const Modal = forwardRef<'div', BaseModalProps, any, 'children'>((props, ref) =>
   return (
     <OverlayProvider overlayContainer={overlayContainer}>
       <Portal>
-        {backdrop && renderBackdrop()}
+        {backdrop &&
+          renderModalBackdrop({
+            transition: Transition,
+            open,
+            timeout: backdropTransitionTimeout,
+            reduceMotion,
+            style: backdropStyle,
+            className: backdropClassName,
+            setRef: modal.setBackdropRef
+          })}
         <Box
           as={as}
           {...rest}
