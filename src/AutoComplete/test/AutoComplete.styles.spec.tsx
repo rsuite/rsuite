@@ -33,7 +33,7 @@ describe('AutoComplete styles', () => {
     const focusedBgColor = getComputedStyle(
       screen.getByTestId('focused-background')
     ).backgroundColor;
-    expect(options[0].firstChild).to.have.style('color', toRGB('#1675e0'));
+    expect(options[0].firstChild).to.have.style('color', toRGB('#0a5dc2'));
     expect(options[0].firstChild).to.have.style('background-color', focusedBgColor);
 
     // Unfocused option
