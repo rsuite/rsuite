@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  padding: 40px;
+  background: white;
+}
+.benchmark-host {
+  width: 240px;
+  font:
+    14px Arial,
+    sans-serif;
+}
+.benchmark-option-label {
+  display: block;
+  line-height: 36px;
+  white-space: nowrap;
+}
+.benchmark-popup {
+  font:
+    14px Arial,
+    sans-serif;
+}
+.benchmark-host output {
+  display: block;
+  margin-top: 24px;
+}
+.rs-picker-select-menu-item {
+  height: 36px;
+  padding-block: 0;
+}
