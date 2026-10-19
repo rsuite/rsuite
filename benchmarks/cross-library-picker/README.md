@@ -93,3 +93,8 @@ behavior, overall component coverage, or application-wide performance. Those acc
 remain separate. Browser errors and failed cases are retained with screenshots and diagnostics;
 the runner exits nonzero if any case fails. Results apply to their measured workloads.
 Generated builds, raw results, screenshots and installed dependencies stay untracked.
+
+Failed cases are saved before collecting artifacts. Screenshot and state probes each have a
+three-second diagnostic deadline; capture failures are recorded separately from the original
+workload error. The failed status, primary error and navigation/interaction deadlines are
+preserved. `npm run check` also exercises stalled/erroring probes.
