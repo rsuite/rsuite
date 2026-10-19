@@ -96,6 +96,8 @@ async function createConfig() {
         exclude: [
           'coverage/**',
           'dist/**',
+          // This standalone fixture installs its optional competitors separately.
+          'benchmarks/cross-library-picker/**',
           '**/node_modules/**',
           '**/[.]**',
           'packages/*/test?(s)/**',
