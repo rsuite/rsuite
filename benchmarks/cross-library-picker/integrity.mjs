@@ -15,8 +15,10 @@ export function filesUnder(root) {
 export function inputs(root) {
   const files = [
     ...filesUnder(path.join(root, 'src')),
+    ...filesUnder(path.join(root, 'async')),
     ...filesUnder(path.join(root, 'runner')),
     ...[
+      '.npmrc',
       'index.html',
       'vite.config.mjs',
       'package.json',
@@ -25,6 +27,8 @@ export function inputs(root) {
       'build.mjs',
       'run.mjs',
       'audit.mjs',
+      'async.mjs',
+      'build-async.mjs',
       'integrity.mjs'
     ].map(name => path.join(root, name))
   ];

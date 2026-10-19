@@ -70,6 +70,44 @@ all components or relative leadership. Manual assessment remains required. Acces
 runs do not produce timing comparisons. `npm run check` covers failure aggregation, invalid
 references and a nonresponsive browser audit in addition to diagnostic artifact deadlines.
 
+## Async application workflow
+
+Run separate production entries for the same four pinned adapters:
+
+    npm run test:async -- --browser chromium --output results/async-chromium.json
+    npm run test:async -- --browser firefox --output results/async-firefox.json
+
+Both ordinary and virtualized menus run by default. `--libraries`, `--modes`, `--scenarios`
+and `--skip-build` can select a documented subset; the report records that configuration.
+The initial collection has 1,000 items. Browser-intercepted HTTP requests return the same
+30-result collections, including a disabled second item, for every adapter. This is a
+deterministic server substitute, not a measurement of networking speed.
+
+The shared application owns fetch, response validation, latest-response ordering, a
+pending/error announcement and controlled selection. These are not credited as library
+features. Each adapter uses public APIs: RSuite `data`/`onSearch`/`value`, Ant Design
+`options`/`showSearch`/`value`, Chakra's collection/input/value callbacks, and HeroUI's
+`items`/`onInputChange`/`selectedKey`. Server results are not filtered again locally.
+
+The response-order case delivers a newer query before its predecessor, then uses native
+keys to skip the disabled result and select the third one. The recovery case selects an
+item, receives HTTP 500, receives an empty collection, and selects from a later successful
+response. The target workflow retains selection during an independent search. Editable
+combobox and separate-search dropdown designs may require different application composition
+to achieve that target; a failed retention expectation alone does not establish a defect.
+
+Checkpoints wait for animations and two frames. Final selection also waits for all
+selection-triggered requests. Reports retain snapshots, existing ID references, native input
+and keyboard trust, request/selection logs, original errors and bounded failure artifacts.
+Missing states/cases, runtime errors, or unmet workflow expectations exit 1. Failed cases
+stop at their first unmet expectation; later steps in those cases are not assessed. Counts
+are case outcomes, not unique defects or library scores. No timing, library-wide ranking,
+screen-reader, IME, mobile or accessibility-conformance conclusion is produced.
+
+The async entries have their own build manifest and output directory. The original timing
+entries remain separate. Rebuild after changing source or the installed candidate package;
+`--skip-build` rejects stale source/package fingerprints or modified built assets.
+
 ## Workload and completion
 
 Every adapter receives the same stable string values and plain ASCII labels. Every hundredth

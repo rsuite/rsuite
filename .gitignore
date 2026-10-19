@@ -56,6 +56,7 @@ node_modules
 
 # build
 lib/
+benchmarks/cross-library-picker/async-dist/
 *.tsbuildinfo
 
 # test screenshots (visual regression baselines generated at runtime)

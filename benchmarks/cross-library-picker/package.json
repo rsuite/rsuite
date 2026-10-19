@@ -4,9 +4,11 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
-    "check": "tsc --noEmit && node --test runner/diagnostics.test.mjs runner/accessibility.test.mjs",
+    "check": "tsc --noEmit && node --test runner/diagnostics.test.mjs runner/accessibility.test.mjs runner/async-report.test.mjs",
     "bench": "node run.mjs",
-    "audit:a11y": "node audit.mjs"
+    "audit:a11y": "node audit.mjs",
+    "build:async": "node build-async.mjs",
+    "test:async": "node async.mjs"
   },
   "dependencies": {
     "@chakra-ui/react": "3.37.0",
