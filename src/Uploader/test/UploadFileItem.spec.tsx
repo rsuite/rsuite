@@ -76,7 +76,7 @@ describe('UploadFileItem', () => {
     const onPreview = vi.fn();
     render(<UploadFileItem file={file} onPreview={onPreview} listType="picture-text" />);
 
-    fireEvent.click(screen.getByLabelText('Preview: file.txt'));
+    fireEvent.click(screen.getByText('file.txt'));
 
     expect(onPreview).toHaveBeenCalledTimes(1);
   });
@@ -84,7 +84,7 @@ describe('UploadFileItem', () => {
   it('Should not call onPreview callback if `disabled=true`', () => {
     const onPreview = vi.fn();
     render(<UploadFileItem file={file} onPreview={onPreview} listType="picture-text" disabled />);
-    fireEvent.click(screen.getByLabelText('Preview: file.txt'));
+    fireEvent.click(screen.getByText('file.txt'));
 
     expect(onPreview).not.toHaveBeenCalled();
   });

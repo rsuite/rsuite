@@ -2,6 +2,9 @@
   "name": "with-nextjs-pages",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,7 +12,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "^15.1.0",
+    "next": "^15.5.27",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "rsuite": "^6.1.0"
@@ -21,5 +24,8 @@
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^10.0.0",
     "typescript": "^5.7.0"
+  },
+  "overrides": {
+    "postcss": "^8.5.23"
   }
 }

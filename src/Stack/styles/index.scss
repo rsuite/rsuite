@@ -28,32 +28,35 @@
 
   &-column {
     --rs-stack-align: flex-start;
+
     flex-direction: column;
   }
 
   &-row {
     --rs-stack-align: center;
+
     flex-direction: row;
   }
 
   &-column-reverse {
     --rs-stack-align: flex-start;
+
     flex-direction: column-reverse;
   }
 
   &-row-reverse {
     --rs-stack-align: center;
+
     flex-direction: row-reverse;
   }
 
-  &[data-wrap="true"] {
+  &[data-wrap='true'] {
     flex-wrap: wrap;
   }
 
   @include responsive-direction(xs);
 
   // Small grid
-  //
   // Columns, offsets, pushes, and pulls for the small device range, from phones
   // to tablets / phones.
 

@@ -1,7 +1,7 @@
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState } from 'react';
 import { useEventCallback } from '@/internals/hooks';
 import { KEY_VALUES } from '@/internals/constants';
-import { clampValue, decimals } from '../utils/number';
+import { clampValue, decimals, restoreDecimalSeparator, toNumber } from '../utils/number';
 import { useWheelHandler } from './useWheelHandler';
 
 export interface UseEventsParams {
@@ -36,18 +36,26 @@ export function useEvents(params: UseEventsParams) {
   const getSafeValue = (value: number | string) => clampValue(value, min, max);
 
   const onStepUp = useEventCallback((event: React.SyntheticEvent) => {
-    const val = +(value || 0);
+    const val = toNumber(value || 0, decimalSeparator);
     const bit = decimals(val, step);
     onChangeValue(getSafeValue((val + step).toFixed(bit)), event);
   });
 
   const onStepDown = useEventCallback((event: React.SyntheticEvent) => {
-    const val = +(value || 0);
+    const val = toNumber(value || 0, decimalSeparator);
     const bit = decimals(val, step);
     onChangeValue(getSafeValue((val - step).toFixed(bit)), event);
   });
 
   const onKeyDown = useEventCallback((event: React.KeyboardEvent) => {
+    if (
+      event.defaultPrevented ||
+      event.nativeEvent.isComposing ||
+      event.nativeEvent.keyCode === 229
+    ) {
+      return;
+    }
+
     switch (event.key) {
       case KEY_VALUES.UP:
         event.preventDefault();
@@ -77,43 +85,31 @@ export function useEvents(params: UseEventsParams) {
 
   const handleWheel = useEventCallback((event: React.WheelEvent<HTMLInputElement>) => {
     if (!scrollable) {
-      event.preventDefault();
       return;
     }
-    if (!disabled && !readOnly && event.target === document.activeElement) {
-      event.preventDefault();
-      const delta: number = (event as any).wheelDelta || -event.deltaY || -event.detail;
-      if (delta > 0) {
-        onStepDown(event);
-      }
-      if (delta < 0) {
-        onStepUp(event);
-      }
-    }
     onWheelProp?.(event);
+
+    if (
+      event.defaultPrevented ||
+      disabled ||
+      readOnly ||
+      event.target !== document.activeElement ||
+      event.deltaY === 0
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    if (event.deltaY > 0) {
+      onStepDown(event);
+    }
+    if (event.deltaY < 0) {
+      onStepUp(event);
+    }
   });
 
-  const restoreDecimalSeparator = useCallback(
-    (value: string) => {
-      if (decimalSeparator && value) {
-        // Handle both custom decimalSeparator and standard decimal point '.'
-        if (decimalSeparator !== '.') {
-          // Create a regex that matches both the custom separator and '.'
-          const separatorRegex = new RegExp(
-            `[${decimalSeparator.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}.]`,
-            'g'
-          );
-          return value.replace(separatorRegex, '.');
-        }
-        return value;
-      }
-      return value;
-    },
-    [decimalSeparator]
-  );
-
   const onBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    const value = restoreDecimalSeparator(event.target?.value);
+    const value = restoreDecimalSeparator(event.target?.value, decimalSeparator);
 
     const targetValue = Number.parseFloat(value);
     onChangeValue(getSafeValue(targetValue), event);

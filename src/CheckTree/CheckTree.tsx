@@ -106,6 +106,7 @@ const CheckTree = forwardRef<'div', CheckTreeProps>((props, ref: React.Ref<HTMLD
         value={value}
         cascade={cascade}
         data={treeData}
+        sourceData={data}
         loadingNodeValues={loadingNodeValues}
         flattenedNodes={flattenedNodes}
         uncheckableItemValues={uncheckableItemValues}

@@ -137,6 +137,7 @@ const CascadeTree = forwardRef<'div', CascadeTreeProps>(
         {searchable && (
           <SearchView
             data={items}
+            value={value}
             searchKeyword={searchKeyword}
             valueKey={valueKey}
             labelKey={labelKey}

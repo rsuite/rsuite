@@ -1,4 +1,3 @@
-import React from 'react';
 import DefaultPage from '@/components/layout/Page';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 import ImportGuide from '@/components/ImportGuide';

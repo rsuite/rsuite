@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { th } from 'date-fns/locale/th';
 
 const DateTimeFormats = {
@@ -25,6 +26,19 @@ const DateTimeFormats = {
   shortTimeFormat: 'HH:mm',
 
   dateLocale: th as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'เดือนก่อนหน้า',
+  nextMonth: 'เดือนถัดไป',
+  selectMonth: 'เลือกเดือน',
+  selectTime: 'เลือกเวลา'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'เปิดตัวเลือก'
 };
 
 const Combobox = {
@@ -64,10 +78,10 @@ export default {
     skip: 'ไปยัง {0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: '7 วันที่ผ่านมา'
   },
   Combobox,
@@ -87,6 +101,15 @@ export default {
   },
   Breadcrumb: {
     expandText: 'แสดงเส้นทาง'
+  },
+  Carousel: {
+    carouselRoleDescription: 'ภาพสไลด์',
+    slideRoleDescription: 'สไลด์',
+    slidePosition: '{0} จาก {1}',
+    startRotation: 'เริ่มเปลี่ยนสไลด์อัตโนมัติ',
+    stopRotation: 'หยุดเปลี่ยนสไลด์อัตโนมัติ',
+    selectSlide: 'เลือกสไลด์',
+    slideLabel: 'สไลด์ {0} จาก {1}'
   },
   Toggle: {
     on: 'เปิด',

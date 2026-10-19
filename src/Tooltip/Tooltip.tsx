@@ -1,10 +1,13 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useContext } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeStyles } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
 import type { Placement } from '@/internals/types';
+import { TooltipDescriptionObserverContext } from '@/internals/Overlay/TooltipDescriptionContext';
 
-export interface TooltipProps extends BoxProps {
+export interface TooltipProps
+  extends BoxProps,
+    Pick<React.HTMLAttributes<HTMLElement>, 'id' | 'role'> {
   /** Dispaly placement */
   placement?: Placement;
 
@@ -24,7 +27,14 @@ export interface TooltipProps extends BoxProps {
  * @see https://rsuitejs.com/components/tooltip
  */
 const Tooltip = forwardRef<'div', TooltipProps>((props: TooltipProps, ref) => {
-  const { propsWithDefaults } = useCustom('Tooltip', props);
+  const description = useContext(TooltipDescriptionObserverContext);
+  let propsForDefaults = props;
+  // An absent automatic ID must not override an authored provider default.
+  if (description && props.id === undefined) {
+    propsForDefaults = { ...props };
+    delete propsForDefaults.id;
+  }
+  const { propsWithDefaults } = useCustom('Tooltip', propsForDefaults);
   const {
     as,
     className,
@@ -33,6 +43,7 @@ const Tooltip = forwardRef<'div', TooltipProps>((props: TooltipProps, ref) => {
     style,
     visible,
     arrow = true,
+    id,
     ...rest
   } = propsWithDefaults;
 
@@ -45,9 +56,19 @@ const Tooltip = forwardRef<'div', TooltipProps>((props: TooltipProps, ref) => {
   );
 
   return (
-    <Box as={as} role="tooltip" {...rest} ref={ref} className={classes} style={styles}>
-      {children}
-    </Box>
+    <TooltipDescriptionObserverContext.Provider value={undefined}>
+      <Box
+        as={as}
+        role="tooltip"
+        {...rest}
+        id={id ?? description?.id}
+        ref={ref}
+        className={classes}
+        style={styles}
+      >
+        {children}
+      </Box>
+    </TooltipDescriptionObserverContext.Provider>
   );
 });
 

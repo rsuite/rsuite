@@ -7,9 +7,10 @@ $H050: palette($primary-color, 50);
 $H100: palette($primary-color, 100);
 $H200: palette($primary-color, 200);
 $H300: palette($primary-color, 300);
+
 // Generate a distinct color for level 400 using the palette function instead of using base color
 $H400: palette($primary-color, 400);
-$H500: $primary-color;  // Level 500 uses the base color directly
+$H500: $primary-color; // Level 500 uses the base color directly
 $H600: palette($primary-color, 600);
 $H700: palette($primary-color, 700);
 $H800: palette($primary-color, 800);

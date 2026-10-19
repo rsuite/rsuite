@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import upperFirst from 'lodash/upperFirst';
 import { forwardRef } from '@/internals/utils';

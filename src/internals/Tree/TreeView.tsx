@@ -31,9 +31,9 @@ const TreeView = forwardRef<'div', TreeViewProps>((props, ref) => {
   // If the tree is virtualized, the scroll shadow is not needed.
   const treeAs = scrollShadow && !virtualized ? ScrollShadowView : as;
 
-  // If the tree is virtualized, the height is not needed.
+  // The virtual list manages its own viewport height.
   const viewStyles = mergeStyles(style, {
-    '--rs-tree-view-height': virtualized ? undefined : getCssValue(height)
+    '--rs-tree-view-height': virtualized ? 'none' : getCssValue(height)
   });
 
   return (

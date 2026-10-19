@@ -7,3 +7,11 @@
     }
   }
 }
+
+@mixin reduce-motion {
+  &.rs-placeholder-graph,
+  .rs-placeholder-paragraph-graph,
+  .rs-placeholder-row {
+    animation: none;
+  }
+}

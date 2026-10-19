@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { arSA } from 'date-fns/locale/ar-SA';
 
 const DateTimeFormats = {
@@ -20,6 +21,19 @@ const DateTimeFormats = {
   shortDateFormat: 'MM/dd/yyyy',
   shortTimeFormat: 'HH:mm aa',
   dateLocale: arSA as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'الشهر السابق',
+  nextMonth: 'الشهر التالي',
+  selectMonth: 'اختر الشهر',
+  selectTime: 'اختر الوقت'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'فتح أداة الاختيار'
 };
 
 const Combobox = {
@@ -60,10 +74,10 @@ export default {
     skip: 'اذهب إل {0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'أخر 7 أيام'
   },
   Combobox,
@@ -83,6 +97,15 @@ export default {
   },
   Breadcrumb: {
     expandText: 'عرض المسار'
+  },
+  Carousel: {
+    carouselRoleDescription: 'عرض شرائح',
+    slideRoleDescription: 'شريحة',
+    slidePosition: '{0} من {1}',
+    startRotation: 'بدء التبديل التلقائي للشرائح',
+    stopRotation: 'إيقاف التبديل التلقائي للشرائح',
+    selectSlide: 'اختيار شريحة',
+    slideLabel: 'الشريحة {0} من {1}'
   },
   Toggle: {
     on: 'إيقاف',

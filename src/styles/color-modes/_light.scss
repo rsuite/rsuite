@@ -111,7 +111,8 @@
   --rs-btn-default-disabled-bg: var(--rs-gray-50);
   --rs-btn-default-disabled-text: var(--rs-gray-600);
   --rs-btn-primary-bg: var(--rs-primary-500);
-  --rs-btn-primary-text: var(--rs-gray-0);
+  --rs-btn-primary-text: initial;
+  --rs-btn-primary-text-fallback: var(--rs-gray-0);
   --rs-btn-primary-border-color: var(--rs-primary-600);
   --rs-btn-primary-hover-bg: var(--rs-primary-600);
   --rs-btn-primary-active-bg: var(--rs-primary-700);
@@ -387,7 +388,7 @@
 
   // Table
   --rs-table-border-color: var(--rs-border-secondary);
-  --rs-table-shadow: rgba(9, 9, 9, 0.08);
+  --rs-table-shadow: rgb(9 9 9 / 8%);
   --rs-table-sort: var(--rs-primary-500);
   --rs-table-resize: var(--rs-primary-500);
   --rs-table-scrollbar-track: var(--rs-gray-200);
@@ -416,13 +417,13 @@
   --rs-calendar-cell-selected-hover-bg: var(--rs-primary-700);
 
   // Popover
-  --rs-popover-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
+  --rs-popover-shadow: 0 1px 8px rgb(0 0 0 / 12%);
 
   // Tree
-  --rs-tree-indent-line-color: rgba(0, 0, 0, 0.1);
+  --rs-tree-indent-line-color: rgb(0 0 0 / 10%);
 
   // ScrollView
-  --rs-scroll-view-shadow-color: rgba(9, 9, 9, 0.2);
+  --rs-scroll-view-shadow-color: rgb(9 9 9 / 20%);
 
   // Stat
   --rs-stat-body-bg: var(--rs-gray-0);

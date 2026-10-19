@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const SupportVersion = ({ minVersion }: { minVersion: string }) => {
   return (
     <img

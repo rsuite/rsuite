@@ -1,3 +1,15 @@
+## [6.2.5](https://github.com/rsuite/rsuite/compare/v6.2.4...v6.2.5) (2026-10-04)
+
+
+### Bug Fixes
+
+* **ButtonGroup:** support Badge-wrapped buttons ([#4605](https://github.com/rsuite/rsuite/issues/4605)) ([684e17d](https://github.com/rsuite/rsuite/commit/684e17d440c30223d29b17b504289fd8219e3fdd))
+* **DateRangePicker:** clear value on Backspace ([#4602](https://github.com/rsuite/rsuite/issues/4602)) ([cc79b66](https://github.com/rsuite/rsuite/commit/cc79b66600dcb2e071ea137cb88bcd9fe36bb1d6)), closes [#4601](https://github.com/rsuite/rsuite/issues/4601)
+* **useDialog:** support Enter and Escape keyboard actions ([#4604](https://github.com/rsuite/rsuite/issues/4604)) ([3f5adff](https://github.com/rsuite/rsuite/commit/3f5adffcddd387060045d95de9e1323e117b3673))
+* **useMediaQuery:** support dynamic enabled changes ([#4606](https://github.com/rsuite/rsuite/issues/4606)) ([fd24054](https://github.com/rsuite/rsuite/commit/fd240542630692ae9512348de14572f47b7fdb88))
+
+
+
 ## [6.2.4](https://github.com/rsuite/rsuite/compare/v6.2.3...v6.2.4) (2026-08-21)
 
 

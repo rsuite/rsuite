@@ -64,6 +64,7 @@
   &.rs-btn {
     // Force set style even if has `.btn`.
     @include dropdown-toggle;
+
     display: inline-flex;
     align-items: center;
     gap: calc(var(--rs-spacing) * 1.5);
@@ -86,11 +87,12 @@
   outline: 0;
 
   &:focus-visible {
-    @include utils.focus-ring();
+    @include utils.focus-ring;
   }
 
   .rs-dropdown & {
     position: absolute;
+
     // dropdown-menu zindex value is greater than dropdown-toggle
     z-index: calc(var(--rs-zindex-dropdown) + 1);
     float: inline-start;
@@ -121,7 +123,7 @@
   color: var(--rs-text-primary);
   border-radius: var(--rs-radius-sm);
   white-space: nowrap; // prevent links from randomly breaking onto new lines
-  cursor: pointer; //fixed link has not [href] style
+  cursor: pointer; // fixed link has not [href] style
   text-decoration: none;
 
   &:focus,
@@ -247,7 +249,7 @@
 
   // Open
   &[data-open='true'] > .rs-dropdown-menu {
-    //use display table to fix-content
+    // use display table to fix-content
     display: table;
     animation-name: slideUpIn;
     animation-play-state: running;

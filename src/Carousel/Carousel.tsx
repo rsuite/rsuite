@@ -1,18 +1,25 @@
-import React, { useState, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import Box, { BoxProps } from '@/internals/Box';
-import {
-  useStyles,
-  useCustom,
-  useControlled,
-  useUpdateEffect,
-  useTimeout
-} from '@/internals/hooks';
-import { forwardRef, guid, rch, mergeRefs } from '@/internals/utils';
+import { useStyles, useCustom, useControlled, useUniqueId } from '@/internals/hooks';
+import { forwardRef, rch, mergeRefs } from '@/internals/utils';
 import type { ReactElement } from '@/internals/types';
+import enGB from '../locales/en_GB';
+import type { CarouselLocale } from '../locales';
+import useCarouselAutoplay from './useCarouselAutoplay';
+import CarouselRotationControl from './CarouselRotationControl';
 
-export interface CarouselProps extends BoxProps {
-  /** Autoplay element */
+// React 18 forwards inert as a string; React 19 treats it as a boolean attribute.
+// The nonempty attribute-name value works in both renderers, including SSR.
+const inertValue = 'inert' as unknown as boolean;
+
+export interface CarouselProps
+  extends BoxProps,
+    Pick<
+      React.HTMLAttributes<HTMLElement>,
+      'role' | 'aria-roledescription' | 'onFocusCapture' | 'onPointerEnter' | 'onPointerLeave'
+    > {
+  /** Automatically rotate slides. Focus pauses rotation until the user restarts it. */
   autoplay?: boolean;
 
   /** Autoplay interval */
@@ -30,6 +37,12 @@ export interface CarouselProps extends BoxProps {
   /** Defaul initial index */
   defaultActiveIndex?: number;
 
+  /**
+   * Accessible names and role descriptions.
+   * slideLabel and slidePosition support {0} for the position and {1} for the total.
+   */
+  locale?: CarouselLocale;
+
   /** Callback fired when the active item manually changes */
   onSelect?: (index: number, event: React.ChangeEvent<HTMLInputElement>) => void;
 
@@ -44,22 +57,28 @@ export interface CarouselProps extends BoxProps {
  * The Carousel component is used to display a series of content.
  * @see https://rsuitejs.com/components/carousel
  */
-const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) => {
+const Carousel = forwardRef<'div', CarouselProps>((props, ref) => {
   const { rtl, propsWithDefaults } = useCustom('Carousel', props);
   const {
     as,
     children,
     classPrefix = 'carousel',
     className,
+    role = 'group',
+    'aria-roledescription': roleDescription,
     placement = 'bottom',
     shape = 'dot',
     autoplay,
     autoplayInterval = 4000,
     activeIndex: activeIndexProp,
     defaultActiveIndex = 0,
+    locale,
     onSelect,
     onSlideStart,
     onSlideEnd,
+    onFocusCapture,
+    onPointerEnter,
+    onPointerLeave,
     ...rest
   } = propsWithDefaults;
 
@@ -76,22 +95,24 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
   const [lastIndex, setLastIndex] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
 
-  useUpdateEffect(() => {
-    // When the index is controlled, the index is not updated when the number of children changes.
-    if (isControlled) {
-      return;
-    }
-    // Reset the index when the number of children changes.
-    setActiveIndex(0);
-  }, [children, isControlled]);
+  const previousSelectionInputs = useRef({ children, isControlled });
 
-  // Set a timer for automatic playback.
-  // `autoplay` needs to be cast to boolean type to avoid undefined parameters.
-  const { clear, reset } = useTimeout(
-    () => handleSlide(),
-    autoplayInterval,
-    !!autoplay && count > 1
-  );
+  useEffect(() => {
+    const previous = previousSelectionInputs.current;
+    previousSelectionInputs.current = { children, isControlled };
+
+    // Effect reconnection alone should preserve the user's selected slide.
+    if (
+      !isControlled &&
+      (previous.children !== children || previous.isControlled !== isControlled)
+    ) {
+      setActiveIndex(0);
+    }
+  }, [children, isControlled, setActiveIndex]);
+
+  const canAutoplay = !!autoplay && count > 1;
+  const { playing, reducedMotion, pause, changePlaying, changeHovered, clear, reset } =
+    useCarouselAutoplay(canAutoplay, autoplayInterval, () => handleSlide(), rootRef);
 
   const handleSlide = useCallback(
     (nextActiveIndex?: number, event?: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,21 +147,29 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
     [activeIndex, onSlideEnd]
   );
 
-  const uniqueId = useMemo(() => guid(), []);
+  const uniqueId = useUniqueId('');
+  const indicatorName = `indicator_${uniqueId}`;
   const items = rch.map(children as React.ReactElement[], (child: ReactElement, index) => {
     if (!child) {
       return;
     }
-    const inputKey = `indicator_${uniqueId}_${index}`;
+    const inputKey = `${indicatorName}_${index}`;
     labels.push(
-      <li key={`label${index}`} className={prefix('label-wrapper')}>
+      <li key={`label${index}`} className={prefix('label-wrapper')} role="presentation">
         <input
-          name={inputKey}
+          name={indicatorName}
           id={inputKey}
           type="radio"
           onChange={handleChange}
           value={index}
           checked={activeIndex === index}
+          aria-labelledby={child.props['aria-labelledby']}
+          aria-label={
+            child.props['aria-label'] ||
+            (locale?.slideLabel || enGB.Carousel.slideLabel).replace(/\{(0|1)\}/g, (_, position) =>
+              String(position === '0' ? index + 1 : count)
+            )
+          }
         />
         <label htmlFor={inputKey} className={prefix('label')} />
       </li>
@@ -154,7 +183,10 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
     });
   });
 
-  const classes = merge(className, withPrefix(`placement-${placement}`, `shape-${shape}`));
+  const classes = merge(
+    className,
+    withPrefix(`placement-${placement}`, `shape-${shape}`, { 'reduce-motion': reducedMotion })
+  );
 
   const positiveOrder = vertical || !rtl;
   const sign = positiveOrder ? '-' : '';
@@ -166,7 +198,43 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
   const showMask = count > 1 && activeIndex === 0 && activeIndex !== lastIndex;
 
   return (
-    <Box as={as} {...rest} ref={mergeRefs(ref, rootRef)} className={classes}>
+    <Box
+      as={as}
+      role={role}
+      aria-roledescription={
+        roleDescription ??
+        (role === 'group' || role === 'region'
+          ? locale?.carouselRoleDescription || enGB.Carousel.carouselRoleDescription
+          : undefined)
+      }
+      {...rest}
+      ref={mergeRefs(ref, rootRef)}
+      className={classes}
+      onFocusCapture={event => {
+        pause();
+        onFocusCapture?.(event);
+      }}
+      onPointerEnter={event => {
+        changeHovered(true, event.pointerType);
+        onPointerEnter?.(event);
+      }}
+      onPointerLeave={event => {
+        changeHovered(false, event.pointerType);
+        onPointerLeave?.(event);
+      }}
+    >
+      {canAutoplay && (
+        <CarouselRotationControl
+          playing={playing}
+          onChange={changePlaying}
+          className={prefix('rotation-control')}
+          label={
+            playing
+              ? locale?.stopRotation || enGB.Carousel.stopRotation
+              : locale?.startRotation || enGB.Carousel.startRotation
+          }
+        />
+      )}
       <div className={prefix('content')}>
         <div
           data-testid="carousel-slider"
@@ -174,10 +242,37 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
           style={sliderStyles}
           onTransitionEnd={handleTransitionEnd}
         >
-          {items}
+          {items?.map(
+            (item, index) =>
+              item && (
+                <div
+                  key={item.key}
+                  className={prefix('item-wrapper')}
+                  style={{ display: 'contents' }}
+                  role="group"
+                  aria-roledescription={
+                    locale?.slideRoleDescription || enGB.Carousel.slideRoleDescription
+                  }
+                  aria-labelledby={item.props['aria-labelledby']}
+                  aria-label={
+                    item.props['aria-label'] ||
+                    (locale?.slidePosition || enGB.Carousel.slidePosition).replace(
+                      /\{(0|1)\}/g,
+                      (_, position) => String(position === '0' ? index + 1 : count)
+                    )
+                  }
+                  aria-hidden={item.props['aria-hidden']}
+                  inert={item.props['aria-hidden'] ? inertValue : undefined}
+                >
+                  {item}
+                </div>
+              )
+          )}
         </div>
         {showMask && (
           <div
+            aria-hidden="true"
+            inert={inertValue}
             className={prefix('slider-after', { 'slider-after-vertical': vertical })}
             style={{ [lengthKey]: '200%' }}
           >
@@ -191,7 +286,9 @@ const Carousel = forwardRef<'div', CarouselProps>((props: CarouselProps, ref) =>
         )}
       </div>
       <div className={prefix('toolbar')}>
-        <ul>{labels}</ul>
+        <ul role="radiogroup" aria-label={locale?.selectSlide || enGB.Carousel.selectSlide}>
+          {labels}
+        </ul>
       </div>
     </Box>
   );

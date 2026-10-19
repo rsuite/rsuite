@@ -1,5 +1,5 @@
 import canUseDOM from 'dom-lib/canUseDOM';
-import { breakpointValues } from '@/internals/styled-system';
+import { breakpointValues } from '@/internals/styled-system/breakpoints';
 import { useSyncExternalStore, useMemo } from 'react';
 import { createBreakpoints } from './breakpoints';
 import type { Query } from './types';

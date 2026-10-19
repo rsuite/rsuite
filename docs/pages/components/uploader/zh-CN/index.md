@@ -72,6 +72,8 @@
 
 演示如何对上传的文件进行格式、大小等校验，确保上传文件符合要求。
 
+如果 `shouldUpload` 返回的 Promise 被拒绝，本次上传会被跳过，文件保留在队列中以便重试。这不会触发 `onError`，也不会将文件加入 `onCompletion` 的失败列表；其余上传任务结束后，当前批次正常完成。如果待审批文件已被移除或上传组件已卸载，稍后返回的审批结果会被忽略。
+
 <!--{include:`check.md`}-->
 
 ## Props
@@ -114,7 +116,7 @@
 | renderFileInfo     | (file: [FileType][file], fileElement: ReactNode) => ReactNode                                                        | 自定义渲染文件信息                                                                                                            |
 | renderThumbnail    | (file: [FileType][file], thumbnail: ReactNode) => ReactNode                                                          | 自定义渲染缩略图                                                                                                              |
 | shouldQueueUpdate  | (fileList: [FileType][file][], newFile: [FileType][file][] \| [FileType][file]) => boolean \| Promise&lt;boolean&gt; | 允许更新队列。在选择文件后，更新上传文件队列前的校验函数，返回 false 则不更新                                                 |
-| shouldUpload       | (file: [FileType][file]) => boolean \| Promise&lt;boolean&gt;                                                        | 允许上传文件。在文件上传前的的校验函数，返回 false 则不上传                                                                   |
+| shouldUpload       | (file: [FileType][file]) => boolean \| Promise&lt;boolean&gt;                                                        | 上传前的校验函数。返回 false 或拒绝 Promise 则跳过本次上传。                                                                   |
 | timeout            | number                                                                                                               | 设置上传超时                                                                                                                  |
 | toggleAs           | ElementType ([Button](/zh/components/button/))                                                                       | 为组件自定义元素类型                                                                                                          |
 | withCredentials    | boolean                                                                                                              | 上传请求时是否携带 cookie                                                                                                     |

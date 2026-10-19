@@ -7,6 +7,9 @@ import UploadTrigger, { UploadTriggerInstance, UploadTriggerProps } from './Uplo
 import Box, { BaseBoxProps } from '@/internals/Box';
 import { forwardRef, guid } from '@/internals/utils';
 import { useStyles, useCustom, useWillUnmount, useEventCallback } from '@/internals/hooks';
+import usePendingUploadApprovals, { type PendingUploadApproval } from './usePendingUploadApprovals';
+import useFileActionFocus from './useFileActionFocus';
+import useUploadRequests from './useUploadRequests';
 import type { UploaderLocale } from '../locales';
 
 export interface FileType {
@@ -126,7 +129,7 @@ export interface UploaderProps
     newFile: FileType[] | FileType
   ) => boolean | Promise<boolean>;
 
-  /** Allow uploading of files. Check function before file upload, return false without uploading  */
+  /** Allow uploading of files. Return false or reject the promise to skip uploading. */
   shouldUpload?: (file: FileType) => boolean | Promise<boolean>;
 
   /** callback function that the upload queue has changed */
@@ -192,7 +195,7 @@ const createFile = (file: FileType) => {
   const { fileKey } = file;
   return {
     ...file,
-    fileKey: fileKey || guid(),
+    fileKey: fileKey ?? guid(),
     progress: 0
   };
 };
@@ -216,15 +219,21 @@ function fileListReducer(files: FileType[], action: ActionType) {
     // Update a file
     case 'updateFile':
       return files.map(file => {
-        return file.fileKey === action.file.fileKey ? action.file : file;
+        if (file.fileKey !== action.file.fileKey || file.blobFile !== action.file.blobFile) {
+          return file;
+        }
+        // A transfer updates its own state, not newer controlled file metadata.
+        return { ...file, status: action.file.status, progress: action.file.progress };
       });
 
     // Initialization file list
     case 'init':
       return (
         action.files?.map(file => {
-          // The state of the file needs to be preserved when the `fileList` is controlled.
-          return files.find(f => f.fileKey === file.fileKey) || createFile(file);
+          const previous = files.find(f => f.fileKey === file.fileKey);
+          if (!previous || previous.blobFile !== file.blobFile) return createFile(file);
+          // Controlled metadata can change while this file's upload is in progress.
+          return { ...file, status: previous.status, progress: previous.progress };
         }) || []
       );
     default:
@@ -316,7 +325,6 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   const classes = merge(className, withPrefix());
 
   const rootRef = useRef<HTMLDivElement>(null);
-  const xhrs = useRef({});
   const trigger = useRef<UploadTriggerInstance>(null);
 
   const uploadingCount = useRef(0);
@@ -324,15 +332,60 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
     completed: [],
     failed: []
   });
+  const { registerRequest, finishRequest, isActiveRequest, isUploaderActive, cancelRequests } =
+    useUploadRequests(count => {
+      uploadingCount.current -= count;
+    });
 
   const [fileList, dispatch] = useFileList(fileListProp || defaultFileList);
+  const { registerFile, requestFocus, completeFocusRequest } = useFileActionFocus({
+    rootRef,
+    triggerRef: trigger,
+    triggerAvailable: !disabled && !readOnly,
+    files: fileList.current
+  });
+
+  const completeUploadBatch = useCallback(() => {
+    if (uploadingCount.current === 0) {
+      const { completed, failed } = uploadResults.current;
+      uploadResults.current = { completed: [], failed: [] };
+      onCompletion?.(completed, failed);
+    }
+  }, [onCompletion]);
+
+  const { createApproval, consumeApproval, cancelApprovals, isMounted } = usePendingUploadApprovals(
+    count => {
+      uploadingCount.current -= count;
+    }
+  );
+
+  const isFileQueued = useEventCallback((file: FileType) => {
+    if (typeof fileListProp === 'undefined') {
+      return fileList.current.some(queued => queued.fileKey === file.fileKey);
+    }
+
+    return fileListProp?.some(queued =>
+      queued.fileKey !== undefined && queued.fileKey !== null
+        ? queued.fileKey === file.fileKey && queued.blobFile === file.blobFile
+        : queued.blobFile === file.blobFile && queued.name === file.name
+    );
+  });
+
+  const cancelRemovedApprovals = useEventCallback(() => {
+    const canceledFiles = cancelApprovals(file => !isFileQueued(file));
+    if (canceledFiles.length) {
+      uploadResults.current.failed.push(...canceledFiles);
+      completeUploadBatch();
+    }
+  });
 
   useEffect(() => {
     if (typeof fileListProp !== 'undefined') {
+      cancelRemovedApprovals();
       // Force reset fileList in reducer, when `fileListProp` is updated
       dispatch({ type: 'init', files: fileListProp });
     }
-  }, [dispatch, fileListProp]);
+  }, [cancelRemovedApprovals, dispatch, fileListProp]);
 
   const updateFileStatus = useCallback(
     (nextFile: FileType) => {
@@ -357,22 +410,22 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
    */
   const handleAjaxUploadSuccess = useCallback(
     (file: FileType, response: any, event: ProgressEvent, xhr: XMLHttpRequest) => {
+      if (!finishRequest(xhr)) return;
       const nextFile: FileType = {
         ...file,
         status: 'finished',
         progress: 100
       };
       updateFileStatus(nextFile);
-      onSuccess?.(response, nextFile, event, xhr);
-
-      uploadingCount.current--;
-      uploadResults.current.completed.push(nextFile);
-      if (uploadingCount.current === 0) {
-        onCompletion?.(uploadResults.current.completed, uploadResults.current.failed);
-        uploadResults.current = { completed: [], failed: [] };
+      try {
+        onSuccess?.(response, nextFile, event, xhr);
+      } finally {
+        uploadingCount.current--;
+        uploadResults.current.completed.push(nextFile);
+        completeUploadBatch();
       }
     },
-    [onCompletion, onSuccess, updateFileStatus]
+    [completeUploadBatch, finishRequest, onSuccess, updateFileStatus]
   );
 
   /**
@@ -384,21 +437,33 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
    */
   const handleAjaxUploadError = useCallback(
     (file: FileType, status: ErrorStatus, event: ProgressEvent, xhr: XMLHttpRequest) => {
+      if (!finishRequest(xhr)) return;
       const nextFile: FileType = {
         ...file,
         status: 'error'
       };
       updateFileStatus(nextFile);
-      onError?.(status, nextFile, event, xhr);
-
-      uploadingCount.current--;
-      uploadResults.current.failed.push(nextFile);
-      if (uploadingCount.current === 0) {
-        onCompletion?.(uploadResults.current.completed, uploadResults.current.failed);
-        uploadResults.current = { completed: [], failed: [] };
+      try {
+        onError?.(status, nextFile, event, xhr);
+      } finally {
+        uploadingCount.current--;
+        uploadResults.current.failed.push(nextFile);
+        completeUploadBatch();
       }
     },
-    [onCompletion, onError, updateFileStatus]
+    [completeUploadBatch, finishRequest, onError, updateFileStatus]
+  );
+
+  const handleAjaxUploadAbort = useCallback(
+    (file: FileType, _event: ProgressEvent, xhr: XMLHttpRequest) => {
+      if (!finishRequest(xhr)) return;
+      const nextFile: FileType = { ...file, status: 'error' };
+      updateFileStatus(nextFile);
+      uploadingCount.current--;
+      uploadResults.current.failed.push(nextFile);
+      completeUploadBatch();
+    },
+    [completeUploadBatch, finishRequest, updateFileStatus]
   );
 
   /**
@@ -410,6 +475,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
    */
   const handleAjaxUploadProgress = useCallback(
     (file: FileType, percent: number, event: ProgressEvent, xhr: XMLHttpRequest) => {
+      if (!isActiveRequest(xhr)) return;
       const nextFile: FileType = {
         ...file,
         status: 'uploading',
@@ -419,7 +485,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
       updateFileStatus(nextFile);
       onProgress?.(percent, nextFile, event, xhr);
     },
-    [onProgress, updateFileStatus]
+    [isActiveRequest, onProgress, updateFileStatus]
   );
 
   /**
@@ -427,47 +493,79 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
    * @param file
    */
   const handleUploadFile = useEventCallback((file: FileType) => {
-    const { xhr, data: uploadData } = ajaxUpload({
-      name,
-      timeout,
-      headers,
-      data,
-      method,
-      withCredentials,
-      disableMultipart,
-      file: file.blobFile as File,
-      url: action,
-      onError: handleAjaxUploadError.bind(null, file),
-      onSuccess: handleAjaxUploadSuccess.bind(null, file),
-      onProgress: handleAjaxUploadProgress.bind(null, file)
-    });
-
-    updateFileStatus({ ...file, status: 'uploading' });
-
-    if (file.fileKey) {
-      xhrs.current[file.fileKey] = xhr;
+    if (!isUploaderActive()) {
+      uploadingCount.current--;
+      return;
     }
+    let request: ReturnType<typeof ajaxUpload>;
+    try {
+      request = ajaxUpload({
+        name,
+        timeout,
+        headers,
+        data,
+        method,
+        withCredentials,
+        disableMultipart,
+        file: file.blobFile as File,
+        url: action,
+        onError: handleAjaxUploadError.bind(null, file),
+        onAbort: handleAjaxUploadAbort.bind(null, file),
+        onSuccess: handleAjaxUploadSuccess.bind(null, file),
+        onProgress: handleAjaxUploadProgress.bind(null, file)
+      });
+    } catch (error) {
+      uploadingCount.current--;
+      throw error;
+    }
+    const { xhr, data: uploadData } = request;
+
+    registerRequest(xhr, file);
+    updateFileStatus({ ...file, status: 'uploading' });
 
     onUpload?.(file, uploadData, xhr);
   });
 
+  const handleUploadApproval = useEventCallback(
+    (pending: PendingUploadApproval, approved: boolean) => {
+      // Each start owns its own approval, even when several starts refer to the same file.
+      if (!consumeApproval(pending)) return;
+
+      if (!isMounted() || !rootRef.current) {
+        uploadingCount.current--;
+        return;
+      }
+
+      if (!isFileQueued(pending.file)) {
+        uploadingCount.current--;
+        uploadResults.current.failed.push(pending.file);
+        completeUploadBatch();
+      } else if (approved) {
+        handleUploadFile(pending.file);
+      } else {
+        uploadingCount.current--;
+        completeUploadBatch();
+      }
+    }
+  );
+
   const handleAjaxUpload = useEventCallback(() => {
     fileList.current.forEach(file => {
+      if (!isUploaderActive()) return;
       const checkState = shouldUpload?.(file);
 
       if (checkState instanceof Promise) {
-        uploadingCount.current++;
-        checkState.then(res => {
-          if (res) {
-            handleUploadFile(file);
-          } else {
-            uploadingCount.current--;
-            if (uploadingCount.current === 0) {
-              onCompletion?.(uploadResults.current.completed, uploadResults.current.failed);
-              uploadResults.current = { completed: [], failed: [] };
-            }
+        // Approval may unmount synchronously; still handle a rejected promise.
+        const pending = isUploaderActive() ? createApproval(file) : null;
+        if (pending) uploadingCount.current++;
+        checkState.then(
+          res => {
+            if (pending) handleUploadApproval(pending, res);
+          },
+          () => {
+            if (pending) handleUploadApproval(pending, false);
           }
-        });
+        );
         return;
       } else if (checkState === false) {
         return;
@@ -505,6 +603,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
       }
 
       const upload = () => {
+        if (!isUploaderActive()) return;
         onChange?.(nextFileList, event);
 
         if (rootRef.current) {
@@ -516,8 +615,9 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
 
       if (checkState instanceof Promise) {
         checkState.then(res => {
-          res && upload();
-        });
+          if (res) upload();
+          else cleanInputValue();
+        }, cleanInputValue);
         return;
       }
 
@@ -526,17 +626,16 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   );
 
   const handleRemoveFile = useEventCallback((fileKey: string | number, event: React.MouseEvent) => {
+    requestFocus(fileKey, event, 'remove');
     const file: any = find(fileList.current, f => f.fileKey === fileKey);
     const nextFileList = fileList.current.filter(f => f.fileKey !== fileKey);
 
-    if (xhrs.current?.[file.fileKey]?.readyState !== 4) {
-      xhrs.current[file.fileKey]?.abort();
-      uploadingCount.current--;
+    const canceledFiles = cancelApprovals(pendingFile => pendingFile.fileKey === fileKey);
+    const canceledRequests = cancelRequests(uploadingFile => uploadingFile.fileKey === fileKey);
+    uploadingCount.current -= canceledRequests;
+    if (canceledFiles.length || canceledRequests) {
       uploadResults.current.failed.push(file);
-      if (uploadingCount.current === 0) {
-        onCompletion?.(uploadResults.current.completed, uploadResults.current.failed);
-        uploadResults.current = { completed: [], failed: [] };
-      }
+      completeUploadBatch();
     }
 
     dispatch({ type: 'remove', fileKey });
@@ -544,17 +643,23 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
     onRemove?.(file);
     onChange?.(nextFileList, event);
     cleanInputValue();
+    completeFocusRequest();
   });
 
-  const handleReupload = useEventCallback((file: FileType) => {
-    uploadingCount.current++;
-    autoUpload && handleUploadFile(file);
+  const handleReupload = useEventCallback((file: FileType, event: React.MouseEvent) => {
+    requestFocus(file.fileKey, event, 'retry');
+    if (autoUpload) {
+      uploadingCount.current++;
+      handleUploadFile(file);
+    }
     onReupload?.(file);
+    completeFocusRequest();
   });
 
   // public API
   const start = useCallback(
     (file?: FileType) => {
+      if (!isUploaderActive()) return;
       if (file) {
         uploadingCount.current++;
         handleUploadFile(file);
@@ -562,7 +667,7 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
       }
       handleAjaxUpload();
     },
-    [handleAjaxUpload, handleUploadFile]
+    [handleAjaxUpload, handleUploadFile, isUploaderActive]
   );
 
   useImperativeHandle(ref, () => ({
@@ -592,10 +697,11 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   if (fileListVisible) {
     renderList.push(
       <div key="items" className={prefix('file-items')}>
-        {fileList.current.map((file, index) => (
+        {fileList.current.map(file => (
           <FileItem
+            ref={element => registerFile(file.fileKey, element)}
             locale={locale}
-            key={file.fileKey || index}
+            key={`${typeof file.fileKey}:${file.fileKey}`}
             file={file}
             maxPreviewFileSize={maxPreviewFileSize}
             listType={listType}
@@ -631,7 +737,17 @@ const Uploader = forwardRef<'div', UploaderProps>((props, ref) => {
   }
 
   return (
-    <Box as={as} ref={rootRef} className={classes} style={style} {...dataAttributes}>
+    <Box
+      as={as}
+      ref={rootRef}
+      role={typeof as === 'string' && !['div', 'span'].includes(as) ? undefined : 'group'}
+      tabIndex={-1}
+      aria-label={rest['aria-label'] || locale?.upload}
+      aria-labelledby={rest['aria-labelledby']}
+      className={classes}
+      style={style}
+      {...dataAttributes}
+    >
       {renderList}
     </Box>
   );

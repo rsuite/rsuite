@@ -4,6 +4,7 @@ import ButtonToolbar from '../../ButtonToolbar';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { getDefaultPalette, toRGB } from '@test/utils';
+import { rgba } from '../../../test/browser/contrast';
 
 import '../styles/index.scss';
 
@@ -21,7 +22,7 @@ describe('Button styles', () => {
     render(<Button appearance="primary">Title</Button>);
 
     expect(screen.getByRole('button')).to.have.style('background-color', H500);
-    expect(screen.getByRole('button')).to.have.style('color', toRGB('#fff'));
+    expect(rgba(getComputedStyle(screen.getByRole('button')).color)).toEqual([0, 0, 0, 1]);
   });
 
   it('Link button should render the correct font color', () => {
@@ -68,7 +69,7 @@ describe('Button styles', () => {
       );
 
       expect(screen.getByRole('button')).to.have.style('background-color', toRGB('#f44336'));
-      expect(screen.getByRole('button')).to.have.style('color', toRGB('#fff'));
+      expect(rgba(getComputedStyle(screen.getByRole('button')).color)).toEqual([0, 0, 0, 1]);
     });
 
     it('Subtle button should render the correct styles', () => {
@@ -131,7 +132,7 @@ describe('Button styles', () => {
       </Button>
     );
     expect(screen.getByRole('button')).to.have.style('background-color', H700);
-    expect(screen.getByRole('button')).to.have.style('color', toRGB('#fff'));
+    expect(rgba(getComputedStyle(screen.getByRole('button')).color)).toEqual([0, 0, 0, 1]);
   });
 
   it('Link button should render the correct font color when set active', () => {

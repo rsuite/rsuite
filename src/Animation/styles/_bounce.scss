@@ -3,6 +3,7 @@
 // Bounce
 .rs-anim-bounce-in {
   animation-name: bounceIn;
+
   @include m.animation-common(cubic-bezier(0.68, -0.55, 0.27, 1.55)); // Ease in out
 
   @keyframes bounceIn {
@@ -20,6 +21,7 @@
 
 .rs-anim-bounce-out {
   animation-name: bounceOut;
+
   @include m.animation-common(cubic-bezier(0.4, 0, 1, 1)); // Fast out
 
   @keyframes bounceOut {

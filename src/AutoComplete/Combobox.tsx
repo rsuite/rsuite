@@ -1,6 +1,8 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import Input, { InputProps } from '../Input';
 import { useCombobox } from '@/internals/Picker';
+import getOptionId from '@/internals/Picker/getOptionId';
 import { forwardRef } from '@/internals/utils';
 
 interface ComboboxProps extends InputProps {
@@ -18,7 +20,10 @@ const Combobox = forwardRef<typeof Input, ComboboxProps>((props, ref) => {
       aria-autocomplete="list"
       aria-haspopup={popupType}
       aria-expanded={expanded}
-      aria-activedescendant={focusItemValue ? `${id}-opt-${focusItemValue}` : undefined}
+      aria-controls={expanded && id ? `${id}-${popupType}` : undefined}
+      aria-activedescendant={
+        expanded && focusItemValue ? getOptionId(id, focusItemValue) : undefined
+      }
       autoComplete="off"
       id={id}
       ref={ref}

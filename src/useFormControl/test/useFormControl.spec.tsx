@@ -160,9 +160,11 @@ describe('useFormControl', () => {
 
   it('Should call checkFieldForNextValue when value changes and checkTrigger is change', () => {
     const checkFieldForNextValue = vi.fn();
+    const formValue = { name: 'old-value', sibling: { label: 'untouched' } };
 
     render(
       <FormWrapper
+        formValue={formValue}
         onFieldChange={() => {}}
         checkFieldForNextValue={checkFieldForNextValue}
         checkTrigger="change"
@@ -173,7 +175,12 @@ describe('useFormControl', () => {
 
     fireEvent.change(screen.getByTestId('test-input'), { target: { value: 'new-value' } });
 
-    expect(checkFieldForNextValue).toHaveBeenCalled();
+    expect(checkFieldForNextValue).toHaveBeenCalledTimes(1);
+    expect(checkFieldForNextValue).toHaveBeenCalledWith('name', {
+      name: 'new-value',
+      sibling: { label: 'untouched' }
+    });
+    expect(formValue).toEqual({ name: 'old-value', sibling: { label: 'untouched' } });
   });
 
   it('Should call checkFieldForNextValue when blur occurs and checkTrigger is blur', () => {
@@ -453,9 +460,14 @@ describe('useFormControl', () => {
     it('Should trigger validation when setValue is called with shouldValidate=true', () => {
       const checkFieldForNextValue = vi.fn();
       const onFieldChange = vi.fn();
+      const formValue = { name: 'old-value', sibling: { label: 'untouched' } };
 
       render(
-        <FormWrapper onFieldChange={onFieldChange} checkFieldForNextValue={checkFieldForNextValue}>
+        <FormWrapper
+          formValue={formValue}
+          onFieldChange={onFieldChange}
+          checkFieldForNextValue={checkFieldForNextValue}
+        >
           <TestComponent name="name" />
         </FormWrapper>
       );
@@ -466,7 +478,12 @@ describe('useFormControl', () => {
       expect(onFieldChange).toHaveBeenCalledWith('name', 'programmatic-value');
 
       // Check if validation was triggered
-      expect(checkFieldForNextValue).toHaveBeenCalled();
+      expect(checkFieldForNextValue).toHaveBeenCalledTimes(1);
+      expect(checkFieldForNextValue).toHaveBeenCalledWith('name', {
+        name: 'programmatic-value',
+        sibling: { label: 'untouched' }
+      });
+      expect(formValue).toEqual({ name: 'old-value', sibling: { label: 'untouched' } });
     });
 
     it('Should not trigger validation when checkTrigger is null', () => {

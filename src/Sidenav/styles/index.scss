@@ -5,7 +5,6 @@
 @use '../../styles/mixins/color-modes' as color-modes;
 @use './mixin';
 
-//
 // Sidenavs
 // --------------------------------------------------
 
@@ -97,6 +96,7 @@
 
       &:focus-visible {
         @include utils.focus-ring-inset;
+
         z-index: 1;
 
         @include color-modes.high-contrast-mode {
@@ -144,6 +144,7 @@
 
   .rs-sidenav-item:focus-visible {
     @include utils.focus-ring-inset;
+
     z-index: 1;
 
     @include color-modes.high-contrast-mode {
@@ -193,6 +194,7 @@
   > .rs-dropdown-focus .rs-sidenav-dropdown-toggle,
   .rs-sidenav-dropdown-toggle:focus-visible {
     @include utils.focus-ring;
+
     z-index: 2;
 
     @include color-modes.high-contrast-mode {
@@ -216,6 +218,7 @@
 
   &:focus-visible {
     @include utils.focus-ring-slim-inset;
+
     z-index: 2;
   }
 
@@ -248,6 +251,7 @@
 .rs-sidenav-toggle {
   border: none;
   color: inherit;
+
   .rs-icon {
     transition: transform 0.3s ease;
   }
@@ -270,12 +274,12 @@
 .rs-sidenav-collapse-in {
   width: var(--rs-sidenav-collapse-in-width);
 
-  //Nav item
+  // Nav item
   .rs-sidenav-item {
     border-radius: var(--rs-sidenav-nav-rounded);
   }
 
-  //Dropdown style rewrite
+  // Dropdown style rewrite
   .rs-dropdown {
     display: flex;
     flex: 1 1 auto;
@@ -284,6 +288,7 @@
     &-item:focus-visible,
     &-item-focus {
       @include utils.focus-ring-inset;
+
       background: none;
       z-index: 2;
 
@@ -296,6 +301,7 @@
 
         > .rs-dropdown-item-toggle {
           @include utils.focus-ring-inset;
+
           z-index: 2;
 
           @include color-modes.high-contrast-mode {
@@ -349,7 +355,7 @@
     }
   }
 
-  //Ellipsis
+  // Ellipsis
   .rs-dropdown-item:not(.rs-dropdown-item-submenu),
   .rs-dropdown-menu .rs-dropdown-menu-toggle {
     width: 100%;

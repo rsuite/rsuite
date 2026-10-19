@@ -63,9 +63,15 @@
 ### 键盘交互
 
 - <kbd>ESC</kbd> 可以关闭 Drawer，同时也可以通过设置 `keyboard=false` 禁用此功能。
-- <kbd>Tab</kbd> 在 Drawer 打开时，焦点会自动移至 Drawer 内部。按 Tab 键可在 Drawer 内的可聚焦元素之间移动焦点。
-- <kbd>Shift + Tab</kbd> 反向循环聚焦 Drawer 内的可聚焦元素。
+- <kbd>Tab</kbd> 启用 `enforceFocus` 时，在 Drawer 内可通过 Tab 聚焦的元素之间移动；从最后一个元素循环到第一个元素。
+- <kbd>Shift + Tab</kbd> 启用 `enforceFocus` 时，反向移动；从第一个元素循环到最后一个元素。
 - 当 Drawer 关闭时，焦点会返回到触发打开 Drawer 的元素上。
+
+### 减少动态效果
+
+默认对话框动画、背景板过渡和静态背景板抖动遵循系统的减少动态效果偏好。设置 `reduceMotion={true}` 可强制减少动态效果，设置 `reduceMotion={false}` 可显式允许动画。组件设置优先于 `CustomProvider reduceMotion`，并保留过渡回调。
+
+自定义 `animation` 组件保留原有约定，并接收 `reduceMotion` 属性。可以组合 `Animation.Transition`，将其 children props/ref 传给动画节点来支持此策略。其他自定义动画组件需要自行处理视觉效果和完成回调。
 
 ## Props
 
@@ -92,6 +98,7 @@
 | onOpen            | () => void                                                | 显示时的回调函数                                                                                        |
 | open \*           | boolean                                                   | 显示 Drawer                                                                                             |
 | placement         | [Placement](#code-ts-placement-code)`(right)`             | 设置 Drawer 显示的位置                                                                                  |
+| reduceMotion      | boolean                                                   | 减少动态效果；未设置时遵循全局设置或系统偏好                                                            |
 | size              | 'xs' \| 'sm' \| 'md' \| lg' \| 'full' \| number \| string | 设置 Drawer 尺寸                                                                                        |
 
 ### `<Drawer.Header>`

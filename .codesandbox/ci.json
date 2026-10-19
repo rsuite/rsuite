@@ -1,4 +1,5 @@
 {
+  "installCommand": "install:codesandbox",
   "publishDirectory": {
     "rsuite": "lib"
   },

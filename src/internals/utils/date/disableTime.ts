@@ -3,7 +3,7 @@ import pick from 'lodash/pick';
 import { getHours } from 'date-fns/getHours';
 import { getMinutes } from 'date-fns/getMinutes';
 import { getSeconds } from 'date-fns/getSeconds';
-import { type calendarOnlyProps, type PlainDate, type PlainDateTime, TimeProp } from './types';
+import { type calendarOnlyProps, type PlainDateTime, TimeProp } from './types';
 import type { TimeDropdownProps } from '../../../Calendar/TimeDropdown';
 
 interface CalendarProps {
@@ -70,17 +70,16 @@ export function useIsDateTimeDisabled(
     (dateTime: PlainDateTime) => {
       const calendarProps = timeDropdownProps;
       const mapProps = new Map(Object.entries(calendarProps));
-      const date: PlainDate = pick(dateTime, ['year', 'month', 'day']);
 
       return Array.from(mapProps.keys()).some(key => {
         if (HOURS_PATTERN.test(key)) {
-          return mapProps.get(key)?.(dateTime.hour, date);
+          return mapProps.get(key)?.(dateTime.hour, dateTime);
         }
         if (MINUTES_PATTERN.test(key)) {
-          return mapProps.get(key)?.(dateTime.minute, date);
+          return mapProps.get(key)?.(dateTime.minute, dateTime);
         }
         if (SECONDS_PATTERN.test(key)) {
-          return mapProps.get(key)?.(dateTime.second, date);
+          return mapProps.get(key)?.(dateTime.second, dateTime);
         }
         return false;
       });

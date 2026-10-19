@@ -9,7 +9,7 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "sourceMap": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "target": "esnext",
     "module": "esnext",
     "jsx": "react",

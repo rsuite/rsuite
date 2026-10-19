@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { enGB } from 'date-fns/locale/en-GB';
 
 const DateTimeFormats = {
@@ -24,6 +25,19 @@ const DateTimeFormats = {
   shortDateFormat: 'dd/MM/yyyy',
   shortTimeFormat: 'HH:mm',
   dateLocale: enGB as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Previous month',
+  nextMonth: 'Next month',
+  selectMonth: 'Select month',
+  selectTime: 'Select time'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Open picker'
 };
 
 const Combobox = {
@@ -63,13 +77,31 @@ export default {
     skip: 'Go to{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Last 7 Days'
   },
   Combobox,
+  CommandPalette: {
+    errorText: 'Unable to search commands.',
+    retryText: 'Try again'
+  },
+  ColorPicker: {
+    placeholder: 'Select color',
+    dialogTitle: 'Choose color',
+    hue: 'Hue',
+    saturation: 'Saturation',
+    brightness: 'Brightness',
+    opacity: 'Opacity',
+    format: 'Format',
+    value: 'Color value',
+    presets: 'Preset colors',
+    invalidColor: 'Enter a valid HEX, RGB or HSL color.',
+    clear: 'Clear',
+    done: 'Done'
+  },
   InputPicker: CreatableComboBox,
   TagPicker: CreatableComboBox,
   Uploader: {
@@ -86,6 +118,19 @@ export default {
   },
   Breadcrumb: {
     expandText: 'Show path'
+  },
+  Carousel: {
+    carouselRoleDescription: 'carousel',
+    slideRoleDescription: 'slide',
+    slidePosition: '{0} of {1}',
+    startRotation: 'Start slide rotation',
+    stopRotation: 'Stop slide rotation',
+    selectSlide: 'Choose slide',
+    slideLabel: 'Slide {0} of {1}'
+  },
+  PinInput: {
+    groupLabel: 'PIN input',
+    characterLabel: 'Character {0} of {1}'
   },
   Toggle: {
     on: 'ON',

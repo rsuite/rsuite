@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { ko } from 'date-fns/locale/ko';
 
 const DateTimeFormats = {
@@ -24,6 +25,19 @@ const DateTimeFormats = {
   shortDateFormat: 'yyyy.MM.dd',
   shortTimeFormat: 'HH:mm',
   dateLocale: ko as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: '이전 달',
+  nextMonth: '다음 달',
+  selectMonth: '월 선택',
+  selectTime: '시간 선택'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: '선택기 열기'
 };
 
 const Combobox = {
@@ -63,10 +77,10 @@ export default {
     skip: '이동{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: '지난 7 일'
   },
   Combobox,
@@ -86,6 +100,15 @@ export default {
   },
   Breadcrumb: {
     expandText: '경로 표시'
+  },
+  Carousel: {
+    carouselRoleDescription: '캐러셀',
+    slideRoleDescription: '슬라이드',
+    slidePosition: '{1}개 중 {0}번째',
+    startRotation: '슬라이드 자동 재생 시작',
+    stopRotation: '슬라이드 자동 재생 중지',
+    selectSlide: '슬라이드 선택',
+    slideLabel: '전체 {1}개 중 {0}번째 슬라이드'
   },
   Toggle: {
     on: '켜기',

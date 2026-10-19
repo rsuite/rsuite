@@ -1,4 +1,3 @@
-import React from 'react';
 import { TimeRangePicker, Stack, HStack, VStack, Text, Divider, Button } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';

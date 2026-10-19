@@ -1,13 +1,17 @@
+/* @jsxRuntime classic */
 import React, { useCallback } from 'react';
 import { TREE_NODE_DROP_POSITION } from '@/internals/constants';
 import { shallowEqual as equal } from '@/internals/utils';
 import { useCombobox } from '@/internals/Picker/hooks';
+import getOptionId from '@/internals/Picker/getOptionId';
 import { useItemDataKeys } from '@/internals/Tree/TreeProvider';
 import { DragStatus } from '../TreeNode';
 import Highlight from '../../Highlight';
+import { formatNodeRefKey } from '../utils/formatNodeRefKey';
 
 interface Props {
   value: any;
+  disabled?: boolean;
   disabledItemValues: any[];
   loadingNodeValues: any[];
   focusItemValue: any;
@@ -23,6 +27,7 @@ function useTreeNodeProps(props: Props) {
 
   const {
     value,
+    disabled: disabledProp,
     disabledItemValues,
     loadingNodeValues,
     focusItemValue,
@@ -68,13 +73,14 @@ function useTreeNodeProps(props: Props) {
         }
       }
 
-      const disabled = disabledItemValues.some(disabledItem => equal(disabledItem, nodeValue));
+      const disabled =
+        disabledProp || disabledItemValues.some(disabledItem => equal(disabledItem, nodeValue));
       const loading = loadingNodeValues.some(item => equal(item, nodeValue));
       const active = equal(nodeValue, value);
       const focus = equal(nodeValue, focusItemValue);
 
       return {
-        id: id ? `${id}-opt-${nodeValue}` : undefined,
+        id: getOptionId(id, formatNodeRefKey(nodeValue)),
         value: nodeValue,
         label,
         index,
@@ -92,6 +98,7 @@ function useTreeNodeProps(props: Props) {
     },
     [
       childrenKey,
+      disabledProp,
       disabledItemValues,
       dragNode,
       dragOverNodeKey,

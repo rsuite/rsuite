@@ -67,24 +67,19 @@ function getFocusableTabs(tablist?: HTMLElement | null) {
   return Array.from(tabs).filter(tab => !(tab.getAttribute('aria-disabled') === 'true'));
 }
 
-function getFocusedTab(tablist: HTMLElement) {
-  const tabs = getFocusableTabs(tablist);
-  return tabs.find(tab => tab.getAttribute('aria-selected') === 'true');
-}
-
-function nextItem(tablist: HTMLDivElement | null) {
+function nextItem(tablist: HTMLDivElement | null, currentTab: HTMLElement) {
   if (!tablist) {
     return null;
   }
 
-  const item = getFocusedTab(tablist);
   const items = getFocusableTabs(tablist);
+  const index = items.indexOf(currentTab);
 
-  if (!item) {
-    return items[0];
+  if (index === -1) {
+    return null;
   }
 
-  const nextItem = items[items.indexOf(item) + 1];
+  const nextItem = items[index + 1];
 
   if (!nextItem || nextItem.getAttribute('role') !== 'tab') {
     return items[0];
@@ -93,19 +88,19 @@ function nextItem(tablist: HTMLDivElement | null) {
   return nextItem;
 }
 
-function previousItem(tablist: HTMLDivElement | null) {
+function previousItem(tablist: HTMLDivElement | null, currentTab: HTMLElement) {
   if (!tablist) {
     return null;
   }
 
-  const item = getFocusedTab(tablist);
   const items = getFocusableTabs(tablist);
+  const index = items.indexOf(currentTab);
 
-  if (!item) {
-    return items[items.length - 1];
+  if (index === -1) {
+    return null;
   }
 
-  const previousItem = items[items.indexOf(item) - 1];
+  const previousItem = items[index - 1];
 
   if (!previousItem || previousItem.getAttribute('role') !== 'tab') {
     return items[items.length - 1];
@@ -222,11 +217,11 @@ const Tabs = forwardRef<'div', TabsProps, typeof Subcomponents>((props, ref) => 
 
     switch (event.key) {
       case previousItemKey:
-        item = previousItem(tablistRef.current);
+        item = previousItem(tablistRef.current, target);
         event.preventDefault();
         break;
       case nextItemKey:
-        item = nextItem(tablistRef.current);
+        item = nextItem(tablistRef.current, target);
         event.preventDefault();
         break;
       case 'Home':

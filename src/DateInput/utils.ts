@@ -1,4 +1,5 @@
 import type { Locale, Month } from 'date-fns';
+import useDateInputSelection from './hooks/useDateInputSelection';
 import {
   setYear,
   setMonth,
@@ -7,13 +8,15 @@ import {
   setMinutes,
   setSeconds
 } from '@/internals/utils/date';
-import { safeSetSelection } from '@/internals/utils';
 
 interface SelectedStateOptions {
   /**
    * The input element
    */
   input: HTMLInputElement;
+
+  /** Selection requested by the current keyboard interaction, before the DOM value commits. */
+  selectionRange?: { selectionStart: number; selectionEnd: number };
 
   /**
    * The direction of the arrow key, left or right
@@ -152,6 +155,7 @@ export function isCursorAfterMonth(cursorIndex: number, formatStr: string) {
 export function getInputSelectedState(options: SelectedStateOptions) {
   const {
     input,
+    selectionRange,
     direction,
     formatStr,
     localize,
@@ -190,15 +194,24 @@ export function getInputSelectedState(options: SelectedStateOptions) {
     return { selectionStart, selectionEnd };
   };
 
-  if (typeof input.selectionEnd === 'number' && typeof input.selectionStart === 'number') {
-    let selectionIndex = input.selectionStart;
+  const selectionStart = selectionRange?.selectionStart ?? input.selectionStart;
+  const selectionEnd = selectionRange?.selectionEnd ?? input.selectionEnd;
+
+  if (typeof selectionEnd === 'number' && typeof selectionStart === 'number') {
+    let selectionIndex =
+      selectionRange &&
+      !direction &&
+      selectionStart === selectionEnd &&
+      selectionStart === dateString.length
+        ? Math.max(0, selectionStart - 1)
+        : selectionStart;
 
     let positionOffset = -1;
 
     if (direction === 'left') {
-      selectionIndex = input.selectionStart - 1;
+      selectionIndex = selectionStart - 1;
     } else if (direction === 'right') {
-      selectionIndex = input.selectionEnd + 1;
+      selectionIndex = selectionEnd + 1;
       positionOffset = 1;
     }
 
@@ -286,16 +299,5 @@ export function modifyDate(date: Date, type: string, value: number) {
 }
 
 export function useInputSelection(input: React.RefObject<any>) {
-  return function setSelectionRange(selectionStart: number, selectionEnd: number) {
-    const isTest = input.current.dataset.test === 'true';
-
-    if (isTest) {
-      safeSetSelection(input.current, selectionStart, selectionEnd);
-      return;
-    }
-
-    requestAnimationFrame(() => {
-      safeSetSelection(input.current, selectionStart, selectionEnd);
-    });
-  };
+  return useDateInputSelection(input).setSelectionRange;
 }

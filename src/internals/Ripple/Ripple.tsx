@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
+import useCustomConfig from '@/internals/hooks/useCustomConfig';
 import getOffset from 'dom-lib/getOffset';
 import on from 'dom-lib/on';
 import Transition from '../../Animation/Transition';
-import { useStyles, useCustom } from '@/internals/hooks';
+import { useStyles } from '@/internals/hooks';
 import { mergeRefs, forwardRef } from '@/internals/utils';
 import type { Offset, WithAsProps } from '@/internals/types';
 
@@ -32,7 +33,7 @@ const getPosition = (target: HTMLElement, event: React.MouseEvent) => {
  * @private
  */
 const Ripple = forwardRef<'span', RippleProps>((props, ref) => {
-  const { disableRipple } = useCustom();
+  const { disableRipple } = useCustomConfig();
   const { as: Component = 'span', className, classPrefix = 'ripple', onMouseDown, ...rest } = props;
   const { merge, prefix, withPrefix } = useStyles(classPrefix);
   const classes = merge(className, prefix('pond'));

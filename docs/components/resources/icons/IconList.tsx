@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import SearchIcon from '@rsuite/icons/Search';
 import Link from '@/components/Link';
 import IconItem from './IconItem';

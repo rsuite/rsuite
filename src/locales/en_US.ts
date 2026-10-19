@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { enUS } from 'date-fns/locale/en-US';
 
 const DateTimeFormats = {
@@ -20,6 +21,19 @@ const DateTimeFormats = {
   shortDateFormat: 'MM/dd/yyyy',
   shortTimeFormat: 'hh:mm aa',
   dateLocale: enUS as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Previous month',
+  nextMonth: 'Next month',
+  selectMonth: 'Select month',
+  selectTime: 'Select time'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Open picker'
 };
 
 const Combobox = {
@@ -59,10 +73,10 @@ export default {
     skip: 'Go to{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Last 7 Days'
   },
   Combobox,
@@ -82,6 +96,15 @@ export default {
   },
   Breadcrumb: {
     expandText: 'Show path'
+  },
+  Carousel: {
+    carouselRoleDescription: 'carousel',
+    slideRoleDescription: 'slide',
+    slidePosition: '{0} of {1}',
+    startRotation: 'Start slide rotation',
+    stopRotation: 'Stop slide rotation',
+    selectSlide: 'Choose slide',
+    slideLabel: 'Slide {0} of {1}'
   },
   Toggle: {
     on: 'ON',

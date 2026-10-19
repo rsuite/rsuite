@@ -56,9 +56,17 @@ node_modules
 
 # build
 lib/
+*.tsbuildinfo
 
 # test screenshots (visual regression baselines generated at runtime)
 **/__screenshots__/
+.vitest-attachments/
 # Environment variables
 .env
 .env.*
+
+# Public declaration consumer diagnostics
+test/public-declarations/results/
+
+# Public package runtime diagnostics
+test/public-runtime/results/

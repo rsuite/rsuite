@@ -23,6 +23,11 @@ export function previewFile(file: File, callback: (result: string | ArrayBuffer 
     callback(reader.result);
   };
   reader.readAsDataURL(file);
+
+  return () => {
+    reader.onloadend = null;
+    if (reader.readyState === FileReader.LOADING) reader.abort();
+  };
 }
 
 export default previewFile;

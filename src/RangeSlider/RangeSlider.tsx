@@ -3,6 +3,7 @@ import getWidth from 'dom-lib/getWidth';
 import getHeight from 'dom-lib/getHeight';
 import getOffset from 'dom-lib/getOffset';
 import ProgressBar from '../Slider/ProgressBar';
+import useRangeHandleOrder from './useRangeHandleOrder';
 import Handle, { HandleProps } from '../Slider/Handle';
 import Graduated from '../Slider/Graduated';
 import Plaintext from '@/internals/Plaintext';
@@ -74,8 +75,6 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
 
   const barRef = useRef<HTMLDivElement>(null);
 
-  // Define the parameter position of the handle
-  const handleIndexs = useRef([0, 1]);
   const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const { rtl } = useCustom('RangeSlider');
   const classes = merge(className, withPrefix());
@@ -102,6 +101,7 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
   );
 
   const [value, setValue] = useControlled(getValidValue(valueProp), getValidValue(defaultValue));
+  const { handleOrder, prepareChange } = useRangeHandleOrder(value);
 
   // The count of values that can be entered.
   const count = useMemo(() => precisionMath((max - min) / step), [max, min, step]);
@@ -166,21 +166,7 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
       const value = range.split(',').map(i => +i) as Range;
       const nextValue = getValidValue(getRangeValue(value, eventKey, event));
 
-      if (nextValue[0] >= nextValue[1]) {
-        /**
-         * When the value of `start` is greater than the value of` end`,
-         * the position of the handle is reversed.
-         */
-        handleIndexs.current.reverse();
-
-        if (eventKey === 'start') {
-          nextValue[0] = value[1];
-        } else {
-          nextValue[1] = value[0];
-        }
-      }
-
-      return nextValue;
+      return nextValue.sort((a, b) => a - b) as Range;
     },
     [getRangeValue, getValidValue]
   );
@@ -199,6 +185,16 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
     [constraint]
   );
 
+  const setRangeValue = useEventCallback((nextValue: Range, valueIndex?: 0 | 1) => {
+    if (!isRangeMatchingConstraint(nextValue)) {
+      return false;
+    }
+
+    prepareChange(nextValue, valueIndex);
+    setValue(nextValue);
+    return true;
+  });
+
   /**
    * Callback function that is fired when the mousemove is triggered
    */
@@ -210,8 +206,7 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
 
       const nextValue = getNextValue(event, dataset);
 
-      if (isRangeMatchingConstraint(nextValue)) {
-        setValue(nextValue);
+      if (setRangeValue(nextValue, dataset.key === 'start' ? 0 : 1)) {
         onChange?.(nextValue, event);
       }
     }
@@ -228,16 +223,18 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
 
       const nextValue = getNextValue(event, dataset as HandleDataset);
 
-      if (isRangeMatchingConstraint(nextValue)) {
-        setValue(nextValue);
+      if (setRangeValue(nextValue, dataset?.key === 'start' ? 0 : 1)) {
         onChangeCommitted?.(nextValue, event);
       }
     }
   );
 
   const handleKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
-    const target = event.target as HTMLElement;
-    const { key } = target?.dataset || {};
+    if (disabled || readOnly) {
+      return;
+    }
+
+    const { key } = event.currentTarget.dataset;
     const nextValue: Range = [...value];
     const increaseKey = rtl ? 'ArrowLeft' : 'ArrowRight';
     const decreaseKey = rtl ? 'ArrowRight' : 'ArrowLeft';
@@ -265,19 +262,32 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
     }
 
     // When the start value is greater than the end value, let the handle and value switch positions.
-    if (nextValue[0] >= nextValue[1]) {
-      nextValue.reverse();
-      handleIndexs.current.reverse();
-    }
+    nextValue.sort((a, b) => a - b);
 
     // Prevent scroll of the page
     event.preventDefault();
 
-    if (isRangeMatchingConstraint(nextValue)) {
-      setValue(nextValue);
+    if (setRangeValue(nextValue, valueIndex)) {
       onChange?.(nextValue, event);
     }
   });
+
+  const handleInputChange = useEventCallback(
+    (event: React.ChangeEvent<HTMLInputElement>, key: HandleKey) => {
+      if (disabled || readOnly) {
+        return;
+      }
+
+      const nextValue: Range = [...value];
+      const valueIndex = key === 'start' ? 0 : 1;
+      nextValue[valueIndex] = checkValue(event.currentTarget.valueAsNumber, min, max);
+      nextValue.sort((a, b) => a - b);
+
+      if (setRangeValue(nextValue, valueIndex)) {
+        onChange?.(nextValue, event);
+      }
+    }
+  );
 
   const handleBarClick = useEventCallback((event: React.MouseEvent) => {
     if (disabled || readOnly) {
@@ -296,8 +306,7 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
 
     const nextValue = getValidValue([start, end].sort((a, b) => a - b) as Range);
 
-    if (isRangeMatchingConstraint(nextValue)) {
-      setValue(nextValue);
+    if (setRangeValue(nextValue)) {
       onChange?.(nextValue, event);
       onChangeCommitted?.(nextValue, event);
     }
@@ -308,6 +317,8 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
       {
         value: value[0],
         'data-key': 'start',
+        onInputChange: (event: React.ChangeEvent<HTMLInputElement>) =>
+          handleInputChange(event, 'start'),
         'aria-valuenow': value[0],
         'aria-valuetext': getAriaValueText ? getAriaValueText(value[0], 'start') : ariaValuetext,
         position: ((value[0] - min) / (max - min)) * 100
@@ -315,16 +326,22 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
       {
         value: value[1],
         'data-key': 'end',
+        onInputChange: (event: React.ChangeEvent<HTMLInputElement>) =>
+          handleInputChange(event, 'end'),
         'aria-valuenow': value[1],
         'aria-valuetext': getAriaValueText ? getAriaValueText(value[1], 'end') : ariaValuetext,
         position: ((value[1] - min) / (max - min)) * 100
       }
     ],
-    [ariaValuetext, getAriaValueText, max, min, value]
+    [ariaValuetext, getAriaValueText, handleInputChange, max, min, value]
   );
 
   const handleCommonProps: HandleProps = {
     disabled,
+    readOnly,
+    min,
+    max,
+    step,
     vertical,
     tooltip,
     className: handleClassName,
@@ -336,6 +353,7 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
     tabIndex: disabled ? undefined : 0,
     'aria-orientation': vertical ? 'vertical' : 'horizontal',
     'aria-disabled': disabled,
+    'aria-readonly': readOnly,
     'aria-valuemax': max,
     'aria-valuemin': min,
     'aria-label': ariaLabel,
@@ -384,11 +402,11 @@ const RangeSlider = forwardRef<'div', RangeSliderProps>((props, ref) => {
           />
         )}
       </div>
-      <Handle data-range={value} {...handleCommonProps} {...handleProps[handleIndexs.current[0]]}>
+      <Handle data-range={value} {...handleCommonProps} {...handleProps[handleOrder[0]]}>
         {handleTitle}
       </Handle>
 
-      <Handle data-range={value} {...handleCommonProps} {...handleProps[handleIndexs.current[1]]}>
+      <Handle data-range={value} {...handleCommonProps} {...handleProps[handleOrder[1]]}>
         {handleTitle}
       </Handle>
     </Box>

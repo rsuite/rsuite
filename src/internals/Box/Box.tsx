@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import isEmpty from 'lodash/isEmpty';
 import { forwardRef } from '@/internals/utils/react/forwardRef';

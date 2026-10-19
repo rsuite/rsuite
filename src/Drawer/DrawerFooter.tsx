@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import ModalFooter, { ModalFooterProps } from '../Modal/ModalFooter';
 import { forwardRef } from '@/internals/utils';

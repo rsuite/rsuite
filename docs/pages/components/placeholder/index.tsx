@@ -1,4 +1,3 @@
-import React from 'react';
 import { Placeholder } from 'rsuite';
 
 import DefaultPage from '@/components/layout/Page';

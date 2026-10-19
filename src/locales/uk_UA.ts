@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { uk } from 'date-fns/locale/uk';
 
 const DateTimeFormats = {
@@ -20,6 +21,19 @@ const DateTimeFormats = {
   shortDateFormat: 'dd.MM.yyyy',
   shortTimeFormat: 'HH:mm',
   dateLocale: uk as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Попередній місяць',
+  nextMonth: 'Наступний місяць',
+  selectMonth: 'Вибрати місяць',
+  selectTime: 'Вибрати час'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Відкрити вікно вибору'
 };
 
 const Combobox = {
@@ -59,10 +73,10 @@ export default {
     skip: 'Перейти до {0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Останні 7 днів'
   },
   Combobox,
@@ -82,6 +96,15 @@ export default {
   },
   Breadcrumb: {
     expandText: 'Показати шлях'
+  },
+  Carousel: {
+    carouselRoleDescription: 'карусель',
+    slideRoleDescription: 'слайд',
+    slidePosition: '{0} з {1}',
+    startRotation: 'Почати автоматичну зміну слайдів',
+    stopRotation: 'Зупинити автоматичну зміну слайдів',
+    selectSlide: 'Вибрати слайд',
+    slideLabel: 'Слайд {0} із {1}'
   },
   Toggle: {
     on: 'Увімкнено',

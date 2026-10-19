@@ -2,15 +2,22 @@ import { useState } from 'react';
 import isFunction from 'lodash/isFunction';
 import isUndefined from 'lodash/isUndefined';
 import find from 'lodash/find';
-import { getHeight } from 'dom-lib';
-import { useEventCallback } from '@/internals/hooks';
+import { useEventCallback, useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { shallowEqual } from '@/internals/utils';
 import { findNodeOfTree } from '../../Tree/utils';
 import { onMenuKeyDown } from '../utils';
+import findItemByKey from '../findItemByKey';
+import getOptionKey from '../getOptionKey';
+import type { VirtualizedListHandle } from './useVirtualizedListFocus';
 
 interface FocusItemValueProps<T = unknown> {
   target: HTMLElement | null | (() => HTMLElement | null);
   data?: T[];
+  virtualizedList?: React.RefObject<VirtualizedListHandle | null>;
+  /** Reconcile an open list picker's focus with its currently eligible options. */
+  reconcileFocus?: boolean;
+  /** Initialize focus when an active search gains its first eligible result. */
+  focusFirst?: boolean;
   /**
    *  When the down arrow key is pressed, whether to automatically focus on the option
    */
@@ -38,6 +45,9 @@ const useFocusItemValue = <T, D>(
     defaultLayer = 0,
     focusToOption = true,
     data,
+    virtualizedList,
+    reconcileFocus = false,
+    focusFirst = false,
     target,
     rtl,
     callback,
@@ -52,11 +62,28 @@ const useFocusItemValue = <T, D>(
   const focusCallback = useEventCallback((value: any, event: React.KeyboardEvent) => {
     if (focusToOption) {
       const menu = isFunction(target) ? target() : target;
-      const focusElement = menu?.querySelector(`[data-key="${value}"]`) as HTMLElement;
+      const focusElement = findItemByKey(menu, value);
       focusElement?.focus();
     }
 
     callback?.(value, event);
+  });
+
+  const focusMenuItem = useEventCallback((value: any, event: React.KeyboardEvent) => {
+    if (virtualizedList?.current) {
+      virtualizedList.current.focusItem(
+        value,
+        () => {
+          setFocusItemValue(value);
+          callback?.(value, event);
+        },
+        { focus: focusToOption }
+      );
+      return;
+    }
+
+    setFocusItemValue(value);
+    focusCallback(value, event);
   });
 
   const getScrollContainer = useEventCallback(() => {
@@ -73,36 +100,55 @@ const useFocusItemValue = <T, D>(
     return menu?.querySelector('[role="listbox"]');
   });
 
+  const getItemByElement = (element: HTMLElement) =>
+    find(data, item =>
+      element.dataset.pickerKey === undefined
+        ? String(item[valueKey]) === element.dataset.key
+        : getOptionKey(item[valueKey]) === element.dataset.pickerKey
+    );
+
   /**
    * Get the elements visible in all options.
    */
   const getFocusableMenuItems = () => {
+    if (virtualizedList?.current) {
+      return virtualizedList.current.getFocusableItems();
+    }
     if (!target) {
       return [];
     }
 
-    let currentKeys = keys;
-
-    if (layer < 1) {
-      const popup = isFunction(target) ? target() : target;
-
-      const rootMenu = popup?.querySelector<HTMLElement>('[data-layer="0"]');
-
-      if (rootMenu) {
-        currentKeys = Array.from(
-          rootMenu.querySelectorAll<HTMLElement>(focusableQueryKey) ?? []
-        ).map(item => item.dataset?.key);
-      } else {
-        currentKeys = Array.from(popup?.querySelectorAll<HTMLElement>(focusableQueryKey) ?? []).map(
-          item => item.dataset?.key
-        );
-      }
+    if (layer >= 1) {
+      return keys.map(value => find(data, item => shallowEqual(item[valueKey], value)));
     }
 
-    // 1. It is necessary to traverse the `keys` instead of `data` here to preserve the order of the array.
-    // 2. The values in `keys` are all string, so the corresponding value of `data` should also be converted to string
-    return currentKeys.map(key => find(data, i => `${i[valueKey]}` === key));
+    const popup = isFunction(target) ? target() : target;
+    const rootMenu = popup?.querySelector<HTMLElement>('[data-layer="0"]') || popup;
+
+    // Preserve rendered order and the original type of each option value.
+    return Array.from(rootMenu?.querySelectorAll<HTMLElement>(focusableQueryKey) ?? []).map(
+      getItemByElement
+    );
   };
+
+  useIsomorphicLayoutEffect(() => {
+    if (!reconcileFocus || (focusItemValue == null && !focusFirst)) return;
+    const menu = isFunction(target) ? target() : target;
+    if (!menu) return;
+
+    // Results can change without a search event, including after an async data update.
+    let nextValue;
+    if (virtualizedList?.current) {
+      const items = virtualizedList.current.getFocusableItems();
+      if (items.some(item => shallowEqual(item[valueKey], focusItemValue))) return;
+      nextValue = items[0]?.[valueKey];
+    } else {
+      if (findItemByKey(menu, focusItemValue)?.matches(focusableQueryKey)) return;
+      const first = menu.querySelector<HTMLElement>(focusableQueryKey);
+      nextValue = first ? getItemByElement(first)?.[valueKey] : undefined;
+    }
+    setFocusItemValue(nextValue);
+  });
 
   /**
    * Get the index of the focus item.
@@ -121,21 +167,27 @@ const useFocusItemValue = <T, D>(
 
   const scrollListItem = useEventCallback(
     (direction: 'top' | 'bottom', itemValue: string, willOverflow: boolean) => {
+      if (virtualizedList?.current) return;
       const container = getScrollContainer() as HTMLElement;
-      const item = container?.querySelector<HTMLElement>(`[data-key="${itemValue}"]`);
+      const item = findItemByKey(container, itemValue);
 
-      if (willOverflow && container) {
+      if (!item || !container || container.scrollHeight <= container.clientHeight) return;
+
+      if (willOverflow) {
         const { scrollHeight, clientHeight } = container;
         container.scrollTop = direction === 'top' ? scrollHeight - clientHeight : 0;
-        return;
       }
 
-      if (item && container) {
-        if (!isVisible(item, container, direction)) {
-          const height = getHeight(item);
+      // Reveal the whole option, including after wrapping past disabled boundary items.
+      // A single row's height is not enough when navigation skips disabled options.
+      const { top, bottom } = item.getBoundingClientRect();
+      const viewportTop = container.getBoundingClientRect().top + container.clientTop;
+      const viewportBottom = viewportTop + container.clientHeight;
 
-          scrollTo(container, direction, height);
-        }
+      if (direction === 'top' && top < viewportTop) {
+        container.scrollTop += top - viewportTop;
+      } else if (direction === 'bottom' && bottom > viewportBottom) {
+        container.scrollTop += bottom - viewportBottom;
       }
     }
   );
@@ -147,8 +199,7 @@ const useFocusItemValue = <T, D>(
       const focusItem = items[nextIndex];
 
       if (!isUndefined(focusItem)) {
-        setFocusItemValue(focusItem[valueKey]);
-        focusCallback(focusItem[valueKey], event);
+        focusMenuItem(focusItem[valueKey], event);
         scrollListItem('bottom', focusItem[valueKey], willOverflow);
       }
     });
@@ -160,8 +211,7 @@ const useFocusItemValue = <T, D>(
       const nextIndex = willOverflow ? items.length - 1 : index - 1;
       const focusItem = items[nextIndex];
       if (!isUndefined(focusItem)) {
-        setFocusItemValue(focusItem[valueKey]);
-        focusCallback(focusItem[valueKey], event);
+        focusMenuItem(focusItem[valueKey], event);
         scrollListItem('top', focusItem[valueKey], willOverflow);
       }
     });
@@ -172,9 +222,9 @@ const useFocusItemValue = <T, D>(
     const subMenu = menu?.querySelector(`[data-layer="${nextLayer}"]`);
 
     if (subMenu) {
-      return Array.from(subMenu.querySelectorAll<HTMLElement>(focusableQueryKey))?.map<
-        T | undefined
-      >(item => item.dataset?.key as any);
+      return Array.from(subMenu.querySelectorAll<HTMLElement>(focusableQueryKey)).map(
+        item => getItemByElement(item)?.[valueKey]
+      );
     }
 
     return null;
@@ -185,10 +235,13 @@ const useFocusItemValue = <T, D>(
     const nextKeys = getSubMenuKeys(nextLayer);
 
     if (nextKeys) {
+      const focusItem = find(data, item => shallowEqual(item[valueKey], nextKeys[0]));
+
+      if (isUndefined(focusItem)) return;
+
       setKeys(nextKeys);
       setLayer(nextLayer);
-      setFocusItemValue(nextKeys[0]);
-      focusCallback(nextKeys[0], event);
+      focusMenuItem(focusItem[valueKey], event);
     }
   });
 
@@ -203,7 +256,7 @@ const useFocusItemValue = <T, D>(
       const focusItem = findNodeOfTree(data, item => item[valueKey] === focusItemValue);
       const parentItemValue = getParent(focusItem)?.[valueKey];
 
-      if (parentItemValue) {
+      if (parentItemValue != null) {
         setFocusItemValue(parentItemValue);
         focusCallback(parentItemValue, event);
       }
@@ -229,35 +282,5 @@ const useFocusItemValue = <T, D>(
     onKeyDown: handleKeyDown
   };
 };
-
-function scrollTo(container: HTMLElement, direction: 'top' | 'bottom', step: number) {
-  const { scrollTop } = container;
-  container.scrollTop = direction === 'top' ? scrollTop - step : scrollTop + step;
-}
-
-/**
- * Checks if the element has a vertical scrollbar.
- */
-function hasVerticalScroll(element: HTMLElement) {
-  const { scrollHeight, clientHeight } = element;
-  return scrollHeight > clientHeight;
-}
-
-/**
- * Checks if the element is within the visible area of the container
- */
-function isVisible(element: HTMLElement, container: HTMLElement, direction: 'top' | 'bottom') {
-  if (!hasVerticalScroll(container)) {
-    return true;
-  }
-
-  const { top, bottom, height } = element.getBoundingClientRect();
-  const { top: containerTop, bottom: containerBottom } = container.getBoundingClientRect();
-
-  if (direction === 'top') {
-    return top + height > containerTop;
-  }
-  return bottom - height < containerBottom;
-}
 
 export default useFocusItemValue;

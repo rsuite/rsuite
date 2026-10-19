@@ -10,6 +10,7 @@ export * from './react';
 export { guid } from './guid';
 export { createChainedFunction } from './createChainedFunction';
 export { isOneOf } from './isOneOf';
+export { isComposingEvent } from './isComposingEvent';
 export { shallowEqual, shallowEqualArray } from './shallowEqual';
 export { composeFunctions } from './composeFunctions';
 export { getDataGroupBy } from './getDataGroupBy';

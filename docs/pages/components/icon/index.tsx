@@ -1,4 +1,3 @@
-import React from 'react';
 import DefaultPage from '@/components/layout/Page';
 import { IconButton, HStack } from 'rsuite';
 import Icon from '@rsuite/icons/Icon';

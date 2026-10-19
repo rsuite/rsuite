@@ -1,25 +1,28 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import partial from 'lodash/partial';
 import camelCase from 'lodash/camelCase';
 import isNumber from 'lodash/isNumber';
 import TimeColumn from './TimeColumn';
+import type { TimeOption } from './useTimeKeyboard';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useEventCallback } from '@/internals/hooks';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import { getHours, omitHideDisabledProps } from '@/internals/utils/date';
 import { useCalendar } from '../hooks';
 import { WithAsProps } from '@/internals/types';
 import { getTimeLimits, getClockTime, scrollToTime, formatWithLeadingZero } from './utils';
-import type { PlainDate, PlainTime } from '@/internals/utils/date/types';
+import type { PlainDateTime, PlainTime } from '@/internals/utils/date/types';
+import { toPlainDateTime } from '@/internals/utils/date/plainDate';
 
 export interface TimeDropdownProps extends WithAsProps {
   show?: boolean;
   showMeridiem?: boolean;
-  disabledHours?: (hour: number, date: PlainDate) => boolean;
-  disabledMinutes?: (minute: number, date: PlainDate) => boolean;
-  disabledSeconds?: (second: number, date: PlainDate) => boolean;
-  hideHours?: (hour: number, date: PlainDate) => boolean;
-  hideMinutes?: (minute: number, date: PlainDate) => boolean;
-  hideSeconds?: (second: number, date: PlainDate) => boolean;
+  disabledHours?: (hour: number, date: PlainDateTime) => boolean;
+  disabledMinutes?: (minute: number, date: PlainDateTime) => boolean;
+  disabledSeconds?: (second: number, date: PlainDateTime) => boolean;
+  hideHours?: (hour: number, date: PlainDateTime) => boolean;
+  hideMinutes?: (minute: number, date: PlainDateTime) => boolean;
+  hideSeconds?: (second: number, date: PlainDateTime) => boolean;
 }
 
 type TimeType = 'hours' | 'minutes' | 'seconds';
@@ -35,6 +38,7 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
   } = props;
 
   const { locale, format, date, onChangeTime, targetId } = useCalendar();
+  const { reduceMotion } = useContext(CustomContext);
   const rowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -47,7 +51,7 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
 
   const time = getClockTime({ format, date, showMeridiem });
 
-  const handleClick = useEventCallback((type: TimeType, d: number, event: React.MouseEvent) => {
+  const handleClick = useEventCallback((type: TimeType, d: number, event: React.SyntheticEvent) => {
     const nextTime = {
       hour: (time.hours ?? 0) + (showMeridiem && time.meridiem === 'PM' ? 12 : 0),
       minute: time.minutes ?? 0,
@@ -69,66 +73,47 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
     onChangeTime?.(nextTime, event);
   });
 
-  const handleClickMeridiem = useEventCallback((meridiem: 'AM' | 'PM', event: React.MouseEvent) => {
-    const nextTime = {
-      hour: (time.hours ?? 0) + (showMeridiem && time.meridiem === 'PM' ? 12 : 0),
-      minute: time.minutes ?? 0,
-      second: time.seconds ?? 0
-    } satisfies PlainTime;
+  const handleClickMeridiem = useEventCallback(
+    (meridiem: 'AM' | 'PM', event: React.SyntheticEvent) => {
+      const nextTime = {
+        hour: (time.hours ?? 0) + (showMeridiem && time.meridiem === 'PM' ? 12 : 0),
+        minute: time.minutes ?? 0,
+        second: time.seconds ?? 0
+      } satisfies PlainTime;
 
-    if (meridiem === 'AM' && nextTime.hour >= 12) {
-      nextTime.hour -= 12;
-    } else if (meridiem === 'PM' && nextTime.hour < 12) {
-      nextTime.hour += 12;
+      if (meridiem === 'AM' && nextTime.hour >= 12) {
+        nextTime.hour -= 12;
+      } else if (meridiem === 'PM' && nextTime.hour < 12) {
+        nextTime.hour += 12;
+      }
+
+      onChangeTime?.(nextTime, event);
     }
-
-    onChangeTime?.(nextTime, event);
-  });
+  );
 
   const { prefix, rootPrefix, merge } = useStyles(classPrefix);
 
-  const plainDate =
-    typeof date !== 'undefined'
-      ? {
-          year: date.getFullYear(),
-          month: date.getMonth() + 1,
-          day: date.getDate()
-        }
-      : undefined;
+  const plainDateTime = date ? toPlainDateTime(date) : undefined;
 
   const renderColumn = (type: TimeType, value?: number | null) => {
     if (!isNumber(value)) {
       return null;
     }
     const { start, end } = getTimeLimits(showMeridiem)[type];
-    const items: React.ReactElement[] = [];
+    const items: TimeOption<number>[] = [];
     const hideFunc = props[camelCase(`hide_${type}`)];
     const disabledFunc = props[camelCase(`disabled_${type}`)];
 
     for (let i = start; i <= end; i += 1) {
-      if (!hideFunc?.(i, plainDate)) {
-        const disabled = disabledFunc?.(i, plainDate);
-        const itemClasses = prefix('cell', {
-          'cell-active': value === i,
-          'cell-disabled': disabled
+      if (!hideFunc?.(i, plainDateTime)) {
+        const disabled = disabledFunc?.(i, plainDateTime);
+        items.push({
+          value: i,
+          label: showMeridiem && type === 'hours' && i === 0 ? '12' : formatWithLeadingZero(i),
+          ariaLabel: `${i} ${type}`,
+          selected: value === i,
+          disabled
         });
-
-        items.push(
-          <li
-            key={i}
-            role="option"
-            tabIndex={-1}
-            aria-label={`${i} ${type}`}
-            aria-selected={value === i}
-            aria-disabled={disabled}
-            data-key={`${type}-${i}`}
-            onClick={!disabled ? partial(handleClick, type, i) : undefined}
-          >
-            <span className={itemClasses}>
-              {showMeridiem && type === 'hours' && i === 0 ? 12 : formatWithLeadingZero(i)}
-            </span>
-          </li>
-        );
       }
     }
 
@@ -136,39 +121,31 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
       <TimeColumn
         prefix={prefix}
         title={locale?.[type]}
-        data-type={type}
+        type={type}
         aria-label={`Select ${type}`}
-      >
-        {items}
-      </TimeColumn>
+        options={items}
+        onSelect={partial(handleClick, type)}
+      />
     );
   };
 
   const renderMeridiemColumn = () => {
-    const columns = ['AM', 'PM'];
+    const columns = ['AM', 'PM'] as const;
+    const ampm = date && (getHours(date) >= 12 ? 'PM' : 'AM');
     return (
-      <TimeColumn prefix={prefix} title={'AM/PM'} data-type="meridiem" aria-label="Select meridiem">
-        {columns.map((meridiem, index) => {
-          const ampm = date && (getHours(date) >= 12 ? 'PM' : 'AM');
-          const itemClasses = prefix('cell', {
-            'cell-active': ampm === meridiem
-          });
-
-          return (
-            <li
-              key={index}
-              role="option"
-              tabIndex={-1}
-              aria-label={meridiem}
-              aria-selected={ampm === meridiem}
-              data-key={`meridiem-${meridiem}`}
-              onClick={partial(handleClickMeridiem, meridiem)}
-            >
-              <span className={itemClasses}>{meridiem}</span>
-            </li>
-          );
-        })}
-      </TimeColumn>
+      <TimeColumn
+        prefix={prefix}
+        title="AM/PM"
+        type="meridiem"
+        aria-label="Select meridiem"
+        options={columns.map(value => ({
+          value,
+          label: value,
+          ariaLabel: value,
+          selected: ampm === value
+        }))}
+        onSelect={handleClickMeridiem}
+      />
     );
   };
 
@@ -180,6 +157,7 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
       tabIndex={-1}
       id={targetId ? `${targetId}-${classPrefix}` : undefined}
       {...omitHideDisabledProps<TimeDropdownProps>(rest)}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
       ref={ref}
       className={classes}
     >

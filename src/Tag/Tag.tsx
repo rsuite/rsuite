@@ -26,13 +26,15 @@ export interface TagProps extends BoxProps {
   onClose?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
+type TagRenderProps = TagProps & Pick<React.HTMLAttributes<HTMLElement>, 'role'>;
+
 /**
  * The `Tag` component is used to label and categorize.
  * It can be used to mark the status of an object or classify it into different categories.
  *
  * @see https://rsuitejs.com/components/tag
  */
-const Tag = forwardRef<'div', TagProps>((props: TagProps, ref) => {
+const Tag = forwardRef<'div', TagProps>((props: TagRenderProps, ref) => {
   const { propsWithDefaults, getLocale } = useCustom('Tag', props);
   const {
     as,
@@ -72,7 +74,7 @@ const Tag = forwardRef<'div', TagProps>((props: TagProps, ref) => {
         <CloseButton
           className={prefix`icon-close`}
           onClick={onClose}
-          tabIndex={-1}
+          tabIndex={rest.role === 'option' ? -1 : undefined}
           locale={{ closeLabel: remove }}
         />
       )}

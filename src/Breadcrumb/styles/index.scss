@@ -1,7 +1,6 @@
 @use '../../internals/Box/styles/index';
 @use '../../styles/mixins/utilities' as utils;
 
-//
 // Breadcrumbs
 // --------------------------------------------------
 
@@ -32,7 +31,7 @@
     gap: var(--rs-breadcrumb-spacing);
 
     &:focus {
-      @include utils.tab-focus();
+      @include utils.tab-focus;
     }
 
     &[data-active='true'] {

@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { nl } from 'date-fns/locale/nl';
 
 const DateTimeFormats = {
@@ -20,6 +21,19 @@ const DateTimeFormats = {
   shortDateFormat: 'dd-MM-yyyy',
   shortTimeFormat: 'HH:mm',
   dateLocale: nl as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Vorige maand',
+  nextMonth: 'Volgende maand',
+  selectMonth: 'Maand selecteren',
+  selectTime: 'Tijd selecteren'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Keuzevenster openen'
 };
 
 const Combobox = {
@@ -59,10 +73,10 @@ export default {
     skip: 'Ga naar{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Laatste 7 Dagen'
   },
   Combobox,
@@ -82,6 +96,15 @@ export default {
   },
   Breadcrumb: {
     expandText: 'Toon pad'
+  },
+  Carousel: {
+    carouselRoleDescription: 'carrousel',
+    slideRoleDescription: 'dia',
+    slidePosition: '{0} van {1}',
+    startRotation: 'Automatische diawisseling starten',
+    stopRotation: 'Automatische diawisseling stoppen',
+    selectSlide: 'Dia kiezen',
+    slideLabel: 'Dia {0} van {1}'
   },
   Toggle: {
     on: 'Open',

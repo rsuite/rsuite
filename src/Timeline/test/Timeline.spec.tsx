@@ -8,8 +8,11 @@ describe('Timeline', () => {
   testStandardProps(<Timeline />);
 
   it('Should output a Timeline', () => {
-    const { container } = render(<Timeline />);
+    const ref = React.createRef<HTMLUListElement>();
+    const { container } = render(<Timeline ref={ref} />);
     expect(container.firstChild).to.have.class('rs-timeline');
+    expect(container.firstChild).to.have.tagName('UL');
+    expect(ref.current).toBe(container.firstChild);
   });
 
   it('Should output a div', () => {

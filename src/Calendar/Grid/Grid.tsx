@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import GridRow from './GridRow';
 import GridHeaderRow from './GridHeaderRow';

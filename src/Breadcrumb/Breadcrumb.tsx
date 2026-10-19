@@ -53,7 +53,7 @@ const Separator = createComponent<'span', React.HTMLAttributes<HTMLSpanElement>>
  * The Breadcrumb component is used to indicate the current page location and navigate.
  * @see https://rsuitejs.com/components/breadcrumb
  */
-const Breadcrumb = forwardRef<'ol', BreadcrumbProps, typeof Subcomponents>(
+const Breadcrumb = forwardRef<'nav', BreadcrumbProps, typeof Subcomponents>(
   (props: BreadcrumbProps, ref) => {
     const { propsWithDefaults } = useCustom('Breadcrumb', props);
     const {

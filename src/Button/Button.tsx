@@ -1,10 +1,13 @@
 import React, { useContext, useMemo } from 'react';
+import useCustomConfig from '@/internals/hooks/useCustomConfig';
 import Ripple from '@/internals/Ripple';
 import Box, { BoxProps } from '@/internals/Box';
 import SafeAnchor from '@/internals/SafeAnchor';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import ButtonGroupContext from '../ButtonGroup/ButtonGroupContext';
+import useButtonLoading from './useButtonLoading';
 import { forwardRef, isOneOf, isDisableableElement } from '@/internals/utils';
-import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
 import { Color, BasicSize, AppearanceType } from '@/internals/types';
 
 export interface ButtonProps extends BoxProps, Omit<React.HTMLAttributes<HTMLElement>, 'onToggle'> {
@@ -31,6 +34,12 @@ export interface ButtonProps extends BoxProps, Omit<React.HTMLAttributes<HTMLEle
 
   /** A button can show a loading indicator */
   loading?: boolean;
+
+  /** Show loading and block repeat activation while onClick's returned promise is pending. */
+  autoLoading?: boolean;
+
+  /** Handle errors from autoLoading activation callbacks and promises. Otherwise errors are reported globally. */
+  onClickError?: (error: unknown, event: React.MouseEvent<HTMLElement>) => void;
 
   /** A button can show it is currently unable to be interacted with */
   disabled?: boolean;
@@ -59,7 +68,8 @@ export interface ButtonProps extends BoxProps, Omit<React.HTMLAttributes<HTMLEle
  * @see https://rsuitejs.com/components/button
  */
 const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
-  const { propsWithDefaults } = useCustom('Button', props);
+  const { propsWithDefaults } = useCustomConfig('Button', props);
+  const { reduceMotion } = useContext(CustomContext);
   const buttonGroup = useContext(ButtonGroupContext);
   const {
     as,
@@ -71,7 +81,8 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
     classPrefix = 'btn',
     color,
     disabled = buttonGroup?.disabled,
-    loading,
+    loading: loadingProp,
+    autoLoading,
     role,
     ripple = true,
     size = buttonGroup?.size || 'md',
@@ -81,10 +92,13 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
     toggleable,
     onToggle,
     onClick,
+    onClickError,
     ...rest
   } = propsWithDefaults;
 
   const [active, setActive] = useControlled(activeProp, false);
+  const pending = useButtonLoading();
+  const loading = pending.loading || loadingProp;
 
   const { withPrefix, prefix, merge } = useStyles(classPrefix);
   const classes = merge(className, withPrefix());
@@ -105,13 +119,27 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
   }, [appearance, children, endIcon, loading, prefix, ripple, startIcon]);
 
   const handleClick = useEventCallback((event: React.MouseEvent<HTMLElement>) => {
-    if (toggleable) {
-      const nextActive = !active;
-
-      setActive(nextActive);
-      onToggle?.(nextActive, event);
+    if (disabled || loading || pending.isPending()) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
     }
-    onClick?.(event);
+
+    const invoke = () => {
+      if (toggleable) {
+        const nextActive = !active;
+
+        setActive(nextActive);
+        onToggle?.(nextActive, event);
+      }
+      return onClick?.(event);
+    };
+
+    if (autoLoading) {
+      pending.run(invoke, onClickError ? error => onClickError(error, event) : undefined);
+    } else {
+      invoke();
+    }
   });
 
   const buttonAs = as || (rest.href ? SafeAnchor : 'button');
@@ -138,7 +166,10 @@ const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
       data-disabled={disabled}
       data-loading={loading}
       {...uncertainProps}
+      aria-disabled={disabled || loading || undefined}
+      aria-busy={loading || undefined}
       {...rest}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
     >
       {buttonContent}
     </Box>

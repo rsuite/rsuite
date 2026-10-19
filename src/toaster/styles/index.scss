@@ -1,6 +1,6 @@
 @use './animation';
+@use '../../Animation/styles/reduced-motion';
 
-//
 // toaster
 // --------------------------------------------------
 
@@ -16,6 +16,7 @@
 
   position: fixed;
   z-index: var(--rs-zindex-notification);
+
   // Make sure the mouse can penetrate through the gap area.
   pointer-events: none;
   display: flex;

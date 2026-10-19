@@ -1,11 +1,14 @@
 import React from 'react';
 import { hydrateRoot } from 'react-dom/client';
+import { version as reactDOMVersion } from 'react-dom';
 import ImageHydrationFixture from './ImageHydrationFixture';
 
 export interface HydrationResult {
   errors: string[];
   initialMarkup: string;
   hydratedMarkup: string;
+  reactVersion: string;
+  reactDOMVersion: string;
 }
 
 declare global {
@@ -29,18 +32,22 @@ console.error = (...args: unknown[]) => {
   originalConsoleError(...args);
 };
 
-hydrateRoot(container, <ImageHydrationFixture />, {
-  onRecoverableError(error) {
-    errors.push(error instanceof Error ? error.message : String(error));
+hydrateRoot(
+  container,
+  <ImageHydrationFixture
+    onHydrated={() => {
+      window.__RSUITE_HYDRATION_RESULT__ = {
+        errors,
+        initialMarkup,
+        hydratedMarkup: container.innerHTML,
+        reactVersion: React.version,
+        reactDOMVersion
+      };
+    }}
+  />,
+  {
+    onRecoverableError(error) {
+      errors.push(error instanceof Error ? error.message : String(error));
+    }
   }
-});
-
-requestAnimationFrame(() => {
-  requestAnimationFrame(() => {
-    window.__RSUITE_HYDRATION_RESULT__ = {
-      errors,
-      initialMarkup,
-      hydratedMarkup: container.innerHTML
-    };
-  });
-});
+);

@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import FlexboxGridItem from './FlexboxGridItem';
 import { forwardRef } from '@/internals/utils';

@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import TextMask from './TextMask';
 import Input, { InputProps } from '../Input';

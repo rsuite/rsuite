@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import ProgressInfo from './ProgressInfo';
 import ProgressStroke from './ProgressStroke';
 import ProgressSections from './ProgressSections';
@@ -57,6 +58,7 @@ export interface ProgressLineProps extends BoxProps {
  */
 const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('ProgressLine', props);
+  const { reduceMotion } = useContext(CustomContext);
   const {
     as,
     className,
@@ -97,14 +99,16 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
     style
   );
 
-  const info = (
-    <ProgressInfo
-      percent={percent}
-      renderInfo={renderInfo}
-      status={status}
-      classPrefix={classPrefix}
-    />
-  );
+  const showDefaultInfo = !indeterminate || status === 'success' || status === 'fail';
+  const info =
+    showInfo && (renderInfo || showDefaultInfo) ? (
+      <ProgressInfo
+        percent={totalPercent}
+        renderInfo={renderInfo}
+        status={status}
+        classPrefix={classPrefix}
+      />
+    ) : null;
 
   // Determine if the info should be placed inside the stroke
   const isInsidePlacement = percentPlacement?.startsWith('inside');
@@ -116,11 +120,12 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
       role="progressbar"
       aria-valuemin="0"
       aria-valuemax="100"
-      aria-valuenow={totalPercent}
+      aria-valuenow={indeterminate ? undefined : totalPercent}
       data-status={status}
       data-placement={percentPlacement}
       style={styles}
       {...rest}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
     >
       <div className={prefix('outer')}>
         <div className={prefix('trail')}>
@@ -132,12 +137,12 @@ const ProgressLine = forwardRef<'div', ProgressLineProps>((props, ref) => {
               percent={indeterminate ? 100 : percent}
               vertical={vertical}
             >
-              {showInfo && isInsidePlacement ? info : null}
+              {isInsidePlacement ? info : null}
             </ProgressStroke>
           )}
         </div>
       </div>
-      {showInfo && !isInsidePlacement ? info : null}
+      {!isInsidePlacement ? info : null}
     </Box>
   );
 });

@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import InfoRoundIcon from '@rsuite/icons/InfoRound';
 import CheckRoundIcon from '@rsuite/icons/CheckRound';
