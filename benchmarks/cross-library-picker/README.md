@@ -37,6 +37,39 @@ Use `--browser firefox` for a separate browser report. Library order is randomiz
 recorded seed; each library/size/mode receives a fresh browser context. Run comparisons on an
 otherwise idle machine and repeat with another seed before drawing performance conclusions.
 
+## Automated accessibility audit
+
+Use the same installed project and production build for a separate four-state audit:
+
+    npm run audit:a11y -- --browser chromium --output results/a11y-chromium.json
+    npm run audit:a11y -- --browser firefox --output results/a11y-firefox.json
+
+The default is all four libraries with 1,000 virtualized options. `--libraries`, `--sizes`,
+`--modes` and `--skip-build` follow the benchmark's configuration and integrity rules. For
+ordinary and virtualized lists together, pass `--modes standard,virtualized`. Each configured
+case records closed, open, keyboard-scrolled and empty-search states in that order. Native
+keys must expose each option from 1 through 21, with the connected active option fully visible.
+Opening animations must finish before scanning; the report retains the sampled appearance.
+
+The pinned axe-core engine runs WCAG 2/2.1/2.2 A and AA tagged rules on the whole fixture page.
+Separate fixture checks record broken ID references, including expanded comboboxes whose
+controlled listbox is absent. A known unlabelled-input fault must be accessible and detected
+in a separate control document, so popup focus/visibility policies cannot hide the fault.
+It is removed and is not included in the measured states. Engine version/hash, browser/runtime,
+build inputs and complete raw axe results accompany the report.
+
+The command exits **1** for confirmed violations, broken fixture references, failed/missing
+states, browser errors or a failed engine control. A completed audit can therefore exit 1;
+known defects in any library are retained, not skipped. Failed cases are saved before bounded
+artifact capture. The summary counts rule occurrences across states, not unique defects or
+library scores. Incomplete axe results remain manual-review items, including on exit 0.
+
+Neither zero confirmed violations nor this fixed fixture establishes accessibility
+conformance, screen-reader support, OS IME/mobile behavior, internationalization, coverage of
+all components or relative leadership. Manual assessment remains required. Accessibility
+runs do not produce timing comparisons. `npm run check` covers failure aggregation, invalid
+references and a nonresponsive browser audit in addition to diagnostic artifact deadlines.
+
 ## Workload and completion
 
 Every adapter receives the same stable string values and plain ASCII labels. Every hundredth
@@ -79,6 +112,12 @@ The renderer adds the same label marker to all adapters. Native virtualization i
 RSuite and Ant Design. Chakra uses its documented TanStack virtualizer composition; HeroUI's
 ListBox is composed with the React Aria Virtualizer. These integration differences are part
 of the recorded configuration and must not be hidden as an identical internal implementation.
+
+HeroUI's Tailwind utility detection is restricted to browser fixture sources and the HTML
+entry point, using [Tailwind's explicit source registration](https://tailwindcss.com/docs/detecting-classes-in-source-files).
+Runner code, audit prose and results must not generate extra CSS. This corrects the earlier
+automatic project-wide utility scan; retain the build manifest when comparing different
+fixture revisions. The official HeroUI style import remains the full style profile.
 
 ## Sources and limits
 

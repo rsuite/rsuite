@@ -4,8 +4,9 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
-    "check": "tsc --noEmit && node --test runner/diagnostics.test.mjs",
-    "bench": "node run.mjs"
+    "check": "tsc --noEmit && node --test runner/diagnostics.test.mjs runner/accessibility.test.mjs",
+    "bench": "node run.mjs",
+    "audit:a11y": "node audit.mjs"
   },
   "dependencies": {
     "@chakra-ui/react": "3.37.0",
@@ -18,9 +19,9 @@
     "@tanstack/react-virtual": "3.14.21",
     "antd": "6.6.6",
     "react": "19.0.0",
-    "react-dom": "19.0.0",
     "react-aria": "3.52.1",
     "react-aria-components": "1.21.1",
+    "react-dom": "19.0.0",
     "rsuite": "file:../../lib",
     "tailwindcss": "4.3.3"
   },
@@ -28,6 +29,7 @@
     "@tailwindcss/vite": "4.3.3",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
+    "axe-core": "4.14.0",
     "playwright": "1.56.1",
     "typescript": "5.7.3",
     "vite": "6.4.4"

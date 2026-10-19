@@ -1,4 +1,4 @@
-async function bounded(operation, timeoutMs, label) {
+export async function bounded(operation, timeoutMs, label) {
   let timer;
   try {
     return await Promise.race([
