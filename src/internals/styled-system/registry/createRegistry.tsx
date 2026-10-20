@@ -12,7 +12,7 @@ const controllers = new WeakMap<StyleRegistryInstance, RegistryController>();
 export function createRegistry(): StyleRegistryInstance {
   const scopes = new Map<string, RegistryScope>();
   const registry: StyleRegistryInstance = {
-    getStyleElement() {
+    getStyleElement(): React.ReactElement | null {
       if (typeof document !== 'undefined') return null;
       const elements = Array.from(scopes.values()).flatMap(scope =>
         renderStyleElements(scope.owner, scope.pendingInputs.values())

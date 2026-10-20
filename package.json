@@ -13,6 +13,7 @@
     "bench:select-picker": "node benchmarks/select-picker/run.mjs",
     "generate:component-types": "node scripts/generate-component-names.js",
     "check:component-types": "node scripts/generate-component-names.js --check",
+    "check:source-preview": "tsc --project tsconfig.build.json --noEmit --jsx react-jsx --strict false",
     "test:component-registry": "node --test test/build/component-registry.integration-test.cjs",
     "format": "prettier --write \"{src,test}/**/*.{tsx,ts,js}\" --cache",
     "format:docs": "prettier --write \"docs/**/*.{tsx,ts,md}\" --cache",
