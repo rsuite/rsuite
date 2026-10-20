@@ -14,13 +14,17 @@ import { assertBuildState, artifactGuard } from './runner/build-state.mjs';
 import { virtualWorkflow } from './runner/virtual-workflow.mjs';
 import { validateVirtualReport } from './runner/virtual-report.mjs';
 import { virtualOwnership } from './runner/virtual-oracle.mjs';
+import { lifecycleWorkflow } from './runner/lifecycle-workflow.mjs';
+import { validateLifecycleReport } from './runner/lifecycle-report.mjs';
+import { lifecycleOwnership } from './runner/lifecycle-oracle.mjs';
 const root = import.meta.dirname,
   args = process.argv.slice(2);
 const outputIndex = args.indexOf('--output'),
   browserIndex = args.indexOf('--browser'),
   workflowIndex = args.indexOf('--workflow');
 const workflowName = workflowIndex < 0 ? 'selection' : args[workflowIndex + 1];
-if (!['selection', 'tree', 'virtual'].includes(workflowName)) throw Error('Invalid workflow');
+if (!['selection', 'tree', 'virtual', 'lifecycle'].includes(workflowName))
+  throw Error('Invalid workflow');
 const output = path.resolve(
   outputIndex < 0
     ? path.join(
@@ -89,11 +93,13 @@ const report = {
   workflow: workflowName,
   qualification: 'Prototype: adapters and driver require review before qualified comparison',
   scope:
-    workflowName === 'virtual'
-      ? '10k rows, application jump controls and native checkbox selection. Mounted rows and visible rows reported separately, including focused-row persistence. No performance/ranking/AT conformance result.'
-      : workflowName === 'tree'
-        ? 'Three-level hierarchy, retained selection and root reorder. Functional and limited tree semantics gates are reported separately; native/composed ownership explicit. No AT/conformance/ranking result.'
-        : 'One sort/filter/ID-selection workflow; native engines versus explicit application composition. No performance/conformance/ranking result.',
+    workflowName === 'lifecycle'
+      ? 'Loaded to loading to empty to recovered data with shared explicit application request/selection policy; native loading and composed content ownership recorded. No AT/performance/ranking claim.'
+      : workflowName === 'virtual'
+        ? '10k rows, application jump controls and native checkbox selection. Mounted rows and visible rows reported separately, including focused-row persistence. No performance/ranking/AT conformance result.'
+        : workflowName === 'tree'
+          ? 'Three-level hierarchy, retained selection and root reorder. Functional and limited tree semantics gates are reported separately; native/composed ownership explicit. No AT/conformance/ranking result.'
+          : 'One sort/filter/ID-selection workflow; native engines versus explicit application composition. No performance/conformance/ranking result.',
   node: process.version,
   built,
   cases: [],
@@ -127,6 +133,7 @@ try {
             row.functionalPassed = false;
           }
           if (workflowName === 'virtual') row.ownership = virtualOwnership[library];
+          if (workflowName === 'lifecycle') row.ownership = lifecycleOwnership[library];
           const capture = createCapture(page, workflowName);
           report.cases.push(row);
           page.on('pageerror', error => row.pageErrors.push(String(error)));
@@ -146,6 +153,7 @@ try {
                       trusted: event.isTrusted,
                       tag: event.target.tagName,
                       role: event.target.getAttribute?.('role'),
+                      buttonText: event.target.closest?.('button')?.textContent,
                       rowId: event.target
                         .closest?.('[data-virtual-row-id],tr,[role="row"]')
                         ?.querySelector('[data-row-id]')?.dataset.rowId,
@@ -167,7 +175,9 @@ try {
                 ? treeWorkflow
                 : workflowName === 'virtual'
                   ? virtualWorkflow
-                  : workflow
+                  : workflowName === 'lifecycle'
+                    ? lifecycleWorkflow
+                    : workflow
             )(page, profile, async (name, observation) => {
               const state = await capture();
               row.checkpoints.push({ name, state, observation });
@@ -222,7 +232,9 @@ try {
         ? validateTreeReport
         : workflowName === 'virtual'
           ? validateVirtualReport
-          : validateReport
+          : workflowName === 'lifecycle'
+            ? validateLifecycleReport
+            : validateReport
     )(report, browserName);
     report.validated = true;
   } catch (error) {

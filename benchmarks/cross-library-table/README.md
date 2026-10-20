@@ -131,3 +131,20 @@ source, installs the standalone cohort with npm ci, runs both native browsers,
 checks atomic capture/report integrity and composed focus, and executes the four
 mid-run mutation controls. Raw results and build fingerprints are uploaded even
 on failure. Sort/tree diagnostic failures remain explicit in their own commands.
+
+### Loading, empty and recovered data
+
+Run the `lifecycle` workflow against all four production adapters:
+
+```sh
+node run.mjs --workflow lifecycle --output results/lifecycle/report.json
+node checks/report-integrity.mjs results/lifecycle/report.json
+```
+
+It selects an original row, starts loading, resolves an empty result, recovers three different row IDs and selects a recovered row. Three application buttons control these transitions deterministically; this is not a network latency measurement. The shared application policy clears rows and selected keys when the request starts. Reports check actual native checkbox state for every data row, including unchecked recovered rows, rather than inferring selection from application output alone. Loading and empty presentation have no data identity markers and cannot count as data rows.
+
+RSuite uses public `loading`, `renderLoading` and `renderEmpty` props. Ant Design uses native `loading`/Spin and `locale.emptyText`, with `dataSource={undefined}` while loading: the pinned version intentionally shows its empty placeholder alongside loading for an explicit empty array. Chakra uses an application loading/empty table-row composition. HeroUI uses its public React Aria empty-state render prop; initial loading content is application composition, distinct from its native additional-item `Table.LoadMoreItem` API.
+
+The application phase/status is recorded separately from actual native `aria-busy` observations. Reference integrity, trusted toolbar/selection input, exact row identities, indicator visibility and real checkbox state are acceptance gates; screen-reader announcement and accessibility conformance are not claimed. The runner waits for native checked state within the same 10-second action bound before capturing a selected checkpoint. Original premature-sampling and adapter-input failures remain recovery evidence.
+
+The dedicated CI workflow now runs both virtual and lifecycle matrices and their report controls, then the shared atomic-capture, focus and exclusive mutation controls. Raw lifecycle outcomes are included in the always-uploaded results.
