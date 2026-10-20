@@ -23,7 +23,7 @@ export default function useFilePreview(
     });
     return () => {
       active = false;
-      dispose?.();
+      if (typeof dispose === 'function') dispose();
     };
   }, [blobFile, url, enabled]);
 

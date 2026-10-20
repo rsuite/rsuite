@@ -32,6 +32,8 @@ jobs:
         run: node --test test/scss/*.node-test.cjs
       - run: npm run format:check
       - run: npm run lint
+      - name: Check source preview types
+        run: npm run check:source-preview
 
   # Bound each Chromium browser run while keeping all tests across independent runners.
   chromium-react18:
