@@ -11,7 +11,7 @@ export default [
   pluginReact.configs.flat.recommended,
   {
     ...pluginReact.configs.flat['jsx-runtime'],
-    files: ['docs/**/*.tsx']
+    files: ['docs/**/*.tsx', 'benchmarks/cross-library-table/src/**/*.tsx']
   },
   eslintConfigPrettier,
   {
