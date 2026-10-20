@@ -11,8 +11,9 @@
     "types": ["vite/client"],
     "baseUrl": ".",
     "paths": {
-      "benchmark-adapter": ["src/adapters/rsuite.tsx"]
+      "benchmark-adapter": ["src/adapters/rsuite.tsx"],
+      "async-adapter": ["async/adapters/rsuite.tsx"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "async"]
 }
