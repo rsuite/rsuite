@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { validateReport } from '../runner/report.mjs';
 import { validateTreeReport } from '../runner/tree-report.mjs';
 import { validateVirtualReport } from '../runner/virtual-report.mjs';
+import { validateLifecycleReport } from '../runner/lifecycle-report.mjs';
 const [file, browser = 'all', ...extra] = process.argv.slice(2);
 assert(
   file && !extra.length,
@@ -12,7 +13,8 @@ const actual = JSON.parse(fs.readFileSync(file)),
   validate = {
     selection: validateReport,
     tree: validateTreeReport,
-    virtual: validateVirtualReport
+    virtual: validateVirtualReport,
+    lifecycle: validateLifecycleReport
   }[actual.workflow];
 assert(validate, 'Unknown report workflow');
 assert.equal(actual.validated, true);
@@ -103,6 +105,52 @@ if (actual.workflow === 'virtual') {
     positive(r)
       .events.filter(e => e.rowId === 'entry-09000')
       .forEach(e => (e.rowId = 'entry-00000'))
+  );
+} else if (actual.workflow === 'lifecycle') {
+  const state = (r, name) => positive(r).checkpoints.find(c => c.name === name).state;
+  reject('wrong-workflow', r => (r.workflow = 'selection'));
+  reject('wrong-ownership', r => (positive(r).ownership = 'native-all'));
+  reject('wrong-displayed-id', r => (state(r, 'initial').ids[0] = 'bogus'));
+  reject('stale-recovered-id', r => (state(r, 'recovered').ids[0] = 'entry-000'));
+  reject('stale-loading-selection', r => (state(r, 'loading').selected = '["entry-001"]'));
+  reject('stale-recovered-selection', r => (state(r, 'recovered').selected = '["entry-001"]'));
+  reject('wrong-phase', r => (state(r, 'loading').lifecycle.phase = 'empty'));
+  reject('wrong-app-status', r => (state(r, 'loading').lifecycle.statusText = 'No entries'));
+  reject(
+    'hidden-loading-indicator',
+    r => (state(r, 'loading').lifecycle.loadingIndicators[0].visible = false)
+  );
+  reject('simultaneous-loading-empty', r =>
+    state(r, 'loading').lifecycle.emptyIndicators.push({ text: 'No entries', visible: true })
+  );
+  reject('empty-counted-as-data', r => state(r, 'empty').ids.push('empty-row'));
+  reject(
+    'wrong-recovered-checkbox',
+    r =>
+      (state(r, 'reselected').checkboxes.find(
+        c => c.kind === 'input' && c.rowId === 'entry-101'
+      ).checked = false)
+  );
+  reject('erased-recovered-checkbox', r => {
+    const s = state(r, 'reselected');
+    s.checkboxes = s.checkboxes.filter(c => c.rowId !== 'entry-101');
+  });
+  reject('wrong-recovered-pointer-row', r =>
+    positive(r)
+      .events.filter(e => e.rowId === 'entry-101')
+      .forEach(e => (e.rowId = 'entry-001'))
+  );
+  reject(
+    'missing-native-toolbar-input',
+    r => (positive(r).events = positive(r).events.filter(e => e.buttonText !== 'Start loading'))
+  );
+  reject('invalid-busy-observation', r =>
+    state(r, 'initial').lifecycle.nativeBusy.push({
+      tag: 'DIV',
+      role: null,
+      value: 'invalid',
+      visible: true
+    })
   );
 } else if (actual.workflow === 'tree') {
   reject('wrong-workflow', r => (r.workflow = 'selection'));

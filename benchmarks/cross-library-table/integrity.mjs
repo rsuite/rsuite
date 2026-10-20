@@ -16,6 +16,7 @@ export function inputs(root) {
       'index.html',
       'tree.html',
       'virtual.html',
+      'lifecycle.html',
       'vite.config.mjs',
       'build.mjs',
       'run.mjs',

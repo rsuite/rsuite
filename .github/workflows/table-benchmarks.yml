@@ -1,4 +1,4 @@
-name: Virtual table workflow
+name: Table workflow integrity
 on:
   pull_request:
     branches: [main, next]
@@ -36,7 +36,7 @@ permissions:
   contents: read
 jobs:
   virtual-integrity:
-    name: Virtual table and report integrity
+    name: Table workflows and report integrity
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -73,6 +73,12 @@ jobs:
       - name: Reject malformed or contradictory reports
         working-directory: benchmarks/cross-library-table
         run: node checks/report-integrity.mjs results/virtual/report.json
+      - name: Run Chromium and Firefox loading and empty recovery
+        working-directory: benchmarks/cross-library-table
+        run: node run.mjs --skip-build --workflow lifecycle --output results/lifecycle/report.json
+      - name: Reject stale lifecycle identities and state
+        working-directory: benchmarks/cross-library-table
+        run: node checks/report-integrity.mjs results/lifecycle/report.json
       - name: Check composed native keyboard focus
         working-directory: benchmarks/cross-library-table
         run: node checks/composed-focus.mjs results/focus

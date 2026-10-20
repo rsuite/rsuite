@@ -13,7 +13,8 @@ export default defineConfig({
     alias: {
       'table-adapter': path.join(root, 'src/adapters', library + '.tsx'),
       'tree-adapter': path.join(root, 'src/tree/adapters', library + '.tsx'),
-      'virtual-adapter': path.join(root, 'src/virtual/adapters', library + '.tsx')
+      'virtual-adapter': path.join(root, 'src/virtual/adapters', library + '.tsx'),
+      'lifecycle-adapter': path.join(root, 'src/lifecycle/adapters', library + '.tsx')
     }
   },
   define: { __LIBRARY__: JSON.stringify(library) },
@@ -25,7 +26,8 @@ export default defineConfig({
       input: {
         index: path.join(root, 'index.html'),
         tree: path.join(root, 'tree.html'),
-        virtual: path.join(root, 'virtual.html')
+        virtual: path.join(root, 'virtual.html'),
+        lifecycle: path.join(root, 'lifecycle.html')
       }
     },
     target: 'es2022'
