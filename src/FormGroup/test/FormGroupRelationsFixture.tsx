@@ -1,7 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import Form from '../../Form';
 
-export type RelationsMode = 'direct' | 'opaque';
+export type RelationsMode = 'direct' | 'opaque' | 'custom-roots';
+
+const PlainLabel = ({ id, htmlFor, children }: React.LabelHTMLAttributes<HTMLLabelElement>) => (
+  <label id={id} htmlFor={htmlFor}>
+    {children}
+  </label>
+);
+const HandleHelp = forwardRef<{ kind: string }, React.HTMLAttributes<HTMLSpanElement>>(
+  ({ id, children }, ref) => {
+    useImperativeHandle(ref, () => ({ kind: 'help' }), []);
+    return <span id={id}>{children}</span>;
+  }
+);
+HandleHelp.displayName = 'HandleHelp';
 
 function Parts({ step }: { step: number }) {
   return (
@@ -34,9 +47,20 @@ export default function FormGroupRelationsFixture({
           <Parts step={step} />
         ) : (
           <>
-            {step < 3 && <Form.Label id={`label-${step}`}>Name</Form.Label>}
             {step < 3 && (
-              <Form.Text id={`help-${step}`} tooltip={step === 2}>
+              <Form.Label
+                as={mode === 'custom-roots' ? PlainLabel : undefined}
+                id={`label-${step}`}
+              >
+                Name
+              </Form.Label>
+            )}
+            {step < 3 && (
+              <Form.Text
+                as={mode === 'custom-roots' && step < 2 ? HandleHelp : undefined}
+                id={`help-${step}`}
+                tooltip={step === 2}
+              >
                 Helpful description
               </Form.Text>
             )}

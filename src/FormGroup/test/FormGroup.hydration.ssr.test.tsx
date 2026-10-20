@@ -13,7 +13,7 @@ import { createServer, type ViteDevServer } from 'vite';
 import Fixture, { type RelationsMode } from './FormGroupRelationsFixture';
 import type { FormGroupHydrationResult } from './FormGroupRelations.client';
 
-const modes: RelationsMode[] = ['direct', 'opaque'];
+const modes: RelationsMode[] = ['direct', 'opaque', 'custom-roots'];
 const identifierPrefix = 'form-relations-';
 const require = createRequire(import.meta.url);
 

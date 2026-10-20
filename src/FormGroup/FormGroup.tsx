@@ -11,7 +11,8 @@ import { useFormGroupRelations } from './useFormGroupRelations';
 export interface FormGroupProps extends BoxProps {
   /**
    * Sets id on `<Form.Control>` and `htmlFor` on `<Form.ControlLabel>`.
-   * Form.Control associates with mounted labels and inline help text in this group.
+   * Form.Control associates with registered label and inline help IDs in this group.
+   * Custom roots must forward the assigned ID to their label or help element.
    * Custom components retain legacy default ID links in server output until mount.
    * For custom IDs or optional content inside such components, use explicit
    * aria-labelledby/aria-describedby on Form.Control for accurate server relationships.

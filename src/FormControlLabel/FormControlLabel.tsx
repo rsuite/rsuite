@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useCustom } from '@/internals/hooks';
-import { forwardRef, mergeRefs } from '@/internals/utils';
+import { forwardRef } from '@/internals/utils';
 import { useFormGroup } from '../FormGroup';
 import { useFormGroupRegistration } from '../FormGroup/useFormGroupRegistration';
 import { registerFormGroupPart } from '../FormGroup/formGroupRelations';
@@ -29,13 +29,12 @@ const FormControlLabel = forwardRef<'label', FormControlLabelProps>(
       id = labelId,
       ...rest
     } = propsWithDefaults;
-    const register = useFormGroupRegistration('label', id);
-    const mergedRef = useMemo(() => mergeRefs(ref, register), [ref, register]);
+    useFormGroupRegistration('label', id);
 
     const { withPrefix, merge } = useStyles(classPrefix);
     const classes = merge(className, withPrefix());
 
-    return <Box as={as} id={id} htmlFor={htmlFor} {...rest} ref={mergedRef} className={classes} />;
+    return <Box as={as} id={id} htmlFor={htmlFor} {...rest} ref={ref} className={classes} />;
   }
 );
 

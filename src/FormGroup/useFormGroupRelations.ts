@@ -1,24 +1,23 @@
 import { useCallback, useRef, useState } from 'react';
 import { useIsomorphicLayoutEffect } from '@/internals/hooks';
-import type { FormGroupPart, FormGroupRelations } from './formGroupRelations';
+import type { FormGroupRelations } from './formGroupRelations';
+
+type RegisteredPart = 'label' | 'helpText';
 
 export type FormGroupRegistration = (
-  part: 'label' | 'helpText',
+  part: RegisteredPart,
   token: object,
-  element: HTMLElement | null
+  id: string | undefined
 ) => void;
 
 export function useFormGroupRelations(staticRelations: FormGroupRelations) {
-  const elements = useRef(new Map<object, { part: FormGroupPart; element: HTMLElement }>());
+  const registered = useRef(new Map<object, { part: RegisteredPart; id: string }>());
   const [relations, setRelations] = useState<FormGroupRelations | null>(null);
   const update = useCallback(() => {
-    const ids = (part: FormGroupPart) =>
+    const ids = (part: RegisteredPart) =>
       [
         ...new Set(
-          [...elements.current.values()]
-            .filter(row => row.part === part)
-            .map(row => row.element.id)
-            .filter(Boolean)
+          [...registered.current.values()].filter(row => row.part === part).map(row => row.id)
         )
       ].join(' ') || undefined;
     const next = { labelledBy: ids('label'), describedBy: ids('helpText') };
@@ -31,9 +30,9 @@ export function useFormGroupRelations(staticRelations: FormGroupRelations) {
     );
   }, []);
   const register: FormGroupRegistration = useCallback(
-    (part, token, element) => {
-      if (element) elements.current.set(token, { part, element });
-      else elements.current.delete(token);
+    (part, token, id) => {
+      if (id) registered.current.set(token, { part, id });
+      else registered.current.delete(token);
       update();
     },
     [update]

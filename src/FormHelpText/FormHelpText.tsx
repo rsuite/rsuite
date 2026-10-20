@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import HelpOutlineIcon from '@rsuite/icons/HelpOutline';
 import Tooltip from '../Tooltip';
 import Whisper from '../Whisper';
 import Box, { BoxProps } from '@/internals/Box';
-import { forwardRef, mergeRefs } from '@/internals/utils';
+import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
 import { useFormGroup } from '../FormGroup';
 import { useFormGroupRegistration } from '../FormGroup/useFormGroupRegistration';
@@ -32,8 +32,7 @@ const FormHelpText = forwardRef<'span', FormHelpTextProps>((props, ref) => {
     id = helpTextId,
     ...rest
   } = propsWithDefaults;
-  const register = useFormGroupRegistration('helpText', id);
-  const mergedRef = useMemo(() => mergeRefs(ref, register), [ref, register]);
+  useFormGroupRegistration('helpText', tooltip ? undefined : id);
 
   const { withPrefix, merge } = useStyles(classPrefix);
   const classes = merge(className, withPrefix({ tooltip }));
@@ -57,7 +56,7 @@ const FormHelpText = forwardRef<'span', FormHelpTextProps>((props, ref) => {
   }
 
   return (
-    <Box as={as} id={id} {...rest} ref={mergedRef} className={classes}>
+    <Box as={as} id={id} {...rest} ref={ref} className={classes}>
       {children}
     </Box>
   );
