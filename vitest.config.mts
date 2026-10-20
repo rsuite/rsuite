@@ -98,6 +98,7 @@ async function createConfig() {
           'dist/**',
           // This standalone fixture installs its optional competitors separately.
           'benchmarks/cross-library-picker/**',
+          'benchmarks/cross-library-form/**',
           '**/node_modules/**',
           '**/[.]**',
           'packages/*/test?(s)/**',
