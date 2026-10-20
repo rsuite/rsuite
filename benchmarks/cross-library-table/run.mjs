@@ -1,29 +1,33 @@
+import { createCapture } from './runner/capture.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { isDeepStrictEqual } from 'node:util';
 import { chromium, firefox } from 'playwright';
-import { inputs, packageFingerprint, hash } from './integrity.mjs';
-import { snapshot } from './runner/snapshot.mjs';
 import { workflow } from './runner/workflow.mjs';
-import { installedDependencies } from './dependencies.mjs';
 import { validateReport } from './runner/report.mjs';
 import { treeWorkflow } from './runner/tree-workflow.mjs';
-import { treeSnapshot } from './runner/tree-snapshot.mjs';
 import { treeSemantics, validateTreeReport } from './runner/tree-report.mjs';
 import { treeOwnership } from './runner/tree-oracle.mjs';
+import { assertBuildState, artifactGuard } from './runner/build-state.mjs';
+import { virtualWorkflow } from './runner/virtual-workflow.mjs';
+import { validateVirtualReport } from './runner/virtual-report.mjs';
+import { virtualOwnership } from './runner/virtual-oracle.mjs';
 const root = import.meta.dirname,
   args = process.argv.slice(2);
 const outputIndex = args.indexOf('--output'),
   browserIndex = args.indexOf('--browser'),
   workflowIndex = args.indexOf('--workflow');
 const workflowName = workflowIndex < 0 ? 'selection' : args[workflowIndex + 1];
-if (!['selection', 'tree'].includes(workflowName)) throw Error('Invalid workflow');
+if (!['selection', 'tree', 'virtual'].includes(workflowName)) throw Error('Invalid workflow');
 const output = path.resolve(
   outputIndex < 0
-    ? path.join(root, 'results', workflowName === 'tree' ? 'tree.json' : 'table.json')
+    ? path.join(
+        root,
+        'results',
+        workflowName === 'selection' ? 'table.json' : workflowName + '.json'
+      )
     : args[outputIndex + 1]
 );
 const browserName = browserIndex < 0 ? 'all' : args[browserIndex + 1];
@@ -37,18 +41,8 @@ if (!args.includes('--skip-build')) {
   if (result.status !== 0) process.exit(result.status ?? 1);
 }
 const built = JSON.parse(fs.readFileSync(path.join(root, 'dist/build-inputs.json')));
-if (
-  !isDeepStrictEqual(inputs(root), built.sourceInputs) ||
-  packageFingerprint(root) !== built.candidateFingerprint ||
-  packageFingerprint(root, path.resolve(root, '../../lib')) !== built.candidateFingerprint
-)
-  throw Error('Stale source/config/candidate build');
-if (!isDeepStrictEqual(installedDependencies(root), built.installedDependencies))
-  throw Error('Stale installed dependency build');
-for (const [library, build] of Object.entries(built.builds))
-  for (const artifact of build.artifacts)
-    if (hash(fs.readFileSync(path.join(root, 'dist', library, artifact.file))) !== artifact.sha256)
-      throw Error('Stale artifact ' + library + '/' + artifact.file);
+assertBuildState(root, built);
+const served = artifactGuard(root, built);
 fs.mkdirSync(path.dirname(output), { recursive: true });
 const server = http.createServer(async (request, response) => {
   try {
@@ -62,6 +56,7 @@ const server = http.createServer(async (request, response) => {
       file = path.resolve(folder, parts.join('/') || 'index.html');
     if (!file.startsWith(folder + path.sep)) throw Error('Invalid path');
     const bytes = await fs.promises.readFile(file);
+    served.check(file, bytes);
     response.writeHead(200, {
       'Content-Type':
         {
@@ -83,12 +78,22 @@ await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const base = 'http://127.0.0.1:' + server.address().port;
 const report = {
   at: new Date().toISOString(),
+  captureProtocol: 'single-task-v1',
+  integrity: {
+    protocol: 'response-and-final-v1',
+    before: true,
+    after: false,
+    responsesChecked: 0,
+    violations: []
+  },
   workflow: workflowName,
   qualification: 'Prototype: adapters and driver require review before qualified comparison',
   scope:
-    workflowName === 'tree'
-      ? 'Three-level hierarchy, retained selection and root reorder. Functional and limited tree semantics gates are reported separately; native/composed ownership explicit. No AT/conformance/ranking result.'
-      : 'One sort/filter/ID-selection workflow; native engines versus explicit application composition. No performance/conformance/ranking result.',
+    workflowName === 'virtual'
+      ? '10k rows, application jump controls and native checkbox selection. Mounted rows and visible rows reported separately, including focused-row persistence. No performance/ranking/AT conformance result.'
+      : workflowName === 'tree'
+        ? 'Three-level hierarchy, retained selection and root reorder. Functional and limited tree semantics gates are reported separately; native/composed ownership explicit. No AT/conformance/ranking result.'
+        : 'One sort/filter/ID-selection workflow; native engines versus explicit application composition. No performance/conformance/ranking result.',
   node: process.version,
   built,
   cases: [],
@@ -121,10 +126,8 @@ try {
             row.ownership = treeOwnership[library];
             row.functionalPassed = false;
           }
-          const capture = async () => ({
-            ...(await page.evaluate(snapshot)),
-            ...(workflowName === 'tree' ? await page.evaluate(treeSnapshot) : {})
-          });
+          if (workflowName === 'virtual') row.ownership = virtualOwnership[library];
+          const capture = createCapture(page, workflowName);
           report.cases.push(row);
           page.on('pageerror', error => row.pageErrors.push(String(error)));
           page.on('response', response => {
@@ -143,6 +146,9 @@ try {
                       trusted: event.isTrusted,
                       tag: event.target.tagName,
                       role: event.target.getAttribute?.('role'),
+                      rowId: event.target
+                        .closest?.('[data-virtual-row-id],tr,[role="row"]')
+                        ?.querySelector('[data-row-id]')?.dataset.rowId,
                       x: event.clientX,
                       y: event.clientY
                     }),
@@ -150,18 +156,24 @@ try {
                 );
             });
             await page.goto(
-              base + '/' + library + '/' + (workflowName === 'tree' ? 'tree.html' : '')
+              base +
+                '/' +
+                library +
+                '/' +
+                (workflowName === 'selection' ? '' : workflowName + '.html')
             );
-            await (workflowName === 'tree' ? treeWorkflow : workflow)(
-              page,
-              profile,
-              async (name, observation) => {
-                const state = await capture();
-                row.checkpoints.push({ name, state, observation });
-                assert.deepEqual(state.brokenReferences, []);
-                assert.deepEqual(state.duplicateIds, []);
-              }
-            );
+            await (
+              workflowName === 'tree'
+                ? treeWorkflow
+                : workflowName === 'virtual'
+                  ? virtualWorkflow
+                  : workflow
+            )(page, profile, async (name, observation) => {
+              const state = await capture();
+              row.checkpoints.push({ name, state, observation });
+              assert.deepEqual(state.brokenReferences, []);
+              assert.deepEqual(state.duplicateIds, []);
+            });
             row.events = await page.evaluate(() => window.__nativeEvents);
             assert.ok(row.events.length && row.events.every(event => event.trusted));
             assert.deepEqual(row.pageErrors, []);
@@ -193,18 +205,33 @@ try {
       await browser.close();
     }
   }
+  try {
+    assertBuildState(root, built);
+    assert.deepEqual(served.violations, []);
+    report.integrity.after = true;
+  } catch (error) {
+    report.integrityError = String(error);
+    throw error;
+  }
+  report.integrity.responsesChecked = served.checked;
+  report.integrity.violations = served.violations;
   report.complete = true;
   try {
-    report.summary = (workflowName === 'tree' ? validateTreeReport : validateReport)(
-      report,
-      browserName
-    );
+    report.summary = (
+      workflowName === 'tree'
+        ? validateTreeReport
+        : workflowName === 'virtual'
+          ? validateVirtualReport
+          : validateReport
+    )(report, browserName);
     report.validated = true;
   } catch (error) {
     report.validationError = String(error);
     throw error;
   }
 } finally {
+  report.integrity.responsesChecked = served.checked;
+  report.integrity.violations = served.violations;
   await new Promise(resolve => server.close(resolve));
   fs.writeFileSync(output, JSON.stringify(report, null, 2) + '\n');
 }
