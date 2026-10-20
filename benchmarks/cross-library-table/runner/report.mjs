@@ -1,7 +1,9 @@
+import { validateRunIntegrity, checkedSummary } from './build-state.mjs';
 import assert from 'node:assert/strict';
 import { expectedStates, selectedRow } from './oracle.mjs';
 
 export function validateReport(report, browserName = 'all') {
+  validateRunIntegrity(report);
   assert.ok(['all', 'chromium', 'firefox'].includes(browserName), 'Unknown browser');
   assert.equal(report.complete, true, 'Incomplete report');
   const browsers = browserName === 'all' ? ['chromium', 'firefox'] : [browserName];
@@ -91,9 +93,10 @@ export function validateReport(report, browserName = 'all') {
       }
     }
   }
-  return {
+  const summary = {
     total: expected.length,
     passed: report.cases.filter(row => row.passed).length,
     failed: report.cases.filter(row => !row.passed).length
   };
+  return checkedSummary(report, summary);
 }

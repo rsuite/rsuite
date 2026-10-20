@@ -1,3 +1,4 @@
+import { validateRunIntegrity, checkedSummary } from './build-state.mjs';
 import assert from 'node:assert/strict';
 import { treeStates, levels, branches, treeOwnership } from './tree-oracle.mjs';
 export function treeSemantics(checkpoints) {
@@ -36,6 +37,7 @@ export function treeSemantics(checkpoints) {
   };
 }
 export function validateTreeReport(report, browserName = 'all') {
+  validateRunIntegrity(report);
   assert.equal(report.workflow, 'tree');
   assert.equal(report.complete, true);
   assert(['all', 'chromium', 'firefox'].includes(browserName));
@@ -91,7 +93,7 @@ export function validateTreeReport(report, browserName = 'all') {
     assert.equal(row.passed, actualSemantics.passed);
     if (!row.passed) assert(row.error);
   }
-  return {
+  const summary = {
     total: expected.length,
     passed: report.cases.filter(row => row.passed).length,
     failed: report.cases.filter(row => !row.passed).length,
@@ -101,4 +103,5 @@ export function validateTreeReport(report, browserName = 'all') {
       row => row.functionalPassed && !row.semantics.passed
     ).length
   };
+  return checkedSummary(report, summary);
 }

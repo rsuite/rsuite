@@ -12,7 +12,8 @@ export default defineConfig({
   resolve: {
     alias: {
       'table-adapter': path.join(root, 'src/adapters', library + '.tsx'),
-      'tree-adapter': path.join(root, 'src/tree/adapters', library + '.tsx')
+      'tree-adapter': path.join(root, 'src/tree/adapters', library + '.tsx'),
+      'virtual-adapter': path.join(root, 'src/virtual/adapters', library + '.tsx')
     }
   },
   define: { __LIBRARY__: JSON.stringify(library) },
@@ -21,7 +22,11 @@ export default defineConfig({
     emptyOutDir: true,
     manifest: true,
     rollupOptions: {
-      input: { index: path.join(root, 'index.html'), tree: path.join(root, 'tree.html') }
+      input: {
+        index: path.join(root, 'index.html'),
+        tree: path.join(root, 'tree.html'),
+        virtual: path.join(root, 'virtual.html')
+      }
     },
     target: 'es2022'
   }

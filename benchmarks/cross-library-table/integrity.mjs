@@ -6,6 +6,7 @@ export function inputs(root) {
   const files = [
     ...filesUnder(path.join(root, 'src')),
     ...filesUnder(path.join(root, 'runner')),
+    ...filesUnder(path.join(root, 'checks')),
     ...[
       '.npmrc',
       '.gitignore',
@@ -14,6 +15,7 @@ export function inputs(root) {
       'tsconfig.json',
       'index.html',
       'tree.html',
+      'virtual.html',
       'vite.config.mjs',
       'build.mjs',
       'run.mjs',

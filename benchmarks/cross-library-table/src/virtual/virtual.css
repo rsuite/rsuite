@@ -1,0 +1,13 @@
+section[aria-label='Virtual ledger'] {
+  width: 720px;
+}
+.virtual-fixture[data-library='antd'] .ant-table-thead > tr > th {
+  height: 40px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.virtual-fixture[data-library='antd'] .ant-table-row > .ant-table-cell {
+  height: 40px;
+  padding-top: 0;
+  padding-bottom: 0;
+}

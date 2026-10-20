@@ -1,0 +1,91 @@
+name: Virtual table workflow
+on:
+  pull_request:
+    branches: [main, next]
+    paths:
+      - 'benchmarks/cross-library-table/**'
+      - 'benchmarks/cross-library-picker/integrity.mjs'
+      - 'benchmarks/cross-library-picker/runner/server.mjs'
+      - 'benchmarks/cross-library-picker/runner/diagnostics.mjs'
+      - 'src/**'
+      - 'scripts/**'
+      - 'test/build/**'
+      - 'package*.json'
+      - 'tsconfig*.json'
+      - 'gulpfile.js'
+      - 'webpack*.js'
+      - '.babelrc*'
+      - '.github/workflows/table-benchmarks.yml'
+  push:
+    branches: [main, next]
+    paths:
+      - 'benchmarks/cross-library-table/**'
+      - 'benchmarks/cross-library-picker/integrity.mjs'
+      - 'benchmarks/cross-library-picker/runner/server.mjs'
+      - 'benchmarks/cross-library-picker/runner/diagnostics.mjs'
+      - 'src/**'
+      - 'scripts/**'
+      - 'test/build/**'
+      - 'package*.json'
+      - 'tsconfig*.json'
+      - 'gulpfile.js'
+      - 'webpack*.js'
+      - '.babelrc*'
+      - '.github/workflows/table-benchmarks.yml'
+permissions:
+  contents: read
+jobs:
+  virtual-integrity:
+    name: Virtual table and report integrity
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            benchmarks/cross-library-table/package-lock.json
+      - name: Install SDK build dependencies
+        run: npm ci --legacy-peer-deps
+      - name: Build and validate source SDK
+        run: npm run build
+      - name: Install frozen standalone cohort
+        working-directory: benchmarks/cross-library-table
+        run: npm ci --ignore-scripts
+      - name: Install pinned native browsers
+        working-directory: benchmarks/cross-library-table
+        run: node node_modules/playwright/cli.js install --with-deps chromium firefox
+      - name: Check standalone types
+        working-directory: benchmarks/cross-library-table
+        run: npm run check
+      - name: Build all four production adapters
+        working-directory: benchmarks/cross-library-table
+        run: npm run build
+      - name: Verify atomic DOM capture
+        working-directory: benchmarks/cross-library-table
+        run: node checks/atomic-capture.mjs
+      - name: Run Chromium and Firefox virtual workflows
+        working-directory: benchmarks/cross-library-table
+        run: node run.mjs --skip-build --workflow virtual --output results/virtual/report.json
+      - name: Reject malformed or contradictory reports
+        working-directory: benchmarks/cross-library-table
+        run: node checks/report-integrity.mjs results/virtual/report.json
+      - name: Check composed native keyboard focus
+        working-directory: benchmarks/cross-library-table
+        run: node checks/composed-focus.mjs results/focus
+      - name: Reject mid-run mutations and restore inputs
+        working-directory: benchmarks/cross-library-table
+        run: node checks/runtime-mutations.mjs results/runtime-controls
+      - name: Upload raw outcomes and input fingerprints
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: virtual-table-${{ github.sha }}
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            benchmarks/cross-library-table/results
+            benchmarks/cross-library-table/dist/build-inputs.json

@@ -14,7 +14,8 @@
     "baseUrl": ".",
     "paths": {
       "table-adapter": ["src/adapters/rsuite.tsx"],
-      "tree-adapter": ["src/tree/adapters/rsuite.tsx"]
+      "tree-adapter": ["src/tree/adapters/rsuite.tsx"],
+      "virtual-adapter": ["src/virtual/adapters/rsuite.tsx"]
     }
   },
   "include": ["src"]
