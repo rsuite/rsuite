@@ -210,7 +210,8 @@ jobs:
 
   public-declarations:
     name: 'Public declarations'
-    runs-on: ubuntu-latest
+    # This job also launches the locked Playwright browsers for UMD consumers.
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4

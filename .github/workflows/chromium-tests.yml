@@ -14,7 +14,8 @@ jobs:
   test:
     # Preserve component check names while giving native tests their own runners.
     name: "${{ matrix.suite == 'native' && 'Chromium native' || 'Chromium' }} shard (${{ matrix.shard }}/2)"
-    runs-on: ubuntu-latest
+    # Playwright 1.56.1 supports this image; ubuntu-latest can migrate to 26.04.
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     strategy:
       # Keep independent suites and shards running when another one fails.
