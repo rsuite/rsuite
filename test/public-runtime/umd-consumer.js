@@ -4,6 +4,14 @@
   let root;
   let current;
 
+  function PlainLabel({ id, htmlFor, children }) {
+    return React.createElement('label', { id, htmlFor }, children);
+  }
+
+  function PlainHelp({ id, children }) {
+    return React.createElement('span', { id }, children);
+  }
+
   function check(condition, message) {
     if (!condition) throw new Error(current.name + ': ' + message);
   }
@@ -53,13 +61,36 @@
               current.changes++;
             }
           },
-          React.createElement(rsuite.Form.Control, { name: field, 'aria-label': 'Value' })
+          React.createElement(
+            rsuite.Form.Group,
+            { controlId: 'umd-value' },
+            React.createElement(rsuite.Form.Label, { as: PlainLabel }, 'Value'),
+            React.createElement(rsuite.Form.Control, { name: field, 'aria-label': 'Value' }),
+            React.createElement(rsuite.Form.Text, { as: PlainHelp }, 'Edit the value')
+          )
         )
       );
     });
   }
 
   function verify() {
+    const input = document.querySelector('input');
+    check(
+      input.getAttribute('aria-labelledby') === 'umd-value-label',
+      'plain label root must retain its association'
+    );
+    check(
+      input.getAttribute('aria-describedby') === 'umd-value-help-text',
+      'plain help root must retain its association'
+    );
+    check(
+      document.getElementById('umd-value-label')?.textContent === 'Value',
+      'label target is missing'
+    );
+    check(
+      document.getElementById('umd-value-help-text')?.textContent === 'Edit the value',
+      'help target is missing'
+    );
     const { name, original, next, metadata, member, changes } = current;
     check(changes === 1, 'editing must emit one change, received ' + changes);
     check(next !== original, 'the root value must be copied');
