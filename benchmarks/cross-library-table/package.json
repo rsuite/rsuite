@@ -1,0 +1,36 @@
+{
+  "name": "rsuite-cross-library-table-benchmark",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "tsc --noEmit",
+    "bench": "node run.mjs"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "3.37.0",
+    "@emotion/react": "11.14.0",
+    "@heroui/react": "3.2.6",
+    "@heroui/styles": "3.2.6",
+    "@internationalized/date": "3.12.4",
+    "@react-aria/ssr": "3.10.1",
+    "@react-aria/utils": "3.34.1",
+    "@tanstack/react-virtual": "3.14.21",
+    "antd": "6.6.6",
+    "react": "19.0.0",
+    "react-aria": "3.52.1",
+    "react-aria-components": "1.21.1",
+    "react-dom": "19.0.0",
+    "rsuite": "file:../../lib",
+    "tailwindcss": "4.3.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.3.3",
+    "@types/react": "19.0.8",
+    "@types/react-dom": "19.0.3",
+    "axe-core": "4.14.0",
+    "playwright": "1.56.1",
+    "typescript": "5.7.3",
+    "vite": "6.4.4"
+  }
+}
