@@ -164,6 +164,11 @@ jobs:
 
   coverage:
     name: 'Coverage (${{ matrix.kind }})'
+    # Authenticate uploads for Dependabot without exposing a repository secret.
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
     needs:
       - chromium-react18
       - chromium-react19
@@ -202,7 +207,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          use_oidc: true
           flags: ${{ matrix.kind }}
           files: ${{ steps.coverage.outputs.files }}
           disable_search: true
