@@ -14,7 +14,7 @@ import isElement from '../../DOMHelper/isElement';
 import { calcPosition } from './utils/position';
 import { ResizeObserver } from '@juggle/resize-observer';
 import { getDOMNode, kebabPlace } from '../utils';
-import { useUpdateEffect } from '../hooks';
+import { useIsomorphicLayoutEffect, useUpdateEffect } from '../hooks';
 import type { Placement } from '@/internals/types';
 import type { CursorPosition, PositionType, PositionChildProps } from './types';
 
@@ -120,12 +120,12 @@ const usePosition = (
         followCursor ? cursorPosition : undefined
       );
 
+      if (overlay && posi.placement) {
+        overlay.dataset.placement = kebabPlace(posi.placement);
+      }
+
       if (forceUpdateDOM && overlay) {
         addStyle(overlay, getPositionStyle(posi.positionLeft, posi.positionTop));
-
-        if (posi.placement) {
-          overlay.dataset.placement = kebabPlace(posi.placement);
-        }
       } else {
         setPosition(posi);
       }
@@ -135,7 +135,7 @@ const usePosition = (
     [getContainerElement, ref, triggerTarget, utils, followCursor, cursorPosition]
   );
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     updatePosition(false);
     const overlay = getDOMNode(ref.current);
     const scrollParents = new Set<Node>();
