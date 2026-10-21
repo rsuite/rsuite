@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Tabs, { TabsProps } from '../Tabs';
 import ImageIcon from '@rsuite/icons/Image';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';

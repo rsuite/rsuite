@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import InlineEdit from '../InlineEdit';
 import Input from '../../Input';
 import DatePicker from '../../DatePicker';

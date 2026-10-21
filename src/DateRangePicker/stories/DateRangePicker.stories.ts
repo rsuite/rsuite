@@ -1,4 +1,4 @@
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import DateRangePicker from '../DateRangePicker';
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.scss';

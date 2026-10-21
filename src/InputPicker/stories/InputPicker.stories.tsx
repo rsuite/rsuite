@@ -1,4 +1,4 @@
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import InputPicker from '../InputPicker';
 import { createMeta } from '@/storybook/utils';
 import { mockArrayData } from '@/storybook/mocks';

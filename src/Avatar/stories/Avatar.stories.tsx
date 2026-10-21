@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Avatar from '../Avatar';
 import Stack from '../../Stack';
 import UserIcon from '@rsuite/icons/legacy/User';

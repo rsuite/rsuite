@@ -1,4 +1,4 @@
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Cascader from '../Cascader';
 import { createMeta } from '@/storybook/utils';
 import { mockTreeData } from '@/storybook/mocks';

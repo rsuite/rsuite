@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import RadioGroup from '../RadioGroup';
 import Radio from '../../Radio';
 import { createMeta } from '@/storybook/utils';

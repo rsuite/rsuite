@@ -1,0 +1,65 @@
+name: Storybook
+on:
+  pull_request:
+    branches: [main, next]
+    paths:
+      - 'storybook/**'
+      - 'src/**'
+      - 'package*.json'
+      - 'tsconfig*.json'
+      - '.github/workflows/storybook.yml'
+  push:
+    branches: [main, next]
+    paths:
+      - 'storybook/**'
+      - 'src/**'
+      - 'package*.json'
+      - 'tsconfig*.json'
+      - '.github/workflows/storybook.yml'
+permissions:
+  contents: read
+jobs:
+  storybook:
+    name: Storybook build and browser workflows
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      STORYBOOK_DISABLE_TELEMETRY: '1'
+      DO_NOT_TRACK: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.22.0'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            storybook/package-lock.json
+      - name: Install SDK dependencies
+        run: npm ci --legacy-peer-deps
+      - name: Install Storybook with default peer resolution
+        working-directory: storybook
+        run: npm ci
+      - name: Check shared story authoring types
+        run: node node_modules/typescript/bin/tsc --noEmit
+      - name: Check Storybook configuration and helpers
+        working-directory: storybook
+        run: npm run check
+      - name: Build all stories and docs
+        working-directory: storybook
+        run: npm run build-storybook
+      - name: Install frozen Chromium and Firefox
+        run: node node_modules/playwright/cli.js install --with-deps chromium firefox
+      - name: Verify Storybook user workflows
+        working-directory: storybook
+        run: npm run test:smoke
+      - name: Upload production Storybook and browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-${{ github.sha }}
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            storybook/storybook-static
+            storybook/test-results

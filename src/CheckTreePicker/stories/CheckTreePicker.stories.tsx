@@ -1,4 +1,4 @@
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import CheckTreePicker from '../CheckTreePicker';
 import { createMeta } from '@/storybook/utils';
 import { mockTreeData } from '@/storybook/mocks';

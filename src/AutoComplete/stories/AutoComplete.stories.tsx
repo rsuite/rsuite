@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import AutoComplete from '../AutoComplete';
 import Stack from '../../Stack';
 import { createMeta } from '@/storybook/utils';

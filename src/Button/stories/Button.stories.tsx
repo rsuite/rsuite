@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import Button, { ButtonProps } from '../Button';
 import ButtonToolbar from '../../ButtonToolbar';
@@ -11,7 +11,12 @@ const meta = createMeta(Button);
 
 export default {
   title: 'Components/Button',
-  ...meta
+  ...meta,
+  argTypes: {
+    ...meta.argTypes,
+    children: { control: 'text' },
+    onClick: { action: 'onClick', control: false }
+  }
 };
 
 type Story = StoryObj<typeof meta>;

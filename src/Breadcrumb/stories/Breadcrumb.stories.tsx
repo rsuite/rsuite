@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Breadcrumb from '../Breadcrumb';
 import HomeIcon from '@rsuite/icons/legacy/Home';
 import { createMeta } from '@/storybook/utils';
