@@ -20,6 +20,29 @@ describe('Form blur validation during native pointer activation', () => {
   });
   afterAll(async () => source?.close());
 
+  it.each(['submit', '__defineGetter__'])(
+    'ignores the unsupported fixture action %s',
+    async action => {
+      const page = await source.browser.newPage();
+      const errors: string[] = [];
+      page.on('pageerror', error => errors.push(String(error)));
+      try {
+        await page.goto(
+          source.url + '/#' + encodeURIComponent(JSON.stringify({ shift: false, action }))
+        );
+        await page.waitForFunction(() => window.__RSUITE_FORM_POINTER__?.ready);
+        await page.evaluate(() => window.__RSUITE_FORM_POINTER_ACTION__());
+        const state = await page.evaluate(() => window.__RSUITE_FORM_POINTER__);
+        expect(state.checks).toEqual([]);
+        expect(state.validSubmits).toBe(0);
+        expect(state.nativeSubmits).toBe(0);
+        expect(errors).toEqual([]);
+      } finally {
+        await page.close();
+      }
+    }
+  );
+
   describe.each([false, true])('RSuite button: %s', sdkButton => {
     it.each(pointerBlurCases)('$name', async scenario => {
       const page = await source.browser.newPage({ viewport: { width: 800, height: 600 } });

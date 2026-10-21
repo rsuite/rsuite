@@ -104,7 +104,9 @@ async function mount() {
         else if (action === 'trigger') setTrigger('change');
         else if (action === 'supersede') form.current!.checkForField('field');
         else if (action === 'cleanErrorForField') form.current!.cleanErrorForField('field');
-        else if (action) form.current![action]();
+        else if (action === 'cleanErrors') form.current!.cleanErrors();
+        else if (action === 'resetErrors') form.current!.resetErrors();
+        else if (action === 'reset') form.current!.reset();
       };
       state.ready = true;
     }, []);
