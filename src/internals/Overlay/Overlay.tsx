@@ -16,6 +16,7 @@ interface OverlayElementProps {
   overlayTarget: React.MutableRefObject<HTMLElement | null>;
   position: PositionChildProps;
   className?: string;
+  dataAttributes?: Record<string, unknown>;
 }
 
 // A stable leaf keeps ref callbacks unchanged when publishing a description rerenders Whisper.
@@ -25,7 +26,8 @@ function OverlayElement({
   childRef,
   overlayTarget,
   position,
-  className
+  className,
+  dataAttributes
 }: OverlayElementProps) {
   const description = useContext(TooltipDescriptionObserverContext);
   const onNodeChange = description?.onNodeChange;
@@ -46,6 +48,7 @@ function OverlayElement({
   const props = {
     ...childProps,
     ...child.props,
+    ...dataAttributes,
     id: child.props.id ?? childProps?.id,
     className: classNames(child.props.className, className),
     style: mergeStyles(getPositionStyle(position.left, position.top), child.props.style),
@@ -141,21 +144,28 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
 
   const renderChildWithPosition = (transitionProps?, transitionRef?: React.RefObject<any>) => {
     const { className } = transitionProps || {};
+    const dataAttributes = Object.fromEntries(
+      Object.entries(transitionProps || {}).filter(([name]) => name.startsWith('data-'))
+    );
     return (
       <Position {...positionProps} {...transitionProps} ref={mergeRefs(ref, transitionRef)}>
         {(positionChildProps, childRef) => {
           // Position will return coordinates and className
           // Components returned by function children need to control their own positioning information. For example: Picker
           if (typeof children === 'function') {
-            return children(
+            const child = children(
               {
                 className,
-                //dataAttributes,
                 ...positionChildProps,
-                ...childrenProps
+                ...childrenProps,
+                ...dataAttributes
               },
               mergeRefs(childRef, overlayTarget)
             );
+            // Render props may consume only positioning fields, so apply animation data to their root.
+            return React.isValidElement(child) && child.type !== React.Fragment
+              ? React.cloneElement(child, dataAttributes)
+              : child;
           }
 
           return (
@@ -166,6 +176,7 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
               overlayTarget={overlayTarget}
               position={positionChildProps}
               className={className}
+              dataAttributes={dataAttributes}
             />
           );
         }}
