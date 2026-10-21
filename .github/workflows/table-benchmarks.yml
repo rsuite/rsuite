@@ -67,6 +67,11 @@ jobs:
       - name: Verify atomic DOM capture
         working-directory: benchmarks/cross-library-table
         run: node checks/atomic-capture.mjs
+      - name: Verify whole-row clipping measurements
+        working-directory: benchmarks/cross-library-table
+        run: |
+          mkdir -p results/geometry
+          node checks/whole-row-geometry.mjs > results/geometry/controls.json
       - name: Run Chromium and Firefox virtual workflows
         working-directory: benchmarks/cross-library-table
         run: node run.mjs --skip-build --workflow virtual --output results/virtual/report.json

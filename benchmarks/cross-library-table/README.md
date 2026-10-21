@@ -9,9 +9,9 @@ keyboard profiles use real browser input in fresh Chromium and Firefox contexts.
 The command exits unsuccessfully when any case fails.
 
 The fixed cohort is React 19.0.0, Ant Design 6.6.6, Chakra UI 3.37.0 and HeroUI
-3.2.6. RSuite uses the qualified c0f1a57 source package; SDK/build inputs are
-unchanged on main 55b8d80. Its table dependency is rsuite-table 5.19.2. This is
-not a measurement of the published RSuite artifact.
+3.2.6. RSuite uses a locally built source SDK; every report captures
+its package fingerprint and installed dependency versions. Its table dependency
+is rsuite-table 5.19.2. This is not a measurement of the published RSuite artifact.
 
 Ant Design owns its sorter and row-selection engine. RSuite owns its sortable
 header callback, while application code orders rows and composes Checkbox cells.
@@ -86,20 +86,44 @@ This does not measure a public npm release of the fixes.
 The virtual workflow uses 10,000 fixed records and a 400px body viewport. Shared
 application jump buttons request the top, row 9000 and the end. Both input profiles
 select the actual row checkbox and retain its key across viewport changes. DOM
-membership and clipped visibility are reported separately: a native focused row
-may remain mounted outside the viewport. Bounded DOM counts are correctness
-checks, not performance measurements.
+membership, visible identity markers and complete row border boxes are reported
+separately: a native focused row may remain mounted outside the viewport. Bounded
+DOM counts are correctness checks, not performance measurements.
 
 RSuite uses its native virtualizer and scrolling ref with application Checkbox
 selection. Ant Design uses native virtualization, selection and scrolling with
-public onRow ID attributes and an application roving checkbox focus policy. Chakra composes TanStack Virtual and a roving
+public onRow ID attributes and an application roving checkbox focus policy. Public
+ConfigProvider global and Table padding tokens align its virtual row estimate
+with the requested 40px rows; no private Ant Design CSS selectors are overridden.
+Chakra composes TanStack Virtual and a roving
 checkbox focus policy; its sticky header is included in scrolling padding. HeroUI
 uses React Aria Virtualizer/TableLayout and selection. Its application jump
 controller coordinates the public TableStateContext focus key with DOM scrolling.
+Its public ResizableContainer and explicit column widths define the 720px layout,
+while TableLayout defines 40px rows and headers.
 No runner calls DOM focus, forces a click or increases the ten-second deadline.
 
     node run.mjs --skip-build --workflow virtual --output /absolute/path/virtual.json
     node checks/report-integrity.mjs /absolute/path/virtual.json
+
+Whole-row geometry protocol 1 records each row's border box, its ancestor client
+scrollports (excluding borders), the section/browser bounds and the column-header
+bottom. `rowFullyVisible` requires the entire box to lie in their intersection,
+within 0.5px; `fullyVisibleRows` counts those rows. The existing `visible` field
+continues to measure the smaller identity marker. The validator recomputes the
+intersection, row flags and aggregate count. Fourteen real DOM controls cover
+both browsers, including borders, nested/horizontal clipping and browser bounds.
+
+    node checks/whole-row-geometry.mjs
+
+Functional success still requires the requested identity marker and actual
+selection. It does not require every target row to be completely exposed. In the
+reviewed fixture, HeroUI's selected checkpoint can expose ten markers but nine
+complete rows after native selection scrolls part of the target beneath its
+header. Reports retain that distinction. These axis-aligned rectangle checks do
+not test arbitrary visual occlusion, transformed layouts, assistive technology
+or performance. Older reports without geometry protocol 1 cannot establish
+whole-row visibility.
 
 The single-task-v1 capture evaluates all DOM snapshot fields in the same browser
 task. A deterministic microtask-reorder control reproduces the old split-sampling

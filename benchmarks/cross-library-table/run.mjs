@@ -96,7 +96,7 @@ const report = {
     workflowName === 'lifecycle'
       ? 'Loaded to loading to empty to recovered data with shared explicit application request/selection policy; native loading and composed content ownership recorded. No AT/performance/ranking claim.'
       : workflowName === 'virtual'
-        ? '10k rows, application jump controls and native checkbox selection. Mounted rows and visible rows reported separately, including focused-row persistence. No performance/ranking/AT conformance result.'
+        ? '10k rows, application jump controls and native checkbox selection. Mounted rows, visible identity markers and complete row border boxes reported separately, including focused-row persistence. Whole-row geometry protocol 1 does not require every target row to be fully exposed. No performance/ranking/AT conformance result.'
         : workflowName === 'tree'
           ? 'Three-level hierarchy, retained selection and root reorder. Functional and limited tree semantics gates are reported separately; native/composed ownership explicit. No AT/conformance/ranking result.'
           : 'One sort/filter/ID-selection workflow; native engines versus explicit application composition. No performance/conformance/ranking result.',
