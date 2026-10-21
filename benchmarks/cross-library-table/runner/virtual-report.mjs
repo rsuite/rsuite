@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { virtualStates, virtualOwnership, selectedVirtualKey } from './virtual-oracle.mjs';
 import { validateRunIntegrity, checkedSummary } from './build-state.mjs';
+import { assertWholeRowGeometry } from './virtual-geometry.mjs';
 export function validateVirtualReport(report, browserName = 'all') {
   assert.equal(report.workflow, 'virtual');
   assert.equal(report.complete, true);
@@ -25,6 +26,7 @@ export function validateVirtualReport(report, browserName = 'all') {
       Object.keys(virtualStates).slice(0, row.checkpoints.length)
     );
     for (const { name, state } of row.checkpoints) {
+      assertWholeRowGeometry(state.virtual);
       const expected = virtualStates[name];
       assert.deepEqual(
         state.ids,

@@ -84,6 +84,30 @@ if (actual.workflow === 'virtual') {
     assert(row);
     row.visible = true;
   });
+  reject('missing-row-geometry-protocol', r => {
+    delete positive(r).checkpoints[0].state.virtual.geometryVersion;
+  });
+  reject('forged-whole-row-flag', r => {
+    const virtual = positive(r).checkpoints[0].state.virtual;
+    const row = virtual.rows.find(row => !row.rowFullyVisible);
+    assert(row);
+    row.rowFullyVisible = true;
+    virtual.fullyVisibleRows++;
+  });
+  reject('wrong-whole-row-count', r => {
+    positive(r).checkpoints[0].state.virtual.fullyVisibleRows++;
+  });
+  reject('missing-whole-row-bounds', r => {
+    positive(r).checkpoints[0].state.virtual.rows[0].rowRect = null;
+  });
+  reject('forged-row-clip', r => {
+    positive(r).checkpoints[0].state.virtual.rows[0].rowClip.bottom++;
+  });
+  reject('invalid-client-scrollport', r => {
+    const row = positive(r).checkpoints[0].state.virtual.rows.find(row => row.rowClipping.length);
+    assert(row);
+    row.rowClipping[0].rect.height++;
+  });
   reject('wrong-selected-key', r => (positive(r).checkpoints[2].state.selected = '[]'));
   reject(
     'wrong-real-checkbox',

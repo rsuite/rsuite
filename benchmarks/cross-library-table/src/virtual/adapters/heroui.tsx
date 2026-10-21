@@ -18,56 +18,62 @@ export default function Adapter({ rows, selected, onSelected, actionsRef }: Virt
     }
   }));
   return (
-    <Table style={{ width: 720 }}>
-      <Virtualizer
-        layout={TableLayout}
-        layoutOptions={{ rowHeight: ROW_HEIGHT, headingHeight: HEADER_HEIGHT }}
-      >
-        <Table.Content
-          ref={ref}
-          data-virtual-viewport
-          aria-label="Virtual ledger entries"
-          selectionMode="multiple"
-          selectedKeys={new Set(selected)}
-          onSelectionChange={keys =>
-            onSelected(keys === 'all' ? rows.map(row => row.id) : [...keys].map(String))
-          }
-          style={{
-            width: 720,
-            height: BODY_HEIGHT + HEADER_HEIGHT,
-            overflow: 'auto',
-            scrollPaddingTop: HEADER_HEIGHT
-          }}
+    <Table style={{ width: 720, padding: 0 }}>
+      <Table.ResizableContainer style={{ width: 720 }}>
+        <Virtualizer
+          layout={TableLayout}
+          layoutOptions={{ rowHeight: ROW_HEIGHT, headingHeight: HEADER_HEIGHT }}
         >
-          <Table.Header style={{ background: 'white', width: '100%', height: '100%' }}>
-            <Table.Column id="selection">Select</Table.Column>
-            <Table.Column id="name" isRowHeader>
-              <ReactAriaFocusRegistration stateRef={stateRef} />
-              Name
-            </Table.Column>
-            <Table.Column id="amount">Amount</Table.Column>
-          </Table.Header>
-          <Table.Body items={rows}>
-            {row => (
-              <Table.Row id={row.id} style={{ width: 'inherit', height: 'inherit' }}>
-                <Table.Cell>
-                  <Checkbox slot="selection">
-                    <Checkbox.Content aria-label={selectionName(row)}>
-                      <Checkbox.Control>
-                        <Checkbox.Indicator />
-                      </Checkbox.Control>
-                    </Checkbox.Content>
-                  </Checkbox>
-                </Table.Cell>
-                <Table.Cell>
-                  <RowIdentity row={row} />
-                </Table.Cell>
-                <Table.Cell>{row.amount}</Table.Cell>
-              </Table.Row>
-            )}
-          </Table.Body>
-        </Table.Content>
-      </Virtualizer>
+          <Table.Content
+            ref={ref}
+            data-virtual-viewport
+            aria-label="Virtual ledger entries"
+            selectionMode="multiple"
+            selectedKeys={new Set(selected)}
+            onSelectionChange={keys =>
+              onSelected(keys === 'all' ? rows.map(row => row.id) : [...keys].map(String))
+            }
+            style={{
+              width: 720,
+              height: BODY_HEIGHT + HEADER_HEIGHT,
+              overflow: 'auto',
+              scrollPaddingTop: HEADER_HEIGHT
+            }}
+          >
+            <Table.Header style={{ background: 'white', width: '100%', height: '100%' }}>
+              <Table.Column id="selection" width={200} style={{ height: HEADER_HEIGHT }}>
+                Select
+              </Table.Column>
+              <Table.Column id="name" width={320} style={{ height: HEADER_HEIGHT }} isRowHeader>
+                <ReactAriaFocusRegistration stateRef={stateRef} />
+                Name
+              </Table.Column>
+              <Table.Column id="amount" width={200} style={{ height: HEADER_HEIGHT }}>
+                Amount
+              </Table.Column>
+            </Table.Header>
+            <Table.Body items={rows}>
+              {row => (
+                <Table.Row id={row.id} style={{ width: 'inherit', height: 'inherit' }}>
+                  <Table.Cell>
+                    <Checkbox slot="selection">
+                      <Checkbox.Content aria-label={selectionName(row)}>
+                        <Checkbox.Control>
+                          <Checkbox.Indicator />
+                        </Checkbox.Control>
+                      </Checkbox.Content>
+                    </Checkbox>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <RowIdentity row={row} />
+                  </Table.Cell>
+                  <Table.Cell>{row.amount}</Table.Cell>
+                </Table.Row>
+              )}
+            </Table.Body>
+          </Table.Content>
+        </Virtualizer>
+      </Table.ResizableContainer>
     </Table>
   );
 }
