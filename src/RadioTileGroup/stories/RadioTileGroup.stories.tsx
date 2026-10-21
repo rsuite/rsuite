@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import RadioTileGroup from '../RadioTileGroup';
 import RadioTile from '../../RadioTile';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';

@@ -3,7 +3,7 @@ import Grid from '../Grid';
 import Col from '../../Col';
 import Row from '../../Row';
 import { createMeta } from '@/storybook/utils';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import '../styles/index.scss';
 import '../../Col/styles/index.scss';
 import '../../Row/styles/index.scss';

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Steps, { StepsProps } from '../Steps';
 import PencilSquareIcon from '@rsuite/icons/legacy/PencilSquare';
 import BookIcon from '@rsuite/icons/legacy/Book';

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import SearchIcon from '@rsuite/icons/Search';
 import Input from '../Input';
 import InputGroup from '../../InputGroup';

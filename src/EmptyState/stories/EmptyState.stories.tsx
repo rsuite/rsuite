@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchIcon from '@rsuite/icons/Search';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Button from '../../Button';
 import EmptyState from '../EmptyState';
 import { createMeta } from '@/storybook/utils';

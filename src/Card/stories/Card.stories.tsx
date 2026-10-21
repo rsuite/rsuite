@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import VStack from '../../Stack/VStack';
 import HStack from '../../Stack/HStack';
 import Tag from '../../Tag';

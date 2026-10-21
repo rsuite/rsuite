@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Timeline, { TimelineProps } from '../Timeline';
 import CustomProvider from '../../CustomProvider';
 import CreditCardIcon from '@rsuite/icons/legacy/CreditCard';

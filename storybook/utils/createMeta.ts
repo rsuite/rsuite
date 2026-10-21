@@ -1,4 +1,4 @@
-import type { Meta } from '@storybook/react';
+import type { Meta } from '../types';
 import propTypesToArgTypes from './propTypesToArgTypes';
 
 function createMeta<T>(Component: React.ComponentType<T>): Meta<any> {

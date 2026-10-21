@@ -1,22 +1,22 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 import { mergeConfig } from 'vite';
-import path from 'path';
-import * as sass from 'sass';
+import react from '@vitejs/plugin-react';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const Component = process.env.M;
+const configDir = path.dirname(fileURLToPath(import.meta.url));
 
 const stories = Component
   ? [`../../src/**/${Component}.stories.@(js|jsx|mjs|ts|tsx)`]
   : ['../../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'];
 
 const config: StorybookConfig = {
-  stories: ['./welcome.stories.mdx', '../../src/**/*.mdx', ...stories],
+  stories: ['./welcome.mdx', '../../src/**/*.mdx', ...stories],
   addons: [
     '@storybook/addon-links',
-    '@storybook/addon-essentials',
+    '@storybook/addon-docs',
     '@storybook/addon-onboarding',
-    '@storybook/addon-interactions',
-    '@storybook/addon-styling-webpack',
     '@storybook/addon-a11y',
     'storybook-dark-mode'
   ],
@@ -24,31 +24,26 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {}
   },
-  docs: {
-    autodocs: 'tag'
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      tsconfigPath: path.resolve(configDir, '../../tsconfig.json'),
+      include: ['../src/**/*.tsx'],
+      exclude: ['../src/**/test/**', '../src/**/stories/**']
+    }
   },
   async viteFinal(config) {
     return mergeConfig(config, {
+      plugins: [react()],
       resolve: {
         alias: [
-          { find: '@/storybook/', replacement: path.resolve(__dirname, '../') + '/' },
+          { find: '@/storybook/', replacement: path.resolve(configDir, '../') + '/' },
           {
             find: '@/internals/',
-            replacement: path.resolve(__dirname, '../../src/internals') + '/'
+            replacement: path.resolve(configDir, '../../src/internals') + '/'
           }
         ],
         extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json', '.scss']
-      },
-      css: {
-        preprocessorOptions: {
-          scss: {
-            // Use the new API instead of the old JS API
-            implementation: sass
-          }
-        }
-      },
-      optimizeDeps: {
-        exclude: ['chunk-NRQQNQ7F']
       }
     });
   }
