@@ -204,7 +204,13 @@ jobs:
           else
             node scripts/verify-browser-coverage-ci.cjs coverage-reports "$COVERAGE_KIND"
           fi
-      - name: Upload coverage to Codecov
+      - name: Check coverage delivery outcome controls
+        run: node --test test/build/codecov-upload.integration-test.cjs
+      # Retry only authentication/delivery; never repeat tests or report validation.
+      # The final gate requires success even when earlier attempts continue after error.
+      - name: Upload coverage to Codecov (attempt 1)
+        id: codecov_1
+        continue-on-error: true
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           use_oidc: true
@@ -212,6 +218,40 @@ jobs:
           files: ${{ steps.coverage.outputs.files }}
           disable_search: true
           fail_ci_if_error: true
+      - name: Wait before coverage delivery attempt 2
+        if: ${{ !cancelled() && steps.codecov_1.outcome == 'failure' }}
+        run: sleep 2
+      - name: Upload coverage to Codecov (attempt 2)
+        id: codecov_2
+        if: ${{ !cancelled() && steps.codecov_1.outcome == 'failure' }}
+        continue-on-error: true
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          use_oidc: true
+          flags: ${{ matrix.kind }}
+          files: ${{ steps.coverage.outputs.files }}
+          disable_search: true
+          fail_ci_if_error: true
+      - name: Wait before coverage delivery attempt 3
+        if: ${{ !cancelled() && steps.codecov_2.outcome == 'failure' }}
+        run: sleep 4
+      - name: Upload coverage to Codecov (attempt 3)
+        id: codecov_3
+        if: ${{ !cancelled() && steps.codecov_2.outcome == 'failure' }}
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          use_oidc: true
+          flags: ${{ matrix.kind }}
+          files: ${{ steps.coverage.outputs.files }}
+          disable_search: true
+          fail_ci_if_error: true
+      - name: Require successful coverage delivery
+        if: ${{ always() }}
+        env:
+          CODECOV_ATTEMPT_1: ${{ steps.codecov_1.outcome }}
+          CODECOV_ATTEMPT_2: ${{ steps.codecov_2.outcome }}
+          CODECOV_ATTEMPT_3: ${{ steps.codecov_3.outcome }}
+        run: node scripts/check-codecov-upload-ci.cjs
 
   public-declarations:
     name: 'Public declarations'
