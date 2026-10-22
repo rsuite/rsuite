@@ -223,6 +223,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Cache public consumer dependency downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-public-consumers-${{ hashFiles('package-lock.json', 'test/public-declarations/package-lock.json', 'test/public-runtime/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-public-consumers-
+            ${{ runner.OS }}-node-
       - run: npm ci --legacy-peer-deps
       - name: Install locked declaration consumers
         run: npm ci --prefix test/public-declarations --legacy-peer-deps --ignore-scripts
