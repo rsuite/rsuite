@@ -4,7 +4,8 @@ import preact from '@preact/preset-vite';
 export default defineConfig({
   plugins: [preact()],
   esbuild: {
-    include: /src\/.*\.js$/,
+    include: /src\/.*\.jsx?$/,
+    exclude: /node_modules/,
     loader: 'jsx'
   },
   optimizeDeps: {
