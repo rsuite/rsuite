@@ -54,7 +54,9 @@
     "install:react-19-3": "npm i --no-save --legacy-peer-deps react@19.3.0 react-dom@19.3.0 @types/react@19.3.0 @types/react-dom@19.3.0",
     "test:public-types": "node test/public-declarations/run.js",
     "test:public-runtime": "node test/public-runtime/run.js",
-    "test:public-umd": "node test/public-runtime/umd.js"
+    "test:public-umd": "node test/public-runtime/umd.js",
+    "test:firefox-profile": "node test/browser/firefox-profile/run.mjs",
+    "test:firefox-profile-controls": "node --test test/browser/firefox-profile/collector.test.mjs test/browser/firefox-profile/native.integration-test.mjs"
   },
   "keywords": [
     "react",

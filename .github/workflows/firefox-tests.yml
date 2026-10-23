@@ -126,3 +126,21 @@ jobs:
           BROWSER: firefox
           # Retain process shutdown evidence when a native test cleanup times out.
           DEBUG: pw:browser
+
+      - name: Verify optional native Firefox profiler
+        id: profile-controls
+        if: matrix.suite == 'native' && matrix.shard == 1
+        run: npm run test:firefox-profile-controls
+
+      - name: Retain native Firefox profile controls
+        if: ${{ !cancelled() && matrix.suite == 'native' && matrix.shard == 1 && steps.profile-controls.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v4
+        timeout-minutes: 2
+        with:
+          name: native-firefox-profile-controls-${{ inputs.react-version }}-attempt-${{ github.run_attempt }}
+          path: |
+            artifacts/firefox-profile/**
+            !artifacts/firefox-profile/**/cache/**
+            test/browser/firefox-profile/fixtures/__screenshots__/**/*.png
+          if-no-files-found: error
+          retention-days: 7
