@@ -181,7 +181,7 @@
     "typescript-eslint": "^8.18.2",
     "util": "^0.12.5",
     "vinyl": "^3.0.0",
-    "vite": "6.4.4",
+    "vite": "6.4.5",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^4.1.11",
     "webpack": "^5.11.0",
