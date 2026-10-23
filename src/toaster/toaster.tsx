@@ -16,7 +16,7 @@ export interface Toaster {
    *                eg: `<Message type="success" description="Success" />` or `<Notification type="success" closable>Success</Notification>`
    * @param options The options of the toast message. (optional)
    *                eg: `{ placement: 'topCenter', duration: 5000 }`
-   * @returns The key of the toast message.
+   * @returns The toast key, or a promise resolving to it when creating a container; undefined if no toast is added.
    */
   push(
     message: React.ReactNode,
