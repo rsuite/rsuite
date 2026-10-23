@@ -26,6 +26,8 @@ jobs:
       - name: Test build scripts
         run: node --test scripts/*.node-test.cjs
       - run: npm ci --legacy-peer-deps
+      - name: Check browser and public consumer CI coverage
+        run: node --test test/build/browser-ci-capacity.integration-test.cjs
       - name: Check component defaults registry
         run: npm run test:component-registry && npm run check:component-types
       - name: Test Sass mixins
@@ -253,9 +255,8 @@ jobs:
           CODECOV_ATTEMPT_3: ${{ steps.codecov_3.outcome }}
         run: node scripts/check-codecov-upload-ci.cjs
 
-  public-declarations:
-    name: 'Public declarations'
-    # This job also launches the locked Playwright browsers for UMD consumers.
+  public-types:
+    name: 'Public declaration types'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -274,14 +275,44 @@ jobs:
       - run: npm ci --legacy-peer-deps
       - name: Install locked declaration consumers
         run: npm ci --prefix test/public-declarations --legacy-peer-deps --ignore-scripts
+      - name: Build the public package entries
+        run: npm run build:ts && npm run build:types
+      - name: Check React 18 and 19 public declarations
+        run: npm run test:public-types
+      - name: Retain public consumer diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-declaration-consumers
+          path: test/public-declarations/results
+          if-no-files-found: ignore
+
+  public-runtime:
+    name: 'Public runtime'
+    # This job also launches the locked Playwright browsers for UMD consumers.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cache public consumer dependency downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-public-consumers-${{ hashFiles('package-lock.json', 'test/public-declarations/package-lock.json', 'test/public-runtime/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-public-consumers-
+            ${{ runner.OS }}-node-
+      - run: npm ci --legacy-peer-deps
       - name: Install locked runtime consumers
         run: npm ci --prefix test/public-runtime --legacy-peer-deps --ignore-scripts
       - name: Install UMD consumer browsers
         run: npx playwright install --with-deps chromium firefox
       - name: Build the public package entries
+        # Declaration path resolution also normalizes emitted JavaScript.
         run: npm run build:ts && npm run build:types && npm run dist
-      - name: Check React 18 and 19 public declarations
-        run: npm run test:public-types
       - name: Check React 18 and 19 package runtime SSR
         run: npm run test:public-runtime
       - name: Check React 18 and 19 UMD browser runtime
@@ -290,8 +321,19 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: public-declaration-consumers
-          path: |
-            test/public-declarations/results
-            test/public-runtime/results
+          name: public-runtime-consumers
+          path: test/public-runtime/results
           if-no-files-found: ignore
+
+  public-declarations:
+    name: 'Public declarations'
+    needs: [public-types, public-runtime]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Require declarations and runtime consumers to pass
+        env:
+          DECLARATION_RESULT: ${{ needs.public-types.result }}
+          RUNTIME_RESULT: ${{ needs.public-runtime.result }}
+        run: test "$DECLARATION_RESULT" = success && test "$RUNTIME_RESULT" = success
