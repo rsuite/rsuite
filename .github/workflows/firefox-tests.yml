@@ -13,7 +13,7 @@ on:
 jobs:
   test:
     # Preserve component check names while giving native tests their own runners.
-    name: "${{ matrix.suite == 'native' && 'Firefox native' || 'Firefox' }} shard (${{ matrix.shard }}/2)"
+    name: "${{ matrix.suite == 'native' && 'Firefox native' || 'Firefox' }} shard (${{ matrix.shard }}/${{ matrix.shards }})"
     # Playwright 1.56.1 supports this image; ubuntu-latest can migrate to 26.04.
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -21,8 +21,13 @@ jobs:
       # Keep independent suites and shards running when another one fails.
       fail-fast: false
       matrix:
-        suite: [components, native]
-        shard: [1, 2]
+        include:
+          - { suite: components, shard: 1, shards: 2 }
+          - { suite: components, shard: 2, shards: 2 }
+          - { suite: native, shard: 1, shards: 4 }
+          - { suite: native, shard: 2, shards: 4 }
+          - { suite: native, shard: 3, shards: 4 }
+          - { suite: native, shard: 4, shards: 4 }
     env:
       VITE_RSUITE_REACT_VERSION: ${{ inputs.react-runtime }}
     steps:
@@ -81,7 +86,7 @@ jobs:
       - name: Run headless tests
         id: component-tests
         if: matrix.suite == 'components'
-        run: npm run test:ci -- --browser.headless --shard=${{ matrix.shard }}/2
+        run: npm run test:ci -- --browser.headless --shard=${{ matrix.shard }}/${{ matrix.shards }}
         env:
           CI: true
           # Keep browser stderr and process exits when an RPC connection disappears.
@@ -116,7 +121,7 @@ jobs:
       - name: Run native browser control tests
         # Component tests and coverage uploads run on separate runners.
         if: matrix.suite == 'native'
-        run: npm run test:browser-controls -- --shard=${{ matrix.shard }}/2
+        run: npm run test:browser-controls -- --shard=${{ matrix.shard }}/${{ matrix.shards }}
         env:
           BROWSER: firefox
           # Retain process shutdown evidence when a native test cleanup times out.
