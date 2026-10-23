@@ -309,7 +309,9 @@ jobs:
       - name: Install locked runtime consumers
         run: npm ci --prefix test/public-runtime --legacy-peer-deps --ignore-scripts
       - name: Install UMD consumer browsers
-        run: npx playwright install --with-deps chromium firefox
+        run: |
+          node scripts/install-browser-ci.cjs chromium
+          node scripts/install-browser-ci.cjs firefox
       - name: Build the public package entries
         # Declaration path resolution also normalizes emitted JavaScript.
         run: npm run build:ts && npm run build:types && npm run dist

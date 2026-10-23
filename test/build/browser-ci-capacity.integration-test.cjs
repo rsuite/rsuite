@@ -65,7 +65,7 @@ function verify(workflows) {
       [
         'npm ci --legacy-peer-deps',
         'npm ci --prefix test/public-runtime --legacy-peer-deps --ignore-scripts',
-        'npx playwright install --with-deps chromium firefox',
+        'node scripts/install-browser-ci.cjs chromium\nnode scripts/install-browser-ci.cjs firefox\n',
         'npm run build:ts && npm run build:types && npm run dist',
         'npm run test:public-runtime',
         'npm run test:public-umd'
@@ -167,6 +167,11 @@ test('workflow guards reject lost shards, skipped consumers and missing UMD chec
     },
     value => {
       value.main.jobs['public-declarations'].needs.pop();
+    },
+    value => {
+      value.main.jobs['public-runtime'].steps.find(
+        step => step.name === 'Install UMD consumer browsers'
+      ).run = 'node scripts/install-browser-ci.cjs chromium';
     },
     value => {
       value.main.jobs['public-runtime'].steps.find(
