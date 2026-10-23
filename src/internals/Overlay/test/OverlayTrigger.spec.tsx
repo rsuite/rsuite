@@ -82,6 +82,38 @@ describe('OverlayTrigger', () => {
     });
   });
 
+  it.each([
+    ['active', 'hover'],
+    ['hover', 'active']
+  ] as const)('Should support combined %s and %s triggers', async (first, second) => {
+    const onClick = vi.fn();
+    const onMouseOver = vi.fn();
+    render(
+      <OverlayTrigger
+        trigger={[first, second]}
+        speaker={<Tooltip>test</Tooltip>}
+        onClick={onClick}
+        onMouseOver={onMouseOver}
+      >
+        <button>button</button>
+      </OverlayTrigger>
+    );
+
+    const button = screen.getByRole('button');
+    fireEvent.mouseOver(button);
+    await waitFor(() => expect(screen.getByRole('tooltip')).to.exist);
+    expect(onMouseOver).toHaveBeenCalledTimes(1);
+
+    fireEvent.mouseOut(button);
+    await waitFor(() => expect(screen.queryByRole('tooltip')).to.not.exist);
+
+    fireEvent.click(button);
+    await waitFor(() => expect(screen.getByRole('tooltip')).to.exist);
+    fireEvent.click(button);
+    expect(screen.getByRole('tooltip')).to.exist;
+    expect(onClick).toHaveBeenCalledTimes(2);
+  });
+
   it('Should delay opening and closing of Tooltip', async () => {
     render(
       <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>} delayOpen={500} trigger="hover">
