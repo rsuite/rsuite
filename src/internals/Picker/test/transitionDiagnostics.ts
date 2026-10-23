@@ -10,6 +10,7 @@ export function observePickerTransitions() {
   let droppedRecords = 0;
   let droppedInstances = 0;
   let nextInstance = 1;
+  let nextUpdate = 1;
 
   const state = (instance: Transition) => {
     const field = (name: string) => {
@@ -30,7 +31,12 @@ export function observePickerTransitions() {
     };
   };
 
-  const record = (event: string, instance: Transition, eventType?: string) => {
+  const record = (
+    event: string,
+    instance: Transition,
+    eventType?: string,
+    update?: { id: number; status?: number; motionReduced?: boolean }
+  ) => {
     if (!ids.has(instance)) {
       if (!instance.instanceElement?.matches('[data-testid="picker-popup"]')) return;
       ids.set(instance, nextInstance++);
@@ -44,6 +50,7 @@ export function observePickerTransitions() {
       event,
       elapsedMs: performance.now() - startedAt,
       eventType,
+      update,
       ...state(instance)
     });
     if (records.length > 64) {
@@ -53,9 +60,34 @@ export function observePickerTransitions() {
   };
 
   const register = Transition.prototype.onTransitionEnd;
+  const setState = Transition.prototype.safeSetState;
   const cancel = Transition.prototype.cancelNextCallback;
   const unmount = Transition.prototype.componentWillUnmount;
   const spies = [
+    vi.spyOn(Transition.prototype, 'safeSetState').mockImplementation(function (
+      this: Transition,
+      nextState,
+      callback
+    ) {
+      const update = {
+        id: nextUpdate++,
+        status: nextState.status,
+        motionReduced: nextState.motionReduced
+      };
+      record('state:before', this, undefined, update);
+      try {
+        return setState.call(this, nextState, event => {
+          record('state:commit:before', this, event?.type, update);
+          try {
+            return callback(event);
+          } finally {
+            record('state:commit:after', this, event?.type, update);
+          }
+        });
+      } finally {
+        record('state:after', this, undefined, update);
+      }
+    }),
     vi.spyOn(Transition.prototype, 'onTransitionEnd').mockImplementation(function (
       this: Transition,
       node,
