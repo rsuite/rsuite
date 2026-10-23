@@ -120,8 +120,11 @@ export async function createCollector({ browserProcess, directory, timeoutMs = 5
       capture ||= save(trigger);
       response.end(JSON.stringify(await capture));
     } catch (error) {
+      state.requestError ||= String(error.stack || error);
       response.statusCode = 500;
-      response.end(JSON.stringify({ ok: false, error: String(error.message || error) }));
+      response.end(
+        JSON.stringify({ ok: false, error: 'Native profile capture failed; see summary.json' })
+      );
     }
   });
   server.requestTimeout = 6000;

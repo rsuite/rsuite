@@ -169,3 +169,44 @@ test('keeps a capture error separate and does not signal an exited process', asy
     await fs.rm(directory, { recursive: true });
   }
 });
+
+test('redacts HTTP error details while retaining local capture diagnostics', async () => {
+  const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'rsuite-profile-private-error-'));
+  const details = 'Private browser diagnostic at ' + directory;
+  let attempts = 0;
+  const collector = await createCollector({
+    directory,
+    browserProcess: {
+      pid: 123,
+      exitCode: null,
+      signalCode: null,
+      kill() {
+        attempts++;
+        throw new Error(details);
+      }
+    }
+  });
+  try {
+    for (const id of ['first', 'second']) {
+      const response = await fetch(collector.url, {
+        method: 'POST',
+        body: JSON.stringify({ id, name: id })
+      });
+      assert.equal(response.status, 500);
+      const body = await response.json();
+      assert.deepEqual(body, {
+        ok: false,
+        error: 'Native profile capture failed; see summary.json'
+      });
+      assert(!JSON.stringify(body).includes(directory));
+      assert(!JSON.stringify(body).includes('Private browser diagnostic'));
+    }
+    assert.equal(attempts, 1);
+    assert.equal(collector.state.status, 'error');
+    assert(collector.state.error.includes(details));
+    assert.equal(collector.state.test.id, 'first');
+  } finally {
+    await collector.close();
+    await fs.rm(directory, { recursive: true });
+  }
+});

@@ -30,6 +30,9 @@ records the profile hash and actual sampling configuration. A passing run record
 `not-requested`; a capture error is recorded separately from the original test
 exit code, and partial files are retained.
 
+HTTP capture errors return a fixed message. Detailed errors and stack traces
+remain in the local `summary.json`, including the first rejected request.
+
 The launcher uses an owned Playwright `launchServer` process handle and Firefox's
 [POSIX profiler stop signal](https://github.com/firefox-devtools/profiler/blob/main/docs-user/async-posix-signal-control.md).
 It samples the main thread with JavaScript and native stacks every 2ms. Firefox
