@@ -21,7 +21,7 @@
     "html-webpack-plugin": "^5.6.0",
     "mini-css-extract-plugin": "^2.9.0",
     "style-loader": "^4.0.0",
-    "webpack": "^5.97.0",
+    "webpack": "^5.105.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.1.0"
   }
