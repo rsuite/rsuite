@@ -25,6 +25,7 @@ export function inputs(root) {
       'package-lock.json',
       'tsconfig.json',
       'build.mjs',
+      'assets.mjs',
       'run.mjs',
       'audit.mjs',
       'async.mjs',
