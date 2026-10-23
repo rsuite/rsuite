@@ -110,6 +110,8 @@
     "@faker-js/faker": "^8.4.0",
     "@npmcli/package-json": "^2.0.0",
     "@size-limit/preset-big-lib": "^11.0.0",
+    "@storybook/blocks": "^8.5.3",
+    "@storybook/react": "^8.5.3",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
