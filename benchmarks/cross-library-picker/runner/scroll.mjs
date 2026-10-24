@@ -33,10 +33,18 @@ async function observeScroll(viewport) {
 async function waitForScroll(page, observation) {
   try {
     await page.waitForFunction(
-      state =>
-        state.completed &&
-        (state.progressed || state.unchanged) &&
-        state.element.scrollTop === state.destination,
+      state => {
+        // Virtual lists replace estimated heights as more rows are measured.
+        const destination =
+          state.position === 'bottom'
+            ? Math.max(0, state.element.scrollHeight - state.element.clientHeight)
+            : 0;
+        return (
+          state.completed &&
+          (state.progressed || state.unchanged) &&
+          state.element.scrollTop === destination
+        );
+      },
       observation,
       { timeout: 12000 }
     );
@@ -44,7 +52,14 @@ async function waitForScroll(page, observation) {
     const context = await observation.evaluate(state => ({
       initialTop: state.initialTop,
       top: state.element.scrollTop,
-      destination: state.destination,
+      initialDestination: state.destination,
+      destination:
+        state.position === 'bottom'
+          ? Math.max(0, state.element.scrollHeight - state.element.clientHeight)
+          : 0,
+      position: state.position,
+      scrollHeight: state.element.scrollHeight,
+      clientHeight: state.element.clientHeight,
       connected: state.element.isConnected,
       progressed: state.progressed,
       completed: state.completed
@@ -66,6 +81,7 @@ export async function scrollViewport(page, viewport, position) {
       state.initialTop = element.scrollTop;
       state.progressed = false;
       state.completed = false;
+      state.position = position;
       const top = position === 'bottom' ? element.scrollHeight : 0;
       const destination = Math.min(top, element.scrollHeight - element.clientHeight);
       state.destination = destination;
