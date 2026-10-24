@@ -8,6 +8,7 @@ import { findNodeOfTree } from '../../Tree/utils';
 import { onMenuKeyDown } from '../utils';
 import findItemByKey from '../findItemByKey';
 import getOptionKey from '../getOptionKey';
+import getItemsByElements from '../getItemsByElements';
 import type { VirtualizedListHandle } from './useVirtualizedListFocus';
 
 interface FocusItemValueProps<T = unknown> {
@@ -126,8 +127,10 @@ const useFocusItemValue = <T, D>(
     const rootMenu = popup?.querySelector<HTMLElement>('[data-layer="0"]') || popup;
 
     // Preserve rendered order and the original type of each option value.
-    return Array.from(rootMenu?.querySelectorAll<HTMLElement>(focusableQueryKey) ?? []).map(
-      getItemByElement
+    return getItemsByElements(
+      Array.from(rootMenu?.querySelectorAll<HTMLElement>(focusableQueryKey) ?? []),
+      data,
+      valueKey
     );
   };
 
@@ -222,9 +225,11 @@ const useFocusItemValue = <T, D>(
     const subMenu = menu?.querySelector(`[data-layer="${nextLayer}"]`);
 
     if (subMenu) {
-      return Array.from(subMenu.querySelectorAll<HTMLElement>(focusableQueryKey)).map(
-        item => getItemByElement(item)?.[valueKey]
-      );
+      return getItemsByElements(
+        Array.from(subMenu.querySelectorAll<HTMLElement>(focusableQueryKey)),
+        data,
+        valueKey
+      ).map(item => item?.[valueKey]);
     }
 
     return null;
