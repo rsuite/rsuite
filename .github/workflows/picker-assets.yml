@@ -58,6 +58,9 @@ jobs:
       - name: Verify atomic style failure context with native browsers
         working-directory: benchmarks/cross-library-picker
         run: node runner/style-observation.controls.mjs
+      - name: Verify native scroll completion before subsequent preflights
+        working-directory: benchmarks/cross-library-picker
+        run: node runner/scroll.controls.mjs
       - name: Account for both style profiles with native correctness and color fault controls
         working-directory: benchmarks/cross-library-picker
         run: npm run audit:assets -- --output results/styles.json

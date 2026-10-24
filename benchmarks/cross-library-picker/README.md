@@ -190,6 +190,17 @@ build manifest identifies the exact JavaScript and CSS assets, versions and sour
   through real DOM scroll offsets (outside timing), then
   filter to the final dataset item and select it with native keys,
   checking that adapters did not silently truncate the supplied collection.
+  Each programmatic range write waits for trusted native `scroll` and `scrollend`
+  observations before the next operation, accepting either event order; a no-op write
+  needs no new event. This avoids issuing the return-to-top write before the bottom
+  scroll has been delivered. The original trusted-wheel progress check is retained:
+  pinned Firefox can omit `scrollend` for that wheel input, so it is not a wheel barrier.
+  The pinned browsers must support `scrollend` for programmatic range changes.
+  The completion wait retains the 12-second limit; visible first/last-item assertions,
+  input actions, focus, animation-frame measurement and sample collection remain unchanged.
+  Run `node runner/scroll.controls.mjs` for native completion, synthetic-event rejection,
+  full-range and no-op controls in both browsers. These controls establish sequencing;
+  they do not identify the actor in an earlier CI timeout or establish timing parity.
 
 Timing starts in document capture before the component handles the trusted event. A shared
 MutationObserver and geometry checks detect the visible outcome. `domReadyMs` includes this
