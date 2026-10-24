@@ -62,7 +62,7 @@ async function measured(page, condition, action) {
   return result.sample;
 }
 
-export async function runWorkload(page, url, { size, warmups, iterations }) {
+export async function runWorkload(page, url, { size, warmups, iterations, onCheckpoint }) {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   const navigate = async () => {
@@ -72,11 +72,13 @@ export async function runWorkload(page, url, { size, warmups, iterations }) {
   await navigate();
   const metadata = await page.evaluate(() => window.pickerBenchmark.metadata());
   if (!metadata.production) throw new Error('Development fixture is forbidden');
+  if (onCheckpoint) await onCheckpoint('closed');
   const firstOpen = await measured(
     page,
     { event: 'pointerdown', kind: 'open', first: '1' },
     async () => (await trigger(page)).click()
   );
+  if (onCheckpoint) await onCheckpoint('open');
   await close(page);
 
   await open(page);
@@ -135,6 +137,7 @@ export async function runWorkload(page, url, { size, warmups, iterations }) {
       );
       if (trial >= 0) samples[name].push(sample);
     }
+    if (onCheckpoint && name === 'filterEmpty') await onCheckpoint('empty');
   }
 
   await prepareSearch(page);
@@ -169,10 +172,12 @@ export async function runWorkload(page, url, { size, warmups, iterations }) {
         )
       );
     }
+    if (onCheckpoint && trial === iterations - 1) await onCheckpoint('keyboard');
     await page.keyboard.press('Enter');
     await settled(page, state => !state.expanded && state.selected === '21');
     if (trial >= 0) samples.keyboard.push(keys);
   }
+  if (onCheckpoint) await onCheckpoint('selected');
   if (errors.length) throw new Error('Browser errors: ' + errors.join('; '));
   return { metadata, firstOpen, preflight, samples, browserErrors: errors };
 }

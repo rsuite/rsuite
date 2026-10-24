@@ -37,6 +37,54 @@ Use `--browser firefox` for a separate browser report. Library order is randomiz
 recorded seed; each library/size/mode receives a fresh browser context. Run comparisons on an
 otherwise idle machine and repeat with another seed before drawing performance conclusions.
 
+## JavaScript and CSS accounting
+
+Run separate production builds and native correctness checks for full and component styles:
+
+    npm run audit:assets -- --output results/styles.json
+    npm run check:assets
+
+The default covers both browsers, four libraries, ordinary and virtualized 1k lists, and both
+style profiles. `--browsers`, `--profiles`, `--libraries`, `--modes` and `--size` record explicit
+subsets. This is one-iteration correctness and payload accounting, not repeated performance
+evidence. Existing timing commands retain their full-style build and deadlines.
+
+These builds use `dist-styles/full` and `dist-styles/component`, independently of `dist`.
+`--skip-build` rejects mismatched profiles, source/package fingerprints or changed artifacts.
+The component profile uses RSuite's public SelectPicker CSS entry and HeroUI's published
+ComboBox, Input, ListBox and ListBoxItem CSS. HeroUI's base, utilities, variants, animation
+dependency and complete official default theme remain included. Ant Design's ConfigProvider
+and Chakra's defaultSystem stay unchanged and produce their automatic styles in JavaScript.
+These are documented configurations, not mathematical minimum-size claims.
+
+Reports separate static initial imports, all reachable imports, and unique assets actually
+requested over the whole workflow, including its fresh navigations. JS/CSS totals exclude
+HTML, build logs and analysis JSON. Shared assets count once, and each actual asset is gzip
+compressed separately with the same Node defaults. This does not measure negotiated wire
+transfer. Rollup module/package contributions identify included peers, providers and fixture
+code before final minification; their character counts are not per-package gzip attribution.
+
+React, ReactDOM, other runtime dependencies and measurement code are included. CSS-in-JS is
+not treated as style-free: CSSOM inline/constructed stylesheet sizes are recorded separately
+at closed, open, empty, keyboard-scrolled and selected checkpoints. That serialized CSS is
+already represented in JavaScript and is never added to payload totals twice. Checkpoints
+also compare selected computed properties on representative combobox, trigger, popup and
+actual visible/active label, search-input, empty-text and trigger-icon nodes within each
+library/browser/mode. Nonpainting container currentColor and zero-width border/outline
+colors remain in the raw observations but do not imply a visible mismatch. Inherited font
+rasterization properties are recorded separately: full styles can include a document reset
+that component styles omit. These checks do not establish pixel equivalence. Each native
+case injects a visible label color fault, requires its detection and restores the exact
+inline style before continuing. Checkpoints and fault controls run outside measured intervals.
+Failures, style differences and diagnostic artifacts remain in the report and exit nonzero.
+`check:assets` corrupts one built asset and one profile identity in turn, requires early
+rejection with no native cases, and restores the exact original bytes in `finally` blocks.
+The Picker asset accounting workflow runs these commands on Linux with both browsers and
+uploads the raw reports and built assets even when a check fails.
+
+Public style references: [RSuite component imports](https://rsuitejs.com/guide/usage/),
+[HeroUI specific imports](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/README.md).
+
 ## Automated accessibility audit
 
 Use the same installed project and production build for a separate four-state audit:
