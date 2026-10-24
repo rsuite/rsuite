@@ -26,6 +26,8 @@ jobs:
       - name: Test build scripts
         run: node --test scripts/*.node-test.cjs
       - run: npm ci --legacy-peer-deps
+      - name: Check docs type file boundaries
+        run: node --test test/build/docs-type-files.integration-test.cjs
       - name: Check browser and public consumer CI coverage
         run: node --test test/build/browser-ci-capacity.integration-test.cjs
       - name: Check component defaults registry
