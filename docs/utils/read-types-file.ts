@@ -1,9 +1,14 @@
 import { promises as fs } from 'fs';
-import { join } from 'path';
+import { basename, join } from 'path';
 
 export async function readTypesFile(filename: string) {
   try {
-    const filePath = join(process.cwd(), 'public', 'react', 'types', filename);
+    // Keep the file boundary safe for callers beyond the validated API route.
+    if (typeof filename !== 'string' || !/^[a-zA-Z0-9-]+\.json$/.test(filename)) {
+      return null;
+    }
+
+    const filePath = join(process.cwd(), 'public', 'react', 'types', basename(filename));
     const fileContent = await fs.readFile(filePath, 'utf-8');
     return JSON.parse(fileContent);
   } catch (error) {
