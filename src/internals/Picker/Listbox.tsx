@@ -345,6 +345,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
           classPrefix={listItemClassPrefix}
           onSelect={handleSelect.bind(null, item)}
           {...pickBy(listItemProps, v => v !== undefined)}
+          data-grouped={groupable || undefined}
         >
           {renderOption ? renderOption(label, item) : label}
         </ListItem>
