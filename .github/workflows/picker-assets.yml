@@ -61,6 +61,9 @@ jobs:
       - name: Verify native scroll completion before subsequent preflights
         working-directory: benchmarks/cross-library-picker
         run: node runner/scroll.controls.mjs
+      - name: Verify geometry guard failure context with native layouts
+        working-directory: benchmarks/cross-library-picker
+        run: node runner/geometry.controls.mjs
       - name: Account for both style profiles with native correctness and color fault controls
         working-directory: benchmarks/cross-library-picker
         run: npm run audit:assets -- --output results/styles.json

@@ -50,8 +50,49 @@ export function visibleRows(menu: HTMLElement | null, rows: HTMLElement[]) {
       !Number.isFinite(pitch) ||
       Math.abs(pitch - rowHeight) > 0.5 ||
       Math.abs(middle.top - first.top - middleIndex * pitch) > 0.5
-    )
-      throw new Error('Expected a uniform, DOM-ordered ordinary list');
+    ) {
+      const error = new Error('Expected a uniform, DOM-ordered ordinary list');
+      try {
+        const rect = (value: DOMRect) => ({
+          top: value.top,
+          right: value.right,
+          bottom: value.bottom,
+          left: value.left,
+          width: value.width,
+          height: value.height
+        });
+        const style = getComputedStyle(menu);
+        error.message +=
+          ': ' +
+          JSON.stringify({
+            rowCount: rows.length,
+            expectedRowHeight: rowHeight,
+            middleIndex,
+            pitch: Number.isFinite(pitch) ? pitch : String(pitch),
+            pitchDeviation: Math.abs(pitch - rowHeight),
+            middleDeviation: Math.abs(middle.top - first.top - middleIndex * pitch),
+            probes: { first: rect(first), middle: rect(middle), last: rect(last) },
+            afterGuard: {
+              at: performance.now(),
+              menu: rect(menu.getBoundingClientRect()),
+              transform: style.transform.slice(0, 240),
+              animationName: style.animationName.slice(0, 240),
+              animations: menu
+                .getAnimations()
+                .slice(0, 8)
+                .map(animation => ({
+                  playState: animation.playState,
+                  currentTime: String(animation.currentTime).slice(0, 80)
+                }))
+            },
+            scope:
+              'Probes retain the exact guard operands; afterGuard is collected after the predicate, not an atomic animation snapshot.'
+          });
+      } catch (contextError) {
+        error.message += ': ' + JSON.stringify({ contextError: String(contextError) });
+      }
+      throw error;
+    }
     const bounds = menu.getBoundingClientRect();
     const top = Math.max(0, bounds.top),
       bottom = Math.min(innerHeight, bounds.bottom);
