@@ -44,6 +44,14 @@ Run separate production builds and native correctness checks for full and compon
     npm run audit:assets -- --output results/styles.json
     npm run check:assets
 
+The workflow also runs `node runner/style-observation.controls.mjs` with both native browsers.
+Its controlled missing-node cases require the original failure to retain the snapshot, missing
+subjects, popup geometry/styles and current animations from the same evaluation that rejects
+the observation. A controlled collector error must preserve that primary failure and identify
+the collection error; a complete-node control must still pass. The bounded context is attached to
+the original error; the separate screenshot and later diagnostic remain useful observations
+of a later state. These controls validate reporting and do not reproduce an earlier timing failure.
+
 The default covers both browsers, four libraries, ordinary and virtualized 1k lists, and both
 style profiles. `--browsers`, `--profiles`, `--libraries`, `--modes` and `--size` record explicit
 subsets. This is one-iteration correctness and payload accounting, not repeated performance
