@@ -213,6 +213,15 @@ without a per-row geometry scan. Instrumentation cost still depends
 on DOM structure. Preserve raw samples and account for it when interpreting differences.
 Nearest-rank p50/p95 values are descriptive, without pass thresholds or confidence claims.
 
+If the ordinary-list uniformity guard rejects a layout, its error retains the exact
+first/middle/last rectangles, pitch and deviation values used by the predicate. Additional
+menu transform and bounded animation observations are collected after the predicate;
+they are not an atomic animation snapshot. A collection failure retains the original
+guard error. `node runner/geometry.controls.mjs` exercises the original rejection
+conditions, a collector failure, a uniform layout and a hidden menu in both native
+browsers. The guard, 0.5-pixel tolerances, successful measurement path and frame logic
+are unchanged; this reporting does not establish the actor in a historical failure.
+
 The renderer adds the same label marker to all adapters. Native virtualization is used for
 RSuite and Ant Design. Chakra uses its documented TanStack virtualizer composition; HeroUI's
 ListBox is composed with the React Aria Virtualizer. These integration differences are part
