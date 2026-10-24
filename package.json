@@ -28,7 +28,7 @@
     "build:types-cjs": "tsc --project tsconfig.build.json --emitDeclarationOnly --outDir lib/cjs && resolve-tspaths --project tsconfig.build.json --out lib/cjs ",
     "build:types-esm": "tsc --project tsconfig.build.json --emitDeclarationOnly --outDir lib/esm && resolve-tspaths --project tsconfig.build.json --out lib/esm ",
     "build:types": "npm run build:types-cjs && npm run build:types-esm",
-    "postbuild": "node --test test/build/cleanup.integration-test.cjs test/build/source-paths.integration-test.cjs test/build/lodash-imports.integration-test.cjs test/build/declaration-paths.integration-test.cjs && cross-env VITEST_RUNNING_POSTBUILD=true vitest run --environment=node test/validateBuilds.spec.ts",
+    "postbuild": "node --test test/build/cleanup.integration-test.cjs test/build/source-paths.integration-test.cjs test/build/lodash-imports.integration-test.cjs test/build/declaration-paths.integration-test.cjs test/build/serializer-security.integration-test.mjs && cross-env VITEST_RUNNING_POSTBUILD=true vitest run --environment=node test/validateBuilds.spec.ts",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "bump-docs": "node scripts/bump-docs-version.js",
     "dist:analyze": "ANALYZE=true webpack --mode production --progress",
@@ -194,6 +194,10 @@
     "aria-query@>5.1.3": "5.1.3",
     "get-uri@6.0.4": {
       "basic-ftp": "^6.2.3"
+    },
+    "terser-webpack-plugin": {
+      ".": "5.3.10",
+      "serialize-javascript": "^7.1.3"
     }
   },
   "browserslist": [
