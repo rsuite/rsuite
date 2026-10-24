@@ -37,6 +37,62 @@ Use `--browser firefox` for a separate browser report. Library order is randomiz
 recorded seed; each library/size/mode receives a fresh browser context. Run comparisons on an
 otherwise idle machine and repeat with another seed before drawing performance conclusions.
 
+## JavaScript and CSS accounting
+
+Run separate production builds and native correctness checks for full and component styles:
+
+    npm run audit:assets -- --output results/styles.json
+    npm run check:assets
+
+The workflow also runs `node runner/style-observation.controls.mjs` with both native browsers.
+Its controlled missing-node cases require the original failure to retain the snapshot, missing
+subjects, popup geometry/styles and current animations from the same evaluation that rejects
+the observation. A controlled collector error must preserve that primary failure and identify
+the collection error; a complete-node control must still pass. The bounded context is attached to
+the original error; the separate screenshot and later diagnostic remain useful observations
+of a later state. These controls validate reporting and do not reproduce an earlier timing failure.
+
+The default covers both browsers, four libraries, ordinary and virtualized 1k lists, and both
+style profiles. `--browsers`, `--profiles`, `--libraries`, `--modes` and `--size` record explicit
+subsets. This is one-iteration correctness and payload accounting, not repeated performance
+evidence. Existing timing commands retain their full-style build and deadlines.
+
+These builds use `dist-styles/full` and `dist-styles/component`, independently of `dist`.
+`--skip-build` rejects mismatched profiles, source/package fingerprints or changed artifacts.
+The component profile uses RSuite's public SelectPicker CSS entry and HeroUI's published
+ComboBox, Input, ListBox and ListBoxItem CSS. HeroUI's base, utilities, variants, animation
+dependency and complete official default theme remain included. Ant Design's ConfigProvider
+and Chakra's defaultSystem stay unchanged and produce their automatic styles in JavaScript.
+These are documented configurations, not mathematical minimum-size claims.
+
+Reports separate static initial imports, all reachable imports, and unique assets actually
+requested over the whole workflow, including its fresh navigations. JS/CSS totals exclude
+HTML, build logs and analysis JSON. Shared assets count once, and each actual asset is gzip
+compressed separately with the same Node defaults. This does not measure negotiated wire
+transfer. Rollup module/package contributions identify included peers, providers and fixture
+code before final minification; their character counts are not per-package gzip attribution.
+
+React, ReactDOM, other runtime dependencies and measurement code are included. CSS-in-JS is
+not treated as style-free: CSSOM inline/constructed stylesheet sizes are recorded separately
+at closed, open, empty, keyboard-scrolled and selected checkpoints. That serialized CSS is
+already represented in JavaScript and is never added to payload totals twice. Checkpoints
+also compare selected computed properties on representative combobox, trigger, popup and
+actual visible/active label, search-input, empty-text and trigger-icon nodes within each
+library/browser/mode. Nonpainting container currentColor and zero-width border/outline
+colors remain in the raw observations but do not imply a visible mismatch. Inherited font
+rasterization properties are recorded separately: full styles can include a document reset
+that component styles omit. These checks do not establish pixel equivalence. Each native
+case injects a visible label color fault, requires its detection and restores the exact
+inline style before continuing. Checkpoints and fault controls run outside measured intervals.
+Failures, style differences and diagnostic artifacts remain in the report and exit nonzero.
+`check:assets` corrupts one built asset and one profile identity in turn, requires early
+rejection with no native cases, and restores the exact original bytes in `finally` blocks.
+The Picker asset accounting workflow runs these commands on Linux with both browsers and
+uploads the raw reports and built assets even when a check fails.
+
+Public style references: [RSuite component imports](https://rsuitejs.com/guide/usage/),
+[HeroUI specific imports](https://github.com/heroui-inc/heroui/blob/v3/packages/styles/README.md).
+
 ## Automated accessibility audit
 
 Use the same installed project and production build for a separate four-state audit:
@@ -134,6 +190,17 @@ build manifest identifies the exact JavaScript and CSS assets, versions and sour
   through real DOM scroll offsets (outside timing), then
   filter to the final dataset item and select it with native keys,
   checking that adapters did not silently truncate the supplied collection.
+  Each programmatic range write waits for trusted native `scroll` and `scrollend`
+  observations before the next operation, accepting either event order; a no-op write
+  needs no new event. This avoids issuing the return-to-top write before the bottom
+  scroll has been delivered. The original trusted-wheel progress check is retained:
+  pinned Firefox can omit `scrollend` for that wheel input, so it is not a wheel barrier.
+  The pinned browsers must support `scrollend` for programmatic range changes.
+  The completion wait retains the 12-second limit; visible first/last-item assertions,
+  input actions, focus, animation-frame measurement and sample collection remain unchanged.
+  Run `node runner/scroll.controls.mjs` for native completion, synthetic-event rejection,
+  full-range and no-op controls in both browsers. These controls establish sequencing;
+  they do not identify the actor in an earlier CI timeout or establish timing parity.
 
 Timing starts in document capture before the component handles the trusted event. A shared
 MutationObserver and geometry checks detect the visible outcome. `domReadyMs` includes this

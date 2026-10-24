@@ -1,0 +1,80 @@
+name: Picker asset accounting
+on:
+  pull_request:
+    branches: [main, next]
+    paths:
+      - 'benchmarks/cross-library-picker/**'
+      - 'src/**'
+      - 'scripts/**'
+      - 'test/build/**'
+      - 'package*.json'
+      - 'tsconfig*.json'
+      - 'gulpfile.js'
+      - 'webpack*.js'
+      - '.babelrc*'
+      - '.github/workflows/picker-assets.yml'
+  push:
+    branches: [main, next]
+    paths:
+      - 'benchmarks/cross-library-picker/**'
+      - 'src/**'
+      - 'scripts/**'
+      - 'test/build/**'
+      - 'package*.json'
+      - 'tsconfig*.json'
+      - 'gulpfile.js'
+      - 'webpack*.js'
+      - '.babelrc*'
+      - '.github/workflows/picker-assets.yml'
+permissions:
+  contents: read
+jobs:
+  assets:
+    name: Picker JS and CSS with native workflows
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            benchmarks/cross-library-picker/package-lock.json
+      - name: Install SDK build dependencies
+        run: npm ci --legacy-peer-deps
+      - name: Build and validate source SDK
+        run: npm run build
+      - name: Install frozen standalone cohort
+        working-directory: benchmarks/cross-library-picker
+        run: npm ci --ignore-scripts
+      - name: Install pinned native browsers
+        working-directory: benchmarks/cross-library-picker
+        run: node node_modules/playwright/cli.js install --with-deps chromium firefox
+      - name: Check standalone types and controls
+        working-directory: benchmarks/cross-library-picker
+        run: npm run check
+      - name: Verify atomic style failure context with native browsers
+        working-directory: benchmarks/cross-library-picker
+        run: node runner/style-observation.controls.mjs
+      - name: Verify native scroll completion before subsequent preflights
+        working-directory: benchmarks/cross-library-picker
+        run: node runner/scroll.controls.mjs
+      - name: Account for both style profiles with native correctness and color fault controls
+        working-directory: benchmarks/cross-library-picker
+        run: npm run audit:assets -- --output results/styles.json
+      - name: Reject modified assets and incorrect profiles before browser cases
+        working-directory: benchmarks/cross-library-picker
+        run: npm run check:assets
+      - name: Upload raw reports, CSSOM observations and actual build assets
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: picker-assets-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          retention-days: 14
+          if-no-files-found: error
+          include-hidden-files: true
+          path: |
+            benchmarks/cross-library-picker/results
+            benchmarks/cross-library-picker/dist-styles
