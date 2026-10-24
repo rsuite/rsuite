@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import { build } from 'esbuild';
 import { chromium, firefox } from 'playwright';
 
 const compiled = await build({
-  entryPoints: [new URL('../src/geometry.ts', import.meta.url).pathname],
+  entryPoints: [fileURLToPath(new URL('../src/geometry.ts', import.meta.url))],
   bundle: true,
   write: false,
   format: 'iife',
