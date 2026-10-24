@@ -22,6 +22,12 @@ function verify(workflows) {
     assert.deepEqual(job.strategy.matrix.include, [
       { suite: 'components', shard: 1, shards: 2 },
       { suite: 'components', shard: 2, shards: 2 },
+      ...(engine === 'firefox'
+        ? [
+            { suite: 'profile', shard: 1, shards: 2 },
+            { suite: 'profile', shard: 2, shards: 2 }
+          ]
+        : []),
       { suite: 'native', shard: 1, shards: 4 },
       { suite: 'native', shard: 2, shards: 4 },
       { suite: 'native', shard: 3, shards: 4 },
@@ -47,6 +53,36 @@ function verify(workflows) {
     );
     assert(!job['continue-on-error']);
     assert(job.steps.every(step => !step['continue-on-error']));
+    if (engine === 'firefox') {
+      assert.equal(
+        job.name,
+        "${{ matrix.suite == 'native' && 'Firefox native' || matrix.suite == 'profile' && 'Firefox profile' || 'Firefox' }} shard (${{ matrix.shard }}/${{ matrix.shards }})"
+      );
+      const profile = job.steps.find(step => step.id === 'profiled-components');
+      assert.equal(profile.if, "matrix.suite == 'profile'");
+      assert.equal(
+        profile.run,
+        'npm run test:firefox-profile -- --coverage --shard=${{ matrix.shard }}/${{ matrix.shards }}'
+      );
+      assert.equal(profile.env.RUN_ENV, 'ci');
+      assert.equal(profile.env.BROWSER, 'firefox');
+      const artifact = job.steps.find(
+        step => step.name === 'Retain component native Firefox failure profiles'
+      );
+      assert.equal(
+        artifact.if,
+        "${{ !cancelled() && matrix.suite == 'profile' && steps.profiled-components.outcome != 'skipped' }}"
+      );
+      assert.equal(
+        artifact.with.name,
+        'component-native-profile-firefox-${{ inputs.react-version }}-${{ matrix.shard }}-attempt-${{ github.run_attempt }}'
+      );
+      assert.equal(
+        artifact.with.path,
+        'artifacts/firefox-profile/**\n!artifacts/firefox-profile/**/cache/**\nsrc/**/__screenshots__/**/*.png\n'
+      );
+      assert.equal(artifact.with['if-no-files-found'], 'error');
+    }
   }
 
   const jobs = workflows.main.jobs;
@@ -128,6 +164,64 @@ function verify(workflows) {
 
 test('CI partitions retain component coverage, native files and both public consumers', () => {
   verify(workflows);
+});
+
+test('profile guards retain both independent shards, first-failure artifacts and coverage isolation', () => {
+  verify(workflows);
+  for (const [name, mutate] of [
+    ['lost profile shard', job => job.strategy.matrix.include.splice(2, 1)],
+    [
+      'duplicate profile shard',
+      job => {
+        job.strategy.matrix.include[3].shard = 1;
+      }
+    ],
+    [
+      'skipped profile tests',
+      job => {
+        job.steps.find(step => step.id === 'profiled-components').if = 'false';
+      }
+    ],
+    [
+      'profile without CI environment',
+      job => {
+        delete job.steps.find(step => step.id === 'profiled-components').env.RUN_ENV;
+      }
+    ],
+    [
+      'ignored profile failure',
+      job => {
+        job.steps.find(step => step.id === 'profiled-components')['continue-on-error'] = true;
+      }
+    ],
+    [
+      'failure export skipped',
+      job => {
+        job.steps.find(
+          step => step.name === 'Retain component native Firefox failure profiles'
+        ).if = "matrix.suite == 'profile'";
+      }
+    ],
+    [
+      'profile coverage uploaded twice',
+      job => {
+        job.steps.find(step => step.name === 'Retain browser coverage').if =
+          "matrix.suite != 'native'";
+      }
+    ],
+    [
+      'profile artifact collides with coverage',
+      job => {
+        job.steps.find(
+          step => step.name === 'Retain component native Firefox failure profiles'
+        ).with.name = 'browser-coverage-firefox-${{ inputs.react-version }}-${{ matrix.shard }}';
+      }
+    ]
+  ]) {
+    const altered = structuredClone(workflows);
+    mutate(altered.firefox.jobs.test);
+    assert.throws(() => verify(altered), name);
+  }
 });
 
 test('the required public check rejects failed, cancelled, skipped and absent results', () => {
