@@ -51,3 +51,23 @@ through passing and intentionally failing test fixtures. They retain the origina
 assertion messages and exit codes, verify the first failure's content marker and
 profile hash, and keep their artifacts for inspection. Firefox native shard1
 runs these controls in CI for each supported React runtime.
+
+Firefox CI runs independent profiled component shards through this launcher for
+each supported React runtime. The ordinary component checks, their coverage
+uploads and the native control checks retain their existing commands. Profiled
+shards use the same headless mode, coverage instrumentation and shard selection;
+their coverage is not uploaded to Codecov a second time. Both ordinary and
+profiled tests must pass.
+
+Each profiled shard retains its summary, test log and failure screenshots, and
+exports a profile only for its first failed test. This captures that failing
+content process before Vitest destroys its frame. A profile from a separate
+runner must not be attributed to an ordinary shard's unprofiled failure.
+
+The profiler's headless launch and disabled disk/memory caches match the base
+Firefox component configuration. The connected provider keeps that configuration's
+context options, viewport, serial file execution and browser commands. The
+profile cache directory is fresh for each invocation. This preserves the CI job's
+existing cold-cache setup; sampling itself can still affect scheduling. A passing
+profiled job does not explain an earlier unprofiled failure. Inspect the profile's
+test markers and actual samples before attributing a delayed callback to an actor.
