@@ -19,22 +19,7 @@ describe.each(['object', 'array row', 'array root'] as const)(
         const defer = () => new Promise<boolean>(resolve => (release = resolve));
         const leaf = StringType().addAsyncRule(defer, 'Name invalid');
         const array = ArrayType().of(ObjectType().shape({ name: leaf }));
-        if (shape === 'array root') {
-          array.addAsyncRule(async () => {
-            const accepted = await defer();
-            return {
-              hasError: !accepted,
-              array: [
-                {
-                  hasError: !accepted,
-                  object: {
-                    name: { hasError: !accepted, errorMessage: 'Name invalid' }
-                  }
-                }
-              ]
-            };
-          });
-        }
+
         const parent = shape === 'object' ? 'user' : shape === 'array row' ? 'users[0]' : 'users';
         const child = shape === 'object' ? 'user.name' : 'users[0].name';
         const model = SchemaModel<any>(

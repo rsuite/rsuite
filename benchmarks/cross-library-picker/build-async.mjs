@@ -2,10 +2,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync, execFileSync } from 'node:child_process';
-import { inputs, packageFingerprint, filesUnder, hash } from './integrity.mjs';
+import {
+  inputs,
+  packageFingerprint,
+  candidateDependencies,
+  filesUnder,
+  hash
+} from './integrity.mjs';
 const root = path.dirname(fileURLToPath(import.meta.url));
 const sourceInputs = inputs(root);
 const candidateFingerprint = packageFingerprint(root);
+const dependencyContract = candidateDependencies(root);
 if (candidateFingerprint !== packageFingerprint(root, path.resolve(root, '../../lib')))
   throw new Error('Installed candidate does not match the root lib snapshot');
 const builds = {};
@@ -31,6 +38,7 @@ for (const library of ['rsuite', 'antd', 'chakra', 'heroui']) {
 }
 if (
   JSON.stringify(sourceInputs) !== JSON.stringify(inputs(root)) ||
+  JSON.stringify(dependencyContract) !== JSON.stringify(candidateDependencies(root)) ||
   candidateFingerprint !== packageFingerprint(root)
 )
   throw new Error('Inputs changed while building async fixture');
@@ -62,6 +70,7 @@ fs.writeFileSync(
       ).trim(),
       sourceInputs,
       candidateFingerprint,
+      candidateDependencies: dependencyContract,
       builds,
       virtualization: {
         rsuite: 'native SelectPicker list',

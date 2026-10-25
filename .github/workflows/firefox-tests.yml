@@ -12,8 +12,8 @@ on:
 
 jobs:
   test:
-    # Preserve component check names while giving native tests their own runners.
-    name: "${{ matrix.suite == 'native' && 'Firefox native' || 'Firefox' }} shard (${{ matrix.shard }}/2)"
+    # Keep ordinary component checks and give profiled tests independent runners.
+    name: "${{ matrix.suite == 'native' && 'Firefox native' || matrix.suite == 'profile' && 'Firefox profile' || 'Firefox' }} shard (${{ matrix.shard }}/${{ matrix.shards }})"
     # Playwright 1.56.1 supports this image; ubuntu-latest can migrate to 26.04.
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -21,8 +21,15 @@ jobs:
       # Keep independent suites and shards running when another one fails.
       fail-fast: false
       matrix:
-        suite: [components, native]
-        shard: [1, 2]
+        include:
+          - { suite: components, shard: 1, shards: 2 }
+          - { suite: components, shard: 2, shards: 2 }
+          - { suite: profile, shard: 1, shards: 2 }
+          - { suite: profile, shard: 2, shards: 2 }
+          - { suite: native, shard: 1, shards: 4 }
+          - { suite: native, shard: 2, shards: 4 }
+          - { suite: native, shard: 3, shards: 4 }
+          - { suite: native, shard: 4, shards: 4 }
     env:
       VITE_RSUITE_REACT_VERSION: ${{ inputs.react-runtime }}
     steps:
@@ -81,7 +88,7 @@ jobs:
       - name: Run headless tests
         id: component-tests
         if: matrix.suite == 'components'
-        run: npm run test:ci -- --browser.headless --shard=${{ matrix.shard }}/2
+        run: npm run test:ci -- --browser.headless --shard=${{ matrix.shard }}/${{ matrix.shards }}
         env:
           CI: true
           # Keep browser stderr and process exits when an RPC connection disappears.
@@ -89,6 +96,30 @@ jobs:
           BROWSER: firefox
           # Report native Playwright request failures for dynamic import diagnostics.
           VITEST_PW_DEBUG: '1'
+
+      - name: Run independently profiled Firefox component tests
+        id: profiled-components
+        if: matrix.suite == 'profile'
+        run: npm run test:firefox-profile -- --coverage --shard=${{ matrix.shard }}/${{ matrix.shards }}
+        env:
+          CI: true
+          RUN_ENV: ci
+          DEBUG: pw:browser
+          BROWSER: firefox
+          VITEST_PW_DEBUG: '1'
+
+      - name: Retain component native Firefox failure profiles
+        if: ${{ !cancelled() && matrix.suite == 'profile' && steps.profiled-components.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v4
+        timeout-minutes: 2
+        with:
+          name: component-native-profile-firefox-${{ inputs.react-version }}-${{ matrix.shard }}-attempt-${{ github.run_attempt }}
+          path: |
+            artifacts/firefox-profile/**
+            !artifacts/firefox-profile/**/cache/**
+            src/**/__screenshots__/**/*.png
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Retain component failure screenshots
         if: ${{ !cancelled() && steps.component-tests.outcome == 'failure' }}
@@ -116,8 +147,26 @@ jobs:
       - name: Run native browser control tests
         # Component tests and coverage uploads run on separate runners.
         if: matrix.suite == 'native'
-        run: npm run test:browser-controls -- --shard=${{ matrix.shard }}/2
+        run: npm run test:browser-controls -- --shard=${{ matrix.shard }}/${{ matrix.shards }}
         env:
           BROWSER: firefox
           # Retain process shutdown evidence when a native test cleanup times out.
           DEBUG: pw:browser
+
+      - name: Verify optional native Firefox profiler
+        id: profile-controls
+        if: matrix.suite == 'native' && matrix.shard == 1
+        run: npm run test:firefox-profile-controls
+
+      - name: Retain native Firefox profile controls
+        if: ${{ !cancelled() && matrix.suite == 'native' && matrix.shard == 1 && steps.profile-controls.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v4
+        timeout-minutes: 2
+        with:
+          name: native-firefox-profile-controls-${{ inputs.react-version }}-attempt-${{ github.run_attempt }}
+          path: |
+            artifacts/firefox-profile/**
+            !artifacts/firefox-profile/**/cache/**
+            test/browser/firefox-profile/fixtures/__screenshots__/**/*.png
+          if-no-files-found: error
+          retention-days: 7

@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { parseArgs, isDeepStrictEqual } from 'node:util';
 import { spawnSync } from 'node:child_process';
 import { chromium, firefox } from 'playwright';
-import { inputs, packageFingerprint, hash } from './integrity.mjs';
+import { inputs, packageFingerprint, candidateDependencies, hash } from './integrity.mjs';
 import { serve } from './runner/server.mjs';
 import { bounded, captureFailureArtifacts } from './runner/diagnostics.mjs';
 import { auditPicker, axeOptions, verifyEngineControl } from './runner/accessibility.mjs';
@@ -42,6 +42,7 @@ if (!values['skip-build']) {
 const manifest = JSON.parse(fs.readFileSync(path.join(root, 'dist/build-inputs.json')));
 if (
   !isDeepStrictEqual(manifest.sourceInputs, inputs(root)) ||
+  !isDeepStrictEqual(manifest.candidateDependencies, candidateDependencies(root)) ||
   manifest.candidateFingerprint !== packageFingerprint(root) ||
   manifest.candidateFingerprint !== packageFingerprint(root, path.resolve(root, '../../lib'))
 ) {

@@ -1,3 +1,5 @@
+import { scrollViewport } from './scroll.mjs';
+
 const bridge = page => page.evaluate(() => window.pickerBenchmark.snapshot());
 
 async function settled(page, predicate, argument) {
@@ -62,7 +64,7 @@ async function measured(page, condition, action) {
   return result.sample;
 }
 
-export async function runWorkload(page, url, { size, warmups, iterations }) {
+export async function runWorkload(page, url, { size, warmups, iterations, onCheckpoint }) {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   const navigate = async () => {
@@ -72,11 +74,13 @@ export async function runWorkload(page, url, { size, warmups, iterations }) {
   await navigate();
   const metadata = await page.evaluate(() => window.pickerBenchmark.metadata());
   if (!metadata.production) throw new Error('Development fixture is forbidden');
+  if (onCheckpoint) await onCheckpoint('closed');
   const firstOpen = await measured(
     page,
     { event: 'pointerdown', kind: 'open', first: '1' },
     async () => (await trigger(page)).click()
   );
+  if (onCheckpoint) await onCheckpoint('open');
   await close(page);
 
   await open(page);
@@ -97,18 +101,15 @@ export async function runWorkload(page, url, { size, warmups, iterations }) {
     return target.scrollHeight;
   });
   if (scrollTarget === null) throw new Error('Expected a real scrollable viewport');
-  await page.locator('[data-benchmark-scroll-target]').hover();
+  const viewport = page.locator('[data-benchmark-scroll-target]');
+  await viewport.hover();
   await page.mouse.wheel(0, scrollTarget);
   await page.waitForFunction(
     () => document.querySelector('[data-benchmark-scroll-target]').scrollTop > 0
   );
-  await page.locator('[data-benchmark-scroll-target]').evaluate(element => {
-    element.scrollTop = element.scrollHeight;
-  });
+  await scrollViewport(page, viewport, 'bottom');
   await settled(page, (state, last) => state.fullyVisibleValues.includes(last), String(size));
-  await page.locator('[data-benchmark-scroll-target]').evaluate(element => {
-    element.scrollTop = 0;
-  });
+  await scrollViewport(page, viewport, 'top');
   await settled(page, state => state.firstVisible === '1');
   await close(page);
 
@@ -135,6 +136,7 @@ export async function runWorkload(page, url, { size, warmups, iterations }) {
       );
       if (trial >= 0) samples[name].push(sample);
     }
+    if (onCheckpoint && name === 'filterEmpty') await onCheckpoint('empty');
   }
 
   await prepareSearch(page);
@@ -169,10 +171,12 @@ export async function runWorkload(page, url, { size, warmups, iterations }) {
         )
       );
     }
+    if (onCheckpoint && trial === iterations - 1) await onCheckpoint('keyboard');
     await page.keyboard.press('Enter');
     await settled(page, state => !state.expanded && state.selected === '21');
     if (trial >= 0) samples.keyboard.push(keys);
   }
+  if (onCheckpoint) await onCheckpoint('selected');
   if (errors.length) throw new Error('Browser errors: ' + errors.join('; '));
   return { metadata, firstOpen, preflight, samples, browserErrors: errors };
 }

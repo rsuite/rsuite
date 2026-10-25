@@ -26,6 +26,12 @@ jobs:
       - name: Test build scripts
         run: node --test scripts/*.node-test.cjs
       - run: npm ci --legacy-peer-deps
+      - name: Check docs type file boundaries
+        run: node --test test/build/docs-type-files.integration-test.cjs
+      - name: Check source map offset bounds
+        run: node --test test/build/source-map-offsets.integration-test.cjs
+      - name: Check browser and public consumer CI coverage
+        run: node --test test/build/browser-ci-capacity.integration-test.cjs
       - name: Check component defaults registry
         run: npm run test:component-registry && npm run check:component-types
       - name: Test Sass mixins
@@ -204,7 +210,13 @@ jobs:
           else
             node scripts/verify-browser-coverage-ci.cjs coverage-reports "$COVERAGE_KIND"
           fi
-      - name: Upload coverage to Codecov
+      - name: Check coverage delivery outcome controls
+        run: node --test test/build/codecov-upload.integration-test.cjs
+      # Retry only authentication/delivery; never repeat tests or report validation.
+      # The final gate requires success even when earlier attempts continue after error.
+      - name: Upload coverage to Codecov (attempt 1)
+        id: codecov_1
+        continue-on-error: true
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           use_oidc: true
@@ -212,9 +224,75 @@ jobs:
           files: ${{ steps.coverage.outputs.files }}
           disable_search: true
           fail_ci_if_error: true
+      - name: Wait before coverage delivery attempt 2
+        if: ${{ !cancelled() && steps.codecov_1.outcome == 'failure' }}
+        run: sleep 2
+      - name: Upload coverage to Codecov (attempt 2)
+        id: codecov_2
+        if: ${{ !cancelled() && steps.codecov_1.outcome == 'failure' }}
+        continue-on-error: true
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          use_oidc: true
+          flags: ${{ matrix.kind }}
+          files: ${{ steps.coverage.outputs.files }}
+          disable_search: true
+          fail_ci_if_error: true
+      - name: Wait before coverage delivery attempt 3
+        if: ${{ !cancelled() && steps.codecov_2.outcome == 'failure' }}
+        run: sleep 4
+      - name: Upload coverage to Codecov (attempt 3)
+        id: codecov_3
+        if: ${{ !cancelled() && steps.codecov_2.outcome == 'failure' }}
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          use_oidc: true
+          flags: ${{ matrix.kind }}
+          files: ${{ steps.coverage.outputs.files }}
+          disable_search: true
+          fail_ci_if_error: true
+      - name: Require successful coverage delivery
+        if: ${{ always() }}
+        env:
+          CODECOV_ATTEMPT_1: ${{ steps.codecov_1.outcome }}
+          CODECOV_ATTEMPT_2: ${{ steps.codecov_2.outcome }}
+          CODECOV_ATTEMPT_3: ${{ steps.codecov_3.outcome }}
+        run: node scripts/check-codecov-upload-ci.cjs
 
-  public-declarations:
-    name: 'Public declarations'
+  public-types:
+    name: 'Public declaration types'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cache public consumer dependency downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-public-consumers-${{ hashFiles('package-lock.json', 'test/public-declarations/package-lock.json', 'test/public-runtime/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-public-consumers-
+            ${{ runner.OS }}-node-
+      - run: npm ci --legacy-peer-deps
+      - name: Install locked declaration consumers
+        run: npm ci --prefix test/public-declarations --legacy-peer-deps --ignore-scripts
+      - name: Build the public package entries
+        run: npm run build:ts && npm run build:types
+      - name: Check React 18 and 19 public declarations
+        run: npm run test:public-types
+      - name: Retain public consumer diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-declaration-consumers
+          path: test/public-declarations/results
+          if-no-files-found: ignore
+
+  public-runtime:
+    name: 'Public runtime'
     # This job also launches the locked Playwright browsers for UMD consumers.
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -223,17 +301,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Cache public consumer dependency downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-public-consumers-${{ hashFiles('package-lock.json', 'test/public-declarations/package-lock.json', 'test/public-runtime/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-public-consumers-
+            ${{ runner.OS }}-node-
       - run: npm ci --legacy-peer-deps
-      - name: Install locked declaration consumers
-        run: npm ci --prefix test/public-declarations --legacy-peer-deps --ignore-scripts
       - name: Install locked runtime consumers
         run: npm ci --prefix test/public-runtime --legacy-peer-deps --ignore-scripts
       - name: Install UMD consumer browsers
-        run: npx playwright install --with-deps chromium firefox
+        run: |
+          node scripts/install-browser-ci.cjs chromium
+          node scripts/install-browser-ci.cjs firefox
       - name: Build the public package entries
+        # Declaration path resolution also normalizes emitted JavaScript.
         run: npm run build:ts && npm run build:types && npm run dist
-      - name: Check React 18 and 19 public declarations
-        run: npm run test:public-types
       - name: Check React 18 and 19 package runtime SSR
         run: npm run test:public-runtime
       - name: Check React 18 and 19 UMD browser runtime
@@ -242,8 +327,19 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: public-declaration-consumers
-          path: |
-            test/public-declarations/results
-            test/public-runtime/results
+          name: public-runtime-consumers
+          path: test/public-runtime/results
           if-no-files-found: ignore
+
+  public-declarations:
+    name: 'Public declarations'
+    needs: [public-types, public-runtime]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Require declarations and runtime consumers to pass
+        env:
+          DECLARATION_RESULT: ${{ needs.public-types.result }}
+          RUNTIME_RESULT: ${{ needs.public-runtime.result }}
+        run: test "$DECLARATION_RESULT" = success && test "$RUNTIME_RESULT" = success

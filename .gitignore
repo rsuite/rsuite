@@ -71,3 +71,6 @@ test/public-declarations/results/
 
 # Public package runtime diagnostics
 test/public-runtime/results/
+
+# Optional native Firefox diagnostic artifacts
+artifacts/firefox-profile/
