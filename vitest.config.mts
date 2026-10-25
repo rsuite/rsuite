@@ -2,6 +2,7 @@ import { defineConfig, ViteUserConfig } from 'vitest/config';
 import { playwright } from '@vitest/browser-playwright';
 import { resolve } from 'path';
 import { normalizePath } from 'vite';
+import { createHash } from 'node:crypto';
 
 const { M, F, RUN_ENV, VITEST_RUNNING_POSTBUILD, BROWSER = 'chromium' } = process.env;
 const nodeEnvironment = RUN_ENV === 'ssr' || RUN_ENV === 'browser-controls';
@@ -35,6 +36,12 @@ console.log(`Run Environment: ${RUN_ENV}`);
 console.log('Test Main:', testMainDescription); // Updated log message
 console.groupEnd();
 
+// A focused run must not leave a partial dependency graph for a broader run.
+const testCacheScope = createHash('sha256')
+  .update(VITEST_RUNNING_POSTBUILD === 'true' ? 'postbuild' : testPatterns)
+  .digest('hex')
+  .slice(0, 16);
+
 // Create a function to initialize the config
 async function createConfig() {
   // Dynamically import ESM modules
@@ -48,7 +55,7 @@ async function createConfig() {
   const config: ViteUserConfig = {
     base: './',
     // Concurrent browser runs must not replace each other's optimized chunks.
-    cacheDir: resolve(__dirname, 'node_modules/.vite', BROWSER),
+    cacheDir: resolve(__dirname, 'node_modules/.vite', BROWSER, testCacheScope),
     define: {
       __DEV__: true
     },
