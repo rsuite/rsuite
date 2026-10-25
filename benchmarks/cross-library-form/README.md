@@ -26,6 +26,12 @@ fingerprint, exact fixture/runner/config/lock hashes, runtime versions and built
 commit identifies its source; it does not prove that `lib` was rebuilt from that commit.
 RSuite is a source build, while the competitors are pinned npm releases.
 
+The SDK dependency declarations must also match its file-package lock snapshot. Before builds
+and report reuse, the fixture checks the actual SDK resolution of each required dependency and
+peer against its declared semver range and frozen version. Dependencies must resolve inside the
+standalone installation. Build manifests record these resolved versions, locations and package
+metadata hashes; SDK-owned file hashes alone do not establish a valid dependency graph.
+
 ## Ownership and compositions
 
 | UI library | Form values and list operations                                                        | Validation execution                                                                                            |

@@ -5,6 +5,8 @@ on:
     paths:
       - 'benchmarks/cross-library-table/**'
       - 'benchmarks/cross-library-picker/integrity.mjs'
+      - 'benchmarks/cross-library-picker/sdk-dependencies.mjs'
+      - 'benchmarks/cross-library-picker/runner/sdk-dependencies.test.mjs'
       - 'benchmarks/cross-library-picker/runner/server.mjs'
       - 'benchmarks/cross-library-picker/runner/diagnostics.mjs'
       - 'src/**'
@@ -21,6 +23,8 @@ on:
     paths:
       - 'benchmarks/cross-library-table/**'
       - 'benchmarks/cross-library-picker/integrity.mjs'
+      - 'benchmarks/cross-library-picker/sdk-dependencies.mjs'
+      - 'benchmarks/cross-library-picker/runner/sdk-dependencies.test.mjs'
       - 'benchmarks/cross-library-picker/runner/server.mjs'
       - 'benchmarks/cross-library-picker/runner/diagnostics.mjs'
       - 'src/**'

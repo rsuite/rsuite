@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
-    "check": "tsc --noEmit && node --test runner/diagnostics.test.mjs runner/accessibility.test.mjs runner/async-report.test.mjs runner/asset-report.test.mjs",
+    "check": "tsc --noEmit && node --test runner/diagnostics.test.mjs runner/accessibility.test.mjs runner/async-report.test.mjs runner/asset-report.test.mjs && node --test runner/sdk-dependencies.test.mjs",
     "bench": "node run.mjs",
     "audit:a11y": "node audit.mjs",
     "build:async": "node build-async.mjs",
@@ -37,6 +37,7 @@
     "axe-core": "4.14.0",
     "playwright": "1.56.1",
     "typescript": "5.7.3",
-    "vite": "6.4.5"
+    "vite": "6.4.5",
+    "semver": "7.8.5"
   }
 }

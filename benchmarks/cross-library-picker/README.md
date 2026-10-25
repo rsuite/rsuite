@@ -37,6 +37,12 @@ Use `--browser firefox` for a separate browser report. Library order is randomiz
 recorded seed; each library/size/mode receives a fresh browser context. Run comparisons on an
 otherwise idle machine and repeat with another seed before drawing performance conclusions.
 
+The SDK dependency declarations must also match its file-package lock snapshot. Before builds
+and report reuse, the fixture checks the actual SDK resolution of each required dependency and
+peer against its declared semver range and frozen version. Dependencies must resolve inside the
+standalone installation. Build manifests record these resolved versions, locations and package
+metadata hashes; SDK-owned file hashes alone do not establish a valid dependency graph.
+
 ## JavaScript and CSS accounting
 
 Run separate production builds and native correctness checks for full and component styles:
