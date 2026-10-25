@@ -14,7 +14,7 @@
   @include picker-mixin.picker-menu-group-title(picker);
   @include picker-mixin.picker-menu-group-closed(picker);
 
-  .rs-picker-menu-group ~ [role='option'] > .rs-picker-select-menu-item {
+  [role='option'][data-grouped='true'] > .rs-picker-select-menu-item {
     padding-inline-start: 26px;
   }
 }
