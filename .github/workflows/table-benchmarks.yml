@@ -72,6 +72,9 @@ jobs:
         run: |
           mkdir -p results/geometry
           node checks/whole-row-geometry.mjs > results/geometry/controls.json
+      - name: Verify native virtual pointer input without pre-scroll
+        working-directory: benchmarks/cross-library-table
+        run: node checks/virtual-pointer.mjs results/virtual-pointer
       - name: Run Chromium and Firefox virtual workflows
         working-directory: benchmarks/cross-library-table
         run: node run.mjs --skip-build --workflow virtual --output results/virtual/report.json
