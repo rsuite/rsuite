@@ -4,6 +4,7 @@ import Transition from '../Transition';
 /** Test-only, bounded observations; forwards the original callbacks and deadlines. */
 export function observeTransitions(selector: string) {
   const startedAt = performance.now();
+  const clockOrigin = performance.timeOrigin;
   const instances = new Map<Transition, number>();
   const ids = new WeakMap<Transition, number>();
   const records: Array<Record<string, unknown>> = [];
@@ -131,6 +132,9 @@ export function observeTransitions(selector: string) {
 
   return {
     snapshot: () => ({
+      clockOrigin,
+      startedAt,
+      capturedAt: performance.now(),
       records: [...records],
       instances: [...instances.keys()].map(state),
       droppedRecords,
