@@ -462,7 +462,6 @@ const OverlayTrigger = React.forwardRef(
       // The difference between it and the click event is that it does not trigger the close.
       if (isOneOf('active', trigger)) {
         events.onClick = createChainedFunction(handleDelayedOpen, events.onClick);
-        return events;
       }
 
       if (isOneOf('hover', trigger)) {
