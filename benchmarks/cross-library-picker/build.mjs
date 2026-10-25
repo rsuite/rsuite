@@ -4,7 +4,13 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync, execFileSync } from 'node:child_process';
 import { gzipSync } from 'node:zlib';
 import { parseArgs } from 'node:util';
-import { inputs, packageFingerprint, filesUnder, hash } from './integrity.mjs';
+import {
+  inputs,
+  packageFingerprint,
+  candidateDependencies,
+  filesUnder,
+  hash
+} from './integrity.mjs';
 import { styleBuild, libraryStyles } from './runner/style-profiles.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
@@ -18,6 +24,7 @@ const output = styleBuild(root, values['style-profile'], values['style-output'])
 const libraries = ['rsuite', 'antd', 'chakra', 'heroui'];
 const sourceInputs = inputs(root);
 const candidateFingerprint = packageFingerprint(root);
+const dependencyContract = candidateDependencies(root);
 if (candidateFingerprint !== packageFingerprint(root, path.resolve(root, '../../lib'))) {
   throw new Error(
     'Installed RSuite differs from lib: reinstall this benchmark after rebuilding RSuite'
@@ -91,6 +98,7 @@ for (const library of libraries) {
 }
 if (
   JSON.stringify(sourceInputs) !== JSON.stringify(inputs(root)) ||
+  JSON.stringify(dependencyContract) !== JSON.stringify(candidateDependencies(root)) ||
   candidateFingerprint !== packageFingerprint(root) ||
   auditEngine.sourceSHA256 !==
     hash(fs.readFileSync(path.join(root, 'node_modules/axe-core/axe.min.js')))
@@ -111,6 +119,7 @@ fs.writeFileSync(
       candidateWorkingTreeStatus: git('status', '--porcelain', '--untracked-files=all'),
       sourceInputs,
       candidateFingerprint,
+      candidateDependencies: dependencyContract,
       builds
     },
     null,
