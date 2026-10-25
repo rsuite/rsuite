@@ -35,7 +35,6 @@ function MyApp() {
   // Display a message
   toaster.push(<Message>message</Message>);
 
-
   // Display a notification
   toaster.push(<Notification>notification</Notification>);
 }
@@ -77,12 +76,20 @@ Demonstrates how to render Toast messages to a specified DOM container instead o
 
 Returns an object with the following methods:
 
-| Method  | Type                                                                 | Description                  |
-| ------- | ------------------------------------------------------------------- | ---------------------------- |
-| push    | (message: ReactNode, options?: [ToastOptions](#code-ts-toast-options-code)) => string | Display a toast message      |
-| remove  | (toastId: string) => void                                          | Remove a message by ID       |
-| clear   | () => void                                                         | Remove all messages          |
+| Method | Type                                                                                                                               | Description             |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| push   | (message: ReactNode, options?: [ToastOptions](#code-ts-toast-options-code)) => string \| undefined \| Promise<string \| undefined> | Display a toast message |
+| remove | (toastId: string) => void                                                                                                          | Remove a message by ID  |
+| clear  | () => void                                                                                                                         | Remove all messages     |
 
+`push` can return a promise when a custom container needs to be created. Use `await` to handle both synchronous and asynchronous results, and check for `undefined` before removing the toast. For example, inside an async event handler using the `toaster` returned by `useToaster()`:
+
+```jsx
+const toastId = await toaster.push(<Message>message</Message>);
+if (toastId !== undefined) {
+  toaster.remove(toastId);
+}
+```
 
 ### Type Definitions
 
