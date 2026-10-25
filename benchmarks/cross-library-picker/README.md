@@ -57,6 +57,13 @@ style profiles. `--browsers`, `--profiles`, `--libraries`, `--modes` and `--size
 subsets. This is one-iteration correctness and payload accounting, not repeated performance
 evidence. Existing timing commands retain their full-style build and deadlines.
 
+`node runner/visibility.controls.mjs` checks painted visibility in both native browsers.
+Zero opacity on an element or any ancestor excludes its content; partial opacity, clipping
+and temporary `pointer-events: none` retain their appropriate geometry behavior. A finished
+transparent closing animation must produce a closed style checkpoint. A collapsed popup
+that still paints must retain the original missing-style-node rejection. The snapshot uses
+the same shared geometry function for popup visibility and visible option rows.
+
 These builds use `dist-styles/full` and `dist-styles/component`, independently of `dist`.
 `--skip-build` rejects mismatched profiles, source/package fingerprints or changed artifacts.
 The component profile uses RSuite's public SelectPicker CSS entry and HeroUI's published
@@ -212,6 +219,15 @@ DOM-ordered row contract, with first/middle/last geometry checks. Offscreen rows
 without a per-row geometry scan. Instrumentation cost still depends
 on DOM structure. Preserve raw samples and account for it when interpreting differences.
 Nearest-rank p50/p95 values are descriptive, without pass thresholds or confidence claims.
+
+If the ordinary-list uniformity guard rejects a layout, its error retains the exact
+first/middle/last rectangles, pitch and deviation values used by the predicate. Additional
+menu transform and bounded animation observations are collected after the predicate;
+they are not an atomic animation snapshot. A collection failure retains the original
+guard error. `node runner/geometry.controls.mjs` exercises the original rejection
+conditions, a collector failure, a uniform layout and a hidden menu in both native
+browsers. The guard, 0.5-pixel tolerances and frame logic
+are unchanged; this reporting does not establish the actor in a historical failure.
 
 The renderer adds the same label marker to all adapters. Native virtualization is used for
 RSuite and Ant Design. Chakra uses its documented TanStack virtualizer composition; HeroUI's

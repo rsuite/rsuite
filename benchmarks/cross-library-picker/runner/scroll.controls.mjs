@@ -12,13 +12,16 @@ for (const [name, launcher] of Object.entries({ chromium, firefox })) {
       'ignore synthetic completion',
       'range completion',
       'no-op range',
-      'previous scroll completion'
+      'previous scroll completion',
+      'shrinking range',
+      'growing range'
     ]) {
       const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
       page.setDefaultTimeout(12000);
       try {
+        const initialHeight = control === 'shrinking range' ? 49832 : 36000;
         await page.setContent(
-          '<div id="viewport" style="height:180px;width:240px;overflow:auto"><div style="height:36000px">Native scroll control</div></div>'
+          `<div id="viewport" style="height:180px;width:240px;overflow:auto"><div style="height:${initialHeight}px">Native scroll control</div></div>`
         );
         await page.evaluate(() => {
           const element = document.querySelector('#viewport');
@@ -34,7 +37,53 @@ for (const [name, launcher] of Object.entries({ chromium, firefox })) {
           }
         });
         const viewport = page.locator('#viewport');
-        if (control === 'wheel progress then range' || control === 'ignore synthetic completion') {
+        if (control === 'shrinking range' || control === 'growing range') {
+          await viewport.evaluate((element, control) => {
+            // A virtual list can replace its estimated range during a native scroll.
+            element.addEventListener(
+              'scroll',
+              event => {
+                if (!event.isTrusted) throw new Error('Expected a native range-change trigger');
+                element.firstElementChild.style.height =
+                  control === 'shrinking range' ? '36000px' : '49832px';
+                window.rangeChange = {
+                  trusted: event.isTrusted,
+                  top: element.scrollTop,
+                  scrollHeight: element.scrollHeight,
+                  clientHeight: element.clientHeight
+                };
+              },
+              { once: true, capture: true, passive: true }
+            );
+          }, control);
+          if (control === 'shrinking range') {
+            await scrollViewport(page, viewport, 'bottom');
+          } else {
+            await assert.rejects(
+              scrollViewport(page, viewport, 'bottom'),
+              /Timeout 12000ms exceeded/,
+              'Finishing at the old boundary must not pass after the range grows'
+            );
+          }
+          const final = await viewport.evaluate(element => ({
+            ...window.rangeChange,
+            finalTop: element.scrollTop,
+            finalHeight: element.scrollHeight,
+            atBottom: element.scrollTop === element.scrollHeight - element.clientHeight
+          }));
+          assert.equal(final.trusted, true);
+          assert.equal(final.finalTop, 35820);
+          assert.equal(final.finalHeight, control === 'shrinking range' ? 36000 : 49832);
+          assert.equal(final.atBottom, control === 'shrinking range');
+          assert(
+            (await page.evaluate(() => window.events)).some(
+              event => event.type === 'scrollend' && event.trusted && event.top === 35820
+            )
+          );
+        } else if (
+          control === 'wheel progress then range' ||
+          control === 'ignore synthetic completion'
+        ) {
           await viewport.hover();
           await page.mouse.wheel(0, 36000);
           await page.waitForFunction(() => document.querySelector('#viewport').scrollTop > 0);
