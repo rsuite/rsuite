@@ -191,3 +191,55 @@ process.exit(Number(process.env.RSUITE_PROCESS_CONTROL_EXIT));
     await fs.rm(folder, { recursive: true, force: true });
   }
 });
+
+test('summary write failure preserves the original nonzero test exit', async () => {
+  const folder = await fs.mkdtemp(path.join(os.tmpdir(), 'rsuite-firefox-summary-failure-'));
+  const npm = path.join(folder, 'npm-control.mjs');
+  const output = path.join(folder, 'output');
+  const root = fileURLToPath(new URL('../../', import.meta.url));
+  await fs.writeFile(
+    npm,
+    `
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const output = process.env.RSUITE_FIREFOX_PROCESS_DIR;
+const [run] = await fs.readdir(output);
+await fs.mkdir(path.join(output, run, 'summary.json'));
+console.error('original test failure before summary write');
+process.exit(7);
+`
+  );
+  try {
+    const child = spawn(
+      process.execPath,
+      [path.join(root, 'test/browser/firefox-process/run.mjs')],
+      {
+        cwd: root,
+        env: {
+          ...process.env,
+          npm_execpath: npm,
+          BROWSER: 'firefox',
+          RSUITE_FIREFOX_PROCESS_DIR: output
+        },
+        stdio: ['ignore', 'pipe', 'pipe']
+      }
+    );
+    let logs = '';
+    child.stdout.on('data', data => {
+      logs += data;
+    });
+    child.stderr.on('data', data => {
+      logs += data;
+    });
+    const [exit, signal] = await once(child, 'close');
+    assert.equal(signal, null);
+    assert.equal(exit, 7, logs);
+    assert(logs.includes('Firefox process diagnostics could not write its summary:'));
+    const [run] = await fs.readdir(output);
+    assert((await fs.stat(path.join(output, run, 'summary.json'))).isDirectory());
+    const raw = await fs.readFile(path.join(output, run, 'tests.log'), 'utf8');
+    assert(raw.includes('original test failure before summary write'));
+  } finally {
+    await fs.rm(folder, { recursive: true, force: true });
+  }
+});

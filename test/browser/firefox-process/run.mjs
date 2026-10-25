@@ -112,22 +112,49 @@ try {
 } finally {
   process.off('SIGINT', sigint);
   process.off('SIGTERM', sigterm);
-  if (sampler) summary.scheduler = await sampler.stop();
+  const captureErrors = [];
+  if (sampler) {
+    try {
+      summary.scheduler = await sampler.stop();
+    } catch (error) {
+      captureErrors.push(error.message);
+    }
+  }
   await writes;
   summary.logBytesExpected = logOffset;
-  summary.logBytesCaptured = (await log.stat()).size;
-  if (summary.logBytesCaptured !== logOffset) logError ||= new Error('Incomplete child log');
+  try {
+    summary.logBytesCaptured = (await log.stat()).size;
+    if (summary.logBytesCaptured !== logOffset) logError ||= new Error('Incomplete child log');
+  } catch (error) {
+    captureErrors.push(error.message);
+  }
   if (logError) summary.logError = logError.message;
-  await log.close();
-  await events.close();
+  for (const result of await Promise.allSettled([log.close(), events.close()])) {
+    if (result.status === 'rejected') captureErrors.push(result.reason.message);
+  }
+  if (captureErrors.length) summary.captureErrors = captureErrors;
   summary.finishedAt = Date.now();
   summary.missingLinuxCapture =
     process.platform === 'linux' &&
     (!summary.scheduler?.samples || !summary.scheduler?.sawFirefoxScheduler);
   summary.wrapperExitCode =
     summary.testsExitCode ||
-    (summary.testsExitSignal || runnerError || logError || summary.missingLinuxCapture ? 1 : 0);
-  await fs.writeFile(path.join(directory, 'summary.json'), JSON.stringify(summary, null, 2) + '\n');
+    (summary.testsExitSignal ||
+    runnerError ||
+    logError ||
+    captureErrors.length ||
+    summary.missingLinuxCapture
+      ? 1
+      : 0);
+  try {
+    await fs.writeFile(
+      path.join(directory, 'summary.json'),
+      JSON.stringify(summary, null, 2) + '\n'
+    );
+  } catch (error) {
+    console.error('Firefox process diagnostics could not write its summary:', error.message);
+    summary.wrapperExitCode = summary.testsExitCode || 1;
+  }
 }
 if (summary.missingLinuxCapture) console.error('Firefox process scheduler capture is unavailable.');
 process.exitCode = summary.wrapperExitCode;
