@@ -148,6 +148,49 @@ describe('SelectPicker styles', () => {
     }
   );
 
+  it.each([
+    ['ltr', false],
+    ['ltr', true],
+    ['rtl', false],
+    ['rtl', true]
+  ] as const)(
+    'treats empty groupBy as ungrouped in %s with virtualized=%s',
+    async (direction, virtualized) => {
+      const previousDirection = document.documentElement.dir;
+      document.documentElement.dir = direction;
+      try {
+        const items = Array.from({ length: 3 }, (_, index) => ({
+          label: `Item ${index + 1}`,
+          value: index + 1,
+          group: 'Team'
+        }));
+        const picker = (groupBy: string) => (
+          <SelectPicker data={items} groupBy={groupBy} virtualized={virtualized} open />
+        );
+        const { rerender } = render(picker(''));
+        const padding = () => getComputedStyle(screen.getByText('Item 1')).paddingInlineStart;
+        await waitFor(() => expect(padding()).toBe('12px'));
+        expect(screen.queryByRole('group')).toBeNull();
+        expect(screen.getByRole('option', { name: 'Item 1' })).not.to.have.attribute(
+          'data-grouped'
+        );
+
+        rerender(picker('group'));
+        await waitFor(() => expect(padding()).toBe('26px'));
+        expect(screen.getAllByRole('group')).toHaveLength(1);
+
+        rerender(picker(''));
+        await waitFor(() => expect(padding()).toBe('12px'));
+        expect(screen.queryByRole('group')).toBeNull();
+        expect(screen.getByRole('option', { name: 'Item 1' })).not.to.have.attribute(
+          'data-grouped'
+        );
+      } finally {
+        document.documentElement.dir = previousDirection;
+      }
+    }
+  );
+
   it('Disabled select picker should render correct toggle styles', () => {
     const { rerender } = render(<SelectPicker data={[]} disabled />);
 

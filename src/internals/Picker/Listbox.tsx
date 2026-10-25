@@ -158,7 +158,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
     } = props;
 
     const { prefix, merge, rootPrefix } = useStyles(classPrefix);
-    const groupable = typeof groupBy !== 'undefined';
+    const groupable = !!groupBy;
     const classes = merge(
       className,
       rootPrefix('picker-listbox'),
