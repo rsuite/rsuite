@@ -7,7 +7,44 @@ export async function virtualActivate(page, target, profile, kind, id) {
       const start = await page.evaluate(() => window.__nativeEvents.length);
       const label = target.locator('xpath=ancestor::label[1]');
       assert.equal(await label.count(), 1);
-      await label.click();
+      assert.equal(await target.isEnabled(), true, 'Virtual selection checkbox is disabled');
+      const deadline = Date.now() + 10000;
+      let point;
+      do {
+        point = await label.evaluate(node => {
+          const rect = node.getBoundingClientRect();
+          const x = rect.left + rect.width / 2,
+            y = rect.top + rect.height / 2;
+          const hit = document.elementFromPoint(x, y);
+          return {
+            x,
+            y,
+            width: rect.width,
+            height: rect.height,
+            connected: node.isConnected,
+            hit: !!hit && node.contains(hit),
+            rowId: hit
+              ?.closest('[data-virtual-row-id],tr,[role="row"]')
+              ?.querySelector('[data-row-id]')?.dataset.rowId
+          };
+        });
+        if (
+          point.connected &&
+          point.width > 0 &&
+          point.height > 0 &&
+          point.hit &&
+          point.rowId === id
+        )
+          break;
+        await page.evaluate(() => new Promise(resolve => requestAnimationFrame(resolve)));
+      } while (Date.now() < deadline);
+      assert(
+        point.connected && point.width > 0 && point.height > 0 && point.hit && point.rowId === id,
+        'Visible virtual selection label is not a native hit target: ' + id
+      );
+      assert.equal(await target.isEnabled(), true, 'Virtual selection checkbox is disabled');
+      // Locator clicks scroll before input, which can move an already visible virtual row.
+      await page.mouse.click(point.x, point.y);
       const events = await page.evaluate(start => window.__nativeEvents.slice(start), start);
       for (const type of ['pointerdown', 'pointerup', 'click'])
         assert(

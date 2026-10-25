@@ -102,6 +102,16 @@ controller coordinates the public TableStateContext focus key with DOM scrolling
 Its public ResizableContainer and explicit column widths define the 720px layout,
 while TableLayout defines 40px rows and headers.
 No runner calls DOM focus, forces a click or increases the ten-second deadline.
+Virtual selection checks that the enabled checkbox's label is a native hit target
+for the requested row, then sends mouse input at its current center. This avoids
+the locator click's automatic pre-scroll moving an already visible virtual row.
+Native event identities and post-selection visibility are still required.
+
+    node checks/virtual-pointer.mjs /absolute/path/virtual-pointer-results
+
+The pointer controls assert unchanged scroll position before native pointerdown
+in both production HeroUI fixtures. Covered, clipped, disabled and wrong-row
+targets must be rejected without sending pointer input in both browsers.
 
     node run.mjs --skip-build --workflow virtual --output /absolute/path/virtual.json
     node checks/report-integrity.mjs /absolute/path/virtual.json
