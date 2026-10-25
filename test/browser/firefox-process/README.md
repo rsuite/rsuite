@@ -13,6 +13,10 @@ reject reused or unrelated processes. Counters stay in their original clock-tick
 or nanosecond units; `clockTicksPerSecond` records the clock query when available.
 Kernel scheduler statistics can be disabled; their setting
 and unavailable files are recorded, never represented as measured zero waits.
+Complete process-family discovery runs every second; intermediate samples read
+only known family members and still validate their identities. Newly forked
+processes can appear on the next discovery scan. Each sample records its family
+discovery timestamp, and the summary records the scan count.
 
 Each invocation writes `summary.json`, `tests.log`, timestamped byte offsets and
 `process-samples.jsonl` under `artifacts/firefox-process/`. Up to 64 processes

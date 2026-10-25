@@ -7,6 +7,7 @@ export async function startSampler({
   directory,
   procRoot = '/proc',
   intervalMS = 200,
+  discoveryIntervalMS = 1000,
   platform = process.platform,
   parentPID = process.pid
 }) {
@@ -14,8 +15,10 @@ export async function startSampler({
     supported: platform === 'linux',
     observerPID: process.pid,
     intervalMS,
+    discoveryIntervalMS,
     rootPID,
     samples: 0,
+    discoveryScans: 0,
     maxProcesses: 0,
     sawFirefox: false,
     sawFirefoxScheduler: false,
@@ -26,6 +29,8 @@ export async function startSampler({
   if (!summary.supported) return { summary, stop: async () => summary };
   const output = await fs.open(path.join(directory, 'process-samples.jsonl'), 'wx', 0o600);
   let rootStartTicks;
+  let discoveredAt;
+  let knownPIDs = [rootPID];
   let stopped = false;
   let timer;
   let pending = Promise.resolve();
@@ -39,7 +44,14 @@ export async function startSampler({
   const sample = async () => {
     const startedAt = Date.now();
     // /proc/<pid>/task/<pid>/children omits children forked by other threads.
-    const names = (await fs.readdir(procRoot)).filter(name => /^\d+$/.test(name));
+    const discover = discoveredAt === undefined || startedAt - discoveredAt >= discoveryIntervalMS;
+    const names = discover
+      ? (await fs.readdir(procRoot)).filter(name => /^\d+$/.test(name))
+      : knownPIDs.map(String);
+    if (discover) {
+      discoveredAt = startedAt;
+      summary.discoveryScans++;
+    }
     if (names.length > 4096) summary.truncated = true;
     const stats = new Map();
     for (let offset = 0; offset < Math.min(names.length, 4096); offset += 16) {
@@ -105,6 +117,9 @@ export async function startSampler({
       }
     }
     if (queue.length) summary.truncated = true;
+    // Keep the owned family cheap to sample between complete fork-discovery scans.
+    // Every retained PID still has its parent and start time checked on each sample.
+    knownPIDs = processes.map(process => process.pid);
     summary.samples++;
     summary.maxProcesses = Math.max(summary.maxProcesses, processes.length);
     const pressure = {};
@@ -117,6 +132,7 @@ export async function startSampler({
       JSON.stringify({
         startedAt,
         finishedAt: Date.now(),
+        familyDiscoveredAt: discoveredAt,
         observerCPUUS: process.cpuUsage(),
         processes,
         pressure

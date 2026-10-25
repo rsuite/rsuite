@@ -74,21 +74,31 @@ test('owned family discovery includes off-main-thread forks and rejects unrelate
       directory: output,
       procRoot: proc,
       platform: 'linux',
-      intervalMS: 5
+      intervalMS: 5,
+      discoveryIntervalMS: 20
     });
     for (let i = 0; i < 100 && sampler.summary.samples < 1; i++) {
       await new Promise(resolve => setTimeout(resolve, 5));
     }
     assert(sampler.summary.samples > 0);
+    assert.equal(sampler.summary.sawContentScheduler, false);
+    await write(503, 501, 'Web Content');
+    for (let i = 0; i < 100 && !sampler.summary.sawContentScheduler; i++) {
+      await new Promise(resolve => setTimeout(resolve, 5));
+    }
+    assert(sampler.summary.sawContentScheduler);
+    assert(sampler.summary.discoveryScans >= 2);
+    const beforeReuse = sampler.summary.samples;
     await write(500, process.pid, 'reused root', 999);
-    for (let i = 0; i < 100 && sampler.summary.samples < 3; i++) {
+    for (let i = 0; i < 100 && sampler.summary.samples < beforeReuse + 2; i++) {
       await new Promise(resolve => setTimeout(resolve, 5));
     }
     const summary = await sampler.stop();
     sampler = null;
     assert(summary.samples >= 3);
     assert(summary.sawFirefox && summary.sawFirefoxScheduler);
-    assert.equal(summary.sawContentScheduler, false);
+    assert.equal(summary.sawContentScheduler, true);
+    assert.equal(summary.discoveryIntervalMS, 20);
     assert.deepEqual(summary.kernelSchedulerStats, { available: true, value: '0' });
     const rows = (await fs.readFile(path.join(output, 'process-samples.jsonl'), 'utf8'))
       .trim()
@@ -103,6 +113,8 @@ test('owned family discovery includes off-main-thread forks and rejects unrelate
       error: 'ENOENT'
     });
     assert.equal(rows[0].processes.find(row => row.pid === 501).scheduler.available, true);
+    assert(rows.some(row => row.processes.some(process => process.pid === 503)));
+    assert(rows.every(row => row.familyDiscoveredAt <= row.startedAt));
     assert(
       rows.every(row =>
         row.processes.every(process => process.pid !== 999 && process.startTicks !== 999)
