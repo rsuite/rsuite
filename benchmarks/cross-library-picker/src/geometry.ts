@@ -6,16 +6,26 @@ export const optionElement = (label: HTMLElement) =>
 export function visible(element: HTMLElement, viewport?: HTMLElement | null, fully = false) {
   const rect = element.getBoundingClientRect();
   const style = getComputedStyle(element);
-  if (!rect.width || !rect.height || style.visibility === 'hidden' || style.display === 'none')
+  if (
+    !rect.width ||
+    !rect.height ||
+    style.visibility === 'hidden' ||
+    style.display === 'none' ||
+    Number(style.opacity) === 0
+  )
     return false;
   const frame = viewport?.getBoundingClientRect();
   let top = Math.max(0, frame?.top ?? 0),
     bottom = Math.min(innerHeight, frame?.bottom ?? innerHeight);
   let left = Math.max(0, frame?.left ?? 0),
     right = Math.min(innerWidth, frame?.right ?? innerWidth);
+  let checkClipping = true;
   for (let parent = element.parentElement; parent; parent = parent.parentElement) {
-    const css = getComputedStyle(parent),
-      bounds = parent.getBoundingClientRect();
+    const css = getComputedStyle(parent);
+    // Opacity also composes through ancestors outside the clipping viewport.
+    if (Number(css.opacity) === 0) return false;
+    if (!checkClipping) continue;
+    const bounds = parent.getBoundingClientRect();
     if (/(auto|scroll|hidden|clip)/.test(css.overflowY)) {
       top = Math.max(top, bounds.top + parent.clientTop);
       bottom = Math.min(bottom, bounds.top + parent.clientTop + parent.clientHeight);
@@ -24,7 +34,7 @@ export function visible(element: HTMLElement, viewport?: HTMLElement | null, ful
       left = Math.max(left, bounds.left + parent.clientLeft);
       right = Math.min(right, bounds.left + parent.clientLeft + parent.clientWidth);
     }
-    if (parent === viewport) break;
+    if (parent === viewport) checkClipping = false;
   }
   return fully
     ? rect.top >= top - 0.5 &&
