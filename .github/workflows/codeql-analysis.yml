@@ -15,8 +15,8 @@ on:
   push:
     branches: [next, main, v4]
   pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [next, main]
+    # Keep legacy v4 and root *.x maintenance targets out of PR checks.
+    branches-ignore: [v4, '*.x']
   schedule:
     - cron: '16 1 * * 2'
 
