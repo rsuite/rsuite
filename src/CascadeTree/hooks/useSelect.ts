@@ -33,6 +33,15 @@ const useSelect = <T>(props: UseSelectProps<T>) => {
 
   // The item that focus is on
   const [activeItem, setActiveItem] = useState<Option<T> | undefined>(selectedItem);
+  const [prevValue, setPrevValue] = useState(value);
+
+  // When the value changes (e.g. a controlled value is cleared or replaced),
+  // move the expanded path to the newly selected item instead of keeping the stale one.
+  if (!shallowEqual(prevValue, value)) {
+    setPrevValue(value);
+    setActiveItem(selectedItem);
+  }
+
   const isMounted = useIsMounted();
 
   const loadingItemsSet = useSet();
