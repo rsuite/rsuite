@@ -522,6 +522,52 @@ describe('Cascader', () => {
     expect(screen.getAllByRole('group')).to.length(1);
   });
 
+  it('Should reset the expanded path when the controlled value is cleared', () => {
+    const { rerender } = render(<Cascader data={items} value="3-1" open />);
+    const tree = screen.getByRole('tree');
+
+    expect(screen.getAllByRole('group')).to.length(2);
+    expect(tree.querySelectorAll('.rs-cascade-tree-item-focus')).to.length(2);
+
+    rerender(<Cascader data={items} value="" open />);
+
+    expect(screen.getAllByRole('group')).to.length(1);
+    expect(tree.querySelectorAll('.rs-cascade-tree-item-focus')).to.length(0);
+  });
+
+  it('Should follow the controlled value when it is changed externally', () => {
+    const { rerender } = render(<Cascader data={items} value="3-1" open />);
+
+    rerender(<Cascader data={items} value="2" open />);
+
+    const focusItems = screen.getByRole('tree').querySelectorAll('.rs-cascade-tree-item-focus');
+
+    expect(screen.getAllByRole('group')).to.length(1);
+    expect(focusItems).to.length(1);
+    expect(focusItems[0]).to.have.text('2');
+  });
+
+  it('Should reset the expanded path after the value is cleaned', () => {
+    render(<Cascader data={items} defaultValue="3-1" open />);
+
+    expect(screen.getAllByRole('group')).to.length(2);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
+
+    expect(screen.getAllByRole('group')).to.length(1);
+  });
+
+  it('Should not re-select the previously focused option after the value is cleared', () => {
+    const onChange = vi.fn();
+    const { rerender } = render(<Cascader data={items} value="3-1" onChange={onChange} open />);
+
+    rerender(<Cascader data={items} value={null} onChange={onChange} open />);
+
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
   it('Should trigger onChange callback & onSelect callback when press Enter', () => {
     const onChange = vi.fn();
     const onSelect = vi.fn();
