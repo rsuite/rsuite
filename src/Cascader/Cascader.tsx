@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
@@ -222,6 +222,16 @@ const Cascader = forwardRef<'div', CascaderProps>(
       getParent: item => parentMap.get(item),
       callback: onFocusItemCallback
     });
+
+    const [prevValue, setPrevValue] = useState(value);
+
+    // Move the keyboard focus along with the expanded path when the value changes,
+    // so pressing Enter does not re-select a previously focused option.
+    if (!shallowEqual(prevValue, value)) {
+      setPrevValue(value);
+      setFocusItemValue(value);
+      setLayer(pathTowardsSelectedItem.length ? pathTowardsSelectedItem.length - 1 : 0);
+    }
 
     const onSearchCallback = (value: string, items: Option<T>[], event: React.SyntheticEvent) => {
       onSearch?.(value, event);

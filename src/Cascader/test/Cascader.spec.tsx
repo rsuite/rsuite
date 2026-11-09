@@ -557,6 +557,17 @@ describe('Cascader', () => {
     expect(screen.getAllByRole('group')).to.length(1);
   });
 
+  it('Should not re-select the previously focused option after the value is cleared', () => {
+    const onChange = vi.fn();
+    const { rerender } = render(<Cascader data={items} value="3-1" onChange={onChange} open />);
+
+    rerender(<Cascader data={items} value={null} onChange={onChange} open />);
+
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
   it('Should trigger onChange callback & onSelect callback when press Enter', () => {
     const onChange = vi.fn();
     const onSelect = vi.fn();
