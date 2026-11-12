@@ -872,6 +872,10 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       }
     });
 
+    useEffect(() => {
+      if (disabled) handleClose();
+    }, [disabled, handleClose]);
+
     const handleInputKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
       onMenuKeyDown(event, {
         esc: handleClose,
@@ -895,6 +899,10 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       : undefined;
 
     const renderCalendarOverlay = (positionProps: PositionChildProps, speakerRef) => {
+      if (disabled) {
+        return <PickerPopup ref={mergeRefs(overlay, speakerRef)} />;
+      }
+
       const { className } = positionProps;
       const classes = merge(className, popupClassName, prefix('popup-daterange'));
       const panelClasses = prefix('daterange-panel', {
