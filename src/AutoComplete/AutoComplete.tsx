@@ -166,7 +166,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
   };
 
   const selectFocusMenuItem = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (!focusItem) {
+    if (disabled || !focusItem) {
       return;
     }
 
@@ -210,6 +210,10 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
 
   const handleItemSelect = useEventCallback(
     (nextItemValue: string, item: Option, event: React.SyntheticEvent) => {
+      if (disabled) {
+        return;
+      }
+
       setValue(nextItemValue);
       setFocusItemValue(nextItemValue);
       handleSelect(item, event);
@@ -236,6 +240,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
   const [htmlInputProps, restProps] = partitionHTMLProps(omit(rest, triggerPropKeys));
 
   const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
+
     const { className } = positionProps;
     const classes = merge(className, popupClassName);
     const listbox = (
@@ -260,7 +265,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
         style={popupStyle}
         autoWidth={popupAutoWidth}
       >
-        {renderListbox ? renderListbox(listbox) : listbox}
+        {!disabled && (renderListbox ? renderListbox(listbox) : listbox)}
       </PickerPopup>
     );
   };
@@ -273,7 +278,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
     );
   }
 
-  const expanded = open || (focus && hasItems);
+  const expanded = !disabled && (open || (focus && hasItems));
 
   const triggerProps = {
     ...pick(props, triggerPropKeys),
