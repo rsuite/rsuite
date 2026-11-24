@@ -88,7 +88,7 @@ jobs:
       - name: Run headless tests
         id: component-tests
         if: matrix.suite == 'components'
-        run: npm run test:ci -- --browser.headless --shard=${{ matrix.shard }}/${{ matrix.shards }}
+        run: npm run test:ci:firefox-process -- --shard=${{ matrix.shard }}/${{ matrix.shards }}
         env:
           CI: true
           # Keep browser stderr and process exits when an RPC connection disappears.
@@ -96,6 +96,15 @@ jobs:
           BROWSER: firefox
           # Report native Playwright request failures for dynamic import diagnostics.
           VITEST_PW_DEBUG: '1'
+
+      - name: Retain ordinary Firefox process diagnostics
+        if: ${{ !cancelled() && matrix.suite == 'components' && steps.component-tests.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v4
+        timeout-minutes: 2
+        with:
+          name: ordinary-firefox-process-${{ inputs.react-version }}-${{ matrix.shard }}-attempt-${{ github.run_attempt }}
+          path: artifacts/firefox-process/**
+          if-no-files-found: error
 
       - name: Run independently profiled Firefox component tests
         id: profiled-components

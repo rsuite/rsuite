@@ -65,7 +65,7 @@ node test/run-all.js
 - **`RSUITE_MCP_BASE_URL`** - Override the default API base URL
   - Default: `https://rsuitejs.com`
   - Local development: `http://localhost:3002`
-  - Test environment: `https://rsuite-nextjs-git-feat-mcp-server-improvements-rsuite.vercel.app`
+  - Netlify hostname: `https://rsuite-docs-main.netlify.app`
 
 - **`RSUITE_MCP_VERSION`** - Optional version specification
 
