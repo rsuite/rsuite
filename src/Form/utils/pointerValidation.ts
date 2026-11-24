@@ -17,10 +17,12 @@ function createEntry(document: Document, view: Window): DocumentEntry {
   const pointers = new Set<number>();
   const callbacks = new Set<() => void>();
   let timer: number | undefined;
+  let compatibilityMouseActivation = false;
 
   const flush = () => {
     view.clearTimeout(timer);
     timer = undefined;
+    compatibilityMouseActivation = false;
     const pending = [...callbacks];
     try {
       pending.forEach(callback => {
@@ -51,6 +53,13 @@ function createEntry(document: Document, view: Window): DocumentEntry {
   const onPointerMove = (event: PointerEvent) => {
     if (event.buttons === 0 && pointers.delete(event.pointerId)) finish();
   };
+  const onMouseDown = (event: MouseEvent) => {
+    // A tap can start compatibility mouse activation after its pointer has been released.
+    if (!event.isTrusted || event.button !== 0 || pointers.size) return;
+    compatibilityMouseActivation = true;
+    // Disabling or removing the tap target during blur can suppress the following click.
+    finish();
+  };
   const cancel = () => {
     pointers.clear();
     flush();
@@ -60,13 +69,14 @@ function createEntry(document: Document, view: Window): DocumentEntry {
   document.addEventListener('pointerup', onPointerUp, true);
   document.addEventListener('pointercancel', onPointerCancel, true);
   document.addEventListener('pointermove', onPointerMove, true);
+  document.addEventListener('mousedown', onMouseDown, true);
   document.addEventListener('click', flush, true);
   document.addEventListener('dragend', cancel, true);
   view.addEventListener('blur', cancel);
 
   return {
     users: 0,
-    isPressing: () => pointers.size > 0,
+    isPressing: () => pointers.size > 0 || compatibilityMouseActivation,
     enqueue: callback => {
       callbacks.add(callback);
       return () => callbacks.delete(callback);
@@ -74,11 +84,13 @@ function createEntry(document: Document, view: Window): DocumentEntry {
     dispose: () => {
       callbacks.clear();
       pointers.clear();
+      compatibilityMouseActivation = false;
       view.clearTimeout(timer);
       document.removeEventListener('pointerdown', onPointerDown, true);
       document.removeEventListener('pointerup', onPointerUp, true);
       document.removeEventListener('pointercancel', onPointerCancel, true);
       document.removeEventListener('pointermove', onPointerMove, true);
+      document.removeEventListener('mousedown', onMouseDown, true);
       document.removeEventListener('click', flush, true);
       document.removeEventListener('dragend', cancel, true);
       view.removeEventListener('blur', cancel);

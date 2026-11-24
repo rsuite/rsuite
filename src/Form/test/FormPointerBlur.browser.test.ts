@@ -43,6 +43,62 @@ describe('Form blur validation during native pointer activation', () => {
     }
   );
 
+  describe.skipIf(process.env.BROWSER === 'firefox')('touch activation', () => {
+    it.each([
+      { name: 'invalid field', shift: true, nativeSubmits: 1, clicks: 1, validSubmits: 0 },
+      { name: 'valid field', shift: false, nativeSubmits: 1, clicks: 1, validSubmits: 1 },
+      {
+        name: 'prevented click',
+        shift: true,
+        prevent: true,
+        nativeSubmits: 0,
+        clicks: 1,
+        validSubmits: 0
+      },
+      {
+        name: 'disabled on blur',
+        shift: true,
+        disableOnBlur: true,
+        nativeSubmits: 0,
+        clicks: 0,
+        validSubmits: 0
+      }
+    ])('$name', async scenario => {
+      const page = await source.browser.newPage({
+        viewport: { width: 390, height: 844 },
+        isMobile: true,
+        hasTouch: true
+      });
+      const errors: string[] = [];
+      page.on('pageerror', error => errors.push(String(error)));
+      try {
+        await page.goto(
+          source.url + '/#' + encodeURIComponent(JSON.stringify({ ...scenario, touch: true }))
+        );
+        await page.waitForFunction(() => window.__RSUITE_FORM_POINTER__?.ready);
+        await page.getByRole('textbox', { name: 'Value', exact: true }).focus();
+        await page.locator('#pointer-submit').tap();
+        if (scenario.shift) {
+          await page.getByRole('alert').filter({ hasText: 'Use valid value' }).waitFor();
+        }
+
+        const state = await page.evaluate(() => window.__RSUITE_FORM_POINTER__);
+        const types = state.events.map(event => event.type);
+        expect(types.filter(type => type.startsWith('touch'))).toEqual(['touchstart', 'touchend']);
+        expect(state.events.every(event => event.trusted)).toBe(true);
+        expect(types.indexOf('pointerup')).toBeLessThan(types.indexOf('mousedown'));
+        expect(types.indexOf('mousedown')).toBeLessThan(types.indexOf('focusout'));
+        expect(state.blurs).toBe(1);
+        expect(state.nativeSubmits).toBe(scenario.nativeSubmits);
+        expect(state.clicks).toBe(scenario.clicks);
+        expect(state.validSubmits).toBe(scenario.validSubmits);
+        expect(errors).toEqual([]);
+      } finally {
+        await page.close();
+      }
+    });
+  });
+
   describe.each([false, true])('RSuite button: %s', sdkButton => {
     it.each(pointerBlurCases)('$name', async scenario => {
       const page = await source.browser.newPage({ viewport: { width: 800, height: 600 } });
