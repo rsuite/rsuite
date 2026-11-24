@@ -4,12 +4,13 @@ import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { parseArgs, isDeepStrictEqual } from 'node:util';
 import { spawnSync } from 'node:child_process';
-import { chromium, firefox } from 'playwright';
+import { chromium, firefox, webkit } from 'playwright';
 import { inputs, packageFingerprint, candidateDependencies, hash } from './integrity.mjs';
 import { serve } from '../cross-library-picker/runner/server.mjs';
 import { bounded } from '../cross-library-picker/runner/diagnostics.mjs';
 import { runScenario } from './runner/workflows.mjs';
 import { states, summarize } from './runner/report.mjs';
+import { readTouchTrace, validTouchCase } from './runner/touch.mjs';
 const root = path.dirname(fileURLToPath(import.meta.url));
 const { values } = parseArgs({
   options: {
@@ -18,17 +19,24 @@ const { values } = parseArgs({
     scenarios: { type: 'string', default: Object.keys(states).join(',') },
     'submit-modes': { type: 'string', default: 'pointer,keyboard' },
     output: { type: 'string', default: 'results/form-' + Date.now() + '.json' },
-    'skip-build': { type: 'boolean', default: false }
+    'skip-build': { type: 'boolean', default: false },
+    'touch-width': { type: 'string' }
   }
 });
+const browsers = { chromium, firefox, webkit };
+const touch = values['touch-width'] !== undefined;
+const width = touch ? Number(values['touch-width']) : 1280;
+const viewport = { width, height: touch ? 844 : 1000 };
 const libraries = values.libraries.split(','),
   scenarios = values.scenarios.split(','),
   submitModes = values['submit-modes'].split(',');
 if (
-  !['chromium', 'firefox'].includes(values.browser) ||
+  !Object.hasOwn(browsers, values.browser) ||
   libraries.some(value => !['rsuite', 'antd', 'chakra', 'heroui'].includes(value)) ||
   scenarios.some(value => !Object.keys(states).includes(value)) ||
-  submitModes.some(value => !['pointer', 'keyboard'].includes(value)) ||
+  submitModes.some(value => !(touch ? ['touch'] : ['pointer', 'keyboard']).includes(value)) ||
+  (touch &&
+    (!Number.isInteger(width) || width < 320 || width > 544 || values.browser === 'firefox')) ||
   [libraries, scenarios, submitModes].some(list => new Set(list).size !== list.length)
 )
   throw new Error('Invalid form options');
@@ -70,7 +78,7 @@ save();
 let server, browser;
 try {
   server = await serve(path.join(root, 'dist'));
-  browser = await { chromium, firefox }[values.browser].launch();
+  browser = await browsers[values.browser].launch();
   report.environment.browserVersion = browser.version();
   for (const submitMode of submitModes)
     for (const scenario of scenarios)
@@ -83,10 +91,12 @@ try {
           states: [],
           browserErrors: []
         };
+        if (touch) record.touch = { width, actions: 0, layouts: [], events: [] };
         report.cases.push(record);
         save();
         const context = await browser.newContext({
-          viewport: { width: 1280, height: 1000 },
+          viewport,
+          ...(touch ? { isMobile: true, hasTouch: true } : {}),
           reducedMotion: 'reduce',
           locale: 'en-US'
         });
@@ -101,6 +111,13 @@ try {
           );
           if (record.browserErrors.length)
             throw new Error('Page errors: ' + record.browserErrors.join('; '));
+          if (touch) {
+            record.touch.events = await readTouchTrace(page);
+            if (!validTouchCase(record, states[scenario])) {
+              record.phase = 'touch-evidence';
+              throw new Error('Mobile layout or touch measurements did not pass');
+            }
+          }
           record.status = 'completed';
           console.log('PASS', library, scenario, submitMode);
         } catch (error) {
@@ -138,6 +155,8 @@ try {
           }
           console.log('FAIL', library, scenario, submitMode, record.phase, record.error);
         } finally {
+          if (touch && !record.touch.events.length)
+            record.touch.events = await readTouchTrace(page).catch(() => []);
           save();
           await context.close();
         }

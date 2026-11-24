@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { captureTouchLayout, installTouchTrace } from './touch.mjs';
 import { bounded } from '../../cross-library-picker/runner/diagnostics.mjs';
 const snapshot = page => page.evaluate(() => window.formBenchmark.snapshot());
 const input = (page, name) => page.locator('[data-form-field=' + JSON.stringify(name) + '] input');
@@ -44,6 +45,23 @@ export async function runScenario(page, url, scenario, record, save) {
   record.networkErrors = [];
   record.referenceFindings = [];
   record.submitAttempts = [];
+  const activate = locator => {
+    if (!record.touch) return locator.click();
+    record.touch.actions += 1;
+    return locator.tap();
+  };
+  const setBilling = async checked => {
+    const checkbox = page.getByRole('checkbox', { name: 'Billing details', exact: true });
+    if (record.touch) {
+      await activate(page.locator('.bench-toggle'));
+      assert.equal(await checkbox.isChecked(), checked);
+    } else await checkbox.setChecked(checked);
+  };
+  const leaveUsername = () =>
+    record.touch ? activate(input(page, 'contacts.0.email')) : input(page, 'username').press('Tab');
+  const measureTouch = async name => {
+    if (record.touch) record.touch.layouts.push(await captureTouchLayout(page, name));
+  };
   const submit = async () => {
     const before = (await snapshot(page)).submits.length;
     const attempt = { mode: record.submitMode, before };
@@ -51,7 +69,7 @@ export async function runScenario(page, url, scenario, record, save) {
     save();
     if (record.submitMode === 'keyboard')
       await page.locator('[data-form-field] input').last().press('Enter');
-    else await button(page, 'Submit').click();
+    else await activate(button(page, 'Submit'));
     try {
       await page.waitForFunction(
         count => window.formBenchmark.snapshot().submits.length > count,
@@ -106,14 +124,17 @@ export async function runScenario(page, url, scenario, record, save) {
     await settle(page);
     const state = await snapshot(page);
     record.states.push({ name, state });
+    await measureTouch(name);
     save();
     if (state.invalidReferences.length)
       record.referenceFindings.push({ name, references: state.invalidReferences });
     return state;
   };
   record.phase = 'navigation';
+  if (record.touch) await installTouchTrace(page);
   await page.goto(url);
   await page.waitForFunction(() => window.formBenchmark?.ready());
+  await measureTouch('initial');
   record.metadata = await page.evaluate(() => window.formBenchmark.metadata());
   assert.equal(record.metadata.production, true);
   assert.equal(record.metadata.reactVersion, '19.0.0');
@@ -144,7 +165,7 @@ export async function runScenario(page, url, scenario, record, save) {
     assert.deepEqual(state.submissions[0].contacts, [{ email: 'first@example.com' }]);
   } else if (scenario === 'dynamic-fields') {
     record.phase = 'add-invalid-row';
-    await button(page, 'Add contact').click();
+    await activate(button(page, 'Add contact'));
     await input(page, 'contacts.1.email').waitFor();
     await submit();
     await expectErrors(page, { 'contacts.1.email': 'Enter a valid contact email' });
@@ -152,7 +173,7 @@ export async function runScenario(page, url, scenario, record, save) {
     assert.deepEqual(state.submissions, []);
     record.phase = 'shift-row';
     await input(page, 'contacts.1.email').fill('second@example.com');
-    await button(page, 'Remove contact 1').click();
+    await activate(button(page, 'Remove contact 1'));
     await page.waitForFunction(
       () =>
         window.formBenchmark.snapshot().fields['contacts.0.email']?.value === 'second@example.com'
@@ -160,10 +181,10 @@ export async function runScenario(page, url, scenario, record, save) {
     state = await checkpoint('remaining-row-shifted');
     assert.equal(Object.keys(state.fields).filter(name => name.startsWith('contacts.')).length, 1);
     record.phase = 'remove-invalid-row';
-    await button(page, 'Add contact').click();
+    await activate(button(page, 'Add contact'));
     await submit();
     await expectErrors(page, { 'contacts.1.email': 'Enter a valid contact email' });
-    await button(page, 'Remove contact 2').click();
+    await activate(button(page, 'Remove contact 2'));
     await page.waitForFunction(() => !window.formBenchmark.snapshot().fields['contacts.1.email']);
     state = await checkpoint('removed-error-cleared');
     noErrors(state);
@@ -175,7 +196,7 @@ export async function runScenario(page, url, scenario, record, save) {
     assert.deepEqual(state.submissions[0].contacts, [{ email: 'second@example.com' }]);
   } else if (scenario === 'conditional-reset') {
     record.phase = 'required-conditional';
-    await page.getByRole('checkbox', { name: 'Billing details', exact: true }).check();
+    await setBilling(true);
     await submit();
     await expectErrors(page, { company: 'Company is required' });
     let state = await checkpoint('conditional-invalid');
@@ -183,7 +204,7 @@ export async function runScenario(page, url, scenario, record, save) {
     await input(page, 'company').fill('Example Company');
     await input(page, 'profile.email').fill('changed@example.com');
     record.phase = 'unregister-conditional';
-    await page.getByRole('checkbox', { name: 'Billing details', exact: true }).uncheck();
+    await setBilling(false);
     await page.waitForFunction(() => {
       const state = window.formBenchmark.snapshot();
       return !state.fields.company && state.values.company === undefined;
@@ -191,7 +212,7 @@ export async function runScenario(page, url, scenario, record, save) {
     state = await checkpoint('hidden-field-retired');
     noErrors(state);
     record.phase = 'reset';
-    await button(page, 'Reset').click();
+    await activate(button(page, 'Reset'));
     await page.waitForFunction(
       () => window.formBenchmark.snapshot().fields['profile.email']?.value === 'seed@example.com'
     );
@@ -207,12 +228,13 @@ export async function runScenario(page, url, scenario, record, save) {
   } else if (scenario === 'async-validation') {
     record.phase = 'async-race';
     await input(page, 'username').fill('taken');
-    await input(page, 'username').press('Tab');
+    await leaveUsername();
     await waitHeld('taken');
     // This checkpoint intentionally leaves the first HTTP request pending.
     await appearance(page);
     const pending = await snapshot(page);
     record.states.push({ name: 'old-request-pending', state: pending });
+    await measureTouch('old-request-pending');
     save();
     assert.ok(pending.requests.some(row => row.value === 'taken' && row.state === 'pending'));
     if (pending.invalidReferences.length)
@@ -221,7 +243,7 @@ export async function runScenario(page, url, scenario, record, save) {
         references: pending.invalidReferences
       });
     await input(page, 'username').fill('fresh');
-    await input(page, 'username').press('Tab');
+    await leaveUsername();
     await waitHeld('fresh');
     await release('fresh');
     await page.waitForFunction(() =>

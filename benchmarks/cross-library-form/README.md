@@ -32,6 +32,21 @@ peer against its declared semver range and frozen version. Dependencies must res
 standalone installation. Build manifests record these resolved versions, locations and package
 metadata hashes; SDK-owned file hashes alone do not establish a valid dependency graph.
 
+## Touch at mobile widths
+
+Run the same form workflows with touch activation in Chromium or WebKit.
+
+```sh
+npm run bench -- --browser chromium --submit-modes touch --touch-width 320
+npm run bench -- --browser webkit --submit-modes touch --touch-width 390 --skip-build
+```
+
+The touch profile uses an 844 CSS pixel high viewport and accepts widths from 320 to 544 CSS
+pixels. The RSuite adapter uses its public fluid vertical layout at these widths. The profile
+checks page scale, horizontal fit and 44-pixel touch targets at the recorded workflow states. The report includes each browser-generated touch start and end pair. Text entry uses the
+browser's testing API. Physical devices, their software keyboards and assistive technology need
+separate testing.
+
 ## Ownership and compositions
 
 | UI library | Form values and list operations                                                        | Validation execution                                                                                            |

@@ -8,7 +8,7 @@ body {
 }
 .bench-host {
   margin: 32px;
-  width: 480px;
+  max-width: 480px;
 }
 .bench-host h1 {
   font-size: 22px;
@@ -34,4 +34,31 @@ body {
 }
 .bench-host [data-contact-row] {
   margin: 12px 0;
+}
+
+@media (max-width: 544px) {
+  .bench-host {
+    margin: 16px;
+  }
+
+  .bench-host [data-form-field] input,
+  .bench-host button,
+  .bench-toggle {
+    min-block-size: 44px;
+    min-inline-size: 44px;
+  }
+
+  .bench-host [data-form-field] input {
+    font-size: 16px;
+  }
+
+  .bench-toggle {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .bench-actions {
+    flex-wrap: wrap;
+  }
 }
