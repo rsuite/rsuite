@@ -17,7 +17,7 @@ import { forwardRef } from '@/internals/utils';
 import { Schema, SchemaModel } from 'schema-typed';
 import { useEventCallback, useCustom } from '@/internals/hooks';
 import { FormValueProvider, FormProvider } from './FormContext';
-import type { WithAsProps, CheckTriggerType } from '@/internals/types';
+import type { WithAsProps, CheckTriggerType, ReplaceProps } from '@/internals/types';
 import type { Resolver } from './resolvers';
 
 export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V]?: M }>
@@ -182,6 +182,36 @@ const Subcomponents = {
    * @deprecated Use `Form.Text` instead
    */
   HelpText: FormHelpText
+};
+
+type FormRootProps<V, M, E> = FormProps<V, M, E> & { ref?: React.Ref<FormInstance> };
+
+type FormComponent = typeof Subcomponents & {
+  <
+    As extends React.ElementType = 'form',
+    V extends Record<string, any> = Record<string, any>,
+    M = any,
+    E = { [P in keyof V]?: M }
+  >(
+    props: ReplaceProps<As, FormRootProps<V, M, E> & { as?: As }>,
+    context?: any
+  ): React.ReactElement | null;
+  // Keep React.ComponentProps usable when it extracts an unconstrained root.
+  <
+    As extends React.ElementType = 'form',
+    V extends Record<string, any> = Record<string, any>,
+    M = any,
+    E = { [P in keyof V]?: M }
+  >(
+    props: FormRootProps<V, M, E> & { as?: As } & (React.ElementType extends As
+        ? Record<string, any>
+        : As extends React.JSXElementConstructor<any>
+          ? never
+          : unknown),
+    context?: any
+  ): React.ReactElement | null;
+  contextTypes?: any;
+  displayName?: string;
 };
 
 /**
@@ -383,7 +413,7 @@ const Form = forwardRef<
       </FormProvider>
     </Box>
   );
-}, Subcomponents);
+}, Subcomponents) as FormComponent;
 
 Form.displayName = 'Form';
 

@@ -469,6 +469,65 @@ export const motionOutput = (
   </>
 );
 
+type ManagedFormState = { email: string; seats: number };
+const defaultFormState: ManagedFormState = { email: '', seats: 1 };
+export const extractedFormProps: React.ComponentProps<typeof FormSubpath> = { fluid: true };
+
+export const optionalDialogRoot = <Form<'dialog'> as="dialog" open />;
+
+function TrackedFormRoot({
+  trackingKey,
+  ...props
+}: React.ComponentPropsWithoutRef<'form'> & {
+  trackingKey: string;
+}) {
+  return <form {...props} data-tracking-key={trackingKey} />;
+}
+
+export const extractedCustomFormProps: React.ComponentProps<typeof FormSubpath> = {
+  as: TrackedFormRoot,
+  trackingKey: 'settings'
+};
+
+export function StronglyTypedForm() {
+  const [value, setValue] = React.useState(defaultFormState);
+  const Root = value.seats > 0 ? TrackedFormRoot : undefined;
+  return (
+    <>
+      <Form formValue={value} onChange={setValue}>
+        <Form.Control name="email" />
+      </Form>
+      <FormSubpath
+        as={Root}
+        trackingKey="settings"
+        formDefaultValue={defaultFormState}
+        onChange={(next, event) => {
+          const seats: number = next.seats;
+          const email: string = next.email;
+          const changeEvent: React.SyntheticEvent | undefined = event;
+          void [seats, email, changeEvent];
+          // @ts-expect-error Inferred form data exposes only declared fields.
+          void next.plan;
+          // @ts-expect-error Field values keep their inferred types.
+          const invalid: string = next.seats;
+          void invalid;
+          setValue(next);
+        }}
+      />
+    </>
+  );
+}
+
+const wrongFormHandler = (
+  // @ts-expect-error A handler for a different form shape cannot be called with this value.
+  <Form formValue={defaultFormState} onChange={(next: { plan: string }) => void next} />
+);
+// @ts-expect-error A custom form root must receive its required props.
+const missingTrackedFormKey = <FormSubpath as={TrackedFormRoot} formValue={defaultFormState} />;
+// @ts-expect-error A form without a custom root does not take its custom props.
+const extraDefaultFormProp = <Form trackingKey="settings" />;
+void [wrongFormHandler, missingTrackedFormKey, extraDefaultFormProp];
+
 const summaryItems: readonly FormErrorSummaryItem[] = [
   { name: 'email', label: 'Email', message: <span>Enter a valid email.</span>, controlId: 'email' },
   { name: 'other', label: 'Other details', message: 'Check your details.' }
