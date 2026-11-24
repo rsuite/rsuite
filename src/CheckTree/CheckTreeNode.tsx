@@ -133,6 +133,27 @@ const CheckTreeNode = forwardRef<'div', CheckTreeNodeProps>((props, ref) => {
     onSelect?.(nextNodeData, event);
   });
 
+  const handleLabelSelect = useEventCallback((value: any, event: React.SyntheticEvent) => {
+    const target = event.target as Element;
+    const label = target.closest?.('label');
+
+    if (
+      uncheckable ||
+      event.defaultPrevented ||
+      !label ||
+      !event.currentTarget.contains(label) ||
+      target.closest(
+        'input, button, a[href], select, textarea, summary, audio[controls], video[controls], iframe, embed, object[usemap], img[usemap]'
+      )
+    ) {
+      return;
+    }
+
+    // Keep the tree's focus ownership instead of the label's later input focus.
+    event.preventDefault();
+    handleSelect(value, event);
+  });
+
   const classes = merge(
     className,
     withPrefix({
@@ -179,6 +200,7 @@ const CheckTreeNode = forwardRef<'div', CheckTreeNodeProps>((props, ref) => {
         className={prefix('content')}
         title={labelStr}
         onSelect={handleSelect}
+        onSelectItem={handleLabelSelect}
       >
         {typeof renderTreeNode === 'function' ? renderTreeNode(nodeData) : label}
       </ListCheckItem>

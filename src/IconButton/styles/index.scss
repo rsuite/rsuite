@@ -1,5 +1,14 @@
 @use '../../Button/styles/index';
 @use '../../Button/styles/mixin' as btn-mixin;
+@use '../../styles/colors/contrast';
+
+@supports (color: color(from red srgb-linear calc(sign(r)) g b)) {
+  @property --rs-iconbtn-primary-current-bg {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: transparent;
+  }
+}
 
 // IconButton
 // --------------------------------------------------
@@ -73,17 +82,35 @@
 }
 
 .rs-btn-icon[data-with-text][data-appearance='primary'] {
-  @include btn-icon-with-text(var(--rs-iconbtn-primary-addon));
+  --rs-iconbtn-primary-current-bg: var(--rs-iconbtn-primary-addon);
+
+  > .rs-icon {
+    background-color: var(--rs-iconbtn-primary-current-bg);
+
+    @supports (color: color(from red srgb-linear calc(sign(r)) g b)) {
+      color: var(
+        --rs-btn-primary-text,
+        #{contrast.text-color(var(--rs-iconbtn-primary-current-bg))}
+      );
+      transition-property: none;
+    }
+  }
 
   @include btn-mixin.button-activated {
-    @include btn-icon-with-text(var(--rs-iconbtn-primary-activated-addon));
+    --rs-iconbtn-primary-current-bg: var(--rs-iconbtn-primary-activated-addon);
+
+    @include btn-icon-with-text(var(--rs-iconbtn-primary-current-bg));
   }
 
   @include btn-mixin.button-pressed {
-    @include btn-icon-with-text(var(--rs-iconbtn-primary-pressed-addon));
+    --rs-iconbtn-primary-current-bg: var(--rs-iconbtn-primary-pressed-addon);
+
+    @include btn-icon-with-text(var(--rs-iconbtn-primary-current-bg));
   }
 
   @include btn-mixin.button-disabled {
-    @include btn-icon-with-text(var(--rs-iconbtn-primary-addon));
+    --rs-iconbtn-primary-current-bg: var(--rs-iconbtn-primary-addon);
+
+    @include btn-icon-with-text(var(--rs-iconbtn-primary-current-bg));
   }
 }

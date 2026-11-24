@@ -106,6 +106,10 @@ export default {
     selectSlide: '選擇投影片',
     slideLabel: '第 {0} 張，共 {1} 張'
   },
+  PinInput: {
+    groupLabel: 'PIN 碼輸入',
+    characterLabel: '第 {0} 個字元，共 {1} 個'
+  },
   Toggle: {
     on: '開啟',
     off: '關閉'

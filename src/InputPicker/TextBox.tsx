@@ -22,6 +22,7 @@ interface TextBoxProps {
   hasDescription?: boolean;
   ariaLabel?: string;
   tabIndex?: number;
+  inputTabStop?: boolean;
 }
 
 const TextBox = React.forwardRef((props: TextBoxProps, ref: React.Ref<HTMLDivElement>) => {
@@ -43,6 +44,7 @@ const TextBox = React.forwardRef((props: TextBoxProps, ref: React.Ref<HTMLDivEle
     hasDescription,
     ariaLabel,
     tabIndex,
+    inputTabStop,
     ...rest
   } = props;
 
@@ -68,7 +70,7 @@ const TextBox = React.forwardRef((props: TextBoxProps, ref: React.Ref<HTMLDivEle
         aria-activedescendant={inputCombobox && active ? activeDescendant : undefined}
         aria-readonly={inputCombobox ? readOnly || undefined : undefined}
         {...inputProps}
-        tabIndex={inputCombobox ? (tabIndex ?? 0) : -1}
+        tabIndex={inputCombobox || inputTabStop ? (tabIndex ?? 0) : -1}
         readOnly={readOnly}
         onBlur={onBlur}
         onFocus={onFocus}

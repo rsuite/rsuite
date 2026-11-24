@@ -47,6 +47,8 @@ async function createConfig() {
 
   const config: ViteUserConfig = {
     base: './',
+    // Concurrent browser runs must not replace each other's optimized chunks.
+    cacheDir: resolve(__dirname, 'node_modules/.vite', BROWSER),
     define: {
       __DEV__: true
     },
@@ -65,11 +67,39 @@ async function createConfig() {
         'react-dom/server',
         'react-dom/server.browser',
         '@testing-library/react',
+        '@testing-library/user-event',
         '@testing-library/jest-dom/vitest',
         '@rsuite/icons/AddOutline',
         '@rsuite/icons/Gear',
         '@rsuite/icons/Heart',
-        '@rsuite/icons/Page'
+        '@rsuite/icons/Page',
+        '@rsuite/icons/ArrowDown',
+        '@rsuite/icons/Close',
+        '@rsuite/icons/Icon',
+        '@rsuite/icons/IconProvider',
+        '@rsuite/icons/Search',
+        'date-fns',
+        'dom-lib',
+        'dom-lib/addClass',
+        'dom-lib/getAnimationEnd',
+        'dom-lib/getHeight',
+        'dom-lib/getScrollbarSize',
+        'dom-lib/getStyle',
+        'dom-lib/getWidth',
+        'dom-lib/isOverflowing',
+        'dom-lib/removeClass',
+        'lodash/clone',
+        'lodash/cloneDeep',
+        'lodash/find',
+        'lodash/findIndex',
+        'lodash/isArray',
+        'lodash/isNumber',
+        'lodash/isString',
+        'lodash/pickBy',
+        'lodash/remove',
+        'lodash/trim',
+        'react-window',
+        'tinycolor2'
       ]
     },
     plugins: [tsconfigPaths({ ignoreConfigErrors: true }), react()],
@@ -96,6 +126,10 @@ async function createConfig() {
         exclude: [
           'coverage/**',
           'dist/**',
+          // This standalone fixture installs its optional competitors separately.
+          'benchmarks/cross-library-picker/**',
+          'benchmarks/cross-library-form/**',
+          'benchmarks/cross-library-table/**',
           '**/node_modules/**',
           '**/[.]**',
           'packages/*/test?(s)/**',
@@ -145,6 +179,7 @@ async function createConfig() {
         './test/browser/toggleCommands'
       );
       const { setMotionPreference } = await import('./test/browser/motionCommands');
+      const { setForcedColors } = await import('./test/browser/forcedColorsCommands');
       const { waitForBrowserTestFrame } = await import('./test/browser/testFrameReadiness');
       const { collectBrowserGarbage } = await import('./test/browser/garbageCollection');
       const { createBrowserModuleDiagnostics } = await import(
@@ -182,6 +217,7 @@ async function createConfig() {
           trcTrustedResetClick,
           trcTrustedInputClick,
           setMotionPreference,
+          setForcedColors,
           waitForBrowserTestFrame,
           collectBrowserGarbage,
           observeBrowserModuleLoads

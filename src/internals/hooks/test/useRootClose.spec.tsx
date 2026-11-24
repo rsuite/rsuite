@@ -36,6 +36,91 @@ function TestComponent({
 }
 
 describe('internals/hooks/useRootClose', () => {
+  it('honors Escape cancellation after the document capture listener', () => {
+    const onRootClose = vi.fn();
+    const { getByRole } = render(
+      <>
+        <TestComponent onRootClose={onRootClose} />
+        <input onKeyDown={event => event.preventDefault()} />
+      </>
+    );
+    const input = getByRole('textbox');
+    fireEvent.keyDown(input, { key: 'Escape' });
+    fireEvent.keyUp(input, { key: 'Escape' });
+    expect(onRootClose).not.toHaveBeenCalled();
+    fireEvent.keyDown(document, { key: 'Escape' });
+    fireEvent.keyUp(document, { key: 'Escape' });
+    expect(onRootClose).toHaveBeenCalledTimes(1);
+  });
+
+  it.each([
+    { key: 'Escape', isComposing: true, keyCode: 27 },
+    { key: 'Escape', isComposing: false, keyCode: 229 },
+    { key: 'Process', isComposing: false, keyCode: 229 }
+  ])('keeps the IME keyup after a callback update: %j', keydown => {
+    const first = vi.fn();
+    const latest = vi.fn();
+    const { rerender } = render(<TestComponent onRootClose={first} />);
+    fireEvent.keyDown(document, keydown);
+    rerender(<TestComponent onRootClose={latest} />);
+    fireEvent.compositionEnd(document);
+    fireEvent.keyUp(document, { key: 'Escape', isComposing: false });
+    expect(first).not.toHaveBeenCalled();
+    expect(latest).not.toHaveBeenCalled();
+
+    fireEvent.keyDown(document, { key: 'Escape', keyCode: 27 });
+    fireEvent.keyUp(document, { key: 'Escape' });
+    expect(latest).toHaveBeenCalledTimes(1);
+  });
+
+  it('ignores a composing keyup and retains standalone normal Escape keyup', () => {
+    const onRootClose = vi.fn();
+    render(<TestComponent onRootClose={onRootClose} />);
+    fireEvent.keyUp(document, { key: 'Escape', isComposing: true });
+    expect(onRootClose).not.toHaveBeenCalled();
+    fireEvent.keyUp(document, { key: 'Escape' });
+    expect(onRootClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not confuse an unrelated keyup with release of the composing Escape', () => {
+    const onRootClose = vi.fn();
+    render(<TestComponent onRootClose={onRootClose} />);
+    fireEvent.keyDown(document, { key: 'Escape', isComposing: true });
+    fireEvent.keyUp(document, { key: 'Shift' });
+    fireEvent.compositionEnd(document);
+    fireEvent.keyUp(document, { key: 'Escape' });
+    expect(onRootClose).not.toHaveBeenCalled();
+  });
+
+  it('handles normal Escape after a different composing key', () => {
+    const onRootClose = vi.fn();
+    render(<TestComponent onRootClose={onRootClose} />);
+    fireEvent.keyDown(document, { key: 'k', isComposing: true });
+    fireEvent.keyUp(document, { key: 'k', isComposing: true });
+    fireEvent.compositionEnd(document);
+    fireEvent.keyDown(document, { key: 'Escape' });
+    fireEvent.keyUp(document, { key: 'Escape' });
+    expect(onRootClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('observes composing keydown even when an input stops propagation', () => {
+    const onRootClose = vi.fn();
+    const { getByRole } = render(
+      <>
+        <TestComponent onRootClose={onRootClose} />
+        <input onKeyDown={event => event.stopPropagation()} />
+      </>
+    );
+    const input = getByRole('textbox');
+    fireEvent.keyDown(input, { key: 'Escape', isComposing: true });
+    fireEvent.compositionEnd(input);
+    fireEvent.keyUp(input, { key: 'Escape' });
+    expect(onRootClose).not.toHaveBeenCalled();
+    fireEvent.keyDown(input, { key: 'Escape' });
+    fireEvent.keyUp(input, { key: 'Escape' });
+    expect(onRootClose).toHaveBeenCalledTimes(1);
+  });
+
   afterEach(() => {
     vi.restoreAllMocks();
   });

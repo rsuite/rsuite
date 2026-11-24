@@ -2,11 +2,11 @@
  * Base styles for React Suite components
  *
  * This file contains foundational styles that are applied to all React Suite components.
- * It includes box-sizing normalization and basic typography settings that ensure
- * consistent rendering across different browsers and devices.
+ * It includes box-sizing normalization and native control inheritance without
+ * requiring the global CSS reset.
  *
  * 1. Box sizing is set to border-box for all React Suite components and their pseudo-elements
- * 2. Basic typography and document settings are applied to the root and body elements
+ * 2. Native controls inherit typography within React Suite components
  */
 
 // Apply border-box sizing to all React Suite components
@@ -17,4 +17,23 @@
   &::after {
     box-sizing: border-box;
   }
+}
+
+// Keep these defaults below component and application styles, regardless of import order.
+:where(
+  button[class*='rs-'],
+  input[class*='rs-'],
+  select[class*='rs-'],
+  textarea[class*='rs-']
+) {
+  font: inherit;
+}
+
+:where(
+  button[class*='rs-']:not(:disabled),
+  input[class*='rs-']:not(:disabled),
+  select[class*='rs-']:not(:disabled),
+  textarea[class*='rs-']:not(:disabled)
+) {
+  color: inherit;
 }

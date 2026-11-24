@@ -784,8 +784,8 @@ void [
   invalidDateRangeLabel
 ];
 
-import { Timeline, type TimelineProps } from 'rsuite';
-import TimelineSubpath from 'rsuite/Timeline';
+import { Timeline, TimelineItem, type TimelineProps } from 'rsuite';
+import TimelineSubpath, { TimelineItem as TimelineItemSubpath } from 'rsuite/Timeline';
 const horizontalTimelineProps: TimelineProps = {
   horizontal: true,
   align: 'alternate',
@@ -805,3 +805,92 @@ const horizontalTimelineConsumers = (
 // @ts-expect-error Horizontal layout accepts a boolean, not an orientation string.
 const invalidHorizontalTimeline = <Timeline horizontal="horizontal" />;
 void [horizontalTimelineConsumers, invalidHorizontalTimeline];
+
+const defaultTimelineRef = React.createRef<HTMLUListElement>();
+const defaultTimelineItemRef = React.createRef<HTMLLIElement>();
+const timelineDefaultElementConsumers = (
+  <>
+    <Timeline
+      ref={defaultTimelineRef}
+      onClick={event => {
+        const element: HTMLUListElement = event.currentTarget;
+        void element;
+      }}
+    >
+      <Timeline.Item
+        ref={defaultTimelineItemRef}
+        value={7}
+        onClick={event => {
+          const element: HTMLLIElement = event.currentTarget;
+          void element;
+        }}
+      >
+        Event
+      </Timeline.Item>
+    </Timeline>
+    <TimelineItem ref={defaultTimelineItemRef} value="7" />
+    <TimelineSubpath ref={defaultTimelineRef}>
+      <TimelineItemSubpath ref={defaultTimelineItemRef} value={7} />
+    </TimelineSubpath>
+    <TimelineSubpath as="ol" start={3} ref={React.createRef<HTMLOListElement>()}>
+      <TimelineSubpath.Item as="div" ref={React.createRef<HTMLDivElement>()} />
+    </TimelineSubpath>
+    <Timeline as="div" ref={React.createRef<HTMLDivElement>()} />
+  </>
+);
+// @ts-expect-error The default Timeline root is a ul, not a div.
+const invalidDefaultTimelineRef = <Timeline ref={React.createRef<HTMLDivElement>()} />;
+// @ts-expect-error The default Timeline item is an li, not a div.
+const invalidDefaultTimelineItemRef = <Timeline.Item ref={React.createRef<HTMLDivElement>()} />;
+// @ts-expect-error Native li values do not accept booleans.
+const invalidTimelineItemValue = <TimelineItemSubpath value={true} />;
+void [
+  timelineDefaultElementConsumers,
+  invalidDefaultTimelineRef,
+  invalidDefaultTimelineItemRef,
+  invalidTimelineItemValue
+];
+
+import { Breadcrumb, Navbar, Sidenav } from 'rsuite';
+import BreadcrumbSubpath from 'rsuite/Breadcrumb';
+import NavbarSubpath from 'rsuite/Navbar';
+import SidenavSubpath from 'rsuite/Sidenav';
+const navigationRef = React.createRef<HTMLElement>();
+const navigationDefaultElementConsumers = (
+  <>
+    <Breadcrumb
+      ref={navigationRef}
+      onClick={event => {
+        const element: HTMLElement = event.currentTarget;
+        // @ts-expect-error A default Breadcrumb ref targets the outer nav, not its inner ol.
+        const invalid: HTMLOListElement = event.currentTarget;
+        void [element, invalid];
+      }}
+    />
+    <BreadcrumbSubpath ref={navigationRef} />
+    <Navbar
+      ref={navigationRef}
+      onClick={event => {
+        const element: HTMLElement = event.currentTarget;
+        // @ts-expect-error A default Navbar renders nav, which has no div align property.
+        const invalid: HTMLDivElement = event.currentTarget;
+        void [element, invalid];
+      }}
+    />
+    <NavbarSubpath ref={navigationRef} />
+    <Sidenav
+      ref={navigationRef}
+      onClick={event => {
+        const element: HTMLElement = event.currentTarget;
+        // @ts-expect-error A default Sidenav renders nav, which has no div align property.
+        const invalid: HTMLDivElement = event.currentTarget;
+        void [element, invalid];
+      }}
+    />
+    <SidenavSubpath ref={navigationRef} />
+    <Breadcrumb as="ol" start={3} ref={React.createRef<HTMLOListElement>()} />
+    <Navbar as="div" ref={React.createRef<HTMLDivElement>()} />
+    <Sidenav as="div" ref={React.createRef<HTMLDivElement>()} />
+  </>
+);
+void navigationDefaultElementConsumers;

@@ -36,7 +36,7 @@ describe('Tag', () => {
     const tagElement = container.firstChild as HTMLElement;
 
     expect(tagElement).to.have.style('--rs-tag-bg', customColor);
-    expect(tagElement).to.have.style('--rs-tag-text', '#ffffff');
+    expect(tagElement).to.have.style('--rs-tag-text', '#000000');
   });
 
   it('Should render with custom light color and dark text', () => {
@@ -55,7 +55,7 @@ describe('Tag', () => {
     const tagElement = container.firstChild as HTMLElement;
 
     expect(tagElement).to.have.style('--rs-tag-bg', fullHex);
-    expect(tagElement).to.have.style('--rs-tag-text', '#ffffff');
+    expect(tagElement).to.have.style('--rs-tag-text', '#000000');
   });
 
   it('Should not apply custom color styles for preset colors', () => {

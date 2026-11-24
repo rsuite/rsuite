@@ -46,7 +46,7 @@ export interface DateRangeInputProps
  * @see https://rsuitejs.com/components/date-range-input/
  */
 const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
-  const { propsWithDefaults, parseDate, getLocale } = useCustom('Calendar', props);
+  const { propsWithDefaults, parseDate, getLocale } = useCustom('DateRangeInput', props);
   const { shortDateFormat, dateLocale } = getLocale('DateTimeFormats');
 
   const {

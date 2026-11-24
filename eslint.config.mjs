@@ -11,7 +11,7 @@ export default [
   pluginReact.configs.flat.recommended,
   {
     ...pluginReact.configs.flat['jsx-runtime'],
-    files: ['docs/**/*.tsx']
+    files: ['docs/**/*.tsx', 'benchmarks/cross-library-table/src/**/*.tsx']
   },
   eslintConfigPrettier,
   {
@@ -28,6 +28,8 @@ export default [
   {
     files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
     rules: {
+      // Preserve the rule for TypeScript even when the preset delegates it to tsc.
+      'no-with': 'error',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-expressions': 'off',
       '@typescript-eslint/no-namespace': 'off',

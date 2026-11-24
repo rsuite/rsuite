@@ -1,9 +1,8 @@
 /* @jsxRuntime classic */
 import React, { useRef, useMemo } from 'react';
 import IconProvider from '@rsuite/icons/IconProvider';
-import { usePortal, useIsomorphicLayoutEffect } from '@/internals/hooks';
-import { getClassNamePrefix, prefix } from '@/internals/utils';
-import { addClass, removeClass, canUseDOM } from '../DOMHelper';
+import { usePortal } from '@/internals/hooks';
+import { getClassNamePrefix } from '@/internals/utils';
 import { CustomContext, CustomProviderProps } from '@/internals/Provider/CustomContext';
 import ToastContainer, {
   ToastContainerInstance,
@@ -11,8 +10,7 @@ import ToastContainer, {
   defaultToasterContainer
 } from '../toaster/ToastContainer';
 import DialogContainer, { DialogContainerInstance } from '../useDialog/DialogContainer';
-
-const themes = ['light', 'dark', 'high-contrast'];
+import useThemeClass from './useThemeClass';
 
 /**
  * CustomProvider is used to provide global configuration, such as language, theme, etc.
@@ -45,18 +43,7 @@ export default function CustomProvider(props: Omit<CustomProviderProps, 'toaster
     [iconClassPrefix, csp, disableInlineStyles]
   );
 
-  useIsomorphicLayoutEffect(() => {
-    if (canUseDOM && theme) {
-      addClass(document.body, prefix(classPrefix, `theme-${theme}`));
-
-      // Remove the className that will cause style conflicts
-      themes.forEach(t => {
-        if (t !== theme) {
-          removeClass(document.body, prefix(classPrefix, `theme-${t}`));
-        }
-      });
-    }
-  }, [classPrefix, theme]);
+  useThemeClass(classPrefix, theme);
 
   // Create a context value with proper types
   const contextValue = {

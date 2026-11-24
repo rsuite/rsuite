@@ -1,7 +1,5 @@
 import React, { useRef, useMemo, useState, useCallback } from 'react';
 import pick from 'lodash/pick';
-import on from 'dom-lib/on';
-import getAnimationEnd from 'dom-lib/getAnimationEnd';
 import BaseModal, { BaseModalProps } from '@/internals/Overlay/Modal';
 import Bounce from '../Animation/Bounce';
 import useReducedMotion from '../Animation/useReducedMotion';
@@ -20,6 +18,14 @@ import {
 import { mergeRefs, forwardRef } from '@/internals/utils';
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { useBodyStyles, ModalSize } from './utils';
+import {
+  handleModalExited,
+  handleModalEntered,
+  handleModalEntering,
+  recordBackdropMouseDown,
+  handleModalBackdropClick,
+  createModalContextValue
+} from './modalCallbacks';
 
 const modalSizes: readonly ModalSize[] = ['xs', 'sm', 'md', 'lg', 'full'];
 
@@ -106,6 +112,11 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
     overflow = true,
     open,
     onClose,
+    onOpen,
+    onEsc,
+    onEnter,
+    onExit,
+    onExiting,
     onEntered,
     onEntering,
     onExited,
@@ -138,82 +149,39 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
 
   const dialogId = useUniqueId('dialog-', idProp);
   const modalContextValue = useMemo<ModalContextProps>(
-    () => ({
-      dialogId,
-      onModalClose: onClose,
-      getBodyStyles: () => bodyStyles,
-      closeButton,
-      isDrawer
-    }),
+    createModalContextValue.bind(null, dialogId, onClose, bodyStyles, closeButton, isDrawer),
     [dialogId, onClose, closeButton, isDrawer, bodyStyles]
   );
 
   const handleExited = useCallback(
-    (node: HTMLElement) => {
-      onExited?.(node);
-      onDestroyEvents();
-      transitionEndListener.current?.off();
-      transitionEndListener.current = null;
-    },
+    handleModalExited.bind(null, onExited, onDestroyEvents, transitionEndListener),
     [onDestroyEvents, onExited]
   );
 
-  const handleEntered = useCallback(
-    (node: HTMLElement) => {
-      onEntered?.(node);
-      onChangeBodyStyles();
-    },
-    [onChangeBodyStyles, onEntered]
-  );
+  const handleEntered = useCallback(handleModalEntered.bind(null, onEntered, onChangeBodyStyles), [
+    onChangeBodyStyles,
+    onEntered
+  ]);
 
   const handleEntering = useCallback(
-    (node: HTMLElement) => {
-      onEntering?.(node);
-      onChangeBodyStyles(true);
-    },
+    handleModalEntering.bind(null, onEntering, onChangeBodyStyles),
     [onChangeBodyStyles, onEntering]
   );
 
   const backdropClick = useRef<boolean>(null);
-  const handleMouseDown = useCallback(event => {
-    backdropClick.current = event.target === event.currentTarget;
-  }, []);
+  const handleMouseDown = useCallback(recordBackdropMouseDown.bind(null, backdropClick), []);
 
   const handleBackdropClick = useCallback(
-    event => {
-      // Ignore click events from non-backdrop.
-      // fix: https://github.com/rsuite/rsuite/issues/3394
-      if (!backdropClick.current) {
-        return;
-      }
-
-      // Ignore click events from dialog.
-      if (event.target === dialogRef.current) {
-        return;
-      }
-
-      // Ignore click events from dialog children.
-      if (event.target !== event.currentTarget) {
-        return;
-      }
-
-      // When the value of `backdrop` is `static`, a jitter animation will be added to the dialog when clicked.
-      if (backdrop === 'static') {
-        if (motionReduced) {
-          return;
-        }
-        setShake(true);
-        if (!transitionEndListener.current && dialogRef.current) {
-          //fix: https://github.com/rsuite/rsuite/blob/a93d13c14fb20cc58204babe3331d3c3da3fe1fd/src/Modal/styles/index.less#L59
-          transitionEndListener.current = on(dialogRef.current, getAnimationEnd(), () => {
-            setShake(false);
-          });
-        }
-        return;
-      }
-
-      onClose?.(event);
-    },
+    handleModalBackdropClick.bind(
+      null,
+      backdropClick,
+      dialogRef,
+      backdrop,
+      motionReduced,
+      setShake,
+      transitionEndListener,
+      onClose
+    ),
     [backdrop, onClose, motionReduced]
   );
 
@@ -264,6 +232,11 @@ const Modal = forwardRef<'div', ModalProps, typeof Subcomponents>((props, ref) =
         open={open}
         reduceMotion={reduceMotion}
         onClose={onClose}
+        onOpen={onOpen}
+        onEsc={onEsc}
+        onEnter={onEnter}
+        onExit={onExit}
+        onExiting={onExiting}
         className={wrapperClassName}
         onEntered={handleEntered}
         onEntering={handleEntering}

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Container from '../Container';
 import Header from '../../Header';
 import Footer from '../../Footer';

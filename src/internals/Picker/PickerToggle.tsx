@@ -1,3 +1,6 @@
+import pick from 'lodash/pick';
+import omit from 'lodash/omit';
+import isNil from 'lodash/isNil';
 import React, { useRef, useMemo } from 'react';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
 import PickerIndicator from './PickerIndicator';
@@ -11,7 +14,6 @@ import { forwardRef, mergeRefs } from '@/internals/utils';
 import { triggerPropKeys } from './PickerToggleTrigger';
 import type { IconProps } from '@rsuite/icons/Icon';
 import type { Placement, OptionValue } from '@/internals/types';
-import { isNil, omit, pick } from 'lodash';
 
 export interface PickerToggleProps<T = OptionValue> extends ToggleButtonProps {
   active?: boolean;
@@ -33,6 +35,7 @@ export interface PickerToggleProps<T = OptionValue> extends ToggleButtonProps {
   readOnly?: boolean;
   plaintext?: boolean;
   tabIndex?: number;
+  inputTabStop?: boolean;
   /**
    * Whether to display an loading indicator on toggle button
    */
@@ -64,6 +67,7 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
     cleanable,
     countable,
     tabIndex = 0,
+    inputTabStop,
     inputValue: inputValueProp,
     focusItemValue,
     placement = 'bottomStart',
@@ -145,7 +149,13 @@ const PickerToggle = forwardRef<typeof ToggleButton, PickerToggleProps>((props, 
       data-active={active}
       ref={mergeRefs(combobox, ref)}
       disabled={disabled}
-      tabIndex={disabled ? undefined : inlineCombobox ? -1 : tabIndex}
+      tabIndex={
+        disabled
+          ? undefined
+          : inlineCombobox || (inputTabStop && breakpoint !== 'xs')
+            ? -1
+            : tabIndex
+      }
       className={classes}
       {...(inlineCombobox
         ? customOpener

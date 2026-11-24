@@ -55,9 +55,18 @@ describe('Uploader previews with native keyboard events', () => {
     locator.evaluate(element => element.ownerDocument.activeElement === element);
   const tabTo = async (page: Page, locator: Locator) => {
     expect(await locator.count()).toBe(1);
-    await page.getByRole('button', { name: 'Before uploader', exact: true }).click();
+    const before = page.getByRole('button', { name: 'Before uploader', exact: true });
+    await before.focus();
+    expect(await focused(before)).toBe(true);
+    // Safari on macOS uses Option+Tab to include links in native keyboard navigation.
+    const key =
+      source.browserName === 'webkit' &&
+      process.platform === 'darwin' &&
+      (await locator.evaluate(element => element.matches('a[href]')))
+        ? 'Alt+Tab'
+        : 'Tab';
     for (let index = 0; index < 20; index++) {
-      await page.keyboard.press('Tab');
+      await page.keyboard.press(key);
       if (await focused(locator)) return;
     }
     throw new Error('Preview target was not reachable with Tab');

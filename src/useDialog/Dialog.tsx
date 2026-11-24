@@ -177,7 +177,7 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
                 onChange={handlePromptInputChange}
               />
               {validationError && (
-                <Text id={errorId} role="alert" color="red">
+                <Text id={errorId} role="alert" color="var(--rs-color-red, var(--rs-red-500))">
                   {validationError}
                 </Text>
               )}

@@ -4,7 +4,7 @@ import { createRequire } from 'node:module';
 import type { AddressInfo } from 'node:net';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
-import { chromium, firefox, type Browser } from 'playwright';
+import { chromium, firefox, webkit, type Browser } from 'playwright';
 import react from '@vitejs/plugin-react';
 import { createServer, type ViteDevServer } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
@@ -21,7 +21,7 @@ interface SourceBrowserOptions {
 
 export default async function createSourceBrowser(options: SourceBrowserOptions) {
   const browserName = process.env.BROWSER || 'chromium';
-  assert(['chromium', 'firefox'].includes(browserName));
+  assert(['chromium', 'firefox', 'webkit'].includes(browserName));
   const require = createRequire(join(options.root, 'package.json'));
   const runtimeRoot =
     options.runtimeRoot ||
@@ -87,7 +87,9 @@ export default async function createSourceBrowser(options: SourceBrowserOptions)
     });
     await server.listen();
     const url = `http://127.0.0.1:${(server.httpServer?.address() as AddressInfo).port}`;
-    browser = await (browserName === 'firefox' ? firefox : chromium).launch({ headless: true });
+    browser = await (
+      browserName === 'firefox' ? firefox : browserName === 'webkit' ? webkit : chromium
+    ).launch({ headless: true });
     assert.equal(browser.browserType().name(), browserName);
     return { browser, browserName, reactVersion, url, close };
   } catch (error) {

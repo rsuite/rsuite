@@ -25,6 +25,8 @@ export * from './Drawer';
 // --------------------------------------------------------
 export * from './Notification';
 export * from './Message';
+export * from './EmptyState';
+export * from './CommandPalette';
 export * from './Loader';
 export * from './Placeholder';
 export * from './Badge';
@@ -146,6 +148,8 @@ export * from './Animation';
 export * from './DOMHelper';
 export * from './Affix';
 export * from './CustomProvider';
+export * from './StyleRegistry';
+export * from './createStyleRegistry';
 
 // Hooks
 // --------------------------------------------------------

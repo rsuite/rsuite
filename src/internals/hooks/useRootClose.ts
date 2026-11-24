@@ -1,8 +1,8 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import contains from 'dom-lib/contains';
 import ownerDocument from 'dom-lib/ownerDocument';
 import on from 'dom-lib/on';
-import { getDOMNode } from '@/internals/utils';
+import { getDOMNode, isComposingEvent } from '@/internals/utils';
 import { KEY_VALUES } from '../constants';
 
 function isLeftClickEvent(event: React.MouseEvent) {
@@ -36,9 +36,20 @@ export function useRootClose(
   onRootClose: React.ReactEventHandler | undefined,
   { disabled, triggerTarget, overlayTarget, listenEscape = true }: Options
 ) {
+  const keyDownEvent = useRef<KeyboardEvent | null>(null);
+  const handleDocumentKeyDown = useCallback((event: KeyboardEvent) => {
+    keyDownEvent.current = event;
+  }, []);
+
   const handleDocumentKeyUp = useCallback(
     (event: React.KeyboardEvent) => {
-      if (listenEscape && event.key === KEY_VALUES.ESC) {
+      if (event.key !== KEY_VALUES.ESC) return;
+
+      // Composition can end before Escape keyup, which has no IME keyCode.
+      const keyDown = keyDownEvent.current;
+      const handled = keyDown?.defaultPrevented || (keyDown && isComposingEvent(keyDown));
+      keyDownEvent.current = null;
+      if (listenEscape && !handled && !isComposingEvent(event)) {
         onRootClose?.(event);
       }
     },
@@ -84,13 +95,22 @@ export function useRootClose(
 
     const doc = ownerDocument(currentTarget);
     const onDocumentMouseDownListener = on(doc, 'mousedown', handleDocumentMouseDown, true);
+    const onDocumentKeydownListener = on(doc, 'keydown', handleDocumentKeyDown, true);
     const onDocumentKeyupListener = on(doc, 'keyup', handleDocumentKeyUp);
 
     return () => {
       onDocumentMouseDownListener?.off();
+      onDocumentKeydownListener?.off();
       onDocumentKeyupListener?.off();
     };
-  }, [triggerTarget, disabled, onRootClose, handleDocumentMouseDown, handleDocumentKeyUp]);
+  }, [
+    triggerTarget,
+    disabled,
+    onRootClose,
+    handleDocumentMouseDown,
+    handleDocumentKeyDown,
+    handleDocumentKeyUp
+  ]);
 }
 
 export default useRootClose;

@@ -28,7 +28,8 @@ import {
   mergeRefs,
   isOneOf,
   mergeStyles,
-  partitionHTMLProps
+  partitionHTMLProps,
+  isComposingEvent
 } from '@/internals/utils';
 import {
   Listbox,
@@ -70,6 +71,9 @@ export interface InputPickerProps<V = ValueType>
 
   /** The `onFocus` attribute for the `input` element. */
   onFocus?: React.FocusEventHandler;
+
+  /** Called after the picker's keyboard handling. */
+  onKeyDown?: React.KeyboardEventHandler;
 
   /** Called when the option is created */
   onCreate?: (value: V, item: Option, event: React.SyntheticEvent) => void;
@@ -155,6 +159,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     onSelect,
     onBlur,
     onFocus,
+    onKeyDown: onKeyDownProp,
     searchBy,
     ...rest
   } = propsWithDefaults;
@@ -491,6 +496,10 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
   };
 
   const handleKeyPress = useEventCallback((event: React.KeyboardEvent<any>) => {
+    if (disabled || readOnly || loading || isComposingEvent(event)) {
+      return;
+    }
+
     // When typing a space, create a tag.
     if (isOneOf('Space', trigger) && event.key === KEY_VALUES.SPACE) {
       handleTagKeyPress(event);
@@ -525,7 +534,9 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
     readOnly,
     disabled,
     ...events,
-    ...rest
+    ...rest,
+    onKeyDown: createChainedFunction(events.onKeyDown, onKeyDownProp),
+    focusOnClose: false
   });
 
   const handleExited = useEventCallback(() => {
@@ -761,6 +772,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
       className={className}
       responsive={responsive ?? searchable === false}
       inputCombobox={editable && !disabledOptions}
+      focusOnClose={false}
       ariaLabel={inputAriaProps['aria-label']}
       ariaLabelledby={inputAriaProps['aria-labelledby']}
       onClick={focus}
@@ -782,6 +794,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         as={toggleAs}
         caretAs={caretAs}
         tabIndex={tabIndex}
+        inputTabStop={disabledOptions && editable}
         onClean={handleClean}
         onCleanFocus={handleCleanFocus}
         onFocus={event => {
@@ -809,6 +822,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         ariaLabel={typeof placeholderNode === 'string' ? placeholderNode : locale?.placeholder}
         hasDescription={!!(!searching && !(multi && hasValue) && (itemNode || placeholderNode))}
         tabIndex={tabIndex}
+        inputTabStop={disabledOptions && editable}
         tags={tagElements}
         editable={editable}
         readOnly={readOnly}

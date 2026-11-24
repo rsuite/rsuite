@@ -61,6 +61,6 @@ Returning a promise does not move synchronous work off the main thread. Large lo
 | `success` | `false`   | Current results | `null`  |
 | `error`   | `false`   | Empty           | `Error` |
 
-`enabled` defaults to `true`. Disabling or unmounting aborts the current request. React Activity also aborts work when it disconnects effects and runs the current query again when effects reconnect.
+`enabled` defaults to `true`. Disabling or unmounting aborts the current request. Disabling also discards the previous stored result and error instead of retaining them until the next search. React Activity also aborts work when it disconnects effects and runs the current query again when effects reconnect.
 
 Searches start after a client commit. Server rendering starts no requests and returns `pending`, or `idle` when disabled, matching the first client render. Synchronous exceptions, rejected promises and invalid result shapes become the `error` state. Call `reload` to retry after the cause has been addressed.

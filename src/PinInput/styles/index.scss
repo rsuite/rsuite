@@ -1,5 +1,6 @@
 @use '../../internals/Box/styles/index' as box;
 @use '../../Input/styles/index' as input;
+@use '../../Stack/styles/index' as stack;
 
 .rs-pin-input {
   --rs-pin-input-size-lg: 42px;

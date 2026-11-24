@@ -84,6 +84,10 @@ export default {
     last7Days: 'Last 7 Days'
   },
   Combobox,
+  CommandPalette: {
+    errorText: 'Unable to search commands.',
+    retryText: 'Try again'
+  },
   ColorPicker: {
     placeholder: 'Select color',
     dialogTitle: 'Choose color',
@@ -123,6 +127,10 @@ export default {
     stopRotation: 'Stop slide rotation',
     selectSlide: 'Choose slide',
     slideLabel: 'Slide {0} of {1}'
+  },
+  PinInput: {
+    groupLabel: 'PIN input',
+    characterLabel: 'Character {0} of {1}'
   },
   Toggle: {
     on: 'ON',

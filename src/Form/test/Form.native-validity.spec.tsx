@@ -725,7 +725,6 @@ describe('Form native validity and selected error messages', () => {
           acknowledgeRuleEntry();
           return deferred;
         },
-        // @ts-expect-error 2.4.2 omits the async message factory accepted by createValidatorAsync.
         () => {
           factories += 1;
           order.push('factory');

@@ -164,7 +164,7 @@ describe('Uploader thumbnail updates with native FileReader', () => {
         expect(await state(page).getAttribute('data-status')).toBe('uploading');
         expect(await state(page).getAttribute('data-progress')).toBe('100');
         await complete(page, scenario, 0);
-        expect(await state(page).getAttribute('data-status')).toBe('finished');
+        await expect.poll(() => state(page).getAttribute('data-status')).toBe('finished');
         expect(await state(page).getAttribute('data-progress')).toBe('100');
         await image(page, 'second');
         expect(uploadsFor(scenario)[0].body).toContain('filename="first.svg"');

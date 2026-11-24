@@ -12,7 +12,25 @@ const results = path.join(__dirname, 'results');
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const fixture = fs.readFileSync(path.join(__dirname, 'consumer.tsx'), 'utf8');
 assert.equal(ts.version, '5.7.3');
-assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 68);
+assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 74);
+const polymorphicFixture = fs.readFileSync(path.join(__dirname, 'polymorphic.tsx'), 'utf8');
+assert.equal((polymorphicFixture.match(/@ts-expect-error/g) || []).length, 19);
+const pinInputAccessibilityFixture = fs.readFileSync(
+  path.join(__dirname, 'pin-input-accessibility.tsx'),
+  'utf8'
+);
+assert.equal((pinInputAccessibilityFixture.match(/@ts-expect-error/g) || []).length, 6);
+const emptyStateFixture = fs.readFileSync(path.join(__dirname, 'empty-state.tsx'), 'utf8');
+assert.equal((emptyStateFixture.match(/@ts-expect-error/g) || []).length, 4);
+const providerComponentsFixture = fs.readFileSync(
+  path.join(__dirname, 'provider-components.tsx'),
+  'utf8'
+);
+assert.equal((providerComponentsFixture.match(/@ts-expect-error/g) || []).length, 4);
+const customAsRefsFixture = fs.readFileSync(path.join(__dirname, 'custom-as-refs.tsx'), 'utf8');
+assert.equal((customAsRefsFixture.match(/@ts-expect-error/g) || []).length, 12);
+const commandPaletteFixture = fs.readFileSync(path.join(__dirname, 'command-palette.tsx'), 'utf8');
+assert.equal((commandPaletteFixture.match(/@ts-expect-error/g) || []).length, 16);
 for (const entry of ['package.json', 'esm/index.d.ts', 'cjs/index.d.ts']) {
   assert(fs.existsSync(path.join(lib, entry)), 'Build the public lib first: ' + entry);
 }
@@ -76,6 +94,8 @@ const cjsSpecifiers = {
   rsuite: 'rsuite/cjs',
   'rsuite/DateInput': 'rsuite/cjs/DateInput',
   'rsuite/Button': 'rsuite/cjs/Button',
+  'rsuite/IconButton': 'rsuite/cjs/IconButton',
+  'rsuite/CommandPalette': 'rsuite/cjs/CommandPalette',
   'rsuite/Carousel': 'rsuite/cjs/Carousel',
   'rsuite/Whisper': 'rsuite/cjs/Whisper',
   'rsuite/locales': 'rsuite/cjs/locales',
@@ -96,10 +116,26 @@ const cjsSpecifiers = {
   'rsuite/TimeRangePicker': 'rsuite/cjs/TimeRangePicker',
   'rsuite/Calendar': 'rsuite/cjs/Calendar',
   'rsuite/ColorPicker': 'rsuite/cjs/ColorPicker',
-  'rsuite/Timeline': 'rsuite/cjs/Timeline'
+  'rsuite/EmptyState': 'rsuite/cjs/EmptyState',
+  'rsuite/Timeline': 'rsuite/cjs/Timeline',
+  'rsuite/Breadcrumb': 'rsuite/cjs/Breadcrumb',
+  'rsuite/Navbar': 'rsuite/cjs/Navbar',
+  'rsuite/Sidenav': 'rsuite/cjs/Sidenav',
+  'rsuite/PinInput': 'rsuite/cjs/PinInput',
+  'rsuite/Input': 'rsuite/cjs/Input',
+  'rsuite/Stack': 'rsuite/cjs/Stack',
+  'rsuite/Divider': 'rsuite/cjs/Divider',
+  'rsuite/Badge': 'rsuite/cjs/Badge',
+  'rsuite/Box': 'rsuite/cjs/Box',
+  'rsuite/TagInput': 'rsuite/cjs/TagInput',
+  'rsuite/Checkbox': 'rsuite/cjs/Checkbox',
+  'rsuite/Radio': 'rsuite/cjs/Radio',
+  'rsuite/Toggle': 'rsuite/cjs/Toggle',
+  'rsuite/Slider': 'rsuite/cjs/Slider',
+  'rsuite/esm/internals/types/shared': 'rsuite/cjs/internals/types/shared'
 };
-function sourceFor(entry) {
-  return fixture.replace(/from (['"])(rsuite(?:\/[^'"]+)?)\1/g, (original, quote, specifier) => {
+function sourceFor(entry, source = fixture) {
+  return source.replace(/from (['"])(rsuite(?:\/[^'"]+)?)\1/g, (original, quote, specifier) => {
     assert(Object.hasOwn(cjsSpecifiers, specifier), 'Unmapped public entry: ' + specifier);
     return entry === 'esm' ? original : 'from ' + quote + cjsSpecifiers[specifier] + quote;
   });
@@ -158,6 +194,21 @@ try {
         );
         const consumer = path.join(project, 'consumer.tsx');
         fs.writeFileSync(consumer, sourceFor(entry));
+        const polymorphicConsumer = path.join(project, 'polymorphic.tsx');
+        fs.writeFileSync(polymorphicConsumer, sourceFor(entry, polymorphicFixture));
+        const pinInputAccessibilityConsumer = path.join(project, 'pin-input-accessibility.tsx');
+        fs.writeFileSync(
+          pinInputAccessibilityConsumer,
+          sourceFor(entry, pinInputAccessibilityFixture)
+        );
+        const emptyStateConsumer = path.join(project, 'empty-state.tsx');
+        fs.writeFileSync(emptyStateConsumer, sourceFor(entry, emptyStateFixture));
+        const providerComponentsConsumer = path.join(project, 'provider-components.tsx');
+        fs.writeFileSync(providerComponentsConsumer, sourceFor(entry, providerComponentsFixture));
+        const customAsRefsConsumer = path.join(project, 'custom-as-refs.tsx');
+        fs.writeFileSync(customAsRefsConsumer, sourceFor(entry, customAsRefsFixture));
+        const commandPaletteConsumer = path.join(project, 'command-palette.tsx');
+        fs.writeFileSync(commandPaletteConsumer, sourceFor(entry, commandPaletteFixture));
         const options = {
           strict,
           noEmit: true,
@@ -175,7 +226,25 @@ try {
         const publicEntries = [
           ...new Set(
             [
-              ...fs.readFileSync(consumer, 'utf8').matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g)
+              ...fs.readFileSync(consumer, 'utf8').matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g),
+              ...fs
+                .readFileSync(polymorphicConsumer, 'utf8')
+                .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g),
+              ...fs
+                .readFileSync(pinInputAccessibilityConsumer, 'utf8')
+                .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g),
+              ...fs
+                .readFileSync(emptyStateConsumer, 'utf8')
+                .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g),
+              ...fs
+                .readFileSync(providerComponentsConsumer, 'utf8')
+                .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g),
+              ...fs
+                .readFileSync(customAsRefsConsumer, 'utf8')
+                .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g),
+              ...fs
+                .readFileSync(commandPaletteConsumer, 'utf8')
+                .matchAll(/from ['"](rsuite(?:\/[^'"]+)?)['"]/g)
             ].map(match => match[1])
           )
         ];
@@ -189,7 +258,18 @@ try {
             item.resolved && fs.realpathSync(item.resolved).startsWith(published + path.sep),
             'Missing natural public declaration entry: ' + item.specifier
           );
-        const program = ts.createProgram([consumer], options);
+        const program = ts.createProgram(
+          [
+            consumer,
+            polymorphicConsumer,
+            pinInputAccessibilityConsumer,
+            emptyStateConsumer,
+            providerComponentsConsumer,
+            customAsRefsConsumer,
+            commandPaletteConsumer
+          ],
+          options
+        );
         const diagnostics = ts.getPreEmitDiagnostics(program);
         const files = program.getSourceFiles().map(file => {
           const physical = fs.realpathSync(file.fileName);
@@ -227,7 +307,16 @@ try {
           )
         );
         for (const file of files) {
-          if (file.physical === consumer || file.physical.startsWith(published + path.sep))
+          if (
+            file.physical === consumer ||
+            file.physical === polymorphicConsumer ||
+            file.physical === pinInputAccessibilityConsumer ||
+            file.physical === emptyStateConsumer ||
+            file.physical === providerComponentsConsumer ||
+            file.physical === customAsRefsConsumer ||
+            file.physical === commandPaletteConsumer ||
+            file.physical.startsWith(published + path.sep)
+          )
             continue;
           if (
             file.package?.root === compilerRoot &&
@@ -323,6 +412,12 @@ try {
           rootLockSHA256: hash(path.join(root, 'package-lock.json')),
           fixtureLockSHA256: hash(path.join(__dirname, 'package-lock.json')),
           consumerSHA256: hash(consumer),
+          polymorphicConsumerSHA256: hash(polymorphicConsumer),
+          pinInputAccessibilityConsumerSHA256: hash(pinInputAccessibilityConsumer),
+          emptyStateConsumerSHA256: hash(emptyStateConsumer),
+          providerComponentsConsumerSHA256: hash(providerComponentsConsumer),
+          customAsRefsConsumerSHA256: hash(customAsRefsConsumer),
+          commandPaletteConsumerSHA256: hash(commandPaletteConsumer),
           files,
           diagnostics: diagnostics.map(d => ({
             code: d.code,

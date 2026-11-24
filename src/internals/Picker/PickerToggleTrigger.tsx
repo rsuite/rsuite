@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import Box from '@/internals/Box';
@@ -7,7 +7,8 @@ import OverlayTrigger, {
   OverlayTriggerProps,
   OverlayTriggerType
 } from '@/internals/Overlay/OverlayTrigger';
-import { useUniqueId } from '@/internals/hooks';
+import { useUniqueId, useEventCallback } from '@/internals/hooks';
+import { createChainedFunction, mergeRefs } from '@/internals/utils';
 import { useStyles } from '@/internals/hooks';
 import { useBreakpointValue } from '../../useBreakpointValue';
 import type { Placement, Size, AnimationEventProps, PickerBaseProps } from '@/internals/types';
@@ -67,6 +68,8 @@ export interface PickerToggleTriggerProps
 
   /** Whether this picker has an editable combobox input. */
   inputCombobox?: boolean;
+  /** Editable pickers manage their own input focus after closing. */
+  focusOnClose?: boolean;
   ariaLabel?: string;
   ariaLabelledby?: string;
 
@@ -135,6 +138,7 @@ export const PickerToggleTrigger = React.forwardRef(
       trigger = 'click',
       responsive = true,
       inputCombobox,
+      focusOnClose = true,
       ariaLabel,
       ariaLabelledby,
       onKeyDown,
@@ -173,6 +177,40 @@ export const PickerToggleTrigger = React.forwardRef(
       ]
     );
 
+    const pickerRoot = useRef<HTMLElement>(null);
+    const closingFocusScope = useRef<HTMLElement | null>(null);
+    const focusToggle = useEventCallback(() => {
+      pickerRoot.current?.querySelector<HTMLElement>('[role="combobox"]')?.focus();
+    });
+
+    const handleEnter = useEventCallback(() => {
+      closingFocusScope.current = null;
+    });
+
+    const handleExit = useEventCallback((node: HTMLElement) => {
+      // Drawer focus enforcement includes the wrapper around the animated dialog.
+      const scope = effectiveBreakpoint === 'xs' ? (node.parentElement ?? node) : node;
+      closingFocusScope.current =
+        focusOnClose && scope.contains(node.ownerDocument.activeElement) ? scope : null;
+      if (closingFocusScope.current) focusToggle();
+    });
+
+    const handleExited = useEventCallback(() => {
+      const scope = closingFocusScope.current;
+      closingFocusScope.current = null;
+      const root = pickerRoot.current;
+      const focused = root?.ownerDocument.activeElement;
+      // The Drawer may have held focus until it finished closing. Respect any
+      // destination already chosen by a Tab, pointer action or consumer callback.
+      if (
+        scope &&
+        root?.isConnected &&
+        (focused === root.ownerDocument.body || scope.contains(focused ?? null))
+      ) {
+        focusToggle();
+      }
+    });
+
     const { withPrefix, merge } = useStyles(classPrefix);
     const classes = merge(className, withPrefix());
 
@@ -180,6 +218,9 @@ export const PickerToggleTrigger = React.forwardRef(
       <ComboboxContext.Provider value={comboboxContext}>
         <OverlayTrigger
           {...pickerTriggerProps}
+          onEnter={createChainedFunction(handleEnter, pickerTriggerProps.onEnter)}
+          onExit={createChainedFunction(handleExit, pickerTriggerProps.onExit)}
+          onExited={createChainedFunction(handleExited, pickerTriggerProps.onExited)}
           disabled={pickerTriggerProps.disabled || pickerTriggerProps.loading}
           ref={ref}
           trigger={trigger}
@@ -191,7 +232,7 @@ export const PickerToggleTrigger = React.forwardRef(
             as={as}
             className={classes}
             style={style}
-            ref={rootRef}
+            ref={mergeRefs(pickerRoot, rootRef)}
             name={name}
             data-picker={pickerType}
             data-appearance={appearance}

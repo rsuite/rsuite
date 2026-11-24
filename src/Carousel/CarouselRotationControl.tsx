@@ -14,7 +14,7 @@ export default function CarouselRotationControl({
   label,
   className,
   onChange
-}: CarouselRotationControlProps) {
+}: CarouselRotationControlProps): React.ReactElement {
   const pointerPlaying = useRef<boolean | undefined>(undefined);
 
   return (

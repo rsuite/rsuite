@@ -20,6 +20,29 @@ async function native(action: () => Promise<void>) {
   await act(action);
 }
 
+async function focusWithKeyboard(target: HTMLElement) {
+  const anchor = document.createElement('button');
+  anchor.type = 'button';
+  anchor.textContent = 'Keyboard focus anchor';
+  anchor.style.position = 'fixed';
+  const keys: KeyboardEvent[] = [];
+  anchor.addEventListener('keydown', event => keys.push(event));
+  target.before(anchor);
+  try {
+    await native(async () => {
+      anchor.focus();
+      expect(anchor).toHaveFocus();
+      await userEvent.tab();
+    });
+    expect(target).toHaveFocus();
+    expect(keys.map(({ key, isTrusted }) => ({ key, isTrusted }))).toEqual([
+      { key: 'Tab', isTrusted: true }
+    ]);
+  } finally {
+    anchor.remove();
+  }
+}
+
 async function expectAssociation(button: HTMLElement, description: string) {
   const tooltip = await screen.findByRole('tooltip');
   await waitFor(() => {
@@ -101,7 +124,7 @@ describe('Whisper automatic Tooltip descriptions', () => {
     };
     frame = requestAnimationFrame(sampleVisible);
     try {
-      await native(() => userEvent.click(screen.getByRole('button', { name: 'Before' })));
+      await focusWithKeyboard(screen.getByRole('button', { name: 'Before' }));
       await native(() => userEvent.tab());
       expect(document.activeElement).toBe(button);
       expect(tabKeys).toEqual([true]);
@@ -174,7 +197,7 @@ describe('Whisper automatic Tooltip descriptions', () => {
       </CustomProvider>
     );
     const button = screen.getByRole('button', { name: 'Provider trigger' });
-    await native(() => userEvent.click(button));
+    await focusWithKeyboard(button);
     expect((await expectAssociation(button, 'Provider help Extra help')).id).toBe(
       'provider-tooltip'
     );
@@ -193,7 +216,7 @@ describe('Whisper automatic Tooltip descriptions', () => {
     );
     const button = screen.getByRole('button', { name: 'Explicit trigger' });
     expect(button.getAttribute('aria-describedby')).toBe('explicit-native');
-    await native(() => userEvent.click(button));
+    await focusWithKeyboard(button);
     expect((await expectAssociation(button, 'Explicit help')).id).toBe('explicit-native');
   });
 
@@ -204,7 +227,7 @@ describe('Whisper automatic Tooltip descriptions', () => {
       </Whisper>
     );
     const button = screen.getByRole('button', { name: 'Generic trigger' });
-    await native(() => userEvent.click(button));
+    await focusWithKeyboard(button);
     expect((await screen.findByTestId('generic-native')).id).toBe('');
     expect(button.hasAttribute('aria-describedby')).toBe(false);
   });
@@ -222,7 +245,7 @@ describe('Whisper automatic Tooltip descriptions', () => {
       </Whisper>
     );
     const button = screen.getByRole('button', { name: 'Veto trigger' });
-    await native(() => userEvent.click(button));
+    await focusWithKeyboard(button);
     expect(focused).toEqual([true]);
     expect(screen.queryByRole('tooltip')).toBeNull();
     expect(button.hasAttribute('aria-describedby')).toBe(false);
@@ -240,7 +263,7 @@ describe('Whisper automatic Tooltip descriptions', () => {
     }
     const view = render(<App id="dynamic-one" role="tooltip" />);
     const button = screen.getByRole('button', { name: 'Dynamic trigger' });
-    await native(() => userEvent.click(button));
+    await focusWithKeyboard(button);
     const tooltip = await expectAssociation(button, 'Dynamic help');
     view.rerender(<App id="dynamic-two" role="tooltip" />);
     await waitFor(() => expect(button.getAttribute('aria-describedby')).toBe('dynamic-two'));
@@ -268,7 +291,7 @@ describe('Whisper automatic Tooltip descriptions', () => {
     }
     const view = render(<App as="div" />);
     const button = screen.getByRole('button', { name: 'Replacement trigger' });
-    await native(() => userEvent.click(button));
+    await focusWithKeyboard(button);
     const old = await expectAssociation(button, 'Replacement help');
     view.rerender(<App as="aside" />);
     const replacement = await expectAssociation(button, 'Replacement help');
@@ -311,7 +334,7 @@ describe('Whisper automatic Tooltip descriptions', () => {
     }
     render(<App />);
     const button = screen.getByRole('button', { name: 'Escape trigger' });
-    await native(() => userEvent.click(button));
+    await focusWithKeyboard(button);
     const tooltip = await expectAssociation(button, 'Escape help');
     await native(() => userEvent.keyboard('{Escape}'));
     expect(trusted).toEqual([true]);
@@ -334,7 +357,7 @@ describe('Whisper automatic Tooltip descriptions', () => {
     }
     const view = render(<App />);
     const button = screen.getByRole('button', { name: 'Stable trigger' });
-    await native(() => userEvent.click(button));
+    await focusWithKeyboard(button);
     const tooltip = await expectAssociation(button, 'Stable help');
     view.rerender(<App controlId="unused-requested" />);
     await expectAssociation(button, 'Stable help');
@@ -361,7 +384,7 @@ describe('Whisper automatic Tooltip descriptions', () => {
       </Whisper>
     );
     const outer = screen.getByRole('button', { name: 'Outer trigger' });
-    await native(() => userEvent.click(outer));
+    await focusWithKeyboard(outer);
     const tooltip = await screen.findByTestId('outer-tooltip');
     await waitFor(() => expect(outer.getAttribute('aria-describedby')).toBe(tooltip.id));
     expect(tooltip.id).not.toBe('');
@@ -452,7 +475,7 @@ describe('Whisper automatic Tooltip descriptions', () => {
       </>
     );
     const button = screen.getByRole('button', { name: 'Retained trigger' });
-    await native(() => userEvent.click(button));
+    await focusWithKeyboard(button);
     const tooltip = await expectAssociation(button, 'Retained help');
     await native(() => userEvent.tab());
     expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Retained outside' }));
@@ -477,7 +500,7 @@ describe('Whisper automatic Tooltip descriptions', () => {
       </Whisper>
     );
     const button = screen.getByRole('button', { name: 'Excluded trigger' });
-    await native(() => userEvent.click(button));
+    await focusWithKeyboard(button);
     await waitFor(() => expect(document.getElementById(id)?.isConnected).toBe(true));
     expect(button.hasAttribute('aria-describedby')).toBe(false);
   });
@@ -498,7 +521,7 @@ describe('Whisper automatic Tooltip descriptions', () => {
         </Whisper>
       );
       const button = screen.getByRole('button', { name: 'Other document trigger' });
-      await native(() => userEvent.click(button));
+      await focusWithKeyboard(button);
       await waitFor(() =>
         expect(container.querySelector('[role="tooltip"]')?.isConnected).toBe(true)
       );

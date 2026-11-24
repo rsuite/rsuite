@@ -120,7 +120,9 @@ describe.each([
     };
     render(<Fixture />);
     const opener = screen.getByRole('button', { name: 'Open dialog' });
-    await act(() => userEvent.click(opener));
+    act(() => opener.focus());
+    expect(opener).to.have.focus;
+    await act(() => userEvent.keyboard('{Enter}'));
     await waitFor(() => expect(entered).toHaveBeenCalledTimes(1));
     const dialog = screen.getByRole('dialog');
     expect(getComputedStyle(dialog).animationDuration).toBe('0s');

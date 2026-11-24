@@ -80,6 +80,10 @@ export default {
     last7Days: '最近 7 天'
   },
   Combobox,
+  CommandPalette: {
+    errorText: '暂时无法搜索命令。',
+    retryText: '重试'
+  },
   InputPicker: CreatableComboBox,
   TagPicker: CreatableComboBox,
   Uploader: {
@@ -105,6 +109,10 @@ export default {
     stopRotation: '停止自动播放',
     selectSlide: '选择幻灯片',
     slideLabel: '第 {0} 张，共 {1} 张'
+  },
+  PinInput: {
+    groupLabel: 'PIN 码输入',
+    characterLabel: '第 {0} 个字符，共 {1} 个'
   },
   Toggle: {
     on: '开启',

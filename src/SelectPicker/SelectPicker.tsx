@@ -297,8 +297,10 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
         items = items.sort(sort(false));
       }
 
+      // Remount result lists after an empty state to retain selected-item initialization.
       const listbox = items.length ? (
         <Listbox
+          key="results"
           disabled={disabled || rest.readOnly || rest.loading}
           listProps={listProps}
           listRef={list}
@@ -323,7 +325,13 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
           virtualized={virtualized}
         />
       ) : (
-        <div className={prefix`none`}>{locale?.noResultsText}</div>
+        <Listbox
+          key="empty"
+          classPrefix="picker-select-menu"
+          listItemAs={ListItem}
+          maxHeight={listboxMaxHeight}
+          emptyContent={<div className={prefix`none`}>{locale?.noResultsText}</div>}
+        />
       );
 
       return (

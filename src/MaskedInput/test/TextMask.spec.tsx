@@ -12,7 +12,7 @@ type TextMastTestInstance = {
 
 const TextMaskTest = React.forwardRef((props: TextMaskProps, ref) => {
   const { value: valueProp, ...rest } = props;
-  const [value, setValue] = React.useState(valueProp || '');
+  const [value, setValue] = React.useState(valueProp);
   const [restProps, setRestProps] = React.useState(rest);
   React.useImperativeHandle(ref, () => ({
     input: inputRef.current,
