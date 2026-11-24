@@ -5,7 +5,7 @@ import http from 'node:http';
 import os from 'node:os';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { chromium, firefox } from 'playwright';
+import { chromium, firefox, webkit } from 'playwright';
 import { workflow } from './runner/workflow.mjs';
 import { validateReport } from './runner/report.mjs';
 import { treeWorkflow } from './runner/tree-workflow.mjs';
@@ -55,7 +55,11 @@ const output = path.resolve(
     : args[outputIndex + 1]
 );
 const browserName = browserIndex < 0 ? 'all' : args[browserIndex + 1];
-if (!['all', 'chromium', 'firefox'].includes(browserName)) throw Error('Invalid browser');
+const engines = { chromium, firefox, webkit };
+if (browserName !== 'all' && !Object.hasOwn(engines, browserName)) throw Error('Invalid browser');
+if (browserName === 'webkit' && workflowName !== 'virtual')
+  throw Error('WebKit is available for the virtual workflow');
+const selectedBrowsers = browserName === 'all' ? ['chromium', 'firefox'] : [browserName];
 for (let index = 0; index < args.length; index++) {
   if (['--output', '--browser', '--workflow', '--jump-timing-rounds'].includes(args[index]))
     index++;
@@ -144,9 +148,8 @@ const report = {
   complete: false
 };
 try {
-  for (const [engineName, engine] of Object.entries({ chromium, firefox })) {
-    if (browserName !== 'all' && browserName !== engineName) continue;
-    const browser = await engine.launch();
+  for (const engineName of selectedBrowsers) {
+    const browser = await engines[engineName].launch();
     try {
       for (const { library, profiles, round } of cases)
         for (const profile of profiles) {

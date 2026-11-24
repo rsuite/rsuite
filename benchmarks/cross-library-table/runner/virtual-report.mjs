@@ -12,7 +12,7 @@ export function validateVirtualReport(report, browserName = 'all') {
   assert.equal(report.workflow, 'virtual');
   assert.equal(report.complete, true);
   validateRunIntegrity(report);
-  assert(['all', 'chromium', 'firefox'].includes(browserName));
+  assert(['all', 'chromium', 'firefox', 'webkit'].includes(browserName));
   const browsers = browserName === 'all' ? ['chromium', 'firefox'] : [browserName];
   const timing = report.jumpTiming;
   let total;

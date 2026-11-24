@@ -7,7 +7,7 @@ import { validateLifecycleReport } from '../runner/lifecycle-report.mjs';
 const [file, browser = 'all', ...extra] = process.argv.slice(2);
 assert(
   file && !extra.length,
-  'Usage: node checks/report-integrity.mjs report.json [all|chromium|firefox]'
+  'Usage: node checks/report-integrity.mjs report.json [all|chromium|firefox|webkit]'
 );
 const actual = JSON.parse(fs.readFileSync(file)),
   validate = {

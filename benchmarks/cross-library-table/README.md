@@ -197,6 +197,12 @@ browser contexts:
     node run.mjs --skip-build --workflow virtual --jump-timing-rounds 8 --output /absolute/path/jump-timing.json
     node checks/report-integrity.mjs /absolute/path/jump-timing.json
 
+The default run covers Chromium and Firefox. The virtual workflow also supports an
+explicit WebKit run through the same report validator.
+
+    node run.mjs --skip-build --workflow virtual --browser webkit --jump-timing-rounds 8 --output /absolute/path/jump-timing-webkit.json
+    node checks/report-integrity.mjs /absolute/path/jump-timing-webkit.json webkit
+
 Each browser warms up all four adapters once, then runs 4–24 measured rounds
 in multiples of four with balanced adapter order. Warmups stay in the report
 and are excluded from timing summaries. Browser cohorts are reported separately.
