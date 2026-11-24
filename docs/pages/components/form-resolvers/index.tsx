@@ -19,7 +19,7 @@ import { plainToInstance } from 'class-transformer';
 const sandboxDependencies = {
   yup: '^1.3.3',
   zod: '^3.22.0',
-  joi: '^17.12.0',
+  joi: '^17.13.9',
   ajv: '^8.12.0',
   'ajv-formats': '^3.0.1',
   superstruct: '^2.0.2',
