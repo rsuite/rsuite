@@ -2,11 +2,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import { isDeepStrictEqual } from 'node:util';
-import { inputs, packageFingerprint, hash } from '../integrity.mjs';
+import { inputs, packageFingerprint, candidateDependencies, hash } from '../integrity.mjs';
 import { installedDependencies } from '../dependencies.mjs';
 export function assertBuildState(root, built) {
   if (
     !isDeepStrictEqual(inputs(root), built.sourceInputs) ||
+    !isDeepStrictEqual(candidateDependencies(root), built.candidateDependencies) ||
     packageFingerprint(root) !== built.candidateFingerprint ||
     packageFingerprint(root, path.resolve(root, '../../lib')) !== built.candidateFingerprint
   )

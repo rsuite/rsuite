@@ -3,7 +3,7 @@ import { ComboBox, Input, ListBox } from '@heroui/react';
 import { Virtualizer, ListLayout } from 'react-aria-components/Virtualizer';
 import type { AdapterProps } from '../protocol';
 import { listHeight, rowHeight, OptionLabel, Empty, contains } from '../shared';
-import './heroui.css';
+import 'benchmark-library-styles';
 
 export default function HerouiAdapter({ items, virtualized, onSelectionChange }: AdapterProps) {
   const list = (

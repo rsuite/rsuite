@@ -1,6 +1,6 @@
 import React from 'react';
 import SelectPicker from 'rsuite/SelectPicker';
-import 'rsuite/dist/rsuite.min.css';
+import 'benchmark-library-styles';
 import type { AdapterProps, Item } from '../protocol';
 import { listHeight, rowHeight, OptionLabel, contains } from '../shared';
 
