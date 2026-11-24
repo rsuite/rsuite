@@ -11,19 +11,18 @@ describe.each([
   ['InputPicker', InputPicker],
   ['TagPicker', TagPicker]
 ] as const)('%s', (_name, Picker) => {
-  it('blocks option selection when disabled while open', async () => {
-    const user = userEvent.setup();
-    const onChange = vi.fn();
+  it('blocks option selection when disabled while open', () => {
+    const onChange = vi.fn<() => void>();
     const { rerender } = render(<Picker data={data} onChange={onChange} />);
-    await user.click(screen.getByRole('combobox'));
+    userEvent.click(screen.getByRole('combobox'));
     expect(screen.getByText('Bravo')).toBeTruthy();
 
     rerender(<Picker data={data} onChange={onChange} disabled />);
-    await user.click(screen.getByText('Bravo'));
+    userEvent.click(screen.getByText('Bravo'));
     expect(onChange).not.toHaveBeenCalled();
 
     rerender(<Picker data={data} onChange={onChange} />);
-    await user.click(screen.getByText('Bravo'));
+    userEvent.click(screen.getByText('Bravo'));
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 });

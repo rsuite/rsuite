@@ -665,7 +665,7 @@ const InputPicker = forwardRef<'div', InputPickerProps>((props, ref) => {
         listRef={list}
         keyboardNavigationRef={virtualized ? keyboardNavigationRef : undefined}
         onActiveDescendantChange={searchable ? setActiveDescendant : undefined}
-        disabled={disabled}
+        disabled={disabled || readOnly || loading}
         disabledItemValues={disabledItemValues}
         valueKey={valueKey}
         labelKey={labelKey}
