@@ -2,12 +2,15 @@ import React, { useMemo, FormHTMLAttributes } from 'react';
 import FormControl, { FormControlComponent } from '../FormControl';
 import FormControlLabel from '../FormControlLabel';
 import FormErrorMessage from '../FormErrorMessage';
+import FormErrorSummary from '../FormErrorSummary';
 import FormGroup from '../FormGroup';
 import FormHelpText from '../FormHelpText';
 import FormStack from '../FormStack';
 import Box from '@/internals/Box';
 import useSchemaModel from './hooks/useSchemaModel';
 import useFormValidate from './hooks/useFormValidate';
+import useFormEventCallback from './hooks/useFormEventCallback';
+import usePointerBlurValidation from './hooks/usePointerBlurValidation';
 import useFormValue from './hooks/useFormValue';
 import useFormRef, { FormInstance, FormImperativeMethods } from './hooks/useFormRef';
 import { forwardRef } from '@/internals/utils';
@@ -166,6 +169,7 @@ const Subcomponents = {
   Control: FormControl as FormControlComponent,
   Label: FormControlLabel,
   ErrorMessage: FormErrorMessage,
+  ErrorSummary: FormErrorSummary,
   Group: FormGroup,
   Text: FormHelpText,
 
@@ -217,13 +221,13 @@ const Form = forwardRef<
     formModel,
     nestedField
   );
-  const { formValue, onRemoveValue, setFieldValue, resetFormValue } = useFormValue(
+  const { formValue, getFormValue, onRemoveValue, setFieldValue, resetFormValue } = useFormValue(
     controlledFormValue,
     { formDefaultValue, nestedField }
   );
 
   const formValidateProps = {
-    formValue,
+    getFormValue,
     getCombinedModel,
     onCheck,
     onError,
@@ -242,16 +246,20 @@ const Form = forwardRef<
     checkFieldAsyncForNextValue,
     cleanErrors,
     resetErrors,
-    cleanErrorForField
+    cleanErrorForField,
+    reserveFieldValidation,
+    readNativeValidation,
+    commitNativeValidationRetirement
   } = useFormValidate(controlledFormError, formValidateProps);
 
-  const submit = useEventCallback((event?: React.FormEvent<HTMLFormElement>) => {
+  const submit = useFormEventCallback((event?: React.FormEvent<HTMLFormElement>) => {
+    const nextFormValue = getFormValue();
     if (resolver) {
       // When a resolver is provided, always use the async validation path so that
       // both sync and async resolvers are handled correctly.
       checkAsync().then(({ hasError }) => {
         if (!hasError) {
-          onSubmit?.(formValue, event);
+          onSubmit?.(nextFormValue, event);
         }
       });
       return;
@@ -259,7 +267,7 @@ const Form = forwardRef<
 
     // Check the form before submitting
     if (check()) {
-      onSubmit?.(formValue, event);
+      onSubmit?.(nextFormValue, event);
     }
   });
 
@@ -309,6 +317,7 @@ const Form = forwardRef<
   };
 
   const formRef = useFormRef(ref, { imperativeMethods });
+  const deferBlurValidation = usePointerBlurValidation(formRef, reserveFieldValidation);
 
   const removeFieldValue = useEventCallback((name: string) => {
     const formValue = onRemoveValue(name);
@@ -334,11 +343,15 @@ const Form = forwardRef<
     disabled,
     formError,
     nestedField,
+    readNativeValidation,
+    commitNativeValidationRetirement,
     pushFieldRule,
     removeFieldValue,
     removeFieldError,
     removeFieldRule,
     onFieldChange,
+    getFormValue,
+    deferBlurValidation,
     checkFieldForNextValue,
     checkFieldAsyncForNextValue
   };

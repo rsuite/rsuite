@@ -69,6 +69,8 @@ cd rsuite
 git fetch upstream
 ```
 
+- 使用 Node.js 22 或 24 开发和测试 RSuite。
+
 - 安装项目依赖，在项目根目录执行:
 
 ```bash

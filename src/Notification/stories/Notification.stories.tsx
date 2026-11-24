@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Notification, { NotificationProps } from '../Notification';
 import toaster from '../../toaster';
 import Button from '../../Button';

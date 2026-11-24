@@ -26,7 +26,7 @@ export default function useTreeSearch<T>(props: TreeSearchProps<T>) {
             : shouldDisplay(item[labelKey], searchKeyword);
 
           if (isArray(item[childrenKey])) {
-            filterVisibleData(item[childrenKey], searchKeyword);
+            setVisible(item[childrenKey]);
             item[childrenKey].forEach((child: any) => {
               if (child.visible) {
                 item.visible = child.visible;
@@ -36,19 +36,23 @@ export default function useTreeSearch<T>(props: TreeSearchProps<T>) {
         });
 
       setVisible(data);
-      return data;
+      // Publish visibility changes even when data and keyword retain their identities.
+      return [...data];
     },
     [childrenKey, labelKey, searchBy]
   );
 
   // Use search keywords to filter options.
   const [keyword, setSearchKeyword] = useState(searchKeyword ?? '');
-  const [filteredData, setFilteredData] = useState(() => filterVisibleData(data, keyword));
+  const [filtered, setFiltered] = useState(() => ({
+    source: data,
+    nodes: filterVisibleData(data, keyword)
+  }));
 
   const handleSearch = (searchKeyword: string, event?: React.ChangeEvent) => {
     const filteredData = filterVisibleData(data, searchKeyword);
 
-    setFilteredData(filteredData);
+    setFiltered({ source: data, nodes: filteredData });
     setSearchKeyword(searchKeyword);
 
     if (event) {
@@ -66,14 +70,15 @@ export default function useTreeSearch<T>(props: TreeSearchProps<T>) {
 
   const setVisibleData = useCallback(
     (data: T[], searchKeyword: string) => {
-      setFilteredData(filterVisibleData(data, searchKeyword));
+      setFiltered({ source: data, nodes: filterVisibleData(data, searchKeyword) });
     },
     [filterVisibleData]
   );
 
   return {
     keyword,
-    filteredData,
+    filteredData: filtered.nodes,
+    filteredDataSource: filtered.source,
     setFilteredData: setVisibleData,
     setSearchKeyword,
     handleSearch

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
@@ -148,6 +148,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
   const activeNode = getTreeActiveNode(flattenedNodes, value, valueKey);
 
   const { register, focusFirstNode, focusActiveNode } = useTreeImperativeHandle();
+  const [activeDescendantId, setActiveDescendantId] = useState<string>();
   const { active, focusItemValue, setFocusItemValue, triggerProps } = useFocusState({
     data,
     focusActiveNode,
@@ -186,7 +187,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
   });
 
   const handleTreePressEnter = useEventCallback((event: React.SyntheticEvent) => {
-    if (isNil(focusItemValue)) {
+    if (isNil(focusItemValue) || !activeDescendantId) {
       return;
     }
 
@@ -209,6 +210,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
 
   const onPickerKeydown = useToggleKeyDownEvent({
     toggle: !activeNode || !active,
+    disabled,
     trigger,
     target,
     overlay,
@@ -237,11 +239,12 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
   const tree = (
     <TreeProvider value={treeContext}>
       <TreeView
-        dataReady={treeDataSource === data}
         ref={treeView}
+        disabled={disabled || rest.readOnly || rest.loading}
         value={value}
         data={treeData}
         sourceData={data}
+        dataReady={treeDataSource === data}
         disabledItemValues={disabledItemValues}
         expandItemValues={expandItemValues}
         showIndentLine={showIndentLine}
@@ -260,6 +263,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
         onSelect={handleSelect}
         onSelectItem={onSelectItem}
         onFocusItem={setFocusItemValue}
+        onActiveDescendantChange={setActiveDescendantId}
       />
     </TreeProvider>
   );
@@ -326,7 +330,6 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
       <PickerToggle
         ref={target}
         appearance={appearance}
-        onKeyDown={onPickerKeydown}
         onClean={createChainedFunction(handleClean, onClean)}
         cleanable={cleanable && !disabled}
         as={toggleAs}
@@ -335,8 +338,9 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
         active={active}
         placement={placement}
         inputValue={value}
-        focusItemValue={focusItemValue}
+        aria-activedescendant={active ? activeDescendantId : undefined}
         {...rest}
+        onKeyDown={onPickerKeydown}
       >
         {selectedElement || locale?.placeholder}
       </PickerToggle>

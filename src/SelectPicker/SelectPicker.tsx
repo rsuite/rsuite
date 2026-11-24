@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
@@ -27,6 +27,7 @@ import {
   PickerToggleProps
 } from '@/internals/Picker';
 import type { ListProps } from '@/internals/Windowing';
+import type { VirtualizedListHandle } from '@/internals/Picker/hooks/useVirtualizedListFocus';
 import type {
   FormControlPickerProps,
   Option,
@@ -150,22 +151,14 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
     } = propsWithDefaults;
 
     const { trigger, root, target, overlay, list, searchInput } = usePickerRef(ref);
+    const keyboardNavigationRef = useRef<VirtualizedListHandle>(null);
+    // Use component active state to support keyboard events.
+    const [active, setActive] = useState(false);
     const [value, setValue] = useControlled(valueProp, defaultValue) as [
       T | null | undefined,
       (value: React.SetStateAction<T | null>) => void,
       boolean
     ];
-
-    // Used to hover the focus item  when trigger `onKeydown`
-    const {
-      focusItemValue,
-      setFocusItemValue,
-      onKeyDown: onFocusItem
-    } = useFocusItemValue(value, {
-      data,
-      valueKey,
-      target: () => overlay.current
-    });
 
     // Use search keywords to filter options.
     const { searchKeyword, filteredData, resetSearch, handleSearch } = useSearch(data, {
@@ -178,8 +171,19 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
       }
     });
 
-    // Use component active state to support keyboard events.
-    const [active, setActive] = useState(false);
+    // Used to hover the focus item  when trigger `onKeydown`
+    const {
+      focusItemValue,
+      setFocusItemValue,
+      onKeyDown: onFocusItem
+    } = useFocusItemValue(value, {
+      data,
+      valueKey,
+      focusFirst: !!searchKeyword,
+      reconcileFocus: active && !disabled && !rest.readOnly && !rest.loading,
+      virtualizedList: virtualized ? keyboardNavigationRef : undefined,
+      target: () => overlay.current
+    });
 
     const handleClose = useEventCallback(() => {
       trigger.current?.close?.();
@@ -197,7 +201,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
     });
 
     const handleMenuPressEnter = useEventCallback((event: React.SyntheticEvent) => {
-      if (!focusItemValue) {
+      if (isNil(focusItemValue)) {
         return;
       }
 
@@ -231,7 +235,8 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
     });
 
     const onPickerKeyDown = useToggleKeyDownEvent({
-      toggle: !focusItemValue || !active,
+      toggle: isNil(focusItemValue) || !active,
+      disabled,
       trigger,
       target,
       overlay,
@@ -292,10 +297,14 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
         items = items.sort(sort(false));
       }
 
+      // Remount result lists after an empty state to retain selected-item initialization.
       const listbox = items.length ? (
         <Listbox
+          key="results"
+          disabled={disabled || rest.readOnly || rest.loading}
           listProps={listProps}
           listRef={list}
+          keyboardNavigationRef={virtualized ? keyboardNavigationRef : undefined}
           disabledItemValues={disabledItemValues}
           valueKey={valueKey}
           labelKey={labelKey}
@@ -307,6 +316,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
           listItemAs={ListItem}
           activeItemValues={[value]}
           focusItemValue={focusItemValue}
+          scrollToFocus
           data={items}
           query={searchKeyword}
           groupBy={groupBy}
@@ -315,7 +325,13 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
           virtualized={virtualized}
         />
       ) : (
-        <div className={prefix`none`}>{locale?.noResultsText}</div>
+        <Listbox
+          key="empty"
+          classPrefix="picker-select-menu"
+          listItemAs={ListItem}
+          maxHeight={listboxMaxHeight}
+          emptyContent={<div className={prefix`none`}>{locale?.noResultsText}</div>}
+        />
       );
 
       return (
@@ -370,7 +386,6 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
           ref={target}
           appearance={appearance}
           onClean={createChainedFunction(handleClean, onClean)}
-          onKeyDown={onPickerKeyDown}
           as={toggleAs}
           disabled={disabled}
           cleanable={cleanable && !disabled}
@@ -380,6 +395,7 @@ const SelectPicker = forwardRef<'div', SelectPickerProps>(
           active={active}
           placement={placement}
           {...rest}
+          onKeyDown={onPickerKeyDown}
         >
           {selectedElement || locale?.placeholder}
         </PickerToggle>

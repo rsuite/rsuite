@@ -1,5 +1,6 @@
-import type { Preview } from '@storybook/react';
-import { themes } from '@storybook/theming';
+import type { Preview } from '@storybook/react-vite';
+import { themes } from 'storybook/theming';
+import '../../src/styles/index.scss';
 import './preview.scss';
 
 const brand = {

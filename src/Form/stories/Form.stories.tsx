@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Form from '../Form';
 import Input, { InputProps } from '../../Input';
 import Button from '../../Button';

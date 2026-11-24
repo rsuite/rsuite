@@ -81,3 +81,41 @@
     background: none;
   }
 }
+
+// Shared by a focused button and the uploader's native file input.
+@mixin button-focus-indicator(
+  $high-contrast-inset: -1px,
+  $inner-width: 2px,
+  $forced-control-offset: -2px,
+  $forced-outline-offset: -4px
+) {
+  // Keep both bands inside clipped containers and above icons and ripple effects.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border: 2px solid CanvasText;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 $inner-width Canvas;
+    pointer-events: none;
+  }
+
+  @include color-modes.high-contrast-mode {
+    &::after {
+      inset: $high-contrast-inset;
+    }
+  }
+
+  @media (forced-colors: active) {
+    outline-color: CanvasText;
+    outline-offset: $forced-control-offset;
+
+    &::after {
+      // Forced colors can remove shadows, so draw the inner band with an outline.
+      box-shadow: none;
+      outline: $inner-width solid Canvas;
+      outline-offset: $forced-outline-offset;
+    }
+  }
+}

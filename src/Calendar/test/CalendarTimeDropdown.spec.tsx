@@ -117,7 +117,14 @@ describe('Calendar - TimeDropdown', () => {
     );
 
     for (let h = 0; h < 24; h++) {
-      expect(disabledHours).toHaveBeenCalledWith(h, { year: 2022, month: 11, day: 2 });
+      expect(disabledHours).toHaveBeenCalledWith(h, {
+        year: 2022,
+        month: 11,
+        day: 2,
+        hour: 0,
+        minute: 0,
+        second: 0
+      });
     }
     screen.getAllByRole('option', { hidden: true }).forEach((option, index) => {
       expect(option).to.have.attribute('aria-disabled', index > 10 ? 'true' : 'false');
@@ -191,7 +198,14 @@ describe('Calendar - TimeDropdown', () => {
     );
 
     for (let h = 0; h < 24; h++) {
-      expect(hideHours).toHaveBeenCalledWith(h, { year: 2022, month: 11, day: 2 });
+      expect(hideHours).toHaveBeenCalledWith(h, {
+        year: 2022,
+        month: 11,
+        day: 2,
+        hour: 0,
+        minute: 0,
+        second: 0
+      });
     }
     expect(screen.getAllByRole('option', { hidden: true }).map(e => e.textContent)).toEqual([
       '00',

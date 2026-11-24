@@ -47,7 +47,7 @@ function useFocusState(props: FocusStateProps) {
     openingFocus.current = null;
     setActive(false);
     setFocusItemValue(null);
-    focusTarget();
+    if (node.contains(node.ownerDocument.activeElement)) focusTarget();
     props.onExit?.(node);
   });
 

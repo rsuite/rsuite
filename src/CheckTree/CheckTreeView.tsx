@@ -90,6 +90,8 @@ export interface CheckTreeViewProps<V = (string | number)[]>
 interface CheckTreeViewInnerProps<V = (string | number)[]>
   extends WithAsProps,
     Omit<CheckTreeViewProps<V>, 'onExpand'> {
+  disabled?: boolean;
+
   /** Current owner data, before asynchronous tree-data synchronization. */
   sourceData?: TreeNode[];
   /**
@@ -123,6 +125,7 @@ interface CheckTreeViewInnerProps<V = (string | number)[]>
 const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) => {
   const {
     as,
+    disabled,
     className,
     classPrefix = 'check-tree',
     cascade = true,
@@ -191,6 +194,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   const { focusNode, handleItemsRendered: notifyItemsRendered } = useVirtualTreeFocus({
     nodes: virtualizedNodes,
     sourceData,
+    searchKeyword: searchKeyword ?? keyword,
     valueKey,
     childrenKey,
     disabledItemValues,
@@ -199,7 +203,9 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
     getNode: refKey => treeNodesRefs[refKey],
     onCancel: sourceKey => {
       const source = virtualizedNodes.find(node => node.refKey === sourceKey);
-      setFocusItemValue(source?.[valueKey] ?? null);
+      const nextFocusValue = source?.[valueKey];
+      setFocusItemValue(nextFocusValue ?? null);
+      onFocusItem?.(nextFocusValue);
     }
   });
   const handleItemsRendered = props => {
@@ -245,6 +251,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   };
 
   const getTreeNodeProps = useTreeNodeProps({
+    disabled,
     uncheckableItemValues,
     disabledItemValues,
     loadingNodeValues,
@@ -270,6 +277,8 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   );
 
   const handleSelect = useEventCallback((node: TreeNode, event: React.SyntheticEvent) => {
+    if (disabled) return;
+
     const currentNode = node.refKey ? flattenedNodes[node.refKey] : null;
 
     if (!node || !currentNode) {
@@ -299,6 +308,8 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   };
 
   const handleTreeKeyDown = useEventCallback((event: React.KeyboardEvent<any>) => {
+    if (disabled) return;
+
     onTreeKeydown(event);
     onMenuKeyDown(event, { enter: selectActiveItem });
   });
@@ -428,7 +439,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
           <NodeRendererProvider value={renderVirtualListNode}>
             <AutoSizer
               defaultHeight={height}
-              style={{ width: 'auto', height: 'auto' }}
+              style={{ width: 'auto', height: listProps?.height ?? height }}
               className={prefix('virt-auto-sizer')}
             >
               {({ height }) => (

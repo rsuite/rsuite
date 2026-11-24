@@ -1,4 +1,3 @@
-import React from 'react';
 import DefaultPage from '@/components/layout/Page';
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import { Modal, Button, Drawer } from 'rsuite';

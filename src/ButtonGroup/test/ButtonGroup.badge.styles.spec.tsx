@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import { flushSync } from 'react-dom';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { userEvent } from '@vitest/browser/context';
+import { userEvent } from 'vitest/browser';
 import SearchIcon from '@rsuite/icons/Search';
 import ButtonGroup from '../ButtonGroup';
 import Button from '../../Button';
@@ -242,22 +242,12 @@ describe('ButtonGroup with Badge styles', () => {
     });
   });
 
-  it('raises a focused or pressed wrapper while keeping its badge above the button', async () => {
-    let active = false;
-    let activeLayer = '';
+  it('raises a focused wrapper while keeping its badge above the button', async () => {
     const container = mount(
       <ButtonGroup>
         <Button>One</Button>
         <Badge content="1">
-          <Button
-            onMouseDown={event => {
-              event.preventDefault();
-              active = event.currentTarget.matches(':active');
-              activeLayer = css(event.currentTarget.parentElement!).zIndex;
-            }}
-          >
-            Two
-          </Button>
+          <Button>Two</Button>
         </Badge>
         <Badge content="2">
           <Button>Three</Button>
@@ -267,6 +257,7 @@ describe('ButtonGroup with Badge styles', () => {
     const buttons = buttonsIn(container);
     const wrapper = buttons[1].parentElement!;
     expect(css(wrapper).zIndex).toBe('auto');
+    await userEvent.click(buttons[0]);
     buttons[1].focus();
     expect(document.activeElement).toBe(buttons[1]);
     expect(css(wrapper).zIndex).toBe('2');
@@ -278,10 +269,56 @@ describe('ButtonGroup with Badge styles', () => {
     buttons[0].focus();
     expect(css(buttons[0]).zIndex).toBe('2');
     expect(css(wrapper).zIndex).toBe('auto');
+  });
+
+  it('raises a pressed wrapper independently of focus and restores it on release', async () => {
+    const pressStates: {
+      type: string;
+      active: boolean;
+      layer: string;
+      focused: boolean;
+      trusted: boolean;
+    }[] = [];
+    const recordPress = (event: React.MouseEvent<HTMLElement>) => {
+      const button = event.currentTarget;
+      pressStates.push({
+        type: event.type,
+        active: button.matches(':active'),
+        layer: css(button.parentElement!).zIndex,
+        focused: document.activeElement === button,
+        trusted: event.isTrusted
+      });
+    };
+    const container = mount(
+      <ButtonGroup>
+        <Button>One</Button>
+        <Badge content="1">
+          <Button
+            onMouseDown={recordPress}
+            onMouseUp={recordPress}
+            // Isolate :active from :focus without cancelling the native press action.
+            onFocus={event => event.currentTarget.blur()}
+          >
+            Two
+          </Button>
+        </Badge>
+      </ButtonGroup>
+    );
+    const buttons = buttonsIn(container);
+    const wrapper = buttons[1].parentElement!;
+    expect(css(wrapper).zIndex).toBe('auto');
     await userEvent.click(buttons[1]);
-    expect(active).toBe(true);
-    expect(activeLayer).toBe('2');
-    expect(document.activeElement).toBe(buttons[0]);
+    expect(pressStates.map(state => state.type)).toEqual(['mousedown', 'mouseup']);
+    expect(pressStates.every(state => state.trusted)).toBe(true);
+    expect(pressStates.some(state => state.active)).toBe(true);
+    pressStates
+      .filter(state => state.active)
+      .forEach(state => {
+        expect(state.layer).toBe('2');
+        expect(state.focused).toBe(false);
+      });
+    expect(buttons[1].matches(':active')).toBe(false);
+    expect(document.activeElement).not.toBe(buttons[1]);
     expect(css(wrapper).zIndex).toBe('auto');
   });
 

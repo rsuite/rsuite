@@ -1,4 +1,3 @@
-import React from 'react';
 import { VisuallyHidden, Button } from 'rsuite';
 import { FaUniversalAccess } from 'react-icons/fa';
 import DefaultPage from '@/components/layout/Page';

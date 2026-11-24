@@ -29,6 +29,7 @@
   }
 
   $sizes: xs, sm, md, lg;
+
   @each $size in $sizes {
     &[data-size='#{$size}'] {
       --rs-picker-input-height: calc(var(--rs-btn-size-#{$size}) - 2px);

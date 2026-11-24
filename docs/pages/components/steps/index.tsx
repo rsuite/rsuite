@@ -1,4 +1,3 @@
-import React from 'react';
 import { Steps, ButtonGroup,  Button, Panel,Tag,Box, Placeholder } from 'rsuite';
 import { FaShoppingCart, FaTruck, FaCheckCircle, FaBoxOpen } from 'react-icons/fa';
 import DefaultPage from '@/components/layout/Page';

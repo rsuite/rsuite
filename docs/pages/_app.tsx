@@ -8,7 +8,6 @@ import enUS from 'rsuite/locales/en_US';
 import Router, { useRouter } from 'next/router';
 import AppProvider from '@/components/AppProvider';
 import { CustomProvider, CustomProviderProps } from 'rsuite';
-import { Analytics } from '@vercel/analytics/react';
 import { AppContainer } from '@/components/layout/AppContainer';
 import { getMessages } from '../locales';
 import {
@@ -127,7 +126,6 @@ function App({ Component, pageProps }: AppProps) {
         </AppContainer>
         <TypedPrompt />
       </CustomProvider>
-      <Analytics />
     </React.StrictMode>
   );
 }

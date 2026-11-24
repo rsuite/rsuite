@@ -11,7 +11,10 @@ import '../styles/index.scss';
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
 describe('TagPicker styles', () => {
-  testPickerSize(TagPicker, { subtle: false });
+  testPickerSize(TagPicker, {
+    subtle: false,
+    getUIElements: () => [...document.querySelectorAll<HTMLElement>('.rs-picker-toggle')]
+  });
 
   describe('Textbox', () => {
     const margins = [40, 34, 28, 22];

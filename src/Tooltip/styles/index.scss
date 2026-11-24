@@ -2,8 +2,8 @@
 @use '../../styles/mixins/utilities' as utils;
 @use '../../styles/mixins/color-modes' as color-modes;
 @use './mixins' as tooltip-mixins;
+@use '../../Animation/styles/reduced-motion';
 
-//
 // Tooltips
 // --------------------------------------------------
 
@@ -78,16 +78,19 @@
   // Common style for .placement-top*
   &:where([data-placement*='top']) {
     margin-top: calc((var(--rs-tooltip-arrow-width) + 2px) * -1);
-    @include tooltip-mixins.set-translate-transition(0, calc(var(--rs-tooltip-translate-distance) * -1));
 
+    @include tooltip-mixins.set-translate-transition(
+      0,
+      calc(var(--rs-tooltip-translate-distance) * -1)
+    );
     @include tooltip-mixins.with-tooltip-arrow(bottom);
   }
 
   // Common style for .placement-bottom*
   &:where([data-placement*='bottom']) {
     margin-top: calc(var(--rs-tooltip-arrow-width) + 2px);
-    @include tooltip-mixins.set-translate-transition(0, var(--rs-tooltip-translate-distance));
 
+    @include tooltip-mixins.set-translate-transition(0, var(--rs-tooltip-translate-distance));
     @include tooltip-mixins.with-tooltip-arrow(top);
   }
 
@@ -138,6 +141,7 @@
     &::before {
       bottom: calc(var(--rs-tooltip-arrow-gap-sm) - 1px);
     }
+
     &::after {
       bottom: var(--rs-tooltip-arrow-gap-sm);
     }
@@ -146,15 +150,19 @@
   // Common style for .placement-right*
   &:where([data-placement*='right']) {
     margin-left: calc(var(--rs-tooltip-arrow-width) + 2px);
-    @include tooltip-mixins.set-translate-transition(var(--rs-tooltip-translate-distance), 0);
 
+    @include tooltip-mixins.set-translate-transition(var(--rs-tooltip-translate-distance), 0);
     @include tooltip-mixins.with-tooltip-arrow(left);
   }
 
   // Common style for .placement-left*
   &:where([data-placement*='left']) {
     margin-left: calc((var(--rs-tooltip-arrow-width) + 2px) * -1);
-    @include tooltip-mixins.set-translate-transition(calc(var(--rs-tooltip-translate-distance) * -1), 0);
+
+    @include tooltip-mixins.set-translate-transition(
+      calc(var(--rs-tooltip-translate-distance) * -1),
+      0
+    );
     @include tooltip-mixins.with-tooltip-arrow(right);
   }
 }

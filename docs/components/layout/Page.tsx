@@ -1,4 +1,3 @@
-import React from 'react';
 import PageContent, { PageContentProps } from './PageContent';
 import Frame, { FrameProps } from './Frame';
 import { PageFooter } from './PageFooter';
