@@ -5,7 +5,7 @@ import { emailValid, errors, fieldId, initialValues, passwordValid } from '../do
 import { usernameAvailable } from '../api';
 import type { AdapterProps, Values } from '../types';
 
-export default function Adapter({ attach, onSubmit }: AdapterProps) {
+export default function Adapter({ direction, attach, onSubmit }: AdapterProps) {
   const [form] = Form.useForm<Values>();
   const [billing, setBilling] = useState(false);
   useEffect(
@@ -60,7 +60,7 @@ export default function Adapter({ attach, onSubmit }: AdapterProps) {
     );
   };
   return (
-    <ConfigProvider theme={{ token: { fontFamily: 'Arial, sans-serif' } }}>
+    <ConfigProvider direction={direction} theme={{ token: { fontFamily: 'Arial, sans-serif' } }}>
       <Form
         form={form}
         initialValues={initialValues()}

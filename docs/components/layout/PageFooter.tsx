@@ -1,6 +1,5 @@
 import React from 'react';
 import { Divider, Footer, VStack, Text, HStack } from 'rsuite';
-import { VercelBanner } from '@/components/VercelBanner';
 import { useApp } from '@/hooks/useApp';
 import styles from './layout.module.scss';
 
@@ -119,9 +118,19 @@ export const PageFooter = () => {
 
       <HStack justify="space-between" wrap spacing={16}>
         <Text muted>{locales?.home?.ctaFooter}</Text>
-        <HStack>
-          <VercelBanner />
-        </HStack>
+        <a
+          className={styles['hosting-badge']}
+          href="https://www.netlify.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="/images/netlify-badge-dark.svg"
+            width={151}
+            height={36}
+            alt="This site is powered by Netlify"
+          />
+        </a>
       </HStack>
     </Footer>
   );

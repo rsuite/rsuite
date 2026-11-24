@@ -177,7 +177,7 @@
   &[data-with-marks='true'] {
     .rs-slider-tick {
       position: absolute;
-      left: var(--rs-slider-tick-offset);
+      inset-inline-start: var(--rs-slider-tick-offset);
 
       &:last-child::after {
         display: none;
@@ -242,7 +242,7 @@
 
     &[data-with-marks='true'] {
       .rs-slider-tick {
-        left: unset;
+        inset-inline-start: auto;
         bottom: var(--rs-slider-tick-offset);
       }
     }
