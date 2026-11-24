@@ -234,7 +234,9 @@ describe('AutoComplete', () => {
 
     const listbox = screen.getByRole('listbox');
 
-    expect(listbox.parentNode).to.have.attr('style', '--rs-picker-min-width: 100px;');
+    expect(listbox.parentElement?.style.getPropertyValue('--rs-picker-min-width')).to.equal(
+      '100px'
+    );
   });
 
   it('Should be autoComplete', () => {
