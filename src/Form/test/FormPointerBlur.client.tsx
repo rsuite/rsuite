@@ -28,7 +28,13 @@ declare global {
 
 const options = JSON.parse(
   new URL(location.href).hash.slice(1) && decodeURIComponent(location.hash.slice(1))
-) as PointerBlurCase & { sdkButton: boolean };
+) as PointerBlurCase & { sdkButton: boolean; touch?: boolean };
+if (options.touch) {
+  const viewport = document.createElement('meta');
+  viewport.name = 'viewport';
+  viewport.content = 'width=device-width, initial-scale=1';
+  document.head.append(viewport);
+}
 const state = (window.__RSUITE_FORM_POINTER__ = {
   ready: false,
   events: [],
@@ -66,7 +72,9 @@ async function mount() {
       owner.head.append(style.cloneNode(true));
   }
   owner.body.style.margin = '32px';
-  for (const type of ['pointerdown', 'pointerup', 'pointercancel', 'click', 'submit']) {
+  const eventTypes = ['pointerdown', 'pointerup', 'pointercancel', 'click', 'submit'];
+  if (options.touch) eventTypes.push('touchstart', 'touchend', 'mousedown', 'focusout', 'mouseup');
+  for (const type of eventTypes) {
     owner.addEventListener(
       type,
       event => {
