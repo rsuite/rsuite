@@ -13,6 +13,7 @@ export const AutoPlacement = {
   top: 'Start',
   bottom: 'End'
 } as const;
+const rtlAutoPlacement = { ...AutoPlacement, left: 'End', right: 'Start' } as const;
 
 // Cache dimensions without retaining containers after they are unmounted.
 const dimensionsCache = new WeakMap<HTMLElement, { dimensions: Dimensions; timestamp: number }>();
@@ -184,7 +185,8 @@ export function calcPosition(options: PositionOptions) {
     calcAutoPlacement(
       targetOffset: Offset,
       container: HTMLElement,
-      overlay: { width: number; height: number }
+      overlay: { width: number; height: number },
+      rtl: boolean
     ): Placement {
       // Get container dimensions and scroll position
       const { width, height, scrollX, scrollY } = getContainerDimensions(container);
@@ -246,8 +248,9 @@ export function calcPosition(options: PositionOptions) {
 
       if (!bestAlign) return bestDirection.key as Placement; // If no alignment, return main direction
 
-      // Return final placement position
-      return `${bestDirection.key}${AutoPlacement[bestAlign.key]}` as Placement;
+      // Translate the chosen physical edge to its logical alignment.
+      const alignment = (rtl ? rtlAutoPlacement : AutoPlacement)[bestAlign.key];
+      return `${bestDirection.key}${alignment}` as Placement;
     },
 
     // Calculate the position of the overlay
@@ -262,7 +265,7 @@ export function calcPosition(options: PositionOptions) {
 
       // Cache commonly used values to avoid repeated calculations
       const ARROW_OFFSET_FACTOR = 50; // Arrow offset calculation factor
-      const isRTL = ownerDocument(container).dir === 'rtl';
+      const isRTL = target.ownerDocument.defaultView?.getComputedStyle(target).direction === 'rtl';
 
       // Get target element offset
       const childOffset: Offset = cursorPosition
@@ -275,10 +278,12 @@ export function calcPosition(options: PositionOptions) {
       let nextPlacement = currentPlacement;
 
       if (currentPlacement && currentPlacement.indexOf('auto') >= 0) {
-        nextPlacement = this.calcAutoPlacement(childOffset, container, {
-          height: overlayHeight,
-          width: overlayWidth
-        });
+        nextPlacement = this.calcAutoPlacement(
+          childOffset,
+          container,
+          { height: overlayHeight, width: overlayWidth },
+          isRTL
+        );
       }
 
       // Initialize position and arrow offset values
@@ -344,7 +349,10 @@ export function calcPosition(options: PositionOptions) {
       }
 
       // Handle horizontal position adjustment in RTL mode
-      if (isRTL && (matchesPlacement('left') || matchesPlacement('right'))) {
+      if (
+        (matchesPlacement('left') || matchesPlacement('right')) &&
+        ownerDocument(container).dir === 'rtl'
+      ) {
         /**
          * When laying out in RTL, if the width of the container
          * is less than the width of the container scrolling,
@@ -389,6 +397,7 @@ export function calcPosition(options: PositionOptions) {
 
       return {
         placement: nextPlacement,
+        dir: isRTL ? 'rtl' : 'ltr',
         positionLeft,
         positionTop,
         arrowOffsetLeft,

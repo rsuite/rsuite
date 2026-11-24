@@ -4,7 +4,11 @@ import { describe, expect, it } from 'vitest';
 import CustomProvider from '../../../CustomProvider';
 import Whisper from '../../../Whisper';
 import Tooltip from '../../../Tooltip';
+import SelectPicker from '../../../SelectPicker';
+import Popover from '../../../Popover';
 import '../../../Tooltip/styles/index.scss';
+import '../../../Popover/styles/index.scss';
+import '../../../SelectPicker/styles/index.scss';
 
 describe('Overlay initial placement metadata', () => {
   const cases = [
@@ -86,4 +90,118 @@ describe('Overlay initial placement metadata', () => {
     expect(getComputedStyle(popup).marginTop).toBe('0px');
     expect(getComputedStyle(popup).marginLeft).toBe('-8px');
   });
+});
+
+describe('Overlay direction across portals', () => {
+  const triggerStyle = { position: 'absolute', left: 300, top: 100, width: 120 } as const;
+  const popupStyle = { width: 220 };
+  const options = [{ label: 'First option', value: 1 }];
+
+  const expectEdges = (anchor: HTMLElement, popup: HTMLElement, direction: 'ltr' | 'rtl') => {
+    const edge = direction === 'rtl' ? 'right' : 'left';
+    expect(getComputedStyle(popup).direction).toBe(direction);
+    expect(popup.getBoundingClientRect()[edge]).toBeCloseTo(
+      anchor.getBoundingClientRect()[edge],
+      0
+    );
+  };
+
+  it('updates the direction and position of an open picker listbox rendered in the body', () => {
+    const content = (direction: 'ltr' | 'rtl') => (
+      <section dir={direction}>
+        <CustomProvider rtl={direction === 'rtl'} reduceMotion>
+          <SelectPicker
+            aria-label="Options"
+            defaultOpen
+            placement="bottomStart"
+            preventOverflow={false}
+            responsive={false}
+            popupAutoWidth={false}
+            popupStyle={popupStyle}
+            style={triggerStyle}
+            data={options}
+          />
+        </CustomProvider>
+      </section>
+    );
+
+    const view = render(content('rtl'));
+    const popup = screen.getByTestId('picker-popup');
+    const anchor = screen.getByTestId('picker');
+    expect(popup.parentElement).toBe(document.body);
+    expectEdges(anchor, popup, 'rtl');
+
+    view.rerender(content('ltr'));
+    expect(screen.getByTestId('picker-popup')).toBe(popup);
+    expectEdges(anchor, popup, 'ltr');
+  });
+
+  it('updates the portaled popover when an open scope switches direction', () => {
+    const content = (direction: 'ltr' | 'rtl') => (
+      <section dir={direction}>
+        <CustomProvider rtl={direction === 'rtl'} reduceMotion>
+          <Whisper
+            open
+            trigger="none"
+            placement="bottomStart"
+            preventOverflow={false}
+            speaker={<Popover style={popupStyle}>Content</Popover>}
+          >
+            <button style={triggerStyle}>Anchor</button>
+          </Whisper>
+        </CustomProvider>
+      </section>
+    );
+    const view = render(content('rtl'));
+    const anchor = screen.getByRole('button', { name: 'Anchor' });
+    const popup = screen.getByRole('dialog');
+    expect(popup.parentElement).toBe(document.body);
+    expectEdges(anchor, popup, 'rtl');
+
+    view.rerender(content('ltr'));
+    expect(screen.getByRole('dialog')).toBe(popup);
+    expectEdges(anchor, popup, 'ltr');
+  });
+
+  it('preserves an explicit direction on a custom speaker', () => {
+    render(
+      <section dir="rtl">
+        <CustomProvider rtl reduceMotion>
+          <Whisper
+            open
+            trigger="none"
+            placement="bottomStart"
+            speaker={({ left, top }, ref) => (
+              <div role="status" dir="ltr" ref={ref} style={{ position: 'absolute', left, top }}>
+                Content
+              </div>
+            )}
+          >
+            <button style={triggerStyle}>Anchor</button>
+          </Whisper>
+        </CustomProvider>
+      </section>
+    );
+    expect(screen.getByRole('status')).toHaveAttribute('dir', 'ltr');
+  });
+
+  it.each(['left', 'right'] as const)(
+    'keeps the popover arrow on the side beside a %s-positioned RTL trigger',
+    placement => {
+      render(
+        <section dir="rtl">
+          <CustomProvider rtl reduceMotion>
+            <Whisper open trigger="none" placement={placement} speaker={<Popover>Content</Popover>}>
+              <button style={triggerStyle}>Anchor</button>
+            </Whisper>
+          </CustomProvider>
+        </section>
+      );
+      const popup = screen.getByRole('dialog');
+      const arrow = popup.querySelector('.rs-popover-arrow')!;
+      const side = popup.dataset.placement === 'left' ? 'right' : 'left';
+
+      expect(getComputedStyle(arrow)[side]).toBe('-6px');
+    }
+  );
 });

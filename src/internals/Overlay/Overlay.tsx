@@ -49,6 +49,7 @@ function OverlayElement({
     ...childProps,
     ...child.props,
     ...dataAttributes,
+    dir: child.props.dir ?? childProps?.dir ?? position.dir,
     id: child.props.id ?? childProps?.id,
     className: classNames(child.props.className, className),
     style: mergeStyles(getPositionStyle(position.left, position.top), child.props.style),
@@ -162,10 +163,20 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
               },
               mergeRefs(childRef, overlayTarget)
             );
-            // Render props may consume only positioning fields, so apply animation data to their root.
-            return React.isValidElement(child) && child.type !== React.Fragment
-              ? React.cloneElement(child, dataAttributes)
-              : child;
+            if (
+              !React.isValidElement<React.HTMLAttributes<HTMLElement>>(child) ||
+              child.type === React.Fragment
+            ) {
+              return child;
+            }
+
+            // Render props can omit positioning styles, as the picker popup does.
+            const { dir, left, top } = positionChildProps;
+            return React.cloneElement(child, {
+              ...dataAttributes,
+              dir: child.props.dir ?? childrenProps?.dir ?? dir,
+              style: mergeStyles(getPositionStyle(left, top), child.props.style)
+            });
           }
 
           return (
