@@ -41,6 +41,7 @@
     "tdd": "cross-env RUN_ENV=test vitest",
     "test": "npm run test:component",
     "test:ci": "cross-env RUN_ENV=ci vitest --run --coverage",
+    "test:ci:firefox-process": "node test/browser/firefox-process/run.mjs",
     "test:component": "cross-env RUN_ENV=test vitest --run",
     "test:coverage": "cross-env RUN_ENV=test vitest --run --coverage",
     "test:ssr": "cross-env RUN_ENV=ssr vitest --run",
