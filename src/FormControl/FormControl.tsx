@@ -7,6 +7,7 @@ import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom, useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { useFormContext } from '../Form/FormContext';
 import { useFormGroup } from '../FormGroup';
+import { registerFormGroupPart } from '../FormGroup/formGroupRelations';
 import { useFormControl } from '../useFormControl';
 import type { CheckType } from 'schema-typed';
 import type {
@@ -108,7 +109,7 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
     ...rest
   } = propsWithDefaults;
 
-  const { controlId, helpTextId, labelId, errorMessageId } = useFormGroup(id);
+  const { controlId, labelledBy, describedBy, errorMessageId } = useFormGroup(id);
 
   // Use the useFormControl hook to handle form control logic
   const {
@@ -177,8 +178,8 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
     <Box as={as} className={classes} ref={ref} data-testid="form-control-wrapper">
       <AccepterComponent
         id={controlId}
-        aria-labelledby={labelId}
-        aria-describedby={helpTextId}
+        aria-labelledby={labelledBy}
+        aria-describedby={describedBy}
         aria-invalid={hasError || nativeInvalid || undefined}
         aria-errormessage={hasError ? errorMessageId : undefined}
         {...accepterProps}
@@ -206,5 +207,6 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
 }) as FormControlComponent;
 
 FormControl.displayName = 'FormControl';
+registerFormGroupPart(FormControl, 'control');
 
 export default FormControl;

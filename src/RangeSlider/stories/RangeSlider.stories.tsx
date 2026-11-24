@@ -1,4 +1,4 @@
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import RangeSlider from '../RangeSlider';
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.scss';

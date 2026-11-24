@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Splitter from '../Splitter';
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.scss';

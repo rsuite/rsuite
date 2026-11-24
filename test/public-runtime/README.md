@@ -23,4 +23,7 @@ The browser runner loads the actual `lib/dist/rsuite.js` and `rsuite.min.js` art
 
 CI runs both browser engines against both artifacts and React versions. For a local run, `RSUITE_UMD_BROWSERS=webkit npm run test:public-umd` selects WebKit; comma-separated combinations are also supported. Install the selected browsers with Playwright first. Results include artifact and lockfile hashes, peer build inputs, browser versions, failed-case screenshots, and errors in `test/public-runtime/results/umd-*`.
 
+The UMD Form cases also use plain custom label/help roots that forward their IDs without
+accepting refs, and verify that the resulting ARIA references resolve to those elements.
+
 These checks do not test native Node ESM loading, hydration, or React Server Components.
