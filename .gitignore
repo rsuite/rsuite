@@ -62,6 +62,9 @@ benchmarks/cross-library-picker/async-dist/
 # test screenshots (visual regression baselines generated at runtime)
 **/__screenshots__/
 .vitest-attachments/
+# Netlify local build files
+.netlify/
+
 # Environment variables
 .env
 .env.*
@@ -71,3 +74,6 @@ test/public-declarations/results/
 
 # Public package runtime diagnostics
 test/public-runtime/results/
+
+# Optional native Firefox diagnostic artifacts
+artifacts/firefox-profile/

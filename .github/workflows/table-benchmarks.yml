@@ -5,6 +5,8 @@ on:
     paths:
       - 'benchmarks/cross-library-table/**'
       - 'benchmarks/cross-library-picker/integrity.mjs'
+      - 'benchmarks/cross-library-picker/sdk-dependencies.mjs'
+      - 'benchmarks/cross-library-picker/runner/sdk-dependencies.test.mjs'
       - 'benchmarks/cross-library-picker/runner/server.mjs'
       - 'benchmarks/cross-library-picker/runner/diagnostics.mjs'
       - 'src/**'
@@ -21,6 +23,8 @@ on:
     paths:
       - 'benchmarks/cross-library-table/**'
       - 'benchmarks/cross-library-picker/integrity.mjs'
+      - 'benchmarks/cross-library-picker/sdk-dependencies.mjs'
+      - 'benchmarks/cross-library-picker/runner/sdk-dependencies.test.mjs'
       - 'benchmarks/cross-library-picker/runner/server.mjs'
       - 'benchmarks/cross-library-picker/runner/diagnostics.mjs'
       - 'src/**'
@@ -72,6 +76,9 @@ jobs:
         run: |
           mkdir -p results/geometry
           node checks/whole-row-geometry.mjs > results/geometry/controls.json
+      - name: Verify native virtual pointer input without pre-scroll
+        working-directory: benchmarks/cross-library-table
+        run: node checks/virtual-pointer.mjs results/virtual-pointer
       - name: Run Chromium and Firefox virtual workflows
         working-directory: benchmarks/cross-library-table
         run: node run.mjs --skip-build --workflow virtual --output results/virtual/report.json

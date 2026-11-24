@@ -16,6 +16,8 @@ Use Node.js 24 and first build RSuite from the repository root:
     npm run check
     npm run bench -- --browser chromium --output results/chromium.json
     npm run bench -- --browser firefox --output results/firefox.json
+    npm run bench -- --browser chromium --direction rtl --skip-build --output results/chromium-rtl.json
+    npm run bench -- --browser firefox --direction rtl --skip-build --output results/firefox-rtl.json
 
 The platform dependencies reuse the picker's fixed versions and resolutions. The added
 React Hook Form version is 7.90.0. This project's separate lock does not add dependencies to
@@ -25,6 +27,12 @@ fingerprint, exact fixture/runner/config/lock hashes, runtime versions and built
 `--skip-build` rejects changed source, candidates or production assets. The fixture checkout's
 commit identifies its source; it does not prove that `lib` was rebuilt from that commit.
 RSuite is a source build, while the competitors are pinned npm releases.
+
+The SDK dependency declarations must also match its file-package lock snapshot. Before builds
+and report reuse, the fixture checks the actual SDK resolution of each required dependency and
+peer against its declared semver range and frozen version. Dependencies must resolve inside the
+standalone installation. Build manifests record these resolved versions, locations and package
+metadata hashes; SDK-owned file hashes alone do not establish a valid dependency graph.
 
 ## Ownership and compositions
 
@@ -49,6 +57,20 @@ The implementations use public APIs documented by [RSuite](https://www.rsuitejs.
 [Ant Design](https://ant.design/components/form/), [Chakra Field](https://chakra-ui.com/docs/components/field)
 and [HeroUI Form](https://heroui.com/en/docs/react/components/form). The installed pinned
 declarations and executable adapters remain authoritative for the tested versions.
+
+## Layout direction
+
+`--direction ltr` (default) and `--direction rtl` run the same workflows with the same
+English labels, ASCII inputs, transport and native actions. The document direction is set
+before React mounts. RSuite uses the document direction. Ant Design also receives the
+direction through ConfigProvider. Chakra and HeroUI use their locale contexts with `en-US`
+for LTR and `ar-AE` for RTL. English fixture text remains unchanged in each case.
+
+Reports verify that the form and its initial fields actually inherit the selected direction
+and that the shared Submit and Reset actions remain visible horizontally in mirrored order.
+The button position check describes the shared fixture, while the workflow and reference
+results cover the configured library adapters. The RTL profile does not test translated text,
+bidi text editing, real IME, mobile or assistive technology.
 
 ## Workflows and failures
 
@@ -76,4 +98,4 @@ the overall command. Other unmet workflow expectations stop that case at their f
 The command exits 1 for failures, missing/duplicate/out-of-order checkpoints, browser errors,
 broken references or an incomplete run. Failure counts are case outcomes and repeated
 reference occurrences, not unique defects, library scores or universal capability judgments.
-No timing, bundle-size ranking, assistive-technology, IME, mobile or RTL claim is produced.
+No timing, bundle-size ranking, assistive-technology, IME or mobile claim is produced.
