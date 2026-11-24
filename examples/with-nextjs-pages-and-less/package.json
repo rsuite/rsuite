@@ -23,7 +23,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "eslint": "^10.13.0",
+    "eslint": "^10.15.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^16.4.0",
     "less": "^4.2.0",
@@ -32,6 +32,6 @@
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^9.3.0",
     "typescript": "^5",
-    "typescript-eslint": "^8.71.2"
+    "typescript-eslint": "^8.74.0"
   }
 }
