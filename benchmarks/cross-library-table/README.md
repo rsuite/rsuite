@@ -188,3 +188,32 @@ RSuite uses public `loading`, `renderLoading` and `renderEmpty` props. Ant Desig
 The application phase/status is recorded separately from actual native `aria-busy` observations. Reference integrity, trusted toolbar/selection input, exact row identities, indicator visibility and real checkbox state are acceptance gates; screen-reader announcement and accessibility conformance are not claimed. The runner waits for native checked state within the same 10-second action bound before capturing a selected checkpoint. Original premature-sampling and adapter-input failures remain recovery evidence.
 
 The dedicated CI workflow now runs both virtual and lifecycle matrices and their report controls, then the shared atomic-capture, focus and exclusive mutation controls. Raw lifecycle outcomes are included in the always-uploaded results.
+
+## Repeated virtual jump timing
+
+Build the same frozen fixture, then run the pointer workload with repeated fresh
+browser contexts:
+
+    node run.mjs --skip-build --workflow virtual --jump-timing-rounds 8 --output /absolute/path/jump-timing.json
+    node checks/report-integrity.mjs /absolute/path/jump-timing.json
+
+Each browser warms up all four adapters once, then runs 4–24 measured rounds
+in multiples of four with balanced adapter order. Warmups stay in the report
+and are excluded from timing summaries. Browser cohorts are reported separately.
+The server verifies the same SDK and artifacts before, during and after the run.
+
+Each timed case uses the existing fixed 10,000-row data and native jump controls.
+The browser clock starts in the trusted button click's capture phase, before
+the application handler. Animation-frame callbacks record two endpoints. The
+first requires the target identity marker to lie within the ledger, browser
+viewport and its clipping ancestors below the sticky header. The second also
+requires the marker center to be the native hit target. The intervening
+workflow waits for both before the next jump. For example, an adapter can
+temporarily suppress pointer events while the target is already visible.
+
+The report retains the raw timestamps, observed frame counts, ownership,
+environment and ordinary checkbox, event-trust and geometry checkpoints.
+It produces medians, quartiles and ranges per jump, library and browser only
+when all cases and integrity checks pass. This is frame-sampled DOM and
+pointer readiness on this workload. It does not measure paint, wheel
+interaction, physical input, assistive technology or overall library ranking.

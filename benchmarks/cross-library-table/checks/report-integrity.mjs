@@ -23,8 +23,8 @@ assert.deepEqual(summary, actual.summary);
 const positive = r => r.cases.find(c => c.passed && c.profile === 'pointer'),
   keyboard = r => r.cases.find(c => c.passed && c.profile === 'keyboard');
 assert(
-  positive(actual) && keyboard(actual),
-  'Mutation controls require a complete passing pointer and keyboard case'
+  positive(actual) && (actual.jumpTiming || keyboard(actual)),
+  'Mutation controls require each requested input profile to have a passing case'
 );
 const results = [];
 function reject(name, mutate, keepSummary = false) {
@@ -57,7 +57,8 @@ reject(
 reject('missing-browser-version', r => (positive(r).version = ''));
 reject('missing-native-events', r => (positive(r).events = []));
 reject('untrusted-event', r => (positive(r).events[0].trusted = false));
-reject('wrong-input-profile', r => keyboard(r).events.forEach(e => (e.type = 'click')));
+if (actual.jumpTiming) reject('wrong-input-profile', r => (positive(r).profile = 'keyboard'));
+else reject('wrong-input-profile', r => keyboard(r).events.forEach(e => (e.type = 'click')));
 reject('page-error', r => positive(r).pageErrors.push('probe'));
 reject('http-error', r => positive(r).httpErrors.push([500, '/probe']));
 reject('checkpoint-order', r => positive(r).checkpoints.reverse());
@@ -69,6 +70,29 @@ reject('duplicate-id', r =>
   positive(r).checkpoints[0].state.duplicateIds.push({ id: 'duplicate', count: 2 })
 );
 if (actual.workflow === 'virtual') {
+  if (actual.jumpTiming) {
+    const sample = r => positive(r).jumpSamples[0];
+    reject('reordered-timing-cases', r => ([r.cases[4], r.cases[5]] = [r.cases[5], r.cases[4]]));
+    reject('wrong-timing-protocol', r => (r.jumpTiming.protocol = 'unknown'));
+    reject('missing-timing-event', r => positive(r).jumpSamples.pop());
+    reject('wrong-timing-target', r => (sample(r).target = 'entry-00002'));
+    reject('untrusted-timing-start', r => (sample(r).trusted = false));
+    reject('already-visible-timing-target', r => (sample(r).alreadyVisible = true));
+    reject('negative-timing-duration', r => (sample(r).visibleMs = sample(r).startedMs - 1));
+    reject('missing-ready-frame', r => (sample(r).frames = 0));
+    reject('hit-before-visible', r => (sample(r).hitTestableMs = sample(r).visibleMs - 1));
+    reject(
+      'overlapping-timing-samples',
+      r => (positive(r).jumpSamples[1].startedMs = sample(r).startedMs)
+    );
+    reject(
+      'inflated-timing-sample-count',
+      r => {
+        Object.values(r.summary.jumpTimings)[0].visible.count++;
+      },
+      true
+    );
+  }
   reject('wrong-ownership', r => (positive(r).ownership = 'native-all'));
   reject('erased-row-metadata', r => (positive(r).checkpoints[0].state.virtual.rows = []));
   reject('wrong-rendered-count', r => (positive(r).checkpoints[0].state.virtual.rendered = 10000));
