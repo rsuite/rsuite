@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import Combobox from './Combobox';
@@ -133,8 +133,29 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
   const datalist = transformData(data);
   const [value, setValue] = useControlled(valueProp, defaultValue);
   const [focus, setFocus] = useState(false);
+  const input = useRef<HTMLInputElement>(null);
+  const inputRefs = useMemo(() => mergeRefs(input, inputRef), [inputRef]);
+  const blurTimeout = useRef<number | undefined>(undefined);
+  const clearBlurTimeout = useCallback(() => {
+    window.clearTimeout(blurTimeout.current);
+    blurTimeout.current = undefined;
+  }, []);
+
+  useEffect(() => {
+    if (disabled) {
+      const element = input.current;
+      // Firefox can retain focus if disabled is cleared before its next paint.
+      if (element && element.ownerDocument.activeElement === element) {
+        element.blur();
+      }
+      setFocus(false);
+    }
+
+    return clearBlurTimeout;
+  }, [disabled, clearBlurTimeout]);
   const items = datalist?.filter(shouldDisplay(filterBy, value)) || [];
   const hasItems = items.length > 0;
+  const expanded = !disabled && (open || (focus && hasItems));
   const { trigger, overlay, root } = usePickerRef(ref);
   const isMounted = useIsMounted();
 
@@ -152,7 +173,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
   const focusItem = focusItemValue ? items.find(item => item?.value === focusItemValue) : undefined;
 
   const handleKeyDownEvent = (event: React.KeyboardEvent) => {
-    if (!overlay.current) {
+    if (!expanded || !overlay.current) {
       return;
     }
     if (!event.nativeEvent.isComposing && event.nativeEvent.keyCode !== 229) {
@@ -166,7 +187,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
   };
 
   const selectFocusMenuItem = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (disabled || !focusItem) {
+    if (!focusItem) {
       return;
     }
 
@@ -197,6 +218,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
   };
 
   const handleClose = useEventCallback(() => {
+    clearBlurTimeout();
     if (isMounted()) {
       setFocus(false);
       onClose?.();
@@ -210,7 +232,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
 
   const handleItemSelect = useEventCallback(
     (nextItemValue: string, item: Option, event: React.SyntheticEvent) => {
-      if (disabled) {
+      if (!expanded) {
         return;
       }
 
@@ -227,11 +249,15 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
 
   const handleInputFocus = useEventCallback((event: React.FocusEvent) => {
     onFocus?.(event);
-    handleOpen();
+    if (!disabled) {
+      clearBlurTimeout();
+      handleOpen();
+    }
   });
 
   const handleInputBlur = useEventCallback((event: React.FocusEvent) => {
-    setTimeout(handleClose, 300);
+    clearBlurTimeout();
+    if (!disabled) blurTimeout.current = window.setTimeout(handleClose, 300);
     onBlur?.(event);
   });
 
@@ -240,7 +266,6 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
   const [htmlInputProps, restProps] = partitionHTMLProps(omit(rest, triggerPropKeys));
 
   const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
-
     const { className } = positionProps;
     const classes = merge(className, popupClassName);
     const listbox = (
@@ -265,7 +290,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
         style={popupStyle}
         autoWidth={popupAutoWidth}
       >
-        {!disabled && (renderListbox ? renderListbox(listbox) : listbox)}
+        {expanded && (renderListbox ? renderListbox(listbox) : listbox)}
       </PickerPopup>
     );
   };
@@ -277,8 +302,6 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
       </Plaintext>
     );
   }
-
-  const expanded = !disabled && (open || (focus && hasItems));
 
   const triggerProps = {
     ...pick(props, triggerPropKeys),
@@ -312,7 +335,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
         onFocus={handleInputFocus}
         onChange={handleChange}
         onKeyDown={handleKeyDownEvent}
-        inputRef={inputRef}
+        inputRef={inputRefs}
       />
     </PickerToggleTrigger>
   );
