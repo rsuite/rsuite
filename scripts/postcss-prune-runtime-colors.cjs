@@ -1,29 +1,38 @@
-const postcss = require('postcss');
-const pruneVariables = require('postcss-prune-var');
-
 // getColorValue also references these palette tokens from runtime system props.
 const runtimeColor =
   /^--rs-(?:color-(?:red|orange|yellow|green|cyan|blue|violet)|(?:red|orange|yellow|green|cyan|blue|violet|gray)-(?:50|[1-9]00))$/;
+const variableReference = /var\(\s*(--[^ ,);]+)/g;
 
 module.exports = () => ({
   postcssPlugin: 'rsuite-prune-runtime-colors',
   Once(root) {
-    const references = postcss.rule({ selector: ':root' });
-    const colors = new Set();
-    root.walkDecls(declaration => {
-      if (runtimeColor.test(declaration.prop)) colors.add(declaration.prop);
+    const used = new Set();
+    const dependencies = new Map();
+
+    root.walkDecls(({ prop, value }) => {
+      const isVariable = prop.startsWith('--');
+      if (runtimeColor.test(prop)) used.add(prop);
+
+      for (const [, name] of value.matchAll(variableReference)) {
+        const variable = name.trim();
+        if (!isVariable) {
+          used.add(variable);
+          continue;
+        }
+
+        if (!dependencies.has(prop)) dependencies.set(prop, new Set());
+        dependencies.get(prop).add(variable);
+      }
     });
-    for (const color of colors) {
-      references.append({ prop: 'color', value: `var(${color})` });
+
+    // Set iteration visits new entries and avoids reprocessing cycles.
+    for (const variable of used) {
+      for (const dependency of dependencies.get(variable) ?? []) used.add(dependency);
     }
 
-    // Include runtime uses in the dependency graph without emitting extra rules.
-    root.append(references);
-    try {
-      pruneVariables().Once(root);
-    } finally {
-      references.remove();
-    }
+    root.walkDecls(declaration => {
+      if (declaration.prop.startsWith('--') && !used.has(declaration.prop)) declaration.remove();
+    });
   }
 });
 

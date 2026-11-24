@@ -163,7 +163,6 @@
     "postcss-discard-comments": "^7.0.4",
     "postcss-discard-empty": "^6.0.1",
     "postcss-merge-rules": "^7.0.5",
-    "postcss-prune-var": "^1.1.1",
     "postcss-scss": "^4.0.9",
     "prettier": "^3.4.2",
     "prompt": "^1.3.0",

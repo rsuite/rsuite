@@ -85,3 +85,20 @@ test('runtime preservation is limited to supported presets and shades', async ()
   assert.deepEqual(properties, ['--rs-color-red', '--rs-gray-50', '--rs-gray-500']);
   assert(!result.css.includes('color: var('), 'Temporary references should always be removed');
 });
+
+test('keeps used variable cycles and nested fallbacks, and removes disconnected cycles', async () => {
+  const css = `
+    .consumer { color: var(--primary, var(--fallback)); }
+    :root {
+      --unused-first: var(--unused-second);
+      --primary: var(--secondary);
+      --secondary: var(--primary);
+      --fallback: #123456;
+      --unused-second: var(--unused-first);
+    }
+  `;
+  const result = await postcss([pruneRuntimeColors()]).process(css, { from: undefined });
+  const properties = [];
+  result.root.walkDecls(declaration => properties.push(declaration.prop));
+  assert.deepEqual(properties, ['color', '--primary', '--secondary', '--fallback']);
+});
