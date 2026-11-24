@@ -22,11 +22,15 @@ return (
 
 ### Right to Left
 
+Use `rtl` to enable right-to-left behavior in RSuite components. For a section of a left-to-right page, also apply `dir="rtl"` to a wrapping DOM element so text and CSS layout follow the same direction.
+
 ```jsx
 return (
-  <CustomProvider rtl>
-    <App />
-  </CustomProvider>
+  <div dir="rtl">
+    <CustomProvider rtl>
+      <App />
+    </CustomProvider>
+  </div>
 );
 ```
 
@@ -101,7 +105,7 @@ return (
 | locale              | [Locale][locale] [`(en-GB)`][en_gb]     | Configure Language Pack                                                                                 |             |
 | parseDate           | (date: string, format: string) => Date  | Return the date parsed from string using the given format string.                                       |             |
 | reduceMotion        | boolean                                 | Reduce built-in transition motion; omitted follows the system preference                                |             |
-| rtl                 | boolean                                 | Text and other elements go from left to right.                                                          |             |
+| rtl                 | boolean                                 | Enables right-to-left behavior in RSuite components.                                                    |             |
 | theme               | 'light' \| 'dark' \| 'high-contrast'    | Supported themes                                                                                        |             |
 
 <!--{include:(_common/types/react-suite-components.md)}-->

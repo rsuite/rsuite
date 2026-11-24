@@ -1,6 +1,6 @@
 # CustomProvider 个性化配置
 
-支持本地化、Right to Left、主题等个性化配置。
+支持本地化、从右到左、主题等个性化配置。
 
 ## 获取组件
 
@@ -20,13 +20,17 @@ return (
 );
 ```
 
-### Right to Left
+### 从右到左
+
+使用 `rtl` 让 RSuite 组件的交互采用从右到左的方向。如果只在从左到右的页面中为某个区域启用 RTL，还需在包裹该区域的 DOM 元素上设置 `dir="rtl"`，让文字和 CSS 布局采用同一方向。
 
 ```jsx
 return (
-  <CustomProvider rtl>
-    <App />
-  </CustomProvider>
+  <div dir="rtl">
+    <CustomProvider rtl>
+      <App />
+    </CustomProvider>
+  </div>
 );
 ```
 
@@ -101,7 +105,7 @@ return (
 | locale              | [Locale][locale] [`(en-GB)`][en_gb]     | 语言包配置                                                                |             |
 | parseDate           | (date: string, format: string) => Date  | 使用给定的格式字符串返回从字符串解析的日期                                |             |
 | reduceMotion        | boolean                                 | 减少内置过渡动态效果；未设置时遵循系统偏好                                |             |
-| rtl                 | boolean                                 | 可设置文本和其他元素的默认方向是从左到右                                  |             |
+| rtl                 | boolean                                 | 启用 RSuite 组件从右到左的交互行为。                                      |             |
 | theme               | 'light' \| 'dark' \| 'high-contrast'    | 支持的主题                                                                |             |
 
 <!--{include:(_common/types/react-suite-components.md)}-->
