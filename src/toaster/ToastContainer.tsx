@@ -73,6 +73,7 @@ export interface NodeProps extends WithAsProps {
 interface MessageType extends PushOptions {
   key?: string;
   visible?: boolean;
+  removalToken?: symbol;
   node: React.ReactElement<NodeProps>;
 }
 
@@ -91,16 +92,6 @@ interface ToastContainerComponent
 const useMessages = () => {
   const [messages, setMessages] = useState<MessageType[]>([]);
 
-  const getKey = useCallback(
-    (key?: string) => {
-      if (typeof key === 'undefined' && messages.length) {
-        return messages[messages.length - 1].key;
-      }
-      return key;
-    },
-    [messages]
-  );
-
   const push = useCallback((message, options?: PushOptions) => {
     const { duration, mouseReset = true, container } = options || {};
     const key = guid();
@@ -113,35 +104,37 @@ const useMessages = () => {
     return key;
   }, []);
 
-  const clear = useCallback(() => {
-    // Set all existing messages to be invisible.
-    setMessages(messages.map(msg => ({ ...msg, visible: false })));
-
-    // Remove all invisible messages after 400ms.
-    // The delay removal here is to preserve the animation.
+  const scheduleRemoval = useCallback((removalToken: symbol) => {
+    // Each operation keeps its messages until their exit animation has finished.
     setTimeout(() => {
-      setMessages(() => []);
+      setMessages(prevMessages => prevMessages.filter(msg => msg.removalToken !== removalToken));
     }, 400);
-  }, [messages]);
+  }, []);
+
+  const clear = useCallback(() => {
+    const removalToken = Symbol();
+
+    setMessages(prevMessages =>
+      prevMessages.map(msg => (msg.visible ? { ...msg, visible: false, removalToken } : msg))
+    );
+    scheduleRemoval(removalToken);
+  }, [scheduleRemoval]);
 
   const remove = useCallback(
     (key?: string) => {
-      // Set the message of the specified key to invisible.
-      setMessages(
-        messages.map(n => {
-          if (n.key === getKey(key)) {
-            n.visible = false;
-          }
-          return n;
-        })
-      );
+      const removalToken = Symbol();
 
-      // Remove invisible messages after 400ms.
-      setTimeout(() => {
-        setMessages(prevMessages => prevMessages.filter(msg => msg.visible));
-      }, 400);
+      setMessages(prevMessages => {
+        const messageKey =
+          typeof key === 'undefined' ? prevMessages[prevMessages.length - 1]?.key : key;
+
+        return prevMessages.map(msg =>
+          msg.key === messageKey && msg.visible ? { ...msg, visible: false, removalToken } : msg
+        );
+      });
+      scheduleRemoval(removalToken);
     },
-    [messages, getKey]
+    [scheduleRemoval]
   );
 
   return { messages, push, clear, remove };
@@ -167,8 +160,19 @@ const ToastContainer: ToastContainerComponent = forwardRef<
 
   const elements = messages.map(item => {
     const { mouseReset, duration, node } = item;
+    const handleClose = createChainedFunction<NonNullable<NodeProps['onClose']>>(
+      node.props?.onClose ?? null,
+      () => remove(item.key)
+    );
     return (
-      <ToastContext.Provider value={{ usedToaster: true, mouseReset, duration }} key={item.key}>
+      <ToastContext.Provider
+        value={{
+          usedToaster: true,
+          mouseReset: item.visible && mouseReset,
+          duration: item.visible ? duration : 0
+        }}
+        key={item.key}
+      >
         <Transition
           in={item.visible}
           exitedClassName={rootPrefix('toast-fade-exited')}
@@ -183,7 +187,9 @@ const ToastContainer: ToastContainerComponent = forwardRef<
               ...rest,
               ref,
               duration,
-              onClose: createChainedFunction(node.props?.onClose, () => remove(item.key)),
+              onClose: (...args: Parameters<NonNullable<NodeProps['onClose']>>) => {
+                if (item.visible) handleClose(...args);
+              },
               className: merge(rootPrefix('toast'), node.props?.className, transitionClassName)
             });
           }}

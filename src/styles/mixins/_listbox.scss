@@ -1,20 +1,15 @@
 // ARIA Listboxes and Options
 // used in picker menus, e.g. SelectPicker, CheckPicker, Cascader etc
-//
 // Common usage: (note the orders of different states)
-//
 // .item {
 //   @include listbox-option;
-//
 //   &:hover,
 //   &:focus {
 //     @include listbox-option-active;
 //   }
-//
 //   &-selected {
 //     @include listbox-option-selected;
 //   }
-//
 //   &-disabled {
 //     @include listbox-options-disabled;
 //   }

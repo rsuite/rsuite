@@ -1,4 +1,3 @@
-import React from 'react';
 import { MultiCascader, Button, Toggle, RadioGroup, Radio, HStack, VStack, Box, Text, Divider } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';

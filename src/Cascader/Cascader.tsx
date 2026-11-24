@@ -6,7 +6,7 @@ import TreeView from '../CascadeTree/TreeView';
 import SearchView from '../CascadeTree/SearchView';
 import { usePaths, useSelect, useSearch } from '../CascadeTree/hooks';
 import { flattenTree } from '../Tree/utils';
-import { findNodeOfTree, getParentMap } from '@/internals/Tree/utils';
+import { getParentMap } from '@/internals/Tree/utils';
 import { PickerLocale } from '../locales';
 import { useControlled, useStyles, useCustom, useEventCallback, useMap } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs, shallowEqual } from '@/internals/utils';
@@ -271,7 +271,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
     });
 
     const handleMenuPressEnter = useEventCallback((event: React.SyntheticEvent) => {
-      const focusItem = findNodeOfTree(data, item => item[valueKey] === focusItemValue);
+      const focusItem = flattenedData.find(item => item[valueKey] === focusItemValue);
       const isLeafNode = focusItem && !focusItem[childrenKey];
 
       if (isLeafNode) {
@@ -290,6 +290,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
 
     const onPickerKeyDown = useToggleKeyDownEvent({
       toggle: !focusItemValue || !active,
+      disabled,
       trigger,
       target,
       overlay,
@@ -353,11 +354,13 @@ const Cascader = forwardRef<'div', CascaderProps>(
           {searchable && (
             <SearchView<T>
               data={items}
+              value={value}
               searchKeyword={searchKeyword}
               valueKey={valueKey}
               labelKey={labelKey}
               locale={locale}
               parentMap={parentMap}
+              disabled={disabled || rest.readOnly || rest.loading}
               disabledItemValues={disabledItemValues}
               focusItemValue={focusItemValue}
               inputRef={searchInput}
@@ -371,6 +374,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
             <TreeView
               columnWidth={columnWidth}
               columnHeight={columnHeight}
+              disabled={disabled || rest.readOnly || rest.loading}
               disabledItemValues={disabledItemValues}
               loadingItemsSet={loadingItemsSet}
               valueKey={valueKey}
@@ -446,7 +450,6 @@ const Cascader = forwardRef<'div', CascaderProps>(
           appearance={appearance}
           disabled={disabled}
           onClean={createChainedFunction(handleClean, onClean)}
-          onKeyDown={onPickerKeyDown}
           cleanable={cleanable && !disabled}
           hasValue={hasValue}
           active={active}
@@ -454,6 +457,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
           inputValue={value ?? ''}
           focusItemValue={focusItemValue}
           {...rest}
+          onKeyDown={onPickerKeyDown}
         >
           {selectedElement || locale?.placeholder}
         </PickerToggle>

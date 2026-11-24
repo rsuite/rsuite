@@ -53,7 +53,7 @@ const Subcomponents = {
  * The `Sidenav` component is an encapsulation of the page sidebar `Nav`.
  * @see https://rsuitejs.com/components/sidenav/
  */
-const Sidenav = forwardRef<'div', SidenavProps, typeof Subcomponents>((props, ref) => {
+const Sidenav = forwardRef<'nav', SidenavProps, typeof Subcomponents>((props, ref) => {
   const { propsWithDefaults } = useCustom('Sidenav', props);
   const {
     as = 'nav',

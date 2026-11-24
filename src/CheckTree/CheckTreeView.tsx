@@ -34,9 +34,8 @@ import {
   getFormattedTree,
   isNodeUncheckable
 } from './utils';
-import { hasVisibleChildren, getActiveItem, isExpand } from '../Tree/utils';
+import { hasVisibleChildren, getActiveItem, isExpand, formatNodeRefKey } from '../Tree/utils';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
-import { formatNodeRefKey } from '../Tree/utils/formatNodeRefKey';
 import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 import type { WithAsProps, Option, ToArray, DataProps } from '@/internals/types';
 import type { TreeViewBaseProps } from '../Tree/types';
@@ -96,6 +95,8 @@ export interface CheckTreeViewProps<V = (string | number)[]>
 interface CheckTreeViewInnerProps<V = (string | number)[]>
   extends WithAsProps,
     Omit<CheckTreeViewProps<V>, 'onExpand'> {
+  disabled?: boolean;
+
   /** Current owner data, before asynchronous tree-data synchronization. */
   sourceData?: TreeNode[];
   /**
@@ -118,7 +119,7 @@ interface CheckTreeViewInnerProps<V = (string | number)[]>
    */
   onFocusItem?: (value?: TreeNode['value']) => void;
 
-  /** Reports the ID of the mounted focused row for a picker trigger. */
+  /** Reports the ID of the mounted focusable row to the picker trigger. */
   onActiveDescendantChange?: (id?: string) => void;
 
   /**
@@ -132,6 +133,7 @@ interface CheckTreeViewInnerProps<V = (string | number)[]>
 const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) => {
   const {
     as,
+    disabled,
     className,
     classPrefix = 'check-tree',
     cascade = true,
@@ -201,6 +203,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   const { focusNode, handleItemsRendered: notifyItemsRendered } = useVirtualTreeFocus({
     nodes: virtualizedNodes,
     sourceData,
+    searchKeyword: searchKeyword ?? keyword,
     valueKey,
     childrenKey,
     disabledItemValues,
@@ -209,7 +212,9 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
     getNode: refKey => treeNodesRefs[refKey],
     onCancel: sourceKey => {
       const source = virtualizedNodes.find(node => node.refKey === sourceKey);
-      setFocusItemValue(source?.[valueKey] ?? null);
+      const nextFocusValue = source?.[valueKey];
+      setFocusItemValue(nextFocusValue ?? null);
+      onFocusItem?.(nextFocusValue);
     }
   });
   const handleItemsRendered = props => {
@@ -237,10 +242,19 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   });
 
   const reportActiveDescendant = () => {
+    if (!onActiveDescendantChange) return;
     const row = isNil(focusItemValue) ? undefined : treeNodesRefs[formatNodeRefKey(focusItemValue)];
-    onActiveDescendantChange?.(
-      row?.isConnected && treeViewRef.current?.contains(row) ? row.id || undefined : undefined
-    );
+
+    if (
+      row?.isConnected &&
+      treeViewRef.current?.contains(row) &&
+      row.getAttribute('aria-disabled') !== 'true' &&
+      row.getClientRects().length
+    ) {
+      onActiveDescendantChange(row.id || undefined);
+    } else {
+      onActiveDescendantChange(undefined);
+    }
   };
 
   useIsomorphicLayoutEffect(reportActiveDescendant);
@@ -269,6 +283,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   };
 
   const getTreeNodeProps = useTreeNodeProps({
+    disabled,
     uncheckableItemValues,
     disabledItemValues,
     loadingNodeValues,
@@ -294,6 +309,8 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   );
 
   const handleSelect = useEventCallback((node: TreeNode, event: React.SyntheticEvent) => {
+    if (disabled) return;
+
     const currentNode = node.refKey ? flattenedNodes[node.refKey] : null;
 
     if (!node || !currentNode) {
@@ -323,6 +340,8 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   };
 
   const handleTreeKeyDown = useEventCallback((event: React.KeyboardEvent<any>) => {
+    if (disabled) return;
+
     onTreeKeydown(event);
     onMenuKeyDown(event, { enter: selectActiveItem });
   });
@@ -359,7 +378,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
       const nodes = children || [];
 
       return (
-        <div className={childClassName} key={node[valueKey]}>
+        <div className={childClassName} key={refKey}>
           <CheckTreeNode {...treeNodeProps} treeItemRef={ref => saveTreeNodeRef(ref, refKey)} />
           <div className={prefix('group')} role="group">
             {nodes.map(child => renderNode(child, layer))}
@@ -371,7 +390,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
 
     return (
       <CheckTreeNode
-        key={node[valueKey]}
+        key={refKey}
         treeItemRef={ref => saveTreeNodeRef(ref, refKey)}
         {...treeNodeProps}
       />
@@ -452,7 +471,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
           <NodeRendererProvider value={renderVirtualListNode}>
             <AutoSizer
               defaultHeight={height}
-              style={{ width: 'auto', height: 'auto' }}
+              style={{ width: 'auto', height: listProps?.height ?? height }}
               className={prefix('virt-auto-sizer')}
             >
               {({ height }) => (

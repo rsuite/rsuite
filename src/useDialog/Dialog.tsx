@@ -5,7 +5,7 @@ import Input from '../Input';
 import Text from '../Text';
 import { forwardRef } from '@/internals/utils';
 import { VStack } from '../Stack';
-import { useCustom } from '@/internals/hooks';
+import { useCustom, useUniqueId } from '@/internals/hooks';
 import type { Color } from '@/internals/types';
 
 export interface DialogProps extends ModalProps {
@@ -47,6 +47,8 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
   const [isOpen, setIsOpen] = useState(true);
   const [validationError, setValidationError] = useState<string>();
   const inputRef = useRef<HTMLInputElement>(null);
+  const inputId = useUniqueId('rs-prompt-input-');
+  const errorId = `${inputId}-error`;
   const inputValue = useRef(defaultValue);
   const isClosing = useRef(false);
   const showCancelButton = type === 'confirm' || type === 'prompt';
@@ -163,16 +165,22 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
         <VStack>
           {type === 'prompt' ? (
             <>
-              <label htmlFor="rs-prompt-input">{content}</label>
+              <label htmlFor={inputId}>{content}</label>
               <Input
                 w="100%"
                 required
                 ref={inputRef}
-                id="rs-prompt-input"
+                id={inputId}
+                aria-invalid={validationError ? true : undefined}
+                aria-describedby={validationError ? errorId : undefined}
                 defaultValue={defaultValue}
                 onChange={handlePromptInputChange}
               />
-              {validationError && <Text color="red">{validationError}</Text>}
+              {validationError && (
+                <Text id={errorId} role="alert" color="var(--rs-color-red, var(--rs-red-500))">
+                  {validationError}
+                </Text>
+              )}
             </>
           ) : (
             content

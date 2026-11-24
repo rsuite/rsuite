@@ -12,6 +12,9 @@ interface SelectedStateOptions {
    */
   input: HTMLInputElement;
 
+  /** Selection requested by the current keyboard interaction, before the DOM value commits. */
+  selectionRange?: { selectionStart: number; selectionEnd: number };
+
   /**
    * The direction of the arrow key, left or right
    */
@@ -67,6 +70,7 @@ interface SelectedStateOptions {
 export function getInputSelectedState(options: SelectedStateOptions) {
   const {
     input,
+    selectionRange,
     direction,
     formatStr,
     rangeFormatStr,
@@ -95,7 +99,7 @@ export function getInputSelectedState(options: SelectedStateOptions) {
     const endDateGap = dateString.indexOf(character) - rangeFormatStr.indexOf(character);
 
     // If the date type is end, and the end date is not selected, the selection range needs to be adjusted.
-    if (dateType === DateType.End && endDateGap > 0) {
+    if (dateType === DateType.End && endDateGap !== 0) {
       selectionStart += endDateGap;
       selectionEnd += endDateGap;
     }
@@ -117,7 +121,7 @@ export function getInputSelectedState(options: SelectedStateOptions) {
       };
     }
 
-    if (isCursorAfterMonth(selectionStart, formatStr)) {
+    if (isCursorAfterMonth(formatStr.indexOf(pattern), formatStr)) {
       return {
         selectionStart: selectionStart + gap,
         selectionEnd: selectionEnd + gap
@@ -127,15 +131,24 @@ export function getInputSelectedState(options: SelectedStateOptions) {
     return { selectionStart, selectionEnd };
   };
 
-  if (typeof input.selectionEnd === 'number' && typeof input.selectionStart === 'number') {
-    let index = input.selectionStart;
+  const selectionStart = selectionRange?.selectionStart ?? input.selectionStart;
+  const selectionEnd = selectionRange?.selectionEnd ?? input.selectionEnd;
+
+  if (typeof selectionEnd === 'number' && typeof selectionStart === 'number') {
+    let index =
+      selectionRange &&
+      !direction &&
+      selectionStart === selectionEnd &&
+      selectionStart === dateString.length
+        ? Math.max(0, selectionStart - 1)
+        : selectionStart;
 
     let positionOffset = -1;
 
     if (direction === 'left') {
-      index = input.selectionStart - 1;
+      index = selectionStart - 1;
     } else if (direction === 'right') {
-      index = input.selectionEnd + 1;
+      index = selectionEnd + 1;
       positionOffset = 1;
     }
 

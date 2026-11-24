@@ -43,7 +43,7 @@ export interface TimelineItemProps extends BoxProps {
  *
  * @see https://rsuitejs.com/compo◊nents/timeline
  */
-const TimelineItem = forwardRef<'div', TimelineItemProps>((props, ref) => {
+const TimelineItem = forwardRef<'li', TimelineItemProps>((props, ref) => {
   const {
     as = 'li',
     children,

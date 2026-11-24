@@ -74,6 +74,8 @@ export type WithTreeDragProps<P> = P & TreeDragProps;
 interface TreeViewInnerProps<V = string | number | null>
   extends Omit<WithTreeDragProps<TreeViewProps<V>>, 'onExpand'>,
     WithAsPropsWithoutChildren {
+  disabled?: boolean;
+
   /** Current owner data, before asynchronous tree-data synchronization. */
   sourceData?: TreeNode[];
   /**
@@ -109,6 +111,7 @@ interface TreeViewInnerProps<V = string | number | null>
 const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
   const {
     as,
+    disabled,
     data = [],
     sourceData,
     style,
@@ -175,6 +178,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
   const { focusNode, handleItemsRendered: notifyItemsRendered } = useVirtualTreeFocus({
     nodes: virtualizedNodes,
     sourceData,
+    searchKeyword: searchKeyword ?? keyword,
     valueKey,
     childrenKey,
     disabledItemValues,
@@ -183,7 +187,9 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     getNode: refKey => treeNodesRefs[refKey],
     onCancel: sourceKey => {
       const source = virtualizedNodes.find(node => node.refKey === sourceKey);
-      setFocusItemValue(source?.[valueKey] ?? null);
+      const nextFocusValue = source?.[valueKey];
+      setFocusItemValue(nextFocusValue ?? null);
+      onFocusItem?.(nextFocusValue);
     }
   });
   const handleItemsRendered = props => {
@@ -247,6 +253,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
 
   const getTreeNodeProps = useTreeNodeProps({
     value: valueProp,
+    disabled,
     disabledItemValues,
     loadingNodeValues,
     focusItemValue,
@@ -257,7 +264,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
   });
 
   const handleSelect = useEventCallback((nodeData: any, event: React.SyntheticEvent) => {
-    if (!nodeData) {
+    if (disabled || !nodeData) {
       return;
     }
     const nextValue = nodeData[valueKey];
@@ -276,6 +283,8 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
   });
 
   const handleTreeKeyDown = useEventCallback((event: React.KeyboardEvent<any>) => {
+    if (disabled) return;
+
     onTreeKeydown(event);
     onMenuKeyDown(event, { enter: selectActiveItem });
   });
@@ -383,7 +392,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
           <NodeRendererProvider value={renderVirtualListNode}>
             <AutoSizer
               defaultHeight={height}
-              style={{ width: 'auto', height: 'auto' }}
+              style={{ width: 'auto', height: listProps?.height ?? height }}
               className={prefix('virt-auto-sizer')}
             >
               {({ height }) => (

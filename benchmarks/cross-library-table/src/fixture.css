@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  font:
+    16px system-ui,
+    sans-serif;
+}
+main {
+  margin: 24px;
+  max-width: 960px;
+}
+h1 {
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+main > label,
+main > button,
+main > output {
+  margin: 0 12px 16px 0;
+  display: inline-block;
+}
+main > label input {
+  border: 1px solid #555;
+  padding: 5px;
+}
+main > button {
+  padding: 5px;
+  border: 1px solid #555;
+}
+section[aria-label='Ledger'] {
+  width: 840px;
+}

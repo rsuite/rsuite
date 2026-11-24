@@ -29,6 +29,13 @@ export interface TimeRangePickerProps
   editable?: boolean;
 
   /**
+   * Open the popup when the input is clicked. Set to false to use a separate open button.
+   * Keyboard and imperative opening remain available. `caretAs={null}` hides the button.
+   * @default true
+   */
+  openOnInputClick?: boolean;
+
+  /**
    * A label displayed at the beginning of toggle button
    */
   label?: React.ReactNode;
@@ -42,6 +49,15 @@ export interface TimeRangePickerProps
    * Meridiem format for 12-hour time
    */
   showMeridiem?: boolean;
+
+  /** Disable specific hour options */
+  shouldDisableHour?: (hour: number, date: Date) => boolean;
+
+  /** Disable specific minute options */
+  shouldDisableMinute?: (minute: number, date: Date) => boolean;
+
+  /** Disable specific second options */
+  shouldDisableSecond?: (second: number, date: Date) => boolean;
 
   /**
    * Whether to display the formatted date range at the header of the calendar

@@ -1,4 +1,3 @@
-import React from 'react';
 import dynamic from 'next/dynamic';
 import { Grid, Row, Col } from 'rsuite';
 import CheckIcon from '@rsuite/icons/Check';

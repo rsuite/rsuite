@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Stack, { StackProps } from '../Stack';
 import Button from '../../Button';
 import Divider from '../../Divider';

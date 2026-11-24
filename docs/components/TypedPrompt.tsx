@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Modal } from 'rsuite';
 import onEvent from 'dom-lib/on';
 import canUseDOM from 'dom-lib/canUseDOM';

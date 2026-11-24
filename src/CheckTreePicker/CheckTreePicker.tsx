@@ -166,12 +166,12 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
 
   const selectedNodes = getSelectedItems(flattenedNodes, value);
   const { register, focusFirstNode } = useTreeImperativeHandle();
+  const [activeDescendantId, setActiveDescendantId] = useState<string>();
   const { focusItemValue, setFocusItemValue, active, triggerProps } = useFocusState({
     target,
     onEnter,
     onExit
   });
-  const [activeDescendantId, setActiveDescendantId] = useState<string>();
 
   const handleClean = useEventCallback((event: React.SyntheticEvent) => {
     const target = event.target as Element;
@@ -192,6 +192,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
 
   const onPickerKeydown = useToggleKeyDownEvent({
     toggle: !focusItemValue || !active,
+    disabled,
     trigger,
     target,
     overlay,
@@ -253,6 +254,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
     <TreeProvider value={treeContext}>
       <CheckTreeView
         ref={treeView}
+        disabled={disabled || rest.readOnly || rest.loading}
         disabledItemValues={disabledItemValues}
         expandItemValues={expandItemValues}
         uncheckableItemValues={uncheckableItemValues}
@@ -356,7 +358,6 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
       <PickerToggle
         ref={target}
         appearance={appearance}
-        onKeyDown={onPickerKeydown}
         onClean={createChainedFunction(handleClean, onClean)}
         cleanable={cleanable && !disabled}
         countable={countable}
@@ -366,10 +367,10 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
         active={active}
         placement={placement}
         inputValue={value}
-        focusItemValue={focusItemValue}
         aria-activedescendant={active ? activeDescendantId : undefined}
         size={size}
         {...rest}
+        onKeyDown={onPickerKeydown}
       >
         {selectedElement || locale?.placeholder}
       </PickerToggle>

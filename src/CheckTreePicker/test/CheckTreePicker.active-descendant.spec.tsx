@@ -84,6 +84,30 @@ describe.each([false, true])('mounted active descendant (virtual=%s)', virtualiz
     });
   });
 
+  it('clears a focused row disabled by its owner', async () => {
+    const { rerender } = render(
+      <CheckTreePicker defaultOpen data={data} virtualized={virtualized} />
+    );
+    const toggle = screen.getByRole('combobox');
+    act(() => toggle.focus());
+    fireEvent.keyDown(toggle, { key: 'ArrowDown' });
+    const row = screen.getByRole('treeitem', { name: 'First row' });
+    await waitFor(() => expect(toggle).toHaveAttribute('aria-activedescendant', row.id));
+
+    rerender(
+      <CheckTreePicker
+        defaultOpen
+        data={data}
+        virtualized={virtualized}
+        disabledItemValues={['first']}
+      />
+    );
+    await waitFor(() => {
+      expect(row).toHaveAttribute('aria-disabled', 'true');
+      expect(toggle).not.toHaveAttribute('aria-activedescendant');
+    });
+  });
+
   it('clears a focused row removed by the owner data update', async () => {
     const { rerender } = render(
       <CheckTreePicker defaultOpen data={data} virtualized={virtualized} />

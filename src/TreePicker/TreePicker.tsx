@@ -10,7 +10,7 @@ import TreeView, { TreeViewProps } from '../Tree/TreeView';
 import { PickerLocale } from '../locales';
 import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
-import { getActiveItem, getTreeActiveNode } from '../Tree/utils';
+import { formatNodeRefKey, getActiveItem, getTreeActiveNode } from '../Tree/utils';
 import {
   PickerToggle,
   PickerPopup,
@@ -205,6 +205,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
 
   const onPickerKeydown = useToggleKeyDownEvent({
     toggle: !activeNode || !active,
+    disabled,
     trigger,
     target,
     overlay,
@@ -234,6 +235,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
     <TreeProvider value={treeContext}>
       <TreeView
         ref={treeView}
+        disabled={disabled || rest.readOnly || rest.loading}
         value={value}
         data={treeData}
         sourceData={data}
@@ -321,7 +323,6 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
       <PickerToggle
         ref={target}
         appearance={appearance}
-        onKeyDown={onPickerKeydown}
         onClean={createChainedFunction(handleClean, onClean)}
         cleanable={cleanable && !disabled}
         as={toggleAs}
@@ -330,8 +331,9 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
         active={active}
         placement={placement}
         inputValue={value}
-        focusItemValue={focusItemValue}
+        focusItemValue={isNil(focusItemValue) ? undefined : formatNodeRefKey(focusItemValue)}
         {...rest}
+        onKeyDown={onPickerKeydown}
       >
         {selectedElement || locale?.placeholder}
       </PickerToggle>

@@ -12,7 +12,6 @@ $unsupported-group-items: (
   '> .rs-badge-wrapper > :first-child:not(.rs-btn)'
 );
 
-//
 // Button groups
 // --------------------------------------------------
 
@@ -166,6 +165,7 @@ $unsupported-group-items: (
 
   > .rs-btn {
     flex: 1 1 1%;
+
     @include utils.ellipsis-basic;
   }
 

@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import ModalTitle, { ModalTitleProps } from '../Modal/ModalTitle';
 import { forwardRef } from '@/internals/utils';

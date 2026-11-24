@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Uploader from '../Uploader';
 import Button from '../../Button';
 import CameraRetroIcon from '@rsuite/icons/legacy/CameraRetro';

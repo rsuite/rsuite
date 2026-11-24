@@ -1,0 +1,19 @@
+[build]
+  base = "docs"
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[context.production.environment]
+  DOCS_BUILD_ENV = "production"
+
+[context.deploy-preview]
+  command = "npm ci --prefix .. && npm run build"
+
+[context.branch-deploy]
+  command = "npm ci --prefix .. && npm run build"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
