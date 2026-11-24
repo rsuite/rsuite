@@ -11,7 +11,7 @@ The command exits unsuccessfully when any case fails.
 The fixed cohort is React 19.0.0, Ant Design 6.6.6, Chakra UI 3.37.0 and HeroUI
 3.2.6. RSuite uses a locally built source SDK; every report captures
 its package fingerprint and installed dependency versions. Its table dependency
-is rsuite-table 5.19.2. This is not a measurement of the published RSuite artifact.
+is rsuite-table 5.19.3. This is not a measurement of the published RSuite artifact.
 
 Ant Design owns its sorter and row-selection engine. RSuite owns its sortable
 header callback, while application code orders rows and composes Checkbox cells.
@@ -166,7 +166,13 @@ checks atomic capture/report integrity and composed focus, and executes the four
 mid-run mutation controls. Raw results and build fingerprints are uploaded even
 on failure. Sort/tree diagnostic failures remain explicit in their own commands.
 
-### Loading, empty and recovered data
+#The SDK dependency declarations must also match its file-package lock snapshot. Before builds
+and report reuse, the fixture checks the actual SDK resolution of each required dependency and
+peer against its declared semver range and frozen version. Dependencies must resolve inside the
+standalone installation. Build manifests record these resolved versions, locations and package
+metadata hashes; SDK-owned file hashes alone do not establish a valid dependency graph.
+
+## Loading, empty and recovered data
 
 Run the `lifecycle` workflow against all four production adapters:
 

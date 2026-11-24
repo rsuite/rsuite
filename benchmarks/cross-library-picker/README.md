@@ -37,6 +37,12 @@ Use `--browser firefox` for a separate browser report. Library order is randomiz
 recorded seed; each library/size/mode receives a fresh browser context. Run comparisons on an
 otherwise idle machine and repeat with another seed before drawing performance conclusions.
 
+The SDK dependency declarations must also match its file-package lock snapshot. Before builds
+and report reuse, the fixture checks the actual SDK resolution of each required dependency and
+peer against its declared semver range and frozen version. Dependencies must resolve inside the
+standalone installation. Build manifests record these resolved versions, locations and package
+metadata hashes; SDK-owned file hashes alone do not establish a valid dependency graph.
+
 ## JavaScript and CSS accounting
 
 Run separate production builds and native correctness checks for full and component styles:
@@ -56,6 +62,13 @@ The default covers both browsers, four libraries, ordinary and virtualized 1k li
 style profiles. `--browsers`, `--profiles`, `--libraries`, `--modes` and `--size` record explicit
 subsets. This is one-iteration correctness and payload accounting, not repeated performance
 evidence. Existing timing commands retain their full-style build and deadlines.
+
+`node runner/visibility.controls.mjs` checks painted visibility in both native browsers.
+Zero opacity on an element or any ancestor excludes its content; partial opacity, clipping
+and temporary `pointer-events: none` retain their appropriate geometry behavior. A finished
+transparent closing animation must produce a closed style checkpoint. A collapsed popup
+that still paints must retain the original missing-style-node rejection. The snapshot uses
+the same shared geometry function for popup visibility and visible option rows.
 
 These builds use `dist-styles/full` and `dist-styles/component`, independently of `dist`.
 `--skip-build` rejects mismatched profiles, source/package fingerprints or changed artifacts.
@@ -219,7 +232,7 @@ menu transform and bounded animation observations are collected after the predic
 they are not an atomic animation snapshot. A collection failure retains the original
 guard error. `node runner/geometry.controls.mjs` exercises the original rejection
 conditions, a collector failure, a uniform layout and a hidden menu in both native
-browsers. The guard, 0.5-pixel tolerances, successful measurement path and frame logic
+browsers. The guard, 0.5-pixel tolerances and frame logic
 are unchanged; this reporting does not establish the actor in a historical failure.
 
 The renderer adds the same label marker to all adapters. Native virtualization is used for

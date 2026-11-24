@@ -1,6 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
-export { hash, packageFingerprint } from '../cross-library-picker/integrity.mjs';
+export {
+  hash,
+  packageFingerprint,
+  candidateDependencies
+} from '../cross-library-picker/integrity.mjs';
 import { hash, filesUnder } from '../cross-library-picker/integrity.mjs';
 export function inputs(root) {
   const files = [
@@ -18,6 +22,8 @@ export function inputs(root) {
       'run.mjs',
       'integrity.mjs',
       '../cross-library-picker/integrity.mjs',
+      '../cross-library-picker/sdk-dependencies.mjs',
+      '../cross-library-picker/runner/sdk-dependencies.test.mjs',
       '../cross-library-picker/runner/server.mjs',
       '../cross-library-picker/runner/diagnostics.mjs'
     ].map(name => path.resolve(root, name))

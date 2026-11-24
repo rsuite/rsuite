@@ -58,6 +58,9 @@ jobs:
       - name: Verify atomic style failure context with native browsers
         working-directory: benchmarks/cross-library-picker
         run: node runner/style-observation.controls.mjs
+      - name: Verify painted visibility and transparent closed popup controls
+        working-directory: benchmarks/cross-library-picker
+        run: node runner/visibility.controls.mjs
       - name: Verify native scroll completion before subsequent preflights
         working-directory: benchmarks/cross-library-picker
         run: node runner/scroll.controls.mjs
