@@ -14,7 +14,7 @@ describe('StyleManager', () => {
 
     // Reset StyleManager state
     StyleManager.styleElement = null;
-    StyleManager.styleMap.clear();
+    StyleManager.clearRules();
     StyleManager.nonce = undefined;
 
     // Mock style element
@@ -139,5 +139,28 @@ describe('StyleManager', () => {
     expect(StyleManager.styleMap.size).toBe(2);
     expect(mockStyleElement.textContent).toContain('.selector1 { color: red; }');
     expect(mockStyleElement.textContent).toContain('.selector2 { background: blue; }');
+  });
+
+  it('Should preserve independently owned rules with the same selector', () => {
+    const media = '@media (min-width: 768px)';
+    StyleManager.addRule(media, '.first { color: red; }', { key: 'first-md' });
+    StyleManager.addRule(media, '.second { color: blue; }', { key: 'second-md' });
+
+    expect(StyleManager.styleMap.get('first-md')).toBe('.first { color: red; }');
+    expect(StyleManager.styleMap.get('second-md')).toBe('.second { color: blue; }');
+    expect(mockStyleElement.textContent).toContain(`${media} { .first { color: red; } }`);
+    expect(mockStyleElement.textContent).toContain(`${media} { .second { color: blue; } }`);
+
+    StyleManager.addRule(media, '.first { color: green; }', { key: 'first-md' });
+    expect(mockStyleElement.textContent).toContain('.first { color: green; }');
+    expect(mockStyleElement.textContent).toContain('.second { color: blue; }');
+
+    StyleManager.removeRule('first-md');
+    expect(mockStyleElement.textContent).not.toContain('.first');
+    expect(mockStyleElement.textContent).toContain('.second { color: blue; }');
+    expect(StyleManager.ruleSelectors.has('first-md')).toBe(false);
+
+    StyleManager.clearRules();
+    expect(StyleManager.ruleSelectors.size).toBe(0);
   });
 });

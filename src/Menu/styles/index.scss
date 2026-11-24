@@ -2,7 +2,6 @@
 @use '../../styles/mixins/menu' as menu;
 @use '../../styles/mixins/utilities' as utils;
 
-//
 // Menu
 // --------------------------------------------------
 
@@ -37,6 +36,7 @@
   color: var(--rs-text-primary);
   border-radius: var(--rs-radius-sm);
   cursor: pointer;
+
   @include utils.reset-link-text-decoration(none);
 
   &-content {
@@ -55,7 +55,7 @@
     text-align: center;
   }
 
-  &[data-active="true"] {
+  &[data-active='true'] {
     outline: 0;
     font-weight: bold;
 
@@ -73,17 +73,17 @@
 
   // Hover/Focus state
   &:focus-visible,
-  &[data-focus="true"] {
+  &[data-focus='true'] {
     @include menu.menuitem-active;
   }
+
   &:focus {
     outline: 0;
   }
 
   // Disabled state
-  //
   // Gray out text and ensure the hover/focus state remains gray
-  &[data-disabled="true"] {
+  &[data-disabled='true'] {
     color: var(--rs-text-disabled);
     cursor: var(--rs-cursor-disabled);
 

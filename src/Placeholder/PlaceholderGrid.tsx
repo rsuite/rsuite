@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
 
@@ -49,6 +50,7 @@ export interface PlaceholderGridProps extends BoxProps {
  */
 const PlaceholderGrid = forwardRef<'div', PlaceholderGridProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('PlaceholderGrid', props);
+  const { reduceMotion } = useContext(CustomContext);
   const {
     as,
     className,
@@ -92,7 +94,15 @@ const PlaceholderGrid = forwardRef<'div', PlaceholderGridProps>((props, ref) => 
   }, [columns, prefix, rowHeight, rowSpacing, rows]);
 
   return (
-    <Box as={as} ref={ref} className={classes} style={styles} data-active={active} {...rest}>
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      style={styles}
+      data-active={active}
+      {...rest}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
+    >
       {items}
     </Box>
   );

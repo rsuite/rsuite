@@ -6,6 +6,7 @@ import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
 import { WithAsProps } from '@/internals/types';
 import { CHECK_STATE, CheckStateType } from '@/internals/constants';
 import { indentTreeNode } from '../Tree/utils';
+import { getTreeNodePosition } from '../Tree/utils/getTreeNodePositions';
 import { useStyles, useCustom, useEventCallback, useFocusVirtualListItem } from '@/internals/hooks';
 import type { TreeNode as TreeNodeData } from '@/internals/Tree/types';
 export interface CheckTreeNodeProps extends WithAsProps {
@@ -132,6 +133,27 @@ const CheckTreeNode = forwardRef<'div', CheckTreeNodeProps>((props, ref) => {
     onSelect?.(nextNodeData, event);
   });
 
+  const handleLabelSelect = useEventCallback((value: any, event: React.SyntheticEvent) => {
+    const target = event.target as Element;
+    const label = target.closest?.('label');
+
+    if (
+      uncheckable ||
+      event.defaultPrevented ||
+      !label ||
+      !event.currentTarget.contains(label) ||
+      target.closest(
+        'input, button, a[href], select, textarea, summary, audio[controls], video[controls], iframe, embed, object[usemap], img[usemap]'
+      )
+    ) {
+      return;
+    }
+
+    // Keep the tree's focus ownership instead of the label's later input focus.
+    event.preventDefault();
+    handleSelect(value, event);
+  });
+
   const classes = merge(
     className,
     withPrefix({
@@ -143,7 +165,8 @@ const CheckTreeNode = forwardRef<'div', CheckTreeNodeProps>((props, ref) => {
   );
 
   const styles = virtualized ? { ...style, ...indentTreeNode(rtl, layer - 1) } : style;
-  const itemRef = useFocusVirtualListItem<HTMLDivElement>(focus);
+  const itemRef = useFocusVirtualListItem<HTMLDivElement>(focus && !virtualized);
+  const position = virtualized ? getTreeNodePosition(nodeData) : undefined;
 
   return visible ? (
     <Component {...rest} style={styles} className={classes} ref={ref}>
@@ -165,6 +188,8 @@ const CheckTreeNode = forwardRef<'div', CheckTreeNodeProps>((props, ref) => {
         aria-selected={focus}
         aria-disabled={disabled}
         aria-level={layer}
+        aria-posinset={position?.posInSet}
+        aria-setsize={position?.setSize}
         data-layer={layer}
         active={checkState === CHECK_STATE.CHECK}
         indeterminate={checkState === CHECK_STATE.INDETERMINATE}
@@ -175,6 +200,7 @@ const CheckTreeNode = forwardRef<'div', CheckTreeNodeProps>((props, ref) => {
         className={prefix('content')}
         title={labelStr}
         onSelect={handleSelect}
+        onSelectItem={handleLabelSelect}
       >
         {typeof renderTreeNode === 'function' ? renderTreeNode(nodeData) : label}
       </ListCheckItem>

@@ -12,6 +12,8 @@ export const useFormGroup = (controlId?: string) => {
   const errorMessageId = `${id}-error-message`;
 
   return {
+    labelledBy: context.labelledBy,
+    describedBy: context.describedBy,
     /**
      * The `id` of the `<Form.Control>` component.
      */

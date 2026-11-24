@@ -52,6 +52,8 @@ This tree allows the use of the `getChildren` option and the length of the child
 
 ## Responsive
 
+On extra-small screens, the popup is displayed as a full-width Drawer by default. Set `responsive={false}` to keep a positioned popup, such as when the picker is already inside a Modal or Drawer.
+
 <!--{include:<example-responsive>}-->
 
 ## Accessibility
@@ -122,6 +124,7 @@ This tree allows the use of the `getChildren` option and the length of the child
 | renderSearchItem   | (node: ReactNode, items: [Option][item][]) => ReactNode                           | Custom render function for search result items              |
 | renderTreeNode     | (node: ReactNode, item: [Option][item]) => ReactNode                              | Custom render function for tree nodes                       |
 | renderValue        | (value: string, selectedPaths: [Option][item][], selected:ReactNode) => ReactNode | Custom render function for selected items                   |
+| responsive         | boolean `(true)`                                                                  | Whether to display the popup as a full-width Drawer on extra-small screens |
 | searchable         | boolean `(true)`                                                                  | Whether the component is searchable                         |
 | size               | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                             | Size of the component                                       |
 | toggleAs           | ElementType `('a')`                                                               | Custom element for the component                            |

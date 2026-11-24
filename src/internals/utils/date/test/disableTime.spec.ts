@@ -23,7 +23,14 @@ describe('useIsDateTimeDisabled', () => {
       second: 30
     });
 
-    expect(hideHours).toHaveBeenCalledWith(23, { year: 2025, month: 10, day: 10 });
+    expect(hideHours).toHaveBeenCalledWith(23, {
+      year: 2025,
+      month: 10,
+      day: 10,
+      hour: 23,
+      minute: 54,
+      second: 30
+    });
     expect(isTimeDisabled).toBe(true);
   });
 
@@ -41,7 +48,14 @@ describe('useIsDateTimeDisabled', () => {
       second: 30
     });
 
-    expect(disabledHours).toHaveBeenCalledWith(23, { year: 2025, month: 10, day: 10 });
+    expect(disabledHours).toHaveBeenCalledWith(23, {
+      year: 2025,
+      month: 10,
+      day: 10,
+      hour: 23,
+      minute: 54,
+      second: 30
+    });
     expect(isTimeDisabled).toBe(true);
   });
 
@@ -59,7 +73,14 @@ describe('useIsDateTimeDisabled', () => {
       second: 30
     });
 
-    expect(hideMinutes).toHaveBeenCalledWith(54, { year: 2025, month: 10, day: 10 });
+    expect(hideMinutes).toHaveBeenCalledWith(54, {
+      year: 2025,
+      month: 10,
+      day: 10,
+      hour: 23,
+      minute: 54,
+      second: 30
+    });
     expect(isTimeDisabled).toBe(true);
   });
 
@@ -77,7 +98,14 @@ describe('useIsDateTimeDisabled', () => {
       second: 30
     });
 
-    expect(disabledMinutes).toHaveBeenCalledWith(54, { year: 2025, month: 10, day: 10 });
+    expect(disabledMinutes).toHaveBeenCalledWith(54, {
+      year: 2025,
+      month: 10,
+      day: 10,
+      hour: 23,
+      minute: 54,
+      second: 30
+    });
     expect(isTimeDisabled).toBe(true);
   });
 
@@ -95,7 +123,14 @@ describe('useIsDateTimeDisabled', () => {
       second: 30
     });
 
-    expect(hideSeconds).toHaveBeenCalledWith(30, { year: 2025, month: 10, day: 10 });
+    expect(hideSeconds).toHaveBeenCalledWith(30, {
+      year: 2025,
+      month: 10,
+      day: 10,
+      hour: 23,
+      minute: 54,
+      second: 30
+    });
     expect(isTimeDisabled).toBe(true);
   });
 
@@ -113,7 +148,14 @@ describe('useIsDateTimeDisabled', () => {
       second: 30
     });
 
-    expect(disabledSeconds).toHaveBeenCalledWith(30, { year: 2025, month: 10, day: 10 });
+    expect(disabledSeconds).toHaveBeenCalledWith(30, {
+      year: 2025,
+      month: 10,
+      day: 10,
+      hour: 23,
+      minute: 54,
+      second: 30
+    });
     expect(isTimeDisabled).toBe(true);
   });
 

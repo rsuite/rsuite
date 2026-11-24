@@ -2,9 +2,10 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import TagPicker from '../index';
 import Button from '../../Button';
-import { describe, expect, it, vi } from 'vitest';
+import MatchMediaMock from '@test/mocks/matchmedia-mock';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { mockGroupData } from '@test/mocks/data-mock';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { PickerHandle } from '@/internals/Picker';
 
 import {
@@ -19,15 +20,23 @@ const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], {
   labelElementType: React.Fragment
 });
 
+const toggle = () => document.querySelector('.rs-picker-toggle') as HTMLElement;
+
 describe('TagPicker', () => {
   testStandardProps(<TagPicker data={data} />, {
     sizes: ['lg', 'md', 'sm', 'xs'],
     getUIElement: () => {
-      return screen.getByRole('combobox');
+      return toggle();
     }
   });
 
-  testPickers(TagPicker, { virtualized: true });
+  testPickers(TagPicker, {
+    virtualized: true,
+    responsiveByDefault: false,
+    responsiveSearchable: true,
+    getToggleElement: toggle,
+    responsiveSearchRole: 'combobox'
+  });
 
   testControlledUnControlled(TagPicker, {
     componentProps: { data, defaultOpen: true },
@@ -52,7 +61,73 @@ describe('TagPicker', () => {
   testFormControl(TagPicker, {
     value: ['Eugenia'],
     componentProps: { data },
-    getUIElement: () => screen.getByRole('combobox')
+    getUIElement: toggle
+  });
+
+  describe('Responsive searchable popup', () => {
+    let matchMedia: MatchMediaMock;
+    let initialMatchMedia: typeof window.matchMedia;
+    let initialWidth: number;
+    let initialHeight: number;
+
+    const resizeWindow = (width: number, height = 1000) => {
+      Object.assign(window, {
+        innerWidth: width,
+        innerHeight: height,
+        outerWidth: width,
+        outerHeight: height
+      }).dispatchEvent(new window.Event('resize'));
+    };
+
+    beforeEach(() => {
+      initialWidth = window.innerWidth;
+      initialHeight = window.innerHeight;
+      initialMatchMedia = window.matchMedia;
+      matchMedia = new MatchMediaMock();
+      resizeWindow(575);
+    });
+
+    afterEach(() => {
+      resizeWindow(initialWidth, initialHeight);
+      matchMedia.clear();
+      Object.defineProperty(window, 'matchMedia', {
+        configurable: true,
+        writable: true,
+        value: initialMatchMedia
+      });
+    });
+
+    it('Should select and create tags in a forced responsive Drawer', async () => {
+      const onChange = vi.fn();
+      const onCreate = vi.fn();
+
+      render(
+        <TagPicker data={data} responsive creatable onChange={onChange} onCreate={onCreate} />
+      );
+
+      const combobox = screen.getByRole('combobox');
+      fireEvent.click(combobox);
+
+      const searchbox = within(screen.getByRole('dialog')).getByRole('combobox');
+      await waitFor(() => expect(searchbox).to.have.focus);
+
+      fireEvent.change(searchbox, { target: { value: 'New tag' } });
+      fireEvent.keyDown(searchbox, { key: 'Enter' });
+
+      expect(onCreate).toHaveBeenCalledWith(
+        ['New tag'],
+        expect.objectContaining({ label: 'New tag', value: 'New tag' }),
+        expect.any(Object)
+      );
+
+      fireEvent.change(searchbox, { target: { value: 'Lou' } });
+      fireEvent.keyDown(searchbox, { key: 'Enter' });
+
+      expect(onChange).toHaveBeenLastCalledWith(['New tag', 'Louisa'], expect.any(Object));
+
+      fireEvent.keyDown(searchbox, { key: 'Escape' });
+      await waitFor(() => expect(combobox).to.have.focus);
+    });
   });
 
   it('Should clean selected default value', () => {
@@ -60,14 +135,14 @@ describe('TagPicker', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(toggle()).to.have.text('Select');
   });
 
   it('Should not clean selected value', () => {
     render(<TagPicker data={data} value={['Eugenia']} />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
-    expect(screen.getByRole('option', { name: 'Eugenia' })).to.exist;
+    expect(screen.getByText('Eugenia', { selector: '.rs-tag-text' })).to.exist;
   });
 
   it('Should output a TagPicker', () => {
@@ -79,7 +154,7 @@ describe('TagPicker', () => {
   it('Should output a button', () => {
     render(<TagPicker data={[]} toggleAs="button" />);
 
-    expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
+    expect(toggle()).to.have.tagName('BUTTON');
   });
 
   it('Should active item by `value`', () => {
@@ -108,7 +183,7 @@ describe('TagPicker', () => {
   it('Should display custom placeholder', () => {
     render(<TagPicker data={[]} className="custom" placeholder="test" />);
 
-    expect(screen.getByRole('combobox')).to.have.text('test');
+    expect(toggle()).to.have.text('test');
   });
 
   it('Should display placeholder when value does not exist in data', () => {
@@ -123,7 +198,7 @@ describe('TagPicker', () => {
       />
     );
 
-    expect(screen.getByRole('combobox')).to.have.text('test');
+    expect(toggle()).to.have.text('test');
   });
 
   it('Allow `label` to be an empty string', () => {
@@ -231,7 +306,7 @@ describe('TagPicker', () => {
   it('Should call `onSearch` callback with correct search keyword', () => {
     const onSearch = vi.fn();
     render(<TagPicker data={[]} defaultOpen onSearch={onSearch} />);
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('combobox');
 
     fireEvent.change(input, { target: { value: 'a' } });
 
@@ -271,7 +346,7 @@ describe('TagPicker', () => {
         defaultValue={['Kariane', 'Eugenia']}
       />
     );
-    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Backspace' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Backspace' });
 
     expect(onChange).toHaveBeenCalledWith(['Kariane'], expect.any(Object));
   });
@@ -294,7 +369,8 @@ describe('TagPicker', () => {
   it('Should render a button by toggleAs={Button}', () => {
     render(<TagPicker open data={data} toggleAs={Button} />);
 
-    expect(screen.getByRole('combobox')).to.have.class('rs-btn');
+    expect(toggle()).to.have.class('rs-btn');
+    expect(screen.getByRole('combobox')).to.have.tagName('INPUT');
   });
 
   it('Should call `tagProps.onClose` ', () => {
@@ -344,7 +420,7 @@ describe('TagPicker', () => {
 
   it('Should not be call renderValue()', () => {
     render(<TagPicker data={[]} renderValue={() => 'value'} />);
-    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(toggle()).to.have.text('Select');
   });
 
   it('Should call renderValue', () => {
@@ -352,7 +428,7 @@ describe('TagPicker', () => {
 
     expect(screen.getByRole('listbox')).to.have.text('1');
 
-    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
+    expect(toggle()).to.have.attr('data-has-value', 'true');
 
     rerender(<TagPicker data={[]} value={['Test']} renderValue={() => null} />);
 
@@ -371,7 +447,7 @@ describe('TagPicker', () => {
     const data = [{ value: 1, label: 'A', children: [{ value: 2, label: 'B' }] }];
     render(<TagPicker data={data} value={[2]} />);
 
-    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(toggle()).to.have.text('Select');
     expect(screen.getByTestId('picker-describe')).to.have.text('Select');
     expect(screen.getByTestId('picker-describe')).to.not.have.class('rs-picker-has-value');
   });
@@ -384,7 +460,7 @@ describe('TagPicker', () => {
     render(<TagPicker ref={inputRef} data={[]} onCreate={onCreate} creatable />);
 
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('combobox');
 
     fireEvent.click(picker);
     fireEvent.change(input, { target: { value: 'abc' } });
@@ -407,7 +483,7 @@ describe('TagPicker', () => {
     render(<TagPicker ref={inputRef} data={[]} onCreate={onCreate} creatable trigger="Space" />);
 
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('combobox');
 
     fireEvent.click(picker);
     fireEvent.change(input, { target: { value: 'abc' } });
@@ -430,7 +506,7 @@ describe('TagPicker', () => {
     render(<TagPicker ref={inputRef} data={[]} onCreate={onCreate} creatable trigger="Comma" />);
 
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('combobox');
 
     fireEvent.click(picker);
     fireEvent.change(input, { target: { value: 'abc' } });
@@ -498,10 +574,15 @@ describe('TagPicker', () => {
 
     it('Should be the focus switch option via keyboard', () => {
       render(<TagPicker data={data} />);
+      fireEvent.focus(screen.getByRole('combobox'));
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
-      expect(document.activeElement).to.have.text('Eugenia');
+      expect(screen.getByRole('combobox')).to.have.focus;
+      expect(screen.getByRole('combobox')).to.have.attr(
+        'aria-activedescendant',
+        screen.getByRole('option', { name: 'Eugenia' }).id
+      );
     });
   });
 

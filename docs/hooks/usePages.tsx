@@ -1,4 +1,3 @@
-import React from 'react';
 import Icon from '@rsuite/icons/Icon';
 import components from '@/component.config.json';
 import { useApp } from '@/hooks/useApp';
@@ -83,6 +82,12 @@ export default function usePages(): MenuItem[] {
               name: locales?.common?.mcpServer,
               tag: 'New',
               tagColor: 'green'
+            },
+            {
+              id: 'skills',
+              name: locales?.common?.skills,
+              tag: 'New',
+              tagColor: 'green'
             }
           ]
         },
@@ -135,6 +140,10 @@ export default function usePages(): MenuItem[] {
             {
               id: 'css-reset',
               name: locales?.common?.cssReset
+            },
+            {
+              id: 'use-tailwind-css',
+              name: locales?.common?.useTailwindCss
             },
             {
               id: 'i18n',

@@ -46,7 +46,7 @@ Single item selector with text box input.
 
 ## Responsive
 
-On small screen devices, the selection list will be converted to a popup selector. To maintain the component's search functionality, this will only take effect when `searchable={false}` is set.
+By default, the popup becomes a full-width Drawer on extra-small screens only when `searchable={false}`. Set `responsive` to force a searchable Drawer, or `responsive={false}` to always keep a positioned popup.
 
 <!--{include:<example-responsive>}-->
 
@@ -54,7 +54,9 @@ On small screen devices, the selection list will be converted to a popup selecto
 
 ### ARIA properties
 
-- InputPicker has role `combobox`.
+- When the picker has an editable input, it has role `combobox`. Its `id`, `tabIndex`, and ARIA properties belong to the input; the picker handle still targets the toggle frame. With `searchable={false}`, the toggle is the combobox.
+- Arrow navigation keeps DOM focus on the editable input so that you can continue typing. `aria-activedescendant` references the highlighted option while it is mounted.
+- In a responsive dialog, the external trigger has `aria-haspopup="dialog"`; the dialog search input controls the listbox.
 - Has the `aria-haspopup="listbox"` attribute to indicate that the combobox has a popup listbox.
 - Has the `aria-expanded` attribute to indicate whether the listbox is open or not.
 - Has the `aria-controls` attribute to indicate the ID of the listbox element.
@@ -63,10 +65,11 @@ On small screen devices, the selection list will be converted to a popup selecto
 
 ### Keyboard interactions
 
-- <kbd>↓</kbd> - Move focus to the next option.
-- <kbd>↑</kbd> - Move focus to the previous option.
+- <kbd>↓</kbd> - Highlight the next option.
+- <kbd>↑</kbd> - Highlight the previous option.
 - <kbd>Enter</kbd> - Select the focused option.
 - <kbd>Esc</kbd> - Close the listbox.
+- <kbd>Tab</kbd> - Close the listbox and move to the next control. Home, End, and left/right arrows retain their text editing behavior in the editable input.
 
 ## Props
 
@@ -115,6 +118,7 @@ On small screen devices, the selection list will be converted to a popup selecto
 | renderOption              | (label: ReactNode, item: [Option][item]) => ReactNode                | Custom render function for options                       |
 | renderOptionGroup         | (groupTitle: ReactNode, item: [Option][item]) => ReactNode           | Custom render function for option groups                 |
 | renderValue               | (value:string, item: [Option][item],selected:ReactNode) => ReactNode | Custom render function for selected value                |
+| responsive                | boolean                                                              | Controls the responsive Drawer; defaults to `!searchable` when omitted |
 | searchable                | boolean `(true)`                                                     | Whether the component is searchable                      |
 | searchBy                  | (keyword: string, label: ReactNode, item: [Option][item]) => boolean | Custom search function                                   |
 | shouldDisplayCreateOption | (searchKeyword: string, filteredData: InputOption[]) => boolean      | Function to determine whether to display "Create option" |

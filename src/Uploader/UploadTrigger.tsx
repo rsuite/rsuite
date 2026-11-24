@@ -4,6 +4,7 @@ import { useStyles, useEventCallback } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import classNames from 'classnames';
 import type { UploaderLocale } from '../locales';
+import useUploadInput from './useUploadInput';
 
 export interface UploadTriggerProps extends ButtonProps {
   children?: React.ReactElement<any>;
@@ -23,6 +24,7 @@ export interface UploadTriggerProps extends ButtonProps {
 }
 
 export interface UploadTriggerInstance {
+  root: HTMLElement | null;
   clearInput: () => void;
 }
 
@@ -49,19 +51,20 @@ const UploadTrigger = forwardRef<typeof Button, UploadTriggerProps>((props, ref)
 
   const rootRef = useRef<HTMLDivElement>(null);
   const [dragOver, setDragOver] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const {
+    inputRef,
+    open,
+    clear,
+    handleClick: handleInputClick,
+    handleInput,
+    handleChange
+  } = useUploadInput({
+    disabled,
+    readOnly,
+    onChange
+  });
   const { withPrefix, prefix } = useStyles(classPrefix);
   const classes = classNames(className, withPrefix({ customize: children, 'drag-over': dragOver }));
-
-  const handleClick = useEventCallback(() => {
-    inputRef.current?.click();
-  });
-
-  const handleClearInput = useEventCallback(() => {
-    if (inputRef.current) {
-      inputRef.current.value = '';
-    }
-  });
 
   const handleDragEnter = useEventCallback(event => {
     if (draggable) {
@@ -95,7 +98,7 @@ const UploadTrigger = forwardRef<typeof Button, UploadTriggerProps>((props, ref)
 
   useImperativeHandle(ref, () => ({
     root: rootRef.current,
-    clearInput: handleClearInput
+    clearInput: clear
   }));
 
   // Prepare button props with event handlers conditionally applied
@@ -106,7 +109,7 @@ const UploadTrigger = forwardRef<typeof Button, UploadTriggerProps>((props, ref)
     // Only add event handlers if component is interactive
     ...(!disabled &&
       !readOnly && {
-        onClick: handleClick,
+        onClick: open,
         onDragEnter: handleDragEnter,
         onDragLeave: handleDragLeave,
         onDragOver: handleDragOver,
@@ -126,6 +129,7 @@ const UploadTrigger = forwardRef<typeof Button, UploadTriggerProps>((props, ref)
   return (
     <div ref={rootRef} className={classes} data-disabled={disabled}>
       <input
+        data-rs-uploader-input=""
         type="file"
         name={name}
         multiple={multiple}
@@ -133,7 +137,9 @@ const UploadTrigger = forwardRef<typeof Button, UploadTriggerProps>((props, ref)
         readOnly={readOnly}
         accept={accept}
         ref={inputRef}
-        onChange={onChange}
+        onClick={handleInputClick}
+        onInput={handleInput}
+        onChange={handleChange}
       />
       {trigger}
     </div>

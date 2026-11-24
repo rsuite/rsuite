@@ -23,5 +23,5 @@ const finalBaseUrl = config.baseUrl || 'https://rsuitejs.com';
 console.log('Final baseUrl that will be used:', finalBaseUrl);
 
 console.log('\n✅ Configuration test completed!');
-console.log('\n💡 To use test environment, set:');
-console.log('   RSUITE_MCP_BASE_URL=https://rsuite-nextjs-git-feat-mcp-server-improvements-rsuite.vercel.app');
+console.log('\n💡 To use the Netlify hostname, set:');
+console.log('   RSUITE_MCP_BASE_URL=https://rsuite-docs-main.netlify.app');

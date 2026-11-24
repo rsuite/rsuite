@@ -33,11 +33,13 @@ return (
 | fa-IR               | Persian (Iran)                                   | `faIR`      |
 | fi-FI               | Finnish                                          | `fiFI`      |
 | fr-FR               | French                                           | `frFR`      |
+| gu-IN               | Gujarati                                         | `guIN`      |
 | hu-HU               | Hungarian                                        | `huHU`      |
 | it-IT               | Italian                                          | `itIT`      |
 | ja-JP               | Japanese                                         | `jaJP`      |
 | kk-KZ               | Kazakh                                           | `kkKZ`      |
 | ko-KR               | Korean                                           | `koKR`      |
+| nb-NO               | Norwegian Bokmål                                 | `nbNO`      |
 | ne-NP               | Nepali                                           | `neNP`      |
 | nl-NL               | Dutch                                            | `nlNL`      |
 | pl-PL               | Polish (Poland)                                  | `plPL`      |

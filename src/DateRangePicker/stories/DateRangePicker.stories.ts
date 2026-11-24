@@ -1,4 +1,4 @@
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import DateRangePicker from '../DateRangePicker';
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.scss';
@@ -98,5 +98,21 @@ export const WithRanges: Story = {
         value: [new Date(Date.now() - 6 * 24 * 60 * 60 * 1000), new Date()]
       }
     ]
+  }
+};
+
+export const IndependentOpening: Story = {
+  args: {
+    ...defaultArgs,
+    openOnInputClick: false,
+    defaultValue: [new Date(2024, 1, 12), new Date(2024, 1, 16)]
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Edit the input without opening the popup. Use the calendar button to open it; Escape returns focus to the button. The clear button remains available alongside it.'
+      }
+    }
   }
 };

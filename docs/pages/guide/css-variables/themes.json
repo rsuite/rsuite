@@ -12,6 +12,12 @@
     "category": "typography"
   },
   {
+    "name": "--rs-html-font-size",
+    "value": "16px",
+    "type": "font-size",
+    "category": "typography"
+  },
+  {
     "name": "--rs-font-size-4xs",
     "value": "0.375rem",
     "type": "font-size",

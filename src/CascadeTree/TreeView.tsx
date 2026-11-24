@@ -9,6 +9,7 @@ import ArrowRightLineIcon from '@rsuite/icons/ArrowRightLine';
 import { forwardRef, shallowEqual, mergeRefs, mergeStyles } from '@/internals/utils';
 import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
 import { ListItem, useCombobox } from '@/internals/Picker';
+import getOptionKey from '@/internals/Picker/getOptionKey';
 import type { Option, WithAsProps, DataProps, ToArray } from '@/internals/types';
 import type { SelectNode, CascadeColumn } from './types';
 
@@ -18,6 +19,7 @@ type SetLike<T = unknown> = {
 
 export interface TreeViewProps<T = any> extends WithAsProps, Omit<DataProps<Option<T>>, 'data'> {
   data?: (readonly Option<T>[])[];
+  disabled?: boolean;
   disabledItemValues?: ToArray<NonNullable<T>>;
   activeItemValue?: T | null;
   loadingItemsSet?: SetLike<Option<T>>;
@@ -38,6 +40,7 @@ const TreeView = forwardRef<'div', TreeViewProps>((props: TreeViewProps, ref) =>
     classPrefix = 'tree',
     className,
     childrenKey = 'children',
+    disabled: disabledProp,
     disabledItemValues = emptyArray,
     columnWidth = 140,
     columnHeight = 200,
@@ -95,6 +98,8 @@ const TreeView = forwardRef<'div', TreeViewProps>((props: TreeViewProps, ref) =>
   };
 
   const handleSelect = useEventCallback((layer: number, itemData: any, event: React.MouseEvent) => {
+    if (disabledProp) return;
+
     const isLeafNode = isNil(itemData[childrenKey]);
     const cascadePaths = getCascadePaths(layer + 1, itemData);
 
@@ -112,11 +117,13 @@ const TreeView = forwardRef<'div', TreeViewProps>((props: TreeViewProps, ref) =>
     const children = itemData[childrenKey];
     const value = itemData[valueKey];
     const label = itemData[labelKey];
-    const disabled = disabledItemValues.some(disabledValue => shallowEqual(disabledValue, value));
+    const disabled =
+      disabledProp || disabledItemValues.some(disabledValue => shallowEqual(disabledValue, value));
     const loading = loadingItemsSet?.has(itemData) ?? false;
 
     // Use `value` in keys when If `value` is string or number
-    const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
+    const onlyKey =
+      typeof value === 'number' || typeof value === 'string' ? getOptionKey(value) : index;
     const Icon = loading ? SpinnerIcon : rtl ? ArrowLeftLineIcon : ArrowRightLineIcon;
 
     return (

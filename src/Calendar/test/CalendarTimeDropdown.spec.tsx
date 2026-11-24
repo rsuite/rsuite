@@ -117,11 +117,66 @@ describe('Calendar - TimeDropdown', () => {
     );
 
     for (let h = 0; h < 24; h++) {
-      expect(disabledHours).toHaveBeenCalledWith(h, { year: 2022, month: 11, day: 2 });
+      expect(disabledHours).toHaveBeenCalledWith(h, {
+        year: 2022,
+        month: 11,
+        day: 2,
+        hour: 0,
+        minute: 0,
+        second: 0
+      });
     }
     screen.getAllByRole('option', { hidden: true }).forEach((option, index) => {
       expect(option).to.have.attribute('aria-disabled', index > 10 ? 'true' : 'false');
     });
+  });
+
+  it('Should not add 12 to hour >= 12 when clicking minutes in 24h mode', () => {
+    const onChangeTime = vi.fn();
+
+    render(
+      <CalendarProvider
+        value={{
+          onChangeTime,
+          date: new Date(2024, 0, 1, 13, 0, 0),
+          format: 'HH:mm',
+          locale: en_US.Calendar,
+          isoWeek: false,
+          weekStart: 0
+        }}
+      >
+        <TimeDropdown showMeridiem={false} />
+      </CalendarProvider>
+    );
+
+    fireEvent.click(screen.getByRole('option', { name: '30 minutes', hidden: true }));
+
+    expect(onChangeTime).toHaveBeenCalledTimes(1);
+    expect(onChangeTime.mock.calls[0][0].hour).to.equal(13);
+  });
+
+  it('Should not add 12 to hour when clicking hours >= 12 in 24h mode', () => {
+    const onChangeTime = vi.fn();
+
+    render(
+      <CalendarProvider
+        value={{
+          onChangeTime,
+          date: new Date(2024, 0, 1, 13, 0, 0),
+          format: 'HH:mm',
+          locale: en_US.Calendar,
+          isoWeek: false,
+          weekStart: 0
+        }}
+      >
+        <TimeDropdown showMeridiem={false} />
+      </CalendarProvider>
+    );
+
+    fireEvent.click(screen.getByRole('option', { name: '13 hours', hidden: true }));
+
+    expect(onChangeTime).toHaveBeenCalledTimes(1);
+    expect(onChangeTime.mock.calls[0][0].hour).to.equal(13);
   });
 
   it('Should not render hours hidden by `hideHours`', () => {
@@ -143,7 +198,14 @@ describe('Calendar - TimeDropdown', () => {
     );
 
     for (let h = 0; h < 24; h++) {
-      expect(hideHours).toHaveBeenCalledWith(h, { year: 2022, month: 11, day: 2 });
+      expect(hideHours).toHaveBeenCalledWith(h, {
+        year: 2022,
+        month: 11,
+        day: 2,
+        hour: 0,
+        minute: 0,
+        second: 0
+      });
     }
     expect(screen.getAllByRole('option', { hidden: true }).map(e => e.textContent)).toEqual([
       '00',
