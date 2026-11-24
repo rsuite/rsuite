@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React, { useCallback } from 'react';
 import { isAllSiblingNodeUncheckable, getDisabledState, isNodeUncheckable } from '../utils';
 import { useItemDataKeys } from '@/internals/Tree/TreeProvider';
@@ -5,6 +6,7 @@ import type { TreeNode } from '@/internals/Tree/types';
 import Highlight from '../../Highlight';
 
 interface Props {
+  disabled?: boolean;
   uncheckableItemValues: any[];
   disabledItemValues: any[];
   loadingNodeValues: any[];
@@ -16,6 +18,7 @@ interface Props {
 function useTreeNodeProps(props: Props) {
   const { valueKey, labelKey } = useItemDataKeys();
   const {
+    disabled: disabledProp,
     uncheckableItemValues,
     disabledItemValues,
     loadingNodeValues,
@@ -44,7 +47,9 @@ function useTreeNodeProps(props: Props) {
         nodeLabel
       );
 
-      const disabled = getDisabledState(flattenedNodes, nodeData, { disabledItemValues, valueKey });
+      const disabled =
+        disabledProp ||
+        getDisabledState(flattenedNodes, nodeData, { disabledItemValues, valueKey });
       const uncheckable = isNodeUncheckable(nodeData, { uncheckableItemValues, valueKey });
       const loading = loadingNodeValues.some(item => item === nodeData[valueKey]);
       const focus = focusItemValue === value;
@@ -64,6 +69,7 @@ function useTreeNodeProps(props: Props) {
     },
     [
       valueKey,
+      disabledProp,
       flattenedNodes,
       uncheckableItemValues,
       keyword,

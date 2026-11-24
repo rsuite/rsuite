@@ -169,24 +169,22 @@ function useFlattenTree(data: TreeNode[], options: UseFlattenTreeOptions) {
   );
 
   useEffect(() => {
-    // when data is changed, should clear the flattenedNodes, avoid duplicate keys
     flattenedNodes.current = {};
     seenValues.current.clear();
     flattenTreeData(data);
-  }, [data]);
+
+    if (multiple) {
+      updateTreeNodeCheckState(value);
+      forceUpdate();
+    }
+  }, [data, childrenKey, labelKey, valueKey]);
 
   useEffect(() => {
     if (multiple) {
       updateTreeNodeCheckState(value);
       forceUpdate();
     }
-
-    /**
-     * Add a dependency on data, because when loading data asynchronously through getChildren,
-     * data may change and the node status needs to be updated.
-     * @see https://github.com/rsuite/rsuite/issues/3973
-     */
-  }, [value, data]);
+  }, [value]);
 
   return flattenedNodes.current;
 }

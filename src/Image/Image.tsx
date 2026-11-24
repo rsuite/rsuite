@@ -1,7 +1,7 @@
 import React, { CSSProperties } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useCustom } from '@/internals/hooks';
-import { forwardRef } from '@/internals/utils';
+import { createChainedFunction, forwardRef } from '@/internals/utils';
 import { ImageWrapper } from './ImageWrapper';
 import { useImage } from './hooks/useImage';
 
@@ -66,6 +66,8 @@ const Image = forwardRef<'img', ImageProps>((props, ref) => {
     fit,
     fallbackSrc,
     loading,
+    onLoad,
+    onError,
     rounded,
     srcSet,
     sizes,
@@ -82,7 +84,13 @@ const Image = forwardRef<'img', ImageProps>((props, ref) => {
 
   const { merge, withPrefix } = useStyles(classPrefix);
   const classes = merge(className, withPrefix({ circle, bordered, rounded, shaded, zoomed }));
-  const { imgSrc, isLoading, onLoad, onError } = useImage({ src, fallbackSrc });
+  const {
+    imgSrc,
+    imgSrcSet,
+    isLoading,
+    onLoad: handleLoad,
+    onError: handleError
+  } = useImage({ src, srcSet, fallbackSrc });
 
   const styles = { ...style, ['--rs-object-fit']: fit, ['--rs-object-position']: position };
 
@@ -96,10 +104,10 @@ const Image = forwardRef<'img', ImageProps>((props, ref) => {
       width={width}
       height={height}
       loading={loading}
-      onLoad={onLoad}
-      onError={onError}
+      onLoad={createChainedFunction(handleLoad, onLoad)}
+      onError={createChainedFunction(handleError, onError)}
       crossOrigin={crossOrigin}
-      srcSet={srcSet}
+      srcSet={imgSrcSet}
       sizes={sizes}
       {...rest}
     />

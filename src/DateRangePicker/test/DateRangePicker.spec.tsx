@@ -103,6 +103,13 @@ describe('DateRangePicker', () => {
     expect(screen.getByTestId('picker')).to.have.attr('data-cleanable', 'true');
   });
 
+  it('Should hide the default caret when the clear button is shown', () => {
+    render(<DateRangePicker value={[new Date(), new Date()]} />);
+
+    expect(screen.getByRole('button', { name: /clear/i })).to.exist;
+    expect(screen.getByTestId('picker')).to.not.have.contain('.rs-picker-caret-icon');
+  });
+
   it('Should output custom value with time', () => {
     const value = [new Date(2019, 10, 11, 1, 0, 0), new Date(2019, 10, 12, 1, 0, 0)] as [
       Date,
@@ -213,6 +220,32 @@ describe('DateRangePicker', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
     expect(onClean).toHaveBeenCalledTimes(1);
+  });
+
+  it('Should clear the value when the input text is removed with Backspace', () => {
+    const onChange = vi.fn();
+    render(
+      <DateRangePicker
+        format="yyyy-MM-dd"
+        defaultValue={[new Date('2023-10-01'), new Date('2023-10-02')]}
+        onChange={onChange}
+      />
+    );
+
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+
+    fireEvent.focus(input);
+    input.select();
+    fireEvent.keyDown(input, { key: 'Backspace' });
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange.mock.calls[0][0]).to.be.null;
+    expect(screen.queryByRole('button', { name: 'Clear' })).to.not.exist;
+
+    fireEvent.blur(input);
+    fireEvent.focus(input);
+
+    expect(input).to.have.value('yyyy-MM-dd ~ yyyy-MM-dd');
   });
 
   it('Should call `onOpen` callback', async () => {
@@ -443,6 +476,15 @@ describe('DateRangePicker', () => {
     render(<DateRangePicker caretAs={GearIcon} />);
 
     expect(screen.getByLabelText('gear')).to.have.class('rs-icon');
+  });
+
+  it('Should hide custom caret when the clear button is shown', () => {
+    render(
+      <DateRangePicker caretAs={GearIcon} value={[new Date(2024, 0, 1), new Date(2024, 1, 1)]} />
+    );
+
+    expect(screen.getByRole('button', { name: /clear/i })).to.exist;
+    expect(screen.queryByLabelText('gear')).to.not.exist;
   });
 
   it('Should render a custom calendar title', () => {

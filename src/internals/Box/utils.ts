@@ -1,20 +1,15 @@
 import camelCase from 'lodash/camelCase';
-import { cssSystemPropAlias } from '@/internals/styled-system';
-import { isCSSProperty } from '@/internals/utils';
+import { cssSystemPropAlias } from '@/internals/styled-system/css-alias';
+import { supportedCSSProperties } from '@/internals/styled-system/css-properties';
 
-const getUsedPropKeys = () => {
-  const propSet = new Set<string>();
+const boxPropKeys = new Set<string>(supportedCSSProperties);
 
-  Object.entries(cssSystemPropAlias).forEach(([key, prop]) => {
-    const { property } = prop;
-    const propName = camelCase(property);
+Object.entries(cssSystemPropAlias).forEach(([key, prop]) => {
+  boxPropKeys.add(key);
+  boxPropKeys.add(camelCase(prop.property));
+});
 
-    propSet.add(key);
-    propSet.add(propName);
-  });
-
-  return Array.from(propSet);
-};
+const isBoxProp = (key: string) => boxPropKeys.has(key);
 
 /**
  * Extract box properties from props
@@ -22,14 +17,11 @@ const getUsedPropKeys = () => {
  * @returns Object containing only box properties
  */
 export const extractBoxProps = (props: Record<string, any>): Record<string, any> => {
-  const boxPropKeys = getUsedPropKeys();
   const boxProps: Record<string, any> = {};
 
   // Extract only box related properties
   Object.keys(props).forEach(key => {
-    if (boxPropKeys.includes(key) && props[key] !== undefined) {
-      boxProps[key] = props[key];
-    } else if (isCSSProperty(key)) {
+    if (isBoxProp(key) && props[key] !== undefined) {
       boxProps[key] = props[key];
     }
   });
@@ -43,12 +35,11 @@ export const extractBoxProps = (props: Record<string, any>): Record<string, any>
  * @returns New object without layout properties
  */
 export const omitBoxProps = (props: Record<string, any>): Record<string, any> => {
-  const boxPropKeys = getUsedPropKeys();
   const filteredProps: Record<string, any> = {};
 
   // Copy all properties except box related ones
   Object.keys(props).forEach(key => {
-    if (!boxPropKeys.includes(key)) {
+    if (!isBoxProp(key)) {
       filteredProps[key] = props[key];
     }
   });

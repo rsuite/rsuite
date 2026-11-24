@@ -1,6 +1,8 @@
 @use '../../internals/Box/styles/index' as box;
 @use '../../styles/colors/colors-base' as colors;
 @use '../../Input/styles/index' as input;
+@use '../../IconButton/styles/index' as icon-button;
+@use '../../Stack/styles/index' as stack;
 
 .rs-inline-edit {
   $sizes: xs, sm, md, lg;

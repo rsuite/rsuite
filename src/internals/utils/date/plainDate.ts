@@ -77,7 +77,7 @@ export function plainYearMonthToString(yearMonth: PlainYearMonth): string {
  * @see https://tc39.es/proposal-temporal/docs/plainyearmonth.html#daysInMonth
  */
 function getDaysInMonth(yearMonth: PlainYearMonth): number {
-  return new Date(yearMonth.year, yearMonth.month - 1, 0).getDate();
+  return new Date(yearMonth.year, yearMonth.month, 0).getDate();
 }
 
 export function isEveryDayInMonth(

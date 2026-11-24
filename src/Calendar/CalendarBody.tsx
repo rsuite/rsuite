@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import Grid from './Grid';
 import { forwardRef } from '@/internals/utils';

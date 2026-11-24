@@ -35,6 +35,7 @@ function useInput(props: InputProps) {
   return {
     inputProps,
     inputRef,
+    getInput,
     focus,
     blur
   };

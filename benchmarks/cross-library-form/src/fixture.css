@@ -1,0 +1,37 @@
+:root {
+  font-family: Arial, sans-serif;
+  color: #202020;
+  background: #fff;
+}
+body {
+  margin: 0;
+}
+.bench-host {
+  margin: 32px;
+  width: 480px;
+}
+.bench-host h1 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+.bench-field {
+  margin-bottom: 12px;
+}
+.bench-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+.bench-toggle {
+  display: block;
+  margin: 16px 0;
+}
+.bench-host button {
+  cursor: pointer;
+  padding: 6px 10px;
+  border: 1px solid #777;
+  border-radius: 4px;
+}
+.bench-host [data-contact-row] {
+  margin: 12px 0;
+}

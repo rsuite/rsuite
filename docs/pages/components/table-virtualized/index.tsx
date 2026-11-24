@@ -1,4 +1,3 @@
-import React from 'react';
 import { Table, Loader, Box } from 'rsuite';
 import { faker } from '@faker-js/faker/locale/en';
 import DefaultPage from '@/components/layout/Page';

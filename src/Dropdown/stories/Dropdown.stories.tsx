@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Dropdown from '../Dropdown';
 import FileDownloadIcon from '@rsuite/icons/FileDownload';
 import { createMeta } from '@/storybook/utils';

@@ -6,6 +6,8 @@ import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom } from '@/internals/hooks';
 import { useFormGroup } from '../FormGroup';
+import { useFormGroupRegistration } from '../FormGroup/useFormGroupRegistration';
+import { registerFormGroupPart } from '../FormGroup/formGroupRelations';
 
 export interface FormHelpTextProps
   extends BoxProps,
@@ -30,6 +32,7 @@ const FormHelpText = forwardRef<'span', FormHelpTextProps>((props, ref) => {
     id = helpTextId,
     ...rest
   } = propsWithDefaults;
+  useFormGroupRegistration('helpText', tooltip ? undefined : id);
 
   const { withPrefix, merge } = useStyles(classPrefix);
   const classes = merge(className, withPrefix({ tooltip }));
@@ -60,5 +63,6 @@ const FormHelpText = forwardRef<'span', FormHelpTextProps>((props, ref) => {
 });
 
 FormHelpText.displayName = 'FormHelpText';
+registerFormGroupPart(FormHelpText, 'helpText');
 
 export default FormHelpText;

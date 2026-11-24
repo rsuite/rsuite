@@ -1,6 +1,6 @@
 import MatchMediaMock from '@test/mocks/matchmedia-mock';
 import useMediaQuery from '../useMediaQuery';
-import { describe, expect, it, beforeEach, afterEach } from 'vitest';
+import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
 
 let matchMedia: MatchMediaMock;
@@ -246,12 +246,92 @@ describe('useMediaQuery', () => {
   it('Should respond to enabled prop changes', () => {
     act(() => window.resizeTo(768, 1000));
 
-    // Test with enabled=true
-    const { result: enabledResult } = renderHook(() => useMediaQuery('md', true));
-    expect(enabledResult.current).to.be.deep.equal([true]);
+    const { result, rerender } = renderHook(({ enabled }) => useMediaQuery('md', enabled), {
+      initialProps: { enabled: true }
+    });
+    expect(result.current).to.be.deep.equal([true]);
 
-    // Test with enabled=false
-    const { result: disabledResult } = renderHook(() => useMediaQuery('md', false));
-    expect(disabledResult.current).to.be.deep.equal([false]);
+    rerender({ enabled: false });
+    expect(result.current).to.be.deep.equal([false]);
+
+    rerender({ enabled: true });
+    expect(result.current).to.be.deep.equal([true]);
+  });
+
+  it('Should read the current screen size when enabled after mounting', () => {
+    act(() => window.resizeTo(767, 1000));
+    const { result, rerender } = renderHook(({ enabled }) => useMediaQuery('md', enabled), {
+      initialProps: { enabled: false }
+    });
+    expect(result.current).to.be.deep.equal([false]);
+
+    act(() => window.resizeTo(768, 1000));
+    rerender({ enabled: true });
+    expect(result.current).to.be.deep.equal([true]);
+
+    rerender({ enabled: false });
+    act(() => window.resizeTo(767, 1000));
+    rerender({ enabled: true });
+    expect(result.current).to.be.deep.equal([false]);
+
+    act(() => window.resizeTo(768, 1000));
+    expect(result.current).to.be.deep.equal([true]);
+  });
+
+  it('Should stop listening when disabled and clean up after unmounting', () => {
+    const addListener = vi.fn();
+    const removeListener = vi.fn();
+    const matchMediaSpy = vi.spyOn(window, 'matchMedia').mockReturnValue({
+      matches: true,
+      addEventListener: addListener,
+      removeEventListener: removeListener
+    } as unknown as MediaQueryList);
+
+    try {
+      const { result, rerender, unmount } = renderHook(
+        ({ enabled }) => useMediaQuery('md', enabled),
+        { initialProps: { enabled: false } }
+      );
+      expect(result.current).to.be.deep.equal([false]);
+      expect(matchMediaSpy).not.toHaveBeenCalled();
+
+      rerender({ enabled: true });
+      expect(result.current).to.be.deep.equal([true]);
+      expect(addListener).toHaveBeenCalledTimes(1);
+
+      rerender({ enabled: false });
+      expect(removeListener).toHaveBeenCalledWith('change', addListener.mock.calls[0][1]);
+      const callsBeforeRerender = matchMediaSpy.mock.calls.length;
+      rerender({ enabled: false });
+      expect(matchMediaSpy).toHaveBeenCalledTimes(callsBeforeRerender);
+
+      rerender({ enabled: true });
+      expect(addListener).toHaveBeenCalledTimes(2);
+      unmount();
+      expect(removeListener).toHaveBeenCalledTimes(2);
+      expect(removeListener).toHaveBeenLastCalledWith('change', addListener.mock.calls[1][1]);
+    } finally {
+      matchMediaSpy.mockRestore();
+    }
+  });
+
+  it('Should update the queried breakpoints when re-enabled', () => {
+    act(() => window.resizeTo(768, 1000));
+    const { result, rerender } = renderHook(({ query, enabled }) => useMediaQuery(query, enabled), {
+      initialProps: { query: ['md'], enabled: true }
+    });
+    expect(result.current).to.be.deep.equal([true]);
+
+    rerender({ query: ['lg', 'md'], enabled: false });
+    expect(result.current).to.be.deep.equal([false, false]);
+
+    rerender({ query: ['lg', 'md'], enabled: true });
+    expect(result.current).to.be.deep.equal([false, true]);
+
+    rerender({ query: ['md', 'lg', 'md'], enabled: true });
+    expect(result.current).to.be.deep.equal([true, false, true]);
+
+    act(() => window.resizeTo(992, 1000));
+    expect(result.current).to.be.deep.equal([true, true, true]);
   });
 });

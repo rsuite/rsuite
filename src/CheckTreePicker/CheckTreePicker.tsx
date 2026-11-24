@@ -25,6 +25,7 @@ import {
   PositionChildProps
 } from '@/internals/Picker';
 import { getSelectedItems } from '../CheckTree/utils';
+import { formatNodeRefKey } from '../Tree/utils';
 import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
 import type { TreeNode } from '@/internals/Tree/types';
 import type { FormControlPickerProps, Option, DeprecatedMenuProps } from '@/internals/types';
@@ -98,6 +99,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
     popupClassName,
     popupStyle,
     popupAutoWidth = true,
+    responsive,
     placement = 'bottomStart',
     treeHeight = 320,
     toggleAs,
@@ -190,6 +192,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
 
   const onPickerKeydown = useToggleKeyDownEvent({
     toggle: !focusItemValue || !active,
+    disabled,
     trigger,
     target,
     overlay,
@@ -251,11 +254,13 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
     <TreeProvider value={treeContext}>
       <CheckTreeView
         ref={treeView}
+        disabled={disabled || rest.readOnly || rest.loading}
         disabledItemValues={disabledItemValues}
         expandItemValues={expandItemValues}
         uncheckableItemValues={uncheckableItemValues}
         cascade={cascade}
         data={treeData}
+        sourceData={data}
         height={treeHeight}
         showIndentLine={showIndentLine}
         listProps={listProps}
@@ -331,6 +336,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
       as={as}
       id={id}
       pickerType="check-tree"
+      responsive={responsive}
       block={block}
       disabled={disabled}
       appearance={appearance}
@@ -351,7 +357,6 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
       <PickerToggle
         ref={target}
         appearance={appearance}
-        onKeyDown={onPickerKeydown}
         onClean={createChainedFunction(handleClean, onClean)}
         cleanable={cleanable && !disabled}
         countable={countable}
@@ -361,9 +366,10 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
         active={active}
         placement={placement}
         inputValue={value}
-        focusItemValue={focusItemValue}
+        focusItemValue={isNil(focusItemValue) ? undefined : formatNodeRefKey(focusItemValue)}
         size={size}
         {...rest}
+        onKeyDown={onPickerKeydown}
       >
         {selectedElement || locale?.placeholder}
       </PickerToggle>

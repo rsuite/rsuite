@@ -140,6 +140,17 @@ const Radio = forwardRef<'div', RadioProps>((props, ref) => {
     onChange?.(value, true, event);
   });
 
+  const handleClick = useEventCallback((event: React.MouseEvent<HTMLInputElement>) => {
+    if (readOnly) {
+      event.preventDefault();
+
+      // Keep React's checked tracking in sync with the canceled native activation.
+      event.currentTarget.checked = checked;
+    }
+
+    inputProps?.onClick?.(event);
+  });
+
   const controlled = radioContext ? true : selfControlled;
 
   if (typeof controlled !== 'undefined') {
@@ -172,6 +183,7 @@ const Radio = forwardRef<'div', RadioProps>((props, ref) => {
         tabIndex={tabIndex}
         readOnly={readOnly}
         disabled={disabled}
+        onClick={handleClick}
         onChange={handleChange}
       />
       <span className={prefix`inner`} aria-hidden />

@@ -1,0 +1,12 @@
+{
+  "name": "rsuite-public-runtime-consumers",
+  "private": true,
+  "version": "0.0.0",
+  "devDependencies": {
+    "react18": "npm:react@18.2.0",
+    "react18-dom": "npm:react-dom@18.2.0",
+    "react19": "npm:react@19.0.0",
+    "react19-dom": "npm:react-dom@19.0.0",
+    "esbuild": "0.25.2"
+  }
+}

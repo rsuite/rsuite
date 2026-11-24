@@ -169,4 +169,31 @@ describe('useStyled', () => {
     expect(cssRules).toContain('--rs-box-m: 20px');
     expect(cssRules).toContain('margin: var(--rs-box-m)');
   });
+
+  it('should map supported properties without aliases', () => {
+    render(
+      <TestComponent
+        cssVars={{
+          '--rs-box-transform': 'scale(1)',
+          '--rs-box-overflow': 'hidden',
+          '--rs-box-object-fit': 'cover'
+        }}
+      />
+    );
+
+    const cssRules = vi.mocked(StyleManager.addRule).mock.calls[0][1];
+
+    expect(cssRules).toContain('transform: var(--rs-box-transform)');
+    expect(cssRules).toContain('overflow: var(--rs-box-overflow)');
+    expect(cssRules).toContain('object-fit: var(--rs-box-object-fit)');
+  });
+
+  it('should ignore variables that do not map to supported properties', () => {
+    render(<TestComponent cssVars={{ '--rs-box-src': '/demo.png' }} />);
+
+    const cssRules = vi.mocked(StyleManager.addRule).mock.calls[0][1];
+
+    expect(cssRules).toContain('--rs-box-src: /demo.png');
+    expect(cssRules).not.toContain('src: var(--rs-box-src)');
+  });
 });

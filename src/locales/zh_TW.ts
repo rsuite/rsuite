@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { zhTW } from 'date-fns/locale/zh-TW';
 
 const DateTimeFormats = {
@@ -20,6 +21,19 @@ const DateTimeFormats = {
   shortDateFormat: 'yyyy-MM-dd',
   shortTimeFormat: 'aa hh:mm',
   dateLocale: zhTW as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: '上個月',
+  nextMonth: '下個月',
+  selectMonth: '選擇月份',
+  selectTime: '選擇時間'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: '開啟選擇器'
 };
 
 const Combobox = {
@@ -59,10 +73,10 @@ export default {
     skip: '跳至{0}頁'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: '最近 7 天'
   },
   Combobox,
@@ -83,9 +97,36 @@ export default {
   Breadcrumb: {
     expandText: '顯示路徑'
   },
+  Carousel: {
+    carouselRoleDescription: '輪播',
+    slideRoleDescription: '幻燈片',
+    slidePosition: '第 {0} 張，共 {1} 張',
+    startRotation: '開始自動播放',
+    stopRotation: '停止自動播放',
+    selectSlide: '選擇投影片',
+    slideLabel: '第 {0} 張，共 {1} 張'
+  },
+  PinInput: {
+    groupLabel: 'PIN 碼輸入',
+    characterLabel: '第 {0} 個字元，共 {1} 個'
+  },
   Toggle: {
     on: '開啟',
     off: '關閉'
+  },
+  ColorPicker: {
+    placeholder: '選擇顏色',
+    dialogTitle: '選擇顏色',
+    hue: '色相',
+    saturation: '飽和度',
+    brightness: '亮度',
+    opacity: '不透明度',
+    format: '格式',
+    value: '顏色值',
+    presets: '預設顏色',
+    invalidColor: '請輸入有效的 HEX、RGB 或 HSL 顏色。',
+    clear: '清除',
+    done: '完成'
   },
   Dialog: {
     alert: '提醒',

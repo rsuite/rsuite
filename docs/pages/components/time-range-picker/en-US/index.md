@@ -50,6 +50,8 @@ The TimeRangePicker component is used to select a time range.
 
 ## Responsive
 
+On extra-small screens, the popup is displayed as a full-width Drawer by default. Set `responsive={false}` to keep a positioned popup, such as when the picker is already inside a Modal or Drawer.
+
 <!--{include:<example-responsive>}-->
 
 ## Accessibility
@@ -103,6 +105,7 @@ Has all ARIA properties of the DateRangeInput component by default.
 | preventOverflow | boolean                                                | Prevent floating element overflow                                                   |             |
 | ranges          | [Range[]](#code-ts-range-code) ([])                    | Set predefined date ranges the user can select from.                                |             |
 | renderValue     | (date: [Date, Date], format: string) => string         | Custom render value                                                                 |             |
+| responsive      | boolean `(true)`                                       | Whether to display the popup as a full-width Drawer on extra-small screens          |             |
 | showHeader      | boolean `(true)`                                       | Whether to display the formatted date range at the header of the calendar           | ![][5.52.0] |
 | showMeridiem    | boolean                                                | Display hours in 12 format                                                          |             |
 | size            | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                  | A picker can have different sizes                                                   |             |

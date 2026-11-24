@@ -5,7 +5,6 @@
 @use '../../styles/mixins/color-modes' as color-modes;
 @use '../../Dropdown/styles/index' as dropdown;
 
-//
 // Navs
 // --------------------------------------------------
 
@@ -44,12 +43,14 @@
   font-size: var(--rs-font-size-sm);
   background: transparent;
   transition: var(--rs-nav-item-transition);
+
   @include utilities.ellipsis-basic;
   @include hacks.safari-border-radius-overflow-hidden;
 
   & {
     outline: none;
   }
+
   @include utilities.reset-link-text-decoration(none);
 
   @include color-modes.high-contrast-mode {
@@ -68,6 +69,7 @@
 
   &:focus-visible {
     @include utilities.focus-ring-slim;
+
     z-index: 2;
   }
 
@@ -193,7 +195,7 @@
 
   // Horizontal
   &[data-direction='horizontal'] {
-    //Nav content
+    // Nav content
     > .rs-nav-item,
     > .rs-dropdown .rs-dropdown-toggle {
       border-top-left-radius: var(--rs-radius-md);
@@ -219,6 +221,7 @@
         border-bottom-left-radius: var(--rs-radius-md);
         border-bottom-right-radius: var(--rs-radius-md);
       }
+
       .rs-nav-item[data-active='true'] {
         border-bottom-width: 1px;
         border-top-width: 0;
@@ -228,7 +231,7 @@
 
   // Vertical
   &[data-direction='vertical'] {
-    //Nav content
+    // Nav content
     > .rs-nav-item,
     > .rs-dropdown .rs-dropdown-toggle {
       border-end-start-radius: var(--rs-radius-md);
@@ -255,6 +258,7 @@
         border-start-end-radius: var(--rs-radius-md);
         border-end-end-radius: var(--rs-radius-md);
       }
+
       .rs-nav-item[data-active='true'] {
         border-inline-start-width: 0;
         border-inline-end-width: 1px;
@@ -284,7 +288,7 @@
 
   // Horizontal
   &[data-direction='horizontal'] {
-    //Waterline
+    // Waterline
     .rs-nav-bar {
       border-top: 2px solid var(--rs-navs-subtle-border);
     }

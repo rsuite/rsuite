@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { da } from 'date-fns/locale/da';
 
 const DateTimeFormats = {
@@ -24,6 +25,19 @@ const DateTimeFormats = {
   shortDateFormat: 'dd/MM/yyyy',
   shortTimeFormat: 'HH:mm',
   dateLocale: da as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Forrige måned',
+  nextMonth: 'Næste måned',
+  selectMonth: 'Vælg måned',
+  selectTime: 'Vælg tidspunkt'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Åbn vælger'
 };
 
 const Combobox = {
@@ -63,10 +77,10 @@ export default {
     skip: 'Gå til{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Seneste 7 dage'
   },
   Combobox,
@@ -86,6 +100,15 @@ export default {
   },
   Breadcrumb: {
     expandText: 'Vis sti'
+  },
+  Carousel: {
+    carouselRoleDescription: 'karrusel',
+    slideRoleDescription: 'dias',
+    slidePosition: '{0} af {1}',
+    startRotation: 'Start automatisk diasskift',
+    stopRotation: 'Stop automatisk diasskift',
+    selectSlide: 'Vælg dias',
+    slideLabel: 'Dias {0} af {1}'
   },
   Toggle: {
     on: 'på',
