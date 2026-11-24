@@ -34,6 +34,8 @@ export interface PickerToggleTriggerProps
   classPrefix?: string;
   /** Disable the component */
   disabled?: boolean;
+  /** Closes the popup when the picker is disabled. */
+  closeOnDisable?: boolean;
   /** Unique identifier */
   id?: string;
   /** If true, multiple selection is allowed */
@@ -124,6 +126,7 @@ export const PickerToggleTrigger = React.forwardRef(
       className,
       classPrefix = 'picker',
       disabled,
+      closeOnDisable,
       id,
       multiple,
       name,
@@ -149,8 +152,8 @@ export const PickerToggleTrigger = React.forwardRef(
     const pickerId = useUniqueId('rs-', id);
     const responsiveQuery = typeof responsive === 'string' ? responsive : 'xsOnly';
     const breakpoint = useBreakpointValue({ [responsiveQuery]: 'xs' }, { enabled: !!responsive });
-    // Only use the breakpoint value if not disabled
-    const effectiveBreakpoint = disabled ? undefined : breakpoint;
+    // Keep the existing Drawer mounted so it can finish its exit when disabled.
+    const effectiveBreakpoint = disabled && !closeOnDisable ? undefined : breakpoint;
 
     const comboboxContext = useMemo(
       () => ({
@@ -222,6 +225,7 @@ export const PickerToggleTrigger = React.forwardRef(
           onExit={createChainedFunction(handleExit, pickerTriggerProps.onExit)}
           onExited={createChainedFunction(handleExited, pickerTriggerProps.onExited)}
           disabled={pickerTriggerProps.disabled || pickerTriggerProps.loading}
+          forceClosed={closeOnDisable && disabled}
           ref={ref}
           trigger={trigger}
           placement={placement}

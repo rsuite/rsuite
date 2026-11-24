@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import CalenderSimpleIcon from '@rsuite/icons/CalenderSimple';
@@ -458,10 +458,6 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
     }
   });
 
-  useEffect(() => {
-    if (disabled) handleClose();
-  }, [disabled, handleClose]);
-
   const updateValue = (event: React.SyntheticEvent, date?: Date | null, closeOverlay = true) => {
     const nextValue = typeof date !== 'undefined' ? date : calendarDate;
 
@@ -740,6 +736,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
       className={merge(className, { [prefix('error')]: invalidValue })}
       block={block}
       disabled={disabled}
+      closeOnDisable
       appearance={appearance}
       style={style}
       rootRef={root}

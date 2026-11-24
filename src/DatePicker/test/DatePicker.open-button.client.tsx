@@ -46,6 +46,7 @@ const CustomCaret = (props: React.SVGProps<SVGSVGElement>) => (
 
 function Fixture() {
   const [open, setOpen] = useState(false);
+  const [disabled, setDisabled] = useState(options.has('disabled'));
   const [openOnInputClick, setOpenOnInputClick] = useState(false);
   const picker = useRef<PickerHandle>(null);
   useEffect(() => {
@@ -53,7 +54,7 @@ function Fixture() {
   }, []);
   return (
     <CustomProvider
-      reduceMotion
+      reduceMotion={!options.has('animate')}
       theme={options.get('theme') === 'dark' ? 'dark' : 'light'}
       rtl={options.has('rtl')}
       locale={options.has('zhCN') ? zhCN : options.has('legacyLocale') ? legacyLocale : undefined}
@@ -95,7 +96,7 @@ function Fixture() {
             ? { ranges: [{ label: 'Preset', value: presetValue, closeOverlay: true }] }
             : {})}
           locale={options.has('instanceLocale') ? { openPicker: 'Choose appointment' } : undefined}
-          disabled={options.has('disabled')}
+          disabled={disabled}
           readOnly={options.has('readOnly')}
           loading={options.has('loading')}
           plaintext={options.has('plaintext')}
@@ -106,6 +107,7 @@ function Fixture() {
           onOpen={() => {
             callbacks.push({ kind: 'open' });
             if (!options.has('deny')) setOpen(true);
+            if (options.has('disableOnOpen')) setDisabled(true);
           }}
           onClose={() => {
             callbacks.push({ kind: 'close' });
@@ -126,6 +128,11 @@ function Fixture() {
           {...(options.has('controlled') ? { open } : {})}
         />
         <button type="button">Outside</button>
+        {options.has('toggleDisabled') && (
+          <button type="button" onClick={() => setDisabled(value => !value)}>
+            Toggle disabled
+          </button>
+        )}
         {options.has('policy') && (
           <button type="button" onClick={() => setOpenOnInputClick(value => !value)}>
             Toggle policy

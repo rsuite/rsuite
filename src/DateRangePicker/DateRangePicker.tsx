@@ -872,10 +872,6 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       }
     });
 
-    useEffect(() => {
-      if (disabled) handleClose();
-    }, [disabled, handleClose]);
-
     const handleInputKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
       onMenuKeyDown(event, {
         esc: handleClose,
@@ -1101,6 +1097,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
         className={merge(className, { [prefix('error')]: invalidValue })}
         block={block}
         disabled={disabled}
+        closeOnDisable
         appearance={appearance}
         style={style}
         rootRef={root}
