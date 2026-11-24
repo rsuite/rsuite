@@ -41,6 +41,7 @@
     "tdd": "cross-env RUN_ENV=test vitest",
     "test": "npm run test:component",
     "test:ci": "cross-env RUN_ENV=ci vitest --run --coverage",
+    "test:ci:firefox-process": "node test/browser/firefox-process/run.mjs",
     "test:component": "cross-env RUN_ENV=test vitest --run",
     "test:coverage": "cross-env RUN_ENV=test vitest --run --coverage",
     "test:ssr": "cross-env RUN_ENV=ssr vitest --run",
@@ -84,7 +85,7 @@
     "react-use-set": "^1.0.0",
     "react-window": "^1.8.11",
     "rsuite-table": "^5.19.3",
-    "schema-typed": "^2.4.3"
+    "schema-typed": "^2.4.4"
   },
   "peerDependencies": {
     "react": ">=18",
@@ -131,7 +132,6 @@
     "autoprefixer": "^10.4.20",
     "babel-loader": "^8.0.0",
     "babel-plugin-istanbul": "^7.0.0",
-    "babel-plugin-module-resolver": "^5.0.2",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
     "boxen": "^7.1.0",
     "brfs": "^1.6.1",
@@ -180,7 +180,7 @@
     "tinyglobby": "^0.2.17",
     "ts-expect": "^1.3.0",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.18.2",
+    "typescript-eslint": "^8.74.0",
     "util": "^0.12.5",
     "vinyl": "^3.0.0",
     "vite": "6.4.5",

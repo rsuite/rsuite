@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { isDeepStrictEqual } from 'node:util';
-import { inputs, packageFingerprint, hash } from '../integrity.mjs';
+import { inputs, packageFingerprint, candidateDependencies, hash } from '../integrity.mjs';
 
 export function graphAssets(manifest, entry = 'index.html', dynamic = false) {
   const visited = new Set();
@@ -71,6 +71,7 @@ export function verifyBuild(root, directory, profile) {
     manifest.styleProfile !== profile ||
     !manifest.separateStyleOutput ||
     !isDeepStrictEqual(manifest.sourceInputs, inputs(root)) ||
+    !isDeepStrictEqual(manifest.candidateDependencies, candidateDependencies(root)) ||
     manifest.candidateFingerprint !== packageFingerprint(root) ||
     manifest.candidateFingerprint !== packageFingerprint(root, path.resolve(root, '../../lib'))
   ) {

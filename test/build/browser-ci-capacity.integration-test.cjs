@@ -12,8 +12,17 @@ const workflows = {
   chromium: read('chromium-tests.yml'),
   firefox: read('firefox-tests.yml')
 };
+const scripts = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8')).scripts;
 
 function verify(workflows) {
+  assert.equal(scripts['test:ci'], 'cross-env RUN_ENV=ci vitest --run --coverage');
+  assert.equal(scripts['test:ci:firefox-process'], 'node test/browser/firefox-process/run.mjs');
+  assert.equal(
+    workflows.main.jobs.lint.steps.find(
+      step => step.name === 'Check browser and public consumer CI coverage'
+    ).run,
+    'node --test test/build/browser-ci-capacity.integration-test.cjs test/build/firefox-process.integration-test.mjs'
+  );
   for (const engine of ['chromium', 'firefox']) {
     const job = workflows[engine].jobs.test;
     assert.equal(job['timeout-minutes'], 30);
@@ -22,6 +31,12 @@ function verify(workflows) {
     assert.deepEqual(job.strategy.matrix.include, [
       { suite: 'components', shard: 1, shards: 2 },
       { suite: 'components', shard: 2, shards: 2 },
+      ...(engine === 'firefox'
+        ? [
+            { suite: 'profile', shard: 1, shards: 2 },
+            { suite: 'profile', shard: 2, shards: 2 }
+          ]
+        : []),
       { suite: 'native', shard: 1, shards: 4 },
       { suite: 'native', shard: 2, shards: 4 },
       { suite: 'native', shard: 3, shards: 4 },
@@ -31,7 +46,9 @@ function verify(workflows) {
     assert.equal(component.if, "matrix.suite == 'components'");
     assert.equal(
       component.run,
-      'npm run test:ci -- --browser.headless --shard=${{ matrix.shard }}/${{ matrix.shards }}'
+      engine === 'firefox'
+        ? 'npm run test:ci:firefox-process -- --shard=${{ matrix.shard }}/${{ matrix.shards }}'
+        : 'npm run test:ci -- --browser.headless --shard=${{ matrix.shard }}/${{ matrix.shards }}'
     );
     const native = job.steps.find(step => step.name === 'Run native browser control tests');
     assert.equal(native.if, "matrix.suite == 'native'");
@@ -47,6 +64,49 @@ function verify(workflows) {
     );
     assert(!job['continue-on-error']);
     assert(job.steps.every(step => !step['continue-on-error']));
+    if (engine === 'firefox') {
+      const processArtifact = job.steps.find(
+        step => step.name === 'Retain ordinary Firefox process diagnostics'
+      );
+      assert.equal(
+        processArtifact.if,
+        "${{ !cancelled() && matrix.suite == 'components' && steps.component-tests.outcome != 'skipped' }}"
+      );
+      assert.equal(
+        processArtifact.with.name,
+        'ordinary-firefox-process-${{ inputs.react-version }}-${{ matrix.shard }}-attempt-${{ github.run_attempt }}'
+      );
+      assert.equal(processArtifact.with.path, 'artifacts/firefox-process/**');
+      assert.equal(processArtifact.with['if-no-files-found'], 'error');
+      assert.equal(
+        job.name,
+        "${{ matrix.suite == 'native' && 'Firefox native' || matrix.suite == 'profile' && 'Firefox profile' || 'Firefox' }} shard (${{ matrix.shard }}/${{ matrix.shards }})"
+      );
+      const profile = job.steps.find(step => step.id === 'profiled-components');
+      assert.equal(profile.if, "matrix.suite == 'profile'");
+      assert.equal(
+        profile.run,
+        'npm run test:firefox-profile -- --coverage --shard=${{ matrix.shard }}/${{ matrix.shards }}'
+      );
+      assert.equal(profile.env.RUN_ENV, 'ci');
+      assert.equal(profile.env.BROWSER, 'firefox');
+      const artifact = job.steps.find(
+        step => step.name === 'Retain component native Firefox failure profiles'
+      );
+      assert.equal(
+        artifact.if,
+        "${{ !cancelled() && matrix.suite == 'profile' && steps.profiled-components.outcome != 'skipped' }}"
+      );
+      assert.equal(
+        artifact.with.name,
+        'component-native-profile-firefox-${{ inputs.react-version }}-${{ matrix.shard }}-attempt-${{ github.run_attempt }}'
+      );
+      assert.equal(
+        artifact.with.path,
+        'artifacts/firefox-profile/**\n!artifacts/firefox-profile/**/cache/**\nsrc/**/__screenshots__/**/*.png\n'
+      );
+      assert.equal(artifact.with['if-no-files-found'], 'error');
+    }
   }
 
   const jobs = workflows.main.jobs;
@@ -128,6 +188,103 @@ function verify(workflows) {
 
 test('CI partitions retain component coverage, native files and both public consumers', () => {
   verify(workflows);
+});
+
+test('the ordinary process controls remain required in hosted CI', () => {
+  const altered = structuredClone(workflows);
+  altered.main.jobs.lint.steps.find(
+    step => step.name === 'Check browser and public consumer CI coverage'
+  ).run = 'node --test test/build/browser-ci-capacity.integration-test.cjs';
+  assert.throws(() => verify(altered));
+});
+
+test('profile guards retain both independent shards, first-failure artifacts and coverage isolation', () => {
+  verify(workflows);
+  for (const [name, mutate] of [
+    [
+      'ordinary failure loses process observations',
+      job => {
+        job.steps.find(step => step.id === 'component-tests').run =
+          'npm run test:ci -- --browser.headless --shard=${{ matrix.shard }}/${{ matrix.shards }}';
+      }
+    ],
+    [
+      'ordinary process export skips failures',
+      job => {
+        job.steps.find(step => step.name === 'Retain ordinary Firefox process diagnostics').if =
+          'success()';
+      }
+    ],
+    [
+      'ordinary process artifact collides with independent profiles',
+      job => {
+        job.steps.find(
+          step => step.name === 'Retain ordinary Firefox process diagnostics'
+        ).with.name =
+          'component-native-profile-firefox-${{ inputs.react-version }}-${{ matrix.shard }}-attempt-${{ github.run_attempt }}';
+      }
+    ],
+    [
+      'ordinary diagnostics silently absent',
+      job => {
+        job.steps.find(step => step.name === 'Retain ordinary Firefox process diagnostics').with[
+          'if-no-files-found'
+        ] = 'ignore';
+      }
+    ],
+    ['lost profile shard', job => job.strategy.matrix.include.splice(2, 1)],
+    [
+      'duplicate profile shard',
+      job => {
+        job.strategy.matrix.include[3].shard = 1;
+      }
+    ],
+    [
+      'skipped profile tests',
+      job => {
+        job.steps.find(step => step.id === 'profiled-components').if = 'false';
+      }
+    ],
+    [
+      'profile without CI environment',
+      job => {
+        delete job.steps.find(step => step.id === 'profiled-components').env.RUN_ENV;
+      }
+    ],
+    [
+      'ignored profile failure',
+      job => {
+        job.steps.find(step => step.id === 'profiled-components')['continue-on-error'] = true;
+      }
+    ],
+    [
+      'failure export skipped',
+      job => {
+        job.steps.find(
+          step => step.name === 'Retain component native Firefox failure profiles'
+        ).if = "matrix.suite == 'profile'";
+      }
+    ],
+    [
+      'profile coverage uploaded twice',
+      job => {
+        job.steps.find(step => step.name === 'Retain browser coverage').if =
+          "matrix.suite != 'native'";
+      }
+    ],
+    [
+      'profile artifact collides with coverage',
+      job => {
+        job.steps.find(
+          step => step.name === 'Retain component native Firefox failure profiles'
+        ).with.name = 'browser-coverage-firefox-${{ inputs.react-version }}-${{ matrix.shard }}';
+      }
+    ]
+  ]) {
+    const altered = structuredClone(workflows);
+    mutate(altered.firefox.jobs.test);
+    assert.throws(() => verify(altered), name);
+  }
 });
 
 test('the required public check rejects failed, cancelled, skipped and absent results', () => {

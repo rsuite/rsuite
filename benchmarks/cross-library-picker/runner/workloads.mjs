@@ -1,3 +1,5 @@
+import { scrollViewport } from './scroll.mjs';
+
 const bridge = page => page.evaluate(() => window.pickerBenchmark.snapshot());
 
 async function settled(page, predicate, argument) {
@@ -99,18 +101,15 @@ export async function runWorkload(page, url, { size, warmups, iterations, onChec
     return target.scrollHeight;
   });
   if (scrollTarget === null) throw new Error('Expected a real scrollable viewport');
-  await page.locator('[data-benchmark-scroll-target]').hover();
+  const viewport = page.locator('[data-benchmark-scroll-target]');
+  await viewport.hover();
   await page.mouse.wheel(0, scrollTarget);
   await page.waitForFunction(
     () => document.querySelector('[data-benchmark-scroll-target]').scrollTop > 0
   );
-  await page.locator('[data-benchmark-scroll-target]').evaluate(element => {
-    element.scrollTop = element.scrollHeight;
-  });
+  await scrollViewport(page, viewport, 'bottom');
   await settled(page, (state, last) => state.fullyVisibleValues.includes(last), String(size));
-  await page.locator('[data-benchmark-scroll-target]').evaluate(element => {
-    element.scrollTop = 0;
-  });
+  await scrollViewport(page, viewport, 'top');
   await settled(page, state => state.firstVisible === '1');
   await close(page);
 

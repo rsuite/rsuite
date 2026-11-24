@@ -115,8 +115,69 @@ export async function observeStyles(page) {
         .filter(element => element.tagName.toLowerCase() === 'svg')
         .forEach((element, index) => (nodes[name + 'Icon' + index] = element));
     }
-    if (!nodes.combobox || (snapshot.popupVisible && !popup) || (snapshot.firstVisible && !marker))
-      throw new Error('Missing representative style node');
+    if (
+      !nodes.combobox ||
+      (snapshot.popupVisible && !popup) ||
+      (snapshot.firstVisible && !marker)
+    ) {
+      const missing = [
+        !nodes.combobox && 'combobox',
+        snapshot.popupVisible && !popup && 'visiblePopup',
+        snapshot.firstVisible && !marker && 'firstVisibleLabel'
+      ].filter(Boolean);
+      let context;
+      try {
+        const describe = element => {
+          if (!element || typeof element.getBoundingClientRect !== 'function') return null;
+          const rect = element.getBoundingClientRect();
+          const style = getComputedStyle(element);
+          return {
+            tag: element.tagName,
+            id: element.id,
+            role: element.getAttribute('role'),
+            className: element.getAttribute('class'),
+            connected: element.isConnected,
+            rect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
+            style: { display: style.display, visibility: style.visibility, opacity: style.opacity }
+          };
+        };
+        context = JSON.stringify({
+          missing,
+          snapshot,
+          nodes: {
+            combobox: describe(nodes.combobox),
+            popup: describe(popup),
+            firstVisibleLabel: describe(marker)
+          },
+          popupCandidates: [...document.querySelectorAll('.benchmark-popup')]
+            .slice(0, 8)
+            .map(element => ({
+              ...describe(element),
+              selected: element === popup,
+              values: [...element.querySelectorAll('[data-bench-value]')]
+                .slice(0, 8)
+                .map(label => label.getAttribute('data-bench-value'))
+            })),
+          animations: document
+            .getAnimations()
+            .slice(0, 16)
+            .map(animation => ({
+              playState: animation.playState,
+              currentTime: String(animation.currentTime),
+              target: describe(animation.effect?.target)
+            })),
+          document: {
+            visibilityState: document.visibilityState,
+            hasFocus: document.hasFocus(),
+            activeElement: describe(document.activeElement)
+          },
+          timestampMs: performance.now()
+        });
+      } catch (error) {
+        context = JSON.stringify({ missing, contextError: String(error) });
+      }
+      throw new Error('Missing representative style node: ' + context);
+    }
     const properties = [
       'display',
       'position',

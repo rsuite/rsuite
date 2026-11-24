@@ -34,7 +34,7 @@ React Suite is a set of React components. It is committed to providing high-qual
 
 ### Server
 
-React Suite supports server side rendering. Support [Next.js](https://github.com/vercel/next.js) to build applications.
+React Suite supports server-side rendering with [Next.js](https://nextjs.org/).
 
 ## Installation
 
@@ -104,7 +104,7 @@ These great services help us to build and maintain the project.
 | Service                                         | Description                                                              |
 | ----------------------------------------------- | ------------------------------------------------------------------------ |
 | [![GitHub][github-logo]][github]                | **Github** lets us host the Git repository and coordinate contributions. |
-| [![Vercel][vercel-logo]][vercel]                | **Vercel** provides the hosting for the documentation site.              |
+| [![Netlify][netlify-logo]][netlify]             | **Netlify** hosts the documentation site.                               |
 | [![CodeCov][codecov-logo]][codecov]             | **CodeCov** lets us monitor test coverage.                               |
 | [![Gitee][gitee-logo]][gitee]                   | **Gitee** grants us GVP - Gitee Most Valuable Open Source Project.       |
 | [![CodeSandbox][codesandbox-logo]][codesandbox] | **CodeSandbox** lets us provide live previews of the components.         |
@@ -112,8 +112,8 @@ These great services help us to build and maintain the project.
 
 [github]: https://github.com/
 [github-logo]: https://avatars.githubusercontent.com/u/9919?s=32&v=4
-[vercel]: https://vercel.com/
-[vercel-logo]: https://avatars.githubusercontent.com/u/14985020?s=32&v=4
+[netlify]: https://www.netlify.com/
+[netlify-logo]: https://avatars.githubusercontent.com/u/7892489?s=32&v=4
 [codecov]: https://about.codecov.io/
 [codecov-logo]: https://avatars.githubusercontent.com/u/8226205?s=32&v=4
 [gitee]: https://gitee.com/
