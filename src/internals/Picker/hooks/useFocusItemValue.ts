@@ -58,7 +58,6 @@ const useFocusItemValue = <T, D>(
   } = props;
   const [focusItemValue, setFocusItemValue] = useState<T | null | undefined>(defaultFocusItemValue);
   const [layer, setLayer] = useState(defaultLayer);
-  const [keys, setKeys] = useState<any[]>([]);
 
   const focusCallback = useEventCallback((value: any, event: React.KeyboardEvent) => {
     if (focusToOption) {
@@ -115,20 +114,13 @@ const useFocusItemValue = <T, D>(
     if (virtualizedList?.current) {
       return virtualizedList.current.getFocusableItems();
     }
-    if (!target) {
-      return [];
-    }
-
-    if (layer >= 1) {
-      return keys.map(value => find(data, item => shallowEqual(item[valueKey], value)));
-    }
-
     const popup = isFunction(target) ? target() : target;
-    const rootMenu = popup?.querySelector<HTMLElement>('[data-layer="0"]') || popup;
+    const column = popup?.querySelector<HTMLElement>(`[data-layer="${layer}"]`);
+    const menu = column ?? (layer === 0 ? popup : null);
 
     // Preserve rendered order and the original type of each option value.
     return getItemsByElements(
-      Array.from(rootMenu?.querySelectorAll<HTMLElement>(focusableQueryKey) ?? []),
+      Array.from(menu?.querySelectorAll<HTMLElement>(focusableQueryKey) ?? []),
       data,
       valueKey
     );
@@ -220,7 +212,7 @@ const useFocusItemValue = <T, D>(
     });
   });
 
-  const getSubMenuKeys = (nextLayer: number) => {
+  const getSubMenuItems = (nextLayer: number) => {
     const menu = isFunction(target) ? target() : target;
     const subMenu = menu?.querySelector(`[data-layer="${nextLayer}"]`);
 
@@ -229,7 +221,7 @@ const useFocusItemValue = <T, D>(
         Array.from(subMenu.querySelectorAll<HTMLElement>(focusableQueryKey)),
         data,
         valueKey
-      ).map(item => item?.[valueKey]);
+      );
     }
 
     return null;
@@ -237,14 +229,9 @@ const useFocusItemValue = <T, D>(
 
   const focusNextLevelMenu = useEventCallback((event: React.KeyboardEvent) => {
     const nextLayer = layer + 1;
-    const nextKeys = getSubMenuKeys(nextLayer);
+    const focusItem = getSubMenuItems(nextLayer)?.[0];
 
-    if (nextKeys) {
-      const focusItem = find(data, item => shallowEqual(item[valueKey], nextKeys[0]));
-
-      if (isUndefined(focusItem)) return;
-
-      setKeys(nextKeys);
+    if (focusItem) {
       setLayer(nextLayer);
       focusMenuItem(focusItem[valueKey], event);
     }
@@ -252,10 +239,7 @@ const useFocusItemValue = <T, D>(
 
   const focusPrevLevelMenu = useEventCallback((event: React.KeyboardEvent) => {
     const nextLayer = layer - 1;
-    const nextKeys = getSubMenuKeys(nextLayer);
-
-    if (nextKeys) {
-      setKeys(nextKeys);
+    if (getSubMenuItems(nextLayer)) {
       setLayer(nextLayer);
 
       const focusItem = findNodeOfTree(data, item => item[valueKey] === focusItemValue);
@@ -282,8 +266,6 @@ const useFocusItemValue = <T, D>(
     setFocusItemValue,
     layer,
     setLayer,
-    keys,
-    setKeys,
     onKeyDown: handleKeyDown
   };
 };

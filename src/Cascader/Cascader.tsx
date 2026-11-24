@@ -6,7 +6,7 @@ import TreeView from '../CascadeTree/TreeView';
 import SearchView from '../CascadeTree/SearchView';
 import { usePaths, useSelect, useSearch } from '../CascadeTree/hooks';
 import { flattenTree } from '../Tree/utils';
-import { getParentMap } from '@/internals/Tree/utils';
+import { getParentMap, getPathTowardsItem } from '@/internals/Tree/utils';
 import { PickerLocale } from '../locales';
 import { useControlled, useStyles, useCustom, useEventCallback, useMap } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs, shallowEqual } from '@/internals/utils';
@@ -211,7 +211,6 @@ const Cascader = forwardRef<'div', CascaderProps>(
       focusItemValue,
       setFocusItemValue,
       setLayer,
-      setKeys,
       onKeyDown: onFocusItem
     } = useFocusItemValue(value, {
       rtl,
@@ -222,16 +221,6 @@ const Cascader = forwardRef<'div', CascaderProps>(
       getParent: item => parentMap.get(item),
       callback: onFocusItemCallback
     });
-
-    const [prevValue, setPrevValue] = useState(value);
-
-    // Move the keyboard focus along with the expanded path when the value changes,
-    // so pressing Enter does not re-select a previously focused option.
-    if (!shallowEqual(prevValue, value)) {
-      setPrevValue(value);
-      setFocusItemValue(value);
-      setLayer(pathTowardsSelectedItem.length ? pathTowardsSelectedItem.length - 1 : 0);
-    }
 
     const onSearchCallback = (value: string, items: Option<T>[], event: React.SyntheticEvent) => {
       onSearch?.(value, event);
@@ -244,7 +233,6 @@ const Cascader = forwardRef<'div', CascaderProps>(
       if (items.length > 0) {
         setFocusItemValue(items[0][valueKey]);
         setLayer(0);
-        setKeys([]);
       }
     };
 
@@ -256,6 +244,18 @@ const Cascader = forwardRef<'div', CascaderProps>(
       parentSelectable,
       onSearch: onSearchCallback
     });
+
+    const [prevValue, setPrevValue] = useState(value);
+
+    if (!Object.is(prevValue, value)) {
+      setPrevValue(value);
+
+      // A search has its own focus, which must stay in the visible results.
+      if (!searchKeyword) {
+        setFocusItemValue(selectedItem?.[valueKey]);
+        setLayer(Math.max(0, pathTowardsSelectedItem.length - 1));
+      }
+    }
 
     const { active, events } = useActive({
       onEnter,
@@ -286,12 +286,11 @@ const Cascader = forwardRef<'div', CascaderProps>(
 
       if (isLeafNode) {
         setValue(focusItemValue as T);
-        if (pathTowardsActiveItem.length) {
-          setLayer(pathTowardsActiveItem.length - 1);
-        }
+        const path = getPathTowardsItem(focusItem, item => parentMap.get(item));
+        setLayer(Math.max(0, path.length - 1));
 
         if (!shallowEqual(value, focusItemValue)) {
-          onSelect?.(focusItem as Option<T>, pathTowardsActiveItem, event);
+          onSelect?.(focusItem as Option<T>, path, event);
           onChange?.(focusItemValue ?? (null as T), event);
         }
         handleClose();

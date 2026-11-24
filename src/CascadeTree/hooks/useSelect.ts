@@ -37,7 +37,7 @@ const useSelect = <T>(props: UseSelectProps<T>) => {
 
   // When the value changes (e.g. a controlled value is cleared or replaced),
   // move the expanded path to the newly selected item instead of keeping the stale one.
-  if (!shallowEqual(prevValue, value)) {
+  if (!Object.is(prevValue, value)) {
     setPrevValue(value);
     setActiveItem(selectedItem);
   }

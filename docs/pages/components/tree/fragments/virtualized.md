@@ -26,7 +26,7 @@ const App = () => {
         <Button
           onClick={() => {
             /**
-             * @see https://react-window.vercel.app/#/examples/list/scroll-to-item
+             * @see https://github.com/bvaughn/react-window
              */
             listRef.current?.scrollToItem(index, 'auto');
           }}

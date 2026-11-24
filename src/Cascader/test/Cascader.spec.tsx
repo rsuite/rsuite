@@ -568,6 +568,63 @@ describe('Cascader', () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
+  it('Should navigate the selected column after an external value change', async () => {
+    const data = mockTreeData(['1', ['2', '2-1', '2-2'], ['3', '3-1', '3-2', '3-3']]);
+    const onChange = vi.fn();
+    const onSelect = vi.fn();
+    const { rerender } = render(
+      <Cascader data={data} value="2-1" onChange={onChange} onSelect={onSelect} open />
+    );
+
+    rerender(
+      <Cascader
+        data={data}
+        value="3-1"
+        disabledItemValues={['3-2']}
+        onChange={onChange}
+        onSelect={onSelect}
+        open
+      />
+    );
+
+    const trigger = screen.getByRole('combobox');
+    trigger.focus();
+    await userEvent.keyboard('{ArrowDown}');
+    expect(screen.getByRole('treeitem', { name: '3-3' })).to.equal(document.activeElement);
+
+    await userEvent.keyboard('{Enter}');
+    expect(onChange).toHaveBeenCalledExactlyOnceWith('3-3', expect.anything());
+    expect(onSelect).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({ value: '3-3' }),
+      [expect.objectContaining({ value: '3' }), expect.objectContaining({ value: '3-3' })],
+      expect.anything()
+    );
+  });
+
+  it('Should keep keyboard focus on a visible search result when the value changes externally', async () => {
+    const onChange = vi.fn();
+    const onSelect = vi.fn();
+    const { rerender } = render(
+      <Cascader data={items} value="2" onChange={onChange} onSelect={onSelect} open />
+    );
+
+    const searchbox = screen.getByRole('searchbox');
+    await userEvent.type(searchbox, '1');
+    const firstResult = screen.getByRole('treeitem', { name: '1' });
+    expect(searchbox).to.have.attribute('aria-activedescendant', firstResult.id);
+
+    rerender(<Cascader data={items} value="3-2" onChange={onChange} onSelect={onSelect} open />);
+    expect(searchbox).to.have.attribute('aria-activedescendant', firstResult.id);
+
+    await userEvent.keyboard('{Enter}');
+    expect(onChange).toHaveBeenCalledExactlyOnceWith('1', expect.anything());
+    expect(onSelect).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({ value: '1' }),
+      [expect.objectContaining({ value: '1' })],
+      expect.anything()
+    );
+  });
+
   it('Should trigger onChange callback & onSelect callback when press Enter', () => {
     const onChange = vi.fn();
     const onSelect = vi.fn();

@@ -178,7 +178,6 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
     const {
       focusItemValue,
       setLayer,
-      setKeys,
       onKeyDown: onFocusItem
     } = useFocusItemValue(selectedPaths?.[selectedPaths.length - 1]?.[valueKey], {
       rtl,
@@ -195,7 +194,6 @@ const MultiCascader = forwardRef<'div', MultiCascaderProps>(
       } else if (selectedPaths?.length) {
         setLayer(selectedPaths.length - 1);
       }
-      setKeys([]);
 
       onSearch?.(value, event);
     };
