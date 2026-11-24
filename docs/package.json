@@ -55,7 +55,7 @@
     "nope-validator": "^1.1.1",
     "nprogress": "^0.2.0",
     "react": "^18.2.0",
-    "react-code-view": "^2.6.1",
+    "react-code-view": "^3.0.0",
     "react-color": "^2.18.0",
     "react-device-detect": "^2.2.2",
     "react-dnd": "^16.0.1",
