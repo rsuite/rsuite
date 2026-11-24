@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React, { useMemo } from 'react';
 import omit from 'lodash/omit';
 import Box, { BoxProps } from '@/internals/Box';

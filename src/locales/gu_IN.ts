@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { gu } from 'date-fns/locale/gu';
 
 const DateTimeFormats = {
@@ -20,6 +21,19 @@ const DateTimeFormats = {
   shortDateFormat: 'MM/dd/yyyy',
   shortTimeFormat: 'hh:mm aa',
   dateLocale: gu as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'પાછલો મહિનો',
+  nextMonth: 'આગલો મહિનો',
+  selectMonth: 'મહિનો પસંદ કરો',
+  selectTime: 'સમય પસંદ કરો'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'પસંદગીકાર ખોલો'
 };
 
 const Combobox = {
@@ -59,10 +73,10 @@ export default {
     skip: 'જા ઑ{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'છેલ્લા 7 દિવસ'
   },
   Combobox,
@@ -82,6 +96,15 @@ export default {
   },
   Breadcrumb: {
     expandText: 'પાથ બતાવો'
+  },
+  Carousel: {
+    carouselRoleDescription: 'સ્લાઇડશો',
+    slideRoleDescription: 'સ્લાઇડ',
+    slidePosition: '{1} માંથી {0}',
+    startRotation: 'સ્લાઇડનું આપમેળે બદલાવું શરૂ કરો',
+    stopRotation: 'સ્લાઇડનું આપમેળે બદલાવું બંધ કરો',
+    selectSlide: 'સ્લાઇડ પસંદ કરો',
+    slideLabel: 'કુલ {1}માંથી સ્લાઇડ {0}'
   },
   Toggle: {
     on: 'શરૂ',

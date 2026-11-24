@@ -2,7 +2,7 @@ import React from 'react';
 import trim from 'lodash/trim';
 import { KEY_VALUES } from '../constants';
 import { findNodeOfTree } from '../Tree/utils';
-import { reactToString } from '@/internals/utils';
+import matchesSearchKeyword from './matchesSearchKeyword';
 
 export interface NodeKeys {
   valueKey: string;
@@ -33,14 +33,7 @@ export function shouldDisplay(label: React.ReactNode, searchKeyword: string) {
   if (!trim(searchKeyword)) {
     return true;
   }
-  const keyword = searchKeyword.toLocaleLowerCase();
-  if (typeof label === 'string' || typeof label === 'number') {
-    return `${label}`.toLocaleLowerCase().indexOf(keyword) >= 0;
-  } else if (React.isValidElement(label)) {
-    const nodes = reactToString(label);
-    return nodes.join('').toLocaleLowerCase().indexOf(keyword) >= 0;
-  }
-  return false;
+  return matchesSearchKeyword(label, searchKeyword.toLocaleLowerCase());
 }
 
 export interface KeyboardEvents {

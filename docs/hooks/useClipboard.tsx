@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState } from 'react';
 import { useToaster, Notification } from 'rsuite';
 import copy from 'copy-to-clipboard';

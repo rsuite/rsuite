@@ -122,6 +122,12 @@ export function useDialog() {
             }
 
             resolve(result);
+
+            if (type === 'alert') {
+              options.onClose?.();
+            } else {
+              options.onClose?.(result);
+            }
           };
 
           let dialogComponent: React.ReactNode;

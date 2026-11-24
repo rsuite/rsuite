@@ -10,14 +10,17 @@ import '../styles/index.scss';
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
 describe('InputPicker styles', () => {
-  testPickerSize(InputPicker, { maxHeight: 40 });
+  testPickerSize(InputPicker, {
+    maxHeight: 40,
+    getUIElements: () => [...document.querySelectorAll<HTMLElement>('.rs-picker-toggle')]
+  });
   it('Should render correct toggle styles', () => {
     const { container } = render(<InputPicker data={data} />);
 
     expect(container.firstChild).to.have.style('border', `1px solid ${toRGB('#e5e5ea')}`);
     expect(container.firstChild).to.have.style('background-color', `${toRGB('#fff')}`);
-    expect(screen.getByRole('combobox')).to.have.style('height', '34px');
-    expect(screen.getByRole('textbox')).to.have.style('border-style', 'none');
+    expect(container.querySelector('.rs-picker-toggle')).to.have.style('height', '34px');
+    expect(screen.getByRole('combobox')).to.have.style('border-style', 'none');
   });
 
   it('Should have correct height when disabled', () => {

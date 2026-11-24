@@ -5,7 +5,7 @@ import EditIcon from '@rsuite/icons/Edit';
 import { colspanData, rowspanData } from './mock-data';
 import { createMeta } from '@/storybook/utils';
 import { mockUsers } from '@/storybook/mocks';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 
 import '../styles/index.scss';
 import '../../IconButton/styles/index.scss';

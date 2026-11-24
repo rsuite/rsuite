@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import usePages, { type MenuItem } from '@/hooks/usePages';
 import DefaultPage from '@/components/layout/Page';
 import SearchIcon from '@rsuite/icons/Search';

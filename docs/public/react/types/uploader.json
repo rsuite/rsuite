@@ -172,7 +172,7 @@
       "shouldUpload": {
         "type": "(file:[FileType][file] ) => boolean | Promise&lt;boolean&gt;",
         "isRequired": false,
-        "description": "Allow uploading of files. Check function before file upload, return false without uploading"
+        "description": "Allow uploading of files. Return false or reject the promise to skip uploading."
       },
       "timeout": {
         "type": "number",

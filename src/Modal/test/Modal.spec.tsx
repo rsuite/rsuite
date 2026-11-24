@@ -21,6 +21,20 @@ describe('Modal', () => {
     expect(screen.getByTestId('content')).to.exist;
   });
 
+  it('Should render in the container returned by a function', () => {
+    const portalContainer = render(<div />).container;
+    const container = vi.fn(() => portalContainer);
+
+    render(
+      <Modal open container={container}>
+        <p>Modal content</p>
+      </Modal>
+    );
+
+    expect(container).toHaveBeenCalled();
+    expect(portalContainer.contains(screen.getByRole('dialog'))).to.be.true;
+  });
+
   it('Should close the modal when the modal dialog is clicked', () => {
     const onClose = vi.fn();
     render(<Modal open onClose={onClose} />);

@@ -11,12 +11,12 @@ import('../dist/rsuite-service.js').then(async () => {
   const testConfigs = [
     { name: 'Default (rsuitejs.com)', config: {} },
     { 
-      name: 'Test env without trailing slash', 
-      config: { baseUrl: 'https://rsuite-nextjs-git-feat-mcp-server-improvements-rsuite.vercel.app' }
+      name: 'Netlify hostname without trailing slash',
+      config: { baseUrl: 'https://rsuite-docs-main.netlify.app' }
     },
     { 
-      name: 'Test env with trailing slash', 
-      config: { baseUrl: 'https://rsuite-nextjs-git-feat-mcp-server-improvements-rsuite.vercel.app/' }
+      name: 'Netlify hostname with trailing slash',
+      config: { baseUrl: 'https://rsuite-docs-main.netlify.app/' }
     },
     {
       name: 'Local development server',

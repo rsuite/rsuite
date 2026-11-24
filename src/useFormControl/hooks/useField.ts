@@ -1,11 +1,12 @@
 import get from 'lodash/get';
-import set from 'lodash/set';
 import { isValidElement, useCallback, useMemo } from 'react';
-import { nameToPath } from '../utils/nameToPath';
+import { getFieldError } from '../../Form/utils/fieldError';
+import { setFieldValue as setValue } from '../../Form/utils/fieldValue';
 
 interface FieldProps {
   name: string;
   formValue?: Record<string, any>;
+  getFormValue?: () => Record<string, any> | null | undefined;
   formError?: Record<string, any>;
   value: any;
   nestedField?: boolean;
@@ -39,7 +40,16 @@ function getErrorMessage(error?: ErrorType | string) {
 }
 
 export function useField(props: FieldProps) {
-  const { name, formValue, formError, value, nestedField, errorMessage, errorFromContext } = props;
+  const {
+    name,
+    formValue,
+    getFormValue,
+    formError,
+    value,
+    nestedField,
+    errorMessage,
+    errorFromContext
+  } = props;
   const fieldValue = useMemo(() => {
     if (typeof value !== 'undefined') {
       return value;
@@ -53,11 +63,7 @@ export function useField(props: FieldProps) {
       return errorMessage;
     }
 
-    if (nestedField) {
-      return getErrorMessage(get(formError, nameToPath(name)));
-    }
-
-    const fieldError = formError?.[name];
+    const fieldError = getFieldError(formError, name, !!nestedField);
 
     if (typeof fieldError === 'string') {
       return fieldError;
@@ -68,13 +74,14 @@ export function useField(props: FieldProps) {
 
   const setFieldValue = useCallback(
     (fieldName: string, fieldValue: any) => {
-      if (nestedField) {
-        return set({ ...formValue }, fieldName, fieldValue);
-      }
-
-      return { ...formValue, [fieldName]: fieldValue };
+      return setValue(
+        getFormValue ? getFormValue() : formValue,
+        fieldName,
+        fieldValue,
+        !!nestedField
+      );
     },
-    [formValue, nestedField]
+    [formValue, getFormValue, nestedField]
   );
 
   return { fieldValue, fieldError, setFieldValue };

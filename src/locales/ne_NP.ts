@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { enGB } from 'date-fns/locale/en-GB';
 
 const DateTimeFormats = {
@@ -24,6 +25,19 @@ const DateTimeFormats = {
   shortDateFormat: 'dd/MM/yyyy',
   shortTimeFormat: 'HH:mm',
   dateLocale: enGB as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'अघिल्लो महिना',
+  nextMonth: 'अर्को महिना',
+  selectMonth: 'महिना छान्नुहोस्',
+  selectTime: 'समय छान्नुहोस्'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'चयनकर्ता खोल्नुहोस्'
 };
 
 const Combobox = {
@@ -63,10 +77,10 @@ export default {
     skip: '{0} पृष्ठमा जानुहोस्'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'पछिल्लो ७ दिन'
   },
   Combobox,
@@ -86,6 +100,15 @@ export default {
   },
   Breadcrumb: {
     expandText: 'स्थान देखाउनुहोस्'
+  },
+  Carousel: {
+    carouselRoleDescription: 'स्लाइड प्रदर्शन',
+    slideRoleDescription: 'स्लाइड',
+    slidePosition: '{1} मध्ये {0}',
+    startRotation: 'स्लाइडको स्वचालित परिवर्तन सुरु गर्नुहोस्',
+    stopRotation: 'स्लाइडको स्वचालित परिवर्तन रोक्नुहोस्',
+    selectSlide: 'स्लाइड छान्नुहोस्',
+    slideLabel: '{1} मध्ये स्लाइड {0}'
   },
   Toggle: {
     on: 'खोल्नुहोस्',

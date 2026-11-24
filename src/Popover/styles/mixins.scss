@@ -5,7 +5,6 @@
 
 // Draw a triangle towards given direction
 // @mixin popover-arrow($direction, $size, $color)
-//
 // @direction: top | right | bottom | left
 // @size:      Size (height) of the triangle
 // @color:     Filling color of the triangle
@@ -41,7 +40,12 @@
 // @bg:        The arrow's background color, usually equal to popover's background
 // @border:    The arrow's border color, usually equal to popover's border (which only take effect
 //             in high-contrast theme)
-@mixin with-popover-arrow($direction, $size: 6px, $bg: var(--rs-bg-overlay), $border: var(--rs-border-primary)) {
+@mixin with-popover-arrow(
+  $direction,
+  $size: 6px,
+  $bg: var(--rs-bg-overlay),
+  $border: var(--rs-border-primary)
+) {
   &::after {
     @include popover-arrow($direction, $size, $bg);
   }

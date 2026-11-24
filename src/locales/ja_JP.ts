@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { ja } from 'date-fns/locale/ja';
 
 const DateTimeFormats = {
@@ -19,11 +20,24 @@ const DateTimeFormats = {
    * Format of the string is based on Unicode Technical Standard #35:
    * https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
    **/
-  formattedMonthPattern: 'yyyy年 MMM',
-  formattedDayPattern: 'yyyy年 MMM dd',
+  formattedMonthPattern: 'yyyy年MM月',
+  formattedDayPattern: 'yyyy年MM月dd日',
   shortDateFormat: 'yyyy/MM/dd',
   shortTimeFormat: 'HH:mm',
   dateLocale: ja as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: '前の月',
+  nextMonth: '次の月',
+  selectMonth: '月を選択',
+  selectTime: '時刻を選択'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: '選択画面を開く'
 };
 
 const Combobox = {
@@ -63,10 +77,10 @@ export default {
     skip: '{0}に逝く'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: '直近7日間'
   },
   Combobox,
@@ -86,6 +100,15 @@ export default {
   },
   Breadcrumb: {
     expandText: 'パス表示'
+  },
+  Carousel: {
+    carouselRoleDescription: 'カルーセル',
+    slideRoleDescription: 'スライド',
+    slidePosition: '{0}/{1}',
+    startRotation: 'スライドの自動再生を開始',
+    stopRotation: 'スライドの自動再生を停止',
+    selectSlide: 'スライドを選択',
+    slideLabel: '{1}枚中{0}枚目のスライド'
   },
   Toggle: {
     on: '開く',
