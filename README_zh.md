@@ -99,7 +99,7 @@ React Suite 可以在您喜欢的框架中使用。我们为这些框架准备�
 | Service                                         | Description                                   |
 | ----------------------------------------------- | --------------------------------------------- |
 | [![GitHub][github-logo]][github]                | Github 让我们可以托管 Git 仓库并协调贡献。    |
-| [![Vercel][vercel-logo]][vercel]                | Vercel 让我们可以部署应用。                   |
+| [![Netlify][netlify-logo]][netlify]             | Netlify 为文档站提供托管服务。                |
 | [![CodeCov][codecov-logo]][codecov]             | CodeCov 让我们可以检查代码覆盖率。            |
 | [![Gitee][gitee-logo]][gitee]                   | Gitee 授予我们 GVP - Gitee 最有价值开源项目。 |
 | [![CodeSandbox][codesandbox-logo]][codesandbox] | CodeSandbox 让我们可以提供组件的实时预览。    |
@@ -107,8 +107,8 @@ React Suite 可以在您喜欢的框架中使用。我们为这些框架准备�
 
 [github]: https://github.com/
 [github-logo]: https://avatars.githubusercontent.com/u/9919?s=32&v=4
-[vercel]: https://vercel.com/
-[vercel-logo]: https://avatars.githubusercontent.com/u/14985020?s=32&v=4
+[netlify]: https://www.netlify.com/
+[netlify-logo]: https://avatars.githubusercontent.com/u/7892489?s=32&v=4
 [codecov]: https://about.codecov.io/
 [codecov-logo]: https://avatars.githubusercontent.com/u/8226205?s=32&v=4
 [gitee]: https://gitee.com/

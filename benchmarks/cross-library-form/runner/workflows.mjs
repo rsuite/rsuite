@@ -117,6 +117,26 @@ export async function runScenario(page, url, scenario, record, save) {
   record.metadata = await page.evaluate(() => window.formBenchmark.metadata());
   assert.equal(record.metadata.production, true);
   assert.equal(record.metadata.reactVersion, '19.0.0');
+  record.directionLayout = await page.evaluate(() => {
+    const form = document.querySelector('form[aria-label="Account"]');
+    const actions = [...(form?.querySelectorAll('.bench-actions button') ?? [])];
+    const boxes = actions.map(button => {
+      const { left, right, width, height } = button.getBoundingClientRect();
+      return { text: button.textContent?.trim(), left, right, width, height };
+    });
+    const fields = [...(form?.querySelectorAll('[data-form-field] input') ?? [])];
+    return {
+      document: document.documentElement.dir,
+      form: form && getComputedStyle(form).direction,
+      fieldDirections: fields.map(field => ({
+        name: field.closest('[data-form-field]').getAttribute('data-form-field'),
+        direction: getComputedStyle(field).direction
+      })),
+      actions: boxes,
+      viewportWidth: document.documentElement.clientWidth
+    };
+  });
+  save();
   if (scenario === 'nested-validation') {
     record.phase = 'invalid-submit';
     await input(page, 'profile.email').fill('invalid');

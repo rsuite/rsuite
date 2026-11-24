@@ -62,6 +62,9 @@ benchmarks/cross-library-picker/async-dist/
 # test screenshots (visual regression baselines generated at runtime)
 **/__screenshots__/
 .vitest-attachments/
+# Netlify local build files
+.netlify/
+
 # Environment variables
 .env
 .env.*
