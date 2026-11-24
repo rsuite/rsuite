@@ -42,7 +42,7 @@ export interface TextareaProps
   resize?: React.CSSProperties['resize'];
 
   /**
-   * Called when Enter key is pressed
+   * Called when Enter is pressed outside an IME composition.
    */
   onPressEnter?: React.KeyboardEventHandler<HTMLTextAreaElement>;
 
