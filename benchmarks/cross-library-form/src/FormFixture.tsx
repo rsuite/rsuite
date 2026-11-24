@@ -3,8 +3,12 @@ import { createRoot } from 'react-dom/client';
 import Adapter from 'form-adapter';
 import { requests } from './api';
 import { readSnapshot } from './snapshot';
-import type { AdapterChannel } from './types';
+import type { AdapterChannel, Direction } from './types';
 import './fixture.css';
+
+const direction: Direction =
+  new URLSearchParams(window.location.search).get('direction') === 'rtl' ? 'rtl' : 'ltr';
+document.documentElement.dir = direction;
 
 function FormFixture() {
   const channel = useRef<AdapterChannel | null>(null);
@@ -103,7 +107,7 @@ function FormFixture() {
   return (
     <main className="bench-host">
       <h1>Account form</h1>
-      <Adapter attach={attach} onSubmit={submitted} />
+      <Adapter direction={direction} attach={attach} onSubmit={submitted} />
     </main>
   );
 }
