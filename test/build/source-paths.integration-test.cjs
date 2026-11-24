@@ -33,7 +33,15 @@ function createFixture(directory) {
     'README.md': 'fixture readme',
     'CHANGELOG.md': 'fixture changelog',
     LICENSE: 'fixture license',
-    'src/index.ts': "export { default } from './nested-dir/value[fixture]';\n",
+    'src/index.ts':
+      "export { default } from './nested-dir/value[fixture]';\n" +
+      "export { alias } from '@/internals/value[alias]';\n",
+    'src/internals/value[alias].ts': 'export const alias = 37;\n',
+    'src/nested-dir/aliased.ts':
+      "import { alias } from '@/internals/value[alias]';\n" +
+      "export const current = alias;\n" +
+      "export const resolved = require.resolve('@/internals/value[alias]');\n" +
+      "export const lazy = () => import('@/internals/value[alias].js');\n",
     'src/nested-dir/value[fixture].ts': "export default 'initial';\n",
     'src/nested-dir/handwritten.d.ts': 'export declare const handwritten: string;\n',
     'src/nested-dir/styles/index.scss': '.fixture { color: red; }\n',
@@ -81,6 +89,16 @@ for (const directory of ['project with spaces', 'project[fixture]', 'project{one
         );
         assert.ok(output.startsWith("'use client';\n"), output);
         assert.match(output, /initial/);
+        const index = fs.readFileSync(path.join(root, 'lib', format, 'index.js'), 'utf8');
+        const aliases = fs.readFileSync(
+          path.join(root, 'lib', format, 'nested-dir/aliased.js'),
+          'utf8'
+        );
+        assert.match(index, /['"]\.\/internals\/value\[alias\]['"]/);
+        assert.match(aliases, /['"]\.\.\/internals\/value\[alias\]['"]/);
+        assert.match(aliases, /require\.resolve\(['"]\.\.\/internals\/value\[alias\]['"]\)/);
+        assert.match(aliases, /['"]\.\.\/internals\/value\[alias\]\.js['"]/);
+        assert.doesNotMatch(index + aliases, /@\/internals\//);
         assert.equal(
           fs.readFileSync(path.join(root, 'lib', format, 'nested-dir/handwritten.d.ts'), 'utf8'),
           files['src/nested-dir/handwritten.d.ts']
@@ -112,6 +130,9 @@ for (const directory of ['project with spaces', 'project[fixture]', 'project{one
           files['src/nested-dir/testable/handwritten.d.ts']
         );
       }
+      const cjs = path.join(root, 'lib/cjs');
+      assert.equal(require(path.join(cjs, 'index.js')).alias, 37);
+      assert.equal(require(path.join(cjs, 'nested-dir/aliased.js')).current, 37);
       for (const directory of ['test', 'stories']) {
         assert.equal(
           fs.existsSync(path.join(root, 'lib/nested-dir', directory, 'nested/fixture.scss')),

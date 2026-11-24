@@ -131,7 +131,6 @@
     "autoprefixer": "^10.4.20",
     "babel-loader": "^8.0.0",
     "babel-plugin-istanbul": "^7.0.0",
-    "babel-plugin-module-resolver": "^5.0.2",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
     "boxen": "^7.1.0",
     "brfs": "^1.6.1",
