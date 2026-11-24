@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import CheckboxGroup from '../CheckboxGroup';
 import Checkbox from '../../Checkbox';
 import { createMeta } from '@/storybook/utils';

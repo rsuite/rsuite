@@ -25,6 +25,8 @@ export * from './Drawer';
 // --------------------------------------------------------
 export * from './Notification';
 export * from './Message';
+export * from './EmptyState';
+export * from './CommandPalette';
 export * from './Loader';
 export * from './Placeholder';
 export * from './Badge';
@@ -57,6 +59,7 @@ export * from './Form';
 export * from './FormStack';
 export * from './FormGroup';
 export * from './FormErrorMessage';
+export * from './FormErrorSummary';
 export * from './FormControlLabel';
 export * from './FormHelpText';
 export * from './FormControl';
@@ -80,6 +83,7 @@ export * from './RadioGroup';
 export * from './RadioTile';
 export * from './RadioTileGroup';
 export * from './SelectPicker';
+export * from './ColorPicker';
 export * from './SegmentedControl';
 export * from './CheckPicker';
 export * from './InputPicker';
@@ -135,6 +139,7 @@ export * from './Footer';
 export * from './Center';
 export * from './Divider';
 export * from './Stack';
+export * from './Splitter';
 
 // Utils
 // --------------------------------------------------------
@@ -143,6 +148,8 @@ export * from './Animation';
 export * from './DOMHelper';
 export * from './Affix';
 export * from './CustomProvider';
+export * from './StyleRegistry';
+export * from './createStyleRegistry';
 
 // Hooks
 // --------------------------------------------------------
@@ -150,6 +157,9 @@ export * from './useMediaQuery';
 export * from './useBreakpointValue';
 export * from './useFormControl';
 export * from './useDialog';
+export * from './useClipboard';
+export * from './useAsyncSearch';
+export * from './useLocaleSearch';
 
 // Disclosure
 // --------------------------------------------------------

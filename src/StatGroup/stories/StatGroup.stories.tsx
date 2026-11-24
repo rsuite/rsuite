@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import HStack from '../../Stack/HStack';
 import Stat from '../../Stat';
 import StatGroup, { StatGroupProps } from '../StatGroup';

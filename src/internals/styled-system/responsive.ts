@@ -4,23 +4,10 @@ import { getCssValue } from '@/internals/utils';
 import { BREAKPOINTS } from '@/internals/constants';
 import { cssSystemPropAlias } from './css-alias';
 import { isSupportedCSSProperty } from './css-properties';
-import type { Breakpoints, ResponsiveValue, WithResponsive } from '@/internals/types';
+import type { ResponsiveValue, WithResponsive } from '@/internals/types';
 import type { CSSProperty, CSSPropertyValueType } from './types';
 
-/**
- * Breakpoint values in pixels - matching SCSS variables
- * These values are used for responsive design across the application.
- * They follow a mobile-first approach where 'xs' is the base breakpoint.
- */
-export const breakpointValues: Record<Breakpoints, number> = {
-  xs: 0, // Base mobile first
-  sm: 576, // $screen-sm
-  md: 768, // $screen-md
-  lg: 992, // $screen-lg
-  xl: 1200, // $screen-xl
-  xxl: 1400, // $screen-xxl
-  '2xl': 1400 // Alias for xxl for compatibility
-} as const;
+export { breakpointValues } from './breakpoints';
 
 /**
  * Checks if a value is a responsive value object
@@ -32,7 +19,7 @@ export function isResponsiveValue(value: any): value is ResponsiveValue<any> {
     value !== null &&
     typeof value === 'object' &&
     !Array.isArray(value) &&
-    Object.keys(value).some(key => BREAKPOINTS.includes(key))
+    Object.keys(value).some(key => BREAKPOINTS.includes(key) || key === '2xl')
   );
 }
 

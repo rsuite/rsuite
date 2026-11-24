@@ -9,6 +9,9 @@ interface InputPickerPopupProps extends PickerPopupProps {
   searchPlaceholder?: string;
   searchInput?: React.RefObject<HTMLInputElement | null>;
   onSearch?: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
+  inputProps?: React.ComponentProps<typeof SearchBox>['inputProps'];
+  active?: boolean;
+  activeDescendant?: string;
 }
 
 const InputPickerPopup = React.forwardRef<HTMLDivElement, InputPickerPopupProps>((props, ref) => {
@@ -19,9 +22,13 @@ const InputPickerPopup = React.forwardRef<HTMLDivElement, InputPickerPopupProps>
     searchPlaceholder,
     searchInput,
     onSearch,
+    inputProps,
+    active,
+    activeDescendant,
+    target,
     ...popupProps
   } = props;
-  const { breakpoint } = useCombobox();
+  const { id, labelId, breakpoint, inputCombobox } = useCombobox();
   const showSearchBox = searchable && breakpoint === 'xs';
 
   useEffect(() => {
@@ -30,16 +37,44 @@ const InputPickerPopup = React.forwardRef<HTMLDivElement, InputPickerPopupProps>
     }
 
     const animationFrame = requestAnimationFrame(() => {
-      searchInput?.current?.focus();
+      const input = searchInput?.current;
+      if (!input?.isConnected) return;
+      const activeElement = input.ownerDocument.activeElement;
+      const dialog = input.closest('[role="dialog"]');
+      // Preserve focus chosen by a consumer callback or a later interaction.
+      if (
+        activeElement === input.ownerDocument.body ||
+        activeElement === dialog ||
+        activeElement === dialog?.parentElement ||
+        (activeElement && target?.current?.root?.contains(activeElement))
+      ) {
+        input.focus();
+      }
     });
 
     return () => cancelAnimationFrame(animationFrame);
-  }, [searchInput, showSearchBox]);
+  }, [searchInput, showSearchBox, target]);
 
   return (
-    <PickerPopup ref={ref} {...popupProps}>
+    <PickerPopup ref={ref} target={target} {...popupProps}>
       {showSearchBox && (
         <SearchBox
+          inputProps={
+            inputCombobox
+              ? {
+                  role: 'combobox',
+                  id: `${id}-search`,
+                  'aria-haspopup': 'listbox',
+                  'aria-expanded': !!active,
+                  'aria-controls': active ? `${id}-listbox` : undefined,
+                  'aria-autocomplete': 'list',
+                  'aria-labelledby': labelId,
+                  'aria-label': labelId ? undefined : searchPlaceholder,
+                  'aria-activedescendant': active ? activeDescendant : undefined,
+                  ...inputProps
+                }
+              : undefined
+          }
           placeholder={searchPlaceholder}
           value={searchKeyword}
           inputRef={searchInput}

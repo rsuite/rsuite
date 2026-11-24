@@ -1,16 +1,22 @@
 import React from 'react';
-import some from 'lodash/some';
 import TimelineItem from './TimelineItem';
+import getTimelineItems from './getTimelineItems';
 import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useCustom } from '@/internals/hooks';
-import { forwardRef, rch } from '@/internals/utils';
+import { forwardRef } from '@/internals/utils';
 
 export interface TimelineProps extends BoxProps {
   /** The content of the component */
   children?: React.ReactNode;
 
-  /** TimeLine content relative position  **/
+  /**
+   * Content position relative to the timeline.
+   * On horizontal timelines, `left` places content below and `right` above the line.
+   */
   align?: 'left' | 'right' | 'alternate';
+
+  /** Display events horizontally. */
+  horizontal?: boolean;
 
   /** Timeline endless **/
   endless?: boolean;
@@ -44,15 +50,16 @@ const SubcomponentsAndStaticMethods = {
  *
  * @see https://rsuitejs.com/components/timeline
  */
-const Timeline = forwardRef<'div', TimelineProps, typeof SubcomponentsAndStaticMethods>(
+const Timeline = forwardRef<'ul', TimelineProps, typeof SubcomponentsAndStaticMethods>(
   (props, ref) => {
-    const { propsWithDefaults } = useCustom('Timeline', props);
+    const { propsWithDefaults, rtl } = useCustom('Timeline', props);
     const {
       as = 'ul',
       children,
       classPrefix = 'timeline',
       className,
       align = 'left',
+      horizontal,
       endless,
       reverse,
       isItemActive = ACTIVE_LAST,
@@ -60,20 +67,26 @@ const Timeline = forwardRef<'div', TimelineProps, typeof SubcomponentsAndStaticM
     } = propsWithDefaults;
 
     const { merge, withPrefix } = useStyles(classPrefix);
-    const count = rch.count(children);
-    const withTime = some(React.Children.toArray(children), (item: any) => item?.props?.time);
+    const childrenArray = getTimelineItems(children);
+    const count = childrenArray.length;
+    const withTime = childrenArray.some(item => item.props.time);
 
     const classes = merge(
       className,
-      withPrefix(`align-${align}`, { endless, 'with-time': withTime, reverse })
+      withPrefix(`align-${align}`, { endless, 'with-time': withTime, reverse, horizontal })
     );
 
-    const childrenArray = React.Children.toArray(children);
     const orderedChildren = reverse ? [...childrenArray].reverse() : childrenArray;
 
     return (
-      <Box as={as} ref={ref} className={classes} {...rest}>
-        {orderedChildren.map((child: any, domIndex: number) => {
+      <Box
+        as={as}
+        ref={ref}
+        className={classes}
+        dir={horizontal && rtl ? 'rtl' : undefined}
+        {...rest}
+      >
+        {orderedChildren.map((child, domIndex) => {
           const logicalIndex = reverse ? count - 1 - domIndex : domIndex;
           return React.cloneElement(child, {
             last: logicalIndex + 1 === count,

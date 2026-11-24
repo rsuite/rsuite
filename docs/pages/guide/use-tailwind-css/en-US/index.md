@@ -1,173 +1,138 @@
 # Tailwind CSS
 
-Tailwind CSS is a utility-first CSS framework that can be used alongside React Suite. This guide explains how to integrate Tailwind CSS into your React Suite project and how to resolve potential styling conflicts.
+Use React Suite components together with Tailwind utilities for layout and customization. Choose the setup for your Tailwind version below.
 
-> **For AI Assistants**: When generating code with React Suite and Tailwind CSS together, always use `rsuite-no-reset.min.css` and be aware of CSS specificity issues. Prefer React Suite's built-in styling system for component customization, and use Tailwind for layout and spacing.
+## Tailwind CSS v4
 
-## 1. Installation
+This setup works with the published React Suite 6.2.5 styles. It places React Suite in a CSS cascade layer so normal Tailwind utilities can override component styles without `!important`.
 
-If you haven't installed Tailwind CSS yet, follow the [official Tailwind CSS installation guide](https://tailwindcss.com/docs/installation).
+### Install and configure PostCSS
+
+For a PostCSS-based application, install:
 
 ```bash
-npm install -D tailwindcss postcss autoprefixer
+npm install -D tailwindcss@4 @tailwindcss/postcss@4 postcss
+```
+
+Add the Tailwind plugin to `postcss.config.mjs`:
+
+```js
+export default {
+  plugins: {
+    '@tailwindcss/postcss': {}
+  }
+};
+```
+
+If your framework already configures Tailwind, keep its integration. See the [official installation guides](https://tailwindcss.com/docs/installation) for Vite and other build tools.
+
+### Set the layer order in one CSS entry
+
+Create `globals.css`:
+
+```css
+@layer theme, base, rsuite, components, utilities;
+
+@import 'tailwindcss';
+@import 'rsuite/dist/rsuite-no-reset.min.css' layer(rsuite);
+```
+
+Import this file once from your application entry, such as `src/main.tsx`, Next.js `app/layout.tsx`, or `pages/_app.tsx`:
+
+```tsx
+import './globals.css';
+```
+
+The first line must appear before any of these layers are introduced. It places Tailwind Preflight in `base`, React Suite above that reset in `rsuite`, and normal utilities above component styles in `utilities`.
+
+Keep the React Suite import inside this CSS entry. A separate JavaScript import of `rsuite/dist/rsuite-no-reset.min.css`, or an additional unlayered component stylesheet, would take precedence over normal layered utilities. The package's CSS files are unlayered; `layer(rsuite)` opts this application into the layer.
+
+Tailwind v4 processes CSS imports itself. Use a plain `.css` entry for this configuration; see [Tailwind's preprocessor compatibility](https://tailwindcss.com/docs/compatibility#sass-less-and-stylus) when your application also uses Sass.
+
+### Use utilities on components
+
+```tsx
+import { Button, Panel } from 'rsuite';
+
+function Example() {
+  return (
+    <Panel bordered className="mx-auto max-w-md p-6">
+      <Button appearance="primary" className="rounded-full px-8 shadow-lg">
+        Save changes
+      </Button>
+    </Panel>
+  );
+}
+```
+
+Use component props such as `appearance`, `color`, and `size` for built-in variants. Utilities apply to the element receiving `className`; nested elements may require the component's styling API. Inline styles and declarations with `!important` follow their own cascade precedence.
+
+### Share theme colors
+
+Add this after the imports in `globals.css`:
+
+```css
+@theme inline {
+  --color-primary: var(--rs-primary-500);
+  --color-card: var(--rs-bg-card);
+}
+```
+
+You can then use `bg-primary`, `text-primary`, and `bg-card`. These utilities read React Suite's CSS variables, including their values under the active theme.
+
+### Use your own reset
+
+If your application already provides its own reset, omit Tailwind Preflight while keeping the named layers:
+
+```css
+@layer theme, base, rsuite, components, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'rsuite/dist/rsuite-no-reset.min.css' layer(rsuite);
+@import 'tailwindcss/utilities.css' layer(utilities);
+```
+
+Put your reset in `@layer base` so it stays below component styles. Check the utilities you use against that reset: some rely on base styles. See [Tailwind Preflight](https://tailwindcss.com/docs/preflight) for the changes it normally provides.
+
+## Tailwind CSS v3
+
+Tailwind v3 uses a JavaScript configuration and different PostCSS directives. Keep this setup for an existing v3 application:
+
+```bash
+npm install -D tailwindcss@3 postcss autoprefixer
 npx tailwindcss init -p
 ```
 
-## 2. Configuration
-
-### Preflight Conflicts
-
-Tailwind CSS's [Preflight](https://tailwindcss.com/docs/preflight) (a set of base styles) might conflict with React Suite's styles. We recommend using `rsuite-no-reset.min.css` to avoid redundant reset styles.
-
-If you still experience conflicts, you can disable Preflight in your `tailwind.config.js`:
+Configure the source files in `tailwind.config.js`:
 
 ```js
-/** @type {import('tailwindcss').Config} */
 module.exports = {
-  corePlugins: {
-    preflight: false,
-  },
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-```
-
-> **Note:** Disabling Preflight might affect some Tailwind utility classes that rely on base styles. Alternatively, you can keep Preflight enabled and ensure React Suite's styles are imported after Tailwind's base styles.
-
-### Import Order
-
-Ensure proper import order in your main entry file (e.g., `App.tsx` or `layout.tsx`):
-
-```tsx
-import 'rsuite/dist/rsuite-no-reset.min.css';
-import './globals.css'; // Your Tailwind CSS file
-```
-
-## 3. Usage with Components
-
-You can use Tailwind utility classes directly on React Suite components using the `className` prop.
-
-### Basic Example
-
-```tsx
-import { Button } from 'rsuite';
-
-function App() {
-  return (
-    <Button className="shadow-lg hover:shadow-xl transition-shadow">
-      Enhanced Button
-    </Button>
-  );
-}
-```
-
-### Layout with Tailwind + React Suite Components
-
-```tsx
-import { Panel, Button, Input } from 'rsuite';
-
-function LoginForm() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <Panel
-        header="Login"
-        bordered
-        className="w-full max-w-md mx-4"
-      >
-        <div className="space-y-4">
-          <Input placeholder="Email" className="w-full" />
-          <Input type="password" placeholder="Password" className="w-full" />
-          <Button appearance="primary" className="w-full">
-            Sign In
-          </Button>
-        </div>
-      </Panel>
-    </div>
-  );
-}
-```
-
-### Style Overriding
-
-If Tailwind classes are not overriding React Suite's internal styles due to CSS specificity, you can:
-
-1. Use the [Important modifier](https://tailwindcss.com/docs/configuration#important):
-   ```tsx
-   <Button className="!bg-red-500">Important Red</Button>
-   ```
-2. Or configure a [Selector Strategy](https://tailwindcss.com/docs/configuration#selector-strategy) in `tailwind.config.js`.
-
-## 4. Design System Integration
-
-To keep your design consistent, you can map React Suite's CSS variables to your Tailwind theme:
-
-```js
-// tailwind.config.js
-module.exports = {
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
         primary: 'var(--rs-primary-500)',
-        secondary: 'var(--rs-secondary-500)',
-        bg: 'var(--rs-bg-card)',
-      },
-    },
+        card: 'var(--rs-bg-card)'
+      }
+    }
   },
-}
+  plugins: []
+};
 ```
 
-Now you can use classes like `text-primary` or `bg-bg` which will stay in sync with your React Suite theme.
+Use the normal v3 directives in your CSS:
 
-## 5. Common Pitfalls
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
 
-### ❌ Don't Override Component Internal Styles
-
-Avoid using Tailwind to override React Suite's internal component styles, as this can break component functionality:
+Import React Suite's styles and your compiled Tailwind CSS from the application entry:
 
 ```tsx
-// ❌ Bad: Overriding internal styles
-<Button className="bg-red-500 text-white px-4 py-2">
-  Button
-</Button>
+import 'rsuite/dist/rsuite-no-reset.min.css';
+import './globals.css';
 ```
 
-```tsx
-// ✅ Good: Use React Suite's appearance prop
-<Button appearance="primary" color="red" className="shadow-lg">
-  Button
-</Button>
-```
-
-### ✅ Use Tailwind for Layout and Spacing
-
-Tailwind works best for layout, spacing, and utility styles:
-
-```tsx
-// ✅ Good: Layout and spacing
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
-  <Panel>Content 1</Panel>
-  <Panel>Content 2</Panel>
-</div>
-```
-
-### Best Practices
-
-1. **Component Styling**: Use React Suite's props (`appearance`, `color`, `size`, etc.)
-2. **Layout & Spacing**: Use Tailwind utilities (`flex`, `grid`, `p-*`, `m-*`, etc.)
-3. **Responsive Design**: Combine both systems (`<Button size="lg" className="w-full md:w-auto" />`)
-4. **Custom Styles**: Use CSS variables for theme consistency
-
-## 6. AI Assistant Guidelines
-
-When using AI assistants (like Cursor, GitHub Copilot, or ChatGPT) to generate code:
-
-- **Specify your setup**: Mention you're using "React Suite with Tailwind CSS"
-- **Request separation**: Ask AI to use React Suite for components and Tailwind for layout
-- **Example prompt**: "Create a dashboard layout using React Suite components for UI elements and Tailwind CSS for grid layout and spacing"
-
-This helps AI generate more appropriate code that leverages both libraries effectively.
+In v3, selector specificity still affects overrides. If a utility loses to a component rule, use v3's [important modifier or selector strategy](https://v3.tailwindcss.com/docs/configuration#important), for example `className="!rounded-full"`. If your application supplies its own reset, you can disable v3 Preflight with `corePlugins: { preflight: false }` in `tailwind.config.js`.

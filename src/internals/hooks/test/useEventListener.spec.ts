@@ -94,7 +94,7 @@ describe('internals/hooks/useEventListener', () => {
   it('Should not throw when eventTarget is null', () => {
     expect(() => {
       const { unmount } = renderHook(() =>
-        useEventListener(null as unknown as EventTarget, 'click', vi.fn())
+        useEventListener(null as unknown as EventTarget, 'click', vi.fn<EventListener>())
       );
       unmount();
     }).not.toThrow();
@@ -103,7 +103,7 @@ describe('internals/hooks/useEventListener', () => {
   it('Should not throw when eventTarget function returns null', () => {
     expect(() => {
       const { unmount } = renderHook(() =>
-        useEventListener(() => null as unknown as EventTarget, 'click', vi.fn())
+        useEventListener(() => null as unknown as EventTarget, 'click', vi.fn<EventListener>())
       );
       unmount();
     }).not.toThrow();

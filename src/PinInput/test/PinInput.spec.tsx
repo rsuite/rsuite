@@ -278,9 +278,11 @@ describe('PinInput', () => {
       render(<PinInput length={4} onChange={onChange} />);
       const inputs = screen.getAllByRole('textbox');
       fireEvent.keyDown(inputs[0], { key: 'A' });
+      fireEvent.change(inputs[0], { target: { value: 'A' } });
       expect(onChange).not.toHaveBeenCalled();
 
       fireEvent.keyDown(inputs[0], { key: '2' });
+      fireEvent.change(inputs[0], { target: { value: '2' } });
       expect(onChange).toHaveBeenCalledWith('2');
     });
 
@@ -304,9 +306,11 @@ describe('PinInput', () => {
       const inputs = screen.getAllByRole('textbox');
 
       fireEvent.keyDown(inputs[0], { key: 'A' });
+      fireEvent.change(inputs[0], { target: { value: 'A' } });
       expect(onChange).not.toHaveBeenCalled();
 
       fireEvent.keyDown(inputs[0], { key: '1' });
+      fireEvent.change(inputs[0], { target: { value: '1' } });
       expect(onChange).toHaveBeenCalledWith('1');
     });
 
@@ -333,8 +337,10 @@ describe('PinInput', () => {
       render(<PinInput length={4} onChange={onChange} type="alphabetic" />);
       const inputs = screen.getAllByRole('textbox') as HTMLInputElement[];
       fireEvent.keyDown(inputs[0], { key: '1' });
+      fireEvent.change(inputs[0], { target: { value: '1' } });
       expect(onChange).not.toHaveBeenCalled();
       fireEvent.keyDown(inputs[0], { key: 'A' });
+      fireEvent.change(inputs[0], { target: { value: 'A' } });
       expect(onChange).toHaveBeenCalledWith('A');
     });
 
@@ -357,10 +363,13 @@ describe('PinInput', () => {
       render(<PinInput length={4} onChange={onChange} type="alphanumeric" />);
       const inputs = screen.getAllByRole('textbox') as HTMLInputElement[];
       fireEvent.keyDown(inputs[0], { key: '!' });
+      fireEvent.change(inputs[0], { target: { value: '!' } });
       expect(onChange).not.toHaveBeenCalled();
       fireEvent.keyDown(inputs[0], { key: '5' });
+      fireEvent.change(inputs[0], { target: { value: '5' } });
       expect(onChange).toHaveBeenCalledWith('5');
       fireEvent.keyDown(inputs[0], { key: 'B' });
+      fireEvent.change(inputs[0], { target: { value: 'B' } });
       expect(onChange).toHaveBeenCalledWith('B');
     });
 
@@ -390,13 +399,17 @@ describe('PinInput', () => {
       if (!firstInput) return;
 
       fireEvent.keyDown(firstInput, { key: 'G' });
+      fireEvent.change(firstInput, { target: { value: 'G' } });
       expect(onChange).not.toHaveBeenCalled();
 
       fireEvent.keyDown(firstInput, { key: 'F' });
+      fireEvent.change(firstInput, { target: { value: 'F' } });
       expect(onChange).toHaveBeenCalledWith('F');
       fireEvent.keyDown(firstInput, { key: 'a' });
+      fireEvent.change(firstInput, { target: { value: 'a' } });
       expect(onChange).toHaveBeenCalledWith('a');
       fireEvent.keyDown(firstInput, { key: '9' });
+      fireEvent.change(firstInput, { target: { value: '9' } });
       expect(onChange).toHaveBeenCalledWith('9');
     });
 

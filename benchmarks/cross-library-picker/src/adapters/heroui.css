@@ -1,0 +1,5 @@
+/* Only browser sources may generate utilities; audit prose must not change CSS. */
+@import 'tailwindcss' source(none);
+@source '../';
+@source '../../index.html';
+@import '@heroui/styles';

@@ -7,7 +7,7 @@
 @use 'sass:color';
 
 // Only include high contrast mode styles if enabled
-@if (vars.$enable-high-contrast) {
+@if vars.$enable-high-contrast {
   // High contrast theme CSS custom properties
   [data-theme='high-contrast'],
   .rs-theme-high-contrast {
@@ -112,7 +112,7 @@
     --rs-btn-default-disabled-text: var(--rs-primary-900);
     --rs-btn-default-disabled-border-color: var(--rs-gray-100);
     --rs-btn-primary-bg: var(--rs-primary-500);
-    --rs-btn-primary-text: var(--rs-gray-900);
+    --rs-btn-primary-text-fallback: var(--rs-gray-900);
     --rs-btn-primary-hover-bg: var(--rs-primary-400);
     --rs-btn-primary-active-bg: var(--rs-primary-200);
     --rs-btn-subtle-text: var(--rs-primary-500);
@@ -387,7 +387,7 @@
 
     // Table
     --rs-table-border-color: var(--rs-border-secondary);
-    --rs-table-shadow: rgba(9, 9, 9, 0.99);
+    --rs-table-shadow: rgb(9 9 9 / 99%);
     --rs-table-sort: var(--rs-primary-500);
     --rs-table-resize: var(--rs-primary-500);
     --rs-table-scrollbar-track: var(--rs-gray-700);
@@ -420,13 +420,13 @@
     --rs-calendar-cell-selected-hover-bg: var(--rs-gray-50);
 
     // Popover
-    --rs-popover-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --rs-popover-shadow: 0 4px 6px rgb(0 0 0 / 30%);
 
     // Tree
-    --rs-tree-indent-line-color: rgba(255, 255, 255, 0.1);
+    --rs-tree-indent-line-color: rgb(255 255 255 / 10%);
 
     // ScrollView
-    --rs-scroll-view-shadow-color: rgba(0, 0, 0, 0.99);
+    --rs-scroll-view-shadow-color: rgb(0 0 0 / 99%);
 
     // Stat
     --rs-stat-body-bg: var(--rs-gray-900);

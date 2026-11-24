@@ -1,4 +1,3 @@
-import React from 'react';
 import loadable from '@loadable/component';
 import DefaultPage from '@/components/layout/Page';
 import {

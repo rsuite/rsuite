@@ -16,10 +16,13 @@ function useData(props: UseDataProps) {
   const { controlledData = [], cacheData = [], onChange } = props;
   const [uncontrolledData, setData] = useState(controlledData);
   const [newData, setNewData] = useState<InputOption[]>([]);
+  const dataChanged = !shallowEqual(controlledData, uncontrolledData);
 
   const data = useMemo(() => {
+    // Child layout effects must navigate the latest options before the reset effect runs.
+    if (dataChanged) return controlledData;
     return ([] as Option[]).concat(uncontrolledData, newData);
-  }, [newData, uncontrolledData]);
+  }, [controlledData, dataChanged, newData, uncontrolledData]);
 
   const dataWithCache = useMemo(() => {
     return ([] as Option[]).concat(data, cacheData);
@@ -27,12 +30,12 @@ function useData(props: UseDataProps) {
 
   // Update the state when the data in props changes
   useEffect(() => {
-    if (controlledData && !shallowEqual(controlledData, uncontrolledData)) {
+    if (dataChanged) {
       setData(controlledData);
       setNewData([]);
       onChange?.(controlledData);
     }
-  }, [controlledData, uncontrolledData, onChange]);
+  }, [controlledData, dataChanged, onChange]);
 
   return {
     data,
