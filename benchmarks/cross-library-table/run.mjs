@@ -270,13 +270,9 @@ try {
           } finally {
             await context.close();
           }
-          console.log(
-            engineName,
-            library,
-            profile,
-            round ?? '',
-            row.passed ? 'PASS' : 'FAIL ' + row.error
-          );
+          const outcome = row.passed ? 'PASS' : 'FAIL ' + row.error;
+          const label = [engineName, library, profile, round].filter(value => value !== undefined);
+          console.log([...label, outcome].join(' '));
         }
     } finally {
       await browser.close();
