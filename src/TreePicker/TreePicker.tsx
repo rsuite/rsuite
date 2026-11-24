@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
@@ -10,7 +10,7 @@ import TreeView, { TreeViewProps } from '../Tree/TreeView';
 import { PickerLocale } from '../locales';
 import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
-import { formatNodeRefKey, getActiveItem, getTreeActiveNode } from '../Tree/utils';
+import { getActiveItem, getTreeActiveNode } from '../Tree/utils';
 import {
   PickerToggle,
   PickerPopup,
@@ -145,6 +145,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
   const activeNode = getTreeActiveNode(flattenedNodes, value, valueKey);
 
   const { register, focusFirstNode, focusActiveNode } = useTreeImperativeHandle();
+  const [activeDescendantId, setActiveDescendantId] = useState<string>();
   const { active, focusItemValue, setFocusItemValue, triggerProps } = useFocusState({
     focusActiveNode,
     target,
@@ -182,7 +183,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
   });
 
   const handleTreePressEnter = useEventCallback((event: React.SyntheticEvent) => {
-    if (isNil(focusItemValue)) {
+    if (isNil(focusItemValue) || !activeDescendantId) {
       return;
     }
 
@@ -257,6 +258,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
         onSelect={handleSelect}
         onSelectItem={onSelectItem}
         onFocusItem={setFocusItemValue}
+        onActiveDescendantChange={setActiveDescendantId}
       />
     </TreeProvider>
   );
@@ -331,7 +333,7 @@ const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
         active={active}
         placement={placement}
         inputValue={value}
-        focusItemValue={isNil(focusItemValue) ? undefined : formatNodeRefKey(focusItemValue)}
+        aria-activedescendant={active ? activeDescendantId : undefined}
         {...rest}
         onKeyDown={onPickerKeydown}
       >

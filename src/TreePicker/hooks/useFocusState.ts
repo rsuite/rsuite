@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import isNil from 'lodash/isNil';
 import { useEventCallback } from '@/internals/hooks';
 
 interface FocusStateProps {
@@ -31,7 +32,7 @@ function useFocusState(props: FocusStateProps) {
   });
 
   const onEntered = useEventCallback((node: HTMLElement) => {
-    if (value) {
+    if (!isNil(value)) {
       setFocusItemValue(value);
       focusActiveNode();
     }
