@@ -209,10 +209,6 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .vercel-logo {
-    filter: invert(1);
-  }
-
   .logo {
     filter: invert(1) drop-shadow(0 0 0.3rem #ffffff70);
   }
