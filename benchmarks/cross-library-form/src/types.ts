@@ -12,7 +12,9 @@ export interface AdapterChannel {
   stateOwnership: string;
   validationOwnership: string;
 }
+export type Direction = 'ltr' | 'rtl';
 export interface AdapterProps {
+  direction: Direction;
   attach: (channel: AdapterChannel) => void;
   onSubmit: (value: unknown) => void;
 }

@@ -15,6 +15,7 @@ const root = path.dirname(fileURLToPath(import.meta.url));
 const { values } = parseArgs({
   options: {
     browser: { type: 'string', default: 'chromium' },
+    direction: { type: 'string', default: 'ltr' },
     libraries: { type: 'string', default: 'rsuite,antd,chakra,heroui' },
     scenarios: { type: 'string', default: Object.keys(states).join(',') },
     'submit-modes': { type: 'string', default: 'pointer,keyboard' },
@@ -32,6 +33,7 @@ const libraries = values.libraries.split(','),
   submitModes = values['submit-modes'].split(',');
 if (
   !Object.hasOwn(browsers, values.browser) ||
+  !['ltr', 'rtl'].includes(values.direction) ||
   libraries.some(value => !['rsuite', 'antd', 'chakra', 'heroui'].includes(value)) ||
   scenarios.some(value => !Object.keys(states).includes(value)) ||
   submitModes.some(value => !(touch ? ['touch'] : ['pointer', 'keyboard']).includes(value)) ||
@@ -87,6 +89,7 @@ try {
           library,
           scenario,
           submitMode,
+          direction: values.direction,
           status: 'active',
           states: [],
           browserErrors: []
@@ -104,8 +107,10 @@ try {
         page.setDefaultTimeout(12000);
         page.on('pageerror', error => record.browserErrors.push(String(error)));
         try {
+          const url = new URL(library + '/', server.url + '/');
+          url.searchParams.set('direction', values.direction);
           await bounded(
-            () => runScenario(page, server.url + '/' + library + '/', scenario, record, save),
+            () => runScenario(page, url.href, scenario, record, save),
             90000,
             'Form workflow case'
           );
