@@ -96,8 +96,8 @@ To learn more about the technologies used:
 - [React Suite with Next.js App Router](https://rsuitejs.com/guide/use-next-app/) - Integration guide
 - [TypeScript Documentation](https://www.typescriptlang.org/) - Learn TypeScript
 
-## Deploy on Vercel
+## Deploy on Netlify
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
+Import your repository into Netlify and follow the [Next.js deployment guide](https://docs.netlify.com/build/frameworks/framework-setup-guides/nextjs/overview/).
 
 Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

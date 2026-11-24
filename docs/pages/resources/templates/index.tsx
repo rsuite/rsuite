@@ -30,13 +30,13 @@ const resources = [
   {
     name: 'Admin Template',
     imgUrl: '/images/templates/admin-template-1.png',
-    viewUrl: 'https://rsuite-admin-template.vercel.app/',
+    viewUrl: 'https://stackblitz.com/github/rsuite/rsuite-admin-template',
     sourceUrl: 'https://github.com/rsuite/rsuite-admin-template'
   },
   {
     name: 'PMP Template',
     imgUrl: '/images/templates/project-management-template.png',
-    viewUrl: 'https://rsuite-project-template.vercel.app/',
+    viewUrl: 'https://stackblitz.com/github/rsuite/rsuite-project-template',
     sourceUrl: 'https://github.com/rsuite/rsuite-project-template'
   }
 ];
