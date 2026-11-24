@@ -151,8 +151,10 @@
 }
 
 @each $color in colors.$spectrum {
+  $color-name: '' + $color;
+
   .rs-checkbox[data-color='#{$color}'] {
-    --rs-checkbox-checked-bg: var(--rs-#{'' + $color}-500);
-    --rs-checkbox-border: var(--rs-#{'' + $color}-500);
+    --rs-checkbox-checked-bg: var(--rs-#{$color-name}-500);
+    --rs-checkbox-border: var(--rs-#{$color-name}-500);
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj, Meta } from '@storybook/react';
+import type { StoryObj, Meta } from '@/storybook/types';
 import Highlight from '../Highlight';
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.scss';

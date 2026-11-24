@@ -1,3 +1,4 @@
+import type { CalendarLocaleLabels } from './types';
 import { cs } from 'date-fns/locale/cs';
 
 const DateTimeFormats = {
@@ -24,6 +25,19 @@ const DateTimeFormats = {
   shortDateFormat: 'dd.MM.yyyy',
   shortTimeFormat: 'HH:mm',
   dateLocale: cs as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Předchozí měsíc',
+  nextMonth: 'Následující měsíc',
+  selectMonth: 'Vybrat měsíc',
+  selectTime: 'Vybrat čas'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Otevřít výběr'
 };
 
 const Combobox = {
@@ -63,10 +77,10 @@ export default {
     skip: 'Jít na {0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Posledních 7 dní'
   },
   Combobox,
@@ -86,6 +100,15 @@ export default {
   },
   Breadcrumb: {
     expandText: 'Zobrazit cestu'
+  },
+  Carousel: {
+    carouselRoleDescription: 'karusel',
+    slideRoleDescription: 'snímek',
+    slidePosition: '{0} z {1}',
+    startRotation: 'Spustit střídání snímků',
+    stopRotation: 'Zastavit střídání snímků',
+    selectSlide: 'Vybrat snímek',
+    slideLabel: 'Snímek {0} z {1}'
   },
   Toggle: {
     on: 'Otevřít',

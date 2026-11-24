@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from '@/components/Link';
 import { Grid } from 'rsuite';
 import { RiLayoutGridFill } from 'react-icons/ri';

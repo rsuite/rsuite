@@ -2,10 +2,21 @@
   --rs-progress-font-size: var(--rs-font-size-md);
   --rs-progress-line-font-size: 0.875rem; // 14px
   --rs-progress-circle-font-size: 2.25rem; // 36px
+  --rs-progress-circle-transition: initial;
 
   position: relative;
   line-height: 0;
   width: 100%;
+
+  &[data-rs-motion='reduce'] {
+    --rs-progress-circle-transition: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &[data-rs-motion='auto'] {
+      --rs-progress-circle-transition: none;
+    }
+  }
 
   &-info {
     position: absolute;
@@ -24,10 +35,12 @@
 
   &-stroke {
     stroke: var(--rs-progress-bar);
-    transition:
+    transition: var(
+      --rs-progress-circle-transition,
       stroke-dashoffset 0.3s ease,
       stroke-dasharray 0.2s ease-in-out,
-      stroke 0.3s;
+      stroke 0.3s
+    );
   }
 
   // Setting status color

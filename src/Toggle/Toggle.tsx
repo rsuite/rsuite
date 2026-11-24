@@ -7,9 +7,11 @@ import {
   useControlled,
   useUniqueId,
   useEventCallback,
+  useIsomorphicLayoutEffect,
   useCustom
 } from '@/internals/hooks';
 import { forwardRef, partitionHTMLProps } from '@/internals/utils';
+import useToggleInputActivation from './useToggleInputActivation';
 import type { SanitizedInputProps, Color, Size } from '@/internals/types';
 import type { ToggleLocale } from '../locales';
 
@@ -94,6 +96,8 @@ export interface ToggleProps extends Omit<BoxProps, 'height' | 'width'>, Sanitiz
 const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Toggle', props);
   const {
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledby,
     as = 'label',
     disabled,
     readOnly,
@@ -106,7 +110,7 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
     unCheckedChildren,
     classPrefix = 'toggle',
     checked: checkedProp,
-    defaultChecked,
+    defaultChecked = false,
     size = 'md',
     locale,
     label = children,
@@ -125,19 +129,83 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
 
   const labelId = useUniqueId('rs-label');
   const innerId = inner ? labelId + '-inner' : undefined;
-  const labelledby = label ? labelId : innerId;
+  const labelledby =
+    ariaLabelledby ?? (ariaLabel !== undefined ? undefined : label ? labelId : innerId);
 
   const [htmlInputProps, restProps] = partitionHTMLProps(rest);
+  const { admitActivation, markPrimaryHandled, handleInput } = useToggleInputActivation({
+    inputRef,
+    controlled: checkedProp !== undefined,
+    locked: Boolean(disabled || readOnly || loading),
+    setChecked,
+    onChange,
+    onInput: htmlInputProps.onInput
+  });
+
+  const handleInputClick = useEventCallback((e: React.MouseEvent<HTMLInputElement>) => {
+    admitActivation(e);
+    if (disabled || readOnly || loading) {
+      e.currentTarget.checked = checkedProp === undefined ? !e.currentTarget.checked : checked;
+      e.preventDefault();
+    }
+    htmlInputProps.onClick?.(e);
+  });
 
   const handleInputChange = useEventCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    markPrimaryHandled(e);
     if (disabled || readOnly || loading) {
       return;
     }
-    const { checked } = e.target;
+    const nextChecked = e.target.checked;
 
-    setChecked(checked);
-    onChange?.(checked, e);
+    setChecked(nextChecked);
+    onChange?.(nextChecked, e);
   });
+
+  const resetSubscription = useRef<{
+    input: HTMLInputElement;
+    form: HTMLFormElement;
+    listener: (event: Event) => void;
+  } | null>(null);
+
+  const syncResetChecked = useEventCallback((input: HTMLInputElement, event: Event) => {
+    if (!event.defaultPrevented && checkedProp === undefined && inputRef.current === input) {
+      setChecked(input.checked);
+    }
+  });
+
+  useIsomorphicLayoutEffect(() => {
+    const input = inputRef.current;
+    const form = input?.form;
+    const subscription = resetSubscription.current;
+
+    if (subscription?.input === input && subscription?.form === form) {
+      return;
+    }
+
+    subscription?.form.removeEventListener('reset', subscription.listener);
+    resetSubscription.current = null;
+
+    if (input && form) {
+      const listener = (event: Event) => {
+        if (event.target === form && input.form === form) {
+          // Reset is cancelable and the native checked value changes after event dispatch.
+          setTimeout(() => syncResetChecked(input, event), 0);
+        }
+      };
+
+      form.addEventListener('reset', listener);
+      resetSubscription.current = { input, form, listener };
+    }
+  });
+
+  useIsomorphicLayoutEffect(() => {
+    return () => {
+      const subscription = resetSubscription.current;
+      subscription?.form.removeEventListener('reset', subscription.listener);
+      resetSubscription.current = null;
+    };
+  }, []);
 
   if (plaintext) {
     return <Plaintext>{inner || innerLabel}</Plaintext>;
@@ -161,16 +229,18 @@ const Toggle = forwardRef<'label', ToggleProps>((props, ref) => {
         ref={inputRef}
         type="checkbox"
         checked={checkedProp}
-        defaultChecked={defaultChecked}
+        defaultChecked={checkedProp === undefined ? defaultChecked : undefined}
         disabled={disabled}
         readOnly={readOnly}
+        onClick={handleInputClick}
         onChange={handleInputChange}
+        onInput={handleInput}
         className={prefix('input')}
         role="switch"
         aria-checked={checked}
         aria-disabled={disabled}
         aria-labelledby={labelledby}
-        aria-label={labelledby ? undefined : innerLabel}
+        aria-label={ariaLabel ?? (labelledby ? undefined : innerLabel)}
         aria-busy={loading || undefined}
       />
       <span className={prefix('track')}>

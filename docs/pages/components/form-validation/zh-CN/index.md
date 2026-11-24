@@ -95,6 +95,18 @@ return (
 - 异步校验的验证规则通过 `schema` 的 `addRule` 方法添加一个返回值为 Promise 的对象。
 - 通过调用 `<Form>` 的 `checkAsync` 与 `checkForFieldAsync` 的访问，可以手动触发校验。
 
+多个校验重叠执行时，已被后续校验取代的请求不会再更新当前错误或触发 `onCheck`、`onError`，但每个异步方法仍会返回它自己的校验结果。互不重叠的 schema 字段可以独立完成校验。启用 `nestedField` 时，父路径或子路径上的新校验会取代重叠路径上的旧校验。整表校验和 resolver 的结果则代表整个表单。校验函数本身仍会执行到结束。
+
+调用 `reset` 或 `resetErrors` 也会使尚未完成的校验结果失效。移除设置了 `shouldResetWithUnmount` 的 `Form.Control` 时，该字段、重叠的嵌套路径及整表的旧校验结果都会失效。无关的 schema 字段仍可完成校验，旧代理校验也不会恢复已移除字段的错误。重置或移除字段后仍可发起新校验，包括显式校验已卸载的 schema 字段。未设置 `shouldResetWithUnmount` 时，移除控件会保留其尚未完成的校验。
+
+由 Form 自行管理错误时，`cleanErrors` 会清空错误并使尚未完成的校验结果失效，且不会调用 `onCheck`、`onError` 或 `onChange`。每个未完成的 Promise 仍会返回自身结果，之后也可发起新校验。通过 `formError` 控制错误时，请更新持有该状态的组件；此时 `cleanErrors` 不会改变传入的错误或尚未完成的校验。
+
+在同一次事件中连续调用 `cleanErrorForField`，每次都会使用最新接受的错误状态，包括此前调用 `resetErrors` 或 `cleanErrors` 的结果。清理某个字段会保留其他字段的错误消息和原生无效状态，且不会调用 `onCheck`、`onError` 或 `onChange`。之前保存的清理方法也会使用已提交的 `nestedField` 设置，包括在子组件布局副作用中调用时。通过 `formError` 控制错误时，请更新持有该状态的组件来清理错误。
+
+由 Form 自行管理错误时，`cleanErrorForField` 还会使该字段、重叠的嵌套路径（包括等价的数字路径）以及整表或 resolver 的旧校验结果失效。无关的 schema 字段仍可完成校验。每个未完成的 Promise 仍会返回自身结果，之后也可发起新校验。在 `onCheck` 中清理字段，会阻止旧结果随后写入错误状态或触发过期的 `onError`。通过 `formError` 控制错误时，未被接受的字段清理不会影响尚未完成的校验。
+
+Form 的字段校验和异步校验不会读取或改写传入 model 的 `getCheckResult()` 历史结果。请通过 Form 的方法返回值或 `onCheck` 获取校验结果。同步 `checkForField` 根据本次检查的字段及其代理字段返回是否有效。
+
 <!--{include:`form-check-async.md`}-->
 
 ### 表单输入组件
@@ -134,6 +146,14 @@ return (
 
 <!--{include:`form-nested-fields.md`}-->
 
+启用 `nestedField` 时，resolver 错误可以使用 `products[0].name` 等字段名，或 `products.0.name` 这样的等价数字路径。错误对象自身与字段名完全匹配的属性优先，即使其值为 `undefined`、`null` 或空字符串。没有完全匹配的属性时，Form 会依次读取数字路径别名和结构化 schema 错误路径。带引号或转义的字面量名称与数字路径别名分别处理。
+
+清理字段会移除它的精确名称、数字路径别名和结构化错误叶节点，同时保留相邻字段的错误与汇总消息。新的原生字段校验也会替换该字段此前的 resolver 别名错误。`profile.object.name` 这样的字面量键仅属于同名字段，不会覆盖 `profile.name` 的结构化错误。
+
+请将原生错误结果视为不可变对象。Form 一旦观察到原始结果的键或已校验内容被修改，再次选择该对象也不会恢复原有的原生校验状态；请重新校验以获取新的结果。
+
+启用 `nestedField` 时，字段校验和错误清理会复制被修改的对象或数组路径，保留此前 `onCheck`、`onError` 的参数及传入的 `formError` 对象。未修改的相邻字段保留原错误对象和原生校验状态，包括错误消息为空时的无效状态。通过 `formError` 控制错误时，只有持有该状态的组件传入新的 `formError`，界面才会更新。
+
 ### 代理校验
 
 <!--{include:`form-check-proxy.md`}-->
@@ -145,6 +165,8 @@ return (
 ![][6.0.0]
 
 `useFormControl` hook 允许您创建与表单验证系统无缝集成的自定义表单字段。这种方法使您可以完全控制表单字段的 UI，同时保持所有验证功能。
+
+由 Form 自行管理值时，在同一个事件中连续调用 `setValue` 或 `onChange` 会保留此前的更新，包括嵌套字段。字段校验也会收到更新后的值，因此跨字段规则可以读取其他字段的最新值。通过 `formValue` 控制值时，每次修改都基于持有该状态的组件已提交的值；尚未被接受的修改不会成为后续修改的基础。
 
 <!--{include:`use-form-control.md`}-->
 

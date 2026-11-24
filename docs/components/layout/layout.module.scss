@@ -64,5 +64,14 @@
     .divider {
       margin-block: 1.25rem;
     }
+
+    .hosting-badge {
+      display: inline-block;
+      border-radius: 999px;
+
+      img {
+        display: block;
+      }
+    }
   }
 }

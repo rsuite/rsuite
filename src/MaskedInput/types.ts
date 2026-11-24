@@ -8,4 +8,4 @@ export interface ConfigType {
 }
 
 export type MaskType = string | (string | RegExp)[];
-export type MaskFunctionType = (rawValue: string, config: ConfigType) => MaskType;
+export type MaskFunctionType = (rawValue: string, config: ConfigType) => MaskType | false;
