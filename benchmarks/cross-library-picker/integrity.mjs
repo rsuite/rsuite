@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { candidateDependencies } from './sdk-dependencies.mjs';
+export { candidateDependencies } from './sdk-dependencies.mjs';
 
 export const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 export function filesUnder(root) {
@@ -25,11 +27,13 @@ export function inputs(root) {
       'package-lock.json',
       'tsconfig.json',
       'build.mjs',
+      'assets.mjs',
       'run.mjs',
       'audit.mjs',
       'async.mjs',
       'build-async.mjs',
-      'integrity.mjs'
+      'integrity.mjs',
+      'sdk-dependencies.mjs'
     ].map(name => path.join(root, name))
   ];
   return Object.fromEntries(
@@ -37,6 +41,7 @@ export function inputs(root) {
   );
 }
 export function packageFingerprint(root, folder = path.join(root, 'node_modules/rsuite')) {
+  candidateDependencies(root);
   return hash(
     Buffer.from(
       JSON.stringify(

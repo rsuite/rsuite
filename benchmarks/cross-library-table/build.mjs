@@ -3,11 +3,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync, execFileSync } from 'node:child_process';
 import { isDeepStrictEqual } from 'node:util';
-import { inputs, packageFingerprint, hash } from './integrity.mjs';
+import { inputs, packageFingerprint, candidateDependencies, hash } from './integrity.mjs';
 import { installedDependencies } from './dependencies.mjs';
 const root = path.dirname(fileURLToPath(import.meta.url));
 const sourceInputs = inputs(root);
 const candidateFingerprint = packageFingerprint(root);
+const dependencyContract = candidateDependencies(root);
 const dependencySnapshot = installedDependencies(root);
 if (candidateFingerprint !== packageFingerprint(root, path.resolve(root, '../../lib')))
   throw new Error('Installed candidate differs from root lib snapshot');
@@ -37,6 +38,7 @@ for (const library of ['rsuite', 'antd', 'chakra', 'heroui']) {
 }
 if (
   !isDeepStrictEqual(sourceInputs, inputs(root)) ||
+  JSON.stringify(dependencyContract) !== JSON.stringify(candidateDependencies(root)) ||
   candidateFingerprint !== packageFingerprint(root) ||
   !isDeepStrictEqual(dependencySnapshot, installedDependencies(root))
 )
@@ -62,6 +64,7 @@ fs.writeFileSync(
       versions,
       sourceInputs,
       candidateFingerprint,
+      candidateDependencies: dependencyContract,
       installedDependencies: dependencySnapshot,
       builds,
       fixtureSourceCommit: execFileSync('git', ['rev-parse', 'HEAD'], {

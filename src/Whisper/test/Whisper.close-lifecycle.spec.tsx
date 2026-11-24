@@ -5,6 +5,7 @@ import { userEvent } from 'vitest/browser';
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../../Tooltip';
 import '../../Tooltip/styles/index.scss';
+import { observeTransitions } from '../../Animation/test/transitionDiagnostics';
 
 async function closeCustomOverlay(afterEntered: boolean) {
   const ref = React.createRef<WhisperInstance>();
@@ -53,6 +54,7 @@ async function closeCustomOverlay(afterEntered: boolean) {
     </Whisper>
   );
 
+  const diagnostics = observeTransitions('[data-testid="close-lifecycle-overlay"]');
   try {
     await act(() => userEvent.click(screen.getByRole('button', { name: 'Open overlay' })));
     expect(ref.current?.getState().open).toBe(true);
@@ -88,7 +90,20 @@ async function closeCustomOverlay(afterEntered: boolean) {
         overlayMounted: !!screen.queryByTestId('close-lifecycle-overlay')
       })
     );
+  } catch (error) {
+    console.info(
+      'Whisper custom transition diagnostics',
+      JSON.stringify({
+        afterEntered,
+        callbacks: Object.fromEntries(
+          Object.entries(callbacks).map(([name, callback]) => [name, callback.mock.calls.length])
+        ),
+        transition: diagnostics.snapshot()
+      })
+    );
+    throw error;
   } finally {
+    diagnostics.restore();
     view.unmount();
   }
 }
@@ -110,6 +125,7 @@ describe('Whisper close lifecycle', () => {
       </Whisper>
     );
 
+    const diagnostics = observeTransitions('[role="tooltip"]');
     try {
       const button = screen.getByRole('button', { name: 'Toggle tooltip' });
       await act(() => userEvent.click(button));
@@ -129,7 +145,19 @@ describe('Whisper close lifecycle', () => {
       }
       const order = orderedCallbacks.map(callback => callback.mock.invocationCallOrder[0]);
       expect(order).toEqual([...order].sort((a, b) => a - b));
+    } catch (error) {
+      console.info(
+        'Whisper Tooltip transition diagnostics',
+        JSON.stringify({
+          callbacks: Object.fromEntries(
+            Object.entries(callbacks).map(([name, callback]) => [name, callback.mock.calls.length])
+          ),
+          transition: diagnostics.snapshot()
+        })
+      );
+      throw error;
     } finally {
+      diagnostics.restore();
       view.unmount();
     }
   });

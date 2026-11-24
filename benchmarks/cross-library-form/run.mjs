@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { parseArgs, isDeepStrictEqual } from 'node:util';
 import { spawnSync } from 'node:child_process';
 import { chromium, firefox } from 'playwright';
-import { inputs, packageFingerprint, hash } from './integrity.mjs';
+import { inputs, packageFingerprint, candidateDependencies, hash } from './integrity.mjs';
 import { serve } from '../cross-library-picker/runner/server.mjs';
 import { bounded } from '../cross-library-picker/runner/diagnostics.mjs';
 import { runScenario } from './runner/workflows.mjs';
@@ -14,6 +14,7 @@ const root = path.dirname(fileURLToPath(import.meta.url));
 const { values } = parseArgs({
   options: {
     browser: { type: 'string', default: 'chromium' },
+    direction: { type: 'string', default: 'ltr' },
     libraries: { type: 'string', default: 'rsuite,antd,chakra,heroui' },
     scenarios: { type: 'string', default: Object.keys(states).join(',') },
     'submit-modes': { type: 'string', default: 'pointer,keyboard' },
@@ -26,6 +27,7 @@ const libraries = values.libraries.split(','),
   submitModes = values['submit-modes'].split(',');
 if (
   !['chromium', 'firefox'].includes(values.browser) ||
+  !['ltr', 'rtl'].includes(values.direction) ||
   libraries.some(value => !['rsuite', 'antd', 'chakra', 'heroui'].includes(value)) ||
   scenarios.some(value => !Object.keys(states).includes(value)) ||
   submitModes.some(value => !['pointer', 'keyboard'].includes(value)) ||
@@ -39,6 +41,7 @@ if (!values['skip-build']) {
 const manifest = JSON.parse(fs.readFileSync(path.join(root, 'dist/build-inputs.json')));
 if (
   !isDeepStrictEqual(manifest.sourceInputs, inputs(root)) ||
+  !isDeepStrictEqual(manifest.candidateDependencies, candidateDependencies(root)) ||
   manifest.candidateFingerprint !== packageFingerprint(root) ||
   manifest.candidateFingerprint !== packageFingerprint(root, path.resolve(root, '../../lib'))
 )
@@ -78,6 +81,7 @@ try {
           library,
           scenario,
           submitMode,
+          direction: values.direction,
           status: 'active',
           states: [],
           browserErrors: []
@@ -93,8 +97,10 @@ try {
         page.setDefaultTimeout(12000);
         page.on('pageerror', error => record.browserErrors.push(String(error)));
         try {
+          const url = new URL(library + '/', server.url + '/');
+          url.searchParams.set('direction', values.direction);
           await bounded(
-            () => runScenario(page, server.url + '/' + library + '/', scenario, record, save),
+            () => runScenario(page, url.href, scenario, record, save),
             90000,
             'Form workflow case'
           );

@@ -60,6 +60,10 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
   const startValidation = (fieldName?: string) =>
     requestsRef.current!.start(resolver ? undefined : fieldName, nestedField);
 
+  const reserveFieldValidation = useFormEventCallback(
+    (fieldName: string) => startValidation(fieldName).isCurrent
+  );
+
   /**
    * Returns true when an error value is considered non-empty (i.e. the field has an error).
    */
@@ -425,6 +429,7 @@ export default function useFormValidate(_formError: any, props: FormErrorProps) 
     resetErrors,
     cleanErrorForField,
     onRemoveError,
+    reserveFieldValidation,
     readNativeValidation: nativeFrames.read,
     commitNativeValidationRetirement: nativeFrames.commitRetirement
   };
