@@ -82,7 +82,7 @@ Returns an object with the following methods:
 | remove | (toastId: string) => void                                                                                                          | Remove a message by ID  |
 | clear  | () => void                                                                                                                         | Remove all messages     |
 
-`push` can return a promise when a custom container needs to be created. Use `await` to handle both synchronous and asynchronous results, and check for `undefined` before removing the toast. For example, inside an async event handler using the `toaster` returned by `useToaster()`:
+`push` can return a promise when it needs to create a custom container. Use `await` to handle either return path. This async event handler checks the ID before removing a toast from the provider’s default container.
 
 ```jsx
 const toastId = await toaster.push(<Message>message</Message>);

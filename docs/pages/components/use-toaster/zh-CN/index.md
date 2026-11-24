@@ -82,7 +82,7 @@ function MyApp() {
 | remove | (toastId: string) => void                                                                                                          | 删除指定 ID 的消息  |
 | clear  | () => void                                                                                                                         | 清除所有消息        |
 
-当需要创建自定义容器时，`push` 可能返回 Promise。使用 `await` 可以同时处理同步与异步结果；删除消息前应检查结果是否为 `undefined`。例如，在异步事件处理函数中使用 `useToaster()` 返回的 `toaster`：
+需要创建自定义容器时，`push` 可能返回 Promise。使用 `await` 可以处理同步与异步结果。下面的异步事件处理函数会先检查消息 ID，再从默认容器中删除消息。
 
 ```jsx
 const toastId = await toaster.push(<Message>message</Message>);

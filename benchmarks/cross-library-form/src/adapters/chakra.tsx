@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChakraProvider, Field, Input, defaultSystem } from '@chakra-ui/react';
+import { ChakraProvider, Field, Input, LocaleProvider, defaultSystem } from '@chakra-ui/react';
 import { HelperForm, type FieldViewProps } from './helper-engine';
 import { fieldId } from '../domain';
 import type { AdapterProps } from '../types';
@@ -36,7 +36,9 @@ function FormView({
 export default function Adapter(props: AdapterProps) {
   return (
     <ChakraProvider value={defaultSystem}>
-      <HelperForm {...props} View={View} FormView={FormView} library="Chakra UI" />
+      <LocaleProvider locale={props.direction === 'rtl' ? 'ar-AE' : 'en-US'}>
+        <HelperForm {...props} View={View} FormView={FormView} library="Chakra UI" />
+      </LocaleProvider>
     </ChakraProvider>
   );
 }

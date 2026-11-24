@@ -1,6 +1,6 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useRef } from 'react';
 import { FormValueContext, useFormContext } from '../Form/FormContext';
-import { useWillUnmount, useEventCallback } from '@/internals/hooks';
+import { useWillUnmount, useEventCallback, useIsomorphicLayoutEffect } from '@/internals/hooks';
 import { useRegisterModel } from './hooks/useRegisterModel';
 import { useField } from './hooks/useField';
 import type { CheckType } from 'schema-typed';
@@ -50,6 +50,7 @@ export function useFormControl(props: UseFormControlProps) {
     nestedField,
     onFieldChange,
     getFormValue,
+    deferBlurValidation,
     removeFieldValue,
     removeFieldError,
     checkTrigger: contextCheckTrigger,
@@ -118,10 +119,33 @@ export function useFormControl(props: UseFormControlProps) {
     onFieldChange?.(name, value, event);
   });
 
-  // Handler for field blur
-  const onBlur = useEventCallback(() => {
+  const pendingBlur = useRef<(() => void) | undefined>(undefined);
+  const validateBlur = useEventCallback(() => {
     if (trigger === 'blur') {
       onCheck(value);
+    }
+  });
+
+  useIsomorphicLayoutEffect(
+    () => () => {
+      pendingBlur.current?.();
+      pendingBlur.current = undefined;
+    },
+    // Accepters can normalize their value on blur; validateBlur reads the latest value.
+    [name, trigger, checkAsync, rule]
+  );
+
+  // Let the native activation finish choosing its target before errors change layout.
+  const onBlur = useEventCallback(() => {
+    if (trigger !== 'blur') return;
+    pendingBlur.current?.();
+    if (deferBlurValidation) {
+      pendingBlur.current = deferBlurValidation(name, () => {
+        pendingBlur.current = undefined;
+        validateBlur();
+      });
+    } else {
+      validateBlur();
     }
   });
 

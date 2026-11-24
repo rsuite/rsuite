@@ -10,6 +10,7 @@ import Box from '@/internals/Box';
 import useSchemaModel from './hooks/useSchemaModel';
 import useFormValidate from './hooks/useFormValidate';
 import useFormEventCallback from './hooks/useFormEventCallback';
+import usePointerBlurValidation from './hooks/usePointerBlurValidation';
 import useFormValue from './hooks/useFormValue';
 import useFormRef, { FormInstance, FormImperativeMethods } from './hooks/useFormRef';
 import { forwardRef } from '@/internals/utils';
@@ -246,6 +247,7 @@ const Form = forwardRef<
     cleanErrors,
     resetErrors,
     cleanErrorForField,
+    reserveFieldValidation,
     readNativeValidation,
     commitNativeValidationRetirement
   } = useFormValidate(controlledFormError, formValidateProps);
@@ -315,6 +317,7 @@ const Form = forwardRef<
   };
 
   const formRef = useFormRef(ref, { imperativeMethods });
+  const deferBlurValidation = usePointerBlurValidation(formRef, reserveFieldValidation);
 
   const removeFieldValue = useEventCallback((name: string) => {
     const formValue = onRemoveValue(name);
@@ -348,6 +351,7 @@ const Form = forwardRef<
     removeFieldRule,
     onFieldChange,
     getFormValue,
+    deferBlurValidation,
     checkFieldForNextValue,
     checkFieldAsyncForNextValue
   };

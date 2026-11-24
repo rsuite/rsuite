@@ -31,7 +31,7 @@ const useToaster = () => {
        *                eg: `<Message type="success" description="Success" />` or `<Notification type="success" closable>Success</Notification>`
        * @param options The options of the toast message. (optional)
        *                eg: `{ placement: 'topCenter', duration: 5000 }`
-       * @returns The toast key, or a promise resolving to it when creating a container; undefined if no toast is added.
+       * @returns The toast key, or a promise resolving to it when creating a container. The result is undefined if no toast is added.
        */
       push: (message: React.ReactNode, options?: ToastContainerProps) => {
         const container =

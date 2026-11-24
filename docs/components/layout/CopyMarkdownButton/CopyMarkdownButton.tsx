@@ -2,7 +2,7 @@ import { Button, ButtonGroup, Menu, Popover, IconButton, Whisper } from 'rsuite'
 import Link from '@/components/Link';
 import { FaMarkdown, FaCheck } from 'react-icons/fa';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
-import { SiOpenai, SiAnthropic, SiVercel } from 'react-icons/si';
+import { SiOpenai, SiAnthropic } from 'react-icons/si';
 import { BsFiletypeTxt } from 'react-icons/bs';
 import useClipboard from '@/hooks/useClipboard';
 import styles from './CopyMarkdownButton.module.scss';
@@ -73,15 +73,6 @@ export default function CopyMarkdownButton({ category, pageName }: CopyMarkdownB
             target="_blank"
           >
             Open in Claude
-          </Menu.Item>
-          <Menu.Item
-            eventKey="v0"
-            icon={<SiVercel />}
-            as="a"
-            href={`https://v0.dev/?q=${encodedPrompt}`}
-            target="_blank"
-          >
-            Open in v0
           </Menu.Item>
           <Menu.Separator />
           <Menu.Item eventKey="mcp" icon={<SiOpenai />} as={Link} href={`/guide/mcp-server`}>
