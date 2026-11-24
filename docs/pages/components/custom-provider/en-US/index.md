@@ -22,11 +22,15 @@ return (
 
 ### Right to Left
 
+Use `rtl` to enable right-to-left behavior in RSuite components. For a section of a left-to-right page, also apply `dir="rtl"` to a wrapping DOM element so text and CSS layout follow the same direction.
+
 ```jsx
 return (
-  <CustomProvider rtl>
-    <App />
-  </CustomProvider>
+  <div dir="rtl">
+    <CustomProvider rtl>
+      <App />
+    </CustomProvider>
+  </div>
 );
 ```
 
@@ -60,6 +64,21 @@ return (
 );
 ```
 
+### Reduced motion
+
+Built-in Animation components, Modal and Drawer follow the system's `prefers-reduced-motion` preference by default. Use `reduceMotion` to override it globally:
+
+```jsx
+<CustomProvider reduceMotion>
+  <Modal open />
+  <Animation.Fade in reduceMotion={false}>
+    <div>This animation is explicitly allowed.</div>
+  </Animation.Fade>
+</CustomProvider>
+```
+
+A component's `reduceMotion` setting overrides the provider. `false` explicitly allows motion; leaving both settings undefined follows the system. This covers the built-in transitions, default modal/drawer backdrops and static-backdrop shake, while preserving transition callbacks. Other consumers of `Animation.Transition` also inherit this policy. Animations that do not use it, including custom content animations, keep their own settings. See [Animation](../animation/#reduced-motion) for lifecycle and custom-animation details.
+
 ### Content Security Policy
 
 The icon animations in `@rsuite/icons` use inline styles. If your project enables [Content Security Policy][csp], make sure to configure the [nonce][nonce] value.
@@ -85,7 +104,8 @@ return (
 | formatDate          | (date: Date, format?: string) => string | Return the formatted date string in the given format. The result may vary by locale.                    |             |
 | locale              | [Locale][locale] [`(en-GB)`][en_gb]     | Configure Language Pack                                                                                 |             |
 | parseDate           | (date: string, format: string) => Date  | Return the date parsed from string using the given format string.                                       |             |
-| rtl                 | boolean                                 | Text and other elements go from left to right.                                                          |             |
+| reduceMotion        | boolean                                 | Reduce built-in transition motion; omitted follows the system preference                                |             |
+| rtl                 | boolean                                 | Enables right-to-left behavior in RSuite components.                                                    |             |
 | theme               | 'light' \| 'dark' \| 'high-contrast'    | Supported themes                                                                                        |             |
 
 <!--{include:(_common/types/react-suite-components.md)}-->

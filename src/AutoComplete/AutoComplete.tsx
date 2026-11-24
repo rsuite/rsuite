@@ -35,7 +35,8 @@ import type {
 import type { BoxProps } from '@/internals/Box';
 
 export interface AutoCompleteProps<T = string>
-  extends FormControlPickerProps<T, any, Option | string>,
+  extends Omit<FormControlPickerProps<T, any, Option | string>, 'responsive'>,
+    Pick<SanitizedInputProps, 'inputMode' | 'enterKeyHint'>,
     ListboxProps,
     PopupProps,
     BoxProps {
@@ -80,6 +81,9 @@ export interface AutoCompleteProps<T = string>
 
   /** Called on close */
   onClose?: () => void;
+
+  /** Ref to the input element */
+  inputRef?: React.Ref<HTMLInputElement>;
 }
 
 /**
@@ -122,6 +126,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
     onFocus,
     onBlur,
     onMenuFocus,
+    inputRef,
     ...rest
   } = propsWithDefaults;
 
@@ -144,25 +149,27 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
     callback: onMenuFocus,
     target: () => overlay.current
   });
+  const focusItem = focusItemValue ? items.find(item => item?.value === focusItemValue) : undefined;
 
   const handleKeyDownEvent = (event: React.KeyboardEvent) => {
     if (!overlay.current) {
       return;
     }
-    onMenuKeyDown(event, {
-      enter: selectOnEnter ? selectFocusMenuItem : undefined,
-      esc: handleClose
-    });
-    handleKeyDown(event);
+    if (!event.nativeEvent.isComposing && event.nativeEvent.keyCode !== 229) {
+      onMenuKeyDown(event, {
+        enter: selectOnEnter ? selectFocusMenuItem : undefined,
+        esc: handleClose
+      });
+      handleKeyDown(event);
+    }
     onKeyDown?.(event);
   };
 
   const selectFocusMenuItem = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (!focusItemValue) {
+    if (!focusItem) {
       return;
     }
 
-    const focusItem = datalist.find(item => item?.value === focusItemValue);
     setValue(focusItemValue);
     setFocusItemValue(focusItemValue);
 
@@ -236,7 +243,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
         classPrefix="auto-complete-menu"
         listItemClassPrefix="auto-complete-item"
         listItemAs={ListItem}
-        focusItemValue={focusItemValue}
+        focusItemValue={focusItem?.value}
         onSelect={handleItemSelect}
         renderOption={renderOption}
         data={items}
@@ -295,11 +302,12 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
         size={size}
         readOnly={readOnly}
         expanded={expanded}
-        focusItemValue={focusItemValue}
+        focusItemValue={focusItem?.value}
         onBlur={handleInputBlur}
         onFocus={handleInputFocus}
         onChange={handleChange}
         onKeyDown={handleKeyDownEvent}
+        inputRef={inputRef}
       />
     </PickerToggleTrigger>
   );

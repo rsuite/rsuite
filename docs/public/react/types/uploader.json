@@ -123,6 +123,11 @@
         "isRequired": false,
         "description": "Callback functions that upload progress changes"
       },
+      "onCompletion": {
+        "type": "(completedFiles: [FileType][file][], failedFiles: [FileType][file][]) => void",
+        "isRequired": false,
+        "description": "Callback function called when all files in the current upload batch have finished (succeeded or failed)"
+      },
       "onRemove": {
         "type": "(file: [FileType][file]) => void",
         "isRequired": false,
@@ -167,7 +172,7 @@
       "shouldUpload": {
         "type": "(file:[FileType][file] ) => boolean | Promise&lt;boolean&gt;",
         "isRequired": false,
-        "description": "Allow uploading of files. Check function before file upload, return false without uploading"
+        "description": "Allow uploading of files. Return false or reject the promise to skip uploading."
       },
       "timeout": {
         "type": "number",

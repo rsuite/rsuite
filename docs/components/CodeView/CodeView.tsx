@@ -12,7 +12,7 @@ import AdCarbonInline from '../AdCarbon/AdCarbonInline';
 import { Divider, IconButton, Tooltip, Whisper, Placeholder } from 'rsuite';
 import { TransparentIcon, CodesandboxIcon, StackBlitzIcon } from '@/components/icons';
 import { useApp } from '@/hooks/useApp';
-import { html, css, dependencies as codeDependencies } from './utils';
+import { viteHtml, css, dependencies as codeDependencies, createVitePackageJson } from './utils';
 
 export interface CustomCodeViewProps {
   className?: string;
@@ -85,20 +85,29 @@ const CodeView = (props: CustomCodeViewProps) => {
 
   const openStackBlitz = useCallback(() => {
     const depsFiles = {};
+    const projectDependencies = { ...codeDependencies, ...sandboxDependencies };
 
     sandboxFiles?.forEach(file => {
-      depsFiles[file.name] = file.content;
+      depsFiles[`src/${file.name}`] = file.content;
     });
 
     const project: Project = {
       title: 'rsuite example',
       description: 'Example from rsuitejs.com',
-      template: 'create-react-app',
-      dependencies: { ...codeDependencies, ...sandboxDependencies },
-      files: { 'index.js': code, 'index.html': html, 'styles.css': css, ...depsFiles }
+      template: 'node',
+      files: {
+        'package.json': createVitePackageJson(projectDependencies),
+        'index.html': viteHtml,
+        'src/index.jsx': code,
+        'src/styles.css': css,
+        ...depsFiles
+      }
     };
 
-    stackBlitzSDK.openProject(project);
+    stackBlitzSDK.openProject(project, {
+      openFile: 'src/index.jsx',
+      startScript: 'dev'
+    });
   }, [code, sandboxFiles, sandboxDependencies]);
 
   const withWhisper = useCallback(

@@ -1,8 +1,8 @@
 @use '../../internals/Box/styles/index' as box;
 @use '../../styles/mixins/color-modes' as color-modes;
 @use '../../styles/mixins/utilities' as utils;
+@use '../../Animation/styles/reduced-motion';
 
-//
 // Messages
 // --------------------------------------------------
 
@@ -32,6 +32,7 @@
   // -------------------------
   // Generate contextual modifier classes for colorizing the message.
   $types: success, info, warning, error;
+
   @each $type in $types {
     &.rs-message-#{$type} {
       --rs-message-bg-color: var(--rs-message-#{$type}-bg);
@@ -128,6 +129,7 @@
     color: var(--rs-message-header-color);
     line-height: var(--rs-text-line-height-md);
     font-weight: bold;
+
     @include utils.ellipsis;
 
     & + .rs-message-body {
@@ -138,6 +140,7 @@
   // Description
   &-body {
     color: var(--rs-message-body-color);
+
     ul,
     ol {
       margin: 0;
@@ -156,7 +159,7 @@
   &:not(.rs-message-hiding) + & {
     margin-top: 10px;
 
-    //The last message hiding haven't clearance.
+    // The last message hiding haven't clearance.
     &.rs-message-hiding:last-child {
       transition: margin-top 0.1s linear 0.3s;
       margin-top: 0;

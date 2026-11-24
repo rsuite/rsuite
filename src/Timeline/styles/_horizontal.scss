@@ -1,0 +1,111 @@
+@mixin timeline-horizontal {
+  .rs-timeline.rs-timeline-horizontal {
+    --rs-time-line-column-gap: calc(var(--rs-time-line-item-content-margin) * 2);
+
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    column-gap: var(--rs-time-line-column-gap);
+    direction: inherit;
+
+    &[dir='rtl'] {
+      direction: rtl;
+    }
+
+    &[dir='ltr'] {
+      direction: ltr;
+    }
+
+    > .rs-timeline-item {
+      display: grid;
+      grid-row: 1 / 4;
+      grid-template-rows: subgrid;
+      grid-template-columns: minmax(0, 1fr);
+      min-width: 0;
+      padding: 0;
+      text-align: center;
+
+      > .rs-timeline-item-time,
+      > .rs-timeline-item-content {
+        display: block;
+        grid-column: 1;
+        width: auto;
+        min-width: 0;
+        padding: 0;
+        text-align: center;
+        overflow-wrap: anywhere;
+      }
+
+      > .rs-timeline-item-time {
+        grid-row: 1;
+        align-self: end;
+      }
+
+      > .rs-timeline-item-content {
+        grid-row: 3;
+        align-self: start;
+      }
+
+      > .rs-timeline-item-dot {
+        display: grid;
+        position: relative;
+        z-index: 1;
+        grid-area: 2 / 1;
+        place-items: center;
+        place-self: center;
+        inset: auto;
+        padding-block: var(--rs-time-line-item-content-margin);
+      }
+
+      > .rs-timeline-item-tail,
+      &:first-child > .rs-timeline-item-tail,
+      &:last-child > .rs-timeline-item-tail {
+        position: relative;
+        grid-area: 2 / 1;
+        place-self: center start;
+        inset: auto;
+        inset-inline-start: 50%;
+        width: calc(100% + var(--rs-time-line-column-gap));
+        height: var(--rs-time-line-tail-width);
+        min-height: 0;
+      }
+
+      &:last-child > .rs-timeline-item-tail {
+        display: none;
+      }
+    }
+
+    &.rs-timeline-align-right > .rs-timeline-item,
+    &.rs-timeline-align-alternate > .rs-timeline-item:nth-child(even) {
+      > .rs-timeline-item-time {
+        grid-row: 3;
+        align-self: start;
+      }
+
+      > .rs-timeline-item-content {
+        grid-row: 1;
+        align-self: end;
+      }
+    }
+
+    &.rs-timeline-endless:not(.rs-timeline-reverse) > .rs-timeline-item:last-child {
+      > .rs-timeline-item-tail {
+        display: block;
+        width: 50%;
+      }
+    }
+
+    &.rs-timeline-endless.rs-timeline-reverse > .rs-timeline-item:first-child {
+      > .rs-timeline-item-tail {
+        display: block;
+        inset-inline-start: 0;
+        width: calc(150% + var(--rs-time-line-column-gap));
+      }
+
+      &:only-child > .rs-timeline-item-tail {
+        width: 50%;
+      }
+    }
+  }
+}

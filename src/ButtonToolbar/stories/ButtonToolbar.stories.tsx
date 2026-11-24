@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import ButtonToolbar from '../ButtonToolbar';
 import Button from '../../Button';
 import ButtonGroup from '../../ButtonGroup';

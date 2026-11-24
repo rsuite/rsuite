@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Tooltip from '../Tooltip';
 import Whisper from '../..//Whisper';
 import Stack from '../..//Stack';

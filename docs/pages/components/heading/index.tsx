@@ -1,4 +1,3 @@
-import React from 'react';
 import { Heading, HeadingGroup, Text, Stack } from 'rsuite';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';

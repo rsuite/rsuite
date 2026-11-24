@@ -120,6 +120,32 @@ describe('toaster', () => {
     );
   });
 
+  it('Should render all messages when push() is called multiple times synchronously in a loop', async () => {
+    const loopContainer = document.createElement('div');
+    document.body.appendChild(loopContainer);
+
+    const messages = ['loop-msg-1', 'loop-msg-2', 'loop-msg-3'];
+
+    messages.forEach(id => {
+      toaster.push(<div data-testid={id}>{id}</div>, {
+        container: loopContainer,
+        placement: 'topEnd'
+      });
+    });
+
+    await waitFor(() => {
+      messages.forEach(id => {
+        expect(screen.queryByTestId(id)).to.exist;
+      });
+    });
+
+    // All messages should be in the same container
+    await waitFor(() => {
+      const containers = loopContainer.querySelectorAll('.rs-toast-container');
+      expect(containers.length).to.equal(1);
+    });
+  });
+
   it('Should not throw errors when push() is called via useEffect', async () => {
     function MyComponent() {
       useEffect(() => {

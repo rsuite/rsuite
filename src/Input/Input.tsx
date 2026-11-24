@@ -30,7 +30,7 @@ export interface InputProps
    */
   onChange?: PrependParameters<React.ChangeEventHandler<HTMLInputElement>, [value: string]>;
 
-  /** Called on press enter */
+  /** Called when Enter is pressed outside an IME composition. */
   onPressEnter?: React.KeyboardEventHandler<HTMLInputElement>;
 }
 

@@ -1,4 +1,4 @@
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import DatePicker from '../DatePicker';
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.scss';
@@ -68,5 +68,21 @@ export const Disabled: Story = {
   args: {
     ...defaultArgs,
     disabled: true
+  }
+};
+
+export const IndependentOpening: Story = {
+  args: {
+    ...defaultArgs,
+    openOnInputClick: false,
+    defaultValue: new Date(2024, 1, 12)
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Edit the input without opening the popup. Use the calendar button to open it; Escape returns focus to the button. The clear button remains available alongside it.'
+      }
+    }
   }
 };

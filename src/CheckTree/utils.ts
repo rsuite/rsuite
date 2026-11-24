@@ -1,4 +1,5 @@
-import { isNil, isUndefined } from 'lodash';
+import isUndefined from 'lodash/isUndefined';
+import isNil from 'lodash/isNil';
 import { CheckTreeProps, ValueType } from './CheckTree';
 import { CHECK_STATE, CheckStateType } from '@/internals/constants';
 import { attachParent, shallowEqual } from '@/internals/utils';
@@ -235,7 +236,8 @@ export function getDisabledState(
  */
 export function getCheckTreeDefaultValue<T = any>(value: T, uncheckableItemValues: T) {
   if (Array.isArray(value) && Array.isArray(uncheckableItemValues)) {
-    return value.filter(v => !uncheckableItemValues.includes(v));
+    const filtered = value.filter(v => !uncheckableItemValues.includes(v));
+    return filtered.length === value.length ? value : filtered;
   }
 
   return value;

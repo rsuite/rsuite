@@ -39,6 +39,7 @@ const PickerIndicator = ({
         />
       );
     }
+
     if (showCleanButton && !disabled) {
       return (
         <CloseButton
@@ -49,10 +50,16 @@ const PickerIndicator = ({
         />
       );
     }
+
     return caretAs && <Icon as={caretAs} className={prefix('caret-icon')} data-testid="caret" />;
   };
 
-  const props = Component === InputGroup.Addon ? { disabled } : undefined;
+  const props =
+    Component === InputGroup.Addon
+      ? { className: prefix('toggle-indicator'), disabled }
+      : Component === React.Fragment
+        ? undefined
+        : { className: prefix('toggle-indicator') };
 
   return <Component {...props}>{addon()}</Component>;
 };

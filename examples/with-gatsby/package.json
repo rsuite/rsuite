@@ -16,7 +16,7 @@
     "format": "prettier --write \"**/*.{js,jsx,json,md}\""
   },
   "dependencies": {
-    "gatsby": "^5.16.0",
+    "gatsby": "^5.13.7",
     "gatsby-plugin-image": "^3.13.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -32,5 +32,11 @@
     "gatsby-transformer-sharp": "^5.13.1",
     "prettier": "^3.4.2",
     "react-helmet": "^6.1.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "body-parser@1.20.3>qs": "6.17.1",
+      "express@4.22.1>qs": "6.17.1"
+    }
   }
 }

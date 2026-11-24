@@ -3,6 +3,7 @@ import Image from '../Image';
 import { describe, expect, it } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
+import CustomProvider from '@/CustomProvider';
 
 describe('Image', () => {
   testStandardProps(<Image />);
@@ -80,6 +81,41 @@ describe('Image', () => {
   it('Should apply loading', () => {
     render(<Image src="https://placehold.co/300x200" loading="lazy" />);
     expect(screen.getByRole('img')).to.have.attr('loading', 'lazy');
+  });
+
+  it('Should not treat native image props as Box style props', () => {
+    render(
+      <CustomProvider>
+        <Image
+          alt="demo"
+          src="/demo.png"
+          srcSet="/demo.png 1x, /demo@2x.png 2x"
+          fit="cover"
+          position="top"
+          loading="lazy"
+        />
+      </CustomProvider>
+    );
+
+    const image = screen.getByRole('img');
+
+    expect(image).to.not.have.attr('data-rs');
+    expect(image.className).to.not.match(/\brs-box-/);
+    expect(image).to.have.attr('src', '/demo.png');
+    expect(image).to.have.attr('srcset', '/demo.png 1x, /demo@2x.png 2x');
+    expect(image).to.have.attr('loading', 'lazy');
+    expect(image).to.have.style('--rs-object-fit', 'cover');
+    expect(image).to.have.style('--rs-object-position', 'top');
+  });
+
+  it('Should enable Box styling when a supported style prop is provided', () => {
+    render(<Image src="/demo.png" transform="scale(1)" />);
+
+    const image = screen.getByRole('img');
+
+    expect(image).to.have.attr('data-rs', 'box');
+    expect(image.className).to.match(/\brs-box-/);
+    expect(image).to.have.attr('src', '/demo.png');
   });
 
   it('Should load fallback image when main image fails to load', async () => {
