@@ -135,7 +135,7 @@
   // Vertical centered arrow
   &:where([data-placement='bottom'], [data-placement='top']) {
     > .rs-popover-arrow {
-      left: 50%;
+      inset-inline-start: 50%;
     }
   }
 
@@ -162,46 +162,28 @@
   --rs-popover-arrow-offset: calc(var(--rs-popover-arrow-outer-width) * -1);
 
   &:where([data-placement*='right']) {
-    margin-inline-start: calc(var(--rs-popover-arrow-width) + 2px);
+    margin-left: calc(var(--rs-popover-arrow-width) + 2px);
 
     @include utils.set-translate-transition(var(--rs-popover-translate-distance), 0);
 
     > .rs-popover-arrow {
-      inset-inline-start: var(--rs-popover-arrow-offset);
+      left: var(--rs-popover-arrow-offset);
       margin-top: calc(var(--rs-popover-arrow-outer-width) * -1);
 
       @include mixins.with-popover-arrow(left);
     }
-
-    [dir='rtl'] & {
-      margin-inline-end: calc(var(--rs-popover-arrow-width) + 2px);
-
-      > .rs-popover-arrow {
-        inset-inline-start: auto;
-        inset-inline-end: var(--rs-popover-arrow-offset);
-      }
-    }
   }
 
   &:where([data-placement*='left']) {
-    margin-inline-start: calc((var(--rs-popover-arrow-width) + 2px) * -1);
+    margin-left: calc((var(--rs-popover-arrow-width) + 2px) * -1);
 
     @include utils.set-translate-transition(calc(var(--rs-popover-translate-distance) * -1), 0);
 
     > .rs-popover-arrow {
-      inset-inline-end: var(--rs-popover-arrow-offset);
+      right: var(--rs-popover-arrow-offset);
       margin-top: calc(var(--rs-popover-arrow-outer-width) * -1);
 
       @include mixins.with-popover-arrow(right);
-    }
-
-    [dir='rtl'] & {
-      margin-inline-end: calc((var(--rs-popover-arrow-width) + 2px) * -1);
-
-      > .rs-popover-arrow {
-        inset-inline-start: var(--rs-popover-arrow-offset);
-        inset-inline-end: auto;
-      }
     }
   }
 }

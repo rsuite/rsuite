@@ -4,7 +4,8 @@ import React, {
   useRef,
   useMemo,
   useCallback,
-  useImperativeHandle
+  useImperativeHandle,
+  useContext
 } from 'react';
 import getContainer from 'dom-lib/getContainer';
 import ownerDocument from 'dom-lib/ownerDocument';
@@ -15,6 +16,7 @@ import { calcPosition } from './utils/position';
 import { ResizeObserver } from '@juggle/resize-observer';
 import { getDOMNode, kebabPlace } from '../utils';
 import { useIsomorphicLayoutEffect, useUpdateEffect } from '../hooks';
+import { CustomContext } from '../Provider/CustomContext';
 import type { Placement } from '@/internals/types';
 import type { CursorPosition, PositionType, PositionChildProps } from './types';
 
@@ -60,7 +62,9 @@ const usePosition = (
     cursorPosition
   } = props;
 
+  const { rtl } = useContext(CustomContext);
   const lastTargetRef = useRef<Element | null>(null);
+  const lastDirection = useRef<PositionType['dir']>(undefined);
 
   const defaultPosition = {
     placement,
@@ -124,11 +128,14 @@ const usePosition = (
         overlay.dataset.placement = kebabPlace(posi.placement);
       }
 
+      // Scroll and resize update coordinates directly unless the portal also needs a new direction.
       if (forceUpdateDOM && overlay) {
         addStyle(overlay, getPositionStyle(posi.positionLeft, posi.positionTop));
-      } else {
+      }
+      if (!forceUpdateDOM || !overlay || posi.dir !== lastDirection.current) {
         setPosition(posi);
       }
+      lastDirection.current = posi.dir;
 
       lastTargetRef.current = targetElement;
     },
@@ -173,7 +180,7 @@ const usePosition = (
     };
   }, [ref, triggerTarget, updatePosition, getContainerElement]);
 
-  useUpdateEffect(() => updatePosition(), [updatePosition, placement]);
+  useUpdateEffect(() => updatePosition(), [updatePosition, placement, rtl]);
 
   return [position, updatePosition];
 };
@@ -192,7 +199,7 @@ const Position = React.forwardRef((props: PositionProps, ref) => {
   const childRef = React.useRef<HTMLElement>(null);
 
   const [position, updatePosition] = usePosition(props, childRef);
-  const { arrowOffsetLeft, arrowOffsetTop, positionLeft, positionTop, placement } = position;
+  const { arrowOffsetLeft, arrowOffsetTop, positionLeft, positionTop, placement, dir } = position;
 
   useImperativeHandle(ref, () => ({
     get child() {
@@ -209,6 +216,7 @@ const Position = React.forwardRef((props: PositionProps, ref) => {
   if (typeof children === 'function') {
     const childProps = {
       placement,
+      dir,
       arrowOffsetLeft,
       arrowOffsetTop,
       left: positionLeft,
