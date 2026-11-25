@@ -184,6 +184,40 @@ export function externalPickerForms() {
   );
 }
 
+export function pickerKeyboardCallbacks() {
+  const data = [{ value: 0, label: 'Zero' }];
+
+  // @ts-expect-error A picker keyboard callback receives an event, not a key string.
+  const invalidHandler = <SelectPicker data={data} onKeyDown={(key: string) => key} />;
+  void invalidHandler;
+
+  const onKeyDown: React.KeyboardEventHandler<HTMLElement> = event => {
+    event.currentTarget.focus();
+    void event.key;
+  };
+
+  return (
+    <>
+      <SelectPicker
+        data={data}
+        onKeyDown={event => {
+          const key: string = event.key;
+          // @ts-expect-error The contextual keyboard event's key is a string.
+          const invalidKey: number = event.key;
+          void [key, invalidKey];
+          onKeyDown(event);
+        }}
+      />
+      <SelectPickerSubpath data={data} onKeyDown={onKeyDown} />
+      <CheckPicker data={data} onKeyDown={onKeyDown} />
+      <TreePicker data={data} onKeyDown={onKeyDown} />
+      <CheckTreePicker data={data} onKeyDown={onKeyDown} />
+      <Cascader data={data} onKeyDown={onKeyDown} />
+      <MultiCascader data={data} onKeyDown={onKeyDown} />
+    </>
+  );
+}
+
 export function dialogCloseCallbacks(
   root: ReturnType<typeof useDialog>,
   subpath: ReturnType<typeof DialogSubpath>

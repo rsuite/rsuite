@@ -3,7 +3,8 @@ import type {
   ReactNode,
   ElementType,
   SyntheticEvent,
-  FocusEventHandler
+  FocusEventHandler,
+  KeyboardEventHandler
 } from 'react';
 
 import type { Placement } from './placement';
@@ -203,6 +204,9 @@ export interface FormControlPickerProps<T = any, L = any, D = Record<string, any
     FormControlBaseProps<T> {
   /** ID of the form that owns the selected value. */
   form?: string;
+
+  /** Called when a key is pressed on the picker or its popup. */
+  onKeyDown?: KeyboardEventHandler<HTMLElement>;
 
   /**
    * Disabled items
