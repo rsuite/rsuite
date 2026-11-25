@@ -17,6 +17,7 @@ import {
   InputPicker,
   TagPicker,
   SelectPicker,
+  type SelectPickerProps,
   CheckPicker,
   Cascader,
   MultiCascader,
@@ -156,6 +157,33 @@ void [
   invalidRangePreset,
   invalidRangePresetFunction
 ];
+
+export function readonlySelectPickerOptions() {
+  const options = [
+    { value: 'north', label: 'North' },
+    { value: 'south', label: 'South' }
+  ] as const;
+  const props: SelectPickerProps<'north' | 'south'> = { data: options };
+  const frozenOptions = Object.freeze([{ id: 0, name: 'Zero' }]);
+  const mutableOptions = [{ label: 'Existing mutable option', value: 1 }];
+
+  return (
+    <>
+      <SelectPicker
+        data={options}
+        onChange={value => {
+          const inferred: 'north' | 'south' | null = value;
+          // @ts-expect-error The inferred option value is a string or null.
+          const invalid: number = value;
+          void [inferred, invalid];
+        }}
+      />
+      <SelectPickerSubpath {...props} defaultValue="north" />
+      <SelectPicker<number> data={frozenOptions} labelKey="name" valueKey="id" defaultValue={0} />
+      <SelectPicker data={mutableOptions} value={1} />
+    </>
+  );
+}
 
 export function externalPickerForms() {
   const data = [{ value: 0, label: 'Zero' }];

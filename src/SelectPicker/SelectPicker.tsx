@@ -76,10 +76,13 @@ export interface SelectProps<T> extends ListboxProps, PopupProps, DeprecatedMenu
 export interface SelectPickerProps<T = any>
   extends Omit<
       FormControlPickerProps<T, PickerLocale, Option<T>>,
-      'value' | 'defaultValue' | 'onChange'
+      'data' | 'value' | 'defaultValue' | 'onChange'
     >,
     SelectProps<T>,
     Pick<PickerToggleProps, 'caretAs' | 'label' | 'loading'> {
+  /** The options to display. Accepts mutable and readonly arrays. */
+  data: readonly Option<T>[];
+
   /** Initial value */
   defaultValue?: T;
 

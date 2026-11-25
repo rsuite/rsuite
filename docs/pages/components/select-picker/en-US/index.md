@@ -111,7 +111,7 @@ On extra-small screens, the popup is displayed as a full-width Drawer by default
 | classPrefix        | string `('picker')`                                                            | The prefix for the component CSS class                  |
 | cleanable          | boolean `(true)`                                                               | Whether the value can be cleared                        |
 | container          | HTMLElement \| (() => HTMLElement)                                             | Sets the rendering container                            |
-| data \*            | [Option][item][]                                                               | The data for the component                              |
+| data \*            | readonly [Option][item][]                                                      | Options. Supports readonly arrays and `as const`.       |
 | defaultValue       | [Value][value]                                                                 | Default value (uncontrolled)                            |
 | disabled           | boolean                                                                        | Whether the component is disabled                       |
 | disabledItemValues | [Value][value][]                                                               | Values of disabled items                                |
