@@ -1,3 +1,16 @@
-# RSUITE multiple themes example
+# RSuite theme colors
 
-This example used [webpack-multiple-themes-compile](https://github.com/rsuite/webpack-multiple-themes-compile) library to compile style files. About rsuite customize theme more info , you can visited to our [homepage](https://rsuitejs.com/en/guide/themes).
+Switch among four custom color palettes and the default RSuite palette while
+interacting with the same controls. The example loads the published RSuite CSS
+once. Each palette overrides [RSuite CSS variables](https://rsuitejs.com/guide/css-variables/)
+on the document so components and their popups use the same colors.
+
+Run with Node.js 20.19+ or 22.12+.
+
+```sh
+npm ci
+npm run dev
+```
+
+Run `npm run build` to generate the production site in `dist`. Use
+`npm run preview` to serve that build locally.

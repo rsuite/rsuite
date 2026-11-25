@@ -21,7 +21,7 @@
 [demo-create-react-app]: https://github.com/rsuite/rsuite/tree/master/examples/create-react-app
 [demo-electron]: https://github.com/rsuite/rsuite/tree/master/examples/with-electron
 [demo-intl-app]: https://github.com/rsuite/rsuite/tree/master/examples/custom-i18n
-[demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes
+[demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/main/examples/custom-multiple-themes
 [demo-flow-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-flow
 [demo-typescript-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-typescript
 [demo-nextjs-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs-app

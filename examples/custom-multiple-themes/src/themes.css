@@ -1,0 +1,81 @@
+.theme-example {
+  width: min(36rem, calc(100% - 2rem));
+  margin: 1.25rem auto;
+}
+
+.theme-example h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.theme-example-picker {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.theme-example-picker div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+
+.theme-example-picker label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+:root[data-accent='default'] {
+  --rs-btn-primary-bg: var(--rs-primary-800);
+  --rs-btn-primary-border-color: var(--rs-primary-800);
+  --rs-btn-primary-hover-bg: var(--rs-primary-900);
+  --rs-btn-primary-active-bg: color-mix(in srgb, var(--rs-primary-900), black 12%);
+}
+
+:root[data-accent='green'] {
+  --example-accent: #4caf50;
+  --example-accent-dark: #1b5e20;
+}
+
+:root[data-accent='red'] {
+  --example-accent: #f44336;
+  --example-accent-dark: #b71c1c;
+}
+
+:root[data-accent='yellow'] {
+  --example-accent: #ffeb3b;
+  --example-accent-dark: #705700;
+}
+
+:root[data-accent='purple'] {
+  --example-accent: #673ab7;
+  --example-accent-dark: #4527a0;
+}
+
+/* Set the palette on the document so popups and derived tokens share it. */
+:root[data-accent]:not([data-accent='default']) {
+  --rs-primary-50: color-mix(in srgb, var(--example-accent), white 94%);
+  --rs-primary-100: color-mix(in srgb, var(--example-accent), white 85%);
+  --rs-primary-200: color-mix(in srgb, var(--example-accent), white 65%);
+  --rs-primary-300: color-mix(in srgb, var(--example-accent), white 40%);
+  --rs-primary-400: color-mix(in srgb, var(--example-accent), white 20%);
+  --rs-primary-500: var(--example-accent);
+  --rs-primary-600: color-mix(in srgb, var(--example-accent), var(--example-accent-dark) 55%);
+  --rs-primary-700: var(--example-accent-dark);
+  --rs-primary-800: color-mix(in srgb, var(--example-accent-dark), black 15%);
+  --rs-primary-900: color-mix(in srgb, var(--example-accent-dark), black 28%);
+
+  /* Use darker shades where controls need contrast against white. */
+  --rs-btn-primary-text: white;
+  --rs-btn-primary-bg: var(--rs-primary-700);
+  --rs-btn-primary-border-color: var(--rs-primary-700);
+  --rs-btn-primary-hover-bg: var(--rs-primary-800);
+  --rs-btn-primary-active-bg: var(--rs-primary-900);
+  --rs-checkbox-checked-bg: var(--rs-primary-700);
+  --rs-radio-checked-bg: var(--rs-primary-700);
+  --rs-input-focus-border: var(--rs-primary-700);
+  --rs-slider-progress: var(--rs-primary-700);
+  --rs-toggle-checked-bg: var(--rs-primary-700);
+  --rs-toggle-checked-hover-bg: var(--rs-primary-800);
+}
