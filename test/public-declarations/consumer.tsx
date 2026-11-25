@@ -10,6 +10,7 @@ import {
   Drawer,
   DateInput,
   Form,
+  Stat,
   FormErrorSummary,
   FormErrorSummaryItem,
   FormErrorSummaryProps,
@@ -156,6 +157,13 @@ void [
   invalidRangePreset,
   invalidRangePresetFunction
 ];
+
+export function numericTrend(current: number, previous: number) {
+  // @ts-expect-error A boolean does not describe a trend.
+  const invalid = <Stat.Trend indicator={true} />;
+  void invalid;
+  return <Stat.Trend indicator={current - previous}>{current}</Stat.Trend>;
+}
 
 export function externalPickerForms() {
   const data = [{ value: 0, label: 'Zero' }];
