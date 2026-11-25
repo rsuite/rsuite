@@ -32,6 +32,9 @@
   }
 
   &-row {
+    // A nested table starts with its own row highlight state.
+    --rs-table-row-highlight-color: initial;
+
     overflow: hidden;
     position: absolute;
     height: 36px;
@@ -78,12 +81,24 @@
   &-hover &-row:not(&-row-header):hover,
   &-hover &-row:hover &-cell-group,
   &-hover &-row:hover &-cell {
-    background-color: var(--rs-state-hover-bg);
+    background-color: var(--rs-table-row-highlight-color, var(--rs-state-hover-bg));
   }
 
   &-hover &-row-header:hover &-cell-group,
   &-hover &-row-header:hover &-cell {
     background-color: var(--rs-bg-card);
+  }
+
+  &-row-highlighted {
+    --rs-table-row-highlight-color: var(--rs-table-row-selected-bg);
+
+    background-color: var(--rs-table-row-highlight-color);
+    outline: 2px solid var(--rs-table-row-selected-outline);
+    outline-offset: -2px;
+
+    @media (forced-colors: active) {
+      outline-color: Highlight;
+    }
   }
 
   // The thead
@@ -177,7 +192,7 @@
     overflow: hidden;
     position: absolute;
     white-space: normal;
-    background-color: var(--rs-bg-card);
+    background-color: var(--rs-table-row-highlight-color, var(--rs-bg-card));
     border-bottom: 1px solid var(--rs-table-border-color);
 
     &.first {
@@ -309,7 +324,7 @@
     &-fixed-left {
       position: absolute;
       z-index: var(--rs-zindex-table-cell-group-fixed);
-      background-color: var(--rs-bg-card);
+      background-color: var(--rs-table-row-highlight-color, var(--rs-bg-card));
     }
 
     &-shadow,
