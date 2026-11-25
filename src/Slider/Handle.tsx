@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Tooltip from '../Tooltip';
 import Input from './Input';
 import useDrag from './useDrag';
 import Box, { BoxProps } from '@/internals/Box';
 import { forwardRef, mergeRefs, mergeStyles } from '@/internals/utils';
-import { useStyles } from '@/internals/hooks';
+import { useStyles, useEventCallback } from '@/internals/hooks';
 
 export interface HandleProps
   extends Omit<BoxProps, 'color' | 'position' | 'height' | 'width'>,
     React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
+  readOnly?: boolean;
+  min?: number;
+  max?: number;
+  step?: number;
+  onInputChange?: React.ChangeEventHandler<HTMLInputElement>;
   vertical?: boolean;
   tooltip?: boolean;
   position?: number;
@@ -29,6 +34,11 @@ const Handle = forwardRef<'div', HandleProps>((props, ref) => {
     classPrefix = 'slider',
     className,
     disabled,
+    readOnly,
+    min,
+    max,
+    step,
+    onInputChange,
     style,
     children,
     position,
@@ -48,6 +58,12 @@ const Handle = forwardRef<'div', HandleProps>((props, ref) => {
     ...rest
   } = props;
 
+  const inputRef = useRef<HTMLInputElement>(null);
+  const handleDragStart = useEventCallback((event: React.MouseEvent) => {
+    inputRef.current?.focus();
+    onDragStart?.(event);
+  });
+
   const actualTooltip = tooltip || keepTooltipOpen;
   const { merge, prefix, cssVar } = useStyles(classPrefix);
   const styles = mergeStyles(style, cssVar('offset', `${position}%`));
@@ -55,7 +71,7 @@ const Handle = forwardRef<'div', HandleProps>((props, ref) => {
   const { active, onMoveStart, onMouseEnter, rootRef, tooltipRef } = useDrag({
     tooltip: actualTooltip,
     disabled,
-    onDragStart,
+    onDragStart: handleDragStart,
     onDragMove,
     onDragEnd,
     keepTooltipOpen
@@ -67,7 +83,6 @@ const Handle = forwardRef<'div', HandleProps>((props, ref) => {
     <Box
       as={as}
       role={role}
-      tabIndex={tabIndex}
       ref={mergeRefs(ref, rootRef)}
       className={handleClasses}
       onMouseDown={onMoveStart}
@@ -89,7 +104,18 @@ const Handle = forwardRef<'div', HandleProps>((props, ref) => {
           {renderTooltip ? renderTooltip(value) : value}
         </Tooltip>
       )}
-      <Input tabIndex={-1} value={value} {...rest} />
+      <Input
+        {...rest}
+        ref={inputRef}
+        tabIndex={tabIndex ?? -1}
+        value={value}
+        min={min}
+        max={max}
+        step={step}
+        disabled={disabled}
+        readOnly={readOnly || !onInputChange}
+        onChange={onInputChange}
+      />
       {children}
     </Box>
   );

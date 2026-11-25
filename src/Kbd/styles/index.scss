@@ -7,7 +7,7 @@
 // -------------------------
 
 .rs-kbd {
-  @include kbd-mixin.kbd();
+  @include kbd-mixin.kbd;
 
   // Size variants
   $sizes: lg, md, sm, xs;

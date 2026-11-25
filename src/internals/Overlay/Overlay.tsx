@@ -1,12 +1,62 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useContext, useMemo } from 'react';
 import classNames from 'classnames';
 import Fade from '../../Animation/Fade';
 import Position, { PositionProps, getPositionStyle } from './Position';
 import { useOverlay } from './OverlayProvider';
-import { useRootClose } from '../hooks';
+import { useRootClose, useIsomorphicLayoutEffect } from '../hooks';
 import { mergeRefs, mergeStyles } from '@/internals/utils';
 import type { Placement, AnimationEventProps, ReactElement } from '@/internals/types';
 import type { CursorPosition, PositionChildProps } from './types';
+import { TooltipDescriptionObserverContext } from './TooltipDescriptionContext';
+
+interface OverlayElementProps {
+  child: ReactElement;
+  childProps?: React.HTMLAttributes<HTMLElement>;
+  childRef: React.RefObject<HTMLElement | null>;
+  overlayTarget: React.MutableRefObject<HTMLElement | null>;
+  position: PositionChildProps;
+  className?: string;
+  dataAttributes?: Record<string, unknown>;
+}
+
+// A stable leaf keeps ref callbacks unchanged when publishing a description rerenders Whisper.
+function OverlayElement({
+  child,
+  childProps,
+  childRef,
+  overlayTarget,
+  position,
+  className,
+  dataAttributes
+}: OverlayElementProps) {
+  const description = useContext(TooltipDescriptionObserverContext);
+  const onNodeChange = description?.onNodeChange;
+  // React 19 stores refs in props; React 18 exposes them on the element.
+  const originalChildRef =
+    Number.parseInt(React.version, 10) >= 19
+      ? child.props.ref
+      : (child as React.DetailedReactHTMLElement<any, HTMLElement>).ref;
+  const ref = useMemo(
+    () => mergeRefs(mergeRefs(mergeRefs(childRef, overlayTarget), onNodeChange), originalChildRef),
+    [childRef, overlayTarget, onNodeChange, originalChildRef]
+  );
+
+  useIsomorphicLayoutEffect(() => {
+    description?.refresh();
+  });
+
+  const props = {
+    ...childProps,
+    ...child.props,
+    ...dataAttributes,
+    dir: child.props.dir ?? childProps?.dir ?? position.dir,
+    id: child.props.id ?? childProps?.id,
+    className: classNames(child.props.className, className),
+    style: mergeStyles(getPositionStyle(position.left, position.top), child.props.style),
+    ref
+  };
+  return React.cloneElement(child, props);
+}
 
 export interface OverlayProps extends AnimationEventProps {
   container?: HTMLElement | (() => HTMLElement | null) | null;
@@ -95,35 +145,51 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
 
   const renderChildWithPosition = (transitionProps?, transitionRef?: React.RefObject<any>) => {
     const { className } = transitionProps || {};
+    const dataAttributes = Object.fromEntries(
+      Object.entries(transitionProps || {}).filter(([name]) => name.startsWith('data-'))
+    );
     return (
       <Position {...positionProps} {...transitionProps} ref={mergeRefs(ref, transitionRef)}>
         {(positionChildProps, childRef) => {
           // Position will return coordinates and className
-          const { left, top } = positionChildProps;
-
           // Components returned by function children need to control their own positioning information. For example: Picker
           if (typeof children === 'function') {
-            return children(
+            const child = children(
               {
                 className,
-                //dataAttributes,
                 ...positionChildProps,
-                ...childrenProps
+                ...childrenProps,
+                ...dataAttributes
               },
               mergeRefs(childRef, overlayTarget)
             );
+            if (
+              !React.isValidElement<React.HTMLAttributes<HTMLElement>>(child) ||
+              child.type === React.Fragment
+            ) {
+              return child;
+            }
+
+            // Render props can omit positioning styles, as the picker popup does.
+            const { dir, left, top } = positionChildProps;
+            return React.cloneElement(child, {
+              ...dataAttributes,
+              dir: child.props.dir ?? childrenProps?.dir ?? dir,
+              style: mergeStyles(getPositionStyle(left, top), child.props.style)
+            });
           }
 
-          const childElement = children as ReactElement;
-          const childStyles = mergeStyles(getPositionStyle(left, top), childElement.props.style);
-
-          return React.cloneElement(childElement, {
-            ...childrenProps,
-            ...childElement.props,
-            className: classNames(childElement.props.className, className),
-            style: childStyles,
-            ref: mergeRefs(childRef, overlayTarget)
-          });
+          return (
+            <OverlayElement
+              child={children as ReactElement}
+              childProps={childrenProps}
+              childRef={childRef}
+              overlayTarget={overlayTarget}
+              position={positionChildProps}
+              className={className}
+              dataAttributes={dataAttributes}
+            />
+          );
         }}
       </Position>
     );

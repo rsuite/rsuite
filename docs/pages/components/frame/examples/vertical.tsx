@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Navbar, Nav, Avatar, Drawer, Placeholder, Container, Header, Content } from 'rsuite';
 import { SiProtondb } from 'react-icons/si';
 

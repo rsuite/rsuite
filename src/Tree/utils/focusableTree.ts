@@ -92,13 +92,14 @@ interface FocusItemProps {
   treeNodesRefs: any;
   selector?: string;
   valueKey: string;
+  focusNode?: (node: TreeNode) => void;
 }
 
 /**
  * Focuses on the next item in a tree.
  */
 export const focusNextItem = (props: FocusItemProps) => {
-  const { focusItemValue, focusableItems, treeNodesRefs, valueKey } = props;
+  const { focusItemValue, focusableItems, treeNodesRefs, valueKey, focusNode } = props;
   const activeIndex = getActiveIndex(focusItemValue, focusableItems, valueKey);
 
   if (focusableItems.length === 0) {
@@ -108,7 +109,8 @@ export const focusNextItem = (props: FocusItemProps) => {
   const nextIndex = activeIndex === focusableItems.length - 1 ? 0 : activeIndex + 1;
   const value = focusableItems[nextIndex][valueKey];
 
-  focusTreeNode(focusableItems[nextIndex].refKey, treeNodesRefs);
+  if (focusNode) focusNode(focusableItems[nextIndex]);
+  else focusTreeNode(focusableItems[nextIndex].refKey, treeNodesRefs);
 
   return value;
 };
@@ -117,7 +119,7 @@ export const focusNextItem = (props: FocusItemProps) => {
  * Focuses on the previous item in a tree.
  */
 export const focusPreviousItem = (props: FocusItemProps) => {
-  const { focusItemValue, focusableItems, treeNodesRefs, valueKey } = props;
+  const { focusItemValue, focusableItems, treeNodesRefs, valueKey, focusNode } = props;
   const activeIndex = getActiveIndex(focusItemValue, focusableItems, valueKey);
 
   if (focusableItems.length === 0) {
@@ -129,7 +131,8 @@ export const focusPreviousItem = (props: FocusItemProps) => {
 
   const value = focusableItems[prevIndex][valueKey];
 
-  focusTreeNode(focusableItems[prevIndex].refKey, treeNodesRefs);
+  if (focusNode) focusNode(focusableItems[prevIndex]);
+  else focusTreeNode(focusableItems[prevIndex].refKey, treeNodesRefs);
 
   return value;
 };
@@ -138,7 +141,7 @@ export const focusPreviousItem = (props: FocusItemProps) => {
  * Focuses on the first item in a tree.
  */
 export const focusFirstItem = (props: FocusItemProps) => {
-  const { focusableItems, treeNodesRefs, valueKey } = props;
+  const { focusableItems, treeNodesRefs, valueKey, focusNode } = props;
 
   if (focusableItems.length === 0) {
     return;
@@ -147,7 +150,8 @@ export const focusFirstItem = (props: FocusItemProps) => {
   const firstItem = focusableItems[0];
   const value = firstItem[valueKey];
 
-  focusTreeNode(firstItem.refKey, treeNodesRefs);
+  if (focusNode) focusNode(firstItem);
+  else focusTreeNode(firstItem.refKey, treeNodesRefs);
 
   return value;
 };
@@ -156,7 +160,7 @@ export const focusFirstItem = (props: FocusItemProps) => {
  * Focuses on the last item in a tree.
  */
 export const focusLastItem = (props: FocusItemProps) => {
-  const { focusableItems, treeNodesRefs, valueKey } = props;
+  const { focusableItems, treeNodesRefs, valueKey, focusNode } = props;
 
   if (focusableItems.length === 0) {
     return;
@@ -165,7 +169,8 @@ export const focusLastItem = (props: FocusItemProps) => {
   const lastItem = focusableItems[focusableItems.length - 1];
   const value = lastItem[valueKey];
 
-  focusTreeNode(lastItem.refKey, treeNodesRefs);
+  if (focusNode) focusNode(lastItem);
+  else focusTreeNode(lastItem.refKey, treeNodesRefs);
 
   return value;
 };

@@ -9,17 +9,12 @@ const { format } = require('date-fns');
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
 const SVG_LOGO_PATH = resolveToStaticPath('./components/icons/svg');
 
-const {
-  // 'production' on main branch
-  // 'preview' on pr branches
-  // empty on local machine
-  // @see https://vercel.com/docs/concepts/projects/environment-variables#system-environment-variables
-  VERCEL_ENV = 'local'
-} = process.env;
-
-const __USE_SRC__ = VERCEL_ENV === 'preview' || VERCEL_ENV === 'local';
-const __DEV__ = VERCEL_ENV === 'local';
-const BUILD_ID = format(new Date(), 'yyyyMMddHHmm');
+const netlifyContext = process.env.NETLIFY === 'true' ? process.env.CONTEXT : undefined;
+const buildEnv = process.env.DOCS_BUILD_ENV || netlifyContext || 'local';
+const __USE_SRC__ = buildEnv !== 'production';
+const __DEV__ = buildEnv === 'local' || buildEnv === 'dev';
+const tsconfigPath = __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json';
+const BUILD_ID = process.env.DEPLOY_ID || format(new Date(), 'yyyyMMddHHmm');
 
 /**
  * @type {import('next').NextConfig}
@@ -34,10 +29,7 @@ module.exports = {
     defaultLocale: 'en',
     localeDetection: false
   },
-  eslint: {
-    // ESLint is ignored because it's already run in CI workflow
-    ignoreDuringBuilds: true
-  },
+  transpilePackages: __USE_SRC__ ? ['rsuite'] : undefined,
   experimental: {
     externalDir: true
   },
@@ -157,9 +149,6 @@ module.exports = {
       ]
     });
 
-    /**
-     * @see https://github.com/vercel/next.js/blob/0bcc6943ae7a8c3c7d1865b4ae090edafe417c7c/packages/next/build/webpack/config/blocks/css/index.ts#L311
-     */
     config.plugins.push(
       new MiniCssExtractPlugin({
         experimentalUseImportModule: true, // isWebpack5
@@ -170,7 +159,11 @@ module.exports = {
     );
 
     if (__DEV__) {
-      config.plugins.push(new ForkTsCheckerWebpackPlugin());
+      config.plugins.push(
+        new ForkTsCheckerWebpackPlugin({
+          typescript: { configFile: path.resolve(__dirname, tsconfigPath) }
+        })
+      );
     }
 
     config.optimization.minimizer.push(
@@ -240,7 +233,7 @@ module.exports = {
     pagesBufferLength: 3 // default 2
   },
   typescript: {
-    tsconfigPath: __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json'
+    tsconfigPath
   },
   trailingSlash: true,
   pageExtensions: ['tsx', 'ts'],
@@ -253,7 +246,6 @@ module.exports = {
       }
     ];
   },
-  swcMinify: true,
   images: {
     remotePatterns: [
       {

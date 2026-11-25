@@ -1,4 +1,3 @@
-import React from 'react';
 import Icon from '@rsuite/icons/Icon';
 import components from '@/component.config.json';
 import { useApp } from '@/hooks/useApp';
@@ -81,6 +80,12 @@ export default function usePages(): MenuItem[] {
             {
               id: 'mcp-server',
               name: locales?.common?.mcpServer,
+              tag: 'New',
+              tagColor: 'green'
+            },
+            {
+              id: 'skills',
+              name: locales?.common?.skills,
               tag: 'New',
               tagColor: 'green'
             }

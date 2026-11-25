@@ -1,6 +1,7 @@
 import React from 'react';
 import Listbox from '../Listbox';
 import ListItem from '../ListItem';
+import { ComboboxContext } from '../PickerToggleTrigger';
 import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
@@ -196,5 +197,27 @@ describe('picker -  Listbox', () => {
     );
 
     expect(screen.getByRole('option', { name: 'a' })).to.have.style('height', '28px');
+  });
+  it('clears the latest mounted-descendant reporter when an opted-in list is unmounted', () => {
+    const onChange = vi.fn();
+    const { rerender, unmount } = render(
+      <ComboboxContext.Provider value={{ id: 'list' }}>
+        <Listbox data={items} listItemAs={ListItem} focusItemValue="a" />
+      </ComboboxContext.Provider>
+    );
+    rerender(
+      <ComboboxContext.Provider value={{ id: 'list' }}>
+        <Listbox
+          data={items}
+          listItemAs={ListItem}
+          focusItemValue="a"
+          onActiveDescendantChange={onChange}
+        />
+      </ComboboxContext.Provider>
+    );
+    expect(onChange).toHaveBeenCalledExactlyOnceWith(screen.getByRole('option', { name: 'a' }).id);
+    unmount();
+    expect(onChange).toHaveBeenLastCalledWith(undefined);
+    expect(onChange).toHaveBeenCalledTimes(2);
   });
 });

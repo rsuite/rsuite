@@ -220,6 +220,12 @@
         "isRequired": false,
         "description": "Custom render function for selected items"
       },
+      "responsive": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to display the popup as a full-width Drawer on extra-small screens",
+        "defaultValue": "true"
+      },
       "searchable": {
         "type": "boolean",
         "isRequired": false,

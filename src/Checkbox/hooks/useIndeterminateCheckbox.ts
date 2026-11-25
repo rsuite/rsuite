@@ -22,11 +22,13 @@ export function useIndeterminateCheckbox(
 ): React.MutableRefObject<HTMLInputElement | null> {
   const ref = useRef<HTMLInputElement | null>(null);
 
+  // The input can be recreated without changing the prop, for example after plaintext mode.
+  // Synchronize each commit so newly attached inputs receive the current state before paint.
   useLayoutEffect(() => {
     if (ref.current) {
       ref.current.indeterminate = indeterminate ?? false;
     }
-  }, [indeterminate]);
+  });
 
   return ref;
 }

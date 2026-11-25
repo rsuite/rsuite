@@ -14,3 +14,11 @@ import { expectType } from 'ts-expect';
     expectType<'timeout' | 'server_error' | 'xhr_error'>(status.type);
   }}
 />;
+
+<Uploader
+  action="#"
+  onCompletion={(completedFiles, failedFiles) => {
+    expectType<import('../Uploader').FileType[]>(completedFiles);
+    expectType<import('../Uploader').FileType[]>(failedFiles);
+  }}
+/>;

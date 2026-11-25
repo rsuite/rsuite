@@ -4,7 +4,6 @@
 @use '../../styles/colors/colors-base' as colors;
 @use '../../Button/styles/mixin' as button-mixin;
 
-//
 // Toggle
 // --------------------------------------------------
 
@@ -167,6 +166,7 @@
     // Focus state
     .rs-toggle-input:focus-visible + & {
       @include utils.focus-ring;
+
       box-shadow:
         inset 0 0 0 1px var(--rs-toggle-thumb),
         var(--rs-state-focus-shadow);
@@ -265,6 +265,7 @@
       &::before {
         border-color: var(--rs-toggle-loader-ring);
       }
+
       &::after {
         border-top-color: var(--rs-toggle-loader-rotor);
       }
@@ -274,6 +275,7 @@
           &::before {
             border-color: var(--rs-gray-200);
           }
+
           &::after {
             border-top-color: var(--rs-gray-500);
           }

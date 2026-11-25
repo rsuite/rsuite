@@ -2,7 +2,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import DashboardIcon from '@rsuite/icons/Dashboard';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import SettingIcon from '@rsuite/icons/Setting';

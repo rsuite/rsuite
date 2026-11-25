@@ -1,4 +1,3 @@
-import React from 'react';
 import NextLink from 'next/link';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';

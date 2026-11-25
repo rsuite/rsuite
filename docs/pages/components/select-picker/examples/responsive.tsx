@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { SelectPicker, Box } from 'rsuite';
 
 const data = [

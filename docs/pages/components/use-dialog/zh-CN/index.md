@@ -132,7 +132,7 @@ interface PromptOptions {
   cancelText?: string; // 取消按钮文本
   defaultValue?: string; // 输入框的默认值
   validate?: (value: string) => [isValid: boolean, errorMessage?: string]; // 验证函数
-  onClose?: (result: string) => void; // 对话框关闭时的回调函数
+  onClose?: (result: string | false) => void; // 输入值，取消时为 false
 }
 ```
 

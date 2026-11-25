@@ -335,6 +335,32 @@ describe('Overlay - utils/position', () => {
     document.dir = originalDir;
   });
 
+  it('uses the trigger direction for an explicit alignment across portal boundaries', () => {
+    target.style.direction = 'rtl';
+    const overlay = createElementToContainer(24, 20);
+    const start = calcPosition({ placement: 'bottomStart', preventOverflow: false, padding: 0 });
+    const end = calcPosition({ placement: 'bottomEnd', preventOverflow: false, padding: 0 });
+
+    expect(start.calcOverlayPosition(overlay, target, container).positionLeft).toBe(26);
+    expect(end.calcOverlayPosition(overlay, target, container).positionLeft).toBe(40);
+  });
+
+  it('keeps the physical auto alignment when the trigger direction changes', () => {
+    const overlay = createElementToContainer(20, 20);
+    const utils = calcPosition({ placement: 'auto', preventOverflow: false, padding: 0 });
+
+    expect(utils.calcOverlayPosition(overlay, target, container)).toMatchObject({
+      placement: 'bottomStart',
+      positionLeft: targetPositionLeft
+    });
+
+    target.dir = 'rtl';
+    expect(utils.calcOverlayPosition(overlay, target, container)).toMatchObject({
+      placement: 'bottomEnd',
+      positionLeft: targetPositionLeft
+    });
+  });
+
   // Test RTL mode with container scrollWidth > containerWidth
   it('Should handle RTL positioning when container scrollWidth > containerWidth', () => {
     // Set RTL mode

@@ -234,7 +234,9 @@ describe('AutoComplete', () => {
 
     const listbox = screen.getByRole('listbox');
 
-    expect(listbox.parentNode).to.have.attr('style', '--rs-picker-min-width: 100px;');
+    expect(listbox.parentElement?.style.getPropertyValue('--rs-picker-min-width')).to.equal(
+      '100px'
+    );
   });
 
   it('Should be autoComplete', () => {
@@ -257,5 +259,13 @@ describe('AutoComplete', () => {
     expect(screen.getByTestId('test')).to.have.attribute('data-id', '1');
 
     expect(screen.getByTestId('test').querySelector('input')).to.have.attribute('name', 'username');
+  });
+
+  it('Should expose input element via inputRef', () => {
+    const ref = React.createRef<HTMLInputElement>();
+
+    render(<AutoComplete data={data} inputRef={ref} />);
+
+    expect(ref.current).to.be.instanceOf(HTMLInputElement);
   });
 });
