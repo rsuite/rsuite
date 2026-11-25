@@ -13,7 +13,31 @@ on:
       - main
       - next
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
+  example-dependency-scope:
+    name: Check PR test scope
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+    outputs:
+      example_dependencies_only: ${{ steps.scope.outputs.example_dependencies_only }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+          sparse-checkout: scripts/ci-example-dependencies.cjs
+          sparse-checkout-cone-mode: false
+      - name: Identify example dependency changes
+        id: scope
+        run: node scripts/ci-example-dependencies.cjs >> "$GITHUB_OUTPUT"
+
   lint:
     name: 'Lint'
     runs-on: ubuntu-latest
@@ -43,6 +67,8 @@ jobs:
 
   # Bound each Chromium browser run while keeping all tests across independent runners.
   chromium-react18:
+    needs: example-dependency-scope
+    if: ${{ !cancelled() && (needs.example-dependency-scope.result != 'success' || needs.example-dependency-scope.outputs.example_dependencies_only != 'true') }}
     name: 'Chromium runners (React18)'
     uses: ./.github/workflows/chromium-tests.yml
     with:
@@ -50,6 +76,8 @@ jobs:
       react-runtime: 18.2.0
 
   chromium-react19:
+    needs: example-dependency-scope
+    if: ${{ !cancelled() && (needs.example-dependency-scope.result != 'success' || needs.example-dependency-scope.outputs.example_dependencies_only != 'true') }}
     name: 'Chromium runners (React19)'
     uses: ./.github/workflows/chromium-tests.yml
     with:
@@ -57,6 +85,8 @@ jobs:
       react-runtime: 19.0.0
 
   chromium-react19-3:
+    needs: example-dependency-scope
+    if: ${{ !cancelled() && (needs.example-dependency-scope.result != 'success' || needs.example-dependency-scope.outputs.example_dependencies_only != 'true') }}
     name: 'Chromium runners (React19.3)'
     uses: ./.github/workflows/chromium-tests.yml
     with:
@@ -66,8 +96,8 @@ jobs:
   # Allow time for runner setup and finalization around the required checks.
   chromium-react18-summary:
     name: 'Test (chromium, React18)'
-    needs: [chromium-react18, coverage]
-    if: always()
+    needs: [example-dependency-scope, chromium-react18, coverage]
+    if: ${{ always() && (needs.example-dependency-scope.result != 'success' || needs.example-dependency-scope.outputs.example_dependencies_only != 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -80,8 +110,8 @@ jobs:
 
   chromium-react19-summary:
     name: 'Test (chromium, React19)'
-    needs: [chromium-react19, coverage]
-    if: always()
+    needs: [example-dependency-scope, chromium-react19, coverage]
+    if: ${{ always() && (needs.example-dependency-scope.result != 'success' || needs.example-dependency-scope.outputs.example_dependencies_only != 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -94,8 +124,8 @@ jobs:
 
   chromium-react19-3-summary:
     name: 'Test (chromium, React19.3)'
-    needs: [chromium-react19-3, coverage]
-    if: always()
+    needs: [example-dependency-scope, chromium-react19-3, coverage]
+    if: ${{ always() && (needs.example-dependency-scope.result != 'success' || needs.example-dependency-scope.outputs.example_dependencies_only != 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -108,6 +138,8 @@ jobs:
 
   # Keep each Firefox shard on its own runner so native keyboard tests retain one page.
   firefox-react18:
+    needs: example-dependency-scope
+    if: ${{ !cancelled() && (needs.example-dependency-scope.result != 'success' || needs.example-dependency-scope.outputs.example_dependencies_only != 'true') }}
     name: 'Firefox runners (React18)'
     uses: ./.github/workflows/firefox-tests.yml
     with:
@@ -115,6 +147,8 @@ jobs:
       react-runtime: 18.2.0
 
   firefox-react19:
+    needs: example-dependency-scope
+    if: ${{ !cancelled() && (needs.example-dependency-scope.result != 'success' || needs.example-dependency-scope.outputs.example_dependencies_only != 'true') }}
     name: 'Firefox runners (React19)'
     uses: ./.github/workflows/firefox-tests.yml
     with:
@@ -122,6 +156,8 @@ jobs:
       react-runtime: 19.0.0
 
   firefox-react19-3:
+    needs: example-dependency-scope
+    if: ${{ !cancelled() && (needs.example-dependency-scope.result != 'success' || needs.example-dependency-scope.outputs.example_dependencies_only != 'true') }}
     name: 'Firefox runners (React19.3)'
     uses: ./.github/workflows/firefox-tests.yml
     with:
@@ -130,8 +166,8 @@ jobs:
 
   firefox-react18-summary:
     name: 'Test (firefox, React18)'
-    needs: [firefox-react18, coverage]
-    if: always()
+    needs: [example-dependency-scope, firefox-react18, coverage]
+    if: ${{ always() && (needs.example-dependency-scope.result != 'success' || needs.example-dependency-scope.outputs.example_dependencies_only != 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -144,8 +180,8 @@ jobs:
 
   firefox-react19-summary:
     name: 'Test (firefox, React19)'
-    needs: [firefox-react19, coverage]
-    if: always()
+    needs: [example-dependency-scope, firefox-react19, coverage]
+    if: ${{ always() && (needs.example-dependency-scope.result != 'success' || needs.example-dependency-scope.outputs.example_dependencies_only != 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -157,8 +193,8 @@ jobs:
 
   firefox-react19-3-summary:
     name: 'Test (firefox, React19.3)'
-    needs: [firefox-react19-3, coverage]
-    if: always()
+    needs: [example-dependency-scope, firefox-react19-3, coverage]
+    if: ${{ always() && (needs.example-dependency-scope.result != 'success' || needs.example-dependency-scope.outputs.example_dependencies_only != 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
