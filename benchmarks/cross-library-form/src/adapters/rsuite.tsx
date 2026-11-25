@@ -67,6 +67,7 @@ export default function Adapter({ attach, onSubmit }: AdapterProps) {
   return (
     <Form
       ref={form}
+      fluid={window.matchMedia('(max-width: 544px)').matches}
       formDefaultValue={defaults}
       formValue={values}
       onChange={next => setValues(next as Values)}

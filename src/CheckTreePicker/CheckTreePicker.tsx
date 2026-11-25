@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 import CheckTreeView, { type CheckTreeViewProps } from '../CheckTree/CheckTreeView';
 import useTreeValue from '../CheckTree/hooks/useTreeValue';
@@ -25,7 +25,6 @@ import {
   PositionChildProps
 } from '@/internals/Picker';
 import { getSelectedItems } from '../CheckTree/utils';
-import { formatNodeRefKey } from '../Tree/utils';
 import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
 import type { TreeNode } from '@/internals/Tree/types';
 import type { FormControlPickerProps, Option, DeprecatedMenuProps } from '@/internals/types';
@@ -167,6 +166,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
 
   const selectedNodes = getSelectedItems(flattenedNodes, value);
   const { register, focusFirstNode } = useTreeImperativeHandle();
+  const [activeDescendantId, setActiveDescendantId] = useState<string>();
   const { focusItemValue, setFocusItemValue, active, triggerProps } = useFocusState({
     target,
     onEnter,
@@ -277,6 +277,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
         onSearch={onSearch}
         onChange={handleChange}
         onFocusItem={setFocusItemValue}
+        onActiveDescendantChange={setActiveDescendantId}
         value={value}
         loadingNodeValues={loadingNodeValues}
         flattenedNodes={flattenedNodes}
@@ -366,7 +367,7 @@ const CheckTreePicker = forwardRef<'div', CheckTreePickerProps>((props, ref) => 
         active={active}
         placement={placement}
         inputValue={value}
-        focusItemValue={isNil(focusItemValue) ? undefined : formatNodeRefKey(focusItemValue)}
+        aria-activedescendant={active ? activeDescendantId : undefined}
         size={size}
         {...rest}
         onKeyDown={onPickerKeydown}

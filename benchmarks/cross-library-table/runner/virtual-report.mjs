@@ -3,6 +3,12 @@ import { virtualOracle, virtualOwnership } from './virtual-oracle.mjs';
 import { defaultVirtualRowCount, virtualRowCounts } from '../src/virtual/workload.mjs';
 import { validateRunIntegrity, checkedSummary } from './build-state.mjs';
 import { assertWholeRowGeometry } from './virtual-geometry.mjs';
+import {
+  assertJumpSamples,
+  jumpTimingCases,
+  jumpTimingProtocol,
+  summarizeJumpTimings
+} from './virtual-jump-timing.mjs';
 export function validateVirtualReport(report, browserName = 'all') {
   assert.equal(report.workflow, 'virtual');
   assert.equal(report.complete, true);
@@ -11,17 +17,37 @@ export function validateVirtualReport(report, browserName = 'all') {
   assert(virtualRowCounts.includes(rowCount), 'Unsupported virtual row count');
   const { selectedVirtualKey, virtualStates } = virtualOracle(rowCount);
   validateRunIntegrity(report);
-  assert(['all', 'chromium', 'firefox'].includes(browserName));
-  const expected = (browserName === 'all' ? ['chromium', 'firefox'] : [browserName]).flatMap(
-    browser =>
+  assert(['all', 'chromium', 'firefox', 'webkit'].includes(browserName));
+  const browsers = browserName === 'all' ? ['chromium', 'firefox'] : [browserName];
+  const timing = report.jumpTiming;
+  let total;
+  if (timing !== undefined) {
+    assert.equal(timing.protocol, jumpTimingProtocol);
+    const expected = browsers.flatMap(browser =>
+      jumpTimingCases(timing.rounds).map(({ library, profile, round }) => [
+        browser,
+        library,
+        profile,
+        round
+      ])
+    );
+    assert.deepEqual(
+      report.cases.map(row => [row.browser, row.library, row.profile, row.round]),
+      expected
+    );
+    total = expected.length;
+  } else {
+    const expected = browsers.flatMap(browser =>
       Object.keys(virtualOwnership).flatMap(library =>
         ['pointer', 'keyboard'].map(profile => [browser, library, profile].join('/'))
       )
-  );
-  assert.deepEqual(
-    report.cases.map(row => [row.browser, row.library, row.profile].join('/')).sort(),
-    expected.sort()
-  );
+    );
+    assert.deepEqual(
+      report.cases.map(row => [row.browser, row.library, row.profile].join('/')).sort(),
+      expected.sort()
+    );
+    total = expected.length;
+  }
   for (const row of report.cases) {
     assert.equal(typeof row.passed, 'boolean');
     assert(typeof row.version === 'string' && row.version.length);
@@ -91,6 +117,7 @@ export function validateVirtualReport(report, browserName = 'all') {
     assert.deepEqual(row.httpErrors, []);
     assert(row.events.length && row.events.every(e => e.trusted === true));
     assert(row.events.some(e => e.type === (row.profile === 'keyboard' ? 'keydown' : 'click')));
+    if (timing !== undefined) assertJumpSamples(row, rowCount);
     if (row.profile === 'pointer')
       for (const type of ['pointerdown', 'pointerup', 'click'])
         assert(
@@ -110,9 +137,11 @@ export function validateVirtualReport(report, browserName = 'all') {
       );
   }
   const summary = {
-    total: expected.length,
+    total,
     passed: report.cases.filter(c => c.passed).length,
     failed: report.cases.filter(c => !c.passed).length
   };
+  if (timing !== undefined)
+    summary.jumpTimings = summary.failed ? null : summarizeJumpTimings(report.cases);
   return checkedSummary(report, summary);
 }

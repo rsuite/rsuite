@@ -252,6 +252,80 @@ describe('Independent date picker opening', () => {
       }
     });
 
+    it.each([
+      { responsive: false, controlled: false },
+      { responsive: false, controlled: true },
+      { responsive: true, controlled: false },
+      { responsive: true, controlled: true }
+    ])(
+      'closes when disabled (responsive=$responsive, controlled=$controlled)',
+      async ({ responsive, controlled }) => {
+        const page = await context.newPage();
+        if (responsive) await page.setViewportSize({ width: 375, height: 812 });
+        try {
+          const flags = `filled&strict&animate&toggleDisabled&imperative${responsive ? '&responsive' : ''}`;
+          await gotoFixture(
+            page,
+            `kind=${kind}&${flags}${controlled ? '&controlled&denyClose' : ''}`
+          );
+          const input = page.getByRole('textbox', { name: 'Appointment' });
+          const button = page.getByRole('button', { name: 'Open picker' });
+          const popup = page.getByTestId('picker-popup');
+          const toggleDisabled = () =>
+            page.getByRole('button', { name: 'Toggle disabled' }).dispatchEvent('click');
+          const value = await input.inputValue();
+          await button.click();
+          await expect.poll(() => popup.isVisible()).toBe(true);
+          if (responsive) expect(await page.locator('.rs-drawer').isVisible()).toBe(true);
+
+          await toggleDisabled();
+          await expect.poll(() => popup.count()).toBe(0);
+          expect(await page.locator('.rs-drawer').count()).toBe(0);
+          expect(await button.isDisabled()).toBe(true);
+          expect(await button.getAttribute('aria-expanded')).toBe('false');
+          expect(await button.getAttribute('aria-controls')).toBe(null);
+          await page.keyboard.press('Enter');
+          await page.getByRole('button', { name: 'Open by ref' }).dispatchEvent('click');
+          expect(await input.inputValue()).toBe(value);
+          expect(
+            await page.evaluate(() => window.__RSUITE_DATE_OPEN_BUTTON__.snapshot().callbacks)
+          ).toEqual([{ kind: 'open' }, { kind: 'close' }]);
+
+          await toggleDisabled();
+          await expect.poll(() => button.isDisabled()).toBe(false);
+          if (!controlled) {
+            expect(await popup.count()).toBe(0);
+            await button.click();
+          }
+          await expect.poll(() => popup.isVisible()).toBe(true);
+          expect(await button.getAttribute('aria-expanded')).toBe('true');
+        } finally {
+          await page.close();
+        }
+      }
+    );
+
+    it('discards an uncontrolled opening when onOpen disables the picker', async () => {
+      const page = await context.newPage();
+      try {
+        await gotoFixture(page, `kind=${kind}&disableOnOpen&toggleDisabled`);
+        const button = page.getByRole('button', { name: 'Open picker' });
+        const popup = page.getByTestId('picker-popup');
+        await button.click();
+        expect(await button.isDisabled()).toBe(true);
+        expect(await button.getAttribute('aria-expanded')).toBe('false');
+        expect(await popup.count()).toBe(0);
+        await page.getByRole('button', { name: 'Toggle disabled' }).click();
+        expect(await button.isDisabled()).toBe(false);
+        expect(await popup.count()).toBe(0);
+        expect(
+          await page.evaluate(() => window.__RSUITE_DATE_OPEN_BUTTON__.snapshot().callbacks)
+        ).toEqual([{ kind: 'open' }]);
+      } finally {
+        await page.close();
+      }
+    });
+
     it.each(['disabled', 'readOnly', 'loading', 'plaintext'])('respects %s', async state => {
       const page = await context.newPage();
       try {

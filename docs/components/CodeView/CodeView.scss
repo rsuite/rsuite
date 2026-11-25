@@ -1,7 +1,29 @@
 @use '../../styles/variables' as vars;
-@use 'codemirror/lib/codemirror.css';
-@use 'codemirror/theme/base16-light.css';
-@use 'codemirror/theme/base16-dark.css';
+
+.shiki {
+  background-color: var(--shiki-light-bg);
+
+  span {
+    color: var(--shiki-light);
+    font-style: var(--shiki-light-font-style);
+    font-weight: var(--shiki-light-font-weight);
+    text-decoration: var(--shiki-light-text-decoration);
+  }
+}
+
+.rs-theme-dark,
+.rs-theme-high-contrast {
+  .shiki {
+    background-color: var(--shiki-dark-bg);
+
+    span {
+      color: var(--shiki-dark);
+      font-style: var(--shiki-dark-font-style);
+      font-weight: var(--shiki-dark-font-weight);
+      text-decoration: var(--shiki-dark-text-decoration);
+    }
+  }
+}
 
 .rcv-highlight {
   direction: ltr;
@@ -13,8 +35,7 @@
   pre {
     margin: 0;
   }
-  code,
-  .hljs-title {
+  code {
     padding: 0 !important;
     margin: 0 !important;
   }
@@ -59,18 +80,6 @@ a code {
   border-color: vars.$code-view-wrapper-border-color;
   background-color: vars.$code-view-wrapper-bg;
   border-radius: 6px;
-
-  .CodeMirror {
-    direction: ltr;
-    padding: 10px;
-    margin: 0;
-    background-color: vars.$doc-highlight-bg;
-    height: auto !important;
-  }
-
-  .CodeMirror-gutters {
-    background-color: vars.$doc-highlight-bg;
-  }
 
   hr {
     border-top-color: var(--rs-border-primary);
@@ -136,7 +145,7 @@ a code {
     justify-content: center;
   }
 
-  .CodeMirror {
+  .cm-editor {
     direction: ltr;
   }
 

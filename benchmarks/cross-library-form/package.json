@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
-    "check": "tsc --noEmit && node --test runner/report.test.mjs && node --test ../cross-library-picker/runner/sdk-dependencies.test.mjs",
+    "check": "tsc --noEmit && node --test runner/*.test.mjs && node --test ../cross-library-picker/runner/sdk-dependencies.test.mjs",
     "bench": "node run.mjs"
   },
   "dependencies": {

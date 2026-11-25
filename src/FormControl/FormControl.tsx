@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useMemo, useRef } from 'react';
 import Input from '../Input';
 import FormErrorMessage from '../FormErrorMessage';
 import Toggle from '../Toggle';
 import Box, { BoxProps } from '@/internals/Box';
-import { forwardRef } from '@/internals/utils';
-import { useStyles, useCustom, useIsomorphicLayoutEffect } from '@/internals/hooks';
+import { forwardRef, mergeRefs } from '@/internals/utils';
+import { useStyles, useCustom, useIsomorphicLayoutEffect, useWillUnmount } from '@/internals/hooks';
 import { useFormContext } from '../Form/FormContext';
 import { useFormGroup } from '../FormGroup';
 import { registerFormGroupPart } from '../FormGroup/formGroupRelations';
@@ -64,7 +64,7 @@ export interface FormControlProps<ValueType = any>
   /** Asynchronous check value */
   checkAsync?: boolean;
 
-  /** Remove field value and error message when component is unmounted  */
+  /** Clear the field value and error when the wrapper is removed. */
   shouldResetWithUnmount?: boolean;
 
   /** Validation rule */
@@ -110,6 +110,20 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
   } = propsWithDefaults;
 
   const { controlId, labelledBy, describedBy, errorMessageId } = useFormGroup(id);
+  const hostRef = useRef<{ element: HTMLElement; root: Node } | null>(null);
+  const handleRef = useMemo(
+    () =>
+      mergeRefs((node: HTMLElement | null) => {
+        // React can detach refs while retaining the wrapper in its DOM tree.
+        if (node !== null) {
+          hostRef.current =
+            node?.nodeType === 1 && typeof node.getRootNode === 'function'
+              ? { element: node, root: node.getRootNode() }
+              : null;
+        }
+      }, ref),
+    [ref]
+  );
 
   // Use the useFormControl hook to handle form control logic
   const {
@@ -126,7 +140,6 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
     checkTrigger,
     errorMessage,
     checkAsync,
-    shouldResetWithUnmount,
     rule
   });
 
@@ -161,9 +174,25 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
     formError,
     nestedField,
     errorFromContext,
+    removeFieldValue,
+    removeFieldError,
     readNativeValidation,
     commitNativeValidationRetirement
   } = useFormContext();
+  useWillUnmount(() => {
+    if (!shouldResetWithUnmount) return;
+    const host = hostRef.current;
+    // A detached React root can still contain a mounted field.
+    if (
+      host &&
+      (host.element.isConnected || (host.root !== host.element && host.root.contains(host.element)))
+    ) {
+      return;
+    }
+    removeFieldValue?.(name);
+    removeFieldError?.(name);
+  });
+
   const nativeRead = readNativeValidation?.(formError, name, !!nestedField);
   const retirementToken = nativeRead?.retirementToken;
   useIsomorphicLayoutEffect(() => {
@@ -175,7 +204,7 @@ const FormControl: FormControlComponent = forwardRef<'div', FormControlProps>((p
     errorMessage === undefined && errorFromContext && nativeRead?.invalid === true;
 
   return (
-    <Box as={as} className={classes} ref={ref} data-testid="form-control-wrapper">
+    <Box as={as} className={classes} ref={handleRef} data-testid="form-control-wrapper">
       <AccepterComponent
         id={controlId}
         aria-labelledby={labelledBy}
