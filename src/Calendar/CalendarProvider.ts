@@ -13,6 +13,9 @@ export interface CalendarInnerContextValue {
    */
   date?: Date;
 
+  /** Selected date when the displayed month is being browsed independently. */
+  selectedDate?: Date;
+
   /**
    * The date range selected in the calendar.
    */

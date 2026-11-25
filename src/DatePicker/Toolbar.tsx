@@ -6,6 +6,7 @@ import { useStyles } from '@/internals/hooks';
 
 export interface ToolbarProps<T = any, Shortcut = T> extends PredefinedRangesProps<T, Shortcut> {
   hideOkBtn?: boolean;
+  selectedDate?: T;
   disableOkBtn?: (value: T) => boolean;
   onOk?: (event: React.MouseEvent) => void;
 }
@@ -44,6 +45,7 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
     className,
     classPrefix = 'picker-toolbar',
     calendarDate,
+    selectedDate,
     ranges,
     locale,
     hideOkBtn,
@@ -79,7 +81,11 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
       />
       <div className={prefix('right')}>
         {!hideOkBtn && (
-          <OkButton disableOkBtn={disableOkBtn} calendarDate={calendarDate} onOk={onOk}>
+          <OkButton
+            disableOkBtn={disableOkBtn}
+            calendarDate={selectedDate ?? calendarDate}
+            onOk={onOk}
+          >
             {locale?.ok}
           </OkButton>
         )}

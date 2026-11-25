@@ -49,7 +49,16 @@ const CalendarHeader = forwardRef<'div', CalendarHeaderPrivateProps>((props, ref
     ...rest
   } = props;
 
-  const { locale, date = new Date(), format, inline, disabledDate, targetId } = useCalendar();
+  const {
+    locale,
+    date = new Date(),
+    selectedDate,
+    format,
+    inline,
+    disabledDate,
+    targetId
+  } = useCalendar();
+  const draftDate = selectedDate ?? date;
   const { isSelectedIdle } = useDateRangePicker();
   const { prefix, withPrefix, merge } = useStyles(classPrefix);
   const btnProps: ButtonProps = {
@@ -81,12 +90,12 @@ const CalendarHeader = forwardRef<'div', CalendarHeaderPrivateProps>((props, ref
 
   const dateTitleClasses = prefix('title', 'title-date', {
     error: disabledDate?.({
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDate()
+      year: draftDate.getFullYear(),
+      month: draftDate.getMonth() + 1,
+      day: draftDate.getDate()
     })
   });
-  const timeTitleClasses = prefix('title', 'title-time', { error: disabledTime?.(date) });
+  const timeTitleClasses = prefix('title', 'title-time', { error: disabledTime?.(draftDate) });
   const backwardClass = prefix('backward', { 'btn-disabled': disabledBackward });
   const forwardClass = prefix('forward', { 'btn-disabled': disabledForward });
 
@@ -138,7 +147,7 @@ const CalendarHeader = forwardRef<'div', CalendarHeaderPrivateProps>((props, ref
             onClick={onToggleTimeDropdown}
             disabled={disableSelectTime}
           >
-            {date && <FormattedDate date={date} formatStr={timeFormat} />}
+            <FormattedDate date={draftDate} formatStr={timeFormat} />
           </Button>
         </div>
       )}

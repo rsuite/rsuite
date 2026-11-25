@@ -37,7 +37,8 @@ const TimeDropdown = forwardRef<'div', TimeDropdownProps>((props: TimeDropdownPr
     ...rest
   } = props;
 
-  const { locale, format, date, onChangeTime, targetId } = useCalendar();
+  const { locale, format, date: viewedDate, selectedDate, onChangeTime, targetId } = useCalendar();
+  const date = selectedDate ?? viewedDate;
   const { reduceMotion } = useContext(CustomContext);
   const rowRef = useRef<HTMLDivElement>(null);
 

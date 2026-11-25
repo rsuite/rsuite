@@ -20,8 +20,8 @@ function useFocus(props: UseFocusProps) {
   /**
    * Get the corresponding container based on date selection and month selection
    */
-  const getOverlayContainer = () => {
-    return showMonth
+  const getOverlayContainer = (month = showMonth) => {
+    return month
       ? document.getElementById(`${id}-calendar-month-dropdown`)
       : document.getElementById(`${id}-calendar-table`);
   };
@@ -44,15 +44,15 @@ function useFocus(props: UseFocusProps) {
   };
 
   /**
-   * Focus on the currently selected date element
+   * Focus on the current tab stop in the calendar grid
    */
-  const focusSelectedDate = () => {
+  const focusSelectedDate = (month = showMonth) => {
     delay(() => {
-      const container = getOverlayContainer();
+      const container = getOverlayContainer(month);
 
-      const selectedElement = container?.querySelector('[aria-selected="true"]') as HTMLElement;
+      const activeElement = container?.querySelector<HTMLElement>('[tabindex="0"]');
 
-      selectedElement?.focus();
+      activeElement?.focus();
     }, 1);
   };
 

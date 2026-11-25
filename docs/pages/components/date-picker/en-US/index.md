@@ -24,6 +24,8 @@ DatePicker is a highly customizable component that allows users to enter and pic
 
 <!--{include:`one-tap.md`}-->
 
+In day and date-time modes, browsing another month keeps the selected day. The OK button confirms that selection. To change it, select a day in the new month.
+
 ### Appearance
 
 <!--{include:`appearance.md`}-->

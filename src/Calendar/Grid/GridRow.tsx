@@ -32,7 +32,8 @@ const GridRow = forwardRef<'div', GridRowProps>((props: GridRowProps, ref) => {
   } = props;
 
   const {
-    date: selected = new Date(),
+    date: viewedDate = new Date(),
+    selectedDate,
     dateRange,
     hoverRangeValue,
     isoWeek,
@@ -83,9 +84,9 @@ const GridRow = forwardRef<'div', GridRowProps>((props: GridRowProps, ref) => {
       const thisDateJS = new Date(thisDate.year, thisDate.month - 1, thisDate.day);
       const disabled = disabledDate?.(thisDate, plainDateRange, DATERANGE_DISABLED_TARGET.CALENDAR);
 
-      // Whether this date is in a different month from the selected date
+      // Whether this date is in the displayed month.
       const isSameMonth =
-        selected.getFullYear() === thisDate.year && selected.getMonth() + 1 === thisDate.month;
+        viewedDate.getFullYear() === thisDate.year && viewedDate.getMonth() + 1 === thisDate.month;
 
       // Whether this date is the range start date and is in the same month with the selected date
       const isRangeStart =
@@ -100,7 +101,7 @@ const GridRow = forwardRef<'div', GridRowProps>((props: GridRowProps, ref) => {
       // - Otherwise, it's the selected date itself
       const isSelected = isRangeSelectionMode
         ? isRangeStart || isRangeEnd
-        : isSameDay(thisDate, selected);
+        : (!selectedDate || isSameMonth) && isSameDay(thisDate, selectedDate ?? viewedDate);
 
       // TODO-Doma Move those logic that's for DatePicker/DateRangePicker to a separate component
       //           Calendar is not supposed to be reused this way
@@ -151,6 +152,7 @@ const GridRow = forwardRef<'div', GridRowProps>((props: GridRowProps, ref) => {
           date={thisDate}
           disabled={disabled}
           selected={isSelected}
+          focusable={selectedDate ? isSameDay(thisDate, viewedDate) : undefined}
           onSelect={handleSelect}
           unSameMonth={!isSameMonth}
           rangeStart={isRangeStart}

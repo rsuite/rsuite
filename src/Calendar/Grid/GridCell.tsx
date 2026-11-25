@@ -12,6 +12,7 @@ export interface GridCellProps extends WithAsProps {
   date: PlainDate;
   disabled?: boolean;
   selected?: boolean;
+  focusable?: boolean;
   unSameMonth?: boolean;
   rangeStart?: boolean;
   rangeEnd?: boolean;
@@ -25,6 +26,7 @@ const GridCell = forwardRef<'div', GridCellProps>((props: GridCellProps, ref) =>
     classPrefix = 'calendar-table',
     disabled,
     selected,
+    focusable = selected,
     date,
     onSelect,
     unSameMonth,
@@ -70,7 +72,7 @@ const GridCell = forwardRef<'div', GridCellProps>((props: GridCellProps, ref) =>
       aria-label={ariaLabel}
       aria-selected={selected || undefined}
       aria-disabled={disabled || undefined}
-      tabIndex={selected ? 0 : -1}
+      tabIndex={focusable ? 0 : -1}
       title={isToday ? `${ariaLabel} (${today})` : ariaLabel}
       className={classes}
       onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, date) : undefined}

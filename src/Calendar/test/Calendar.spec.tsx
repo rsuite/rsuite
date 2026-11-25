@@ -103,7 +103,7 @@ describe('Calendar', () => {
       screen
         .getByRole('grid', { name: 'Apr, 2023' })
         .querySelectorAll('.rs-calendar-table-cell-un-same-month')
-    ).map(cell => (cell as HTMLDivElement).innerText);
+    ).map(cell => cell.textContent?.trim());
 
     expect(cells).to.deep.equal(['26', '27', '28', '29', '30', '31', '1', '2', '3', '4', '5', '6']);
   });

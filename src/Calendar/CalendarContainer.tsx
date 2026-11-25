@@ -50,6 +50,9 @@ export interface CalendarProps
    */
   calendarDate: Date;
 
+  /** Selected date when the displayed month is being browsed independently. */
+  selectedDate?: Date;
+
   /**
    * Whether to show week numbers
    */
@@ -219,6 +222,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
     className,
     classPrefix = 'calendar',
     calendarDate: calendarDateProp,
+    selectedDate,
     dateRange,
     disabledBackward,
     defaultState,
@@ -338,7 +342,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
   );
 
   const handleChangeTime = useEventCallback((time: PlainTime, event: React.SyntheticEvent) => {
-    let nextDate = calendarDate || startOfToday();
+    let nextDate = selectedDate ?? calendarDate;
 
     nextDate = setHours(nextDate, time.hour);
     nextDate = setMinutes(nextDate, time.minute);
@@ -349,6 +353,7 @@ const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps
 
   const contextValue = {
     date: calendarDate,
+    selectedDate,
     dateRange,
     format,
     hoverRangeValue,

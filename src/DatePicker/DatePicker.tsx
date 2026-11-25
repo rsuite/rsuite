@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import CalenderSimpleIcon from '@rsuite/icons/CalenderSimple';
@@ -28,7 +28,8 @@ import {
   useCustom,
   useControlled,
   useUniqueId,
-  useEventCallback
+  useEventCallback,
+  useUpdateEffect
 } from '@/internals/hooks';
 import {
   isValid,
@@ -342,11 +343,36 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
     calendarDefaultDate
   );
 
+  const [viewDate, setViewDate] = useState<Date>();
+  const valueTime = value?.valueOf();
+  useUpdateEffect(() => setViewDate(undefined), [valueTime]);
+
   const { setMonthView, monthView, toggleMonthView } = useMonthView({ onToggleMonthDropdown });
-  const { mode } = useDateMode(formatStr);
+  const { mode, has } = useDateMode(formatStr);
+  const hasDay = has('day');
 
   // Show only the calendar month panel. formatStr = 'yyyy-MM'
   const showMonth = mode === DateMode.Month || monthView;
+  const browsingDate = hasDay ? viewDate : undefined;
+  const viewedDate = browsingDate ?? calendarDate;
+
+  const setDraftDate = (date: Date) => {
+    setViewDate(undefined);
+    setCalendarDate(date);
+  };
+
+  const resetDraftDate = (date?: Date | null) => {
+    setViewDate(undefined);
+    resetCalendarDate(date);
+  };
+
+  const browseMonth = (date: Date) => {
+    if (!hasDay) {
+      setDraftDate(date);
+    } else {
+      setViewDate(copyTime({ from: calendarDate, to: date }));
+    }
+  };
 
   const {
     focusInput: focusDateInput,
@@ -417,7 +443,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
    * Switch to the callback triggered after the next month.
    */
   const handleMoveForward = useEventCallback((nextPageDate: Date) => {
-    setCalendarDate(nextPageDate);
+    browseMonth(nextPageDate);
 
     onNextMonth?.(nextPageDate);
     onChangeCalendarDate?.(nextPageDate);
@@ -427,7 +453,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
    * Switch to the callback triggered after the previous month.
    */
   const handleMoveBackward = useEventCallback((nextPageDate: Date) => {
-    setCalendarDate(nextPageDate);
+    browseMonth(nextPageDate);
 
     onPrevMonth?.(nextPageDate);
     onChangeCalendarDate?.(nextPageDate);
@@ -446,6 +472,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
    */
   const handleChangeTime = useEventCallback((nextPageTime: Date, event: React.SyntheticEvent) => {
     setCalendarDate(nextPageTime);
+    setViewDate(date => (date ? copyTime({ from: nextPageTime, to: date }) : undefined));
     handleDateChange(nextPageTime, event);
   });
 
@@ -461,7 +488,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   const updateValue = (event: React.SyntheticEvent, date?: Date | null, closeOverlay = true) => {
     const nextValue = typeof date !== 'undefined' ? date : calendarDate;
 
-    setCalendarDate(nextValue || startOfToday());
+    setDraftDate(nextValue || startOfToday());
     setValue(nextValue);
 
     if (nextValue !== value) {
@@ -490,9 +517,9 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   /**
    * The callback triggered after clicking the OK button.
    */
-  const handleOK = useEventCallback((event: React.SyntheticEvent) => {
-    updateValue(event);
-    onOk?.(calendarDate, event);
+  const handleOK = useEventCallback((event: React.SyntheticEvent, date = calendarDate) => {
+    updateValue(event, date);
+    onOk?.(date, event);
     focusInput();
   });
 
@@ -504,7 +531,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
     event?.stopPropagation();
 
     updateValue(event, null);
-    resetCalendarDate(null);
+    resetDraftDate(null);
     onClean?.(event);
   });
 
@@ -526,12 +553,24 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
     }
 
     if (!isTimeOption && mode !== DateMode.Time) {
-      onKeyFocusEvent(event, { date: calendarDate, callback: setCalendarDate });
+      onKeyFocusEvent(event, {
+        date: viewedDate,
+        callback: monthView && hasDay ? setViewDate : setDraftDate
+      });
     }
 
     if (event.key === 'Enter') {
       event.preventDefault();
-      handleOK(event);
+
+      if (isGrid && monthView && hasDay) {
+        target.closest('[role="grid"]')?.querySelector<HTMLElement>('[tabindex="0"]')?.click();
+        return;
+      }
+
+      const date = isGrid && browsingDate ? browsingDate : calendarDate;
+      if (!isOkButtonDisabled(date)) {
+        handleOK(event, date);
+      }
     }
   });
 
@@ -550,7 +589,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
     (date: Date, event: React.SyntheticEvent, updatableValue = true) => {
       const nextValue = copyTime({ from: calendarDate, to: date });
 
-      setCalendarDate(nextValue);
+      setDraftDate(nextValue);
       handleDateChange(nextValue);
 
       if (oneTap && updatableValue) {
@@ -564,9 +603,13 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
    *  A callback triggered when the date on the calendar changes.
    */
   const handleChangeMonth = useEventCallback((nextPageDate: Date, event: React.MouseEvent) => {
-    setCalendarDate(nextPageDate);
-    handleDateChange(nextPageDate);
-    focusSelectedDate();
+    browseMonth(nextPageDate);
+    if (!hasDay) {
+      handleDateChange(nextPageDate);
+    } else {
+      onChangeCalendarDate?.(nextPageDate, event);
+    }
+    focusSelectedDate(mode === DateMode.Month);
 
     if (oneTap && mode === DateMode.Month) {
       updateValue(event, nextPageDate);
@@ -589,7 +632,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
     onMenuKeyDown(event, {
       esc: () => {
         if (trigger.current?.getState().open) {
-          resetCalendarDate();
+          resetDraftDate();
           handleClose();
         }
       },
@@ -641,7 +684,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
               spacing={0}
               className={prefix('date-predefined')}
               ranges={sideRanges}
-              calendarDate={calendarDate}
+              calendarDate={viewedDate}
               locale={locale}
               disableShortcut={isDatetimeDisabled}
               onShortcutClick={handleShortcutPageDate}
@@ -664,7 +707,8 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
               format={formatStr}
               isoWeek={isoWeek}
               weekStart={weekStart}
-              calendarDate={calendarDate}
+              calendarDate={viewedDate}
+              selectedDate={browsingDate && isValid(calendarDate) ? calendarDate : undefined}
               monthDropdownProps={monthDropdownProps}
               renderCellOnPicker={renderCell}
               onMoveForward={handleMoveForward}
@@ -678,7 +722,8 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
             <Toolbar
               locale={locale}
               ranges={bottomRanges}
-              calendarDate={calendarDate}
+              calendarDate={viewedDate}
+              selectedDate={calendarDate}
               disableOkBtn={isOkButtonDisabled}
               disableShortcut={isDatetimeDisabled}
               onShortcutClick={handleShortcutPageDate}
@@ -704,7 +749,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
     // Unless overlay is closing on user clicking "OK" button,
     // reset the selected date on calendar panel
     if (cause !== OverlayCloseCause.ImperativeHandle) {
-      resetCalendarDate();
+      resetDraftDate();
     }
 
     setMonthView(false);
