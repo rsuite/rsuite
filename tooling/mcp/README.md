@@ -17,9 +17,13 @@ AI coding assistants often hallucinate component props, provide outdated example
 
 ## Installation
 
+Requires Node.js 18 or newer.
+
 ```bash
 npm install @rsuite/mcp
 ```
+
+Source builds require Node.js 20 or newer.
 
 ## Usage
 
@@ -226,7 +230,7 @@ Example with custom configuration:
 
 ### I've installed the MCP but there are errors in connection
 
-1. Ensure Node.js 18+ is installed
+1. Ensure Node.js 18 or newer is installed
 2. Verify the JSON syntax in your configuration file
 3. Check that `@rsuite/mcp` is accessible via npx
 

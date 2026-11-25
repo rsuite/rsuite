@@ -9,7 +9,7 @@
     "rsuite-mcp": "dist/index.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node build.mjs",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
     "test": "npm run build && node test/run-all.js",
@@ -38,11 +38,16 @@
   },
   "homepage": "https://rsuitejs.com",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^0.5.0",
-    "node-fetch": "^3.3.2"
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "node-fetch": "^3.3.2",
+    "zod": "^4.6.7",
+    "zod-to-json-schema": "^3.25.2"
   },
   "devDependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
     "@types/node": "^20.0.0",
+    "esbuild": "^0.28.2",
     "typescript": "^5.0.0"
   },
   "engines": {
