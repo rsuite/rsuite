@@ -60,17 +60,7 @@ export interface MenuHandle {
 
 const defaultOpenMenuOn = ['click'] as const;
 
-function getMenuItemTarget(event: React.MouseEvent) {
-  const target = event.target as HTMLElement;
-
-  if (target.getAttribute('role') === 'menuitem') {
-    return target;
-  }
-
-  return Array.from(event.currentTarget?.querySelectorAll('[role="menuitem"]')).find(item => {
-    return item.contains(target);
-  });
-}
+const menuItemSelector = '[role="menuitem"], [role="menuitemradio"], [role="menuitemcheckbox"]';
 
 /**
  * Headless ARIA `menu`
@@ -89,6 +79,7 @@ function Menu({
 }: MenuProps & Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>) {
   const buttonElementRef = useRef<HTMLButtonElement>(null);
   const menuElementRef = useRef<HTMLUListElement>(null);
+  const keyboardClickTarget = useRef<HTMLElement | null>(null);
 
   const parentMenu = useContext(MenuContext);
   const isSubmenu = !!parentMenu;
@@ -360,8 +351,14 @@ function Menu({
           if (activeItem) {
             e.preventDefault();
             e.stopPropagation();
-            activeItem.click();
-            if (!activeItem.getAttribute('aria-haspopup')) {
+            const hasPopup = !!activeItem.getAttribute('aria-haspopup');
+            keyboardClickTarget.current = hasPopup ? null : activeItem;
+            try {
+              activeItem.click();
+            } finally {
+              keyboardClickTarget.current = null;
+            }
+            if (!hasPopup) {
               closeMenu(e);
             }
           }
@@ -379,12 +376,12 @@ function Menu({
   // Only used for clicks bubbling from child `menuitem`s.
   const handleMenuClick = useCallback(
     (event: React.MouseEvent) => {
-      const target = getMenuItemTarget(event);
+      const target = (event.target as Element).closest(menuItemSelector);
 
-      if (!target) return;
+      if (!target || !event.currentTarget.contains(target)) return;
 
-      // Only handle clicks on `menuitem`s
-      if (target.getAttribute('role') !== 'menuitem') return;
+      // The keyboard handler closes this menu and restores focus after activation.
+      if (target === keyboardClickTarget.current) return;
 
       // Ignore clicks on `menuitem`s that controls a submenu
       if (target.getAttribute('aria-haspopup') === 'menu') return;
