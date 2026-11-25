@@ -15,6 +15,7 @@ export { default as itIT } from './it_IT';
 export { default as kkKZ } from './kk_KZ';
 export { default as koKR } from './ko_KR';
 export { default as nbNO } from './nb_NO';
+export { default as nnNO } from './nn_NO';
 export { default as nlNL } from './nl_NL';
 export { default as ptBR } from './pt_BR';
 export { default as ruRU } from './ru_RU';

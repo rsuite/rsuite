@@ -40,6 +40,7 @@ return (
 | kk-KZ                | 哈萨克语              | `kkKZ`   |
 | ko-KR                | 韩语/朝鲜语           | `koKR`   |
 | nb-NO                | 挪威博克马尔语        | `nbNO`   |
+| nn-NO                | 挪威尼诺斯克语        | `nnNO`   |
 | ne-NP                | 尼泊尔语              | `neNP`   |
 | nl-NL                | 荷兰语                | `nlNL`   |
 | pl-PL                | 波兰语（波兰）        | `plPL`   |

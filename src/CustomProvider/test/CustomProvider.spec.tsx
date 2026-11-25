@@ -2,6 +2,8 @@ import React from 'react';
 import CustomProvider from '../CustomProvider';
 import Pagination from '../../Pagination';
 import Calendar from '../../Calendar';
+import PinInput from '../../PinInput';
+import { nnNO } from '../../locales';
 import zhCN from '../../locales/zh_CN';
 import ruRU from '../../locales/ru_RU';
 import TreePicker from '../../TreePicker';
@@ -62,6 +64,30 @@ describe('CustomProvider', () => {
       </div>
     );
     expect(screen.getByText('мая, 2021')).to.exist;
+  });
+
+  it('renders Nynorsk month names and calendar navigation labels', () => {
+    render(
+      <CustomProvider locale={nnNO}>
+        <Calendar defaultValue={new Date(2026, 2, 14)} />
+      </CustomProvider>
+    );
+
+    expect(screen.getByRole('button', { name: 'Vel månad' })).toHaveTextContent('mars 2026');
+    expect(screen.getByRole('button', { name: 'Førre månad' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Neste månad' })).toBeTruthy();
+  });
+
+  it('renders Nynorsk PIN input labels with their positions', () => {
+    render(
+      <CustomProvider locale={nnNO}>
+        <PinInput length={2} />
+      </CustomProvider>
+    );
+
+    expect(screen.getByRole('group', { name: 'PIN-kode' })).toBeTruthy();
+    expect(screen.getByRole('textbox', { name: 'Teikn 1 av 2' })).toBeTruthy();
+    expect(screen.getByRole('textbox', { name: 'Teikn 2 av 2' })).toBeTruthy();
   });
 
   it('Should be rendered as a dark theme', () => {
