@@ -43,5 +43,11 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "rsuite": "^6.1.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "body-parser@1.20.4>qs": "6.17.1",
+      "express@4.22.1>qs": "6.17.1"
+    }
   }
 }
