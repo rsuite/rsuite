@@ -1,0 +1,52 @@
+@use '../../styles/colors/contrast';
+@use 'mixin';
+
+@supports (color: color(from red srgb-linear calc(sign(r)) g b)) {
+  @property --rs-btn-primary-current-bg {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: transparent;
+  }
+}
+
+@mixin appearance {
+  --rs-btn-primary-current-bg: var(--rs-btn-primary-bg);
+  --rs-btn-primary-foreground: var(--rs-btn-primary-text, var(--rs-btn-primary-text-fallback));
+
+  color: var(--rs-btn-primary-foreground);
+  background-color: var(--rs-btn-primary-current-bg);
+  border-color: var(--rs-btn-primary-border-color);
+
+  @include mixin.button-activated {
+    --rs-btn-primary-current-bg: var(--rs-btn-primary-hover-bg);
+
+    color: var(--rs-btn-primary-foreground);
+    background-color: var(--rs-btn-primary-current-bg);
+  }
+
+  @include mixin.button-pressed {
+    --rs-btn-primary-current-bg: var(--rs-btn-primary-active-bg);
+
+    color: var(--rs-btn-primary-foreground);
+    background-color: var(--rs-btn-primary-current-bg);
+  }
+
+  @include mixin.button-disabled {
+    --rs-btn-primary-current-bg: var(--rs-btn-primary-bg);
+
+    color: var(--rs-btn-primary-foreground);
+    background-color: var(--rs-btn-primary-current-bg);
+    opacity: 0.3;
+  }
+
+  @supports (color: color(from red srgb-linear calc(sign(r)) g b)) {
+    --rs-btn-primary-foreground: var(
+      --rs-btn-primary-text,
+      #{contrast.text-color(var(--rs-btn-primary-current-bg))}
+    );
+
+    // Derive the foreground from each animated background frame. Interpolating
+    // black and white independently would produce unreadable gray text midway.
+    transition-property: --rs-btn-primary-current-bg, --rs-iconbtn-primary-current-bg;
+  }
+}

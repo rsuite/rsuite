@@ -11,20 +11,24 @@ export interface AlertOptions {
   onClose?: () => void;
 }
 
-export interface ConfirmOptions extends AlertOptions {
+export interface ConfirmOptions extends Omit<AlertOptions, 'onClose'> {
   /** Severity of the dialog */
   severity?: 'info' | 'success' | 'warning' | 'error';
   /** Text for Cancel button */
   cancelText?: string;
+  /** Callback with the confirmation result when dialog is closed */
+  onClose?: (result: boolean) => void;
 }
 
-export interface PromptOptions extends AlertOptions {
+export interface PromptOptions extends Omit<AlertOptions, 'onClose'> {
   /** Default value for the input */
   defaultValue?: string;
   /** Text for Cancel button */
   cancelText?: string;
   /** Validate function for prompt input */
   validate?: (value: string) => [isValid: boolean, errorMessage?: string];
+  /** Callback with the input value, or false when the dialog is cancelled */
+  onClose?: (result: string | false) => void;
 }
 
 export interface OpenOptions<T = any> {

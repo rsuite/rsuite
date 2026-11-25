@@ -56,3 +56,24 @@ node_modules
 
 # build
 lib/
+benchmarks/cross-library-picker/async-dist/
+*.tsbuildinfo
+
+# test screenshots (visual regression baselines generated at runtime)
+**/__screenshots__/
+.vitest-attachments/
+# Netlify local build files
+.netlify/
+
+# Environment variables
+.env
+.env.*
+
+# Public declaration consumer diagnostics
+test/public-declarations/results/
+
+# Public package runtime diagnostics
+test/public-runtime/results/
+
+# Optional native Firefox diagnostic artifacts
+artifacts/firefox-profile/

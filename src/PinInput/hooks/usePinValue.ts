@@ -69,12 +69,15 @@ export const usePinValue = (
     }
   };
 
+  const resetValue = () => setValue(defaultValue);
+
   return {
     value,
     valueArray,
     setDigit,
     clearDigit,
-    updateValue
+    updateValue,
+    resetValue
   };
 };
 

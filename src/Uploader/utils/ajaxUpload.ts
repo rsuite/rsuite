@@ -14,6 +14,7 @@ interface Options {
   url: string;
   method?: string;
   onError?: (status: ErrorStatus, event: ProgressEvent, xhr: XMLHttpRequest) => void;
+  onAbort?: (event: ProgressEvent, xhr: XMLHttpRequest) => void;
   onSuccess?: (response: any, event: ProgressEvent, xhr: XMLHttpRequest) => void;
   onProgress?: (percent: number, event: ProgressEvent, xhr: XMLHttpRequest) => void;
 }
@@ -39,6 +40,7 @@ export default function ajaxUpload(options: Options) {
     data = {},
     method = 'POST',
     onError,
+    onAbort,
     onSuccess,
     onProgress,
     file,
@@ -104,6 +106,10 @@ export default function ajaxUpload(options: Options) {
 
   xhr.onerror = event => {
     onError?.({ type: 'xhr_error' }, event, xhr);
+  };
+
+  xhr.onabort = event => {
+    onAbort?.(event, xhr);
   };
 
   xhr.send(sendableData);

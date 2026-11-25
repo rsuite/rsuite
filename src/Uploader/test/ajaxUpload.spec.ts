@@ -60,7 +60,9 @@ describe('Uploader/utils/ajaxUpload', () => {
       ontimeout: null
     };
 
-    window.XMLHttpRequest = vi.fn(() => xhrMock) as any;
+    window.XMLHttpRequest = vi.fn(function () {
+      return xhrMock;
+    }) as any;
 
     vi.useFakeTimers();
 

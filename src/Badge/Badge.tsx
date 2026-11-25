@@ -1,4 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
+import ButtonGroupContext from '../ButtonGroup/ButtonGroupContext';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useCustom } from '@/internals/hooks';
 import {
@@ -73,6 +75,8 @@ export interface BadgeProps extends BoxProps {
  */
 const Badge = forwardRef<'div', BadgeProps>((props: BadgeProps, ref) => {
   const { propsWithDefaults } = useCustom('Badge', props);
+  const buttonGroup = useContext(ButtonGroupContext);
+  const { components } = useContext(CustomContext);
   const {
     as,
     content,
@@ -91,6 +95,10 @@ const Badge = forwardRef<'div', BadgeProps>((props: BadgeProps, ref) => {
     invisible,
     ...rest
   } = propsWithDefaults;
+
+  const isButtonGroupItem =
+    (as === undefined || typeof as === 'string') &&
+    buttonGroup?.isBadgeButton?.(children, components);
 
   const { withPrefix, prefix, merge } = useStyles(classPrefix);
   const text = typeof content === 'number' && content > maxCount ? `${maxCount}+` : content;
@@ -130,7 +138,15 @@ const Badge = forwardRef<'div', BadgeProps>((props: BadgeProps, ref) => {
     );
   }
   return (
-    <Box as={as} ref={ref} className={classes} style={styles} {...dataAttributes} {...rest}>
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      style={styles}
+      {...dataAttributes}
+      {...rest}
+      data-button-group-item={isButtonGroupItem || undefined}
+    >
       {children}
       <div className={prefix('content')}>{text}</div>
     </Box>

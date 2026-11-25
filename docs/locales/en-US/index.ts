@@ -63,6 +63,7 @@ export default {
     aiForAgents: 'AI for Agents',
     mcpServer: 'MCP Server',
     llms: 'LLMs.txt',
+    skills: 'Agent Skills',
     composition: 'Composition',
     optimizingPerformance: 'Optimizing Performance',
     examples: 'Example Projects',

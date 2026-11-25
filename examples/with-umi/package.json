@@ -6,11 +6,12 @@
     "build": "umi build",
     "postinstall": "umi setup",
     "setup": "umi setup",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "postbuild": "umi esbuildHelperChecker dist"
   },
   "dependencies": {
     "rsuite": "^6.1.0",
-    "umi": "^4.0.28",
+    "umi": "^4.7.26",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
@@ -18,5 +19,10 @@
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "typescript": "^5.7.3"
+  },
+  "overrides": {
+    "@umijs/bundler-vite@4.7.26": {
+      "vite": "7.3.7"
+    }
   }
 }

@@ -3,16 +3,15 @@ import type { Placement } from '@/internals/types';
 export type CursorPosition = {
   top: number;
   left: number;
-  clientTop: number;
-  clientLeft: number;
 };
 
 export interface PositionType {
   placement: Placement;
+  dir?: 'ltr' | 'rtl';
   positionLeft?: number;
   positionTop?: number;
-  arrowOffsetLeft?: number;
-  arrowOffsetTop?: number;
+  arrowOffsetLeft?: string;
+  arrowOffsetTop?: string;
 }
 
 export interface PositionOptions {
@@ -41,8 +40,11 @@ export interface PositionChildProps {
   className?: string;
   dataAttributes?: Record<string, string>;
   placement: Placement;
+  dir?: string;
   left?: number;
   top?: number;
-  arrowOffsetLeft?: number;
-  arrowOffsetTop?: number;
+  /** Horizontal arrow offset as a CSS percentage. */
+  arrowOffsetLeft?: string;
+  /** Vertical arrow offset as a CSS percentage. */
+  arrowOffsetTop?: string;
 }

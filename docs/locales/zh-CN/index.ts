@@ -62,6 +62,7 @@ export default {
     aiForAgents: 'AI 代理',
     mcpServer: 'MCP 服务器',
     llms: 'LLMs.txt',
+    skills: 'Agent Skills',
     composition: '组件封装',
     optimizingPerformance: '性能优化',
     examples: '示例项目',

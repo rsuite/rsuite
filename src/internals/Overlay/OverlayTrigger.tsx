@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useState,
   useMemo,
+  useContext,
   isValidElement,
   cloneElement
 } from 'react';
@@ -15,7 +16,7 @@ import contains from 'dom-lib/contains';
 import Overlay, { OverlayProps } from './Overlay';
 import { useOverlay } from './OverlayProvider';
 import { usePortal, useControlled } from '../hooks';
-import { createChainedFunction, isOneOf } from '@/internals/utils';
+import { createChainedFunction, isOneOf, mergeRefs } from '@/internals/utils';
 import { isFragment } from '@/internals/utils';
 import type {
   AnimationEventProps,
@@ -25,6 +26,10 @@ import type {
 } from '@/internals/types';
 import type { PositionInstance } from './Position';
 import type { CursorPosition, OverlayTriggerHandle, PositionChildProps } from './types';
+import {
+  TooltipDescriptionContext,
+  TooltipDescriptionObserverContext
+} from './TooltipDescriptionContext';
 
 export type OverlayTriggerType = 'click' | 'hover' | 'focus' | 'active' | 'contextMenu' | 'none';
 
@@ -202,12 +207,19 @@ const OverlayTrigger = React.forwardRef(
       onBlur,
       onOpen,
       onClose,
+      onEnter,
+      onEntering,
+      onEntered,
+      onExit,
+      onExiting,
       onExited,
       ...rest
     } = props;
 
-    const { Portal, target: containerElement } = usePortal({ container });
-    const triggerRef = useRef(null);
+    const { Portal, target: containerElement } = usePortal({ container, waitMount: true });
+    const localTriggerRef = useRef(null);
+    const tooltipDescription = useContext(TooltipDescriptionContext);
+    const triggerRef = tooltipDescription?.triggerRef ?? localTriggerRef;
     const overlayRef = useRef<PositionInstance>(null);
     const [open, setOpen] = useControlled(openProp, defaultOpen);
     const [cursorPosition, setCursorPosition] = useState<CursorPosition | null>(null);
@@ -395,9 +407,7 @@ const OverlayTrigger = React.forwardRef(
     const handledMoveOverlay = useCallback((event: React.MouseEvent<Element, MouseEvent>) => {
       setCursorPosition(() => ({
         top: event.pageY,
-        left: event.pageX,
-        clientTop: event.clientX,
-        clientLeft: event.clientY
+        left: event.pageX
       }));
     }, []);
 
@@ -506,6 +516,11 @@ const OverlayTrigger = React.forwardRef(
             ? () => handleClose(undefined, OverlayCloseCause.ClickOutside) as any
             : undefined,
         onExited: createChainedFunction(followCursor ? handleExited : undefined, onExited),
+        onEnter,
+        onEntering,
+        onEntered,
+        onExit,
+        onExiting,
         placement,
         container: containerElement,
         open
@@ -524,56 +539,91 @@ const OverlayTrigger = React.forwardRef(
       }
 
       return (
-        <Overlay
-          {...overlayProps}
-          ref={overlayRef}
-          childrenProps={speakerProps}
-          followCursor={followCursor}
-          cursorPosition={cursorPosition}
-        >
-          {typeof speaker === 'function'
-            ? (props, ref) => {
-                return speaker({ ...props, onClose: handleClose }, ref);
-              }
-            : speaker}
-        </Overlay>
+        <TooltipDescriptionObserverContext.Provider value={tooltipDescription}>
+          <Overlay
+            {...overlayProps}
+            ref={overlayRef}
+            childrenProps={speakerProps}
+            followCursor={followCursor}
+            cursorPosition={cursorPosition}
+          >
+            {typeof speaker === 'function'
+              ? (props, ref) => {
+                  return speaker({ ...props, onClose: handleClose }, ref);
+                }
+              : speaker}
+          </Overlay>
+        </TooltipDescriptionObserverContext.Provider>
       );
     };
+
+    const descriptionId =
+      controlId == null
+        ? tooltipDescription?.descriptionId
+        : isValidElement(speaker)
+          ? ((speaker as ReactElement).props.id ?? controlId)
+          : controlId;
+
+    // React 19 stores refs in props; React 18 exposes them on the element.
+    const originalChildRef =
+      isValidElement(children) && !isFragment(children)
+        ? Number.parseInt(React.version, 10) >= 19
+          ? (children as ReactElement).props.ref
+          : (children as React.DetailedReactHTMLElement<any, HTMLElement>).ref
+        : undefined;
+    const triggerElementRef = useMemo(
+      () =>
+        originalChildRef && typeof originalChildRef !== 'string'
+          ? mergeRefs(triggerRef, originalChildRef)
+          : triggerRef,
+      [triggerRef, originalChildRef]
+    );
 
     const triggerElement = useMemo(() => {
       if (typeof children === 'function') {
         return children(triggerEvents, triggerRef);
       } else if (isFragment(children) || !isValidElement(children)) {
         return (
-          <span ref={triggerRef} aria-describedby={controlId} {...triggerEvents}>
+          <span ref={triggerRef} aria-describedby={descriptionId} {...triggerEvents}>
             {children}
           </span>
         );
       }
 
       const childElement = children as ReactElement;
+      const descriptionIds = [childElement.props['aria-describedby'], descriptionId]
+        .filter(Boolean)
+        .join(' ')
+        .split(/[ \t\n\r\f]+/)
+        .filter(Boolean);
 
       return cloneElement(childElement, {
-        ref: triggerRef,
-        'aria-describedby': controlId,
+        ref: triggerElementRef,
+        'aria-describedby': Array.from(new Set(descriptionIds)).join(' ') || undefined,
         ...mergeEvents(triggerEvents, childElement.props)
       });
-    }, [children, controlId, triggerEvents]);
+    }, [children, descriptionId, triggerEvents, triggerElementRef, triggerRef]);
 
     return (
-      <>
+      <TooltipDescriptionContext.Provider value={undefined}>
         {triggerElement}
         {OverlayComponent ? (
           <OverlayComponent
             open={open}
             onClose={handleClose}
+            onEnter={onEnter}
+            onEntering={onEntering}
+            onEntered={onEntered}
+            onExit={onExit}
+            onExiting={onExiting}
+            onExited={onExited}
             placement="bottom"
             speaker={speaker}
           />
         ) : (
           <Portal>{renderOverlay()}</Portal>
         )}
-      </>
+      </TooltipDescriptionContext.Provider>
     );
   }
 );

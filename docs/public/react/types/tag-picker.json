@@ -218,6 +218,11 @@
         "isRequired": false,
         "description": "Custom render function for selected items"
       },
+      "responsive": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Controls the responsive Drawer; defaults to `!searchable` when omitted"
+      },
       "searchable": {
         "type": "boolean",
         "isRequired": false,

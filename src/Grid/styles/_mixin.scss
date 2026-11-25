@@ -2,7 +2,6 @@
 @use 'sass:math';
 
 // Grid system
-//
 // Generate semantic grid columns with these mixins.
 
 // Centered container element
@@ -11,6 +10,7 @@
   margin-inline-start: auto;
   padding-inline-start: calc(var(--rs-grid-gutter) / 2);
   padding-inline-end: calc(var(--rs-grid-gutter) / 2);
+
   @include utils.clearfix;
 }
 
@@ -92,7 +92,7 @@
   .rs-col {
     --rs-col-gutter: calc(var(--rs-grid-gutter-#{$size}, var(--rs-grid-gutter)) / 2);
   }
-  
+
   .rs-row {
     --rs-row-gutter: calc(var(--rs-grid-gutter-#{$size}, var(--rs-grid-gutter)) / -2);
     --rs-row-gap: var(--rs-grid-row-gutter-#{$size}, var(--rs-grid-row-gutter));

@@ -252,6 +252,26 @@ describe('Pagination Group', () => {
     expect(onChangePage).toHaveBeenCalledWith(5);
   });
 
+  it('keeps the skip field focused during IME confirmation', () => {
+    const onChangePage = vi.fn();
+    render(
+      <PaginationGroup layout={['skip']} total={100} limit={10} onChangePage={onChangePage} />
+    );
+    const input = screen.getByRole('textbox');
+
+    input.focus();
+    fireEvent.change(input, { target: { value: '2' } });
+    fireEvent.keyDown(input, { key: 'Enter', isComposing: true });
+    expect(input).toHaveFocus();
+    expect(input).toHaveValue('2');
+    expect(onChangePage).not.toHaveBeenCalled();
+
+    fireEvent.keyDown(input, { key: 'Enter', keyCode: 13 });
+    expect(input).not.toHaveFocus();
+    expect(onChangePage).toHaveBeenCalledTimes(1);
+    expect(onChangePage).toHaveBeenCalledWith(2);
+  });
+
   it('Should ignore invalid skip input', () => {
     const onChangePage = vi.fn();
     render(

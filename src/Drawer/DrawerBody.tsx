@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import ModalBody, { ModalBodyProps } from '../Modal/ModalBody';
 import { forwardRef } from '@/internals/utils';

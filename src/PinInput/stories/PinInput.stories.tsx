@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import PinInput from '../PinInput';
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.scss';
@@ -68,7 +68,6 @@ export const WithCompleteHandler: Story = {
           value={value}
           onChange={setValue}
           onComplete={val => {
-            // eslint-disable-next-line no-console
             console.log('Completed PIN:', val);
           }}
         />

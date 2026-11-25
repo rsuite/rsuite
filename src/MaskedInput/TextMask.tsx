@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useReducer, useRef } from 'react';
 import omit from 'lodash/omit';
 import createTextMaskInputElement from './createTextMaskInputElement';
 import { mergeRefs } from '@/internals/utils';
+import { useIsomorphicLayoutEffect } from '@/internals/hooks';
 import type { MaskType, MaskFunctionType, ConfigType } from './types';
 
 /**
@@ -69,6 +70,7 @@ const TextMask = React.forwardRef((props: TextMaskProps, ref: React.Ref<HTMLInpu
 
   const inputRef = useRef<HTMLInputElement>(null);
   const textMaskInputElement = useRef<{ update: (value?: string | number) => void }>(null);
+  const [valueRevision, refreshValue] = useReducer(revision => revision + 1, 0);
 
   const initTextMask = useCallback(() => {
     textMaskInputElement.current = createTextMaskInputElement({
@@ -83,19 +85,22 @@ const TextMask = React.forwardRef((props: TextMaskProps, ref: React.Ref<HTMLInpu
     (event: React.ChangeEvent<HTMLInputElement>) => {
       textMaskInputElement.current?.update();
 
+      // Reconcile the controlled value even when the application rejects the edit.
+      if (value !== undefined) refreshValue();
+
       onChange?.(event);
     },
-    [onChange]
+    [onChange, value]
   );
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     initTextMask();
-  }, [guide, placeholderChar, showMask, pipe, mask, value, initTextMask]);
+  }, [guide, placeholderChar, showMask, pipe, mask, value, initTextMask, valueRevision]);
 
   return render(mergeRefs(inputRef, ref), {
+    ...omit(rest, ['keepCharPositions']),
     onChange: handleChange,
-    defaultValue: value,
-    ...omit(rest, ['keepCharPositions'])
+    defaultValue: value === undefined ? rest.defaultValue : value
   });
 });
 

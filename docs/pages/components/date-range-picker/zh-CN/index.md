@@ -122,6 +122,8 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 
 ## 响应式
 
+在超小屏幕上，弹出层默认显示为全宽 Drawer。当选择器已经位于 Modal 或 Drawer 中时，可设置 `responsive={false}` 保持定位浮层，避免嵌套遮罩。
+
 <!--{include:<example-responsive>}-->
 
 ## 可访问性
@@ -192,6 +194,7 @@ const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 | renderCell           | (date: Date) => ReactNode                                       | 自定义渲染日历面板上的日期单元格                                             | ![][5.77.0] |
 | renderTitle          | (date: Date, calendarKey: 'start' \| 'end') => ReactNode                                       | 自定义渲染日历面板上的月份标题                                               |             |
 | renderValue          | (date: [Date, Date], format: string) => string                  | 自定义渲染值                                                                 |             |
+| responsive           | boolean `(true)`                                                | 是否在超小屏幕上将弹出层显示为全宽 Drawer                                |             |
 | shouldDisableDate    | [DisabledDateFunction](#code-ts-disabled-date-function-code)    | 禁用日期                                                                     |             |
 | showHeader           | boolean `(true)`                                                | 是否在日历面板的头部显示格式化的日期范围                                     | ![][5.52.0] |
 | showMeridiem         | boolean                                                         | 显示 12 小时制的时间格式                                                     |             |

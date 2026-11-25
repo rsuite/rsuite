@@ -1,4 +1,3 @@
-import React from 'react';
 import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import AvatarIcon from '@rsuite/icons/legacy/Avatar';
@@ -58,6 +57,7 @@ const inDocsComponents = {
         'FormControl',
         'FormControlLabel',
         'FormErrorMessage',
+        'FormErrorSummary',
         'FormHelpText',
         'FormGroup'
       ]}

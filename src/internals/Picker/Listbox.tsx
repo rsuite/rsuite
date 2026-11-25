@@ -1,15 +1,19 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import isUndefined from 'lodash/isUndefined';
 import isString from 'lodash/isString';
 import isNumber from 'lodash/isNumber';
 import findIndex from 'lodash/findIndex';
 import pickBy from 'lodash/pickBy';
-import getPosition from 'dom-lib/getPosition';
 import scrollTop from 'dom-lib/scrollTop';
-import getHeight from 'dom-lib/getHeight';
 import get from 'lodash/get';
 import classNames from 'classnames';
 import ListItemGroup from './ListItemGroup';
+import getOptionKey from './getOptionKey';
+import getOptionId from './getOptionId';
+import useVirtualizedListFocus from './hooks/useVirtualizedListFocus';
+import useActiveDescendant from './hooks/useActiveDescendant';
+import type { VirtualizedListHandle } from './hooks/useVirtualizedListFocus';
+import VirtualizedListItem, { ItemRendererProvider } from './VirtualizedListItem';
 import useCombobox from './hooks/useCombobox';
 import Highlight from '../../Highlight';
 import {
@@ -21,16 +25,15 @@ import {
   ListChildComponentProps
 } from '@/internals/Windowing';
 import { RSUITE_PICKER_GROUP_KEY } from '@/internals/symbols';
-import { useStyles, useMount, useEventCallback } from '@/internals/hooks';
+import {
+  useStyles,
+  useMount,
+  useEventCallback,
+  useIsomorphicLayoutEffect
+} from '@/internals/hooks';
 import { shallowEqual, mergeRefs, mergeStyles, getCssValue } from '@/internals/utils';
 import { KEY_GROUP_TITLE } from '@/internals/utils/getDataGroupBy';
-import type {
-  StandardProps,
-  Option,
-  Offset,
-  DataProps,
-  HTMLPropsWithoutSelect
-} from '@/internals/types';
+import type { StandardProps, Option, DataProps, HTMLPropsWithoutSelect } from '@/internals/types';
 interface InnerOption extends Option {
   [RSUITE_PICKER_GROUP_KEY]?: boolean;
 }
@@ -47,10 +50,15 @@ export interface ListboxProps<Multiple = false>
     Partial<DataProps<InnerOption>>,
     HTMLPropsWithoutSelect {
   groupBy?: string;
+  disabled?: boolean;
   disabledItemValues?: any[];
   activeItemValues?: any[];
   focusItemValue?: any;
+  /** Keep a reconciled logical focus mounted without moving DOM focus. */
+  scrollToFocus?: boolean;
   maxHeight?: number;
+  /** Content shown as a disabled, unselected option in an empty listbox. */
+  emptyContent?: React.ReactNode;
 
   listItemAs: React.ElementType | string;
   listItemClassPrefix?: string;
@@ -64,6 +72,10 @@ export interface ListboxProps<Multiple = false>
   listProps?: Partial<ListProps>;
   /** */
   listRef?: React.Ref<ListHandle>;
+  /** Internal keyboard navigation for virtualized options. */
+  keyboardNavigationRef?: React.Ref<VirtualizedListHandle>;
+  /** Reports only the mounted logical focus target of an editable combobox. */
+  onActiveDescendantChange?: (id: string | undefined) => void;
 
   /**
    * Query string for filtering.
@@ -115,7 +127,9 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
     const {
       data = [],
       groupBy,
+      disabled: disabledProp,
       maxHeight = 320,
+      emptyContent,
       activeItemValues = [],
       disabledItemValues = [],
       classPrefix = 'listbox',
@@ -124,9 +138,12 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       virtualized,
       listProps,
       listRef: virtualizedListRef,
+      keyboardNavigationRef,
+      onActiveDescendantChange,
       className,
       style,
       focusItemValue,
+      scrollToFocus,
       listItemClassPrefix,
       listItemAs: ListItem,
       listItemProps,
@@ -141,7 +158,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
     } = props;
 
     const { prefix, merge, rootPrefix } = useStyles(classPrefix);
-    const groupable = typeof groupBy !== 'undefined';
+    const groupable = !!groupBy;
     const classes = merge(
       className,
       rootPrefix('picker-listbox'),
@@ -151,6 +168,10 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
 
     const menuBodyContainerRef = useRef<HTMLDivElement>(null);
     const listRef = useRef<ListHandle>(null);
+    const mergedListRef = useMemo(
+      () => mergeRefs(mergeRefs(listRef, virtualizedListRef), listProps?.ref),
+      [virtualizedListRef, listProps?.ref]
+    );
 
     const [foldedGroupKeys, setFoldedGroupKeys] = useState<string[]>([]);
 
@@ -165,6 +186,8 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
 
     const handleSelect = useEventCallback(
       (item: any, value: any, event: React.MouseEvent, checked?: boolean) => {
+        if (disabledProp) return;
+
         onSelect?.(value, item, event, checked);
       }
     );
@@ -186,25 +209,33 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
         return;
       }
 
-      let activeItem = container.querySelector(`.${prefix('item-focus')}`);
-
-      if (!activeItem) {
-        activeItem = container.querySelector(`.${prefix('item-active')}`);
-      }
+      const focusId = focusItemValue == null ? undefined : getOptionId(id, focusItemValue);
+      const focusedItem = focusId
+        ? container.querySelector<HTMLElement>(`#${CSS.escape(focusId)}`)
+        : null;
+      const activeItem =
+        focusedItem && container.contains(focusedItem)
+          ? focusedItem
+          : container.querySelector<HTMLElement>(`.${prefix('item-focus')}`) ||
+            container.querySelector<HTMLElement>('[role="option"][aria-selected="true"]') ||
+            container.querySelector<HTMLElement>(`.${prefix('item-active')}`);
 
       if (!activeItem) {
         return;
       }
 
-      const position = getPosition(activeItem, container) as Offset;
-      const sTop = scrollTop(container);
-      const sHeight = getHeight(container);
-      if (sTop > position.top) {
-        scrollTop(container, Math.max(0, position.top - 20));
-      } else if (position.top > sTop + sHeight) {
-        scrollTop(container, Math.max(0, position.top - sHeight + 32));
+      const option = activeItem.closest<HTMLElement>('[role="option"]');
+      const optionBounds = (
+        option && container.contains(option) ? option : activeItem
+      ).getBoundingClientRect();
+      const contentTop = container.getBoundingClientRect().top + container.clientTop;
+      const contentBottom = contentTop + container.clientHeight;
+      if (optionBounds.top < contentTop) {
+        scrollTop(container, scrollTop(container) + optionBounds.top - contentTop);
+      } else if (optionBounds.bottom > contentBottom) {
+        scrollTop(container, scrollTop(container) + optionBounds.bottom - contentBottom);
       }
-    }, [focusItemValue, menuBodyContainerRef, prefix]);
+    }, [focusItemValue, id, prefix]);
 
     const filteredItems = groupable
       ? data.filter(item => {
@@ -212,17 +243,44 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
           if (item[RSUITE_PICKER_GROUP_KEY]) return true;
 
           // Display items under the unfolded group
-          const groupValue =
-            get(item, groupBy, '') ||
-            // FIXME-Doma
-            // Usage of `item.parent` is strongly discouraged
-            // It's only here for legacy support
-            // Remove once `item.parent` is completely removed across related components
-            item.parent?.[KEY_GROUP_TITLE];
-          return !foldedGroupKeys.includes(groupValue);
+          const groupValue = get(item, groupBy);
+          // Legacy flattened data stores the group title on its parent.
+          const groupTitle = groupValue === undefined ? item.parent?.[KEY_GROUP_TITLE] : groupValue;
+          // getDataGroupBy uses object keys, so group titles are strings.
+          return !foldedGroupKeys.includes(String(groupTitle));
         })
       : data;
     const rowCount = filteredItems.length;
+
+    const focusItemIndex =
+      scrollToFocus && virtualized && focusItemValue != null
+        ? filteredItems.findIndex(
+            item => !item[RSUITE_PICKER_GROUP_KEY] && shallowEqual(item[valueKey], focusItemValue)
+          )
+        : -1;
+
+    useIsomorphicLayoutEffect(() => {
+      if (!disabledProp && focusItemIndex >= 0) listRef.current?.scrollToItem?.(focusItemIndex);
+    }, [disabledProp, focusItemIndex, focusItemValue]);
+
+    const reportActiveDescendant = useActiveDescendant({
+      menuRef: menuBodyContainerRef,
+      focusItemValue,
+      onChange: onActiveDescendantChange
+    });
+
+    const handleItemsRendered = useVirtualizedListFocus({
+      items: filteredItems,
+      valueKey,
+      disabledItemValues,
+      menuRef: menuBodyContainerRef,
+      listRef,
+      navigationRef: keyboardNavigationRef,
+      onItemsRendered: props => {
+        reportActiveDescendant();
+        listProps?.onItemsRendered?.(props);
+      }
+    });
 
     const renderItem: any = ({
       index = 0,
@@ -246,7 +304,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       }
 
       // Use `value` in keys when If `value` is string or number
-      const itemKey = isString(value) || isNumber(value) ? value : index;
+      const itemKey = isString(value) || isNumber(value) ? getOptionKey(value) : index;
 
       //  Render <ListboxGroup> component when `groupBy` is defined
       if (groupable && item[RSUITE_PICKER_GROUP_KEY]) {
@@ -268,9 +326,9 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
         throw Error(`valueKey "${valueKey}" is not defined in "data" : ${index} `);
       }
 
-      const disabled = disabledItemValues?.some(disabledValue =>
-        shallowEqual(disabledValue, value)
-      );
+      const disabled =
+        disabledProp ||
+        disabledItemValues?.some(disabledValue => shallowEqual(disabledValue, value));
       const active = activeItemValues?.some(v => shallowEqual(v, value));
       const focus = !isUndefined(focusItemValue) && shallowEqual(focusItemValue, value);
 
@@ -287,6 +345,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
           classPrefix={listItemClassPrefix}
           onSelect={handleSelect.bind(null, item)}
           {...pickBy(listItemProps, v => v !== undefined)}
+          data-grouped={groupable || undefined}
         >
           {renderOption ? renderOption(label, item) : label}
         </ListItem>
@@ -294,7 +353,9 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
     };
 
     useMount(() => {
-      const itemIndex = findIndex(filteredItems, item => item[valueKey] === activeItemValues?.[0]);
+      const initialValue =
+        scrollToFocus && focusItemValue != null ? focusItemValue : activeItemValues?.[0];
+      const itemIndex = findIndex(filteredItems, item => item[valueKey] === initialValue);
       listRef.current?.scrollToItem?.(itemIndex);
     });
 
@@ -311,23 +372,33 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
         style={styles}
         {...rest}
       >
-        {virtualized ? (
-          <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>
-            {({ height }) => (
-              <List
-                as={VariableSizeList}
-                ref={mergeRefs(listRef, virtualizedListRef)}
-                height={height || maxHeight}
-                itemCount={rowCount}
-                itemData={filteredItems}
-                itemSize={getRowHeight.bind(this, filteredItems)}
-                className={rootPrefix('virt-list')}
-                {...listProps}
-              >
-                {renderItem}
-              </List>
-            )}
-          </AutoSizer>
+        {rowCount === 0 ? (
+          emptyContent != null &&
+          typeof emptyContent !== 'boolean' && (
+            <div role="option" aria-disabled="true" aria-selected="false">
+              {emptyContent}
+            </div>
+          )
+        ) : virtualized ? (
+          <ItemRendererProvider value={renderItem}>
+            <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>
+              {({ height }) => (
+                <List
+                  as={VariableSizeList}
+                  height={height || maxHeight}
+                  itemCount={rowCount}
+                  itemData={filteredItems}
+                  itemSize={getRowHeight.bind(this, filteredItems)}
+                  className={rootPrefix('virt-list')}
+                  {...listProps}
+                  ref={mergedListRef}
+                  onItemsRendered={handleItemsRendered}
+                >
+                  {VirtualizedListItem}
+                </List>
+              )}
+            </AutoSizer>
+          </ItemRendererProvider>
         ) : (
           filteredItems.map((item, index: number) => renderItem({ index, item }))
         )}
