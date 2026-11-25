@@ -23,7 +23,20 @@ const DateTimeFormats = {
   formattedDayPattern: 'dd MMM yyyy',
   shortDateFormat: 'dd.MM.yyyy',
   shortTimeFormat: 'HH:mm',
-  dateLocale: nn as any
+  dateLocale: nn
+};
+
+const Calendar = {
+  ...DateTimeFormats,
+  previousMonth: 'Førre månad',
+  nextMonth: 'Neste månad',
+  selectMonth: 'Vel månad',
+  selectTime: 'Vel tidspunkt'
+};
+
+const DatePicker = {
+  ...Calendar,
+  openPicker: 'Opne datoveljaren'
 };
 
 const Combobox = {
@@ -63,13 +76,31 @@ export default {
     skip: 'Gå til {0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Siste 7 dagar'
   },
   Combobox,
+  CommandPalette: {
+    errorText: 'Kunne ikkje søkje etter kommandoar.',
+    retryText: 'Prøv igjen'
+  },
+  ColorPicker: {
+    placeholder: 'Vel farge',
+    dialogTitle: 'Vel farge',
+    hue: 'Fargetone',
+    saturation: 'Metting',
+    brightness: 'Lysstyrke',
+    opacity: 'Dekkevne',
+    format: 'Format',
+    value: 'Fargeverdi',
+    presets: 'Førehandsdefinerte fargar',
+    invalidColor: 'Skriv inn ein gyldig HEX-, RGB- eller HSL-farge.',
+    clear: 'Tøm',
+    done: 'Ferdig'
+  },
   InputPicker: CreatableComboBox,
   TagPicker: CreatableComboBox,
   Uploader: {
@@ -86,6 +117,19 @@ export default {
   },
   Breadcrumb: {
     expandText: 'Vis sti'
+  },
+  Carousel: {
+    carouselRoleDescription: 'karusell',
+    slideRoleDescription: 'lysbilete',
+    slidePosition: '{0} av {1}',
+    startRotation: 'Start automatisk byte av lysbilete',
+    stopRotation: 'Stopp automatisk byte av lysbilete',
+    selectSlide: 'Vel lysbilete',
+    slideLabel: 'Lysbilete {0} av {1}'
+  },
+  PinInput: {
+    groupLabel: 'PIN-kode',
+    characterLabel: 'Teikn {0} av {1}'
   },
   Toggle: {
     on: 'PÅ',

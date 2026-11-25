@@ -40,6 +40,7 @@ return (
 | kk-KZ               | Kazakh                                           | `kkKZ`      |
 | ko-KR               | Korean                                           | `koKR`      |
 | nb-NO               | Norwegian Bokmål                                 | `nbNO`      |
+| nn-NO               | Norwegian Nynorsk                                | `nnNO`      |
 | ne-NP               | Nepali                                           | `neNP`      |
 | nl-NL               | Dutch                                            | `nlNL`      |
 | pl-PL               | Polish (Poland)                                  | `plPL`      |
