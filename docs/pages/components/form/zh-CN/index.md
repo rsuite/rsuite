@@ -171,6 +171,8 @@
 | rule                   | checkType                                             | 字段的校验规则，若与 `<Form>` 的 `model` 冲突则以当前为准，[示例](/zh/components/form-validation/#field-级别的校验规则) |
 | shouldResetWithUnmount | boolean`('false')`                                    | 卸载组件时是否删除字段值和错误信息                                                                                      |
 
+开启 `shouldResetWithUnmount` 后，Form.Control 在控件容器被移除时清除字段值和错误。StrictMode 重放 effect 或 React Activity 隐藏内容时，只要容器仍然挂载，就会保留字段值和错误。自定义 `as` 容器可以通过转发 DOM ref 支持此行为。如果容器无法提供 DOM ref，清理会在 React 执行 effect 清理时触发。
+
 ### `<Form.Group>`
 
 | 属性名称    | 类型`(默认值)`          | 描述                                                                |

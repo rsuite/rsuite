@@ -19,7 +19,12 @@ import {
   defaultItemSize,
   type ListHandle
 } from '@/internals/Windowing';
-import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
+import {
+  useStyles,
+  useCustom,
+  useEventCallback,
+  useIsomorphicLayoutEffect
+} from '@/internals/hooks';
 import { getPathTowardsItem, getKeyParentMap } from '@/internals/Tree/utils';
 import { onMenuKeyDown } from '@/internals/Picker';
 import { TreeView } from '@/internals/Tree';
@@ -29,7 +34,7 @@ import {
   getFormattedTree,
   isNodeUncheckable
 } from './utils';
-import { hasVisibleChildren, getActiveItem, isExpand } from '../Tree/utils';
+import { hasVisibleChildren, getActiveItem, isExpand, formatNodeRefKey } from '../Tree/utils';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
 import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 import type { WithAsProps, Option, ToArray, DataProps } from '@/internals/types';
@@ -114,6 +119,9 @@ interface CheckTreeViewInnerProps<V = (string | number)[]>
    */
   onFocusItem?: (value?: TreeNode['value']) => void;
 
+  /** Reports the ID of the mounted focusable row to the picker trigger. */
+  onActiveDescendantChange?: (id?: string) => void;
+
   /**
    * A callback function that is called when a node is expanded.
    *
@@ -153,6 +161,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
     onScroll,
     onExpand,
     onFocusItem,
+    onActiveDescendantChange,
     ...rest
   } = props;
 
@@ -210,6 +219,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
   });
   const handleItemsRendered = props => {
     notifyItemsRendered();
+    reportActiveDescendant();
     listProps?.onItemsRendered?.(props);
   };
 
@@ -230,6 +240,28 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
     onFocused: onFocusItem,
     onExpand
   });
+
+  const reportActiveDescendant = () => {
+    if (!onActiveDescendantChange) return;
+    const row = isNil(focusItemValue) ? undefined : treeNodesRefs[formatNodeRefKey(focusItemValue)];
+
+    if (
+      row?.isConnected &&
+      treeViewRef.current?.contains(row) &&
+      row.getAttribute('aria-disabled') !== 'true' &&
+      row.getClientRects().length
+    ) {
+      onActiveDescendantChange(row.id || undefined);
+    } else {
+      onActiveDescendantChange(undefined);
+    }
+  };
+
+  useIsomorphicLayoutEffect(reportActiveDescendant);
+  useIsomorphicLayoutEffect(
+    () => () => onActiveDescendantChange?.(undefined),
+    [onActiveDescendantChange]
+  );
 
   /**
    * Get formatted nodes for render tree
@@ -346,7 +378,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
       const nodes = children || [];
 
       return (
-        <div className={childClassName} key={node[valueKey]}>
+        <div className={childClassName} key={refKey}>
           <CheckTreeNode {...treeNodeProps} treeItemRef={ref => saveTreeNodeRef(ref, refKey)} />
           <div className={prefix('group')} role="group">
             {nodes.map(child => renderNode(child, layer))}
@@ -358,7 +390,7 @@ const CheckTreeView = forwardRef<'div', CheckTreeViewInnerProps>((props, ref) =>
 
     return (
       <CheckTreeNode
-        key={node[valueKey]}
+        key={refKey}
         treeItemRef={ref => saveTreeNodeRef(ref, refKey)}
         {...treeNodeProps}
       />

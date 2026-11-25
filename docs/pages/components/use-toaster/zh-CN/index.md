@@ -76,11 +76,20 @@ function MyApp() {
 
 返回一个包含以下方法的对象：
 
-| 方法   | 类型                                                                                  | 描述                |
-| ------ | ------------------------------------------------------------------------------------- | ------------------- |
-| push   | (message: ReactNode, options?: [ToastOptions](#code-ts-toast-options-code)) => string | 显示一个 Toast 消息 |
-| remove | (toastId: string) => void                                                             | 删除指定 ID 的消息  |
-| clear  | () => void                                                                            | 清除所有消息        |
+| 方法   | 类型                                                                                                                               | 描述                |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| push   | (message: ReactNode, options?: [ToastOptions](#code-ts-toast-options-code)) => string \| undefined \| Promise<string \| undefined> | 显示一个 Toast 消息 |
+| remove | (toastId: string) => void                                                                                                          | 删除指定 ID 的消息  |
+| clear  | () => void                                                                                                                         | 清除所有消息        |
+
+需要创建自定义容器时，`push` 可能返回 Promise。使用 `await` 可以处理同步与异步结果。下面的异步事件处理函数会先检查消息 ID，再从默认容器中删除消息。
+
+```jsx
+const toastId = await toaster.push(<Message>message</Message>);
+if (toastId !== undefined) {
+  toaster.remove(toastId);
+}
+```
 
 ### 类型定义
 

@@ -27,7 +27,7 @@ describe('List picker locked interactions', () => {
   });
   afterAll(async () => source?.close());
 
-  const open = async (check: boolean, virtualized: boolean) => {
+  const open = async (check: boolean, virtualized: boolean, extra: string[] = []) => {
     const page = await source.browser.newPage();
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(String(error)));
@@ -35,7 +35,9 @@ describe('List picker locked interactions', () => {
       if (message.type() === 'error') errors.push(message.text());
     });
     await page.goto(
-      source.url + '/#' + [check ? 'check' : '', virtualized ? 'virtualized' : ''].join('&')
+      source.url +
+        '/#' +
+        [check ? 'check' : '', virtualized ? 'virtualized' : '', ...extra].join('&')
     );
     await expect
       .poll(() => page.evaluate(() => window.__RSUITE_LIST_PICKER_LOCK__?.snapshot().entered))
@@ -52,6 +54,52 @@ describe('List picker locked interactions', () => {
     expect(state.selections).toEqual([{ value: 'beta', trusted: true }]);
     expect(check ? state.values : state.value).toEqual(check ? ['beta'] : 'beta');
   };
+
+  describe.each([
+    { name: 'InputPicker', multi: false },
+    { name: 'TagPicker', multi: true }
+  ])('$name', ({ multi }) => {
+    describe.each([
+      { virtualized: false, controlled: false },
+      { virtualized: true, controlled: true }
+    ])('virtualized=$virtualized, controlled=$controlled', ({ virtualized, controlled }) => {
+      it.each<Flag>(['disabled', 'readOnly', 'loading'])(
+        'blocks selection while %s and accepts it after unlocking',
+        async flag => {
+          const { page, errors } = await open(
+            multi,
+            virtualized,
+            controlled ? ['input', 'controlled'] : ['input']
+          );
+          try {
+            const beta = page.getByRole('option', { name: 'Beta', exact: true });
+            await page.getByRole('combobox').focus();
+            await page.keyboard.press('ArrowDown');
+            await page.keyboard.press('ArrowDown');
+            const beforeLock = await snapshot(page);
+            await setFlag(page, flag);
+            await page.keyboard.press('Enter');
+            const box = await beta.boundingBox();
+            expect(box).not.toBeNull();
+            await page.mouse.click(box!.x + box!.width / 2, box!.y + box!.height / 2);
+            const locked = await snapshot(page);
+            expect(locked.value).toEqual(beforeLock.value);
+            expect(locked.values).toEqual(beforeLock.values);
+            expect(locked.changes).toEqual([]);
+            expect(locked.selections).toEqual([]);
+            expect(await beta.getAttribute('aria-disabled')).toBe('true');
+            await setFlag(page, 'enabled');
+            expect(await beta.getAttribute('aria-disabled')).toBe('false');
+            await page.getByText('Beta', { exact: true }).click();
+            await expectSelection(page, multi);
+            expect(errors).toEqual([]);
+          } finally {
+            await page.close();
+          }
+        }
+      );
+    });
+  });
 
   describe.each([false, true])('CheckPicker=%s', check => {
     describe.each([false, true])('virtualized=%s', virtualized => {

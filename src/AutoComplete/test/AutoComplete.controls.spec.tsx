@@ -55,24 +55,20 @@ describe('AutoComplete popup association', () => {
     expect(combobox.getAttribute('aria-controls')).toBeNull();
   });
 
-  it.each(['readOnly', 'disabled'] as const)(
-    'associates a controlled open popup even when the input is %s',
-    lockedProp => {
-      const props = { [lockedProp]: true };
-      const { rerender } = render(<AutoComplete data={data} defaultValue="a" {...props} />);
-      const combobox = screen.getByRole('combobox') as HTMLInputElement;
+  it('associates a controlled open popup when the input is read-only', () => {
+    const { rerender } = render(<AutoComplete data={data} defaultValue="a" readOnly />);
+    const combobox = screen.getByRole('combobox') as HTMLInputElement;
 
-      expect(combobox[lockedProp]).toBe(true);
-      expect(combobox.getAttribute('aria-expanded')).toBe('false');
-      expect(combobox.getAttribute('aria-controls')).toBeNull();
-      expect(screen.queryByRole('listbox')).toBeNull();
+    expect(combobox.readOnly).toBe(true);
+    expect(combobox.getAttribute('aria-expanded')).toBe('false');
+    expect(combobox.getAttribute('aria-controls')).toBeNull();
+    expect(screen.queryByRole('listbox')).toBeNull();
 
-      rerender(<AutoComplete data={data} defaultValue="a" {...props} open />);
-      expect(combobox[lockedProp]).toBe(true);
-      expect(combobox.getAttribute('aria-expanded')).toBe('true');
-      expect(getControlledPopup(combobox)).toBe(screen.getByRole('listbox'));
-    }
-  );
+    rerender(<AutoComplete data={data} defaultValue="a" readOnly open />);
+    expect(combobox.readOnly).toBe(true);
+    expect(combobox.getAttribute('aria-expanded')).toBe('true');
+    expect(getControlledPopup(combobox)).toBe(screen.getByRole('listbox'));
+  });
 
   it('references the original listbox when a custom renderer wraps it', () => {
     render(

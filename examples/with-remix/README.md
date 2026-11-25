@@ -39,3 +39,5 @@ Open:
 ```bash
 npm run build
 ```
+
+Run the production build with `npm start`.
