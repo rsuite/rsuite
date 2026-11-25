@@ -1,4 +1,5 @@
 import React from 'react';
+import { I18nProvider } from 'react-aria-components/I18nProvider';
 import { TextField, Label, Input, FieldError, Form } from '@heroui/react';
 import { HelperForm, type FieldViewProps } from './helper-engine';
 import { fieldId } from '../domain';
@@ -35,5 +36,9 @@ function FormView({
   );
 }
 export default function Adapter(props: AdapterProps) {
-  return <HelperForm {...props} View={View} FormView={FormView} library="HeroUI" />;
+  return (
+    <I18nProvider locale={props.direction === 'rtl' ? 'ar-AE' : 'en-US'}>
+      <HelperForm {...props} View={View} FormView={FormView} library="HeroUI" />
+    </I18nProvider>
+  );
 }
