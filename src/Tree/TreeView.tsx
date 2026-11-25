@@ -20,8 +20,13 @@ import {
 import { forwardRef, mergeRefs } from '@/internals/utils';
 import VirtualizedTreeNode, { NodeRendererProvider } from '@/internals/Tree/VirtualizedTreeNode';
 import { getPathTowardsItem, getKeyParentMap } from '@/internals/Tree/utils';
-import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
-import { isExpand, hasVisibleChildren, getActiveItem } from './utils';
+import {
+  useStyles,
+  useCustom,
+  useEventCallback,
+  useIsomorphicLayoutEffect
+} from '@/internals/hooks';
+import { isExpand, hasVisibleChildren, getActiveItem, formatNodeRefKey } from './utils';
 import { onMenuKeyDown } from '@/internals/Picker';
 import { TreeView as BaseTreeView } from '@/internals/Tree';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
@@ -78,6 +83,9 @@ interface TreeViewInnerProps<V = string | number | null>
 
   /** Current owner data, before asynchronous tree-data synchronization. */
   sourceData?: TreeNode[];
+
+  /** Whether the displayed data belongs to the current owner dataset. */
+  dataReady?: boolean;
   /**
    * An array of values representing the loading nodes.
    */
@@ -100,6 +108,9 @@ interface TreeViewInnerProps<V = string | number | null>
    */
   onFocusItem?: (value?: V) => void;
 
+  /** Reports the ID of the mounted focusable row to the picker trigger. */
+  onActiveDescendantChange?: (id?: string) => void;
+
   /**
    * A callback function that is called when a node is expanded.
    *
@@ -114,6 +125,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     disabled,
     data = [],
     sourceData,
+    dataReady = true,
     style,
     showIndentLine,
     value: valueProp,
@@ -143,6 +155,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     onDrop,
     onExpand,
     onFocusItem,
+    onActiveDescendantChange,
     onScroll,
     ...rest
   } = props;
@@ -158,12 +171,13 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     }
   );
 
-  const { filteredData, keyword, setFilteredData, handleSearch } = useTreeSearch<TreeNode>({
-    callback: handleSearchCallback,
-    searchKeyword,
-    data,
-    searchBy
-  });
+  const { filteredData, filteredDataSource, keyword, setFilteredData, handleSearch } =
+    useTreeSearch<TreeNode>({
+      callback: handleSearchCallback,
+      searchKeyword,
+      data,
+      searchBy
+    });
 
   const transformation = useVirtualizedTreeData(flattenedNodes, filteredData, {
     expandItemValues,
@@ -194,6 +208,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
   });
   const handleItemsRendered = props => {
     notifyItemsRendered();
+    reportActiveDescendant();
     listProps?.onItemsRendered?.(props);
   };
 
@@ -228,6 +243,10 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     saveTreeNodeRef,
     treeViewRef
   } = useFocusTree({
+    dataReady:
+      dataReady &&
+      filteredDataSource === data &&
+      (searchKeyword === undefined || searchKeyword === keyword),
     filteredData,
     disabledItemValues,
     expandItemValues,
@@ -237,6 +256,32 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     onFocused: onFocusItem,
     onExpand
   });
+
+  const getMountedFocusedRow = () => {
+    if (isNil(focusItemValue)) return undefined;
+    const row = treeNodesRefs[formatNodeRefKey(focusItemValue)];
+
+    if (
+      row?.isConnected &&
+      treeViewRef.current?.contains(row) &&
+      row.getAttribute('aria-disabled') !== 'true' &&
+      row.getClientRects().length
+    ) {
+      return row;
+    }
+  };
+
+  const reportActiveDescendant = () => {
+    if (onActiveDescendantChange) {
+      onActiveDescendantChange(getMountedFocusedRow()?.id || undefined);
+    }
+  };
+
+  useIsomorphicLayoutEffect(reportActiveDescendant);
+  useIsomorphicLayoutEffect(
+    () => () => onActiveDescendantChange?.(undefined),
+    [onActiveDescendantChange]
+  );
 
   const { dragNode, dragOverNodeKey, dropNodePosition, dragEvents } = useTreeDrag<TreeNode>({
     flattenedNodes,
@@ -277,7 +322,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
   });
 
   const selectActiveItem = useEventCallback((event: React.SyntheticEvent) => {
-    if (isNil(focusItemValue)) return;
+    if (isNil(focusItemValue) || (onActiveDescendantChange && !getMountedFocusedRow())) return;
     const activeItem = getActiveItem(focusItemValue, flattenedNodes, valueKey);
     handleSelect(activeItem, event);
   });
@@ -318,7 +363,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
       });
 
       return (
-        <div className={childClassName} key={node[valueKey]}>
+        <div className={childClassName} key={node.refKey}>
           <TreeViewNode {...nodeProps} ref={ref => saveTreeNodeRef(ref, node.refKey)} />
           <div className={prefix('group')} role="group">
             {children?.map((child, i) => renderNode(child, i, layer))}
@@ -330,7 +375,7 @@ const TreeView = forwardRef<'div', TreeViewInnerProps>((props, ref) => {
     return (
       <TreeViewNode
         ref={ref => saveTreeNodeRef(ref, node.refKey)}
-        key={node[valueKey]}
+        key={node.refKey}
         {...nodeProps}
       />
     );

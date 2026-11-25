@@ -1,10 +1,11 @@
 import type { TreeNode } from '../types';
-export function findNodeOfTree(data, check) {
+export function findNodeOfTree(data, check, childrenKey = 'children') {
   const findNode = (nodes: readonly TreeNode[] = []) => {
     for (let i = 0; i < nodes.length; i += 1) {
       const item = nodes[i];
-      if (Array.isArray(item.children)) {
-        const node = findNode(item.children);
+      const children = item[childrenKey];
+      if (Array.isArray(children)) {
+        const node = findNode(children);
         if (node) {
           return node;
         }

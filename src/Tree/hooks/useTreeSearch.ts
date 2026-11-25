@@ -44,12 +44,15 @@ export default function useTreeSearch<T>(props: TreeSearchProps<T>) {
 
   // Use search keywords to filter options.
   const [keyword, setSearchKeyword] = useState(searchKeyword ?? '');
-  const [filteredData, setFilteredData] = useState(() => filterVisibleData(data, keyword));
+  const [filtered, setFiltered] = useState(() => ({
+    source: data,
+    nodes: filterVisibleData(data, keyword)
+  }));
 
   const handleSearch = (searchKeyword: string, event?: React.ChangeEvent) => {
     const filteredData = filterVisibleData(data, searchKeyword);
 
-    setFilteredData(filteredData);
+    setFiltered({ source: data, nodes: filteredData });
     setSearchKeyword(searchKeyword);
 
     if (event) {
@@ -67,14 +70,15 @@ export default function useTreeSearch<T>(props: TreeSearchProps<T>) {
 
   const setVisibleData = useCallback(
     (data: T[], searchKeyword: string) => {
-      setFilteredData(filterVisibleData(data, searchKeyword));
+      setFiltered({ source: data, nodes: filterVisibleData(data, searchKeyword) });
     },
     [filterVisibleData]
   );
 
   return {
     keyword,
-    filteredData,
+    filteredData: filtered.nodes,
+    filteredDataSource: filtered.source,
     setFilteredData: setVisibleData,
     setSearchKeyword,
     handleSearch
