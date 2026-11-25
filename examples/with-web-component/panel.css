@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  margin-block-start: 1rem;
+  max-width: 26rem;
+}
+
+.panel {
+  background-color: var(--rs-body);
+  border: 1px solid var(--rs-border-primary);
+  border-radius: var(--rs-radius-md);
+  color: var(--rs-text-primary);
+  padding: 1rem;
+}

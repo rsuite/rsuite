@@ -1,4 +1,5 @@
-:root {
+:root,
+:host {
   // Layout
   --rs-segmented-control-spacing: calc(var(--rs-spacing) * 1);
   --rs-segmented-control-border-radius: var(--rs-radius-md);

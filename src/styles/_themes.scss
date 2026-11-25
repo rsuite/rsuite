@@ -3,7 +3,8 @@
 @use 'color-modes/dark' as dark-theme;
 @use 'color-modes/high-contrast' as high-contrast-theme;
 
-:root {
+:root,
+:host {
   // HTML base font size (used for rem calculations)
   --rs-html-font-size: 16px;
 

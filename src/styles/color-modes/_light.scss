@@ -6,7 +6,8 @@
 @use '../colors/palette' as p;
 
 // Light theme CSS custom properties
-:root {
+:root,
+:host {
   // Gray levels
   --rs-gray-0: #{light.$B000};
   --rs-gray-50: #{light.$B050};

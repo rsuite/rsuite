@@ -1,5 +1,6 @@
 // Loader variables
-:root {
+:root,
+:host {
   --rs-loader-duration-fast: 0.4s;
   --rs-loader-duration-normal: 0.6s;
   --rs-loader-duration-slow: 0.8s;

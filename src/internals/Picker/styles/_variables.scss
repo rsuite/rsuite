@@ -1,5 +1,6 @@
 // Picker variables
-:root {
+:root,
+:host {
   --rs-picker-transition: var(--rs-input-transition);
   --rs-picker-select-menu-item-selected-font-weight: bold;
   --rs-picker-group-select-menu-gap: 6px;

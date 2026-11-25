@@ -1,4 +1,5 @@
-:root {
+:root,
+:host {
   --rs-tag-border-radius: var(--rs-radius-md);
   --rs-tag-spacing: 0.25rem;
   --rs-tag-font-size-sm: var(--rs-font-size-xs);

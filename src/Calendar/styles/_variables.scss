@@ -1,4 +1,5 @@
-:root {
+:root,
+:host {
   --rs-calendar-cell-font-size: var(--rs-font-size-sm);
   --rs-calendar-cell-line-height: var(--rs-line-height-md);
   --rs-calendar-cell-padding: 5px;

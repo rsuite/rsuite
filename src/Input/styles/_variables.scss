@@ -1,5 +1,6 @@
 // Input variables
-:root {
+:root,
+:host {
   --rs-input-border-width: 1px;
   --rs-input-font-size-xs: var(--rs-font-size-xs);
   --rs-input-font-size-sm: var(--rs-font-size-sm);

@@ -6,6 +6,13 @@ html {
   font-size: var(--rs-html-font-size); // 2
 }
 
+@mixin base-typography {
+  font-family: var(--rs-font-family-base);
+  font-size: var(--rs-font-size-sm);
+  line-height: var(--rs-line-height-md);
+  color: var(--rs-text-primary);
+}
+
 body {
   // Remove default margin.
   margin: 0;
@@ -15,11 +22,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   // Base typography and document styles
-  font-family: var(--rs-font-family-base);
-  font-size: var(--rs-font-size-sm);
-  line-height: var(--rs-line-height-md);
-  color: var(--rs-text-primary);
+  @include base-typography;
+
   background-color: var(--rs-body);
+}
+
+// Supply inherited text styles when the reset is loaded inside a shadow root.
+:host {
+  @include base-typography;
 }
 
 // Address `[hidden]` styling not present in IE 10.

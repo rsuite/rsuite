@@ -1,4 +1,5 @@
-:root {
+:root,
+:host {
   --rs-radio-group-spacing: calc(var(--rs-spacing) * 3);
   --rs-radio-group-direction: column;
   --rs-radio-checker-label-color: var(--rs-text-secondary);
