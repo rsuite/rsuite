@@ -53,6 +53,14 @@ If there is an error loading the src of the avatar, there are 2 fallbacks:
 
 <!--{include:`badge.md`}-->
 
+### Next.js Image
+
+Render [`next/image`](https://nextjs.org/docs/pages/api-reference/components/image) as a child of `Avatar` to use Next.js image optimization. Put the example image in `public/profile.png` in your Next.js project. Put the alternative text and image loading handlers on `Image`. For remote images, configure [`images.remotePatterns`](https://nextjs.org/docs/pages/api-reference/components/image#remotepatterns) in Next.js.
+
+<!--{include:<next-image-demo>}-->
+
+<!--{include:(components/avatar/fragments/nextjs-image.md)}-->
+
 ## Props
 
 ### `<Avatar>`
