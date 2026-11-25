@@ -49,6 +49,8 @@ Clicking a loading picker won't open its options menu.
 
 ### Country select
 
+When `data` contains typed option records and `valueKey` is a literal key, TypeScript infers the selected value from that field. Search and option callbacks receive the original record. `renderValue` can receive an undefined record when the current value is missing from the options, such as while data loads.
+
 <!--{include:`custom-country-select.md`}-->
 
 ### Disabled and read only

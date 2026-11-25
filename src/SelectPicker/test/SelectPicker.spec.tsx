@@ -160,6 +160,33 @@ describe('SelectPicker', () => {
     expect(screen.getByRole('combobox')).to.have.text('foo-bar');
   });
 
+  it('passes the original custom option to renderValue when it becomes available', () => {
+    const option = { code: 'north', title: 'North', currency: 'USD' };
+    const renderValue = vi.fn(
+      (_value: string, item: typeof option | undefined, label: React.ReactNode) =>
+        item?.currency ?? label
+    );
+    const picker = (options: (typeof option)[]) => (
+      <SelectPicker
+        data={options}
+        valueKey="code"
+        labelKey="title"
+        value="north"
+        placeholder="Loading"
+        renderValue={renderValue}
+      />
+    );
+
+    const { rerender } = render(picker([]));
+    expect(renderValue).toHaveBeenLastCalledWith('north', undefined, 'Loading');
+    expect(screen.getByRole('combobox')).toHaveTextContent('Loading');
+
+    rerender(picker([option]));
+    expect(renderValue).toHaveBeenLastCalledWith('north', option, 'North');
+    expect(renderValue.mock.lastCall?.[1]).toBe(option);
+    expect(screen.getByRole('combobox')).toHaveTextContent('USD');
+  });
+
   it('Should output a value by renderValue()', () => {
     const placeholder = 'value';
 

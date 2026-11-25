@@ -93,9 +93,26 @@ export interface SelectPickerProps<T = any>
   onChange?: (value: T | null, event: React.SyntheticEvent) => void;
 }
 
+type SelectPickerOptionProps<Item, Value> = Omit<
+  SelectPickerProps<Value>,
+  'data' | 'searchBy' | 'renderOption' | 'renderValue' | 'onSelect'
+> & {
+  data: readonly Item[];
+  searchBy?: (keyword: string, label: React.ReactNode, item: Item) => boolean;
+  renderOption?: (label: React.ReactNode, item: Item) => React.ReactNode;
+  renderValue?: (value: Value, item: Item | undefined, label: React.ReactNode) => React.ReactNode;
+  onSelect?: (value: Value, item: Item, event: React.SyntheticEvent) => void;
+};
+
 const emptyArray = [];
 
 export interface SelectPickerComponent {
+  <Key extends string, Item extends Record<Key, string | number>>(
+    props: SelectPickerOptionProps<Item, Item[Key]> & { valueKey: Key }
+  ): React.ReactElement | null;
+  <Key extends 'value', Item extends Record<Key, string | number>>(
+    props: SelectPickerOptionProps<Item, Item[Key]> & { valueKey?: Key }
+  ): React.ReactElement | null;
   <T>(props: SelectPickerProps<T>): React.ReactElement | null;
   displayName?: string;
 }

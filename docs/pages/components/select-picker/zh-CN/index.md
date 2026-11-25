@@ -49,6 +49,8 @@
 
 ### 国家或地区选择
 
+`data` 中的选项带有类型且 `valueKey` 为字面量键名时，TypeScript 会从该字段推断选中值。搜索和选项回调接收原始数据对象。当前选中值尚未出现在选项中时（例如数据还在加载），`renderValue` 可能收到 `undefined`。
+
 <!--{include:`custom-country-select.md`}-->
 
 ### 禁用与只读
