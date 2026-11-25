@@ -1,8 +1,19 @@
 import assert from 'node:assert/strict';
-import { selectedVirtualKey, virtualStates } from './virtual-oracle.mjs';
+import { virtualOracle } from './virtual-oracle.mjs';
 import { virtualSnapshot } from './virtual-snapshot.mjs';
 import { virtualActivate } from './virtual-input.mjs';
-export async function virtualWorkflow(page, profile, checkpoint) {
+export async function virtualWorkflow(page, profile, checkpoint, rowCount) {
+  const { jumpIndex, selectedVirtualKey, virtualStates } = virtualOracle(rowCount);
+
+  async function waitForCheckedRow() {
+    await page.waitForFunction(key => {
+      const input = document
+        .querySelector('[data-row-id="' + key + '"]')
+        ?.closest('[data-virtual-row-id],tr,[role="row"]')
+        ?.querySelector('input[type="checkbox"]');
+      return input?.checked === true;
+    }, selectedVirtualKey);
+  }
   async function capture(name) {
     const expected = virtualStates[name],
       deadline = Date.now() + 10000;
@@ -26,7 +37,8 @@ export async function virtualWorkflow(page, profile, checkpoint) {
   await page.waitForSelector('[data-row-id]');
   await capture('initial');
   const button = name => page.getByRole('button', { name, exact: true });
-  await virtualActivate(page, button('Jump row 9000'), profile, 'toolbar');
+  const jump = button('Jump row ' + jumpIndex);
+  await virtualActivate(page, jump, profile, 'toolbar');
   await capture('jump');
   const row = page
       .locator('tr,[role="row"],[data-virtual-row-id]')
@@ -34,30 +46,15 @@ export async function virtualWorkflow(page, profile, checkpoint) {
     checkbox = row.getByRole('checkbox');
   assert.equal(await checkbox.count(), 1);
   await virtualActivate(page, checkbox, profile, 'selection', selectedVirtualKey);
-  await page.waitForFunction(
-    () => document.querySelector('output')?.textContent === '["entry-09000"]'
-  );
-  await page.waitForFunction(() => {
-    const n = document
-      .querySelector('[data-row-id="entry-09000"]')
-      ?.closest('[data-virtual-row-id],tr,[role="row"]')
-      ?.querySelector('input[type="checkbox"]');
-    return n?.checked === true;
-  });
+  await waitForCheckedRow();
   assert.equal(await checkbox.isChecked(), true);
   await capture('selected');
   await virtualActivate(page, button('Jump top'), profile, 'toolbar');
   await capture('top');
   await virtualActivate(page, button('Jump end'), profile, 'toolbar');
   await capture('end');
-  await virtualActivate(page, button('Jump row 9000'), profile, 'toolbar');
-  await page.waitForFunction(() => {
-    const n = document
-      .querySelector('[data-row-id="entry-09000"]')
-      ?.closest('[data-virtual-row-id],tr,[role="row"]')
-      ?.querySelector('input[type="checkbox"]');
-    return n?.checked === true;
-  });
+  await virtualActivate(page, jump, profile, 'toolbar');
+  await waitForCheckedRow();
   assert.equal(await checkbox.isChecked(), true);
   await capture('restored');
 }

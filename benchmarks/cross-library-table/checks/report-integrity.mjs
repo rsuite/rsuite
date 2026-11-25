@@ -3,6 +3,9 @@ import assert from 'node:assert/strict';
 import { validateReport } from '../runner/report.mjs';
 import { validateTreeReport } from '../runner/tree-report.mjs';
 import { validateVirtualReport } from '../runner/virtual-report.mjs';
+import { virtualOracle } from '../runner/virtual-oracle.mjs';
+import { jumpProbeTargets } from '../runner/virtual-jump-timing.mjs';
+import { defaultVirtualRowCount, virtualRowCounts } from '../src/virtual/workload.mjs';
 import { validateLifecycleReport } from '../runner/lifecycle-report.mjs';
 const [file, browser = 'all', ...extra] = process.argv.slice(2);
 assert(
@@ -70,12 +73,31 @@ reject('duplicate-id', r =>
   positive(r).checkpoints[0].state.duplicateIds.push({ id: 'duplicate', count: 2 })
 );
 if (actual.workflow === 'virtual') {
+  const rowCount = actual.virtualRows ?? defaultVirtualRowCount;
+  const { selectedVirtualKey, virtualStates } = virtualOracle(rowCount);
+  const otherRowCount = virtualRowCounts.find(count => count !== rowCount);
+  reject('unknown-virtual-row-count', r => (r.virtualRows = 12345));
+  reject('relabeled-virtual-row-count', r => (r.virtualRows = otherRowCount));
+  reject('wrong-virtual-end-target', r => {
+    const state = positive(r).checkpoints.find(c => c.name === 'end').state;
+    state.virtual.rows.find(row => row.id === virtualStates.end.target).visible = false;
+  });
+  if (Object.hasOwn(actual, 'virtualRows')) {
+    reject('missing-virtual-row-count', r => delete r.virtualRows);
+    reject('wrong-fixture-row-count', r => {
+      positive(r).checkpoints[0].state.virtual.rowCount = otherRowCount;
+    });
+  }
   if (actual.jumpTiming) {
     const sample = r => positive(r).jumpSamples[0];
     reject('reordered-timing-cases', r => ([r.cases[4], r.cases[5]] = [r.cases[5], r.cases[4]]));
     reject('wrong-timing-protocol', r => (r.jumpTiming.protocol = 'unknown'));
     reject('missing-timing-event', r => positive(r).jumpSamples.pop());
     reject('wrong-timing-target', r => (sample(r).target = 'entry-00002'));
+    reject('timing-target-from-other-workload', r => {
+      const [otherJump] = jumpProbeTargets(otherRowCount);
+      Object.assign(sample(r), otherJump);
+    });
     reject('untrusted-timing-start', r => (sample(r).trusted = false));
     reject('already-visible-timing-target', r => (sample(r).alreadyVisible = true));
     reject('negative-timing-duration', r => (sample(r).visibleMs = sample(r).startedMs - 1));
@@ -95,13 +117,17 @@ if (actual.workflow === 'virtual') {
   }
   reject('wrong-ownership', r => (positive(r).ownership = 'native-all'));
   reject('erased-row-metadata', r => (positive(r).checkpoints[0].state.virtual.rows = []));
-  reject('wrong-rendered-count', r => (positive(r).checkpoints[0].state.virtual.rendered = 10000));
+  reject(
+    'wrong-rendered-count',
+    r => (positive(r).checkpoints[0].state.virtual.rendered = rowCount)
+  );
   reject('wrong-data-id', r => (positive(r).checkpoints[0].state.ids[0] = 'bogus'));
   reject(
     'hidden-requested-row',
     r =>
-      (positive(r).checkpoints[1].state.virtual.rows.find(x => x.id === 'entry-09000').visible =
-        false)
+      (positive(r).checkpoints[1].state.virtual.rows.find(
+        x => x.id === selectedVirtualKey
+      ).visible = false)
   );
   reject('forged-visible-flag', r => {
     const row = positive(r).checkpoints[0].state.virtual.rows.find(x => !x.visible);
@@ -137,12 +163,12 @@ if (actual.workflow === 'virtual') {
     'wrong-real-checkbox',
     r =>
       (positive(r).checkpoints[2].state.checkboxes.find(
-        x => x.kind === 'input' && x.rowId === 'entry-09000'
+        x => x.kind === 'input' && x.rowId === selectedVirtualKey
       ).checked = false)
   );
   reject('erased-real-checkbox', r => {
     const s = positive(r).checkpoints[2].state;
-    s.checkboxes = s.checkboxes.filter(x => x.rowId !== 'entry-09000');
+    s.checkboxes = s.checkboxes.filter(x => x.rowId !== selectedVirtualKey);
   });
   reject(
     'wrong-mount-membership',
@@ -151,7 +177,7 @@ if (actual.workflow === 'virtual') {
   reject('invalid-viewport', r => (positive(r).checkpoints[0].state.virtual.viewport.height = 0));
   reject('wrong-pointer-row', r =>
     positive(r)
-      .events.filter(e => e.rowId === 'entry-09000')
+      .events.filter(e => e.rowId === selectedVirtualKey)
       .forEach(e => (e.rowId = 'entry-00000'))
   );
 } else if (actual.workflow === 'lifecycle') {

@@ -15,6 +15,7 @@ import { assertBuildState, artifactGuard } from './runner/build-state.mjs';
 import { virtualWorkflow } from './runner/virtual-workflow.mjs';
 import { validateVirtualReport } from './runner/virtual-report.mjs';
 import { virtualOwnership } from './runner/virtual-oracle.mjs';
+import { defaultVirtualRowCount, parseVirtualRowCount } from './src/virtual/workload.mjs';
 import {
   assertJumpSamples,
   jumpProbeTargets,
@@ -30,10 +31,22 @@ const root = import.meta.dirname,
 const outputIndex = args.indexOf('--output'),
   browserIndex = args.indexOf('--browser'),
   workflowIndex = args.indexOf('--workflow'),
+  virtualRowsIndex = args.indexOf('--virtual-rows'),
   jumpTimingIndex = args.indexOf('--jump-timing-rounds');
 const workflowName = workflowIndex < 0 ? 'selection' : args[workflowIndex + 1];
 if (!['selection', 'tree', 'virtual', 'lifecycle'].includes(workflowName))
   throw Error('Invalid workflow');
+if (virtualRowsIndex >= 0 && workflowName !== 'virtual')
+  throw Error('--virtual-rows requires --workflow virtual');
+const virtualRows =
+  virtualRowsIndex < 0 ? defaultVirtualRowCount : parseVirtualRowCount(args[virtualRowsIndex + 1]);
+const virtualQuery = virtualRowsIndex < 0 ? '' : '?rows=' + virtualRows;
+const runWorkflow = {
+  selection: workflow,
+  tree: treeWorkflow,
+  virtual: (page, profile, checkpoint) => virtualWorkflow(page, profile, checkpoint, virtualRows),
+  lifecycle: lifecycleWorkflow
+}[workflowName];
 if (jumpTimingIndex >= 0 && workflowName !== 'virtual')
   throw Error('Jump timing is only available for the virtual workflow');
 const timingRounds = jumpTimingIndex < 0 ? null : Number(args[jumpTimingIndex + 1]);
@@ -50,7 +63,13 @@ const output = path.resolve(
     ? path.join(
         root,
         'results',
-        workflowName === 'selection' ? 'table.json' : workflowName + '.json'
+        workflowName === 'selection'
+          ? 'table.json'
+          : timingRounds !== null
+            ? 'virtual-' + virtualRows + '-timing.json'
+            : workflowName === 'virtual' && virtualRows !== defaultVirtualRowCount
+              ? 'virtual-' + virtualRows + '.json'
+              : workflowName + '.json'
       )
     : args[outputIndex + 1]
 );
@@ -61,7 +80,11 @@ if (browserName === 'webkit' && workflowName !== 'virtual')
   throw Error('WebKit is available for the virtual workflow');
 const selectedBrowsers = browserName === 'all' ? ['chromium', 'firefox'] : [browserName];
 for (let index = 0; index < args.length; index++) {
-  if (['--output', '--browser', '--workflow', '--jump-timing-rounds'].includes(args[index]))
+  if (
+    ['--output', '--browser', '--workflow', '--virtual-rows', '--jump-timing-rounds'].includes(
+      args[index]
+    )
+  )
     index++;
   else if (args[index] !== '--skip-build') throw Error('Unknown argument ' + args[index]);
 }
@@ -116,6 +139,7 @@ const report = {
     violations: []
   },
   workflow: workflowName,
+  ...(workflowName === 'virtual' && { virtualRows }),
   ...(timingRounds === null
     ? {}
     : {
@@ -133,11 +157,13 @@ const report = {
   qualification: 'Prototype: adapters and driver require review before qualified comparison',
   scope:
     timingRounds !== null
-      ? '10k virtual rows. Trusted button click to separate animation-frame observations of a visible target identity marker and a hit-testable marker center. Four fixed jumps, shared checkpoints and per-browser summaries. No paint, wheel, physical input, AT or overall ranking claim.'
+      ? virtualRows +
+        ' virtual rows. Trusted button click to separate animation-frame observations of a visible target identity marker and a hit-testable marker center. Four fixed jumps, shared checkpoints and per-browser summaries. No paint, wheel, physical input, AT or overall ranking claim.'
       : workflowName === 'lifecycle'
         ? 'Loaded to loading to empty to recovered data with shared explicit application request/selection policy; native loading and composed content ownership recorded. No AT/performance/ranking claim.'
         : workflowName === 'virtual'
-          ? '10k rows, application jump controls and native checkbox selection. Mounted rows, visible identity markers and complete row border boxes reported separately, including focused-row persistence. Whole-row geometry protocol 1 does not require every target row to be fully exposed. No performance/ranking/AT conformance result.'
+          ? virtualRows +
+            ' rows, application jump controls and native checkbox selection. Mounted rows, visible identity markers and complete row border boxes reported separately, including focused-row persistence. Whole-row geometry protocol 1 does not require every target row to be fully exposed. No performance/ranking/AT conformance result.'
           : workflowName === 'tree'
             ? 'Three-level hierarchy, retained selection and root reorder. Functional and limited tree semantics gates are reported separately; native/composed ownership explicit. No AT/conformance/ranking result.'
             : 'One sort/filter/ID-selection workflow; native engines versus explicit application composition. No performance/conformance/ranking result.',
@@ -182,7 +208,7 @@ try {
             if (response.status() >= 400) row.httpErrors.push([response.status(), response.url()]);
           });
           try {
-            const timingTargets = round === undefined ? [] : jumpProbeTargets();
+            const timingTargets = round === undefined ? [] : jumpProbeTargets(virtualRows);
             if (timingTargets.length) await page.addInitScript(observeVirtualJumps, timingTargets);
             await page.addInitScript(() => {
               window.__nativeEvents = [];
@@ -211,17 +237,10 @@ try {
                 '/' +
                 library +
                 '/' +
-                (workflowName === 'selection' ? '' : workflowName + '.html')
+                (workflowName === 'selection' ? '' : workflowName + '.html') +
+                virtualQuery
             );
-            await (
-              workflowName === 'tree'
-                ? treeWorkflow
-                : workflowName === 'virtual'
-                  ? virtualWorkflow
-                  : workflowName === 'lifecycle'
-                    ? lifecycleWorkflow
-                    : workflow
-            )(page, profile, async (name, observation) => {
+            await runWorkflow(page, profile, async (name, observation) => {
               const state = await capture();
               row.checkpoints.push({ name, state, observation });
               assert.deepEqual(state.brokenReferences, []);
@@ -245,7 +264,7 @@ try {
             assert.deepEqual(row.httpErrors, []);
             if (round !== undefined) {
               row.jumpSamples = await page.evaluate(() => window.__virtualJumpSamples);
-              assertJumpSamples(row);
+              assertJumpSamples(row, virtualRows);
             }
             if (workflowName === 'tree') {
               row.functionalPassed = true;

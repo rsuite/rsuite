@@ -1,7 +1,13 @@
 import { useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import Adapter from 'virtual-adapter';
-import { rows } from './domain';
+import { createRows } from './domain';
+import {
+  defaultVirtualRowCount,
+  parseVirtualRowCount,
+  virtualJumpIndex,
+  virtualRowId
+} from './workload.mjs';
 import type { VirtualActions } from './types';
 import '../fixture.css';
 import './virtual.css';
@@ -14,6 +20,12 @@ const ownership = {
   heroui:
     'React Aria virtualization, selection and public focus state through HeroUI; application jump controller'
 };
+const requestedRows = new URLSearchParams(window.location.search).get('rows');
+const rows = createRows(
+  requestedRows === null ? defaultVirtualRowCount : parseVirtualRowCount(requestedRows)
+);
+const jumpIndex = virtualJumpIndex(rows.length);
+
 function VirtualFixture() {
   const [selected, onSelected] = useState<string[]>([]);
   const actionsRef = useRef<VirtualActions>(null);
@@ -24,14 +36,18 @@ function VirtualFixture() {
       <button type="button" onClick={() => actionsRef.current?.jumpToIndex(0)}>
         Jump top
       </button>
-      <button type="button" onClick={() => actionsRef.current?.jumpToIndex(9000)}>
-        Jump row 9000
+      <button type="button" onClick={() => actionsRef.current?.jumpToIndex(jumpIndex)}>
+        Jump row {jumpIndex}
       </button>
-      <button type="button" onClick={() => actionsRef.current?.jumpToIndex(9999)}>
+      <button type="button" onClick={() => actionsRef.current?.jumpToIndex(rows.length - 1)}>
         Jump end
       </button>
       <output aria-label="Selected row keys">{JSON.stringify([...selected].sort())}</output>
-      <section aria-label="Virtual ledger">
+      <section
+        aria-label="Virtual ledger"
+        data-row-count={rows.length}
+        data-selection-target={virtualRowId(jumpIndex)}
+      >
         <Adapter rows={rows} selected={selected} onSelected={onSelected} actionsRef={actionsRef} />
       </section>
     </main>

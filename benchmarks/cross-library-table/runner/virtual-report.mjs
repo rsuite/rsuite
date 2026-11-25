@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { virtualStates, virtualOwnership, selectedVirtualKey } from './virtual-oracle.mjs';
+import { virtualOracle, virtualOwnership } from './virtual-oracle.mjs';
+import { defaultVirtualRowCount, virtualRowCounts } from '../src/virtual/workload.mjs';
 import { validateRunIntegrity, checkedSummary } from './build-state.mjs';
 import { assertWholeRowGeometry } from './virtual-geometry.mjs';
 import {
@@ -11,6 +12,10 @@ import {
 export function validateVirtualReport(report, browserName = 'all') {
   assert.equal(report.workflow, 'virtual');
   assert.equal(report.complete, true);
+  const hasRowCount = Object.hasOwn(report, 'virtualRows');
+  const rowCount = hasRowCount ? report.virtualRows : defaultVirtualRowCount;
+  assert(virtualRowCounts.includes(rowCount), 'Unsupported virtual row count');
+  const { selectedVirtualKey, virtualStates } = virtualOracle(rowCount);
   validateRunIntegrity(report);
   assert(['all', 'chromium', 'firefox', 'webkit'].includes(browserName));
   const browsers = browserName === 'all' ? ['chromium', 'firefox'] : [browserName];
@@ -53,6 +58,8 @@ export function validateVirtualReport(report, browserName = 'all') {
     );
     for (const { name, state } of row.checkpoints) {
       assertWholeRowGeometry(state.virtual);
+      if (hasRowCount || Object.hasOwn(state.virtual, 'rowCount'))
+        assert.equal(state.virtual.rowCount, report.virtualRows, 'Fixture row count mismatch');
       const expected = virtualStates[name];
       assert.deepEqual(
         state.ids,
@@ -61,7 +68,7 @@ export function validateVirtualReport(report, browserName = 'all') {
       assert.equal(state.virtual.rendered, state.ids.length);
       assert(state.ids.length > 0 && state.ids.length < 200);
       assert(new Set(state.ids).size === state.ids.length);
-      assert(state.ids.every(id => /^entry-\d{5}$/.test(id) && Number(id.slice(6)) < 10000));
+      assert(state.ids.every(id => /^entry-\d{5}$/.test(id) && Number(id.slice(6)) < rowCount));
       const viewport = state.virtual.viewport;
       assert(
         viewport.width > 0 && viewport.height > 0 && Number.isFinite(state.virtual.headerBottom)
@@ -110,7 +117,7 @@ export function validateVirtualReport(report, browserName = 'all') {
     assert.deepEqual(row.httpErrors, []);
     assert(row.events.length && row.events.every(e => e.trusted === true));
     assert(row.events.some(e => e.type === (row.profile === 'keyboard' ? 'keydown' : 'click')));
-    if (timing !== undefined) assertJumpSamples(row);
+    if (timing !== undefined) assertJumpSamples(row, rowCount);
     if (row.profile === 'pointer')
       for (const type of ['pointerdown', 'pointerup', 'click'])
         assert(

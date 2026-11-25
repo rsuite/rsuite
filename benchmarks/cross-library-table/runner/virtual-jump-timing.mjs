@@ -1,12 +1,5 @@
 import assert from 'node:assert/strict';
-import { virtualOwnership, virtualStates } from './virtual-oracle.mjs';
-
-const buttons = [
-  ['Jump row 9000', 'jump'],
-  ['Jump top', 'top'],
-  ['Jump end', 'end'],
-  ['Jump row 9000', 'restored']
-];
+import { virtualOracle, virtualOwnership } from './virtual-oracle.mjs';
 
 export const jumpTimingProtocol = 'trusted-click-to-visible-and-hit-testable-marker-v1';
 
@@ -33,7 +26,15 @@ export function jumpTimingCases(rounds) {
   return cases;
 }
 
-export function jumpProbeTargets() {
+export function jumpProbeTargets(rowCount) {
+  const { jumpIndex, virtualStates } = virtualOracle(rowCount);
+  const jump = 'Jump row ' + jumpIndex;
+  const buttons = [
+    [jump, 'jump'],
+    ['Jump top', 'top'],
+    ['Jump end', 'end'],
+    [jump, 'restored']
+  ];
   return buttons.map(([button, checkpoint]) => ({
     button,
     checkpoint,
@@ -153,11 +154,12 @@ export function observeVirtualJumps(targets) {
   );
 }
 
-export function assertJumpSamples(row) {
-  const expected = jumpProbeTargets();
+export function assertJumpSamples(row, rowCount) {
+  const expected = jumpProbeTargets(rowCount);
+  const labels = new Set(expected.map(({ button }) => button));
   assert.deepEqual(
     row.events
-      .filter(e => e.type === 'click' && buttons.some(([label]) => e.buttonText === label))
+      .filter(e => e.type === 'click' && labels.has(e.buttonText))
       .map(e => [e.buttonText, e.trusted]),
     expected.map(({ button }) => [button, true])
   );

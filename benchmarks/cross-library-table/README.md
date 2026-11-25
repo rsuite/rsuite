@@ -83,9 +83,12 @@ package; all three competitor asset sets and the SDK remain identical. The
 published package and all four production asset sets are restored afterwards.
 This does not measure a public npm release of the fixes.
 
-The virtual workflow uses 10,000 fixed records and a 400px body viewport. Shared
-application jump buttons request the top, row 9000 and the end. Both input profiles
-select the actual row checkbox and retain its key across viewport changes. DOM
+The virtual workflow supports 10,000 fixed records by default and 50,000 with
+the explicit workload flag. Both use the same adapters and 400px body viewport.
+Shared application jump buttons request the top, the row at index 9,000 or
+45,000, and the final row. The report binds the requested count to the fixture
+count observed at each checkpoint and validates the visible jump and final row
+IDs for that workload. Both input profiles select the actual row checkbox and retain its key across viewport changes. DOM
 membership, visible identity markers and complete row border boxes are reported
 separately: a native focused row may remain mounted outside the viewport. Bounded
 DOM counts are correctness checks, not performance measurements.
@@ -115,6 +118,8 @@ targets must be rejected without sending pointer input in both browsers.
 
     node run.mjs --skip-build --workflow virtual --output /absolute/path/virtual.json
     node checks/report-integrity.mjs /absolute/path/virtual.json
+    node run.mjs --skip-build --workflow virtual --virtual-rows 50000 --output /absolute/path/virtual-50000.json
+    node checks/report-integrity.mjs /absolute/path/virtual-50000.json
 
 Whole-row geometry protocol 1 records each row's border box, its ancestor client
 scrollports (excluding borders), the section/browser bounds and the column-header
@@ -208,7 +213,16 @@ in multiples of four with balanced adapter order. Warmups stay in the report
 and are excluded from timing summaries. Browser cohorts are reported separately.
 The server verifies the same SDK and artifacts before, during and after the run.
 
-Each timed case uses the existing fixed 10,000-row data and native jump controls.
+Each timed case uses the native jump controls and 10,000 rows by default. Use
+the same timing protocol at 50,000 rows by supplying the workload flag. Keep the
+workload and browser fixed across repetitions when comparing library timings.
+
+    node run.mjs --skip-build --workflow virtual --virtual-rows 50000 --jump-timing-rounds 8 --output /absolute/path/jump-timing-50000.json
+    node checks/report-integrity.mjs /absolute/path/jump-timing-50000.json
+
+The workload determines the intermediate target at 90% of the row count and the
+last valid row ID. Functional checkpoints and timing samples use the same
+expected IDs. Separate reports keep the two workloads distinguishable.
 The browser clock starts in the trusted button click's capture phase, before
 the application handler. Animation-frame callbacks record two endpoints. The
 first requires the target identity marker to lie within the ledger, browser

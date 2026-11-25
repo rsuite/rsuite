@@ -122,7 +122,8 @@ export function virtualSnapshot() {
       geometryVersion: 1,
       screenViewport,
       fullyVisibleRows: rows.filter(row => row.rowFullyVisible).length,
-      selectedRowMounted: rows.some(row => row.id === 'entry-09000'),
+      rowCount: Number(section.dataset.rowCount),
+      selectedRowMounted: rows.some(row => row.id === section.dataset.selectionTarget),
       scope:
         'Mounted rows include native focused-row persistence. visible measures the identity marker; rowFullyVisible measures the whole row border box inside client scrollports and the browser viewport below column headers. No unmount/performance/occlusion-conformance claim.'
     }
