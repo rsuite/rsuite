@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Plaintext from '@/internals/Plaintext';
 import Box, { BoxProps } from '@/internals/Box';
-import { forwardRef, mergeRefs, createChainedFunction } from '@/internals/utils';
+import { forwardRef, mergeRefs, createChainedFunction, isComposingEvent } from '@/internals/utils';
 import { useFormGroup } from '../../FormGroup';
 import { InputGroupContext } from '../../InputGroup';
 import { KEY_VALUES } from '@/internals/constants';
@@ -92,7 +92,7 @@ const InputBase = forwardRef<'input' | 'textarea', InputBaseProps>((props, ref) 
   const { controlId } = useFormGroup();
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    if (event.key === KEY_VALUES.ENTER) {
+    if (event.key === KEY_VALUES.ENTER && !isComposingEvent(event)) {
       onPressEnter?.(event);
     }
     onKeyDown?.(event);

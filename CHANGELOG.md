@@ -1,3 +1,96 @@
+## [6.2.5](https://github.com/rsuite/rsuite/compare/v6.2.4...v6.2.5) (2026-10-04)
+
+
+### Bug Fixes
+
+* **ButtonGroup:** support Badge-wrapped buttons ([#4605](https://github.com/rsuite/rsuite/issues/4605)) ([684e17d](https://github.com/rsuite/rsuite/commit/684e17d440c30223d29b17b504289fd8219e3fdd))
+* **DateRangePicker:** clear value on Backspace ([#4602](https://github.com/rsuite/rsuite/issues/4602)) ([cc79b66](https://github.com/rsuite/rsuite/commit/cc79b66600dcb2e071ea137cb88bcd9fe36bb1d6)), closes [#4601](https://github.com/rsuite/rsuite/issues/4601)
+* **useDialog:** support Enter and Escape keyboard actions ([#4604](https://github.com/rsuite/rsuite/issues/4604)) ([3f5adff](https://github.com/rsuite/rsuite/commit/3f5adffcddd387060045d95de9e1323e117b3673))
+* **useMediaQuery:** support dynamic enabled changes ([#4606](https://github.com/rsuite/rsuite/issues/4606)) ([fd24054](https://github.com/rsuite/rsuite/commit/fd240542630692ae9512348de14572f47b7fdb88))
+
+
+
+## [6.2.4](https://github.com/rsuite/rsuite/compare/v6.2.3...v6.2.4) (2026-08-21)
+
+
+### Bug Fixes
+
+* **Box:** make CSS prop detection SSR-safe ([#4598](https://github.com/rsuite/rsuite/issues/4598)) ([decbdbe](https://github.com/rsuite/rsuite/commit/decbdbe3c95aa0b0f7e67a19dd91be225c27e7d0))
+
+
+
+## [6.2.3](https://github.com/rsuite/rsuite/compare/v6.2.2...v6.2.3) (2026-08-21)
+
+
+### Bug Fixes
+
+* **ci:** select npm dist-tag for releases ([d5e12c7](https://github.com/rsuite/rsuite/commit/d5e12c76bd46f48b762cf95b8524bd3d60cadf8a))
+* **DatePicker:** calculate disabled months correctly ([#4596](https://github.com/rsuite/rsuite/issues/4596)) ([54592f7](https://github.com/rsuite/rsuite/commit/54592f7a778385489fd43647e7321bb6a32e2894))
+* **picker:** expose responsive popup control ([#4595](https://github.com/rsuite/rsuite/issues/4595)) ([c5d592f](https://github.com/rsuite/rsuite/commit/c5d592f586ed8a873f6087f6b19cce6aebaf8e07))
+
+
+
+## [6.2.2](https://github.com/rsuite/rsuite/compare/v6.2.1...v6.2.2) (2026-07-15)
+
+
+### Bug Fixes
+
+* **docs:** repair online sandbox examples ([#4588](https://github.com/rsuite/rsuite/issues/4588)) ([2bd4f65](https://github.com/rsuite/rsuite/commit/2bd4f655e47d1eab02a95be52a06bba0042f2d8e))
+* **InputPicker:** ignore Enter during IME composition when selecting an item ([#4585](https://github.com/rsuite/rsuite/issues/4585)) ([81c0b0f](https://github.com/rsuite/rsuite/commit/81c0b0fb129ef7aea6078b9395ab5358c88d215a))
+
+
+### Features
+
+* **locales:** add Norwegian Bokmål (nb_NO) locale ([#4583](https://github.com/rsuite/rsuite/issues/4583)) ([98b2024](https://github.com/rsuite/rsuite/commit/98b20249b18b89f7b121021dbfda36105f577c20))
+
+
+
+## [6.2.1](https://github.com/rsuite/rsuite/compare/v6.2.0...v6.2.1) (2026-06-12)
+
+
+### Bug Fixes
+
+* **picker:** hide caret when clear button is shown ([#4581](https://github.com/rsuite/rsuite/issues/4581)) ([d52842b](https://github.com/rsuite/rsuite/commit/d52842b0c6444bc6765595899e3f9917de52af7a))
+
+
+
+# [6.2.0](https://github.com/rsuite/rsuite/compare/v6.1.3...v6.2.0) (2026-06-12)
+
+
+### Bug Fixes
+
+* **CheckTreePicker,CheckTree:** fix infinite loop with cascade and defaultExpandAll ([#4579](https://github.com/rsuite/rsuite/issues/4579)) ([fc86644](https://github.com/rsuite/rsuite/commit/fc86644b595809c83f4aa453f7a5e07d00367522)), closes [#3973](https://github.com/rsuite/rsuite/issues/3973) [#3973](https://github.com/rsuite/rsuite/issues/3973) [#4541](https://github.com/rsuite/rsuite/issues/4541) [#4404](https://github.com/rsuite/rsuite/issues/4404) [#4424](https://github.com/rsuite/rsuite/issues/4424)
+* **toaster:** prevent duplicate containers when push() is called synchronously in a loop ([#4571](https://github.com/rsuite/rsuite/issues/4571)) ([c507f5f](https://github.com/rsuite/rsuite/commit/c507f5f59a726dc25dce65ab37fad484563e502d))
+* **Uploader:** prevent horizontal overflow and width increase ([#4580](https://github.com/rsuite/rsuite/issues/4580)) ([e064f4c](https://github.com/rsuite/rsuite/commit/e064f4cc27959f94d3354a9177a8ae0a9ad71460)), closes [#4536](https://github.com/rsuite/rsuite/issues/4536)
+
+
+### Features
+
+* **Form:** add `resolver` prop for third-party validation library integration ([#4573](https://github.com/rsuite/rsuite/issues/4573)) ([4a9ff7b](https://github.com/rsuite/rsuite/commit/4a9ff7bef3979764fcf3b12e869ccbf5bf61c3bd))
+* **Timeline:** add `reverse` prop to display items in reverse order ([#4569](https://github.com/rsuite/rsuite/issues/4569)) ([a0dd1f4](https://github.com/rsuite/rsuite/commit/a0dd1f4307756f283c05157cd05f8ea6f7885c36))
+* **Uploader:** add `onCompletion` callback prop ([#4570](https://github.com/rsuite/rsuite/issues/4570)) ([7eb0748](https://github.com/rsuite/rsuite/commit/7eb0748f78d36e1f34ac940b4fac3b6c20bf1a52)), closes [#813](https://github.com/rsuite/rsuite/issues/813)
+
+
+
+## [6.1.3](https://github.com/rsuite/rsuite/compare/v6.1.2...v6.1.3) (2026-04-22)
+
+
+### Bug Fixes
+
+* **TimeDropdown:** guard +12 hour offset on showMeridiem in 24h mode ([#4566](https://github.com/rsuite/rsuite/issues/4566)) ([338828f](https://github.com/rsuite/rsuite/commit/338828fd5096477e3b7ed0c6cbebf71d142a17ca)), closes [#4526](https://github.com/rsuite/rsuite/issues/4526)
+
+
+
+## [6.1.2](https://github.com/rsuite/rsuite/compare/v6.1.1...v6.1.2) (2026-01-28)
+
+
+### Bug Fixes
+
+* add csp value in CustomProvider ([#4499](https://github.com/rsuite/rsuite/issues/4499)) ([42319c8](https://github.com/rsuite/rsuite/commit/42319c8031af8a27d46d5c7b7c72dda1da2849c5))
+* **styles:** move html/body styles to css-reset and use CSS variable ([#4517](https://github.com/rsuite/rsuite/issues/4517)) ([e461d80](https://github.com/rsuite/rsuite/commit/e461d80ec2e5bf7b6fffd4edfbda0a76982c4aa4)), closes [#4466](https://github.com/rsuite/rsuite/issues/4466)
+
+
+
 ## [6.1.1](https://github.com/rsuite/rsuite/compare/v6.1.0...v6.1.1) (2025-12-18)
 
 

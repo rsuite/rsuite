@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-import React from 'react';
 import { Row, Col } from 'rsuite';
-import { MarkdownRenderer } from 'react-code-view';
+import { HTMLRenderer } from '@/components/CodeView/HTMLRenderer';
 import { useApp } from '@/hooks/useApp';
 import IconList from '@/components/resources/icons/IconList';
 import DefaultPage from '@/components/layout/Page';
@@ -14,7 +13,7 @@ export default function Page() {
       <IconList />
       <Row>
         <Col span={24}>
-          <MarkdownRenderer>{require(`.${localePath}/footer.md`)?.default}</MarkdownRenderer>
+          <HTMLRenderer>{require(`.${localePath}/footer.md`)?.default}</HTMLRenderer>
         </Col>
       </Row>
     </DefaultPage>

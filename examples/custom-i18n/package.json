@@ -21,8 +21,14 @@
     "html-webpack-plugin": "^5.6.3",
     "mini-css-extract-plugin": "^2.9.2",
     "style-loader": "^4.0.0",
-    "webpack": "^5.98.0",
+    "webpack": "^5.104.1",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "body-parser@1.20.4>qs": "6.17.1",
+      "express@4.22.1>qs": "6.17.1"
+    }
   }
 }

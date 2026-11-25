@@ -43,7 +43,8 @@
 
   .rs-tag {
     vertical-align: top;
-    @include utils.ellipsis-basic();
+
+    @include utils.ellipsis-basic;
   }
 
   .rs-picker-search {
@@ -72,6 +73,7 @@
   .rs-picker-textbox {
     min-height: var(--rs-picker-textbox-min-height, 34px);
     position: relative;
+
     // make sure tag in front of toggle
     z-index: calc(var(--rs-zindex-picker-toggle) + 1);
 

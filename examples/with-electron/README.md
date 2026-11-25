@@ -6,12 +6,14 @@ A modern desktop application example built with React Suite and Electron.
 
 - ✨ **React 19** - Latest React with Hooks
 - 🎨 **React Suite 6** - Beautiful UI components
-- ⚡ **Electron 33** - Modern desktop application framework
+- ⚡ **Electron 45** - Modern desktop application framework
 - 📦 **Electron Forge 7** - Complete toolchain for building and packaging
 - 🔧 **Webpack 5** - Modern module bundler
 - 🎯 **Babel** - JSX and modern JavaScript support
 
 ## Installation
+
+Use Node.js 22.12 or newer.
 
 ```bash
 # Using pnpm (recommended)

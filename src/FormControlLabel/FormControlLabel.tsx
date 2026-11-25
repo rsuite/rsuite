@@ -3,6 +3,8 @@ import Box, { BoxProps } from '@/internals/Box';
 import { useStyles, useCustom } from '@/internals/hooks';
 import { forwardRef } from '@/internals/utils';
 import { useFormGroup } from '../FormGroup';
+import { useFormGroupRegistration } from '../FormGroup/useFormGroupRegistration';
+import { registerFormGroupPart } from '../FormGroup/formGroupRelations';
 
 export interface FormControlLabelProps
   extends BoxProps,
@@ -27,6 +29,7 @@ const FormControlLabel = forwardRef<'label', FormControlLabelProps>(
       id = labelId,
       ...rest
     } = propsWithDefaults;
+    useFormGroupRegistration('label', id);
 
     const { withPrefix, merge } = useStyles(classPrefix);
     const classes = merge(className, withPrefix());
@@ -36,5 +39,6 @@ const FormControlLabel = forwardRef<'label', FormControlLabelProps>(
 );
 
 FormControlLabel.displayName = 'FormControlLabel';
+registerFormGroupPart(FormControlLabel, 'label');
 
 export default FormControlLabel;

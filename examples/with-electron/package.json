@@ -33,7 +33,7 @@
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
     "babel-loader": "^10.0.0",
     "css-loader": "^6.11.0",
-    "electron": "^33.2.0",
+    "electron": "^45.5.0",
     "node-loader": "^2.1.0",
     "style-loader": "^3.3.4"
   },
@@ -43,5 +43,11 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "rsuite": "^6.1.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "body-parser@1.20.4>qs": "6.17.1",
+      "express@4.22.1>qs": "6.17.1"
+    }
   }
 }

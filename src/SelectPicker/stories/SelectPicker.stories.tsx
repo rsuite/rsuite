@@ -1,4 +1,4 @@
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import SelectPicker from '../SelectPicker';
 import { createMeta } from '@/storybook/utils';
 import { mockArrayData } from '@/storybook/mocks';
@@ -95,5 +95,12 @@ export const Block: Story = {
     style: {
       width: 320
     }
+  }
+};
+
+export const ResponsiveQuery: Story = {
+  args: {
+    ...defaultArgs,
+    responsive: '(max-width: 1279px)'
   }
 };

@@ -57,7 +57,7 @@ export default function Home() {
         </a>
 
         <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+          href="https://github.com/netlify-templates/next-platform-starter"
           className={styles.card}
           target="_blank"
           rel="noopener noreferrer"
@@ -65,11 +65,11 @@ export default function Home() {
           <h2>
             Templates <span>-&gt;</span>
           </h2>
-          <p>Explore starter templates for Next.js.</p>
+          <p>Explore a Next.js starter template for Netlify.</p>
         </a>
 
         <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+          href="https://docs.netlify.com/build/frameworks/framework-setup-guides/nextjs/overview/"
           className={styles.card}
           target="_blank"
           rel="noopener noreferrer"
@@ -77,7 +77,7 @@ export default function Home() {
           <h2>
             Deploy <span>-&gt;</span>
           </h2>
-          <p>Instantly deploy your Next.js site to a shareable URL with Vercel.</p>
+          <p>Learn how to deploy your Next.js app on Netlify.</p>
         </a>
       </div>
     </main>

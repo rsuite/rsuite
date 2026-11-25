@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
@@ -6,7 +6,7 @@ import TreeView from '../CascadeTree/TreeView';
 import SearchView from '../CascadeTree/SearchView';
 import { usePaths, useSelect, useSearch } from '../CascadeTree/hooks';
 import { flattenTree } from '../Tree/utils';
-import { findNodeOfTree, getParentMap } from '@/internals/Tree/utils';
+import { getParentMap, getPathTowardsItem } from '@/internals/Tree/utils';
 import { PickerLocale } from '../locales';
 import { useControlled, useStyles, useCustom, useEventCallback, useMap } from '@/internals/hooks';
 import { forwardRef, createChainedFunction, mergeRefs, shallowEqual } from '@/internals/utils';
@@ -100,6 +100,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
       placement = 'bottomStart',
       popupClassName,
       popupStyle,
+      responsive,
       renderColumn,
       renderExtraFooter,
       renderSearchItem,
@@ -210,7 +211,6 @@ const Cascader = forwardRef<'div', CascaderProps>(
       focusItemValue,
       setFocusItemValue,
       setLayer,
-      setKeys,
       onKeyDown: onFocusItem
     } = useFocusItemValue(value, {
       rtl,
@@ -233,7 +233,6 @@ const Cascader = forwardRef<'div', CascaderProps>(
       if (items.length > 0) {
         setFocusItemValue(items[0][valueKey]);
         setLayer(0);
-        setKeys([]);
       }
     };
 
@@ -245,6 +244,18 @@ const Cascader = forwardRef<'div', CascaderProps>(
       parentSelectable,
       onSearch: onSearchCallback
     });
+
+    const [prevValue, setPrevValue] = useState(value);
+
+    if (!Object.is(prevValue, value)) {
+      setPrevValue(value);
+
+      // A search has its own focus, which must stay in the visible results.
+      if (!searchKeyword) {
+        setFocusItemValue(selectedItem?.[valueKey]);
+        setLayer(Math.max(0, pathTowardsSelectedItem.length - 1));
+      }
+    }
 
     const { active, events } = useActive({
       onEnter,
@@ -270,17 +281,16 @@ const Cascader = forwardRef<'div', CascaderProps>(
     });
 
     const handleMenuPressEnter = useEventCallback((event: React.SyntheticEvent) => {
-      const focusItem = findNodeOfTree(data, item => item[valueKey] === focusItemValue);
+      const focusItem = flattenedData.find(item => item[valueKey] === focusItemValue);
       const isLeafNode = focusItem && !focusItem[childrenKey];
 
       if (isLeafNode) {
         setValue(focusItemValue as T);
-        if (pathTowardsActiveItem.length) {
-          setLayer(pathTowardsActiveItem.length - 1);
-        }
+        const path = getPathTowardsItem(focusItem, item => parentMap.get(item));
+        setLayer(Math.max(0, path.length - 1));
 
         if (!shallowEqual(value, focusItemValue)) {
-          onSelect?.(focusItem as Option<T>, pathTowardsActiveItem, event);
+          onSelect?.(focusItem as Option<T>, path, event);
           onChange?.(focusItemValue ?? (null as T), event);
         }
         handleClose();
@@ -289,6 +299,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
 
     const onPickerKeyDown = useToggleKeyDownEvent({
       toggle: !focusItemValue || !active,
+      disabled,
       trigger,
       target,
       overlay,
@@ -352,11 +363,13 @@ const Cascader = forwardRef<'div', CascaderProps>(
           {searchable && (
             <SearchView<T>
               data={items}
+              value={value}
               searchKeyword={searchKeyword}
               valueKey={valueKey}
               labelKey={labelKey}
               locale={locale}
               parentMap={parentMap}
+              disabled={disabled || rest.readOnly || rest.loading}
               disabledItemValues={disabledItemValues}
               focusItemValue={focusItemValue}
               inputRef={searchInput}
@@ -370,6 +383,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
             <TreeView
               columnWidth={columnWidth}
               columnHeight={columnHeight}
+              disabled={disabled || rest.readOnly || rest.loading}
               disabledItemValues={disabledItemValues}
               loadingItemsSet={loadingItemsSet}
               valueKey={valueKey}
@@ -425,6 +439,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
         as={as}
         id={id}
         pickerType="cascader"
+        responsive={responsive}
         block={block}
         disabled={disabled}
         appearance={appearance}
@@ -444,7 +459,6 @@ const Cascader = forwardRef<'div', CascaderProps>(
           appearance={appearance}
           disabled={disabled}
           onClean={createChainedFunction(handleClean, onClean)}
-          onKeyDown={onPickerKeyDown}
           cleanable={cleanable && !disabled}
           hasValue={hasValue}
           active={active}
@@ -452,6 +466,7 @@ const Cascader = forwardRef<'div', CascaderProps>(
           inputValue={value ?? ''}
           focusItemValue={focusItemValue}
           {...rest}
+          onKeyDown={onPickerKeyDown}
         >
           {selectedElement || locale?.placeholder}
         </PickerToggle>

@@ -3,7 +3,7 @@ import Tooltip from '@/Tooltip';
 import OverlayTrigger from '../OverlayTrigger';
 import type { OverlayTriggerHandle } from '@/internals/Overlay';
 import { describe, expect, it, vi } from 'vitest';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 describe('OverlayTrigger', () => {
   it('Should create Whisper element', () => {
@@ -80,6 +80,38 @@ describe('OverlayTrigger', () => {
     await waitFor(() => {
       expect(screen.getByRole('tooltip')).to.exist;
     });
+  });
+
+  it.each([
+    ['active', 'hover'],
+    ['hover', 'active']
+  ] as const)('Should support combined %s and %s triggers', async (first, second) => {
+    const onClick = vi.fn();
+    const onMouseOver = vi.fn();
+    render(
+      <OverlayTrigger
+        trigger={[first, second]}
+        speaker={<Tooltip>test</Tooltip>}
+        onClick={onClick}
+        onMouseOver={onMouseOver}
+      >
+        <button>button</button>
+      </OverlayTrigger>
+    );
+
+    const button = screen.getByRole('button');
+    fireEvent.mouseOver(button);
+    await waitFor(() => expect(screen.getByRole('tooltip')).to.exist);
+    expect(onMouseOver).toHaveBeenCalledTimes(1);
+
+    fireEvent.mouseOut(button);
+    await waitFor(() => expect(screen.queryByRole('tooltip')).to.not.exist);
+
+    fireEvent.click(button);
+    await waitFor(() => expect(screen.getByRole('tooltip')).to.exist);
+    fireEvent.click(button);
+    expect(screen.getByRole('tooltip')).to.exist;
+    expect(onClick).toHaveBeenCalledTimes(2);
   });
 
   it('Should delay opening and closing of Tooltip', async () => {
@@ -302,21 +334,27 @@ describe('OverlayTrigger', () => {
   });
 
   it('Should open the Overlay by default', async () => {
-    const onClose = vi.fn();
+    const onExited = vi.fn();
     const ref = React.createRef<OverlayTriggerHandle>();
 
     render(
-      <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>} defaultOpen onExited={onClose} ref={ref}>
+      <OverlayTrigger
+        speaker={<Tooltip>tooltip</Tooltip>}
+        defaultOpen
+        trigger="none"
+        onExited={onExited}
+        ref={ref}
+      >
         <button>button</button>
       </OverlayTrigger>
     );
 
     expect(screen.getByRole('tooltip')).to.exist;
 
-    ref.current?.close();
+    act(() => ref.current?.close());
 
     await waitFor(() => {
-      expect(onClose).toHaveBeenCalledTimes(1);
+      expect(onExited).toHaveBeenCalledTimes(1);
       expect(screen.queryByRole('tooltip')).to.not.exist;
     });
   });

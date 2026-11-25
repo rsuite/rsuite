@@ -1,5 +1,5 @@
-import { describe, test, expect } from 'vitest';
-import { isSameDay, addDays } from '../plainDate';
+import { describe, test, expect, vi } from 'vitest';
+import { isSameDay, addDays, isEveryDayInMonth } from '../plainDate';
 
 describe('isSameDay', () => {
   test('should return true if year, month, day all match', () => {
@@ -26,5 +26,21 @@ describe('addDays', () => {
     expect(addDays(date, 31)).toEqual({ year: 2025, month: 9, day: 9 });
     // Cross-year
     expect(addDays(date, 365)).toEqual({ year: 2026, month: 8, day: 9 });
+  });
+});
+
+describe('isEveryDayInMonth', () => {
+  test.each([
+    [2023, 2, 28],
+    [2024, 2, 29],
+    [2024, 4, 30],
+    [2024, 6, 30],
+    [2024, 7, 31]
+  ])('should check every day in %i-%i', (year, month, daysInMonth) => {
+    const predicate = vi.fn(() => true);
+
+    expect(isEveryDayInMonth({ year, month }, predicate)).toBe(true);
+    expect(predicate).toHaveBeenCalledTimes(daysInMonth);
+    expect(predicate).toHaveBeenLastCalledWith({ year, month, day: daysInMonth });
   });
 });

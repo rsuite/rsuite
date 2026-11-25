@@ -1,5 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
+import { userEvent as nativeUserEvent } from 'vitest/browser';
 import DatePicker from '../DatePicker';
 import GearIcon from '@rsuite/icons/Gear';
 import CustomProvider from '@/CustomProvider';
@@ -68,6 +69,13 @@ describe('DatePicker', () => {
     render(<DatePicker value={new Date()} />);
 
     expect(screen.getByTestId('picker')).to.have.attr('data-cleanable', 'true');
+  });
+
+  it('Should hide the default caret when the clear button is shown', () => {
+    render(<DatePicker value={new Date()} />);
+
+    expect(screen.getByRole('button', { name: /clear/i })).to.exist;
+    expect(screen.getByTestId('picker')).to.not.have.contain('.rs-picker-caret-icon');
   });
 
   it('Should be not cleanable', () => {
@@ -344,7 +352,13 @@ describe('DatePicker', () => {
   it('Should call `onChangeCalendarDate` callback when click month', () => {
     const onChangeCalendarDate = vi.fn();
 
-    render(<DatePicker onChangeCalendarDate={onChangeCalendarDate} defaultOpen />);
+    render(
+      <DatePicker
+        onChangeCalendarDate={onChangeCalendarDate}
+        defaultOpen
+        defaultValue={new Date('2023-09-01')}
+      />
+    );
 
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
     fireEvent.click(screen.getByRole('gridcell', { name: 'Oct 2023' }));
@@ -373,37 +387,6 @@ describe('DatePicker', () => {
     await waitFor(() => {
       expect(onClose).toHaveBeenCalledTimes(1);
     });
-  });
-
-  // This test is skipped because the DatePicker maintains the calendar selection state
-  // between open/close cycles, even when changes aren't confirmed with the OK button.
-  // In a real application, the visual state is maintained but the actual value doesn't change,
-  // which is the desired behavior. This test would need to be rewritten to test that
-  // the actual picker value doesn't change while the visual calendar selection might.
-  it.skip('Should reset unsaved selected date after closing calendar panel', async () => {
-    render(
-      <>
-        <div data-testid="outside">Outside</div>
-        <DatePicker defaultOpen value={new Date(2022, 9, 14)} />
-      </>
-    );
-
-    // Select a date
-    fireEvent.click(screen.getByTitle('13 Oct 2022'));
-    expect(screen.getByRole('gridcell', { name: '13 Oct 2022' })).to.have.attr(
-      'aria-selected',
-      'true'
-    );
-
-    // Close the calendar panel without clicking "OK"
-    fireEvent.click(screen.getByTestId('outside'));
-
-    // Open the calendar panel again and the selection should be reset
-    fireEvent.click(screen.getByRole('textbox'));
-    expect(screen.getByRole('gridcell', { name: '13 Oct 2022' })).not.to.have.attr(
-      'aria-selected',
-      'true'
-    );
   });
 
   it('Should not reset saved selected date after closing calendar panel', async () => {
@@ -565,6 +548,13 @@ describe('DatePicker', () => {
     render(<DatePicker caretAs={GearIcon} />);
 
     expect(screen.getByLabelText('gear')).to.have.class('rs-icon');
+  });
+
+  it('Should hide custom caret when the clear button is shown', () => {
+    render(<DatePicker caretAs={GearIcon} value={new Date(2024, 0, 1)} />);
+
+    expect(screen.getByRole('button', { name: /clear/i })).to.exist;
+    expect(screen.queryByLabelText('gear')).to.not.exist;
   });
 
   it('Should switch to the previous or next element via the tab key', () => {
@@ -1140,7 +1130,7 @@ describe('DatePicker', () => {
           shouldDisableDate={date => {
             const month = date.getMonth();
             const year = date.getFullYear();
-            return month === 0 && year === 2024;
+            return month <= 5 && year === 2024;
           }}
           onSelect={onSelect}
           format="yyyy-MM"
@@ -1148,12 +1138,18 @@ describe('DatePicker', () => {
         />
       );
 
-      const gridcell = screen.getByRole('gridcell', { name: 'Jan 2024' });
+      const january = screen.getByRole('gridcell', { name: 'Jan 2024' });
+      const april = screen.getByRole('gridcell', { name: 'Apr 2024' });
+      const june = screen.getByRole('gridcell', { name: 'Jun 2024' });
+      const july = screen.getByRole('gridcell', { name: 'Jul 2024' });
 
-      expect(gridcell).to.have.class('disabled');
-      expect(gridcell).to.have.attribute('aria-disabled', 'true');
+      expect(january).to.have.class('disabled');
+      expect(april).to.have.class('disabled');
+      expect(june).to.have.class('disabled');
+      expect(july).not.to.have.class('disabled');
+      expect(june).to.have.attribute('aria-disabled', 'true');
 
-      fireEvent.click(gridcell);
+      fireEvent.click(june);
 
       expect(onSelect).not.toHaveBeenCalled();
     });
@@ -1284,20 +1280,92 @@ describe('DatePicker', () => {
       expect(screen.getByRole('textbox')).to.have.value('Mon, 13 May');
     });
 
-    it('Should render a custom value when a value is entered via the keyboard', async () => {
-      render(
-        <>
-          <div data-testid="outside">Outside</div>
-          <DatePicker format="yyyy-MM-dd" renderValue={value => format(value, 'EEE, d MMM')} />
-        </>
-      );
+    for (const controlled of [false, true]) {
+      const mode = controlled ? 'controlled' : 'uncontrolled';
+      it(`Should render a custom value after native keyboard entry (${mode})`, async () => {
+        const changes: { value: Date | null; trusted: boolean }[] = [];
+        const keys: { key: string; trusted: boolean }[] = [];
+        const clicks: { target: EventTarget | null; trusted: boolean }[] = [];
+        const onExited = vi.fn();
 
-      await keyPress(screen.getByRole('textbox'), '20240513');
+        function Owner() {
+          const [value, setValue] = React.useState<Date | null>(null);
+          return (
+            <DatePicker
+              {...(controlled ? { value } : {})}
+              format="yyyy-MM-dd"
+              renderValue={value => format(value, 'EEE, d MMM')}
+              onExited={onExited}
+              onChange={(nextValue, event) => {
+                changes.push({ value: nextValue, trusted: event.isTrusted });
+                // Echo the public payload without normalizing intermediate invalid dates.
+                if (controlled) setValue(nextValue);
+              }}
+            />
+          );
+        }
 
-      userEvent.click(screen.getByTestId('outside'));
+        render(
+          <div
+            onKeyDownCapture={event => keys.push({ key: event.key, trusted: event.isTrusted })}
+            onClickCapture={event =>
+              clicks.push({ target: event.target, trusted: event.isTrusted })
+            }
+          >
+            <input type="search" aria-label="Outside owner" />
+            <Owner />
+          </div>
+        );
+        const input = screen.getByRole('textbox') as HTMLInputElement;
+        const outside = screen.getByRole('searchbox', { name: 'Outside owner' });
+        await nativeUserEvent.click(input, { position: { x: 4, y: 10 } });
+        await waitFor(() => {
+          expect(document.activeElement).toBe(input);
+          expect(input.value).toBe('yyyy-MM-dd');
+          expect([input.selectionStart, input.selectionEnd]).toEqual([0, 4]);
+        });
+        expect(clicks).toEqual([{ target: input, trusted: true }]);
+        expect(changes).toHaveLength(0);
 
-      expect(screen.getByRole('textbox')).to.have.value('Mon, 13 May');
-    });
+        // One rapid trusted command; no timer pacing or per-digit selection acknowledgement.
+        await nativeUserEvent.keyboard('20240513');
+        await waitFor(() => {
+          expect(document.activeElement).toBe(input);
+          expect(input.value).toBe('2024-05-13');
+          expect([input.selectionStart, input.selectionEnd]).toEqual([8, 10]);
+        });
+        expect(keys.map(({ key }) => key).join('')).toBe('20240513');
+        expect(keys).toHaveLength(8);
+        expect(keys.every(({ trusted }) => trusted)).toBe(true);
+        expect(changes).toHaveLength(8);
+        expect(changes.every(({ trusted }) => trusted)).toBe(true);
+        const date = changes.at(-1)!.value;
+        expect(date).toBeInstanceOf(Date);
+        expect(isValid(date!)).toBe(true);
+        expect([
+          date!.getFullYear(),
+          date!.getMonth(),
+          date!.getDate(),
+          date!.getHours(),
+          date!.getMinutes(),
+          date!.getSeconds(),
+          date!.getMilliseconds()
+        ]).toEqual([2024, 4, 13, 0, 0, 0, 0]);
+
+        await nativeUserEvent.click(outside);
+        await waitFor(() => {
+          expect(screen.getByRole('textbox')).to.have.value('Mon, 13 May');
+          expect(document.activeElement).toBe(outside);
+          expect(changes).toHaveLength(8);
+          expect(onExited).toHaveBeenCalledTimes(1);
+        });
+        expect(clicks).toEqual([
+          { target: input, trusted: true },
+          { target: outside, trusted: true }
+        ]);
+        expect(keys).toHaveLength(8);
+      });
+    }
   });
 
   describe('Custom Month Dropdown', () => {

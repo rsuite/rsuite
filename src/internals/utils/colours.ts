@@ -11,7 +11,7 @@ export const getColorValue = (color: Color | string | undefined): string | undef
   if (!color) return undefined;
 
   // Check if color is a base color (e.g., 'red', 'blue')
-  const baseColorRegex = /^(red|orange|yellow|green|cyan|blue|violet|gray)$/;
+  const baseColorRegex = /^(red|orange|yellow|green|cyan|blue|violet)$/;
   if (baseColorRegex.test(color as string)) {
     return `var(--rs-color-${color})`;
   }
@@ -91,7 +91,15 @@ export const getContrastText = (bgColor: string): string => {
   }
 
   const luminance = getLuminance(bgColor);
-  return luminance > 0.5 ? '#000000' : '#ffffff';
+
+  // Alpha colors also depend on the backdrop; preserve their existing behavior.
+  if (!/^#(?:[\da-f]{3}|[\da-f]{6})$/i.test(bgColor)) {
+    return luminance > 0.5 ? '#000000' : '#ffffff';
+  }
+
+  const blackContrast = (luminance + 0.05) / 0.05;
+  const whiteContrast = 1.05 / (luminance + 0.05);
+  return blackContrast > whiteContrast ? '#000000' : '#ffffff';
 };
 
 /**

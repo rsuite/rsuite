@@ -58,6 +58,8 @@ The `MultiCascader` component is used to select multiple values from cascading o
 
 ## Responsive
 
+On extra-small screens, the popup is displayed as a full-width Drawer by default. Set `responsive={false}` to keep a positioned popup, such as when the picker is already inside a Modal or Drawer.
+
 <!--{include:<example-responsive>}-->
 
 ## Accessibility
@@ -129,6 +131,7 @@ The `MultiCascader` component is used to select multiple values from cascading o
 | renderExtraFooter     | () => ReactNode                                                                           | Custom render extra footer                                                      |
 | renderTreeNode        | (node: ReactNode, item: [Option][item]) => ReactNode                                      | Custom render tree node                                                         |
 | renderValue           | (value: string, selectedItems: [Option][item][], selectedElement: ReactNode) => ReactNode | Custom render selected items                                                    |
+| responsive            | boolean `(true)`                                                                          | Whether to display the popup as a full-width Drawer on extra-small screens      |
 | searchable            | boolean `(true)`                                                                          | Whether can be searched                                                         |
 | size                  | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                     | A picker can have different sizes                                               |
 | toggleAs              | ElementType `('a')`                                                                       | You can use a custom element for this component                                 |

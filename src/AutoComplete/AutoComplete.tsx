@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import Combobox from './Combobox';
@@ -35,7 +35,8 @@ import type {
 import type { BoxProps } from '@/internals/Box';
 
 export interface AutoCompleteProps<T = string>
-  extends FormControlPickerProps<T, any, Option | string>,
+  extends Omit<FormControlPickerProps<T, any, Option | string>, 'responsive'>,
+    Pick<SanitizedInputProps, 'inputMode' | 'enterKeyHint'>,
     ListboxProps,
     PopupProps,
     BoxProps {
@@ -80,6 +81,9 @@ export interface AutoCompleteProps<T = string>
 
   /** Called on close */
   onClose?: () => void;
+
+  /** Ref to the input element */
+  inputRef?: React.Ref<HTMLInputElement>;
 }
 
 /**
@@ -122,14 +126,36 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
     onFocus,
     onBlur,
     onMenuFocus,
+    inputRef,
     ...rest
   } = propsWithDefaults;
 
   const datalist = transformData(data);
   const [value, setValue] = useControlled(valueProp, defaultValue);
   const [focus, setFocus] = useState(false);
+  const input = useRef<HTMLInputElement>(null);
+  const inputRefs = useMemo(() => mergeRefs(input, inputRef), [inputRef]);
+  const blurTimeout = useRef<number | undefined>(undefined);
+  const clearBlurTimeout = useCallback(() => {
+    window.clearTimeout(blurTimeout.current);
+    blurTimeout.current = undefined;
+  }, []);
+
+  useEffect(() => {
+    if (disabled) {
+      const element = input.current;
+      // Firefox can retain focus if disabled is cleared before its next paint.
+      if (element && element.ownerDocument.activeElement === element) {
+        element.blur();
+      }
+      setFocus(false);
+    }
+
+    return clearBlurTimeout;
+  }, [disabled, clearBlurTimeout]);
   const items = datalist?.filter(shouldDisplay(filterBy, value)) || [];
   const hasItems = items.length > 0;
+  const expanded = !disabled && (open || (focus && hasItems));
   const { trigger, overlay, root } = usePickerRef(ref);
   const isMounted = useIsMounted();
 
@@ -144,25 +170,27 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
     callback: onMenuFocus,
     target: () => overlay.current
   });
+  const focusItem = focusItemValue ? items.find(item => item?.value === focusItemValue) : undefined;
 
   const handleKeyDownEvent = (event: React.KeyboardEvent) => {
-    if (!overlay.current) {
+    if (!expanded || !overlay.current) {
       return;
     }
-    onMenuKeyDown(event, {
-      enter: selectOnEnter ? selectFocusMenuItem : undefined,
-      esc: handleClose
-    });
-    handleKeyDown(event);
+    if (!event.nativeEvent.isComposing && event.nativeEvent.keyCode !== 229) {
+      onMenuKeyDown(event, {
+        enter: selectOnEnter ? selectFocusMenuItem : undefined,
+        esc: handleClose
+      });
+      handleKeyDown(event);
+    }
     onKeyDown?.(event);
   };
 
   const selectFocusMenuItem = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (!focusItemValue) {
+    if (!focusItem) {
       return;
     }
 
-    const focusItem = datalist.find(item => item?.value === focusItemValue);
     setValue(focusItemValue);
     setFocusItemValue(focusItemValue);
 
@@ -190,6 +218,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
   };
 
   const handleClose = useEventCallback(() => {
+    clearBlurTimeout();
     if (isMounted()) {
       setFocus(false);
       onClose?.();
@@ -203,6 +232,10 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
 
   const handleItemSelect = useEventCallback(
     (nextItemValue: string, item: Option, event: React.SyntheticEvent) => {
+      if (!expanded) {
+        return;
+      }
+
       setValue(nextItemValue);
       setFocusItemValue(nextItemValue);
       handleSelect(item, event);
@@ -216,11 +249,15 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
 
   const handleInputFocus = useEventCallback((event: React.FocusEvent) => {
     onFocus?.(event);
-    handleOpen();
+    if (!disabled) {
+      clearBlurTimeout();
+      handleOpen();
+    }
   });
 
   const handleInputBlur = useEventCallback((event: React.FocusEvent) => {
-    setTimeout(handleClose, 300);
+    clearBlurTimeout();
+    if (!disabled) blurTimeout.current = window.setTimeout(handleClose, 300);
     onBlur?.(event);
   });
 
@@ -236,7 +273,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
         classPrefix="auto-complete-menu"
         listItemClassPrefix="auto-complete-item"
         listItemAs={ListItem}
-        focusItemValue={focusItemValue}
+        focusItemValue={focusItem?.value}
         onSelect={handleItemSelect}
         renderOption={renderOption}
         data={items}
@@ -253,7 +290,7 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
         style={popupStyle}
         autoWidth={popupAutoWidth}
       >
-        {renderListbox ? renderListbox(listbox) : listbox}
+        {expanded && (renderListbox ? renderListbox(listbox) : listbox)}
       </PickerPopup>
     );
   };
@@ -265,8 +302,6 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
       </Plaintext>
     );
   }
-
-  const expanded = open || (focus && hasItems);
 
   const triggerProps = {
     ...pick(props, triggerPropKeys),
@@ -295,11 +330,12 @@ const AutoComplete = forwardRef<'div', AutoCompleteProps>((props: any, ref) => {
         size={size}
         readOnly={readOnly}
         expanded={expanded}
-        focusItemValue={focusItemValue}
+        focusItemValue={focusItem?.value}
         onBlur={handleInputBlur}
         onFocus={handleInputFocus}
         onChange={handleChange}
         onKeyDown={handleKeyDownEvent}
+        inputRef={inputRefs}
       />
     </PickerToggleTrigger>
   );

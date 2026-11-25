@@ -6,7 +6,7 @@ import {
   Stack,
   Button,
   Message,
-  toaster,
+  useToaster,
   Divider,
   Text,
   Panel
@@ -20,6 +20,7 @@ const selectData = [
 ];
 
 function App() {
+  const toaster = useToaster();
   const [date, setDate] = useState(new Date());
   const [selectedValue, setSelectedValue] = useState(null);
 

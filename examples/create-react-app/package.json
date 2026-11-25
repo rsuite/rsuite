@@ -40,5 +40,11 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "body-parser@1.20.2>qs": "6.17.1",
+      "express@4.19.2>qs": "6.17.1"
+    }
   }
 }

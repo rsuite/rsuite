@@ -5,13 +5,13 @@
 @use '../../SelectPicker/styles/index' as select-picker;
 @use './pagination-group';
 
-//
 // Pagination (multiple pages)
 // --------------------------------------------------
 .rs-pagination {
   display: inline-block;
   padding-inline-start: 0;
   margin-bottom: 0;
+
   // Pagination Sizes
   // --------------------------------------------------
 

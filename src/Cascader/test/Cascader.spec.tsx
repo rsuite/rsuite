@@ -200,22 +200,40 @@ describe('Cascader', () => {
     expect(screen.getByRole('treeitem', { name: '2' })).to.exist;
   });
 
-  it('Should present an async loading state', () => {
-    function fetchNodes() {
-      return new Promise<{ label: string; value: string }[]>(resolve => {
-        setTimeout(() => {
-          resolve([{ label: '2', value: '2' }]);
-        }, 500);
+  it('Should present an async loading state', async () => {
+    const data = [{ label: '1', value: '1', children: [] }];
+    const loadedChildren = [{ label: '2', value: '2' }];
+    let resolveChildren!: (children: typeof loadedChildren) => void;
+    const childrenPromise = new Promise<typeof loadedChildren>(resolve => {
+      resolveChildren = resolve;
+    });
+    const getChildren = vi.fn(() => childrenPromise);
+    const finishLoading = () =>
+      act(async () => {
+        resolveChildren(loadedChildren);
+        await childrenPromise;
       });
+
+    try {
+      render(<Cascader open data={data} getChildren={getChildren} />);
+
+      const parent = screen.getByRole('treeitem', { name: '1' });
+      fireEvent.click(parent);
+
+      expect(getChildren).toHaveBeenCalledTimes(1);
+      expect(parent.querySelector('.rs-icon-spin')).to.exist;
+      expect(screen.queryByRole('treeitem', { name: '2' })).to.not.exist;
+
+      await finishLoading();
+
+      await waitFor(() => {
+        expect(screen.getByRole('treeitem', { name: '2' })).to.exist;
+        expect(parent.querySelector('.rs-icon-spin')).to.not.exist;
+      });
+      expect(getChildren).toHaveBeenCalledTimes(1);
+    } finally {
+      await finishLoading();
     }
-
-    render(
-      <Cascader open data={[{ label: '1', value: '1', children: [] }]} getChildren={fetchNodes} />
-    );
-
-    fireEvent.click(screen.getByRole('treeitem', { name: '1' }));
-
-    expect(screen.getByTestId('spinner')).to.exist;
   });
 
   it('Should call renderValue', () => {
@@ -502,6 +520,109 @@ describe('Cascader', () => {
     // Click on the leaf node
     fireEvent.click(screen.getByRole('treeitem', { name: '1' }));
     expect(screen.getAllByRole('group')).to.length(1);
+  });
+
+  it('Should reset the expanded path when the controlled value is cleared', () => {
+    const { rerender } = render(<Cascader data={items} value="3-1" open />);
+    const tree = screen.getByRole('tree');
+
+    expect(screen.getAllByRole('group')).to.length(2);
+    expect(tree.querySelectorAll('.rs-cascade-tree-item-focus')).to.length(2);
+
+    rerender(<Cascader data={items} value="" open />);
+
+    expect(screen.getAllByRole('group')).to.length(1);
+    expect(tree.querySelectorAll('.rs-cascade-tree-item-focus')).to.length(0);
+  });
+
+  it('Should follow the controlled value when it is changed externally', () => {
+    const { rerender } = render(<Cascader data={items} value="3-1" open />);
+
+    rerender(<Cascader data={items} value="2" open />);
+
+    const focusItems = screen.getByRole('tree').querySelectorAll('.rs-cascade-tree-item-focus');
+
+    expect(screen.getAllByRole('group')).to.length(1);
+    expect(focusItems).to.length(1);
+    expect(focusItems[0]).to.have.text('2');
+  });
+
+  it('Should reset the expanded path after the value is cleaned', () => {
+    render(<Cascader data={items} defaultValue="3-1" open />);
+
+    expect(screen.getAllByRole('group')).to.length(2);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
+
+    expect(screen.getAllByRole('group')).to.length(1);
+  });
+
+  it('Should not re-select the previously focused option after the value is cleared', () => {
+    const onChange = vi.fn();
+    const { rerender } = render(<Cascader data={items} value="3-1" onChange={onChange} open />);
+
+    rerender(<Cascader data={items} value={null} onChange={onChange} open />);
+
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('Should navigate the selected column after an external value change', async () => {
+    const data = mockTreeData(['1', ['2', '2-1', '2-2'], ['3', '3-1', '3-2', '3-3']]);
+    const onChange = vi.fn();
+    const onSelect = vi.fn();
+    const { rerender } = render(
+      <Cascader data={data} value="2-1" onChange={onChange} onSelect={onSelect} open />
+    );
+
+    rerender(
+      <Cascader
+        data={data}
+        value="3-1"
+        disabledItemValues={['3-2']}
+        onChange={onChange}
+        onSelect={onSelect}
+        open
+      />
+    );
+
+    const trigger = screen.getByRole('combobox');
+    trigger.focus();
+    await userEvent.keyboard('{ArrowDown}');
+    expect(screen.getByRole('treeitem', { name: '3-3' })).to.equal(document.activeElement);
+
+    await userEvent.keyboard('{Enter}');
+    expect(onChange).toHaveBeenCalledExactlyOnceWith('3-3', expect.anything());
+    expect(onSelect).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({ value: '3-3' }),
+      [expect.objectContaining({ value: '3' }), expect.objectContaining({ value: '3-3' })],
+      expect.anything()
+    );
+  });
+
+  it('Should keep keyboard focus on a visible search result when the value changes externally', async () => {
+    const onChange = vi.fn();
+    const onSelect = vi.fn();
+    const { rerender } = render(
+      <Cascader data={items} value="2" onChange={onChange} onSelect={onSelect} open />
+    );
+
+    const searchbox = screen.getByRole('searchbox');
+    await userEvent.type(searchbox, '1');
+    const firstResult = screen.getByRole('treeitem', { name: '1' });
+    expect(searchbox).to.have.attribute('aria-activedescendant', firstResult.id);
+
+    rerender(<Cascader data={items} value="3-2" onChange={onChange} onSelect={onSelect} open />);
+    expect(searchbox).to.have.attribute('aria-activedescendant', firstResult.id);
+
+    await userEvent.keyboard('{Enter}');
+    expect(onChange).toHaveBeenCalledExactlyOnceWith('1', expect.anything());
+    expect(onSelect).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({ value: '1' }),
+      [expect.objectContaining({ value: '1' })],
+      expect.anything()
+    );
   });
 
   it('Should trigger onChange callback & onSelect callback when press Enter', () => {

@@ -53,11 +53,13 @@
 
 <!--{include:`badge.md`}-->
 
-### 结合 Next.js Image 使用
+### 搭配 Next.js Image
 
-为了利用 Next.js 的图像优化和缓存功能，您可以将 `next/image` 组件作为 `Avatar` 组件的子组件传入。
+将 [`next/image`](https://nextjs.org/docs/pages/api-reference/components/image) 作为 `Avatar` 的子元素，即可使用 Next.js 的图片优化功能。请将示例图片放在 Next.js 项目的 `public/profile.png`。替代文本和图片加载事件应设置在 `Image` 上。使用远程图片时，请在 Next.js 中配置 [`images.remotePatterns`](https://nextjs.org/docs/pages/api-reference/components/image#remotepatterns)。
 
-<!--{include:`nextjs-image.md`}-->
+<!--{include:<next-image-demo>}-->
+
+<!--{include:(components/avatar/fragments/nextjs-image.md)}-->
 
 ## Props
 

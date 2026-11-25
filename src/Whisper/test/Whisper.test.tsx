@@ -19,8 +19,8 @@ whisperRef.current?.updatePosition();
 // speaker function types
 <Whisper
   speaker={(props, ref) => {
-    expectType<number | undefined>(props.arrowOffsetLeft);
-    expectType<number | undefined>(props.arrowOffsetLeft);
+    expectType<string | undefined>(props.arrowOffsetLeft);
+    expectType<string | undefined>(props.arrowOffsetTop);
     expectType<((...args: any[]) => any) | undefined>(props.onMouseEnter);
     expectType<((...args: any[]) => any) | undefined>(props.onMouseLeave);
     expectType<((delay?: number) => void | NodeJS.Timeout) | undefined>(props.onClose);

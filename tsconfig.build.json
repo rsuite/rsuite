@@ -1,4 +1,7 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["./src/**/test/*.ts", "./src/**/test/*.tsx", "./src/**/stories/*"]
+  "compilerOptions": {
+    "moduleResolution": "node"
+  },
+  "exclude": ["./src/**/test/**", "./src/**/stories/**"]
 }
