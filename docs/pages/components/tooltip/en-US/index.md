@@ -6,8 +6,8 @@ A text tip for secondary, which replaces the default title property of an HTML e
 
 <!--{include:<import-guide>}-->
 
-- `<Tooltip>` Text tip.
-- `<Whisper>` Monitor triggers, wrap the outside of the listener object, and notify the `Tooltip` when the event is triggered.
+- `Tooltip` Text tip.
+- `Whisper` Monitor triggers, wrap the outside of the listener object, and notify the `Tooltip` when the event is triggered.
 
 ## Examples
 
@@ -48,6 +48,12 @@ A text tip for secondary, which replaces the default title property of an HTML e
 Elements with the disabled attribute aren’t interactive, meaning users cannot hover or click them to trigger a popover (or tooltip). As a workaround, you’ll want to trigger the overlay from a wrapper `<div>` or `<span>` and override the pointer-events on the disabled element.
 
 <!--{include:`disabled-elements.md`}-->
+
+### Accessible descriptions
+
+When a `Whisper` has a direct `Tooltip` speaker and an element trigger, it adds the mounted tooltip's ID to the trigger's `aria-describedby`. Existing description IDs keep their order and are deduplicated. A Tooltip ID supplied by you or by `CustomProvider` is preserved; otherwise a stable ID is generated.
+
+The automatic description exists while the actual tooltip node is mounted, including its exit transition, and is removed when that node is detached. The trigger must forward its ref to a DOM element. The target must have `role="tooltip"` and a valid, unique ID in the trigger's document; a role override or a target in another document does not create an automatic association. Render-function speakers, render-function triggers, custom speaker wrappers, and `Popover` keep their existing behavior. Use `controlId` to manage an explicit association; its existing behavior is unchanged. This DOM association does not guarantee when a screen reader announces the description.
 
 ### Hide arrow indicator
 

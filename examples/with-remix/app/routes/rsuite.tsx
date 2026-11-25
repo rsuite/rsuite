@@ -1,11 +1,18 @@
-import React from 'react';
-import { Navbar } from '~/components/Navbar';
+import React from "react";
+import { PageLayout } from "../components/PageLayout";
+import { rsuiteCards } from "../data/cards";
 
-export default function RSuite() {
+export function meta() {
+  return [{ title: "RSuite" }];
+}
+
+export default function RSuitePage() {
   return (
-    <div>
-      <h1>A RSuite page with default style</h1>
-      <Navbar />
-    </div>
+    <PageLayout
+      codePath="app/routes/rsuite.tsx"
+      cards={rsuiteCards}
+    >
+      <img src="/rsuite.svg" alt="React Suite Logo" width={120} height={120} />
+    </PageLayout>
   );
 }

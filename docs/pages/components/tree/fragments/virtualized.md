@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Tree, Panel, InputNumber, Button, Stack } from 'rsuite';
+import { Tree, Panel, NumberInput, Button, Stack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -26,14 +26,14 @@ const App = () => {
         <Button
           onClick={() => {
             /**
-             * @see https://react-window.vercel.app/#/examples/list/scroll-to-item
+             * @see https://github.com/bvaughn/react-window
              */
             listRef.current?.scrollToItem(index, 'auto');
           }}
         >
           ScrollTo:
         </Button>
-        <InputNumber value={index} onChange={setIndex} style={{ width: 60 }} /> Item
+        <NumberInput value={index} onChange={setIndex} w={60} /> Item
       </Stack>
     </div>
   );

@@ -1,6 +1,6 @@
-# Table Editable
+# Editable Table
 
-Edit content in a table.
+Implement dynamic editing and updating of content in tables, enhancing the flexibility and efficiency of data management.
 
 ## Usage
 

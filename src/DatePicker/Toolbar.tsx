@@ -1,19 +1,18 @@
 import React from 'react';
 import Button from '../Button';
-import { useClassNames } from '@/internals/hooks';
 import PredefinedRanges, { PredefinedRangesProps } from './PredefinedRanges';
 import Stack from '../Stack';
-
-export type { RangeType } from './types';
+import { useStyles } from '@/internals/hooks';
 
 export interface ToolbarProps<T = any, Shortcut = T> extends PredefinedRangesProps<T, Shortcut> {
   hideOkBtn?: boolean;
+  selectedDate?: T;
   disableOkBtn?: (value: T) => boolean;
   onOk?: (event: React.MouseEvent) => void;
 }
 
 type ToolbarComponent = React.ForwardRefExoticComponent<ToolbarProps> & {
-  <T = any, Shortcut = T>(props: ToolbarProps<T, Shortcut>): React.ReactElement | null;
+  <T = any, Shortcut = T>(props: ToolbarProps<T, Shortcut>): any;
 };
 
 interface OkButtonProps {
@@ -41,14 +40,12 @@ const OkButton = ({ disableOkBtn, calendarDate, onOk, children }: OkButtonProps)
 /**
  * Toolbar for DatePicker and DateRangePicker
  */
-const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>(function Toolbar(
-  props,
-  ref
-) {
+const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>((props, ref) => {
   const {
     className,
     classPrefix = 'picker-toolbar',
     calendarDate,
+    selectedDate,
     ranges,
     locale,
     hideOkBtn,
@@ -59,22 +56,19 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
     ...rest
   } = props;
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
 
   if (hideOkBtn && ranges?.length === 0) {
     return null;
   }
 
-  const classes = merge(className, withClassPrefix());
+  const classes = merge(className, withPrefix());
+
+  // If there are no ranges, the ok button should be aligned to the right
+  const justify = ranges?.length === 0 ? 'flex-end' : 'space-between';
 
   return (
-    <Stack
-      ref={ref}
-      className={classes}
-      justifyContent="space-between"
-      alignItems="flex-start"
-      {...rest}
-    >
+    <Stack ref={ref} className={classes} justify={justify} align="flex-start" {...rest}>
       <PredefinedRanges
         wrap
         className={prefix('ranges')}
@@ -87,7 +81,11 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
       />
       <div className={prefix('right')}>
         {!hideOkBtn && (
-          <OkButton disableOkBtn={disableOkBtn} calendarDate={calendarDate} onOk={onOk}>
+          <OkButton
+            disableOkBtn={disableOkBtn}
+            calendarDate={selectedDate ?? calendarDate}
+            onOk={onOk}
+          >
             {locale?.ok}
           </OkButton>
         )}

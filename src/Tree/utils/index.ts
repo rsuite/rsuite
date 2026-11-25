@@ -14,6 +14,8 @@ export {
   getActiveItem,
   focusNextItem,
   focusPreviousItem,
+  focusFirstItem,
+  focusLastItem,
   focusTreeNode,
   focusCurrentItem
 } from './focusableTree';

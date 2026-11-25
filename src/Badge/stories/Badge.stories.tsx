@@ -1,7 +1,7 @@
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Badge from '../Badge';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(Badge);
 
@@ -48,5 +48,32 @@ export const WithChildren: Story = {
     content: 10000,
     maxCount: 99,
     children: 'Inbox'
+  }
+};
+
+export const Invisible: Story = {
+  args: {
+    ...defaultArgs,
+    content: 5,
+    invisible: true,
+    children: 'Hidden Badge'
+  }
+};
+
+export const Placement: Story = {
+  args: {
+    ...defaultArgs,
+    content: 'NEW',
+    placement: 'topEnd',
+    children: 'Notification'
+  }
+};
+
+export const Compact: Story = {
+  args: {
+    ...defaultArgs,
+    content: 999,
+    compact: true,
+    children: 'Messages'
   }
 };

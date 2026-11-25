@@ -30,25 +30,5 @@ import { Button, Input } from 'rsuite';
 
 ```diff
 import Button from 'rsuite/Button';
-+ import 'rsuite/Button/styles/index.less';
++ import 'rsuite/Button/styles/index.css';
 ```
-
-## 禁用 HTML 相关样式的 reset
-
-在 rsuite 中我们默认修改了一些 HTML 样式，如果您不需要这些样式，则需要[配置不引入这些样式][config-reset-import]，这里以 `less-loader` 配置为例：
-
-```
-{
-    test: /\.less$/,
-    loader: 'less-loader',
-    options: {
-        // 如果使用 less-loader@5 或者更老的版本 ，请移除 lessOptions 这一级直接配置选项。
-        lessOptions: {
-          javascriptEnabled: true,
-          modifyVars: { '@enable-css-reset': false }
-        }
-    }
-}
-```
-
-[config-reset-import]: /zh/guide/customization-less/#禁用-reset-相关样式引用

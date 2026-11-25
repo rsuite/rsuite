@@ -14,22 +14,27 @@ English | [中文版][readm-cn]
 [![Gitter][gitter-svg]][gitter]
 [![Gitter][gitter-cn-svg]][gitter-cn]
 [![Gitpod ready-to-code][gitpod-img]][gitpod]
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/rsuite/rsuite)
 
 React Suite is a set of React components. It is committed to providing high-quality and comprehensive React components to help developers quickly build web applications.
 
 ## Supported Platforms
 
-### Browser
+### Browsers support
 
-React Suite supports the latest, stable releases of all major browsers and platforms. IE<=10 is no longer supported since React Suite 5.0. React Suite is designed and implemented for use on modern desktop browsers rather than mobile browsers.
+| ![][edge]<br/>Edge | ![][firefox]<br/>Firefox | ![][chrome]<br/>Chrome | ![][safari]<br/>Safari | ![][electron]<br/>Electron |
+| ------------------ | ------------------------ | ---------------------- | ---------------------- | -------------------------- |
+| Edge               | last 2 versions          | last 2 versions        | last 2 versions        | last 2 versions            |
 
-| IE   | Edge | Firefox | Chrome | Safari |
-| ---- | ---- | ------- | ------ | ------ |
-| >=11 | >=14 | >= 45   | >= 49  | >= 10  |
+[edge]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png
+[firefox]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
+[chrome]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
+[safari]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png
+[electron]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png
 
 ### Server
 
-React Suite supports server side rendering. Support [Next.js](https://github.com/vercel/next.js) to build applications.
+React Suite supports server-side rendering with [Next.js](https://nextjs.org/).
 
 ## Installation
 
@@ -53,7 +58,7 @@ bun add rsuite
 
 ```jsx
 import { Button } from 'rsuite';
-import 'rsuite/styles/index.less'; // or 'rsuite/dist/rsuite.min.css'
+import 'rsuite/dist/rsuite.css';
 
 function App() {
   return <Button appearance="primary">Hello World</Button>;
@@ -66,13 +71,14 @@ More guides on how to get started are available [here](https://rsuitejs.com/guid
 
 It's the https://rsuitejs.com website for the latest version of React Suite. For older versions head over here:
 
+- [5.x documentation](https://v5.rsuitejs.com/)
 - [4.x documentation](https://v4.rsuitejs.com/)
 - [3.x documentation](https://v3.rsuitejs.com/)
 
-The previous major version 4.x will no longer receive new features,
-and it is recommended to upgrade to the latest 5.x releases.
-Bug fixes for 4.x are still being supported for a period of time,
-and security fixes are supported until 6.x is in progress.
+The previous major version 5.x will no longer receive new features,
+and it is recommended to upgrade to the latest 6.x releases.
+Bug fixes for 5.x are still being supported for a period of time,
+and security fixes are supported until 7.x is in progress.
 
 ## Framework Guides
 
@@ -98,7 +104,7 @@ These great services help us to build and maintain the project.
 | Service                                         | Description                                                              |
 | ----------------------------------------------- | ------------------------------------------------------------------------ |
 | [![GitHub][github-logo]][github]                | **Github** lets us host the Git repository and coordinate contributions. |
-| [![Vercel][vercel-logo]][vercel]                | **Vercel** provides the hosting for the documentation site.              |
+| [![Netlify][netlify-logo]][netlify]             | **Netlify** hosts the documentation site.                               |
 | [![CodeCov][codecov-logo]][codecov]             | **CodeCov** lets us monitor test coverage.                               |
 | [![Gitee][gitee-logo]][gitee]                   | **Gitee** grants us GVP - Gitee Most Valuable Open Source Project.       |
 | [![CodeSandbox][codesandbox-logo]][codesandbox] | **CodeSandbox** lets us provide live previews of the components.         |
@@ -106,8 +112,8 @@ These great services help us to build and maintain the project.
 
 [github]: https://github.com/
 [github-logo]: https://avatars.githubusercontent.com/u/9919?s=32&v=4
-[vercel]: https://vercel.com/
-[vercel-logo]: https://avatars.githubusercontent.com/u/14985020?s=32&v=4
+[netlify]: https://www.netlify.com/
+[netlify-logo]: https://avatars.githubusercontent.com/u/7892489?s=32&v=4
 [codecov]: https://about.codecov.io/
 [codecov-logo]: https://avatars.githubusercontent.com/u/8226205?s=32&v=4
 [gitee]: https://gitee.com/

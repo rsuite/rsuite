@@ -43,11 +43,9 @@ The DateInput component lets users select a date with the keyboard.
 
 ### `<DateInput>`
 
-<!-- prettier-sort-markdown-table -->
-
 | Property     | Type`(default)`                 | Description                                               |
 | ------------ | ------------------------------- | --------------------------------------------------------- |
-| defaultValue | Date                            | The default value (uncontrolled)                                             |
+| defaultValue | Date                            | The default value (uncontrolled)                          |
 | disabled     | boolean                         | Whether disabled the component                            |
 | format       | string `('yyyy-MM-dd')`         | Format of the date when rendered in the input             |
 | onChange     | (date: Date, event) => void     | Callback fired when value changed                         |

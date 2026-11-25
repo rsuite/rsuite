@@ -1,8 +1,8 @@
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import TreePicker from '../TreePicker';
 import { createMeta } from '@/storybook/utils';
 import { mockTreeData } from '@/storybook/mocks';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const data = mockTreeData({
   limits: [3, 3, 4],

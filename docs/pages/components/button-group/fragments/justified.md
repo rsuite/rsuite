@@ -1,24 +1,25 @@
 <!--start-code-->
 
 ```js
-import { Button, ButtonGroup } from 'rsuite';
+import { Button, ButtonGroup, VStack } from 'rsuite';
 
-const CustomButtonGroup = ({ appearance }) => (
-  <ButtonGroup style={{ marginTop: 12 }} justified>
-    <Button appearance={appearance}>Top</Button>
-    <Button appearance={appearance}>Middle</Button>
-    <Button appearance={appearance}>Bottom</Button>
+const ButtonGroupWithAppearance = ({ appearance }) => (
+  <ButtonGroup justified>
+    <Button appearance={appearance}>Chat</Button>
+    <Button appearance={appearance}>Contact</Button>
+    <Button appearance={appearance}>Discover</Button>
+    <Button appearance={appearance}>Setting</Button>
   </ButtonGroup>
 );
 
 const App = () => (
-  <>
-    <CustomButtonGroup />
-    <CustomButtonGroup appearance="primary" />
-    <CustomButtonGroup appearance="link" />
-    <CustomButtonGroup appearance="subtle" />
-    <CustomButtonGroup appearance="ghost" />
-  </>
+  <VStack spacing={12}>
+    <ButtonGroupWithAppearance />
+    <ButtonGroupWithAppearance appearance="primary" />
+    <ButtonGroupWithAppearance appearance="link" />
+    <ButtonGroupWithAppearance appearance="subtle" />
+    <ButtonGroupWithAppearance appearance="ghost" />
+  </VStack>
 );
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

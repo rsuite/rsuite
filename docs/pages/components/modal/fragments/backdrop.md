@@ -1,9 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Modal, ButtonToolbar, Button, RadioGroup, Radio, Placeholder } from 'rsuite';
-
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
+import { Modal, ButtonToolbar, Button, SegmentedControl, Placeholder, Text } from 'rsuite';
 
 const App = () => {
   const [open, setOpen] = React.useState(false);
@@ -13,18 +11,15 @@ const App = () => {
 
   return (
     <>
-      <RadioGroup
-        name="radioList"
-        appearance="picker"
-        inline
+      <SegmentedControl
+        data={[
+          { value: 'static', label: 'static' },
+          { value: true, label: 'true' },
+          { value: false, label: 'false' }
+        ]}
         value={backdrop}
-        onChange={value => setBackdrop(value)}
-      >
-        <RadioLabel>Backdrop: </RadioLabel>
-        <Radio value="static">static</Radio>
-        <Radio value={true}>true</Radio>
-        <Radio value={false}>false</Radio>
-      </RadioGroup>
+        onChange={setBackdrop}
+      />
       <hr />
       <ButtonToolbar>
         <Button onClick={handleOpen}> Open</Button>
@@ -39,11 +34,11 @@ const App = () => {
           <Placeholder.Paragraph />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleClose} appearance="primary">
-            Ok
-          </Button>
           <Button onClick={handleClose} appearance="subtle">
             Cancel
+          </Button>
+          <Button onClick={handleClose} appearance="primary">
+            Ok
           </Button>
         </Modal.Footer>
       </Modal>

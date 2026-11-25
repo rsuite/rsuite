@@ -1,9 +1,12 @@
+'use client';
+
+import React from 'react';
 import Image from 'next/image';
-import { Stack, Button } from 'rsuite';
 import styles from './page.module.css';
 import Navbar from '../../components/Navbar';
+import { Stack, Button } from 'rsuite';
 
-export default function Home() {
+export default function About() {
   return (
     <main className={styles.main}>
       <div className={styles.description}>
@@ -23,13 +26,15 @@ export default function Home() {
           height={37}
           priority
         />
+
         <Image src="/rsuite.svg" alt="React Suite Logo" width={60} height={60} priority />
       </div>
+
       <Stack spacing={20}>
         <Button
           appearance="primary"
           size="lg"
-          href="https://rsuitejs.com/guide/use-next-app/"
+          href="https://rsuitejs.com/guide/use-next-pages/"
           target="_blank"
           rel="noopener noreferrer"
         >

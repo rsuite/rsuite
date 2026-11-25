@@ -1,11 +1,11 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Popover from '../Popover';
 import Whisper from '../..//Whisper';
 import Stack from '../..//Stack';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Stack/styles/index.less';
+import '../styles/index.scss';
+import '../../Stack/styles/index.scss';
 
 const meta = createMeta(Popover);
 
@@ -78,7 +78,7 @@ export const Trigger: Story = {
   }
 };
 
-export const HideRrrowIndicator: Story = {
+export const HideArrowIndicator: Story = {
   render: props => (
     <Whisper placement="top" trigger="hover" speaker={<Popover {...props} />}>
       <button>Hover Me</button>

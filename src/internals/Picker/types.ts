@@ -1,6 +1,5 @@
-import { RsRefForwardingComponent } from '@/internals/types';
-import type { ListHandle } from '@/internals/Windowing';
 import { RSUITE_PICKER_TYPE } from '@/internals/symbols';
+import type { ListHandle } from '@/internals/Windowing';
 
 export interface PickerHandle {
   type?: typeof RSUITE_PICKER_TYPE;
@@ -12,8 +11,3 @@ export interface PickerHandle {
   open?: () => void;
   close?: () => void;
 }
-
-export type PickerComponent<P> = RsRefForwardingComponent<
-  'div',
-  P & { ref?: React.Ref<PickerHandle> }
->;

@@ -1,20 +1,13 @@
 const fs = require('fs');
 const util = require('util');
-const del = require('del');
 const path = require('path');
-const less = require('gulp-less');
-const postcss = require('gulp-postcss');
-const postcssCustomProperties = require('postcss-custom-properties');
-const postcssPruneVar = require('postcss-prune-var');
-const postcssDiscardEmpty = require('postcss-discard-empty');
-const sourcemaps = require('gulp-sourcemaps');
-const rename = require('gulp-rename');
+const { Readable } = require('stream');
+const Vinyl = require('vinyl');
 const babel = require('gulp-babel');
-const rtlcss = require('gulp-rtlcss');
 const insert = require('gulp-insert');
 const gulp = require('gulp');
 const babelrc = require('./babel.config');
-const { default: proxyDirectories } = require('./scripts/proxyDirectories');
+const { default: proxyDirectories } = require('./scripts/proxy-directories');
 const pkg = require('./package.json');
 
 const writeFile = util.promisify(fs.writeFile);
@@ -23,135 +16,18 @@ const libRoot = path.join(__dirname, './lib');
 
 const esmRoot = path.join(libRoot, 'esm');
 const cjsRoot = path.join(libRoot, 'cjs');
-const distRoot = path.join(libRoot, 'dist');
-const styleRoot = path.join(srcRoot, 'styles');
-const tsSources = [
-  `${srcRoot}/**/*.tsx`,
-  `${srcRoot}/**/*.ts`,
-  `!${srcRoot}/**/*.d.ts`,
-  `!${srcRoot}/**/test/*`,
-  `!${srcRoot}/**/stories/*`
-];
+const excludedSourceDirectories = ['test', 'stories'];
+const sourceExclusions = excludedSourceDirectories.map(directory => `!**/${directory}/**`);
+const tsSources = ['**/*.tsx', '**/*.ts', '!**/*.d.ts', ...sourceExclusions];
 
 function clean(done) {
-  del.sync([libRoot], { force: true });
+  fs.rmSync(libRoot, { recursive: true, force: true });
   done();
 }
 
-// Build styles
-// - Build LESS into CSS under dist/
-//   - With/Without reset styles
-// - RTL/Non-RTL
-// - Minify CSS files in dist/
-// - Copy LESS into less/
-//
-// Final outputs:
-// - dist/rsuite.css
-// - dist/rsuite.min.css
-// - dist/rsuite-rtl.css
-// - dist/rsuite-rtl.min.css
-// - dist/rsuite-no-reset.css
-// - dist/rsuite-no-reset.min.css
-// - dist/rsuite-no-reset-rtl.css
-// - dist/rsuite-no-reset-rtl.min.css
-// - less/**/*.less
-exports.buildStyles = gulp.series(
-  gulp.parallel(
-    buildLess({ outputFileName: 'rsuite.css' }),
-    buildLess({
-      lessOptions: {
-        modifyVars: {
-          '@enable-css-reset': false
-        }
-      },
-      outputFileName: 'rsuite-no-reset.css'
-    })
-  ),
-  buildRTLCSS,
-  minifyCSS
-);
-
-// Build component styles
-// Final outputs:
-// - lib/Button/styles/index.css
-// - lib/IconButton/styles/index.css
-// - ...
-async function buildComponentCSS(done) {
-  const buildList = [];
-
-  fs.readdirSync(srcRoot).forEach(item => {
-    const itemPath = path.resolve(srcRoot, item);
-    const componentName = itemPath.split('/').pop();
-
-    const lessFile = itemPath + '/styles/index.less';
-
-    if (fs.existsSync(lessFile)) {
-      buildList.push({
-        src: lessFile,
-        dist: `${libRoot}/${componentName}/styles`,
-        lessOptions: { modifyVars: { '@enable-css-reset': false } },
-        outputFileName: 'index.css'
-      });
-    }
-  });
-
-  Promise.all(
-    buildList.map(item => {
-      return new Promise((resolve, reject) => {
-        return buildLess({ ...item, postcssPlugins: [postcssPruneVar(), postcssDiscardEmpty()] })()
-          .on('end', resolve)
-          .on('error', reject);
-      });
-    })
-  ).then(() => {
-    console.log('Build component CSS done.');
-    done();
-  });
-}
-
-exports.buildComponentCSS = buildComponentCSS;
-
-function buildLess({
-  lessOptions,
-  outputFileName,
-  src = `${styleRoot}/index.less`,
-  dist = distRoot,
-  postcssPlugins = []
-}) {
-  return () =>
-    gulp
-      .src(src)
-      .pipe(less(lessOptions))
-      .pipe(postcss([require('autoprefixer'), postcssCustomProperties(), ...postcssPlugins]))
-      .pipe(rename(outputFileName))
-      .pipe(gulp.dest(dist));
-}
-
-function buildRTLCSS() {
-  return gulp
-    .src(`${distRoot}/rsuite*.css`)
-    .pipe(rtlcss()) // Convert to RTL.
-    .pipe(rename({ suffix: '-rtl' })) // Append "-rtl" to the filename.
-    .pipe(gulp.dest(`${distRoot}`));
-}
-
-/**
- * Minify built css files
- */
-function minifyCSS() {
-  return gulp
-    .src(`${distRoot}/rsuite*.css`)
-    .pipe(sourcemaps.init())
-    .pipe(postcss()) // uses postcss.config.js where cssnano is configured
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(`${distRoot}`));
-}
-
-function buildCjs() {
+function compileCjs(source) {
   return (
-    gulp
-      .src(tsSources)
+    source
       .pipe(babel(babelrc()))
       // adds the "use-client" directive to /cjs exported from rsuite
       .pipe(insert.prepend(`'use client';\n`))
@@ -159,10 +35,14 @@ function buildCjs() {
   );
 }
 
+function buildCjs() {
+  return compileCjs(gulp.src(tsSources, { cwd: srcRoot, base: srcRoot }));
+}
+
 function buildEsm() {
   return (
     gulp
-      .src(tsSources)
+      .src(tsSources, { cwd: srcRoot, base: srcRoot })
       .pipe(
         babel(
           babelrc(null, {
@@ -177,25 +57,42 @@ function buildEsm() {
 }
 
 function copyTypescriptDeclarationFiles() {
-  return gulp.src(`${srcRoot}/**/*.d.ts`).pipe(gulp.dest(cjsRoot)).pipe(gulp.dest(esmRoot));
-}
-
-function copyLessStylesheets() {
-  return gulp.src(`${srcRoot}/**/*.less`).pipe(gulp.dest(libRoot));
-}
-
-function copyLessPlugins() {
-  return gulp.src(`${srcRoot}/styles/plugins/*.js`).pipe(gulp.dest(`${libRoot}/styles/plugins`));
+  return gulp
+    .src(['**/*.d.ts', ...sourceExclusions], { cwd: srcRoot, base: srcRoot })
+    .pipe(gulp.dest(cjsRoot))
+    .pipe(gulp.dest(esmRoot));
 }
 
 function watch() {
-  const watcher = gulp.watch(tsSources);
+  // Watch the literal directory: Chokidar also expands braces in absolute glob roots.
+  const watcher = gulp.watch(srcRoot, { disableGlobbing: true });
   watcher.on('change', filePath => {
+    const directories = path
+      .relative(srcRoot, path.resolve(srcRoot, filePath))
+      .split(path.sep)
+      .slice(0, -1);
+    if (
+      !['.ts', '.tsx'].includes(path.extname(filePath)) ||
+      filePath.endsWith('.d.ts') ||
+      directories.some(directory => excludedSourceDirectories.includes(directory))
+    ) {
+      return;
+    }
     console.log('File ' + filePath + ' was changed, running tasks...');
-    const cjsPath = filePath.replace('src/', 'cjs/').replace(/\/[a-z|A-Z]+.(tsx|ts)/, '');
-
-    return gulp.src(filePath).pipe(babel(babelrc())).pipe(gulp.dest(cjsPath));
+    // The watcher supplies a literal filename, which may itself contain glob characters.
+    const source = Readable.from(
+      (async function* () {
+        yield new Vinyl({
+          cwd: __dirname,
+          base: srcRoot,
+          path: path.resolve(srcRoot, filePath),
+          contents: await fs.promises.readFile(path.resolve(srcRoot, filePath))
+        });
+      })()
+    );
+    return compileCjs(source);
   });
+  return watcher;
 }
 
 function buildDirectories(done) {
@@ -204,8 +101,19 @@ function buildDirectories(done) {
   });
 }
 
-function copyDocs() {
-  return gulp.src(['./README.md', './CHANGELOG.md', './LICENSE']).pipe(gulp.dest(libRoot));
+async function copyDocs() {
+  await fs.promises.mkdir(libRoot, { recursive: true });
+  await Promise.all(
+    ['README.md', 'CHANGELOG.md', 'LICENSE'].map(file =>
+      fs.promises.copyFile(path.join(__dirname, file), path.join(libRoot, file))
+    )
+  );
+}
+
+function copyScssFiles() {
+  return gulp
+    .src(['**/*.scss', ...sourceExclusions], { cwd: srcRoot, base: srcRoot })
+    .pipe(gulp.dest(libRoot));
 }
 
 function createPkgFile(done) {
@@ -215,8 +123,10 @@ function createPkgFile(done) {
   pkg.main = 'cjs/index.js';
   pkg.module = 'esm/index.js';
   pkg.typings = 'esm/index.d.ts';
+  pkg.sass = 'styles/index.scss';
+  pkg.style = 'dist/rsuite.css';
   pkg.scripts = {
-    prepublishOnly: '../node_modules/mocha/bin/mocha ../test/validateBuilds.js'
+    prepublishOnly: 'node ../scripts/validate-builds.js'
   };
 
   writeFile(`${libRoot}/package.json`, JSON.stringify(pkg, null, 2) + '\n')
@@ -231,14 +141,7 @@ function createPkgFile(done) {
 exports.dev = gulp.series(clean, buildCjs, watch);
 exports.build = gulp.series(
   clean,
-  gulp.parallel(buildCjs, buildEsm, exports.buildStyles),
-  gulp.parallel(
-    copyTypescriptDeclarationFiles,
-    copyLessStylesheets,
-    copyLessPlugins,
-    copyDocs,
-    createPkgFile
-  ),
-  buildComponentCSS,
+  gulp.parallel(buildCjs, buildEsm),
+  gulp.parallel(copyTypescriptDeclarationFiles, copyDocs, copyScssFiles, createPkgFile),
   buildDirectories
 );

@@ -1,3 +1,8 @@
 import Checkbox from './Checkbox';
-export type { CheckboxProps, ValueType } from './Checkbox';
+
+// export types
+export type { CheckboxProps } from './Checkbox';
+
+// export components
+export { Checkbox };
 export default Checkbox;

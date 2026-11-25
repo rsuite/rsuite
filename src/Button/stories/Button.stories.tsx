@@ -1,17 +1,22 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import Button, { ButtonProps } from '../Button';
 import ButtonToolbar from '../../ButtonToolbar';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../ButtonToolbar/styles/index.less';
+import '../styles/index.scss';
+import '../../ButtonToolbar/styles/index.scss';
 
 const meta = createMeta(Button);
 
 export default {
   title: 'Components/Button',
-  ...meta
+  ...meta,
+  argTypes: {
+    ...meta.argTypes,
+    children: { control: 'text' },
+    onClick: { action: 'onClick', control: false }
+  }
 };
 
 type Story = StoryObj<typeof meta>;
@@ -125,6 +130,14 @@ export const Active: Story = {
   }
 };
 
+export const Toggleable: Story = {
+  render: AppearanceTemplate,
+  args: {
+    ...defaultProps,
+    toggleable: true
+  }
+};
+
 export const Block: Story = {
   render: AppearanceTemplate,
   args: {
@@ -148,10 +161,45 @@ export const Size: Story = {
   }
 };
 
-export const WithIcons = {
+export const WithIcons: Story = {
   render: AppearanceTemplate,
   args: {
     ...defaultProps,
     startIcon: <AddOutlineIcon />
+  }
+};
+
+export const WithEndIcon: Story = {
+  render: AppearanceTemplate,
+  args: {
+    ...defaultProps,
+    endIcon: <AddOutlineIcon />
+  }
+};
+
+export const WithBothIcons: Story = {
+  render: AppearanceTemplate,
+  args: {
+    ...defaultProps,
+    startIcon: <AddOutlineIcon />,
+    endIcon: <AddOutlineIcon />
+  }
+};
+
+export const IconOnly: Story = {
+  args: {
+    ...defaultProps,
+    children: <AddOutlineIcon />,
+    circle: true
+  }
+};
+
+export const AsLink: Story = {
+  args: {
+    ...defaultProps,
+    as: 'a',
+    href: 'https://rsuitejs.com',
+    appearance: 'link',
+    children: 'RSuite Website'
   }
 };

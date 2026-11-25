@@ -1,26 +1,27 @@
 import React, { useContext, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import useCustomConfig from '@/internals/hooks/useCustomConfig';
 import Ripple from '@/internals/Ripple';
-import SafeAnchor from '../SafeAnchor';
-import { oneOf } from '@/internals/propTypes';
-import { ButtonGroupContext } from '../ButtonGroup';
-import { isOneOf } from '@/internals/utils';
-import { useClassNames } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import Box, { BoxProps } from '@/internals/Box';
+import SafeAnchor from '@/internals/SafeAnchor';
+import { CustomContext } from '@/internals/Provider/CustomContext';
+import ButtonGroupContext from '../ButtonGroup/ButtonGroupContext';
+import useButtonLoading from './useButtonLoading';
+import { forwardRef, isOneOf, isDisableableElement } from '@/internals/utils';
+import { useStyles, useControlled, useEventCallback } from '@/internals/hooks';
+import { Color, BasicSize, AppearanceType } from '@/internals/types';
 
-export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
+export interface ButtonProps extends BoxProps, Omit<React.HTMLAttributes<HTMLElement>, 'onToggle'> {
   /** A button can have different appearances. */
-  appearance?: TypeAttributes.Appearance;
+  appearance?: AppearanceType;
 
   /** A button can show it is currently the active user selection */
   active?: boolean;
 
   /** A button can have different sizes */
-  size?: TypeAttributes.Size;
+  size?: BasicSize;
 
   /** A button can have different colors */
-  color?: TypeAttributes.Color;
+  color?: Color;
 
   /** Format button to appear inside a content block */
   block?: boolean;
@@ -33,6 +34,12 @@ export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLEleme
 
   /** A button can show a loading indicator */
   loading?: boolean;
+
+  /** Show loading and block repeat activation while onClick's returned promise is pending. */
+  autoLoading?: boolean;
+
+  /** Handle errors from autoLoading activation callbacks and promises. Otherwise errors are reported globally. */
+  onClickError?: (error: unknown, event: React.MouseEvent<HTMLElement>) => void;
 
   /** A button can show it is currently unable to be interacted with */
   disabled?: boolean;
@@ -48,108 +55,127 @@ export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLEleme
 
   /** Defines HTML button type attribute */
   type?: 'button' | 'reset' | 'submit';
+
+  /** A button can toggle its state between active and inactive. */
+  toggleable?: boolean;
+
+  /** Called when the button is clicked */
+  onToggle?: (active: boolean, event: React.MouseEvent) => void;
 }
 
 /**
  * The Button component is used to trigger a custom action.
  * @see https://rsuitejs.com/components/button
  */
-const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef(
-  (props: ButtonProps, ref) => {
-    const { propsWithDefaults } = useCustom('Button', props);
-    const {
-      as,
-      active,
-      appearance = 'default',
-      block,
-      className,
-      children,
-      classPrefix = 'btn',
-      color,
-      disabled,
-      loading,
-      ripple = true,
-      size: sizeProp,
-      startIcon,
-      endIcon,
-      type: typeProp,
-      ...rest
-    } = propsWithDefaults;
+const Button = forwardRef<'button', ButtonProps>((props: ButtonProps, ref) => {
+  const { propsWithDefaults } = useCustomConfig('Button', props);
+  const { reduceMotion } = useContext(CustomContext);
+  const buttonGroup = useContext(ButtonGroupContext);
+  const {
+    as,
+    active: activeProp,
+    appearance = 'default',
+    block,
+    className,
+    children,
+    classPrefix = 'btn',
+    color,
+    disabled = buttonGroup?.disabled,
+    loading: loadingProp,
+    autoLoading,
+    role,
+    ripple = true,
+    size = buttonGroup?.size || 'md',
+    startIcon,
+    endIcon,
+    type: typeProp,
+    toggleable,
+    onToggle,
+    onClick,
+    onClickError,
+    ...rest
+  } = propsWithDefaults;
 
-    const buttonGroup = useContext(ButtonGroupContext);
+  const [active, setActive] = useControlled(activeProp, false);
+  const pending = useButtonLoading();
+  const loading = pending.loading || loadingProp;
 
-    const size = sizeProp ?? buttonGroup?.size;
+  const { withPrefix, prefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
-    const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-    const classes = merge(
-      className,
-      withClassPrefix(appearance, color, size, { active, disabled, loading, block })
-    );
-
-    const buttonContent = useMemo(() => {
-      const spin = <span className={prefix`spin`} />;
-      const rippleElement = ripple && !isOneOf(appearance, ['link', 'ghost']) ? <Ripple /> : null;
-
-      return (
-        <>
-          {loading && spin}
-          {startIcon ? <span className={prefix`start-icon`}>{startIcon}</span> : null}
-          {children}
-          {endIcon ? <span className={prefix`end-icon`}>{endIcon}</span> : null}
-          {rippleElement}
-        </>
-      );
-    }, [appearance, children, endIcon, loading, prefix, ripple, startIcon]);
-
-    if (rest.href) {
-      return (
-        <SafeAnchor
-          {...rest}
-          as={as}
-          ref={ref}
-          aria-disabled={disabled}
-          disabled={disabled}
-          className={classes}
-        >
-          {buttonContent}
-        </SafeAnchor>
-      );
-    }
-
-    const Component = as || 'button';
-    const type = typeProp || (Component === 'button' ? 'button' : undefined);
-    const role = rest.role || (Component !== 'button' ? 'button' : undefined);
+  const buttonContent = useMemo(() => {
+    const spin = <span className={prefix`spin`} />;
+    const rippleElement = ripple && !isOneOf(appearance, ['link', 'ghost']) ? <Ripple /> : null;
 
     return (
-      <Component
-        {...rest}
-        role={role}
-        type={type}
-        ref={ref}
-        disabled={disabled}
-        aria-disabled={disabled}
-        className={classes}
-      >
-        {buttonContent}
-      </Component>
+      <>
+        {loading && spin}
+        {startIcon ? <span className={prefix`start-icon`}>{startIcon}</span> : null}
+        {children}
+        {endIcon ? <span className={prefix`end-icon`}>{endIcon}</span> : null}
+        {rippleElement}
+      </>
     );
-  }
-);
+  }, [appearance, children, endIcon, loading, prefix, ripple, startIcon]);
+
+  const handleClick = useEventCallback((event: React.MouseEvent<HTMLElement>) => {
+    if (disabled || loading || pending.isPending()) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
+    const invoke = () => {
+      if (toggleable) {
+        const nextActive = !active;
+
+        setActive(nextActive);
+        onToggle?.(nextActive, event);
+      }
+      return onClick?.(event);
+    };
+
+    if (autoLoading) {
+      pending.run(invoke, onClickError ? error => onClickError(error, event) : undefined);
+    } else {
+      invoke();
+    }
+  });
+
+  const buttonAs = as || (rest.href ? SafeAnchor : 'button');
+  const isCustomElement = buttonAs !== 'button' && buttonAs !== SafeAnchor;
+
+  const uncertainProps = {
+    [isDisableableElement(buttonAs) || buttonAs === SafeAnchor ? 'disabled' : 'aria-disabled']:
+      disabled,
+    type: typeProp ?? (buttonAs === 'button' ? 'button' : undefined),
+    role: role ?? (isCustomElement ? 'button' : undefined)
+  };
+
+  return (
+    <Box
+      as={buttonAs}
+      ref={ref}
+      className={classes}
+      onClick={handleClick}
+      data-appearance={appearance}
+      data-color={color}
+      data-size={size}
+      data-block={block}
+      data-active={active || undefined}
+      data-disabled={disabled}
+      data-loading={loading}
+      {...uncertainProps}
+      aria-disabled={disabled || loading || undefined}
+      aria-busy={loading || undefined}
+      {...rest}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
+    >
+      {buttonContent}
+    </Box>
+  );
+});
 
 Button.displayName = 'Button';
-Button.propTypes = {
-  as: PropTypes.elementType,
-  active: PropTypes.bool,
-  appearance: oneOf(['default', 'primary', 'link', 'subtle', 'ghost']),
-  block: PropTypes.bool,
-  children: PropTypes.node,
-  color: oneOf(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']),
-  disabled: PropTypes.bool,
-  href: PropTypes.string,
-  loading: PropTypes.bool,
-  ripple: PropTypes.bool,
-  size: oneOf(['lg', 'md', 'sm', 'xs']),
-  type: oneOf(['button', 'reset', 'submit'])
-};
 
 export default Button;

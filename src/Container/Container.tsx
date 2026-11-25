@@ -1,10 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps } from '@/internals/types';
-import { useCustom } from '../CustomProvider';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useCustom } from '@/internals/hooks';
 
-export type ContainerProps = WithAsProps & React.HTMLAttributes<HTMLDivElement>;
+export type ContainerProps = BoxProps & React.HTMLAttributes<HTMLDivElement>;
 export const ContainerContext = React.createContext<ContainerContextValue>({});
 
 interface ContainerContextValue {
@@ -15,34 +14,29 @@ interface ContainerContextValue {
  * The Container component is used to wrap content in a themed container with a max-width.
  * @see https://rsuitejs.com/components/container
  */
-const Container = React.forwardRef((props: ContainerProps, ref: React.Ref<HTMLDivElement>) => {
+const Container = forwardRef<'section', ContainerProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Container', props);
   const {
-    as: Component = 'section',
+    as = 'section',
     classPrefix = 'container',
     className,
     children,
     ...rest
   } = propsWithDefaults;
   const [hasSidebar, setHasSidebar] = useState(false);
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ 'has-sidebar': hasSidebar }));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ 'has-sidebar': hasSidebar }));
   const contextValue = useMemo(() => ({ setHasSidebar }), [setHasSidebar]);
 
   return (
     <ContainerContext.Provider value={contextValue}>
-      <Component {...rest} ref={ref} className={classes}>
+      <Box as={as} {...rest} ref={ref} className={classes}>
         {children}
-      </Component>
+      </Box>
     </ContainerContext.Provider>
   );
 });
 
 Container.displayName = 'Container';
-Container.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string
-};
 
 export default Container;

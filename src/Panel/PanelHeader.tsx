@@ -1,11 +1,13 @@
 import React, { isValidElement, cloneElement } from 'react';
 import get from 'lodash/get';
-import Heading from '../Heading';
 import AccordionButton from './AccordionButton';
-import { useClassNames } from '@/internals/hooks';
-import { WithAsProps } from '@/internals/types';
+import Box, { BoxProps } from '@/internals/Box';
+import { useStyles } from '@/internals/hooks';
+import { isFragment } from '@/internals/utils';
 
-interface PanelHeaderProps extends WithAsProps, React.HTMLAttributes<HTMLHeadingElement> {
+export interface PanelHeaderProps
+  extends BoxProps,
+    Omit<React.HTMLAttributes<HTMLDivElement | HTMLHeadingElement>, 'color'> {
   caretAs?: React.ElementType;
   collapsible?: boolean;
   disabled?: boolean;
@@ -18,7 +20,7 @@ interface PanelHeaderProps extends WithAsProps, React.HTMLAttributes<HTMLHeading
 
 const PanelHeader = (props: PanelHeaderProps) => {
   const {
-    as: Component = Heading,
+    as = 'div',
     classPrefix = 'panel',
     className,
     children,
@@ -33,19 +35,19 @@ const PanelHeader = (props: PanelHeaderProps) => {
     ...rest
   } = props;
 
-  const { merge, prefix } = useClassNames(classPrefix);
+  const { merge, prefix } = useStyles(classPrefix);
 
   let headerElement: React.ReactNode;
 
-  if (!isValidElement(children) || Array.isArray(children)) {
-    headerElement = <span className={prefix('title')}>{children}</span>;
+  if (!isValidElement(children) || Array.isArray(children) || isFragment(children)) {
+    headerElement = <div className={prefix('title')}>{children}</div>;
   } else {
     const className = merge(prefix('title'), get(children, 'props.className'));
     headerElement = cloneElement<any>(children, { className });
   }
 
   return (
-    <Component level={2} className={merge(className, prefix('header'))} {...rest}>
+    <Box as={as} className={merge(className, prefix('header'))} {...rest}>
       {collapsible ? (
         <AccordionButton
           id={buttonId}
@@ -61,7 +63,7 @@ const PanelHeader = (props: PanelHeaderProps) => {
       ) : (
         headerElement
       )}
-    </Component>
+    </Box>
   );
 };
 

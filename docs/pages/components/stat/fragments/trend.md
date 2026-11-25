@@ -22,6 +22,14 @@ const App = () => (
     </Stat>
 
     <Stat>
+      <Stat.Label>Staff</Stat.Label>
+      <HStack spacing={10}>
+        <Stat.Value>110</Stat.Value>
+        <Stat.Trend indicator="equal">0%</Stat.Trend>
+      </HStack>
+    </Stat>
+
+    <Stat>
       <Stat.Label>Cost</Stat.Label>
       <HStack spacing={10}>
         <Stat.Value>2,800</Stat.Value>

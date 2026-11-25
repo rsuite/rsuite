@@ -1,128 +1,118 @@
 <!-- start-code -->
 
 ```js
-import { Slider, RangeSlider, Row, Col, InputGroup, InputNumber } from 'rsuite';
+import { Slider, RangeSlider, HStack, InputGroup, NumberInput, Text } from 'rsuite';
 
-function Example1() {
+function SliderExample() {
   const [value, setValue] = React.useState(0);
+  const [committedValue, setCommittedValue] = React.useState(0);
+
   return (
-    <Row>
-      <Col md={10} xs={12}>
-        <Slider
-          progress
-          style={{ marginTop: 16 }}
-          value={value}
-          onChange={value => {
-            setValue(value);
-          }}
-        />
-      </Col>
-      <Col md={4} xs={12}>
-        <InputNumber
+    <HStack spacing={20} wrap>
+      <Slider
+        w={400}
+        progress
+        value={value}
+        onChange={setValue}
+        onChangeCommitted={setCommittedValue}
+      />
+
+      <NumberInput min={0} max={100} w={160} value={value} onChange={setValue} />
+      <span>Committed: {committedValue}</span>
+    </HStack>
+  );
+}
+
+function RangeSliderExample() {
+  const [value, setValue] = React.useState([10, 50]);
+  const [committedValue, setCommittedValue] = React.useState([10, 50]);
+
+  return (
+    <HStack spacing={20} wrap>
+      <RangeSlider
+        w={400}
+        progress
+        value={value}
+        onChange={setValue}
+        onChangeCommitted={setCommittedValue}
+      />
+
+      <InputGroup w={160}>
+        <NumberInput
           min={0}
           max={100}
-          value={value}
-          onChange={value => {
-            setValue(value);
+          value={value[0]}
+          onChange={nextValue => {
+            const [start, end] = value;
+            if (nextValue > end) {
+              return;
+            }
+            setValue([nextValue, end]);
           }}
         />
-      </Col>
-    </Row>
+        <InputGroup.Addon>to</InputGroup.Addon>
+        <NumberInput
+          min={0}
+          max={100}
+          value={value[1]}
+          onChange={nextValue => {
+            const [start, end] = value;
+            if (start > nextValue) {
+              return;
+            }
+            setValue([start, nextValue]);
+          }}
+        />
+      </InputGroup>
+      <span>Committed: {committedValue.join(' - ')}</span>
+    </HStack>
   );
 }
 
-function Example2() {
-  const [value, setValue] = React.useState([10, 50]);
-  return (
-    <Row>
-      <Col md={10} xs={12}>
-        <RangeSlider
-          progress
-          style={{ marginTop: 16 }}
-          value={value}
-          onChange={value => {
-            setValue(value);
-          }}
-        />
-      </Col>
-      <Col md={8} xs={12}>
-        <InputGroup>
-          <InputNumber
-            min={0}
-            max={100}
-            value={value[0]}
-            onChange={nextValue => {
-              const [start, end] = value;
-              if (nextValue > end) {
-                return;
-              }
-              setValue([nextValue, end]);
-            }}
-          />
-          <InputGroup.Addon>to</InputGroup.Addon>
-          <InputNumber
-            min={0}
-            max={100}
-            value={value[1]}
-            onChange={nextValue => {
-              const [start, end] = value;
-              if (start > nextValue) {
-                return;
-              }
-              setValue([start, nextValue]);
-            }}
-          />
-        </InputGroup>
-      </Col>
-    </Row>
-  );
-}
-
-function Example3() {
+function FixedEndValueExample() {
   const [value, setValue] = React.useState([10, 100]);
+  const [committedValue, setCommittedValue] = React.useState([10, 100]);
 
   return (
-    <Row>
-      <p>Fixed end value</p>
-      <Col md={10} xs={12}>
-        <RangeSlider
-          progress
-          style={{ marginTop: 16 }}
-          value={value}
-          onChange={value => {
-            setValue([value[0], 100]);
+    <HStack spacing={20} wrap>
+      <RangeSlider
+        w={400}
+        progress
+        value={value}
+        onChange={value => {
+          setValue([value[0], 100]);
+        }}
+        onChangeCommitted={setCommittedValue}
+      />
+      <InputGroup w={160}>
+        <NumberInput
+          min={0}
+          max={100}
+          value={value[0]}
+          onChange={nextValue => {
+            const [start, end] = value;
+            if (nextValue > end) {
+              return;
+            }
+            setValue([nextValue, end]);
           }}
         />
-      </Col>
-      <Col md={8} xs={12}>
-        <InputGroup>
-          <InputNumber
-            min={0}
-            max={100}
-            value={value[0]}
-            onChange={nextValue => {
-              const [start, end] = value;
-              if (nextValue > end) {
-                return;
-              }
-              setValue([nextValue, end]);
-            }}
-          />
-          <InputGroup.Addon>to</InputGroup.Addon>
-          <InputNumber min={0} max={100} value={value[1]} disabled />
-        </InputGroup>
-      </Col>
-    </Row>
+        <InputGroup.Addon>to</InputGroup.Addon>
+        <NumberInput min={0} max={100} value={value[1]} disabled />
+      </InputGroup>
+      <span>Committed: {committedValue.join(' - ')}</span>
+    </HStack>
   );
 }
 
 const App = () => (
   <>
-    <Example1 />
+    <SliderExample />
     <hr />
-    <Example2 />
+    <RangeSliderExample />
     <hr />
-    <Example3 />
+    <Text mb={10}>Fixed end value</Text>
+    <FixedEndValueExample />
   </>
 );
 

@@ -1,26 +1,24 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import StyleHead from '../components/StyleHead';
 import canUseDOM from 'dom-lib/canUseDOM';
-import loadCssFile from '@/utils/loadCssFile';
 import TypedPrompt from '@/components/TypedPrompt';
 import NProgress from 'nprogress';
 import zhCN from 'rsuite/locales/zh_CN';
 import enUS from 'rsuite/locales/en_US';
 import Router, { useRouter } from 'next/router';
-import { Grid, CustomProvider, CustomProviderProps } from 'rsuite';
-import { Analytics } from '@vercel/analytics/react';
-import { AppProvider } from '@/components/AppContext';
+import AppProvider from '@/components/AppProvider';
+import { CustomProvider, CustomProviderProps } from 'rsuite';
+import { AppContainer } from '@/components/layout/AppContainer';
 import { getMessages } from '../locales';
 import {
   DirectionType,
   getDefaultTheme,
-  getStylesheetPath,
   readTheme,
   ThemeType,
   writeTheme
 } from '../utils/themeHelpers';
 import type { AppProps } from 'next/app';
-import '../less/index.less';
+import '../styles/index.scss';
 
 Router.events.on('routeChangeStart', url => {
   NProgress.start();
@@ -85,29 +83,9 @@ function App({ Component, pageProps }: AppProps) {
 
   const loadStylesheetForDirection = useCallback(
     async (direction: DirectionType) => {
-      console.group(`Changing direction: ${direction}`);
-
-      NProgress.start();
-
-      const id = `stylesheet-${direction}`;
-      const stylesheetPath = getStylesheetPath(direction);
-
-      console.log('Loading stylesheet: ', stylesheetPath);
-      const loaded = await loadCssFile(stylesheetPath, id);
-      console.log(loaded.target);
-
       const html = document.querySelector('html');
       html.setAttribute('dir', direction);
       writeTheme(themeName, direction);
-      NProgress.done();
-
-      for (const css of document.querySelectorAll('[rel=stylesheet]')) {
-        if (/_app(-rtl)?\.css/.test(css.getAttribute('href')) && css.getAttribute('id') !== id) {
-          console.log('Removing stylesheet: ', css);
-          css.remove();
-        }
-      }
-      console.groupEnd();
     },
     [themeName]
   );
@@ -121,7 +99,6 @@ function App({ Component, pageProps }: AppProps) {
 
   React.useEffect(() => {
     loadStylesheetForDirection(direction);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [direction]);
 
   return (
@@ -131,7 +108,7 @@ function App({ Component, pageProps }: AppProps) {
         rtl={direction === 'rtl'}
         theme={themeName}
       >
-        <Grid fluid className="app-container">
+        <AppContainer>
           <AppProvider
             value={{
               locales,
@@ -146,10 +123,9 @@ function App({ Component, pageProps }: AppProps) {
             <StyleHead onLoaded={handleStyleHeadLoaded} />
             <Component {...pageProps} />
           </AppProvider>
-        </Grid>
+        </AppContainer>
         <TypedPrompt />
       </CustomProvider>
-      <Analytics />
     </React.StrictMode>
   );
 }

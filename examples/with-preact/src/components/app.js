@@ -1,21 +1,22 @@
 import { Router } from 'preact-router';
-import 'rsuite/styles/index.less';
+import { CustomProvider } from 'rsuite';
 
-import Header from './header';
+import React from 'react';
 
 // Code-splitting is automated for `routes` directory
 import Home from '../routes/home';
 import Profile from '../routes/profile';
 
 const App = () => (
-  <div id="app">
-    <Header />
-    <Router>
-      <Home path="/" />
-      <Profile path="/profile/" user="me" />
-      <Profile path="/profile/:user" />
-    </Router>
-  </div>
+  <CustomProvider theme='dark'>
+    <div id="app">
+      <Router>
+        <Home path="/" />
+        <Profile path="/profile/" user="me" />
+        <Profile path="/profile/:user" />
+      </Router>
+    </div>
+  </CustomProvider>
 );
 
 export default App;

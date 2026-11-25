@@ -1,8 +1,8 @@
 import React from 'react';
-import { useClassNames } from '@/internals/hooks';
-import { createChainedFunction, mergeRefs } from '@/internals/utils';
-import { WithAsProps } from '@/internals/types';
+import { useStyles } from '@/internals/hooks';
+import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
 import { useScrollState } from './hooks/useScrollState';
+import type { WithAsProps } from '@/internals/types';
 
 export interface ScrollViewProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -32,7 +32,7 @@ export interface ScrollViewProps extends WithAsProps, React.HTMLAttributes<HTMLD
   'data-testid'?: string;
 }
 
-const ScrollView = React.forwardRef((props: ScrollViewProps, ref: React.Ref<HTMLDivElement>) => {
+const ScrollView = forwardRef<'div', ScrollViewProps>((props, ref) => {
   const {
     as: Component = 'div',
     classPrefix = 'scroll-view',
@@ -48,13 +48,13 @@ const ScrollView = React.forwardRef((props: ScrollViewProps, ref: React.Ref<HTML
     ...rest
   } = props;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withPrefix } = useStyles(classPrefix);
   const { scrollState, handleScroll, bodyRef } = useScrollState(scrollShadow);
 
   const bodyStyles = { height, width, ...style };
   const bodyClasses = merge(
     className,
-    withClassPrefix({
+    withPrefix({
       shadow: scrollShadow,
       'thumb-top': scrollState === 'top',
       'thumb-middle': scrollState === 'middle',

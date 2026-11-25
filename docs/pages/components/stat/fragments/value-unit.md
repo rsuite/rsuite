@@ -12,7 +12,6 @@ const App = () => (
       </Stat.Value>
     </Stat>
 
-
     <Stat>
       <Stat.Label> Time Remaining </Stat.Label>
       <Stat.Value>

@@ -1,14 +1,12 @@
-import { RefObject } from 'react';
 import delay from 'lodash/delay';
-import addMonths from 'date-fns/addMonths';
-import addDays from 'date-fns/addDays';
-import { useEventCallback } from '@/internals/hooks';
-import { useCustom } from '../../CustomProvider';
+import { RefObject } from 'react';
+import { addMonths } from 'date-fns/addMonths';
+import { addDays } from 'date-fns/addDays';
+import { useEventCallback, useCustom } from '@/internals/hooks';
 import { getAriaLabel } from '../../Calendar/utils';
-import { onMenuKeyDown } from '@/internals/Picker/utils';
 
 interface UseFocusProps {
-  target: RefObject<HTMLElement>;
+  target: RefObject<HTMLElement | null>;
   showMonth: boolean;
   id: string;
   locale: any;
@@ -22,8 +20,8 @@ function useFocus(props: UseFocusProps) {
   /**
    * Get the corresponding container based on date selection and month selection
    */
-  const getOverlayContainer = () => {
-    return showMonth
+  const getOverlayContainer = (month = showMonth) => {
+    return month
       ? document.getElementById(`${id}-calendar-month-dropdown`)
       : document.getElementById(`${id}-calendar-table`);
   };
@@ -46,15 +44,15 @@ function useFocus(props: UseFocusProps) {
   };
 
   /**
-   * Focus on the currently selected date element
+   * Focus on the current tab stop in the calendar grid
    */
-  const focusSelectedDate = () => {
+  const focusSelectedDate = (month = showMonth) => {
     delay(() => {
-      const container = getOverlayContainer();
+      const container = getOverlayContainer(month);
 
-      const selectedElement = container?.querySelector('[aria-selected="true"]') as HTMLElement;
+      const activeElement = container?.querySelector<HTMLElement>('[tabindex="0"]');
 
-      selectedElement?.focus();
+      activeElement?.focus();
     }, 1);
   };
 
@@ -68,26 +66,28 @@ function useFocus(props: UseFocusProps) {
   const onKeyFocusEvent = useEventCallback(
     (event: React.KeyboardEvent, options: { date: Date; callback: (date: Date) => void }) => {
       const { date, callback } = options;
-      let delta = 0;
-
       const step = showMonth ? 6 : 7;
       const changeDateFunc = showMonth ? addMonths : addDays;
+      let delta: number;
 
-      onMenuKeyDown(event, {
-        down: () => {
+      switch (event.key) {
+        case 'ArrowDown':
           delta = step;
-        },
-        up: () => {
+          break;
+        case 'ArrowUp':
           delta = -step;
-        },
-        right: () => {
+          break;
+        case 'ArrowRight':
           delta = 1;
-        },
-        left: () => {
+          break;
+        case 'ArrowLeft':
           delta = -1;
-        }
-      });
+          break;
+        default:
+          return;
+      }
 
+      event.preventDefault();
       const nextDate = changeDateFunc(date, delta);
 
       if (checkFocusable(nextDate)) {

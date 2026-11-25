@@ -1,0 +1,90 @@
+{
+  "Progress": {
+    "props": {
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "progress-line"
+      },
+      "indeterminate": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Show indeterminate loading animation"
+      },
+      "percent": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Percent of progress",
+        "defaultValue": "0"
+      },
+      "percentPlacement": {
+        "type": "'start' | 'end' | 'insideStart' | 'insideEnd' | 'insideCenter'",
+        "isRequired": false,
+        "description": "The placement of the percent info",
+        "defaultValue": "end"
+      },
+      "radius": {
+        "type": "number | string",
+        "isRequired": false,
+        "description": "The radius of the progress bar"
+      },
+      "renderInfo": {
+        "type": "(percent: number, status?: 'success' | 'fail' | 'active') => ReactNode",
+        "isRequired": false,
+        "description": "Custom render function for info content"
+      },
+      "sections": {
+        "type": "ProgressSection[]",
+        "isRequired": false,
+        "description": "Multiple sections with different colors"
+      },
+      "showInfo": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Show text",
+        "defaultValue": "true"
+      },
+      "status": {
+        "type": "'success' | 'fail' | 'active'",
+        "isRequired": false,
+        "description": "Progress status"
+      },
+      "striped": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to apply a striped effect"
+      },
+      "strokeColor": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Line color"
+      },
+      "strokeWidth": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Line width"
+      },
+      "trailColor": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Trail color"
+      },
+      "trailWidth": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Trail width"
+      },
+      "vertical": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The progress bar is displayed vertically"
+      },
+      "width": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Circle diameter"
+      }
+    }
+  }
+}

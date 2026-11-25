@@ -1,15 +1,20 @@
 <!--start-code-->
 
 ```js
-import { VStack, Button } from 'rsuite';
+import { VStack, Center } from 'rsuite';
+
+const DecorativeBox = ({ children, ...rest }) => (
+  <Center bg="var(--rs-placeholder)" p={40} rounded="lg" {...rest}>
+    {children}
+  </Center>
+);
 
 const App = () => {
   return (
     <VStack>
-      <Button size="lg">Large</Button>
-      <Button size="md">Medium</Button>
-      <Button size="sm">Small</Button>
-      <Button size="xs">Xsmall</Button>
+      <DecorativeBox />
+      <DecorativeBox />
+      <DecorativeBox />
     </VStack>
   );
 };

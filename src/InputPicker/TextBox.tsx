@@ -1,7 +1,8 @@
 import React from 'react';
 import TagList from './TagList';
-import { useClassNames } from '@/internals/hooks';
 import InputSearch, { InputSearchProps } from './InputSearch';
+import { useCombobox } from '@/internals/Picker';
+import { useStyles } from '@/internals/hooks';
 
 interface TextBoxProps {
   tags?: React.ReactNode;
@@ -16,6 +17,12 @@ interface TextBoxProps {
   editable?: boolean;
   multiple?: boolean;
   showTagList?: boolean;
+  active?: boolean;
+  activeDescendant?: string;
+  hasDescription?: boolean;
+  ariaLabel?: string;
+  tabIndex?: number;
+  inputTabStop?: boolean;
 }
 
 const TextBox = React.forwardRef((props: TextBoxProps, ref: React.Ref<HTMLDivElement>) => {
@@ -32,32 +39,61 @@ const TextBox = React.forwardRef((props: TextBoxProps, ref: React.Ref<HTMLDivEle
     inputRef,
     editable,
     showTagList,
+    active,
+    activeDescendant,
+    hasDescription,
+    ariaLabel,
+    tabIndex,
+    inputTabStop,
     ...rest
   } = props;
 
-  const { prefix } = useClassNames('picker');
+  const { prefix } = useStyles('picker');
+  const { id, labelId, popupType, breakpoint, inputCombobox } = useCombobox();
 
   if (!multiple && disabled) {
     return null;
   }
 
+  const input =
+    editable && breakpoint !== 'xs' ? (
+      <InputSearch
+        role={inputCombobox ? 'combobox' : undefined}
+        id={inputCombobox ? id : undefined}
+        aria-haspopup={inputCombobox ? popupType : undefined}
+        aria-expanded={inputCombobox ? !!active : undefined}
+        aria-controls={inputCombobox && active ? `${id}-${popupType}` : undefined}
+        aria-labelledby={inputCombobox ? labelId : undefined}
+        aria-label={inputCombobox && !labelId ? ariaLabel : undefined}
+        aria-describedby={inputCombobox && hasDescription ? `${id}-describe` : undefined}
+        aria-autocomplete={inputCombobox ? 'list' : undefined}
+        aria-activedescendant={inputCombobox && active ? activeDescendant : undefined}
+        aria-readonly={inputCombobox ? readOnly || undefined : undefined}
+        {...inputProps}
+        tabIndex={inputCombobox || inputTabStop ? (tabIndex ?? 0) : -1}
+        readOnly={readOnly}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        inputRef={inputRef}
+        onChange={onChange}
+        value={inputValue}
+      />
+    ) : null;
+
   return (
     <div className={prefix`textbox`} ref={ref} {...rest}>
-      {showTagList ? <TagList>{tags}</TagList> : null}
-      {editable && (
-        <InputSearch
-          {...inputProps}
-          tabIndex={-1}
-          readOnly={readOnly}
-          onBlur={onBlur}
-          onFocus={onFocus}
-          inputRef={inputRef}
-          onChange={onChange}
-          value={inputValue}
-        />
+      {showTagList ? (
+        <TagList>
+          {tags}
+          {input}
+        </TagList>
+      ) : (
+        input
       )}
     </div>
   );
 });
+
+TextBox.displayName = 'TextBox';
 
 export default TextBox;

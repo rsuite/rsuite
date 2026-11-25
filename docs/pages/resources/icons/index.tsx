@@ -1,9 +1,9 @@
-import React from 'react';
+/* eslint-disable @typescript-eslint/no-require-imports */
 import { Row, Col } from 'rsuite';
-import { MarkdownRenderer } from 'react-code-view';
-import { useApp } from '@/components/AppContext';
-import IconList from '@/components/IconList';
-import DefaultPage from '@/components/Page';
+import { HTMLRenderer } from '@/components/CodeView/HTMLRenderer';
+import { useApp } from '@/hooks/useApp';
+import IconList from '@/components/resources/icons/IconList';
+import DefaultPage from '@/components/layout/Page';
 
 export default function Page() {
   const { localePath } = useApp();
@@ -12,13 +12,8 @@ export default function Page() {
     <DefaultPage>
       <IconList />
       <Row>
-        <Col md={24}>
-          <MarkdownRenderer>
-            {
-              // eslint-disable-next-line @typescript-eslint/no-var-requires
-              require(`.${localePath}/footer.md`)?.default
-            }
-          </MarkdownRenderer>
+        <Col span={24}>
+          <HTMLRenderer>{require(`.${localePath}/footer.md`)?.default}</HTMLRenderer>
         </Col>
       </Row>
     </DefaultPage>

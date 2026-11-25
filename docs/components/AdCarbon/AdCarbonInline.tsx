@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text } from 'rsuite';
+import styles from './AdCarbonInline.module.scss';
 
 /**
  * Inspired by https://github.com/mui/material-ui/blob/7c7fd30ffc6eec4ead1ca06a780cf35c06683ac3/docs/src/modules/components/AdCarbon.js#L57
@@ -21,7 +22,7 @@ function AdCarbonInline(props: React.HTMLAttributes<HTMLAnchorElement>) {
         let response;
         try {
           response = await fetch('https://srv.buysellads.com/ads/CW7DTK3W.json');
-        } catch (err) {
+        } catch {
           // Ad blocker crashes this request
           return null;
         }
@@ -53,7 +54,7 @@ function AdCarbonInline(props: React.HTMLAttributes<HTMLAnchorElement>) {
   return ad ? (
     <a
       {...props}
-      className="carbon-ad-inline"
+      className={styles['carbon-ad-inline']}
       id={`carbon-native-${ad.timestamp}`}
       href={ad.statlink}
       target="_blank"
@@ -63,7 +64,7 @@ function AdCarbonInline(props: React.HTMLAttributes<HTMLAnchorElement>) {
       <span>{ad.company}</span>
       {' — '}
       <span>{ad.description}</span>
-      <Text className="carbon-ad-badge">Ad</Text>
+      <Text className={styles['carbon-ad-badge']}>Ad</Text>
       {/* Impression */}
       <img src={ad.statimp} alt="" style={{ display: 'none' }} />
       {/* Pixel */}

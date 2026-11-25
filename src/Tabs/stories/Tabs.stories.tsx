@@ -1,11 +1,11 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Tabs, { TabsProps } from '../Tabs';
 import ImageIcon from '@rsuite/icons/Image';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import SpeakerIcon from '@rsuite/icons/Speaker';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(Tabs);
 

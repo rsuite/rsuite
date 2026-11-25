@@ -1,0 +1,86 @@
+{
+  "IconButton": {
+    "props": {
+      "active": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "A button can show it is currently the active user selection"
+      },
+      "appearance": {
+        "type": "'default' | 'primary' | 'link' | 'subtle' | 'ghost'",
+        "isRequired": false,
+        "description": "A button can have different appearances",
+        "defaultValue": "default"
+      },
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element for this component",
+        "defaultValue": "button"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Primary content"
+      },
+      "circle": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Set circle button"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "btn-icon"
+      },
+      "color": {
+        "type": "'red' | 'orange' | 'yellow' | 'green' | 'cyan' | 'blue' | 'violet'",
+        "isRequired": false,
+        "description": "A button can have different colors"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "A button can show it is currently unable to be interacted with"
+      },
+      "href": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Providing a `href` will render an `a` element"
+      },
+      "icon": {
+        "type": "Element&lt;typeof Icon&gt;",
+        "isRequired": false,
+        "description": "Set the icon of button"
+      },
+      "loading": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "A button can show a loading indicator"
+      },
+      "onToggle": {
+        "type": "(active: boolean, event: MouseEvent) => void",
+        "isRequired": false,
+        "description": "Callback when the button is toggled between active and inactive states"
+      },
+      "placement": {
+        "type": "'left' | 'right' | 'start' | 'end'",
+        "isRequired": false,
+        "description": "The placement of icon",
+        "defaultValue": "start"
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "A button can have different sizes",
+        "defaultValue": "md"
+      },
+      "toggleable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "A button can switch between active and inactive states"
+      }
+    }
+  }
+}

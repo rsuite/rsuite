@@ -2,62 +2,27 @@
 
 ```js
 import { Popover, Whisper, Button } from 'rsuite';
-
-function PreventOverflowContainer({ children, height = 500 }) {
-  const container = React.useRef();
-  const content = React.useRef();
-
-  const containerStyle = {
-    overflow: 'auto',
-    position: 'relative'
-  };
-
-  const contentStyle = {
-    height: '400%',
-    width: '230%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    display: 'flex',
-    flexWrap: 'wrap'
-  };
-
-  React.useEffect(() => {
-    container.current.scrollTop = content.current.clientHeight / 2 - 60;
-    container.current.scrollLeft =
-      content.current.clientWidth / 2 - container.current.clientWidth / 2;
-  }, [container, content]);
-
-  return (
-    <div style={{ ...containerStyle, height }} ref={container}>
-      <div style={contentStyle} ref={content}>
-        {children(() => container.current)}
-      </div>
-    </div>
-  );
-}
-
-const speaker = (
-  <Popover title="Title" style={{ width: 200 }}>
-    <p>This is a default Popover</p>
-    <p>Content</p>
-  </Popover>
-);
+import PlacementContainer from '@/components/PlacementContainer';
 
 const App = () => (
-  <PreventOverflowContainer height={300}>
-    {getContainer => (
+  <PlacementContainer placement="auto">
+    {({ container, placement, preventOverflow }) => (
       <Whisper
         preventOverflow
         trigger="click"
-        controlId="control-id-container"
-        container={getContainer}
-        speaker={speaker}
-        placement="auto"
+        container={container}
+        placement={placement}
+        speaker={
+          <Popover title="Title" w={200}>
+            <p>This is a default Popover</p>
+            <p>Content</p>
+          </Popover>
+        }
       >
-        <Button appearance="primary">Click</Button>
+        <Button appearance="primary">Click me</Button>
       </Whisper>
     )}
-  </PreventOverflowContainer>
+  </PlacementContainer>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

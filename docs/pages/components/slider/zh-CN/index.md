@@ -6,8 +6,8 @@
 
 <!--{include:<import-guide>}-->
 
-- `<Slider>` 滑动输入控件。
-- `<RangeSlider>` 滑动范围输入控件。
+- `Slider` 滑动输入控件，用于选择单个值。
+- `RangeSlider` 滑动范围输入控件，用于选择一个区间。
 
 ## 演示
 
@@ -17,37 +17,63 @@
 
 ### 显示进度条
 
+通过 `progress` 属性显示当前滑动的进度条。
+
 <!--{include:`progress.md`}-->
 
 ### 显示刻度
 
+通过 `graduated` 属性显示刻度。
+
 <!--{include:`graduated.md`}-->
 
+### 带标记的刻度
+
+通过 `marks` 属性自定义刻度标记。
+
+<!--{include:`marks.md`}-->
+
+### 尺寸
+
+支持多种尺寸，可通过 `size` 属性设置。
+
+<!--{include:`size.md`}-->
+
 ### 垂直滑动
+
+通过 `vertical` 属性设置为垂直方向。
 
 <!--{include:`vertical.md`}-->
 
 ### 禁用与只读
 
+通过 `disabled` 或 `readOnly` 属性设置禁用或只读状态。
+
 <!--{include:`disabled.md`}-->
 
-### 显示值(受控的)
+### 受控的值
+
+受控用法，通过 `value` 属性和回调函数控制滑块的值。
 
 <!--{include:`value.md`}-->
 
 ### 约束
 
-限制起始值不得大于 25, 结束值不得小于 35。
+通过 `constraint` 属性自定义数值区间的限制。
 
 <!--{include:`constraint.md`}-->
 
-### 自定义
+### 自定义手柄
+
+通过 `handleTitle` 和 `handleClassName` 属性自定义手柄内容和样式。
 
 <!--{include:`custom.md`}-->
 
-### 自定义大小
+### 保持工具提示打开
 
-<!--{include:`size.md`}-->
+通过 `keepTooltipOpen` 属性让 Tooltip 始终可见。
+
+<!--{include:`keep-tooltip-open.md`}-->
 
 ### 无障碍设计
 
@@ -86,49 +112,69 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 
 ### `<Slider>`
 
-| 属性名称          | 类型`(默认值)`                  | 描述                                          |
-| ----------------- | ------------------------------- | --------------------------------------------- |
-| barClassName      | string                          | 应用于滑动条 DOM 节点的 css class             |
-| defaultValue      | number                          | 默认值（非受控）                              |
-| disabled          | boolean                         | 是否禁用                                      |
-| getAriaValueText  | (value: number) => string;      | 提供 Slider 的当前值的用户友好名称            |
-| graduated         | boolean                         | 显示刻度                                      |
-| handleClassName   | string                          | 应用于手柄 DOM 节点的 css class               |
-| handleStyle       | CSSProperties                   | 附加手柄样式                                  |
-| handleTitle       | ReactNode                       | 自定义手柄内显示内容                          |
-| max               | number`(100)`                   | 滑动范围的最大值                              |
-| min               | number`(0)`                     | 滑动范围的最小值                              |
-| onChange          | (value: number, event) => void  | 数据发生改变的回调函数                        |
-| onChangeCommitted | (value: number, event) => void; | 在 mouseup 事件触发后，同时数据发生改变的回调 |
-| progress          | boolean                         | 显示滑动的进度条                              |
-| renderMark        | (mark: number) => ReactNode     | 自定义渲染标尺上的标签                        |
-| renderTooltip     | (value: number ) => ReactNode   | 自定义渲染 Tooltip 的内容                     |
-| step              | number`(1)`                     | 滑动一步的值                                  |
-| tooltip           | boolean`(true)`                 | 滑动时候，是否显示 tooltip                    |
-| value             | number                          | 当前值（受控）                                |
-| vertical          | boolean                         | 垂直滑动                                      |
+| 属性名称          | 类型`(默认值)`                  | 描述                                          | 版本       |
+| ----------------- | ------------------------------- | --------------------------------------------- | ---------- |
+| barClassName      | string                          | 应用于滑动条 DOM 节点的 css class             |            |
+| defaultValue      | number                          | 默认值（非受控）                              |            |
+| disabled          | boolean                         | 是否禁用                                      |            |
+| getAriaValueText  | (value: number) => string;      | 提供 Slider 的当前值的用户友好名称            |            |
+| graduated         | boolean                         | 显示刻度                                      |            |
+| handleClassName   | string                          | 应用于手柄 DOM 节点的 css class               |            |
+| handleStyle       | CSSProperties                   | 附加手柄样式                                  |            |
+| handleTitle       | ReactNode                       | 自定义手柄内显示内容                          |            |
+| keepTooltipOpen   | boolean                         | `Tooltip` 始终保持可见                        |            |
+| marks             | [Mark][mark][]                  | 滑动条上的自定义标记                          | ![][6.0.0] |
+| max               | number`(100)`                   | 滑动范围的最大值                              |            |
+| min               | number`(0)`                     | 滑动范围的最小值                              |            |
+| onChange          | (value: number, event) => void  | 数据发生改变的回调函数                        |            |
+| onChangeCommitted | (value: number, event) => void; | 在 mouseup 事件触发后，同时数据发生改变的回调 |            |
+| progress          | boolean                         | 显示滑动的进度条                              |            |
+| renderMark        | (mark: number) => ReactNode     | 自定义渲染标尺上的标签                        |            |
+| renderTooltip     | (value: number ) => ReactNode   | 自定义渲染 Tooltip 的内容                     |            |
+| size              | [Size][size] \| `('sm')`        | 指定滑动条的尺寸                              | ![][6.0.0] |
+| step              | number`(1)`                     | 滑动一步的值                                  |            |
+| tooltip           | boolean`(true)`                 | 滑动时候，是否显示 tooltip                    |            |
+| value             | number                          | 当前值（受控）                                |            |
+| vertical          | boolean                         | 垂直滑动                                      |            |
 
 ### `<RangeSlider>`
 
-| 属性名称          | 类型`(默认值)`                                         | 描述                                                                       |
-| ----------------- | ------------------------------------------------------ | -------------------------------------------------------------------------- |
-| barClassName      | string                                                 | 应用于滑动条 DOM 节点的 css class                                          |
-| constraint        | `(value: [number, number]) => boolean`                 | 在 `onChange` 触发之前对下一个值进行检查, 返回 `false` 则不触发 `onChange` |
-| defaultValue      | [number,number]                                        | 默认值（非受控）                                                           |
-| disabled          | boolean                                                | 是否禁用                                                                   |
-| getAriaValueText  | (value: number,eventKey:'start'&#124;'end') => string; | 提供 Slider 的当前值的用户友好名称                                         |
-| graduated         | boolean                                                | 显示刻度                                                                   |
-| handleClassName   | string                                                 | 应用于手柄 DOM 节点的 css class                                            |
-| handleStyle       | CSSProperties                                          | 附加手柄样式                                                               |
-| handleTitle       | ReactNode                                              | 自定义手柄内显示内容                                                       |
-| max               | number`(100)`                                          | 滑动范围的最大值                                                           |
-| min               | number`(0)`                                            | 滑动范围的最小值                                                           |
-| onChange          | (value: [number,number], event) => void                | 数据发生改变的回调函数                                                     |
-| onChangeCommitted | (value: [number,number], event) => void;               | 在 mouseup 事件触发后，同时数据发生改变的回调                              |
-| progress          | boolean                                                | 显示滑动的进度条                                                           |
-| renderMark        | (mark: number) => ReactNode                            | 自定义渲染标尺上的标签                                                     |
-| renderTooltip     | (value: number ) => ReactNode                          | 自定义渲染 Tooltip 的内容                                                  |
-| step              | number`(1)`                                            | 滑动一步的值                                                               |
-| tooltip           | boolean`(true)`                                        | 滑动时候，是否显示 tooltip                                                 |
-| value             | [number,number]                                        | 当前值（受控）                                                             |
-| vertical          | boolean                                                | 垂直滑动                                                                   |
+| 属性名称          | 类型`(默认值)`                                         | 描述                                                                       | 版本       |
+| ----------------- | ------------------------------------------------------ | -------------------------------------------------------------------------- | ---------- |
+| barClassName      | string                                                 | 应用于滑动条 DOM 节点的 css class                                          |            |
+| constraint        | `(value: [number, number]) => boolean`                 | 在 `onChange` 触发之前对下一个值进行检查, 返回 `false` 则不触发 `onChange` |            |
+| defaultValue      | [number,number]                                        | 默认值（非受控）                                                           |            |
+| disabled          | boolean                                                | 是否禁用                                                                   |            |
+| getAriaValueText  | (value: number,eventKey:'start'&#124;'end') => string; | 提供 Slider 的当前值的用户友好名称                                         |            |
+| graduated         | boolean                                                | 显示刻度                                                                   |            |
+| handleClassName   | string                                                 | 应用于手柄 DOM 节点的 css class                                            |            |
+| handleStyle       | CSSProperties                                          | 附加手柄样式                                                               |            |
+| handleTitle       | ReactNode                                              | 自定义手柄内显示内容                                                       |            |
+| keepTooltipOpen   | boolean                                                | `Tooltip` 始终保持可见                                                     |            |
+| marks             | [Mark][mark][]                                         | 滑动条上的自定义标记                                                       | ![][6.0.0] |
+| max               | number`(100)`                                          | 滑动范围的最大值                                                           |            |
+| min               | number`(0)`                                            | 滑动范围的最小值                                                           |            |
+| onChange          | (value: [number,number], event) => void                | 数据发生改变的回调函数                                                     |            |
+| onChangeCommitted | (value: [number,number], event) => void;               | 在 mouseup 事件触发后，同时数据发生改变的回调                              |            |
+| progress          | boolean                                                | 显示滑动的进度条                                                           |            |
+| renderMark        | (mark: number) => ReactNode                            | 自定义渲染标尺上的标签                                                     |            |
+| renderTooltip     | (value: number ) => ReactNode                          | 自定义渲染 Tooltip 的内容                                                  |            |
+| size              | [Size][size] \| `('sm')`                               | 指定滑动条的尺寸                                                           | ![][6.0.0] |
+| step              | number`(1)`                                            | 滑动一步的值                                                               |            |
+| tooltip           | boolean`(true)`                                        | 滑动时候，是否显示 tooltip                                                 |            |
+| value             | [number,number]                                        | 当前值（受控）                                                             |            |
+| vertical          | boolean                                                | 垂直滑动                                                                   |            |
+
+<!--{include:(_common/types/size.md)}-->
+
+[size]: #code-ts-size-code
+[mark]: #code-ts-mark-code
+
+### `ts:Mark`
+
+```ts
+interface Mark {
+  value: number;
+  label?: React.ReactNode;
+}
+```

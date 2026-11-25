@@ -1,10 +1,10 @@
 <!--start-code-->
 
 ```js
-import { Checkbox } from 'rsuite';
+import { Checkbox, HStack } from 'rsuite';
 
 const App = () => (
-  <>
+  <HStack spacing={20}>
     <Checkbox defaultChecked color="red">
       Red
     </Checkbox>
@@ -26,7 +26,7 @@ const App = () => (
     <Checkbox defaultChecked color="violet">
       Violet
     </Checkbox>
-  </>
+  </HStack>
 );
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

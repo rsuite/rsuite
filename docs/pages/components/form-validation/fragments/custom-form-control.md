@@ -8,44 +8,30 @@ import {
   RadioGroup,
   Checkbox,
   Radio,
-  Schema,
   CheckPicker,
-  InputNumber,
-  Panel,
+  NumberInput,
   Slider,
   DatePicker,
   Message,
   toaster,
-  FlexboxGrid,
+  Row,
+  Col,
   Toggle
 } from 'rsuite';
-import JSONTree from 'react-json-tree';
-
-const JSONView = ({ formValue, formError }) => (
-  <div style={{ marginBottom: 10 }}>
-    <Panel className="json-tree-wrapper" header={<p>formValue</p>}>
-      <JSONTree data={formValue} />
-    </Panel>
-
-    <Panel className="json-tree-wrapper" header={<p>formError</p>}>
-      <JSONTree data={formError} />
-    </Panel>
-  </div>
-);
+import { SchemaModel, StringType, ArrayType } from 'rsuite/Schema';
 
 const Field = React.forwardRef((props, ref) => {
   const { name, message, label, accepter, error, ...rest } = props;
   return (
     <Form.Group controlId={`${name}-10`} ref={ref} className={error ? 'has-error' : ''}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
+      <Form.Label>{label} </Form.Label>
       <Form.Control name={name} accepter={accepter} errorMessage={error} {...rest} />
-      <Form.HelpText>{message}</Form.HelpText>
+      <Form.Text>{message}</Form.Text>
     </Form.Group>
   );
 });
 
-const { ArrayType, NumberType } = Schema.Types;
-const model = Schema.Model({
+const model = SchemaModel({
   skills: ArrayType()
     .minLength(2, 'Please select at least 2 types of Skills.')
     .isRequired('This field is required.'),
@@ -78,8 +64,8 @@ const App = () => {
   };
 
   return (
-    <FlexboxGrid>
-      <FlexboxGrid.Item colspan={12}>
+    <Row>
+      <Col span={{ xs: 24, md: 12 }}>
         <Form
           ref={formRef}
           onChange={setFormValue}
@@ -87,80 +73,83 @@ const App = () => {
           formValue={formValue}
           model={model}
         >
-          <Field name="number" label="Number" accepter={InputNumber} error={formError.number} />
-          <Field
-            name="skills"
-            label="Skills"
-            accepter={CheckboxGroup}
-            error={formError.skills}
-            inline
-          >
-            <Checkbox value={'Node.js'}>Node.js</Checkbox>
-            <Checkbox value={'CSS3'}>CSS3</Checkbox>
-            <Checkbox value={'Javascript'}>Javascript</Checkbox>
-            <Checkbox value={'HTML5'}>HTML5</Checkbox>
-          </Field>
+          <Form.Stack>
+            <Field name="number" label="Number" accepter={NumberInput} error={formError.number} />
+            <Field
+              name="skills"
+              label="Skills"
+              accepter={CheckboxGroup}
+              error={formError.skills}
+              inline
+            >
+              <Checkbox value={'Node.js'}>Node.js</Checkbox>
+              <Checkbox value={'CSS3'}>CSS3</Checkbox>
+              <Checkbox value={'Javascript'}>Javascript</Checkbox>
+              <Checkbox value={'HTML5'}>HTML5</Checkbox>
+            </Field>
 
-          <Field
-            name="browser"
-            label="Browser"
-            accepter={RadioGroup}
-            error={formError.browser}
-            inline
-          >
-            <Radio value={'Chrome'}>Chrome</Radio>
-            <Radio value={'FireFox'}>FireFox</Radio>
-            <Radio value={'IE'}>IE</Radio>
-          </Field>
+            <Field
+              name="browser"
+              label="Browser"
+              accepter={RadioGroup}
+              error={formError.browser}
+              inline
+            >
+              <Radio value={'Chrome'}>Chrome</Radio>
+              <Radio value={'FireFox'}>FireFox</Radio>
+              <Radio value={'IE'}>IE</Radio>
+            </Field>
 
-          <Field
-            name="status"
-            label="Status"
-            accepter={CheckPicker}
-            error={formError.status}
-            style={{ display: 'inline-block', width: 200 }}
-            data={[
-              { label: 'Todo', value: 'todo' },
-              { label: 'Open', value: 'open' },
-              { label: 'Close', value: 'close' },
-              { label: 'Error', value: 'error' },
-              { label: 'Processing', value: 'processing' },
-              { label: 'Done', value: 'done' }
-            ]}
-          />
+            <Field
+              name="status"
+              label="Status"
+              accepter={CheckPicker}
+              error={formError.status}
+              style={{ display: 'inline-block', width: 200 }}
+              data={[
+                { label: 'Todo', value: 'todo' },
+                { label: 'Open', value: 'open' },
+                { label: 'Close', value: 'close' },
+                { label: 'Error', value: 'error' },
+                { label: 'Processing', value: 'processing' },
+                { label: 'Done', value: 'done' }
+              ]}
+            />
 
-          <Field
-            accepter={Slider}
-            min={0}
-            max={20}
-            name="level"
-            label="Level"
-            style={{ width: 200, margin: '10px 0' }}
-            errorMessage={formError.level}
-          />
+            <Field
+              accepter={Slider}
+              min={0}
+              max={20}
+              name="level"
+              label="Level"
+              w={200}
+              my={10}
+              errorMessage={formError.level}
+            />
 
-          <Field
-            accepter={DatePicker}
-            name="createDate"
-            label="Create Date"
-            errorMessage={formError.createDate}
-            editable={false}
-          />
+            <Field
+              accepter={DatePicker}
+              name="createDate"
+              label="Create Date"
+              errorMessage={formError.createDate}
+              editable={false}
+            />
 
-          <Field accepter={Toggle} name="toggle" label="Toggle" errorMessage={formError.toggle} />
+            <Field accepter={Toggle} name="toggle" label="Toggle" errorMessage={formError.toggle} />
+          </Form.Stack>
 
-          <Form.Group>
+          <ButtonToolbar mt={20}>
             <Button appearance="primary" onClick={handleSubmit}>
               Submit
             </Button>
-          </Form.Group>
+          </ButtonToolbar>
         </Form>
-      </FlexboxGrid.Item>
+      </Col>
 
-      <FlexboxGrid.Item colspan={12}>
+      <Col hidden={{ md: true }} span={{ xs: 24, md: 12 }}>
         <JSONView formValue={formValue} formError={formError} />
-      </FlexboxGrid.Item>
-    </FlexboxGrid>
+      </Col>
+    </Row>
   );
 };
 

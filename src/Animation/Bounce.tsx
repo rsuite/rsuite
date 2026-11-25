@@ -1,7 +1,7 @@
 import React from 'react';
+import useCustomConfig from '@/internals/hooks/useCustomConfig';
 import Transition, { TransitionProps } from './Transition';
-import { useClassNames } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { useStyles } from '@/internals/hooks';
 
 export type BounceProps = TransitionProps;
 
@@ -10,8 +10,8 @@ export type BounceProps = TransitionProps;
  * @see https://rsuitejs.com/components/animation/#bounce
  */
 const Bounce = React.forwardRef(({ timeout = 300, ...props }: BounceProps, ref: React.Ref<any>) => {
-  const { prefix } = useClassNames('anim');
-  const { propsWithDefaults } = useCustom('Bounce', props);
+  const { prefix } = useStyles('anim');
+  const { propsWithDefaults } = useCustomConfig('Bounce', props);
 
   return (
     <Transition

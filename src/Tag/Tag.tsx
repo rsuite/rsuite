@@ -1,17 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
 import CloseButton from '@/internals/CloseButton';
-import { useClassNames } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
-import type { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
+import Box, { BoxProps } from '@/internals/Box';
+import { useStyles, useCustom } from '@/internals/hooks';
+import { forwardRef, mergeStyles, isPresetColor, createColorVariables } from '@/internals/utils';
+import type { Color } from '@/internals/types';
 import type { CommonLocale } from '../locales';
 
-export interface TagProps extends WithAsProps {
+export interface TagProps extends BoxProps {
   /** Different sizes */
   size?: 'lg' | 'md' | 'sm';
 
   /** A tag can have different colors */
-  color?: TypeAttributes.Color;
+  color?: Color | React.CSSProperties['color'];
 
   /** Whether to close */
   closable?: boolean;
@@ -26,54 +26,62 @@ export interface TagProps extends WithAsProps {
   onClose?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
+type TagRenderProps = TagProps & Pick<React.HTMLAttributes<HTMLElement>, 'role'>;
+
 /**
  * The `Tag` component is used to label and categorize.
  * It can be used to mark the status of an object or classify it into different categories.
  *
  * @see https://rsuitejs.com/components/tag
  */
-const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: TagProps, ref) => {
+const Tag = forwardRef<'div', TagProps>((props: TagRenderProps, ref) => {
   const { propsWithDefaults, getLocale } = useCustom('Tag', props);
   const {
-    as: Component = 'div',
+    as,
     classPrefix = 'tag',
     size = 'md',
-    color = 'default',
+    color,
     children,
     closable,
     className,
     locale: overrideLocale,
+    style,
     onClose,
     ...rest
   } = propsWithDefaults;
 
   const { remove } = getLocale('common', overrideLocale);
-  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(size, color, { closable }));
+  const { withPrefix, prefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
+
+  const styles = useMemo(
+    () => mergeStyles(style, createColorVariables(color, '--rs-tag-bg', '--rs-tag-text')),
+    [style, color]
+  );
 
   return (
-    <Component {...rest} ref={ref} className={classes}>
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      style={styles}
+      {...rest}
+      data-size={size}
+      data-color={isPresetColor(color) ? color : undefined}
+    >
       <span className={prefix`text`}>{children}</span>
       {closable && (
         <CloseButton
           className={prefix`icon-close`}
           onClick={onClose}
-          tabIndex={-1}
+          tabIndex={rest.role === 'option' ? -1 : undefined}
           locale={{ closeLabel: remove }}
         />
       )}
-    </Component>
+    </Box>
   );
 });
 
 Tag.displayName = 'Tag';
-Tag.propTypes = {
-  closable: PropTypes.bool,
-  classPrefix: PropTypes.string,
-  onClose: PropTypes.func,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  as: PropTypes.elementType
-};
 
 export default Tag;

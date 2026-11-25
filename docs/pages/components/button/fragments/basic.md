@@ -3,12 +3,9 @@
 ```js
 import { Button } from 'rsuite';
 
-ReactDOM.render(
-  <>
-    <Button>Default</Button>
-  </>,
-  document.getElementById('root')
-);
+const App = () => <Button>Default</Button>;
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

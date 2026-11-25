@@ -1,12 +1,12 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import HStack from '../../Stack/HStack';
 import Stat from '../../Stat';
 import StatGroup, { StatGroupProps } from '../StatGroup';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Stat/styles/index.less';
-import '../../Stack/styles/index.less';
+import '../styles/index.scss';
+import '../../Stat/styles/index.scss';
+import '../../Stack/styles/index.scss';
 
 const meta = createMeta(StatGroup);
 

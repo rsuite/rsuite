@@ -9,6 +9,7 @@ export function installCarbon() {
 
     carbon.src = 'https://cdn.carbonads.com/carbon.js?serve=CEAIL2JU&placement=rsuitejscom';
     carbon.id = '_carbonads_js';
+    adSpace.className = 'ads-via-carbon-space';
     adSpace.appendChild(carbon);
 
     if (adView) {

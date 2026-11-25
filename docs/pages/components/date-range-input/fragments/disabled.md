@@ -1,29 +1,39 @@
 <!--start-code-->
 
 ```js
-import { DateRangeInput, InputGroup, Stack } from 'rsuite';
+import { DateRangeInput, InputGroup, HStack, VStack, Text, Divider } from 'rsuite';
 import CalendarIcon from '@rsuite/icons/Calendar';
 
 const App = () => (
-  <>
-    <style type="text/css">{` .disabled-container .rs-stack-item { width: 230px; } `}</style>
-    <Stack spacing={10} direction="column" alignItems="flex-start" className="disabled-container">
-      <label>Disabled:</label>
-      <DateRangeInput disabled value={[new Date('2023-10-01'), new Date('2023-10-31')]} />
-      <InputGroup disabled>
+  <VStack divider={<Divider />}>
+    <HStack>
+      <Text muted w={80}>
+        Disabled
+      </Text>
+      <DateRangeInput w={260} disabled value={[new Date('2023-10-01'), new Date('2023-10-31')]} />
+
+      <InputGroup disabled w={260}>
         <DateRangeInput value={[new Date('2023-10-01'), new Date('2023-10-31')]} />
         <InputGroup.Addon>
           <CalendarIcon />
         </InputGroup.Addon>
       </InputGroup>
+    </HStack>
 
-      <label>Read only:</label>
-      <DateRangeInput readOnly value={[new Date('2023-10-01'), new Date('2023-10-31')]} />
+    <HStack>
+      <Text muted w={80}>
+        ReadOnly
+      </Text>
+      <DateRangeInput w={260} readOnly value={[new Date('2023-10-01'), new Date('2023-10-31')]} />
+    </HStack>
 
-      <label>Plaintext:</label>
-      <DateRangeInput plaintext value={[new Date('2023-10-01'), new Date('2023-10-31')]} />
-    </Stack>
-  </>
+    <HStack>
+      <Text muted w={80}>
+        Plaintext
+      </Text>
+      <DateRangeInput w={260} plaintext value={[new Date('2023-10-01'), new Date('2023-10-31')]} />
+    </HStack>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -30,25 +30,5 @@ Import button style file:
 
 ```diff
 import Button from 'rsuite/Button';
-+ import 'rsuite/Button/styles/index.less';
++ import 'rsuite/Button/styles/index.css';
 ```
-
-## Disabled HTML styles reset
-
-We reset some HTML styles in rsuite by default.But you may not need these styles when you use modularized. So you should [disable import it][config-reset-import] . This is the example config for `less-loader` :
-
-```
-{
-    test: /\.less$/,
-    loader: 'less-loader',
-    options: {
-        // If you are using less-loader@5 or older version, please spread the lessOptions to options directly.
-        lessOptions: {
-          javascriptEnabled: true,
-          modifyVars: { '@enable-css-reset': false }
-        }
-    }
-}
-```
-
-[config-reset-import]: /guide/customization-less/#disable-html-styles-reset

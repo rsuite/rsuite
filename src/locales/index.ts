@@ -14,6 +14,7 @@ export { default as huHU } from './hu_HU';
 export { default as itIT } from './it_IT';
 export { default as kkKZ } from './kk_KZ';
 export { default as koKR } from './ko_KR';
+export { default as nbNO } from './nb_NO';
 export { default as nlNL } from './nl_NL';
 export { default as ptBR } from './pt_BR';
 export { default as ruRU } from './ru_RU';
@@ -27,12 +28,22 @@ export { default as jaJP } from './ja_JP';
 export { default as neNP } from './ne_NP';
 export { default as csCZ } from './cs_CZ';
 export { default as plPL } from './pl_PL';
+export { default as ukUA } from './uk_UA';
+export { default as thTH } from './th_TH';
+export { default as guIN } from './gu_IN';
 
 type PickKeys<T> = {
   [keys in keyof T]?: T[keys];
 };
 
-export type Locale = PickKeys<typeof defaultLocale>;
+export type Locale = PickKeys<
+  Omit<typeof defaultLocale, 'Carousel' | 'ColorPicker' | 'PinInput' | 'CommandPalette'>
+> & {
+  Carousel?: CarouselLocale;
+  ColorPicker?: ColorPickerLocale;
+  PinInput?: PinInputLocale;
+  CommandPalette?: CommandPaletteLocale;
+};
 export type CommonLocale = typeof defaultLocale.common;
 export type PlaintextLocale = PickKeys<typeof defaultLocale.Plaintext>;
 export type PaginationLocale = PickKeys<typeof defaultLocale.Pagination>;
@@ -45,6 +56,11 @@ export type UploaderLocale = PickKeys<typeof defaultLocale.Uploader> & CommonLoc
 export type CloseButtonLocale = PickKeys<typeof defaultLocale.CloseButton>;
 export type BreadcrumbLocale = PickKeys<typeof defaultLocale.Breadcrumb>;
 export type ToggleLocale = PickKeys<typeof defaultLocale.Toggle>;
+export type ColorPickerLocale = PickKeys<typeof defaultLocale.ColorPicker>;
+export type CarouselLocale = PickKeys<typeof defaultLocale.Carousel>;
+export type PinInputLocale = PickKeys<typeof defaultLocale.PinInput>;
+export type CommandPaletteLocale = PickKeys<typeof defaultLocale.CommandPalette> &
+  Partial<Pick<PickerLocale, 'searchPlaceholder' | 'noResultsText' | 'loading'>>;
 
 export interface CalendarLocale extends PickKeys<typeof defaultLocale.Calendar> {
   dateLocale?: DateFnsLocale;

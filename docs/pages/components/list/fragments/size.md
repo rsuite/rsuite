@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { List, RadioGroup, Radio } from 'rsuite';
+import { List, SegmentedControl } from 'rsuite';
 
 const data = ['Roses are red', 'Violets are blue', 'Sugar is sweet', 'And so are you'];
 
@@ -9,13 +9,16 @@ const App = () => {
   const [size, setSize] = React.useState('sm');
   return (
     <>
-      <RadioGroup inline appearance="picker" value={size} onChange={setSize}>
-        <RadioLabel>Size: </RadioLabel>
-        <Radio value="xs">Extra Small</Radio>
-        <Radio value="sm">Small</Radio>
-        <Radio value="md">Medium</Radio>
-        <Radio value="lg">Large</Radio>
-      </RadioGroup>
+      <SegmentedControl
+        data={[
+          { value: 'xs', label: 'Extra Small' },
+          { value: 'sm', label: 'Small' },
+          { value: 'md', label: 'Medium' },
+          { value: 'lg', label: 'Large' }
+        ]}
+        value={size}
+        onChange={setSize}
+      />
 
       <hr />
 
@@ -31,8 +34,6 @@ const App = () => {
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 ```
 
 <!--end-code-->

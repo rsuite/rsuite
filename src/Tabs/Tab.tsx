@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-interface TabProps {
+export interface TabProps {
   /**
    * The children of the tab.
    */
@@ -33,12 +32,5 @@ const Tab: React.FC<TabProps> = () => {
 };
 
 Tab.displayName = 'Tab';
-Tab.propTypes = {
-  disabled: PropTypes.bool,
-  eventKey: PropTypes.string,
-  title: PropTypes.node,
-  children: PropTypes.node,
-  icon: PropTypes.node
-};
 
 export default Tab;

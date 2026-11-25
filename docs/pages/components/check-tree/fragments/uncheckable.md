@@ -6,17 +6,7 @@ import { CheckTree } from 'rsuite';
 const data = [
   {
     label: 'Node 1',
-    value: '1',
-    children: [
-      {
-        label: 'Node 1-1',
-        value: '1-1'
-      },
-      {
-        label: 'Node 1-2',
-        value: '1-2'
-      }
-    ]
+    value: '1'
   },
   {
     label: 'Node 2',

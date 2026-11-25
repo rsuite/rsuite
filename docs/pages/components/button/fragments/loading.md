@@ -22,6 +22,7 @@ const App = () => (
     </Button>
   </ButtonToolbar>
 );
+
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 

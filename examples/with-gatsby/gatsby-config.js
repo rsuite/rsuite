@@ -1,8 +1,8 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `React Suite + Gatsby`,
+    description: `A modern Gatsby site with React Suite components`,
+    author: `@rsuite`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -18,23 +18,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
+        name: `React Suite Gatsby Example`,
+        short_name: `rsuite-gatsby`,
         start_url: `/`,
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
-      },
-    },
-    {
-      resolve: `gatsby-plugin-less`,
-      options: {
-        javascriptEnabled: true,
-        // You can overwrite theme-color in here
-        // modifyVars: {
-        //   "base-color": `#34c3ff`,
-        // },
+        icon: `src/images/gatsby-icon.png`,
       },
     },
   ],

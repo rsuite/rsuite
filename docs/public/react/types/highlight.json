@@ -1,0 +1,27 @@
+{
+  "Highlight": {
+    "props": {
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The content to highlight."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class.",
+        "defaultValue": "highlight"
+      },
+      "query": {
+        "type": "string | string[]",
+        "isRequired": false,
+        "description": "The keyword to highlight."
+      },
+      "renderMark": {
+        "type": "(match: string, index: number) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render the highlight mark."
+      }
+    }
+  }
+}

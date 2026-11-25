@@ -29,7 +29,7 @@ const App = () => {
             { label: 'error', value: 'error' }
           ]}
           onChange={setType}
-          style={{ width: 200 }}
+          w={200}
         />
         <SelectPicker
           cleanable={false}
@@ -43,7 +43,7 @@ const App = () => {
             { label: 'bottomEnd', value: 'bottomEnd' }
           ]}
           onChange={setPlacement}
-          style={{ width: 200 }}
+          w={200}
         />
         <Button
           onClick={() => toaster.push(message, { placement, duration: 5000 })}

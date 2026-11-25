@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { ItemDataType } from '@/internals/types';
 import { useEventCallback } from '@/internals/hooks';
 import { getSafeRegExpString } from '@/internals/utils';
+import type { Option } from '@/internals/types';
 
 interface SearchPanelProps<T> {
   labelKey: string;
   valueKey: string;
   childrenKey: string;
-  flattenedData: ItemDataType<T>[];
+  flattenedData: Option<T>[];
   uncheckableItemValues?: any[];
   onSearch?: (value: string, event: React.SyntheticEvent) => void;
 }
@@ -17,7 +17,7 @@ function useSearch<T>(props: SearchPanelProps<T>) {
   const { labelKey, valueKey, flattenedData, uncheckableItemValues, onSearch } = props;
 
   const getSearchResult = () => {
-    const items: ItemDataType<T>[] = [];
+    const items: Option<T>[] = [];
     const result = flattenedData.filter(item => {
       if (uncheckableItemValues?.some(value => item[valueKey] === value)) {
         return false;

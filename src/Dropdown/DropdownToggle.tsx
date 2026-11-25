@@ -1,20 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Button from '../Button';
-import { useClassNames, useToggleCaret } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useToggleCaret } from '@/internals/hooks';
 import { IconProps } from '@rsuite/icons/Icon';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '@/internals/types';
-import { oneOf } from '@/internals/propTypes';
+import { WithAsProps, PlacementCorners } from '@/internals/types';
 
 export interface DropdownToggleProps extends WithAsProps {
   icon?: React.ReactElement<IconProps>;
   noCaret?: boolean;
   renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
-  placement?: TypeAttributes.Placement8;
+  placement?: PlacementCorners;
 }
 
-const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProps> =
-  React.forwardRef((props: DropdownToggleProps, ref) => {
+const DropdownToggle = forwardRef<typeof Button, DropdownToggleProps>(
+  (props: DropdownToggleProps, ref) => {
     const {
       as: Component = Button,
       className,
@@ -27,8 +26,8 @@ const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProp
       ...rest
     } = props;
 
-    const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ 'no-caret': noCaret }));
+    const { prefix, withPrefix, merge } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix({ 'no-caret': noCaret }));
 
     // Caret icon is down by default, when Dropdown is used in Sidenav.
     const Caret = useToggleCaret(placement);
@@ -45,27 +44,9 @@ const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProp
     );
 
     return renderToggle ? renderToggle(rest, ref) : toggle;
-  });
+  }
+);
 
 DropdownToggle.displayName = 'DropdownToggle';
-DropdownToggle.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  icon: PropTypes.node,
-  classPrefix: PropTypes.string,
-  noCaret: PropTypes.bool,
-  as: PropTypes.elementType,
-  renderToggle: PropTypes.func,
-  placement: oneOf([
-    'bottomStart',
-    'bottomEnd',
-    'topStart',
-    'topEnd',
-    'leftStart',
-    'rightStart',
-    'leftEnd',
-    'rightEnd'
-  ])
-};
 
 export default DropdownToggle;

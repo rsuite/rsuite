@@ -2,11 +2,7 @@
 
 ```js
 import { Drawer, ButtonToolbar, Button, IconButton, Placeholder } from 'rsuite';
-import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
-import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
-import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
-import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
-
+import { RxArrowUp, RxArrowDown, RxArrowLeft, RxArrowRight } from 'react-icons/rx';
 const App = () => {
   const [open, setOpen] = React.useState(false);
   const [placement, setPlacement] = React.useState();
@@ -17,20 +13,24 @@ const App = () => {
   };
   return (
     <div>
-      <ButtonToolbar>
-        <IconButton icon={<AngleRightIcon />} onClick={() => handleOpen('left')}>
-          Left
-        </IconButton>
-        <IconButton icon={<AngleLeftIcon />} onClick={() => handleOpen('right')}>
-          Right
-        </IconButton>
-        <IconButton icon={<AngleDownIcon />} onClick={() => handleOpen('top')}>
-          Top
-        </IconButton>
-        <IconButton icon={<AngleUpIcon />} onClick={() => handleOpen('bottom')}>
-          Bottom
-        </IconButton>
-      </ButtonToolbar>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          width: 110,
+          gap: 6
+        }}
+      >
+        <span />
+        <IconButton icon={<RxArrowDown />} onClick={() => handleOpen('top')} />
+        <span />
+        <IconButton icon={<RxArrowRight />} onClick={() => handleOpen('left')} />
+        <span />
+        <IconButton icon={<RxArrowLeft />} onClick={() => handleOpen('right')} />
+        <span />
+        <IconButton icon={<RxArrowUp />} onClick={() => handleOpen('bottom')} />
+        <span />
+      </div>
 
       <Drawer placement={placement} open={open} onClose={() => setOpen(false)}>
         <Drawer.Header>

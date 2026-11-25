@@ -16,39 +16,41 @@ const App = () => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Controller
-        name="name"
-        control={control}
-        render={({ field, fieldState }) => (
-          <Form.Group>
-            <Input
-              id={field.name}
-              value={field.value}
-              onChange={value => field.onChange(value)}
-              placeholder="Name"
-            />
-          </Form.Group>
-        )}
-      />
+      <Form.Stack fluid>
+        <Controller
+          name="name"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Form.Group>
+              <Input
+                id={field.name}
+                value={field.value}
+                onChange={value => field.onChange(value)}
+                placeholder="Name"
+              />
+            </Form.Group>
+          )}
+        />
 
-      <Controller
-        name="email"
-        control={control}
-        render={({ field, fieldState }) => (
-          <Form.Group>
-            <Input
-              id={field.name}
-              value={field.value}
-              onChange={value => field.onChange(value)}
-              placeholder="Email"
-            />
-          </Form.Group>
-        )}
-      />
+        <Controller
+          name="email"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Form.Group>
+              <Input
+                id={field.name}
+                value={field.value}
+                onChange={value => field.onChange(value)}
+                placeholder="Email"
+              />
+            </Form.Group>
+          )}
+        />
 
-      <Button appearance="primary" type="submit">
-        Submit
-      </Button>
+        <Button appearance="primary" type="submit">
+          Submit
+        </Button>
+      </Form.Stack>
     </Form>
   );
 };

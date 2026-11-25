@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import useIsomorphicLayoutEffect from '@/internals/hooks/useIsomorphicLayoutEffect';
+import { useState, useEffect } from 'react';
 
 interface UseImageProps {
   src?: string;
@@ -11,60 +10,44 @@ interface UseImageProps {
 }
 
 export const useImage = (props: UseImageProps) => {
-  const { src, fallbackSrc, crossOrigin, srcSet, sizes, loading } = props;
-  const [imgSrc, setImgSrc] = useState<string | null>(src || fallbackSrc || null);
-  const [isLoading, setIsLoading] = useState<boolean>(!!src);
+  const { src, srcSet, fallbackSrc } = props;
+  const [imgSrc, setImgSrc] = useState<string | null>(src || (srcSet ? null : fallbackSrc) || null);
+  const [imgSrcSet, setImgSrcSet] = useState(srcSet);
+  const [isLoading, setIsLoading] = useState<boolean>(!!(src || srcSet));
   const [error, setError] = useState<boolean>(false);
 
-  const imageRef = useRef<HTMLImageElement | null>(null);
-
   useEffect(() => {
-    setIsLoading(!!src); // true if src exists, false otherwise
-  }, [src]);
-
-  const flush = () => {
-    if (imageRef.current) {
-      imageRef.current.onload = null;
-      imageRef.current.onerror = null;
-    }
-  };
-
-  const loadImage = useCallback(() => {
-    if (!src) return;
-
-    flush();
-
-    const image = new Image();
-    image.src = src;
-
-    if (crossOrigin) image.crossOrigin = crossOrigin;
-    if (srcSet) image.srcset = srcSet;
-    if (sizes) image.sizes = sizes;
-    if (loading) image.loading = loading;
-
-    image.onload = () => {
-      flush();
-      setImgSrc(src);
-      setIsLoading(false);
-    };
-
-    image.onerror = () => {
-      flush();
-      setError(true);
+    setImgSrcSet(srcSet);
+    if (!src && !srcSet) {
       setImgSrc(fallbackSrc || null);
       setIsLoading(false);
-    };
+      setError(false);
+      return;
+    }
 
-    imageRef.current = image;
-  }, [crossOrigin, fallbackSrc, loading, sizes, src, srcSet]);
+    setImgSrc(src || null);
+    setIsLoading(true);
+    setError(false);
+  }, [src, srcSet]);
 
-  useIsomorphicLayoutEffect(() => {
-    loadImage();
+  const handleLoad = () => {
+    setIsLoading(false);
+    setError(false);
+  };
 
-    return () => {
-      flush();
-    };
-  }, [loadImage]);
+  const handleError = () => {
+    setIsLoading(false);
+    setError(true);
+    setImgSrcSet(undefined);
+    setImgSrc(fallbackSrc || null);
+  };
 
-  return { imgSrc, isLoading, error };
+  return {
+    imgSrc,
+    imgSrcSet,
+    isLoading,
+    error,
+    onLoad: handleLoad,
+    onError: handleError
+  };
 };

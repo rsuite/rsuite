@@ -1,14 +1,14 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Steps, { StepsProps } from '../Steps';
 import PencilSquareIcon from '@rsuite/icons/legacy/PencilSquare';
 import BookIcon from '@rsuite/icons/legacy/Book';
 import WechatIcon from '@rsuite/icons/Wechat';
 import SteamSquareIcon from '@rsuite/icons/legacy/SteamSquare';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Divider/styles/index.less';
-import '../../Button/styles/index.less';
+import '../styles/index.scss';
+import '../../Divider/styles/index.scss';
+import '../../Button/styles/index.scss';
 
 const meta = createMeta(Steps);
 

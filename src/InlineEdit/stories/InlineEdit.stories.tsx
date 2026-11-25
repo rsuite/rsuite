@@ -1,10 +1,10 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import InlineEdit from '../InlineEdit';
 import Input from '../../Input';
 import DatePicker from '../../DatePicker';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(InlineEdit);
 
@@ -52,5 +52,22 @@ export const HideControls: Story = {
   args: {
     ...defaultProps,
     showControls: false
+  }
+};
+
+export const Controlled: Story = {
+  render: props => {
+    const [value, setValue] = React.useState<string | Date | null>('Edit me');
+    return (
+      <InlineEdit
+        {...props}
+        value={value as any}
+        onChange={next => setValue(next as any)}
+        defaultValue={undefined}
+      />
+    );
+  },
+  args: {
+    ...defaultProps
   }
 };

@@ -1,0 +1,81 @@
+{
+  "Textarea": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type for the component",
+        "defaultValue": "textarea"
+      },
+      "autosize": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to auto resize the textarea height"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "textarea"
+      },
+      "defaultValue": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Default value (uncontrolled)"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Disabled state"
+      },
+      "maxRows": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Maximum number of rows for auto resize"
+      },
+      "minRows": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Minimum number of rows for auto resize"
+      },
+      "onChange": {
+        "type": "(value: string, event) => void",
+        "isRequired": false,
+        "description": "Callback when value changes"
+      },
+      "placeholder": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Placeholder text"
+      },
+      "readOnly": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Read-only state"
+      },
+      "resize": {
+        "type": "'none' | 'both' | 'horizontal' | 'vertical'",
+        "isRequired": false,
+        "description": "Whether to allow the textarea to be resized",
+        "defaultValue": "none"
+      },
+      "rows": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Number of visible text lines",
+        "defaultValue": "3"
+      },
+      "size": {
+        "type": "'xs' | 'sm' | 'md' | 'lg'",
+        "isRequired": false,
+        "description": "The size of the textarea",
+        "defaultValue": "md"
+      },
+      "value": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Value (controlled)"
+      }
+    }
+  }
+}

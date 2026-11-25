@@ -16,12 +16,7 @@ const App = () => (
     <DatePicker format="MM/dd/yyyy hh:mm aa" showMeridiem />
     <DatePicker format="MMM yyyy" caretAs={BsCalendar2MonthFill} />
     <DatePicker format="HH:mm:ss" caretAs={FaClock} />
-    <DatePicker
-      format="dd MMM yyyy hh:mm:ss aa"
-      showMeridiem
-      caretAs={FaCalendar}
-      style={{ width: 220 }}
-    />
+    <DatePicker format="dd MMM yyyy hh:mm:ss aa" showMeridiem caretAs={FaCalendar} w={220} />
   </Stack>
 );
 ReactDOM.render(<App />, document.getElementById('root'));

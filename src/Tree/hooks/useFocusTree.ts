@@ -1,7 +1,7 @@
 import isNil from 'lodash/isNil';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { KEY_VALUES } from '@/internals/constants';
-import { useEventCallback } from '@/internals/hooks';
+import { useEventCallback, useCustom } from '@/internals/hooks';
 import { onMenuKeyDown } from '@/internals/Picker';
 import { useItemDataKeys, useRegisterTreeMethods } from '@/internals/Tree/TreeProvider';
 import {
@@ -10,12 +10,13 @@ import {
   getFocusableItems,
   getActiveItem,
   focusPreviousItem,
+  focusFirstItem,
+  focusLastItem,
   focusCurrentItem,
   focusTreeNode,
   handleLeftArrow,
   handleRightArrow
 } from '../utils';
-import { useCustom } from '../../CustomProvider';
 import useTreeNodeRefs from './useTreeNodeRefs';
 import type { TreeNode } from '@/internals/Tree/types';
 
@@ -27,6 +28,7 @@ interface UseFocusTreeProps<T extends TreeNode> {
   flattenedNodes: any;
   onExpand?: (nodeData: T, expanded: boolean) => void;
   onFocused?: (value: TreeNode['value']) => void;
+  focusNode?: (node: TreeNode) => void;
 }
 /**
  * Custom hook that manages the focus behavior of a tree component.
@@ -39,7 +41,8 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
     expandItemValues,
     disabledItemValues,
     onExpand,
-    onFocused
+    onFocused,
+    focusNode
   } = props;
   const { rtl } = useCustom();
   const { valueKey, childrenKey } = useItemDataKeys();
@@ -56,7 +59,8 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
       focusItemValue: value || focusItemValue,
       valueKey,
       focusableItems,
-      treeNodesRefs
+      treeNodesRefs,
+      focusNode
     };
   };
 
@@ -71,7 +75,7 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
       focusedValue = focusPreviousItem(focusProps);
     }
 
-    if (focusedValue) {
+    if (!isNil(focusedValue)) {
       setFocusItemValue(focusedValue);
       onFocused?.(focusedValue);
     }
@@ -88,7 +92,10 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
       const focusedValue = focusItem?.parent?.[valueKey];
       setFocusItemValue(focusedValue);
       onFocused?.(focusedValue);
-      focusTreeNode(focusItem?.parent?.refKey, treeNodesRefs);
+      if (focusItem?.parent) {
+        if (focusNode) focusNode(focusItem.parent);
+        else focusTreeNode(focusItem.parent.refKey, treeNodesRefs);
+      }
     };
 
     handleLeftArrow({
@@ -118,12 +125,34 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
     });
   });
 
+  const handleHomeKey = useEventCallback(() => {
+    const focusProps = getFocusProps();
+    const focusedValue = focusFirstItem(focusProps);
+
+    if (!isNil(focusedValue)) {
+      setFocusItemValue(focusedValue);
+      onFocused?.(focusedValue);
+    }
+  });
+
+  const handleEndKey = useEventCallback(() => {
+    const focusProps = getFocusProps();
+    const focusedValue = focusLastItem(focusProps);
+
+    if (!isNil(focusedValue)) {
+      setFocusItemValue(focusedValue);
+      onFocused?.(focusedValue);
+    }
+  });
+
   const onTreeKeydown = useEventCallback((event: React.KeyboardEvent<any>) => {
     onMenuKeyDown(event, {
       down: () => handleFocusItem(KEY_VALUES.DOWN),
       up: () => handleFocusItem(KEY_VALUES.UP),
       left: rtl ? handleRightArrowEvent : handleLeftArrowEvent,
-      right: rtl ? handleLeftArrowEvent : handleRightArrowEvent
+      right: rtl ? handleLeftArrowEvent : handleRightArrowEvent,
+      home: handleHomeKey,
+      end: handleEndKey
     });
   });
 
@@ -149,7 +178,6 @@ function useFocusTree(props: UseFocusTreeProps<TreeNode>) {
     return () => {
       unregister?.();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

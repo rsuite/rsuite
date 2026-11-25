@@ -11,5 +11,5 @@ cd with-vite
 
 Install it and run:
 
-- `npm install`
-- `npm run dev`
+- `pnpm install`
+- `pnpm dev`

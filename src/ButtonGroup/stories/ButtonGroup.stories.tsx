@@ -1,9 +1,9 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import ButtonGroup from '../ButtonGroup';
-import Button from '../..//Button';
+import Button from '../../Button';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(ButtonGroup);
 

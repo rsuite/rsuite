@@ -1,35 +1,22 @@
 <!--start-code-->
 
 ```js
-import { Form, Button, Schema, Panel, Message, toaster, FlexboxGrid } from 'rsuite';
-import JSONTree from 'react-json-tree';
+import { Form, Button, Message, toaster, Row, Col } from 'rsuite';
+import { SchemaModel, StringType } from 'rsuite/Schema';
 import Select from 'react-select';
-
-const JSONView = ({ formValue, formError }) => (
-  <div style={{ marginBottom: 10 }}>
-    <Panel className="json-tree-wrapper" header={<p>formValue</p>}>
-      <JSONTree data={formValue} />
-    </Panel>
-
-    <Panel className="json-tree-wrapper" header={<p>formError</p>}>
-      <JSONTree data={formError} />
-    </Panel>
-  </div>
-);
 
 const Field = React.forwardRef((props, ref) => {
   const { name, message, label, accepter, error, ...rest } = props;
   return (
     <Form.Group ref={ref} className={error ? 'has-error' : ''}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
+      <Form.Label>{label} </Form.Label>
       <Form.Control name={name} accepter={accepter} errorMessage={error} {...rest} />
-      <Form.HelpText>{message}</Form.HelpText>
+      <Form.Text>{message}</Form.Text>
     </Form.Group>
   );
 });
 
-const { StringType } = Schema.Types;
-const model = Schema.Model({
+const model = SchemaModel({
   foods: StringType().isRequired('This field is required.')
 });
 
@@ -78,8 +65,8 @@ const App = () => {
   };
 
   return (
-    <FlexboxGrid>
-      <FlexboxGrid.Item colspan={12}>
+    <Row>
+      <Col span={{ xs: 24, md: 12 }}>
         <Form
           ref={formRef}
           onChange={setFormValue}
@@ -87,25 +74,28 @@ const App = () => {
           formDefaultValue={formValue}
           model={model}
         >
-          <Field
-            name="foods"
-            label="Food"
-            accepter={CustomSelect}
-            options={options}
-            error={formError.foods}
-          />
+          <Form.Stack>
+            <Field
+              name="foods"
+              label="Food"
+              accepter={CustomSelect}
+              options={options}
+              error={formError.foods}
+            />
+          </Form.Stack>
 
-          <Form.Group>
+          <hr />
+          <ButtonToolbar>
             <Button appearance="primary" onClick={handleSubmit}>
               Submit
             </Button>
-          </Form.Group>
+          </ButtonToolbar>
         </Form>
-      </FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={12}>
+      </Col>
+      <Col hidden={{ md: true }} span={{ xs: 24, md: 12 }}>
         <JSONView formValue={formValue} formError={formError} />
-      </FlexboxGrid.Item>
-    </FlexboxGrid>
+      </Col>
+    </Row>
   );
 };
 

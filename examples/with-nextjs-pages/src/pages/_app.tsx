@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import '@/styles/globals.css';
 import 'rsuite/dist/rsuite-no-reset.min.css';
 import type { AppProps } from 'next/app';

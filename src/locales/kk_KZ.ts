@@ -1,4 +1,5 @@
-import kk from 'date-fns/locale/kk';
+import type { CalendarLocaleLabels } from './types';
+import { kk } from 'date-fns/locale/kk';
 
 const DateTimeFormats = {
   sunday: 'Жк',
@@ -20,6 +21,19 @@ const DateTimeFormats = {
   shortDateFormat: 'dd.MM.yyyy',
   shortTimeFormat: 'HH:mm',
   dateLocale: kk as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Алдыңғы ай',
+  nextMonth: 'Келесі ай',
+  selectMonth: 'Айды таңдау',
+  selectTime: 'Уақытты таңдау'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Таңдау терезесін ашу'
 };
 
 const Combobox = {
@@ -59,10 +73,10 @@ export default {
     skip: '{0}-бетке өтіңіз'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Соңғы 7 күн'
   },
   Combobox,
@@ -83,8 +97,23 @@ export default {
   Breadcrumb: {
     expandText: 'Көрсету'
   },
+  Carousel: {
+    carouselRoleDescription: 'карусель',
+    slideRoleDescription: 'слайд',
+    slidePosition: '{1} ішінен {0}',
+    startRotation: 'Слайдтарды автоматты ауыстыруды бастау',
+    stopRotation: 'Слайдтарды автоматты ауыстыруды тоқтату',
+    selectSlide: 'Слайдты таңдау',
+    slideLabel: '{1} слайдтың {0}-і'
+  },
   Toggle: {
     on: 'Қосу',
     off: 'Өшіру'
+  },
+  Dialog: {
+    alert: 'Ескерту',
+    confirm: 'Растау',
+    ok: 'OK',
+    cancel: 'Болдырмау'
   }
 };

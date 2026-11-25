@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Table, CheckPicker, IconButton, Popover, Dropdown, Whisper } from 'rsuite';
+import { Table, CheckPicker, IconButton, Popover, Menu, Whisper } from 'rsuite';
 import { IoMdMore } from 'react-icons/io';
 import { FaAlignLeft, FaAlignCenter, FaAlignRight, FaArrowDown, FaArrowUp } from 'react-icons/fa6';
 import { BiHide } from 'react-icons/bi';
@@ -45,52 +45,62 @@ const styles = `
 }
 `;
 
-const App = () => {
-  const [filterColumns, setFilterColumns] = React.useState(columns);
-  const handleCustomAction = (eventKey, dataKey) => {
-    switch (eventKey) {
-      case 'sort-asc':
-        console.log('sort-asc');
-        break;
-      case 'sort-desc':
-        console.log('sort-desc');
-        break;
-      case 'hide':
-        setFilterColumns(filterColumns.filter(col => col.key !== dataKey));
-        break;
-      case 'align-left':
-        setFilterColumns(
-          filterColumns.map(col => {
-            if (col.key === dataKey) {
-              return { ...col, align: 'left' };
-            }
-            return col;
-          })
-        );
-        break;
-      case 'align-center':
-        setFilterColumns(
-          filterColumns.map(col => {
-            if (col.key === dataKey) {
-              return { ...col, align: 'center' };
-            }
-            return col;
-          })
-        );
+const useTableConfiguration = (defaultColumns, defaultData) => {
+  const [columns, setColumns] = React.useState(defaultColumns);
+  const [data, setData] = React.useState(defaultData);
 
-        break;
-      case 'align-right':
-        setFilterColumns(
-          filterColumns.map(col => {
-            if (col.key === dataKey) {
-              return { ...col, align: 'right' };
-            }
-            return col;
-          })
-        );
-        break;
-      default:
-        break;
+  const handleSort = (dataKey, sortType) => {
+    setData(prevData => {
+      return [...prevData].sort((a, b) => {
+        if (typeof a[dataKey] === 'string') {
+          return sortType === 'asc'
+            ? a[dataKey].localeCompare(b[dataKey])
+            : b[dataKey].localeCompare(a[dataKey]);
+        }
+        return sortType === 'asc' ? a[dataKey] - b[dataKey] : b[dataKey] - a[dataKey];
+      });
+    });
+  };
+
+  const handleAlign = (dataKey, align) => {
+    setColumns(prevColumns =>
+      prevColumns.map(col => (col.key === dataKey ? { ...col, align } : col))
+    );
+  };
+
+  const handleHide = dataKey => {
+    setColumns(prevColumns => prevColumns.filter(col => col.key !== dataKey));
+  };
+
+  return {
+    columns,
+    setColumns,
+    data,
+    handleSort,
+    handleAlign,
+    handleHide
+  };
+};
+
+const App = () => {
+  const {
+    columns: filterColumns,
+    setColumns: setFilterColumns,
+    data: tableData,
+    handleSort,
+    handleAlign,
+    handleHide
+  } = useTableConfiguration(columns, data);
+
+  const handleCustomAction = (eventKey, dataKey) => {
+    if (eventKey === 'sort-asc') {
+      handleSort(dataKey, 'asc');
+    } else if (eventKey === 'sort-desc') {
+      handleSort(dataKey, 'desc');
+    } else if (eventKey === 'hide') {
+      handleHide(dataKey);
+    } else if (eventKey.startsWith('align-')) {
+      handleAlign(dataKey, eventKey.split('-')[1]);
     }
   };
 
@@ -111,7 +121,7 @@ const App = () => {
         renderValue={value => 'Filter Columns'}
         style={{ marginBottom: 10 }}
       />
-      <Table height={420} data={data} bordered cellBordered>
+      <Table height={420} data={tableData} bordered cellBordered>
         {filterColumns.map(column => {
           const { key, title, ...rest } = column;
           return (
@@ -134,29 +144,29 @@ const App = () => {
 
 const MenuPopover = React.forwardRef(({ onSelect, ...rest }, ref) => (
   <Popover ref={ref} {...rest} full>
-    <Dropdown.Menu onSelect={onSelect}>
-      <Dropdown.Item eventKey="align-left" icon={<FaAlignLeft />}>
+    <Menu onSelect={onSelect}>
+      <Menu.Item eventKey="align-left" icon={<FaAlignLeft />}>
         Align Left
-      </Dropdown.Item>
-      <Dropdown.Item eventKey="align-center" icon={<FaAlignCenter />}>
+      </Menu.Item>
+      <Menu.Item eventKey="align-center" icon={<FaAlignCenter />}>
         Align Center
-      </Dropdown.Item>
-      <Dropdown.Item eventKey="align-right" icon={<FaAlignRight />}>
+      </Menu.Item>
+      <Menu.Item eventKey="align-right" icon={<FaAlignRight />}>
         Align Right
-      </Dropdown.Item>
+      </Menu.Item>
 
-      <Dropdown.Separator />
-      <Dropdown.Item eventKey="sort-asc" icon={<FaArrowUp />}>
+      <Menu.Separator />
+      <Menu.Item eventKey="sort-asc" icon={<FaArrowUp />}>
         Sort Asc
-      </Dropdown.Item>
-      <Dropdown.Item eventKey="sort-desc" icon={<FaArrowDown />}>
+      </Menu.Item>
+      <Menu.Item eventKey="sort-desc" icon={<FaArrowDown />}>
         Sort Desc
-      </Dropdown.Item>
-      <Dropdown.Separator />
-      <Dropdown.Item eventKey="hide" icon={<BiHide />}>
+      </Menu.Item>
+      <Menu.Separator />
+      <Menu.Item eventKey="hide" icon={<BiHide />}>
         Hide Column
-      </Dropdown.Item>
-    </Dropdown.Menu>
+      </Menu.Item>
+    </Menu>
   </Popover>
 ));
 

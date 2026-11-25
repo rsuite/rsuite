@@ -1,4 +1,5 @@
-import ru from 'date-fns/locale/ru';
+import type { CalendarLocaleLabels } from './types';
+import { ru } from 'date-fns/locale/ru';
 
 const DateTimeFormats = {
   sunday: 'Вс',
@@ -20,6 +21,19 @@ const DateTimeFormats = {
   shortDateFormat: 'dd.MM.yyyy',
   shortTimeFormat: 'HH:mm',
   dateLocale: ru as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Предыдущий месяц',
+  nextMonth: 'Следующий месяц',
+  selectMonth: 'Выбрать месяц',
+  selectTime: 'Выбрать время'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Открыть окно выбора'
 };
 
 const Combobox = {
@@ -59,10 +73,10 @@ export default {
     skip: 'Перейти к {0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Последние 7 дней'
   },
   Combobox,
@@ -83,8 +97,23 @@ export default {
   Breadcrumb: {
     expandText: 'Показать путь'
   },
+  Carousel: {
+    carouselRoleDescription: 'карусель',
+    slideRoleDescription: 'слайд',
+    slidePosition: '{0} из {1}',
+    startRotation: 'Начать автоматическую смену слайдов',
+    stopRotation: 'Остановить автоматическую смену слайдов',
+    selectSlide: 'Выбрать слайд',
+    slideLabel: 'Слайд {0} из {1}'
+  },
   Toggle: {
     on: 'Вкл',
     off: 'Выкл'
+  },
+  Dialog: {
+    alert: 'Предупреждение',
+    confirm: 'Подтвердить',
+    ok: 'OK',
+    cancel: 'Отмена'
   }
 };

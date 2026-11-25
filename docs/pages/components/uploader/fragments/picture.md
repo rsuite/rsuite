@@ -2,12 +2,12 @@
 
 ```js
 import { Uploader } from 'rsuite';
-import CameraRetroIcon from '@rsuite/icons/legacy/CameraRetro';
+import { RxCamera } from 'react-icons/rx';
 
 const App = () => (
   <Uploader multiple listType="picture" action="//jsonplaceholder.typicode.com/posts/">
     <button>
-      <CameraRetroIcon />
+      <RxCamera size={24} />
     </button>
   </Uploader>
 );

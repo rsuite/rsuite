@@ -1,4 +1,5 @@
-import fi from 'date-fns/locale/fi';
+import type { CalendarLocaleLabels } from './types';
+import { fi } from 'date-fns/locale/fi';
 
 const DateTimeFormats = {
   sunday: 'Su',
@@ -24,6 +25,19 @@ const DateTimeFormats = {
   shortDateFormat: 'dd.MM.yyyy',
   shortTimeFormat: 'HH.mm',
   dateLocale: fi as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Edellinen kuukausi',
+  nextMonth: 'Seuraava kuukausi',
+  selectMonth: 'Valitse kuukausi',
+  selectTime: 'Valitse aika'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Avaa valitsin'
 };
 
 const Combobox = {
@@ -63,10 +77,10 @@ export default {
     skip: 'Mene{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Viimeiset 7 päivää'
   },
   Combobox,
@@ -87,8 +101,23 @@ export default {
   Breadcrumb: {
     expandText: 'Näytä polku'
   },
+  Carousel: {
+    carouselRoleDescription: 'karuselli',
+    slideRoleDescription: 'dia',
+    slidePosition: '{0}/{1}',
+    startRotation: 'Aloita diojen automaattinen vaihto',
+    stopRotation: 'Pysäytä diojen automaattinen vaihto',
+    selectSlide: 'Valitse dia',
+    slideLabel: 'Dia {0}/{1}'
+  },
   Toggle: {
     on: 'Päällä',
     off: 'Pois päältä'
+  },
+  Dialog: {
+    alert: 'Varoitus',
+    confirm: 'Vahvista',
+    ok: 'OK',
+    cancel: 'Peruuta'
   }
 };

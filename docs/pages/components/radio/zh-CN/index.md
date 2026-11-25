@@ -17,25 +17,30 @@
 
 ### 禁用与只读
 
+使用 `disabled` 属性禁用单选按钮，或者使用 `readOnly` 属性设置为只读状态。
+
 <!--{include:`disabled.md`}-->
 
 ### 颜色
 
+通过 `color` 属性设置单选按钮的颜色.
 <!--{include:`colors.md`}-->
 
 ### 单选按钮组
 
+使用 `<RadioGroup>` 组件将多个单选按钮组合在一起，并通过 `name` 属性设置组名称。
+
 <!--{include:`radio-group.md`}-->
 
-### 单选按钮组 - 横向布局
+### 横向布局
+
+使用 `inline` 属性将单选按钮组设置为横向布局。
 
 <!--{include:`radio-group-inline.md`}-->
 
-### 单选按钮组 - Picker
-
-<!--{include:`radio-group-inline-picker.md`}-->
-
 ### 受控的单选按钮组
+
+通过 `value` 和 `onChange` 属性实现对单选按钮组的受控使用。
 
 <!--{include:`radio-group-controlled.md`}-->
 
@@ -57,31 +62,30 @@
 
 ### `<Radio>`
 
-| 属性名称       | 类型                                             | 描述                                       |
-| -------------- | ------------------------------------------------ | ------------------------------------------ |
-| as             | ElementType`(div)`                               | 为组件自定义元素类型                       |
-| checked        | boolean                                          | 被选中（受控）                             |
-| color          | [Color](#code-ts-color-code)                     | 选中状态时的颜色 <br/>![][5.56.0]          |
-| defaultChecked | boolean                                          | 默认被选中                                 |
-| disabled       | boolean                                          | 禁用                                       |
-| inline         | boolean                                          | 内联布局                                   |
-| inputProps     | object                                           | 设置 input 元素的属性                      |
-| inputRef       | ref                                              | 将 ref 传递给 input 元素                   |
-| name           | string                                           | 用于表单对应的名称                         |
-| onChange       | (value: string, checked: boolean, event) => void | checked 状态发生改变的回调函数             |
-| value          | string                                           | 当前值，对应 RadioGroup 的值，判断是否选中 |
+| 属性名称       | 类型                                             | 描述                                       | 版本        |
+| -------------- | ------------------------------------------------ | ------------------------------------------ | ----------- |
+| as             | ElementType`(div)`                               | 为组件自定义元素类型                       |             |
+| checked        | boolean                                          | 被选中（受控）                             |             |
+| color          | [Color](#code-ts-color-code)                     | 选中状态时的颜色                           | ![][5.56.0] |
+| defaultChecked | boolean                                          | 默认被选中                                 |             |
+| disabled       | boolean                                          | 禁用                                       |             |
+| inline         | boolean                                          | 内联布局                                   |             |
+| inputProps     | object                                           | 设置 input 元素的属性                      |             |
+| inputRef       | ref                                              | 将 ref 传递给 input 元素                   |             |
+| name           | string                                           | 用于表单对应的名称                         |             |
+| onChange       | (value: string, checked: boolean, event) => void | checked 状态发生改变的回调函数             |             |
+| value          | string                                           | 当前值，对应 RadioGroup 的值，判断是否选中 |             |
 
 ### `<RadioGroup>`
 
 | 属性名称     | 类型`(默认值)`                | 描述               |
 | ------------ | ----------------------------- | ------------------ |
-| appearance   | 'default' &#124; 'picker'     | 设置外观           |
 | defaultValue | string                        | 默认值（非受控）   |
 | inline       | boolean                       | 内联布局           |
 | name         | string                        | 用于表单对应的名称 |
 | onChange     | (value:string, event) => void | 值改变后的回调函数 |
 | value        | string                        | 当前值(受控)       |
 
-<!--{include:(_common/types/color.md)}-->
+### 类型定义
 
-[5.56.0]: https://img.shields.io/badge/>=-v5.56.0-blue
+<!--{include:(_common/types/color.md)}-->

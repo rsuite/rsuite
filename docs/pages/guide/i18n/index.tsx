@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Calendar,
   SelectPicker,
@@ -8,7 +7,7 @@ import {
   Stack,
   Divider
 } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import * as locales from 'rsuite/locales';
 
 export default function Page() {

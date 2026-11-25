@@ -14,6 +14,7 @@
 [![Gitter][gitter-svg]][gitter]
 [![Gitter][gitter-cn-svg]][gitter-cn]
 [![Gitpod ready-to-code][gitpod-img]][gitpod]
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/rsuite/rsuite)
 
 React Suite 是一套 React 组件库。致力于提供高质量并且全面的 React 组件，以帮助开发者快速构建 Web 应用。
 
@@ -21,11 +22,15 @@ React Suite 是一套 React 组件库。致力于提供高质量并且全面的 
 
 ### 浏览器
 
-React Suite 支持最新的，稳定版的全部主流浏览器和平台。 从 React Suite 5 开始不支持 IE10 以下版本(包括 IE10)。不推荐在移动端使用。
+| ![][edge]<br/>Edge | ![][firefox]<br/>Firefox | ![][chrome]<br/>Chrome | ![][safari]<br/>Safari | ![][electron]<br/>Electron |
+| ------------------ | ------------------------ | ---------------------- | ---------------------- | -------------------------- |
+| Edge               | last 2 versions          | last 2 versions        | last 2 versions        | last 2 versions            |
 
-| IE   | Edge | Firefox | Chrome | Safari |
-| ---- | ---- | ------- | ------ | ------ |
-| >=11 | >=14 | >= 45   | >= 49  | >= 10  |
+[edge]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png
+[firefox]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
+[chrome]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
+[safari]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png
+[electron]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png
 
 ### 服务端
 
@@ -51,7 +56,7 @@ bun add rsuite
 
 ```jsx
 import { Button } from 'rsuite';
-import 'rsuite/styles/index.less'; // or 'rsuite/dist/rsuite.min.css'
+import 'rsuite/styles/index.css';
 
 function App() {
   return <Button appearance="primary">Hello World</Button>;
@@ -64,10 +69,11 @@ function App() {
 
 https://rsuitejs.com 是 React Suite 的最新版本的网站。有关旧版本，请访问这里。
 
+- [5.x 版本文档](https://v5.rsuitejs.com/)
 - [4.x 版本文档](https://v4.rsuitejs.com/)
 - [3.x 版本文档](https://v3.rsuitejs.com/)
 
-v4 将不再添加新特性，我们推荐你升级到最新的 v5 版本。v4 的功能修复仍会在一段时间内提供支持，安全修复也会支持，直到 v6 开始开发。
+v5 将不再添加新特性，我们推荐你升级到最新的 v6 版本。v5 的功能修复仍会在一段时间内提供支持，安全修复也会支持，直到 v7 开始开发。
 
 ## 框架使用指南
 
@@ -93,7 +99,7 @@ React Suite 可以在您喜欢的框架中使用。我们为这些框架准备�
 | Service                                         | Description                                   |
 | ----------------------------------------------- | --------------------------------------------- |
 | [![GitHub][github-logo]][github]                | Github 让我们可以托管 Git 仓库并协调贡献。    |
-| [![Vercel][vercel-logo]][vercel]                | Vercel 让我们可以部署应用。                   |
+| [![Netlify][netlify-logo]][netlify]             | Netlify 为文档站提供托管服务。                |
 | [![CodeCov][codecov-logo]][codecov]             | CodeCov 让我们可以检查代码覆盖率。            |
 | [![Gitee][gitee-logo]][gitee]                   | Gitee 授予我们 GVP - Gitee 最有价值开源项目。 |
 | [![CodeSandbox][codesandbox-logo]][codesandbox] | CodeSandbox 让我们可以提供组件的实时预览。    |
@@ -101,8 +107,8 @@ React Suite 可以在您喜欢的框架中使用。我们为这些框架准备�
 
 [github]: https://github.com/
 [github-logo]: https://avatars.githubusercontent.com/u/9919?s=32&v=4
-[vercel]: https://vercel.com/
-[vercel-logo]: https://avatars.githubusercontent.com/u/14985020?s=32&v=4
+[netlify]: https://www.netlify.com/
+[netlify-logo]: https://avatars.githubusercontent.com/u/7892489?s=32&v=4
 [codecov]: https://about.codecov.io/
 [codecov-logo]: https://avatars.githubusercontent.com/u/8226205?s=32&v=4
 [gitee]: https://gitee.com/

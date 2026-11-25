@@ -1,12 +1,13 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import AdminIcon from '@rsuite/icons/Admin';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
-import CascadeTree, { ItemDataType } from '../';
+import CascadeTree from '../';
 import { createMeta } from '@/storybook/utils';
 import { mockTreeData, mockAsyncData } from '@/storybook/mocks';
-import '../styles/index.less';
+import type { Option } from '@/internals/types';
+import '../styles/index.scss';
 
 const data = mockTreeData({
   limits: [3, 3, 4],
@@ -82,8 +83,8 @@ export const AsyncLoadData: Story = {
     ...defaultArgs,
     columnWidth: 180,
     data: getNodes(5) as any,
-    getChildren: (node: ItemDataType<string>) => {
-      return fetchNodes(node.id) as Promise<ItemDataType<string>>[];
+    getChildren: (node: Option<any>) => {
+      return fetchNodes(node.id) as Promise<Option<string>>[];
     },
     renderTreeNode: (label, item) => {
       return (
@@ -92,5 +93,13 @@ export const AsyncLoadData: Story = {
         </>
       );
     }
+  }
+};
+
+export const Searchable: Story = {
+  args: {
+    ...defaultArgs,
+    searchable: true,
+    placeholder: 'Search nodes...'
   }
 };

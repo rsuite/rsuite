@@ -1,4 +1,3 @@
-import React from 'react';
 import { Form, RadioGroup, Button, Radio, RadioTile, RadioTileGroup, useMediaQuery } from 'rsuite';
 import Icon from '@rsuite/icons/Icon';
 import {
@@ -9,7 +8,7 @@ import {
   VscRepoClone,
   VscFile
 } from 'react-icons/vsc';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 
 const sandboxDependencies = {

@@ -1,6 +1,6 @@
 import remove from 'lodash/remove';
-import { ItemDataType } from '@/internals/types';
-export interface ItemType<T = any> extends ItemDataType<T> {
+import { Option } from '@/internals/types';
+export interface ItemType<T = any> extends Option<T> {
   parent?: ItemType<T>;
 }
 

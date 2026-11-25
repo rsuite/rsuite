@@ -1,0 +1,10 @@
+:root {
+  --rs-radio-group-spacing: calc(var(--rs-spacing) * 3);
+  --rs-radio-group-direction: column;
+  --rs-radio-checker-label-color: var(--rs-text-secondary);
+  --rs-radio-checker-border-color: transparent;
+  --rs-radio-group-picker-border-radius: var(--rs-radius-md);
+  --rs-radio-group-border-width: 1px;
+  --rs-radio-padding-x: 10px;
+  --rs-radio-active-underline-width: 2px;
+}

@@ -6,7 +6,7 @@ import isNil from 'lodash/isNil';
 export default function useTreeNodeRefs() {
   const treeNodeRefs = useRef({});
 
-  const saveTreeNodeRef = (ref: React.Ref<any>, refKey?: string) => {
+  const saveTreeNodeRef = (ref: any, refKey?: string) => {
     if (!isNil(refKey)) {
       treeNodeRefs.current[refKey] = ref;
     }

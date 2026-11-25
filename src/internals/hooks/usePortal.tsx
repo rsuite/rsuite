@@ -9,22 +9,30 @@ interface PortalProps {
   waitMount?: boolean;
 }
 
-const MountedPortal = React.memo(
-  ({ children, container }: { children: React.ReactNode; container: Element }) => {
-    const [mounted, setMounted] = useState(false);
+const MountedPortal = React.memo(function MountedPortal({
+  children,
+  container
+}: {
+  children: React.ReactNode;
+  container: Element;
+}) {
+  const [mounted, setMounted] = useState(false);
 
-    useEffect(() => setMounted(true), []);
+  useEffect(() => setMounted(true), []);
 
-    if (container && mounted) {
-      return createPortal(children, container);
-    }
-    return null;
+  if (container && mounted) {
+    return createPortal(children, container);
   }
-);
+  return null;
+});
 
 export function usePortal(props: PortalProps = {}) {
   const { container, waitMount = false } = props;
-  const containerElement = typeof container === 'function' ? container() : container;
+  const containerElement = canUseDOM
+    ? typeof container === 'function'
+      ? container()
+      : container
+    : null;
   const rootElement = useMemo(
     () => (canUseDOM ? containerElement || document.body : null),
     [containerElement]

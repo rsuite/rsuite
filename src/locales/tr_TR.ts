@@ -1,4 +1,5 @@
-import tr from 'date-fns/locale/tr';
+import type { CalendarLocaleLabels } from './types';
+import { tr } from 'date-fns/locale/tr';
 
 const DateTimeFormats = {
   sunday: 'Pz',
@@ -20,6 +21,19 @@ const DateTimeFormats = {
   shortDateFormat: 'dd.MM.yyyy',
   shortTimeFormat: 'HH:mm',
   dateLocale: tr as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Önceki ay',
+  nextMonth: 'Sonraki ay',
+  selectMonth: 'Ay seç',
+  selectTime: 'Saat seç'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Seçiciyi aç'
 };
 
 const Combobox = {
@@ -59,10 +73,10 @@ export default {
     skip: 'Git{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Son 7 Gün'
   },
   Combobox,
@@ -83,8 +97,23 @@ export default {
   Breadcrumb: {
     expandText: 'Yolu göster'
   },
+  Carousel: {
+    carouselRoleDescription: 'karusel',
+    slideRoleDescription: 'slayt',
+    slidePosition: '{0} / {1}',
+    startRotation: 'Otomatik slayt geçişini başlat',
+    stopRotation: 'Otomatik slayt geçişini durdur',
+    selectSlide: 'Slayt seç',
+    slideLabel: 'Slayt {0} / {1}'
+  },
   Toggle: {
     on: 'Açık',
     off: 'Kapalı'
+  },
+  Dialog: {
+    alert: 'Uyarı',
+    confirm: 'Onayla',
+    ok: 'Tamam',
+    cancel: 'İptal'
   }
 };

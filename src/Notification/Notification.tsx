@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import useDelayedClosure from '../toaster/hooks/useDelayedClosure';
 import CloseButton from '@/internals/CloseButton';
+import Box, { BoxProps } from '@/internals/Box';
 import { MESSAGE_STATUS_ICONS } from '@/internals/constants/statusIcons';
-import { useClassNames, useIsMounted, useEventCallback } from '@/internals/hooks';
-import { oneOf } from '@/internals/propTypes';
-import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
-import { mergeRefs } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom, useIsMounted, useEventCallback } from '@/internals/hooks';
+import { forwardRef, mergeRefs } from '@/internals/utils';
+import type { StatusType, DisplayStateType } from '@/internals/types';
 
-export interface NotificationProps extends WithAsProps {
+export interface NotificationProps extends Omit<BoxProps, 'children'> {
+  children?: React.ReactNode | (() => React.ReactNode);
+
   /** Title of the message */
   header?: React.ReactNode;
 
@@ -32,7 +32,7 @@ export interface NotificationProps extends WithAsProps {
   /**
    * Type of message
    */
-  type?: TypeAttributes.Status;
+  type?: StatusType;
 
   /**
    * Callback after the message is removed
@@ -45,92 +45,62 @@ export interface NotificationProps extends WithAsProps {
  *
  * @see https://rsuitejs.com/components/notification
  */
-const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.forwardRef(
-  (props: NotificationProps, ref) => {
-    const { propsWithDefaults } = useCustom('Notification', props);
-    const {
-      as: Component = 'div',
-      classPrefix = 'notification',
-      closable,
-      duration = 4500,
-      className,
-      type,
-      header,
-      children,
-      onClose,
-      ...rest
-    } = propsWithDefaults;
+const Notification = forwardRef<'div', NotificationProps, any, 'children'>((props, ref) => {
+  const { propsWithDefaults } = useCustom('Notification', props);
+  const {
+    as,
+    classPrefix = 'notification',
+    closable,
+    duration = 4500,
+    className,
+    type,
+    header,
+    children,
+    onClose,
+    ...rest
+  } = propsWithDefaults;
 
-    const [display, setDisplay] = useState<TypeAttributes.DisplayState>('show');
-    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-    const isMounted = useIsMounted();
-    const targetRef = React.useRef<HTMLDivElement>(null);
+  const [display, setDisplay] = useState<DisplayStateType>('show');
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
+  const isMounted = useIsMounted();
+  const targetRef = React.useRef<HTMLDivElement>(null);
 
-    // Timed close message
-    const { clear } = useDelayedClosure({ targetRef, onClose, duration });
+  // Timed close message
+  const { clear } = useDelayedClosure({ targetRef, onClose, duration });
 
-    // Click to trigger to close the message
-    const handleClose = useEventCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-      setDisplay('hiding');
-      onClose?.(event);
-      clear();
+  // Click to trigger to close the message
+  const handleClose = useEventCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+    setDisplay('hiding');
+    onClose?.(event);
+    clear();
 
-      setTimeout(() => {
-        if (isMounted()) {
-          setDisplay('hide');
-        }
-      }, 1000);
-    });
-
-    const renderHeader = () => {
-      if (!header) {
-        return null;
+    setTimeout(() => {
+      if (isMounted()) {
+        setDisplay('hide');
       }
+    }, 1000);
+  });
 
-      return (
-        <div className={prefix('title')}>
-          {type ? (
-            <div className={prefix`title-with-icon`}>
-              {MESSAGE_STATUS_ICONS[type]}
-              {header}
-            </div>
-          ) : (
-            <div className={prefix('title')}>{header}</div>
-          )}
-        </div>
-      );
-    };
-
-    if (display === 'hide') {
-      return null;
-    }
-
-    const classes = merge(className, withClassPrefix(type, display, { closable }));
-
-    return (
-      <Component role="alert" {...rest} ref={mergeRefs(targetRef, ref)} className={classes}>
-        <div className={prefix`content`}>
-          {renderHeader()}
-          <div className={prefix('description')}>
-            {typeof children === 'function' ? children() : children}
-          </div>
-        </div>
-        {closable && <CloseButton onClick={handleClose} />}
-      </Component>
-    );
+  if (display === 'hide') {
+    return null;
   }
-);
+
+  const classes = merge(className, withPrefix(type, { closable }));
+
+  return (
+    <Box as={as} role="alert" {...rest} ref={mergeRefs(targetRef, ref)} className={classes}>
+      {type && <div className={prefix`icon`}>{MESSAGE_STATUS_ICONS[type]}</div>}
+      <div className={prefix`content`}>
+        {header && <div className={prefix('header')}>{header}</div>}
+        <div className={prefix('description')}>
+          {typeof children === 'function' ? children() : children}
+        </div>
+      </div>
+      {closable && <CloseButton onClick={handleClose} />}
+    </Box>
+  );
+});
 
 Notification.displayName = 'Notification';
-Notification.propTypes = {
-  as: PropTypes.elementType,
-  duration: PropTypes.number,
-  header: PropTypes.node,
-  closable: PropTypes.bool,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  type: oneOf(['info', 'success', 'warning', 'error']),
-  onClose: PropTypes.func
-};
 
 export default Notification;

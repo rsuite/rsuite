@@ -1,10 +1,10 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Nav from '../../Nav';
 import Sidenav from '../Sidenav';
 import { createMeta } from '@/storybook/utils';
-import '../../Nav/styles/index.less';
-import '../styles/index.less';
+import '../../Nav/styles/index.scss';
+import '../styles/index.scss';
 import DashboardIcon from '@rsuite/icons/legacy/Dashboard';
 import GroupIcon from '@rsuite/icons/legacy/Group';
 import MagicIcon from '@rsuite/icons/legacy/Magic';
@@ -59,5 +59,12 @@ export const Subtle: Story = {
   args: {
     ...defaultArgs,
     appearance: 'subtle'
+  }
+};
+
+export const Collapsed: Story = {
+  args: {
+    ...defaultArgs,
+    expanded: false
   }
 };

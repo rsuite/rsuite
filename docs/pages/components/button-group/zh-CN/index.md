@@ -13,17 +13,43 @@
 
 ### 按钮组
 
+将相关按钮组合在一起，实现更好的视觉组织效果。
+
 <!--{include:`group.md`}-->
+
+### 尺寸
+
+使用 `size` 属性设置按钮组中所有按钮的尺寸。
+
+<!--{include:`size.md`}-->
+
+### 外观
+
+使用 `appearance` 属性自定义按钮样式。
+
+<!--{include:`appearance.md`}-->
 
 ### 垂直按钮组
 
+使用 `vertical` 属性垂直堆叠按钮。
+
 <!--{include:`vertical.md`}-->
 
+### 分隔按钮
+
+使用 `divided` 属性在按钮之间添加分隔线。
+
+<!--{include:`divided.md`}-->
+
 ### 分体式按钮
+
+通过组合 Button 和 Menu 组件创建分体式下拉按钮。
 
 <!--{include:`split-button.md`}-->
 
 ### 按钮工具栏
+
+使用 `ButtonToolbar` 组件将多个按钮组组合在一起。
 
 <!--{include:`toolbar.md`}-->
 
@@ -34,6 +60,8 @@
 <!--{include:`justified.md`}-->
 
 ### 图标
+
+在按钮组中使用图标，提升视觉层次和识别度。
 
 <!--{include:`icon-group.md`}-->
 
@@ -47,10 +75,18 @@
 
 ### `<ButtonGroup>`
 
-| 属性名称    | 类型`(默认值)`                        | 描述              |
-| ----------- | ------------------------------------- | ----------------- |
-| block       | boolean                               | 适应容器宽度      |
-| classPrefix | string `('btn-group')`                | 组件 CSS 类的前缀 |
-| justified   | boolean                               | 横向等宽布局      |
-| size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | 设置按钮尺寸      |
-| vertical    | boolean                               | 按钮垂直布局      |
+| 属性名称    | 类型`(默认值)`                        | 描述                                        |
+| ----------- | ------------------------------------- | ------------------------------------------- |
+| block       | boolean                               | 将按钮组显示为块级元素，占据整个容器的宽度  |
+| classPrefix | string `('btn-group')`                | 自定义 CSS 类前缀，用于样式定制和主题适配   |
+| disabled    | boolean                               | 禁用组内所有按钮                            |
+| divided     | boolean                               | 在按钮组中显示分隔线                        |
+| justified   | boolean                               | 在水平布局中均匀分配按钮宽度                |
+| size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | 为组内所有按钮设置统一尺寸（大/中/小/超小） |
+| vertical    | boolean                               | 采用垂直堆叠布局显示按钮                    |
+
+### `<ButtonToolbar>`
+
+继承 [Stack][stack] 组件的所有属性
+
+[stack]: /zh/components/stack

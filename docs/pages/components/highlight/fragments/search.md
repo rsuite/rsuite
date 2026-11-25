@@ -1,36 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Highlight, List, Input } from 'rsuite';
-
-const App = () => {
-  const [query, setQuery] = React.useState('react');
-
-  const filteredData = data.filter(item => {
-    return (
-      item.name.toLowerCase().includes(query.toLowerCase()) ||
-      item.description.toLowerCase().includes(query.toLowerCase())
-    );
-  });
-
-  return (
-    <div>
-      <Input placeholder="Search" value={query} onChange={setQuery} />
-      <hr />
-      <List>
-        {filteredData.map(item => (
-          <List.Item key={item.name}>
-            <Highlight query={query}>{item.name}</Highlight>
-            <p>
-              <Highlight query={query}>{item.description}</Highlight>
-            </p>
-          </List.Item>
-        ))}
-      </List>
-    </div>
-  );
-};
-ReactDOM.render(<App />, document.getElementById('root'));
+import { Highlight, List, Input, Box } from 'rsuite';
 
 const data = [
   {
@@ -70,6 +41,35 @@ const data = [
     description: "React components that implement Google's Material Design."
   }
 ];
+
+const App = () => {
+  const [query, setQuery] = React.useState('react');
+
+  const filteredData = data.filter(item => {
+    return (
+      item.name.toLowerCase().includes(query.toLowerCase()) ||
+      item.description.toLowerCase().includes(query.toLowerCase())
+    );
+  });
+
+  return (
+    <div>
+      <Input placeholder="Search" value={query} onChange={setQuery} />
+      <hr />
+      <List>
+        {filteredData.map(item => (
+          <List.Item key={item.name}>
+            <Highlight query={query}>{item.name}</Highlight>
+            <Box>
+              <Highlight query={query}>{item.description}</Highlight>
+            </Box>
+          </List.Item>
+        ))}
+      </List>
+    </div>
+  );
+};
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

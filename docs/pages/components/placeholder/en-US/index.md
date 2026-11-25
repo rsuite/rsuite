@@ -6,9 +6,9 @@ Placeholder before component loaded.
 
 <!--{include:<import-guide>}-->
 
-- `<Placeholder.Paragraph>` Paragraph placeholder
-- `<Placeholder.Graph>` Graph placeholder
-- `<Placeholder.Grid>` Grid placeholder
+- `Placeholder.Paragraph` Paragraph placeholder
+- `Placeholder.Graph` Graph placeholder
+- `Placeholder.Grid` Grid placeholder
 
 ## Examples
 

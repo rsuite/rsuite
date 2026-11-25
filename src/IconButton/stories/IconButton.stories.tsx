@@ -1,11 +1,11 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import IconButton, { IconButtonProps } from '../IconButton';
 import ButtonToolbar from '../../ButtonToolbar';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../ButtonToolbar/styles/index.less';
+import '../styles/index.scss';
+import '../../ButtonToolbar/styles/index.scss';
 
 const meta = createMeta(IconButton);
 
@@ -137,5 +137,12 @@ export const Size: Story = {
   render: SizeTemplate,
   args: {
     ...defaultProps
+  }
+};
+
+export const Circle: Story = {
+  args: {
+    ...defaultProps,
+    circle: true
   }
 };

@@ -1,13 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import OverlayTrigger, {
-  OverlayTriggerHandle,
-  OverlayTriggerProps
-} from '@/internals/Overlay/OverlayTrigger';
-import { PLACEMENT } from '@/internals/constants';
-import { oneOf } from '@/internals/propTypes';
-import { createChainedFunction, placementPolyfill } from '@/internals/utils';
-import { useCustom } from '../CustomProvider';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import OverlayTrigger, { OverlayTriggerProps } from '@/internals/Overlay/OverlayTrigger';
+import { createChainedFunction, placementPolyfill, isFragment } from '@/internals/utils';
+import { useCustom, useUniqueId, useIsomorphicLayoutEffect } from '@/internals/hooks';
+import Tooltip from '../Tooltip';
+import { TooltipDescriptionContext } from '@/internals/Overlay/TooltipDescriptionContext';
+import type { OverlayTriggerHandle } from '@/internals/Overlay';
 
 export type WhisperProps = OverlayTriggerProps;
 export type WhisperInstance = OverlayTriggerHandle;
@@ -30,33 +27,69 @@ const Whisper = React.forwardRef((props: WhisperProps, ref: React.Ref<WhisperIns
     ...rest
   } = propsWithDefaults;
 
+  const id = useUniqueId('rs-tooltip-');
+  const triggerRef = useRef<HTMLElement | null>(null);
+  const speakerRef = useRef<HTMLElement | null>(null);
+  const [descriptionId, setDescriptionId] = useState<string>();
+  const automatic =
+    rest.controlId === undefined &&
+    !rest.overlayAs &&
+    React.isValidElement(rest.speaker) &&
+    rest.speaker.type === Tooltip &&
+    React.isValidElement(rest.children) &&
+    !isFragment(rest.children);
+  const automaticRef = useRef(automatic);
+
+  const refresh = useCallback(() => {
+    const node = speakerRef.current;
+    const trigger = triggerRef.current;
+    const nextId =
+      automaticRef.current &&
+      node?.isConnected &&
+      trigger?.isConnected &&
+      node.ownerDocument === trigger.ownerDocument &&
+      node.getAttribute('role') === 'tooltip' &&
+      node.id &&
+      !/[ \t\n\r\f]/.test(node.id) &&
+      node.ownerDocument.getElementById(node.id) === node
+        ? node.id
+        : undefined;
+
+    setDescriptionId(previous => (previous === nextId ? previous : nextId));
+  }, []);
+
+  const onNodeChange = useCallback(
+    (node: HTMLElement | null) => {
+      speakerRef.current =
+        node?.nodeType === 1 && typeof node.getAttribute === 'function' ? node : null;
+      refresh();
+    },
+    [refresh]
+  );
+  const description = useMemo(
+    () => ({ id, triggerRef, descriptionId, onNodeChange, refresh }),
+    [id, descriptionId, onNodeChange, refresh]
+  );
+
+  useIsomorphicLayoutEffect(() => {
+    automaticRef.current = automatic;
+    refresh();
+  }, [automatic, refresh]);
+
   return (
-    <OverlayTrigger
-      {...rest}
-      ref={ref}
-      preventOverflow={preventOverflow}
-      placement={placementPolyfill(placement, rtl)}
-      onEntered={createChainedFunction(onOpen, onEntered)}
-      onExited={createChainedFunction(onClose as any, onExited)}
-    />
+    <TooltipDescriptionContext.Provider value={automatic ? description : undefined}>
+      <OverlayTrigger
+        {...rest}
+        ref={ref}
+        preventOverflow={preventOverflow}
+        placement={placementPolyfill(placement, rtl)}
+        onEntered={createChainedFunction(onOpen, onEntered)}
+        onExited={createChainedFunction(onClose as any, onExited)}
+      />
+    </TooltipDescriptionContext.Provider>
   );
 });
 
 Whisper.displayName = 'Whisper';
-Whisper.propTypes = {
-  onOpen: PropTypes.func,
-  onClose: PropTypes.func,
-  onEntered: PropTypes.func,
-  onExited: PropTypes.func,
-  placement: oneOf(PLACEMENT),
-  /**
-   * Prevent floating element overflow
-   */
-  preventOverflow: PropTypes.bool,
-  /**
-   * Whether enable speaker follow cursor
-   */
-  followCursor: PropTypes.bool
-};
 
 export default Whisper;

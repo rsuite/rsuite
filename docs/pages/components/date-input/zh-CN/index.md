@@ -41,11 +41,9 @@ DateInput 组件允许用户使用键盘选择日期。
 
 ## Props
 
-<!-- prettier-sort-markdown-table -->
-
 | 属性名称     | 类型`(默认值)`                  | 描述               |
 | ------------ | ------------------------------- | ------------------ |
-| defaultValue | Date                            | 默认值（非受控）             |
+| defaultValue | Date                            | 默认值（非受控）   |
 | disabled     | boolean                         | 禁用               |
 | format       | string `('yyyy-MM-dd')`         | 日期显示格式化     |
 | onChange     | (date: Date, event) => void     | 值改变后的回调函数 |

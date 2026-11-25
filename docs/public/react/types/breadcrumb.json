@@ -1,0 +1,77 @@
+{
+  "Breadcrumb": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type for the component",
+        "defaultValue": "nav"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "breadcrumb"
+      },
+      "locale": {
+        "type": "BreadcrumbLocaleType",
+        "isRequired": false,
+        "description": "Define localization settings to display component text in the user's regional language"
+      },
+      "maxItems": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Set the maximum number of breadcrumbs to display",
+        "defaultValue": "5"
+      },
+      "onExpand": {
+        "type": "(event: MouseEvent) => void",
+        "isRequired": false,
+        "description": "Callback function when the ellipsis is clicked in the collapsed view"
+      },
+      "separator": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Custom separator between breadcrumb items",
+        "defaultValue": "/"
+      },
+      "size": {
+        "type": "'sm' | 'md' | 'lg' | number | string",
+        "isRequired": false,
+        "description": "Set the size of breadcrumb items",
+        "defaultValue": "md"
+      }
+    }
+  },
+  "Breadcrumb.Item": {
+    "props": {
+      "active": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Indicates if the breadcrumb item is active"
+      },
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type for the component. Defaults to 'a' if 'href' is set",
+        "defaultValue": "a"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "breadcrumb-item"
+      },
+      "href": {
+        "type": "string",
+        "isRequired": false,
+        "description": "When provided, renders the breadcrumb item as an anchor element"
+      },
+      "icon": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Custom icon to display before the breadcrumb item text"
+      }
+    }
+  }
+}

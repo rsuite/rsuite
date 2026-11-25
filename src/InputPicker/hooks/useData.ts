@@ -1,38 +1,41 @@
 import { useState, useEffect, useMemo } from 'react';
 import { shallowEqual } from '@/internals/utils';
-import type { ItemDataType } from '@/internals/types';
+import type { Option } from '@/internals/types';
 
-export interface InputItemDataType<T = number | string> extends ItemDataType<T> {
+export interface InputOption<T = number | string> extends Option<T> {
   create?: boolean;
 }
 
 interface UseDataProps {
-  controlledData?: InputItemDataType[];
-  cacheData?: InputItemDataType[];
-  onChange?: (data: ItemDataType[]) => void;
+  controlledData?: InputOption[];
+  cacheData?: InputOption[];
+  onChange?: (data: Option[]) => void;
 }
 
 function useData(props: UseDataProps) {
   const { controlledData = [], cacheData = [], onChange } = props;
   const [uncontrolledData, setData] = useState(controlledData);
-  const [newData, setNewData] = useState<InputItemDataType[]>([]);
+  const [newData, setNewData] = useState<InputOption[]>([]);
+  const dataChanged = !shallowEqual(controlledData, uncontrolledData);
 
   const data = useMemo(() => {
-    return ([] as ItemDataType[]).concat(uncontrolledData, newData);
-  }, [newData, uncontrolledData]);
+    // Child layout effects must navigate the latest options before the reset effect runs.
+    if (dataChanged) return controlledData;
+    return ([] as Option[]).concat(uncontrolledData, newData);
+  }, [controlledData, dataChanged, newData, uncontrolledData]);
 
   const dataWithCache = useMemo(() => {
-    return ([] as ItemDataType[]).concat(data, cacheData);
+    return ([] as Option[]).concat(data, cacheData);
   }, [data, cacheData]);
 
   // Update the state when the data in props changes
   useEffect(() => {
-    if (controlledData && !shallowEqual(controlledData, uncontrolledData)) {
+    if (dataChanged) {
       setData(controlledData);
       setNewData([]);
       onChange?.(controlledData);
     }
-  }, [controlledData, uncontrolledData, onChange]);
+  }, [controlledData, dataChanged, onChange]);
 
   return {
     data,

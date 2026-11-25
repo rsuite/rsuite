@@ -1,28 +1,40 @@
 <!--start-code-->
 
 ```js
-import { Navbar, Nav } from 'rsuite';
-import CogIcon from '@rsuite/icons/legacy/Cog';
+import { Navbar, Nav, Avatar, Text, Badge, IconButton } from 'rsuite';
+import { IoLogoReact, IoNotifications } from 'react-icons/io5';
+
+const Brand = () => (
+  <Navbar.Brand href="#">
+    <IoLogoReact size={26} /> Brand
+  </Navbar.Brand>
+);
 
 const App = () => (
   <Navbar>
-    <Navbar.Brand href="#">RSUITE</Navbar.Brand>
-    <Nav>
-      <Nav.Item>Home</Nav.Item>
-      <Nav.Item>News</Nav.Item>
-      <Nav.Item>Products</Nav.Item>
-      <Nav.Menu title="About">
-        <Nav.Item>Company</Nav.Item>
-        <Nav.Item>Team</Nav.Item>
-        <Nav.Menu title="Contact">
-          <Nav.Item>Via email</Nav.Item>
-          <Nav.Item>Via telephone</Nav.Item>
-        </Nav.Menu>
-      </Nav.Menu>
-    </Nav>
-    <Nav pullRight>
-      <Nav.Item icon={<CogIcon />}>Settings</Nav.Item>
-    </Nav>
+    <Navbar.Content showFrom="xs">
+      <Brand />
+      <Nav>
+        <Nav.Item>Docs</Nav.Item>
+        <Nav.Item>Components</Nav.Item>
+        <Nav.Item>Tools</Nav.Item>
+      </Nav>
+    </Navbar.Content>
+
+    <Navbar.Content hideFrom="xs">
+      <Navbar.Toggle />
+      <Brand />
+    </Navbar.Content>
+
+    <Navbar.Content>
+      <Badge content={6} shape="circle">
+        <IconButton icon={<IoNotifications size={20} />} circle appearance="subtle" size="sm" />
+      </Badge>
+      <HStack>
+        <Avatar src="https://i.pravatar.cc/150?u=19" circle size="sm" />
+        <Text showFrom="xs">John Doe</Text>
+      </HStack>
+    </Navbar.Content>
   </Navbar>
 );
 

@@ -1,13 +1,13 @@
-import React, { forwardRef, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import ListCheckItem from '@/internals/Picker/ListCheckItem';
 import TreeNodeToggle from '../Tree/TreeNodeToggle';
+import { forwardRef, stringifyReactNode, mergeRefs } from '@/internals/utils';
 import { useTreeContextProps } from '@/internals/Tree/TreeProvider';
-import { RsRefForwardingComponent, WithAsProps } from '@/internals/types';
-import { stringifyReactNode, mergeRefs } from '@/internals/utils';
+import { WithAsProps } from '@/internals/types';
 import { CHECK_STATE, CheckStateType } from '@/internals/constants';
 import { indentTreeNode } from '../Tree/utils';
-import { useClassNames, useEventCallback, useFocusVirtualListItem } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
+import { getTreeNodePosition } from '../Tree/utils/getTreeNodePositions';
+import { useStyles, useCustom, useEventCallback, useFocusVirtualListItem } from '@/internals/hooks';
 import type { TreeNode as TreeNodeData } from '@/internals/Tree/types';
 export interface CheckTreeNodeProps extends WithAsProps {
   /**
@@ -82,10 +82,7 @@ export interface CheckTreeNodeProps extends WithAsProps {
   onSelect?: (nodeData: TreeNodeData, event: React.SyntheticEvent) => void;
 }
 
-const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwardRef<
-  HTMLDivElement,
-  CheckTreeNodeProps
->((props, ref) => {
+const CheckTreeNode = forwardRef<'div', CheckTreeNodeProps>((props, ref) => {
   const {
     as: Component = 'div',
     style,
@@ -112,7 +109,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
 
   const { rtl } = useCustom();
   const { renderTreeNode, virtualized } = useTreeContextProps();
-  const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+  const { prefix, merge, withPrefix } = useStyles(classPrefix);
   const labelStr = useMemo(() => stringifyReactNode(label), [label]);
 
   const handleExpand = useEventCallback((event: React.SyntheticEvent) => {
@@ -136,9 +133,30 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
     onSelect?.(nextNodeData, event);
   });
 
+  const handleLabelSelect = useEventCallback((value: any, event: React.SyntheticEvent) => {
+    const target = event.target as Element;
+    const label = target.closest?.('label');
+
+    if (
+      uncheckable ||
+      event.defaultPrevented ||
+      !label ||
+      !event.currentTarget.contains(label) ||
+      target.closest(
+        'input, button, a[href], select, textarea, summary, audio[controls], video[controls], iframe, embed, object[usemap], img[usemap]'
+      )
+    ) {
+      return;
+    }
+
+    // Keep the tree's focus ownership instead of the label's later input focus.
+    event.preventDefault();
+    handleSelect(value, event);
+  });
+
   const classes = merge(
     className,
-    withClassPrefix({
+    withPrefix({
       disabled,
       'all-uncheckable': !!allUncheckable,
       'text-muted': disabled,
@@ -147,7 +165,8 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
   );
 
   const styles = virtualized ? { ...style, ...indentTreeNode(rtl, layer - 1) } : style;
-  const itemRef = useFocusVirtualListItem<HTMLDivElement>(focus);
+  const itemRef = useFocusVirtualListItem<HTMLDivElement>(focus && !virtualized);
+  const position = virtualized ? getTreeNodePosition(nodeData) : undefined;
 
   return visible ? (
     <Component {...rest} style={styles} className={classes} ref={ref}>
@@ -169,6 +188,8 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
         aria-selected={focus}
         aria-disabled={disabled}
         aria-level={layer}
+        aria-posinset={position?.posInSet}
+        aria-setsize={position?.setSize}
         data-layer={layer}
         active={checkState === CHECK_STATE.CHECK}
         indeterminate={checkState === CHECK_STATE.INDETERMINATE}
@@ -179,6 +200,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
         className={prefix('content')}
         title={labelStr}
         onSelect={handleSelect}
+        onSelectItem={handleLabelSelect}
       >
         {typeof renderTreeNode === 'function' ? renderTreeNode(nodeData) : label}
       </ListCheckItem>

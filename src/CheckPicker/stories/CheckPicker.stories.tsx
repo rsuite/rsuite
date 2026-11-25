@@ -1,8 +1,8 @@
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import CheckPicker from '../CheckPicker';
 import { createMeta } from '@/storybook/utils';
 import { mockArrayData } from '@/storybook/mocks';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const data = mockArrayData();
 const meta = createMeta(CheckPicker);
@@ -84,5 +84,23 @@ export const Group: Story = {
   args: {
     ...defaultArgs,
     groupBy: 'role'
+  }
+};
+
+export const Searchable: Story = {
+  args: {
+    ...defaultArgs,
+    searchable: true,
+    placeholder: 'Search options...'
+  }
+};
+
+export const Block: Story = {
+  args: {
+    ...defaultArgs,
+    block: true,
+    style: {
+      width: 320
+    }
   }
 };

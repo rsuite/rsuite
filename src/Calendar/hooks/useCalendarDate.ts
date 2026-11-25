@@ -6,20 +6,11 @@ export const useCalendarDate = (value: Date | null | undefined, defaultDate: Dat
   const valueRef = useRef(value);
 
   const [calendarDate, setValue] = useState<Date>(value ?? defaultDate ?? startOfToday());
-  const [selectedDate, setSelected] = useState<Date>(value ?? defaultDate ?? startOfToday());
 
   const setCalendarDate = useCallback(
     (date: React.SetStateAction<Date> | undefined) => {
       if (date && date?.valueOf() !== calendarDate?.valueOf()) {
         setValue(date);
-      }
-    },
-    [calendarDate]
-  );
-  const setSelectedDate = useCallback(
-    (date: React.SetStateAction<Date> | undefined) => {
-      if (date && date?.valueOf() !== selectedDate?.valueOf()) {
-        setSelected(date);
       }
     },
     [calendarDate]
@@ -39,5 +30,5 @@ export const useCalendarDate = (value: Date | null | undefined, defaultDate: Dat
     }
   }, [value, defaultDate]);
 
-  return { calendarDate, setCalendarDate, resetCalendarDate, selectedDate, setSelectedDate };
+  return { calendarDate, setCalendarDate, resetCalendarDate };
 };

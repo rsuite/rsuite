@@ -4,37 +4,44 @@ import React, {
   useRef,
   useMemo,
   useCallback,
-  useImperativeHandle
+  useImperativeHandle,
+  useContext
 } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import getContainer from 'dom-lib/getContainer';
 import ownerDocument from 'dom-lib/ownerDocument';
-import removeClass from 'dom-lib/removeClass';
 import on from 'dom-lib/on';
-import addClass from 'dom-lib/addClass';
 import addStyle from 'dom-lib/addStyle';
-import { ResizeObserver } from '@juggle/resize-observer';
 import isElement from '../../DOMHelper/isElement';
-import positionUtils, { PositionType } from './positionUtils';
-import { getDOMNode } from '../utils';
-import { CursorPosition, TypeAttributes } from '@/internals/types';
-import { useUpdateEffect } from '../hooks';
+import { calcPosition } from './utils/position';
+import { ResizeObserver } from '@juggle/resize-observer';
+import { getDOMNode, kebabPlace } from '../utils';
+import { useIsomorphicLayoutEffect, useUpdateEffect } from '../hooks';
+import { CustomContext } from '../Provider/CustomContext';
+import type { Placement } from '@/internals/types';
+import type { CursorPosition, PositionType, PositionChildProps } from './types';
 
-export interface PositionChildProps {
-  className: string;
-  left?: number;
-  top?: number;
-  arrowOffsetLeft?: number;
-  arrowOffsetTop?: number;
+const CSS_POSITION_X = '--rs-position-x';
+const CSS_POSITION_Y = '--rs-position-y';
+
+function getParent(node: Node): Node | null {
+  return (node as Element).assignedSlot || node.parentNode || (node as ShadowRoot).host || null;
 }
 
+export const getPositionStyle = (x?: number, y?: number) => {
+  return {
+    [CSS_POSITION_X]: x !== undefined ? `${x}px` : undefined,
+    [CSS_POSITION_Y]: y !== undefined ? `${y}px` : undefined
+  };
+};
+
 export interface PositionProps {
-  children: (props: PositionChildProps, ref: React.RefObject<HTMLElement>) => React.ReactElement;
-  className?: string;
+  children: (
+    props: PositionChildProps,
+    ref: React.RefObject<HTMLElement | null>
+  ) => React.ReactElement;
   container?: HTMLElement | (() => HTMLElement | null) | null;
   containerPadding?: number;
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
   preventOverflow?: boolean;
   triggerTarget?: React.RefObject<any>;
   followCursor?: boolean;
@@ -43,7 +50,7 @@ export interface PositionProps {
 
 const usePosition = (
   props: PositionProps,
-  ref: React.RefObject<HTMLElement>
+  ref: React.RefObject<HTMLElement | null>
 ): [PositionType, (placementChanged?: any) => void] => {
   const {
     placement = 'right',
@@ -55,11 +62,12 @@ const usePosition = (
     cursorPosition
   } = props;
 
-  const containerRef = useRef<Element | null>(null);
+  const { rtl } = useContext(CustomContext);
   const lastTargetRef = useRef<Element | null>(null);
-  const overlayResizeObserver = useRef<ResizeObserver>();
+  const lastDirection = useRef<PositionType['dir']>(undefined);
 
   const defaultPosition = {
+    placement,
     positionLeft: 0,
     positionTop: 0,
     arrowOffsetLeft: undefined,
@@ -68,12 +76,21 @@ const usePosition = (
   const [position, setPosition] = useState<PositionType>(defaultPosition);
   const utils = useMemo(
     () =>
-      positionUtils({
+      calcPosition({
         placement,
         preventOverflow,
         padding: containerPadding
       }),
     [placement, preventOverflow, containerPadding]
+  );
+
+  const getContainerElement = useCallback(
+    () =>
+      getContainer(
+        typeof container === 'function' ? container() : (container ?? (null as any)),
+        ownerDocument(ref.current).body
+      ) as HTMLElement,
+    [container, ref]
   );
 
   const updatePosition = useCallback(
@@ -98,10 +115,7 @@ const usePosition = (
       }
 
       const overlay = getDOMNode(ref.current);
-      const containerElement = getContainer(
-        typeof container === 'function' ? container() : container ?? (null as any),
-        ownerDocument(ref.current).body
-      ) as HTMLElement;
+      const containerElement = getContainerElement();
 
       const posi = utils.calcOverlayPosition(
         overlay,
@@ -110,54 +124,63 @@ const usePosition = (
         followCursor ? cursorPosition : undefined
       );
 
-      if (forceUpdateDOM && overlay) {
-        const preClassName = overlay?.className?.match(/(placement-\S+)/)?.[0];
-        removeClass(overlay, preClassName);
-        if (posi.positionClassName) {
-          addClass(overlay, posi.positionClassName);
-        }
-        addStyle(overlay, { left: `${posi.positionLeft}px`, top: `${posi.positionTop}px` });
-      } else {
-        setPosition(posi);
+      if (overlay && posi.placement) {
+        overlay.dataset.placement = kebabPlace(posi.placement);
       }
 
-      containerRef.current = containerElement;
+      // Scroll and resize update coordinates directly unless the portal also needs a new direction.
+      if (forceUpdateDOM && overlay) {
+        addStyle(overlay, getPositionStyle(posi.positionLeft, posi.positionTop));
+      }
+      if (!forceUpdateDOM || !overlay || posi.dir !== lastDirection.current) {
+        setPosition(posi);
+      }
+      lastDirection.current = posi.dir;
+
       lastTargetRef.current = targetElement;
     },
-    [container, ref, triggerTarget, utils, followCursor, cursorPosition]
+    [getContainerElement, ref, triggerTarget, utils, followCursor, cursorPosition]
   );
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     updatePosition(false);
     const overlay = getDOMNode(ref.current);
-    let containerScrollListener;
-    if (containerRef.current && preventOverflow) {
-      // Update the overlay position when the container scroll bar is scrolling
-      containerScrollListener = on(
-        containerRef.current?.tagName === 'BODY' ? window : containerRef.current,
-        'scroll',
-        () => updatePosition(true, true)
-      );
+    const scrollParents = new Set<Node>();
+
+    // Either side of a portal can move independently. Element scroll events do
+    // not bubble, so listen to each ancestor, including those across a shadow root.
+    for (const element of [getDOMNode(triggerTarget), overlay]) {
+      let parent = element ? getParent(element) : null;
+      while (parent) {
+        scrollParents.add(parent);
+        parent = getParent(parent);
+      }
     }
+
+    const scrollListeners = Array.from(scrollParents, parent =>
+      on(parent, 'scroll', () => updatePosition(true, true))
+    );
 
     // Update the position when the window size changes
-    const resizeListener = on(window, 'resize', () => updatePosition(true, true));
+    const view = ownerDocument(overlay).defaultView;
+    const resizeListener = view && on(view, 'resize', () => updatePosition(true, true));
 
-    if (overlay) {
-      // Update the position when the size of the overlay changes
-      overlayResizeObserver.current = new ResizeObserver(() => updatePosition(true, true));
-      overlayResizeObserver.current.observe(overlay);
-    }
+    const resizeObserver = new ResizeObserver(() => updatePosition(true, true));
+    // Trigger content and container layout can change without a window resize.
+    const observedElements = new Set([getDOMNode(triggerTarget), overlay, getContainerElement()]);
+    observedElements.forEach(element => {
+      if (isElement(element)) resizeObserver.observe(element, { box: 'border-box' });
+    });
 
     return () => {
       lastTargetRef.current = null;
-      containerScrollListener?.off();
+      scrollListeners.forEach(listener => listener.off());
       resizeListener?.off();
-      overlayResizeObserver.current?.disconnect();
+      resizeObserver.disconnect();
     };
-  }, [preventOverflow, ref, updatePosition]);
+  }, [ref, triggerTarget, updatePosition, getContainerElement]);
 
-  useUpdateEffect(() => updatePosition(), [updatePosition, placement]);
+  useUpdateEffect(() => updatePosition(), [updatePosition, placement, rtl]);
 
   return [position, updatePosition];
 };
@@ -172,12 +195,11 @@ export interface PositionInstance {
  * @private
  */
 const Position = React.forwardRef((props: PositionProps, ref) => {
-  const { children, className, followCursor, cursorPosition } = props;
+  const { children, followCursor, cursorPosition } = props;
   const childRef = React.useRef<HTMLElement>(null);
 
   const [position, updatePosition] = usePosition(props, childRef);
-  const { positionClassName, arrowOffsetLeft, arrowOffsetTop, positionLeft, positionTop } =
-    position;
+  const { arrowOffsetLeft, arrowOffsetTop, positionLeft, positionTop, placement, dir } = position;
 
   useImperativeHandle(ref, () => ({
     get child() {
@@ -193,7 +215,8 @@ const Position = React.forwardRef((props: PositionProps, ref) => {
 
   if (typeof children === 'function') {
     const childProps = {
-      className: classNames(className, positionClassName),
+      placement,
+      dir,
       arrowOffsetLeft,
       arrowOffsetTop,
       left: positionLeft,
@@ -207,14 +230,5 @@ const Position = React.forwardRef((props: PositionProps, ref) => {
 });
 
 Position.displayName = 'Position';
-Position.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.func.isRequired,
-  container: PropTypes.oneOfType([PropTypes.func, PropTypes.any]),
-  containerPadding: PropTypes.number,
-  placement: PropTypes.any,
-  preventOverflow: PropTypes.bool,
-  triggerTarget: PropTypes.any
-};
 
 export default Position;

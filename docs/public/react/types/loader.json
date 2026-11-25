@@ -1,0 +1,49 @@
+{
+  "Loader": {
+    "props": {
+      "backdrop": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the background is displayed"
+      },
+      "center": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Centered in the container"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "loader"
+      },
+      "content": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Custom descriptive text"
+      },
+      "inverse": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "An alternative dark visual style for the Loader"
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "Sets the loader dimensions",
+        "defaultValue": "md"
+      },
+      "speed": {
+        "type": "'fast' | 'normal' | 'slow' | 'paused'",
+        "isRequired": false,
+        "description": "The speed at which the loader rotates",
+        "defaultValue": "normal"
+      },
+      "vertical": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The icon is displayed vertically with the text"
+      }
+    }
+  }
+}

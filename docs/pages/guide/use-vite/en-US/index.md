@@ -18,7 +18,7 @@ Edit `src/main.tsx` and add the following code:
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
-+ import 'rsuite/dist/rsuite.min.css';  // or 'rsuite/styles/index.less';
++ import 'rsuite/dist/rsuite.css';
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -27,8 +27,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>
 );
 ```
-
-If you use Less as CSS preprocessor, you can import styles via `rsuite/styles/index.less`.
 
 ## 3. Provider Setup
 
@@ -39,7 +37,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 + import { CustomProvider } from 'rsuite';
 import App from './App.tsx';
-import 'rsuite/styles/index.less';
+import 'rsuite/styles/index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

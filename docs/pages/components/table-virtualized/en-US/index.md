@@ -1,4 +1,4 @@
-# Table Virtualized
+# Virtual Table
 
 Provides virtualized rendering support for large amounts of data to improve performance.
 

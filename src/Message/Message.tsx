@@ -1,20 +1,17 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useRef } from 'react';
 import CloseButton from '@/internals/CloseButton';
 import useDelayedClosure from '../toaster/hooks/useDelayedClosure';
-import { STATUS } from '@/internals/constants';
+import Box, { BoxProps } from '@/internals/Box';
+import { mergeRefs, forwardRef } from '@/internals/utils';
 import { MESSAGE_STATUS_ICONS } from '@/internals/constants/statusIcons';
-import { useClassNames, useIsMounted, useEventCallback } from '@/internals/hooks';
-import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '@/internals/types';
-import { mergeRefs } from '@/internals/utils';
-import { oneOf } from '@/internals/propTypes';
-import { useCustom } from '../CustomProvider';
+import { useStyles, useCustom, useIsMounted, useEventCallback } from '@/internals/hooks';
+import type { StatusType, DisplayStateType } from '@/internals/types';
 
-export interface MessageProps extends WithAsProps {
+export interface MessageProps extends BoxProps {
   /**
    * The type of the message box.
    */
-  type?: TypeAttributes.Status;
+  type?: StatusType;
 
   /**
    * Show a border around the message box.
@@ -69,89 +66,74 @@ export interface MessageProps extends WithAsProps {
  * The `Message` component is used to display important messages to users.
  * @see https://rsuitejs.com/components/message
  */
-const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
-  (props: MessageProps, ref) => {
-    const { propsWithDefaults } = useCustom('Message', props);
-    const {
-      as: Component = 'div',
+const Message = forwardRef<'div', MessageProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('Message', props);
+  const {
+    as = 'div',
+    bordered,
+    centered,
+    className,
+    classPrefix = 'message',
+    children,
+    closable,
+    duration = 2000,
+    full,
+    header,
+    type = 'info',
+    showIcon,
+    onClose,
+    ...rest
+  } = propsWithDefaults;
+
+  const [display, setDisplay] = useState<DisplayStateType>('show');
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
+  const isMounted = useIsMounted();
+  const targetRef = useRef<HTMLDivElement>(null);
+
+  // Timed close message
+  const { clear } = useDelayedClosure({ targetRef, onClose, duration });
+
+  const handleClose = useEventCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+    setDisplay('hiding');
+    onClose?.(event);
+    clear();
+
+    setTimeout(() => {
+      if (isMounted()) {
+        setDisplay('hide');
+      }
+    }, 1000);
+  });
+
+  if (display === 'hide') {
+    return null;
+  }
+
+  const classes = merge(
+    className,
+    withPrefix(type, display, {
+      full,
       bordered,
       centered,
-      className,
-      classPrefix = 'message',
-      children,
-      closable,
-      duration = 2000,
-      full,
-      header,
-      type = 'info',
-      showIcon,
-      onClose,
-      ...rest
-    } = propsWithDefaults;
+      ['has-title']: header,
+      ['has-icon']: showIcon
+    })
+  );
 
-    const [display, setDisplay] = useState<TypeAttributes.DisplayState>('show');
-    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-    const isMounted = useIsMounted();
-    const targetRef = React.useRef<HTMLDivElement>(null);
-
-    // Timed close message
-    const { clear } = useDelayedClosure({ targetRef, onClose, duration });
-
-    const handleClose = useEventCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-      setDisplay('hiding');
-      onClose?.(event);
-      clear();
-
-      setTimeout(() => {
-        if (isMounted()) {
-          setDisplay('hide');
-        }
-      }, 1000);
-    });
-
-    if (display === 'hide') {
-      return null;
-    }
-
-    const classes = merge(
-      className,
-      withClassPrefix(type, display, {
-        full,
-        bordered,
-        centered,
-        ['has-title']: header,
-        ['has-icon']: showIcon
-      })
-    );
-
-    return (
-      <Component role="alert" {...rest} ref={mergeRefs(targetRef, ref)} className={classes}>
-        <div className={prefix`container`}>
-          {closable && <CloseButton onClick={handleClose} />}
-          {showIcon && <div className={prefix`icon`}>{MESSAGE_STATUS_ICONS[type]}</div>}
-          <div className={prefix`content`}>
-            {header && <div className={prefix`header`}>{header}</div>}
-            {children && <div className={prefix`body`}>{children}</div>}
-          </div>
+  return (
+    <Box as={as} role="alert" {...rest} ref={mergeRefs(targetRef, ref)} className={classes}>
+      <div className={prefix`container`}>
+        {showIcon && <div className={prefix`icon`}>{MESSAGE_STATUS_ICONS[type]}</div>}
+        <div className={prefix`content`}>
+          {header && <div className={prefix`header`}>{header}</div>}
+          {children && <div className={prefix`body`}>{children}</div>}
         </div>
-      </Component>
-    );
-  }
-);
+        {closable && <CloseButton onClick={handleClose} />}
+      </div>
+    </Box>
+  );
+});
 
 Message.displayName = 'Message';
-Message.propTypes = {
-  bordered: PropTypes.bool,
-  centered: PropTypes.bool,
-  closable: PropTypes.bool,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  description: PropTypes.node,
-  full: PropTypes.bool,
-  onClose: PropTypes.func,
-  showIcon: PropTypes.bool,
-  title: PropTypes.node,
-  type: oneOf(STATUS)
-};
 
 export default Message;

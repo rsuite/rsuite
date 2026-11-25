@@ -1,8 +1,8 @@
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import SelectPicker from '../SelectPicker';
 import { createMeta } from '@/storybook/utils';
 import { mockArrayData } from '@/storybook/mocks';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const data = mockArrayData();
 const meta = createMeta(SelectPicker);
@@ -77,5 +77,30 @@ export const Group: Story = {
   args: {
     ...defaultArgs,
     groupBy: 'role'
+  }
+};
+
+export const Searchable: Story = {
+  args: {
+    ...defaultArgs,
+    searchable: true,
+    placeholder: 'Search options...'
+  }
+};
+
+export const Block: Story = {
+  args: {
+    ...defaultArgs,
+    block: true,
+    style: {
+      width: 320
+    }
+  }
+};
+
+export const ResponsiveQuery: Story = {
+  args: {
+    ...defaultArgs,
+    responsive: '(max-width: 1279px)'
   }
 };

@@ -1,7 +1,6 @@
-import React from 'react';
-import { Table, Loader } from 'rsuite';
+import { Table, Loader, Box } from 'rsuite';
 import { faker } from '@faker-js/faker/locale/en';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import ImportGuide from '@/components/ImportGuide';
 import { importFakerString, mockUsers, mockUsersString, sandboxFakerVersion } from '@/utils/mock';
 
@@ -23,6 +22,7 @@ export default function Page() {
     <DefaultPage
       inDocsComponents={inDocsComponents}
       dependencies={{
+        Box,
         Table,
         Loader,
         faker,

@@ -20,7 +20,7 @@ const FixedLoader = () => (
       justifyContent: 'center',
       position: 'absolute',
       bottom: '0',
-      background: '#fff',
+      background: 'var(--rs-body)',
       width: '100%',
       padding: '4px 0'
     }}
@@ -45,10 +45,10 @@ const App = () => {
     }
   };
 
-  const renderMenu = menu => {
+  const renderListbox = listbox => {
     return (
       <>
-        {menu}
+        {listbox}
         {loading && <FixedLoader />}
       </>
     );
@@ -57,9 +57,9 @@ const App = () => {
   return (
     <SelectPicker
       data={data}
-      style={{ width: 224 }}
+      w={224}
       virtualized
-      renderMenu={renderMenu}
+      renderListbox={renderListbox}
       listProps={{
         onItemsRendered
       }}

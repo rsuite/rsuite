@@ -1,8 +1,8 @@
-import getHours from 'date-fns/getHours';
-import getMinutes from 'date-fns/getMinutes';
-import getSeconds from 'date-fns/getSeconds';
-import set from 'date-fns/set';
-import isValid from 'date-fns/isValid';
+import { getHours } from 'date-fns/getHours';
+import { getMinutes } from 'date-fns/getMinutes';
+import { getSeconds } from 'date-fns/getSeconds';
+import { set } from 'date-fns/set';
+import { isValid } from 'date-fns/isValid';
 
 /**
  * Copy the time from one date to another.

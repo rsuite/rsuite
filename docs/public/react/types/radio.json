@@ -1,0 +1,91 @@
+{
+  "Radio": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type for the component",
+        "defaultValue": "div"
+      },
+      "checked": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Specifies whether the radio is selected"
+      },
+      "color": {
+        "type": "'red' | 'orange' | 'yellow' | 'green' | 'cyan' | 'blue' | 'violet'",
+        "isRequired": false,
+        "description": "The color of the radio when checked"
+      },
+      "defaultChecked": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Specifies the initial state: whether or not the radio is selected"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The disable of component"
+      },
+      "inline": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Inline layout"
+      },
+      "inputProps": {
+        "type": "object",
+        "isRequired": false,
+        "description": "Attributes applied to the input element"
+      },
+      "inputRef": {
+        "type": "ref",
+        "isRequired": false,
+        "description": "Pass a ref to the input element."
+      },
+      "name": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Name to use for form"
+      },
+      "onChange": {
+        "type": "(value: string, checked: boolean, event) => void",
+        "isRequired": false,
+        "description": "Callback function that has been checked for changes in state"
+      },
+      "value": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Value, corresponding to the value of the Radiogroup, to determine whether the"
+      }
+    }
+  },
+  "RadioGroup": {
+    "props": {
+      "defaultValue": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The default value (uncontrolled)"
+      },
+      "inline": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Inline layout"
+      },
+      "name": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Name to use for form"
+      },
+      "onChange": {
+        "type": "(value:string, event) => void",
+        "isRequired": false,
+        "description": "Callback function with value changed"
+      },
+      "value": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The current value (controlled)"
+      }
+    }
+  }
+}

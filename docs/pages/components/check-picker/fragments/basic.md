@@ -26,13 +26,8 @@ const data = [
 
 const App = () => (
   <VStack>
-    <CheckPicker data={data} style={{ width: 224 }} />
-    <CheckPicker
-      data={data}
-      searchable={false}
-      style={{ width: 224 }}
-      placeholder="Select without search"
-    />
+    <CheckPicker data={data} w={224} />
+    <CheckPicker data={data} searchable={false} w={224} placeholder="Select without search" />
   </VStack>
 );
 

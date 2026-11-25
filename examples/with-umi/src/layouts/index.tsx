@@ -1,34 +1,25 @@
-import React, { useState } from 'react';
-import { Container, Content, Nav, Sidebar, Sidenav } from 'rsuite';
-import { Link, Outlet } from 'umi';
-
-import style from './index.less';
+import React, { useEffect, useState } from 'react';
+import { CustomProvider } from 'rsuite';
+import { Outlet } from 'umi';
 
 export default function Layout() {
-  const [activeKey, setActiveKey] = useState('1');
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    setTheme(mediaQuery.matches ? 'dark' : 'light');
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setTheme(e.matches ? 'dark' : 'light');
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
   return (
-    <Container>
-      <Sidebar>
-        <Sidenav>
-          <Sidenav.Body className={style.sidenavBody}>
-            <Nav activeKey={activeKey} onSelect={setActiveKey}>
-              <Nav.Item eventKey="1" as={Link} to="/">
-                Home
-              </Nav.Item>
-              <Nav.Item eventKey="2" as={Link} to="/docs">
-                Docs
-              </Nav.Item>
-            </Nav>
-          </Sidenav.Body>
-        </Sidenav>
-      </Sidebar>
-      <div className={style.pageContent}>
-        <Container>
-          <Content>
-            <Outlet />
-          </Content>
-        </Container>
-      </div>
-    </Container>
+    <CustomProvider theme={theme}>
+      <Outlet />
+    </CustomProvider>
   );
 }

@@ -1,4 +1,5 @@
-import de from 'date-fns/locale/de';
+import type { CalendarLocaleLabels } from './types';
+import { de } from 'date-fns/locale/de';
 
 const DateTimeFormats = {
   sunday: 'So',
@@ -24,6 +25,19 @@ const DateTimeFormats = {
   shortDateFormat: 'dd.MM.yyyy',
   shortTimeFormat: 'HH:mm',
   dateLocale: de as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Vorheriger Monat',
+  nextMonth: 'Nächster Monat',
+  selectMonth: 'Monat auswählen',
+  selectTime: 'Uhrzeit auswählen'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Auswahl öffnen'
 };
 
 const Combobox = {
@@ -63,10 +77,10 @@ export default {
     skip: 'Gehe zu{0}'
   },
   DateTimeFormats,
-  Calendar: DateTimeFormats,
-  DatePicker: DateTimeFormats,
+  Calendar,
+  DatePicker,
   DateRangePicker: {
-    ...DateTimeFormats,
+    ...DatePicker,
     last7Days: 'Letzten 7 Tage'
   },
   Combobox,
@@ -87,8 +101,23 @@ export default {
   Breadcrumb: {
     expandText: 'Pfad anzeigen'
   },
+  Carousel: {
+    carouselRoleDescription: 'Karussell',
+    slideRoleDescription: 'Folie',
+    slidePosition: '{0} von {1}',
+    startRotation: 'Automatischen Folienwechsel starten',
+    stopRotation: 'Automatischen Folienwechsel stoppen',
+    selectSlide: 'Folie auswählen',
+    slideLabel: 'Folie {0} von {1}'
+  },
   Toggle: {
     on: 'Öffnen',
     off: 'Schließen'
+  },
+  Dialog: {
+    alert: 'Warnung',
+    confirm: 'Bestätigen',
+    ok: 'OK',
+    cancel: 'Abbrechen'
   }
 };

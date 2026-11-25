@@ -1,0 +1,167 @@
+{
+  "Container": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element for this component",
+        "defaultValue": "section"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Primary content"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "container"
+      },
+      "className": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Additional classes"
+      },
+      "style": {
+        "type": "CSSProperties",
+        "isRequired": false,
+        "description": "Additional style"
+      }
+    }
+  },
+  "Header": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element for this component",
+        "defaultValue": "header"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Primary content"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "header"
+      },
+      "className": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Additional classes"
+      },
+      "style": {
+        "type": "CSSProperties",
+        "isRequired": false,
+        "description": "Additional style"
+      }
+    }
+  },
+  "Content": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element for this component",
+        "defaultValue": "main"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Primary content"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "content"
+      },
+      "className": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Additional classes"
+      },
+      "style": {
+        "type": "CSSProperties",
+        "isRequired": false,
+        "description": "Additional style"
+      }
+    }
+  },
+  "Footer": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element for this component",
+        "defaultValue": "footer"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Primary content"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "footer"
+      },
+      "className": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Additional classes"
+      },
+      "style": {
+        "type": "CSSProperties",
+        "isRequired": false,
+        "description": "Additional style"
+      }
+    }
+  },
+  "Sidebar": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element for this component",
+        "defaultValue": "aside"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Primary content"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "sidebar"
+      },
+      "className": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Additional classes"
+      },
+      "collapsible": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the sidebar can be collapsed"
+      },
+      "style": {
+        "type": "CSSProperties",
+        "isRequired": false,
+        "description": "Additional style"
+      },
+      "width": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Width of the sidebar"
+      }
+    }
+  }
+}

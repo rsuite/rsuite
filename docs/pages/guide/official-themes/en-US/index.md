@@ -7,12 +7,14 @@ React Suite officially provides the following 3 themes by default, you only need
 - `high-contrast`: High contrast theme. It uses a limited color palette with contrasting colors to make an interface easier to use.
   It's useful when users have photosensitivity or contrast issues, as well as in low-light environments.
 
+<div class="grid-cols-3">
 <!-- webpackIgnore: true -->
-<img src="/images/themes/light-themes@2x.png" width="259" alt="light"/>
+<img src="/images/themes/light-themes@2x.png" width="100%" alt="light"/>
 <!-- webpackIgnore: true -->
-<img src="/images/themes/dark-themes@2x.png" width="259" alt="dark" />
+<img src="/images/themes/dark-themes@2x.png" width="100%" alt="dark" />
 <!-- webpackIgnore: true -->
-<img src="/images/themes/high-contrast-themes@2x.png" width="259" alt="high contrast"/>
+<img src="/images/themes/high-contrast-themes@2x.png" width="100%" alt="high contrast"/>
+</div>
 
 ---
 
@@ -21,22 +23,8 @@ React Suite officially provides the following 3 themes by default, you only need
 ### 1. Import style files
 
 ```
-@import '~rsuite/dist/rsuite.min.css';
+@import '~rsuite/dist/rsuite.css';
 ```
-
-If you use `Less`, you need to enable the corresponding theme through a variable.
-
-```
-@import '~rsuite/styles/index.less';
-
-// Enable dark mode
-@enable-dark-mode: true;
-
-// Enable high contrast mode
-@enable-high-contrast: true;
-```
-
-☆ We recommend you to use Less, because it will only load the styles of the corresponding theme when you compile the generated CSS, thereby reducing the size of the CSS file.
 
 ### 2.CustomProvider
 
@@ -53,7 +41,3 @@ function App(props) {
 If you want to change the theme of only a part of the component, just add the `.rs-theme-dark` class or the `.rs-theme-high-contrast` class to any container element to use the corresponding theme style .
 
 ---
-
-## Customization
-
-If the themes provided above cannot meet the visual requirements of your application, you can meet the [customization](/guide/customization-less) requirements of your business through some of our predefined parameter configurations.

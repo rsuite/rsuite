@@ -6,20 +6,20 @@ import { AvatarGroup, Avatar } from 'rsuite';
 const App = () => (
   <>
     <AvatarGroup spacing={6}>
-      <Avatar style={{ background: '#000' }}>R</Avatar>
-      <Avatar style={{ background: '#7B1FA2' }}>X</Avatar>
-      <Avatar style={{ background: '#004299' }}>👍</Avatar>
+      <Avatar color="green">R</Avatar>
+      <Avatar bg="linear-gradient(45deg, #4CAF50, #2196F3)">X</Avatar>
+      <Avatar color="blue">👍</Avatar>
     </AvatarGroup>
 
     <hr />
     <AvatarGroup spacing={6}>
-      <Avatar circle style={{ background: '#000' }}>
+      <Avatar circle color="green">
         R
       </Avatar>
-      <Avatar circle style={{ background: '#7B1FA2' }}>
+      <Avatar circle bg="linear-gradient(45deg, #4CAF50, #2196F3)">
         X
       </Avatar>
-      <Avatar circle style={{ background: '#004299' }}>
+      <Avatar circle color="blue">
         👍
       </Avatar>
     </AvatarGroup>

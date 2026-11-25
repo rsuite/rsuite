@@ -1,0 +1,175 @@
+{
+  "Stat": {
+    "props": {
+      "as": {
+        "type": "elementType",
+        "isRequired": false,
+        "description": "HTML tag of the component",
+        "defaultValue": "div"
+      },
+      "bordered": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to display a border"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The children of the component"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "stat"
+      },
+      "icon": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The icon of the component"
+      }
+    }
+  },
+  "Stat.Label": {
+    "props": {
+      "as": {
+        "type": "elementType",
+        "isRequired": false,
+        "description": "HTML tag of the component",
+        "defaultValue": "dt"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The children of the component"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "stat-label"
+      },
+      "info": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The info tip of the label"
+      },
+      "uppercase": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to display the label in uppercase"
+      }
+    }
+  },
+  "Stat.Value": {
+    "props": {
+      "as": {
+        "type": "elementType",
+        "isRequired": false,
+        "description": "HTML tag of the component",
+        "defaultValue": "dd"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The children of the component"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "stat-value"
+      },
+      "formatOptions": {
+        "type": "[Intl.NumberFormatOptions][Intl]",
+        "isRequired": false,
+        "description": "The format options of the value"
+      },
+      "value": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The value of the component"
+      }
+    }
+  },
+  "Stat.Trend": {
+    "props": {
+      "as": {
+        "type": "elementType",
+        "isRequired": false,
+        "description": "HTML tag of the component",
+        "defaultValue": "span"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The children of the component"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "stat-trend"
+      },
+      "indicator": {
+        "type": "'up' | 'down' | 'equal'",
+        "isRequired": false,
+        "description": "The trend indicator of the component"
+      }
+    }
+  },
+  "Stat.HelpText": {
+    "props": {
+      "as": {
+        "type": "elementType",
+        "isRequired": false,
+        "description": "HTML tag of the component",
+        "defaultValue": "span"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The children of the component"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "stat-help-text"
+      }
+    }
+  },
+  "StatGroup": {
+    "props": {
+      "as": {
+        "type": "elementType",
+        "isRequired": false,
+        "description": "HTML tag of the component",
+        "defaultValue": "div"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The children of the component"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "stat-group"
+      },
+      "columns": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The number of columns of the group",
+        "defaultValue": "4"
+      },
+      "spacing": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The spacing between the stats",
+        "defaultValue": "6"
+      }
+    }
+  }
+}

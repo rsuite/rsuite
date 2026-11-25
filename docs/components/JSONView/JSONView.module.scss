@@ -1,0 +1,15 @@
+// JSON tree wrapper
+.json-tree-wrapper {
+  background: rgb(0, 43, 54) !important;
+  margin-bottom: 20px !important;
+
+  :global(.rs-panel-header) {
+    background: #06232c;
+    border-radius: 6px;
+    color: #fff;
+  }
+
+  :global(.rs-panel-body) {
+    padding: 0 4px 8px 10px;
+  }
+}

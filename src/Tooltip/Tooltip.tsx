@@ -1,12 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '@/internals/hooks';
-import { useCustom } from '../CustomProvider';
-import type { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '@/internals/types';
+import React, { useMemo, useContext } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef, mergeStyles } from '@/internals/utils';
+import { useStyles, useCustom } from '@/internals/hooks';
+import type { Placement } from '@/internals/types';
+import { TooltipDescriptionObserverContext } from '@/internals/Overlay/TooltipDescriptionContext';
 
-export interface TooltipProps extends WithAsProps {
+export interface TooltipProps
+  extends BoxProps,
+    Pick<React.HTMLAttributes<HTMLElement>, 'id' | 'role'> {
   /** Dispaly placement */
-  placement?: TypeAttributes.Placement;
+  placement?: Placement;
 
   /** Whether visible */
   visible?: boolean;
@@ -23,48 +26,52 @@ export interface TooltipProps extends WithAsProps {
  *
  * @see https://rsuitejs.com/components/tooltip
  */
-const Tooltip: RsRefForwardingComponent<'div', TooltipProps> = React.forwardRef(
-  (props: TooltipProps, ref) => {
-    const { propsWithDefaults } = useCustom('Tooltip', props);
-    const {
-      as: Component = 'div',
-      className,
-      classPrefix = 'tooltip',
-      children,
-      style,
-      visible,
-      arrow = true,
-      ...rest
-    } = propsWithDefaults;
-
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(
-      className,
-      withClassPrefix({
-        arrow
-      })
-    );
-    const styles = {
-      opacity: visible ? 1 : undefined,
-      ...style
-    };
-
-    return (
-      <Component role="tooltip" {...rest} ref={ref} className={classes} style={styles}>
-        {children}
-      </Component>
-    );
+const Tooltip = forwardRef<'div', TooltipProps>((props: TooltipProps, ref) => {
+  const description = useContext(TooltipDescriptionObserverContext);
+  let propsForDefaults = props;
+  // An absent automatic ID must not override an authored provider default.
+  if (description && props.id === undefined) {
+    propsForDefaults = { ...props };
+    delete propsForDefaults.id;
   }
-);
+  const { propsWithDefaults } = useCustom('Tooltip', propsForDefaults);
+  const {
+    as,
+    className,
+    classPrefix = 'tooltip',
+    children,
+    style,
+    visible,
+    arrow = true,
+    id,
+    ...rest
+  } = propsWithDefaults;
+
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ arrow }));
+
+  const styles = useMemo(
+    () => mergeStyles(style, { ['--rs-opacity']: visible ? 1 : undefined }),
+    [visible, style]
+  );
+
+  return (
+    <TooltipDescriptionObserverContext.Provider value={undefined}>
+      <Box
+        as={as}
+        role="tooltip"
+        {...rest}
+        id={id ?? description?.id}
+        ref={ref}
+        className={classes}
+        style={styles}
+      >
+        {children}
+      </Box>
+    </TooltipDescriptionObserverContext.Provider>
+  );
+});
 
 Tooltip.displayName = 'Tooltip';
-Tooltip.propTypes = {
-  visible: PropTypes.bool,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  children: PropTypes.node,
-  arrow: PropTypes.bool
-};
 
 export default Tooltip;

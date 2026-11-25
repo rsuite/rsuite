@@ -5,7 +5,7 @@ import { Breadcrumb } from 'rsuite';
 import Link from 'next/link';
 
 const App = () => (
-  <Breadcrumb>
+  <Breadcrumb aria-label="breadcrumb">
     <Breadcrumb.Item as={Link} href="/">
       Home
     </Breadcrumb.Item>

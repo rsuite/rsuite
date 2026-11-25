@@ -1,33 +1,16 @@
 import React from 'react';
-import { NavLink } from '@remix-run/react';
+import { NavLink } from 'react-router';
 import { Nav } from 'rsuite';
 
-const Link = React.forwardRef<
-  HTMLAnchorElement,
-  React.PropsWithChildren<{
-    href: string;
-  }>
->((props, ref) => {
-  const { href, ...rest } = props;
+export function Navbar() {
   return (
-    <NavLink
-      to={href}
-      className={({ isActive }) => {
-        return isActive ? 'active' : undefined;
-      }}
-    >
-      <a ref={ref} {...rest} />
-    </NavLink>
+    <Nav>
+      <Nav.Item as={NavLink} to="/">
+        Home
+      </Nav.Item>
+      <Nav.Item as={NavLink} to="/rsuite">
+        RSuite
+      </Nav.Item>
+    </Nav>
   );
-});
-
-export const Navbar = () => (
-  <Nav>
-    <Nav.Item as={Link} href="/">
-      Home
-    </Nav.Item>
-    <Nav.Item as={Link} href="/rsuite">
-      RSuite
-    </Nav.Item>
-  </Nav>
-);
+}

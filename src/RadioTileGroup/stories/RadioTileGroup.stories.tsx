@@ -1,13 +1,13 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import RadioTileGroup from '../RadioTileGroup';
 import RadioTile from '../../RadioTile';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import AppSelectIcon from '@rsuite/icons/AppSelect';
 import CreativeIcon from '@rsuite/icons/Creative';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../RadioTile/styles/index.less';
+import '../styles/index.scss';
+import '../../RadioTile/styles/index.scss';
 
 const meta = createMeta(RadioTileGroup);
 

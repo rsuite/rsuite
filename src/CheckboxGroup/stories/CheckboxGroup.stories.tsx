@@ -1,9 +1,9 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import CheckboxGroup from '../CheckboxGroup';
 import Checkbox from '../../Checkbox';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(CheckboxGroup);
 
@@ -38,5 +38,28 @@ export const Inline: Story = {
   args: {
     ...defaultArgs,
     inline: true
+  }
+};
+
+export const DefaultValue: Story = {
+  args: {
+    ...defaultArgs,
+    defaultValue: ['1', '2']
+  }
+};
+
+export const Disabled: Story = {
+  args: {
+    children: [
+      <Checkbox key="1" value="1">
+        Option 1
+      </Checkbox>,
+      <Checkbox key="2" value="2" disabled>
+        Option 2 (Disabled)
+      </Checkbox>,
+      <Checkbox key="3" value="3">
+        Option 3
+      </Checkbox>
+    ]
   }
 };

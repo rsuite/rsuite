@@ -1,8 +1,8 @@
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import MultiCascader from '../MultiCascader';
 import { createMeta } from '@/storybook/utils';
 import { mockTreeData } from '@/storybook/mocks';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const data = mockTreeData({
   limits: [3, 3, 4],
@@ -77,5 +77,23 @@ export const Size: Story = {
     },
     label: 'Large Size',
     size: 'lg'
+  }
+};
+
+export const Searchable: Story = {
+  args: {
+    ...defaultArgs,
+    searchable: true,
+    placeholder: 'Search options...'
+  }
+};
+
+export const Block: Story = {
+  args: {
+    ...defaultArgs,
+    block: true,
+    style: {
+      width: 320
+    }
   }
 };

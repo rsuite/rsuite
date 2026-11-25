@@ -1,9 +1,9 @@
 import React, { useCallback, useRef } from 'react';
 
-export function useFocus<E extends HTMLElement>(elementRef: React.RefObject<E>) {
+export function useFocus<E extends HTMLElement>(elementRef: React.RefObject<E | null>) {
   // When grabbing focus, keep track of previous activeElement
   // so that we can return focus later
-  const previousActiveElementRef = useRef<HTMLElement | null>(null);
+  const previousActiveElementRef = useRef<HTMLElement>(null);
 
   // Focus the element itself
   const grab = useCallback(() => {

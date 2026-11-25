@@ -1,8 +1,8 @@
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import CheckTree from '../';
 import { createMeta } from '@/storybook/utils';
 import { mockTreeData, mockAsyncData } from '@/storybook/mocks';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const data = mockTreeData({
   limits: [3, 3, 4],
@@ -52,5 +52,20 @@ export const Async: Story = {
     ...defaultArgs,
     data: getNodes(5) as any,
     getChildren: fetchNodes as any
+  }
+};
+
+export const Searchable: Story = {
+  args: {
+    ...defaultArgs,
+    searchable: true,
+    placeholder: 'Search nodes...'
+  }
+};
+
+export const DefaultExpandAll: Story = {
+  args: {
+    ...defaultArgs,
+    defaultExpandAll: true
   }
 };

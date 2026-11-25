@@ -1,0 +1,57 @@
+{
+  "Message": {
+    "props": {
+      "bordered": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Show a border around the message box."
+      },
+      "centered": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Center the message vertically."
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The description information for the message."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class.",
+        "defaultValue": "message"
+      },
+      "closable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether it is possible to close the message box"
+      },
+      "full": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Fill the container"
+      },
+      "header": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The title of the message."
+      },
+      "onClose": {
+        "type": "(event?: MouseEvent) => void",
+        "isRequired": false,
+        "description": "Called after the message is closed"
+      },
+      "showIcon": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to display an icon."
+      },
+      "type": {
+        "type": "'info' | 'success' | 'warning' | 'error'",
+        "isRequired": false,
+        "description": "The type of the message box."
+      }
+    }
+  }
+}

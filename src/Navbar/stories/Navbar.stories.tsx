@@ -1,9 +1,9 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Nav from '../../Nav';
 import Navbar from '../Navbar';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(Navbar);
 
@@ -48,5 +48,26 @@ export const Subtle: Story = {
   args: {
     ...defaultArgs,
     appearance: 'subtle'
+  }
+};
+
+export const WithContent: Story = {
+  args: {
+    children: (
+      <Navbar>
+        <Navbar.Brand>RSuite</Navbar.Brand>
+        <Nav>
+          <Nav.Item active>Home</Nav.Item>
+          <Nav.Item>News</Nav.Item>
+          <Nav.Item>Products</Nav.Item>
+        </Nav>
+        <Navbar.Content>
+          <Nav>
+            <Nav.Item>Login</Nav.Item>
+            <Nav.Item>Sign Up</Nav.Item>
+          </Nav>
+        </Navbar.Content>
+      </Navbar>
+    )
   }
 };

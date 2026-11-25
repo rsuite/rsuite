@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import CreativeIcon from '@rsuite/icons/Creative';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import CheckRoundIcon from '@rsuite/icons/CheckRound';
@@ -7,9 +7,9 @@ import Avatar from '../../Avatar';
 import Stack from '../../Stack';
 import Accordion from '../';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Avatar/styles/index.less';
-import '../../Stack/styles/index.less';
+import '../styles/index.scss';
+import '../../Avatar/styles/index.scss';
+import '../../Stack/styles/index.scss';
 
 const meta = createMeta(Accordion);
 
@@ -42,10 +42,25 @@ export const Default: Story = {
   }
 };
 
+export const BodyFill: Story = {
+  args: {
+    ...defaultArgs,
+    bordered: true,
+    bodyFill: true
+  }
+};
+
 export const Bordered: Story = {
   args: {
     ...defaultArgs,
     bordered: true
+  }
+};
+
+export const Disabled: Story = {
+  args: {
+    ...defaultArgs,
+    disabled: true
   }
 };
 

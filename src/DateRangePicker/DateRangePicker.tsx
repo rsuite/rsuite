@@ -2,38 +2,43 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import isNil from 'lodash/isNil';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
-import PropTypes from 'prop-types';
 import CalendarIcon from '@rsuite/icons/Calendar';
 import TimeIcon from '@rsuite/icons/Time';
 import Toolbar from '../DatePicker/Toolbar';
 import PredefinedRanges from '../DatePicker/PredefinedRanges';
 import Stack from '../Stack';
-import { DateRangePickerProvider } from './DateRangePickerProvider';
 import DateRangeInput from '../DateRangeInput';
 import InputGroup from '../InputGroup';
+import DatePickerIndicator from '../DatePicker/DatePickerIndicator';
+import useOpenButton from '../DatePicker/hooks/useOpenButton';
 import Header from './Header';
 import useDateDisabled from './hooks/useDateDisabled';
 import useCustomizedInput from '../DatePicker/hooks/useCustomizedInput';
+import Box from '@/internals/Box';
 import Calendar from './Calendar';
+import * as StaticMethods from './disabledDateUtils';
+import { DateRangePickerProvider } from './DateRangePickerProvider';
 import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
-import { deprecatePropTypeNew, oneOf } from '@/internals/propTypes';
 import { DATERANGE_DISABLED_TARGET as TARGET } from '@/internals/constants';
-import { useClassNames, useControlled, useUniqueId, useEventCallback } from '@/internals/hooks';
 import {
-  omitTriggerPropKeys,
-  PickerComponent,
+  useStyles,
+  useCustom,
+  useControlled,
+  useUniqueId,
+  useEventCallback
+} from '@/internals/hooks';
+import { splitRanges } from '../DatePicker/utils';
+import {
   PickerPopup,
-  pickerPropTypes,
   PickerToggleTrigger,
-  PickerIndicator,
   PickerLabel,
-  pickTriggerPropKeys,
+  triggerPropKeys,
   PositionChildProps,
-  usePickerClassName,
   usePickerRef,
   onMenuKeyDown
 } from '@/internals/Picker';
 import {
+  forwardRef,
   createChainedFunction,
   mergeRefs,
   partitionHTMLProps,
@@ -55,8 +60,8 @@ import {
   DateMode,
   useDateMode
 } from '@/internals/utils/date';
-import { useCustom } from '../CustomProvider';
-import type { DisabledDateFunction, RangeType, DateRange, SelectedDatesState } from './types';
+import type { DateOptionPreset } from '@/internals/types';
+import type { DisabledDateFunction, DateRange, SelectedDatesState } from './types';
 import type { FormControlBaseProps, PickerBaseProps } from '@/internals/types';
 import type { DateRangePickerLocale } from '../locales';
 import type { MonthDropdownProps } from '../Calendar/types';
@@ -72,7 +77,7 @@ export interface DateRangePickerProps
   /**
    * Predefined date ranges
    */
-  ranges?: RangeType[];
+  ranges?: DateOptionPreset<DateRange | null>[];
 
   /**
    * Format of the date displayed in the input box
@@ -84,6 +89,13 @@ export interface DateRangePickerProps
    * @default true
    */
   editable?: boolean;
+
+  /**
+   * Open the popup when the input is clicked. Set to false to use a separate open button.
+   * Keyboard and imperative opening remain available. `caretAs={null}` hides the button.
+   * @default true
+   */
+  openOnInputClick?: boolean;
 
   /**
    * The date range that will be selected when you click on the date
@@ -236,7 +248,7 @@ export interface DateRangePickerProps
   /**
    * Called after clicking the shortcut button
    */
-  onShortcutClick?: (range: RangeType, event: React.MouseEvent) => void;
+  onShortcutClick?: (range: DateOptionPreset<DateRange>, event: React.MouseEvent) => void;
 
   /**
    * Called when the value is cleared
@@ -250,8 +262,10 @@ export interface DateRangePickerProps
 
   /**
    * Custom render for calendar title
+   *
+   * - calendarKey is added in v5.83.0
    */
-  renderTitle?: (date: Date) => React.ReactNode;
+  renderTitle?: (date: Date, calendarKey: 'start' | 'end') => React.ReactNode;
 
   /**
    * Custom rendering calendar cell content.
@@ -261,46 +275,22 @@ export interface DateRangePickerProps
   renderCell?: (date: Date) => React.ReactNode;
 }
 
-export interface DateRangePickerComponent extends PickerComponent<DateRangePickerProps> {
-  /** Allow the maximum number of days specified, other dates are disabled */
-  allowedMaxDays: (days: number) => DisabledDateFunction;
-
-  /** Only allowed days are specified, other dates are disabled */
-  allowedDays: (days: number) => DisabledDateFunction;
-
-  /** Allow specified date range, other dates are disabled */
-  allowedRange: (startDate: string | Date, endDate: string | Date) => DisabledDateFunction;
-
-  /** Disable dates after the specified date */
-  before: (beforeDate: string | Date) => DisabledDateFunction;
-
-  /** Disable dates before the specified date */
-  after: (afterDate: string | Date) => DisabledDateFunction;
-
-  /** Disable dates after today. */
-  beforeToday: () => DisabledDateFunction;
-
-  /** Disable dates before today */
-  afterToday: () => DisabledDateFunction;
-
-  /** Used to combine multiple conditions */
-  combine: (...args: any) => DisabledDateFunction;
-}
-
 /**
  * A date range picker allows you to select a date range from a calendar.
  *
  * @see https://rsuitejs.com/components/date-range-picker
  */
-const DateRangePicker: DateRangePickerComponent = React.forwardRef(
-  (props: DateRangePickerProps, ref) => {
+const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMethods>(
+  (props, ref) => {
     const { formatDate, propsWithDefaults } = useCustom('DateRangePicker', props);
     const {
-      as: Component = 'div',
+      as,
+      block,
       classPrefix = 'picker',
       className,
       appearance = 'default',
       editable = true,
+      openOnInputClick = true,
       cleanable = true,
       character = ' ~ ',
       calendarSnapping,
@@ -308,7 +298,6 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       defaultValue,
       plaintext,
       disabled,
-      disabledDate: DEPRECATED_disabledDate,
       shouldDisableDate,
       shouldDisableHour,
       shouldDisableMinute,
@@ -317,14 +306,15 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       hoverRange,
       id: idProp,
       isoWeek = false,
-      weekStart = 0,
+      weekStart,
       limitEndYear = 1000,
       limitStartYear,
       locale,
       loading,
       label,
-      menuClassName,
-      menuStyle,
+      popupClassName,
+      popupStyle,
+      responsive,
       oneTap,
       placeholder = '',
       placement = 'bottomStart',
@@ -332,8 +322,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       readOnly,
       showOneCalendar = false,
       showWeekNumbers,
-      showMeridian: DEPRECATED_showMeridian,
-      showMeridiem = DEPRECATED_showMeridian,
+      showMeridiem,
       showHeader = true,
       style,
       size,
@@ -358,7 +347,13 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
 
     const id = useUniqueId('rs-', idProp);
     const { trigger, root, target, overlay } = usePickerRef(ref);
-    const { merge, prefix } = useClassNames(classPrefix);
+    const openButton = useOpenButton({
+      enabled: !openOnInputClick,
+      disabled: !!(disabled || readOnly || loading || plaintext),
+      trigger,
+      overlay
+    });
+    const { merge, prefix } = useStyles(classPrefix);
 
     const formatStr = format || locale?.shortDateFormat || 'yyyy-MM-dd';
 
@@ -489,10 +484,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       if (value) {
         const [startDate, endDate] = value;
 
-        strings = `${formatDate(startDate, formatStr)}${character}${formatDate(
-          endDate,
-          formatStr
-        )}`;
+        strings = `${formatDate(startDate, formatStr)}${character}${formatDate(endDate, formatStr)}`;
       }
 
       return getStringLength(strings) + padding;
@@ -678,6 +670,12 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       const nextCalendarDate = Array.from(calendarDateRange) as DateRange;
       nextCalendarDate[index] = date;
 
+      // If allowSameMonth is true, the start and end dates should be the same
+      if (allowSameMonth) {
+        nextCalendarDate[0] = date;
+        nextCalendarDate[1] = date;
+      }
+
       setCalendarDateRange({
         dateRange: nextCalendarDate,
         calendarKey,
@@ -737,7 +735,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
      * Toolbar operation callback function
      */
     const handleShortcutPageDate = useEventCallback(
-      (range: RangeType, closeOverlay = false, event: React.MouseEvent) => {
+      (range: DateOptionPreset<DateRange>, closeOverlay = false, event: React.MouseEvent) => {
         const value = range.value as DateRange;
 
         setCalendarDateRange({ dateRange: value, eventName: 'shortcutSelection' });
@@ -784,6 +782,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
      */
     const handleInputChange = useEventCallback((value: [Date, Date] | null, event) => {
       if (!value) {
+        setDateRange(event, null, false);
         return;
       }
 
@@ -799,7 +798,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
     /**
      * Check if the date is disabled
      */
-    const isDateDisabled = useDateDisabled({ shouldDisableDate, DEPRECATED_disabledDate });
+    const isDateDisabled = useDateDisabled({ shouldDisableDate });
 
     /**
      * Check if a date range is disabled
@@ -868,7 +867,9 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
     };
 
     const handleClose = useEventCallback(() => {
-      trigger.current?.close?.();
+      if (trigger.current?.getState().open) {
+        trigger.current.close();
+      }
     });
 
     const handleInputKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -894,8 +895,12 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       : undefined;
 
     const renderCalendarOverlay = (positionProps: PositionChildProps, speakerRef) => {
-      const { left, top, className } = positionProps;
-      const classes = merge(className, menuClassName, prefix('popup-daterange'));
+      if (disabled) {
+        return <PickerPopup ref={mergeRefs(overlay, speakerRef)} />;
+      }
+
+      const { className } = positionProps;
+      const classes = merge(className, popupClassName, prefix('popup-daterange'));
       const panelClasses = prefix('daterange-panel', {
         'daterange-panel-show-one-calendar': showOneCalendar,
         'daterange-panel-only-time': onlyShowTime
@@ -908,7 +913,6 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       const panelStyles: React.CSSProperties = {
         minWidth: showOneCalendar || onlyShowTime ? 'auto' : 528
       };
-      const styles = { ...menuStyle, left, top };
 
       const calendarProps = {
         locale,
@@ -951,24 +955,22 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
         );
       };
 
-      const sideRanges = ranges?.filter(range => range?.placement === 'left') || [];
-      const bottomRanges = ranges?.filter(
-        range => range?.placement === 'bottom' || range?.placement === undefined
-      );
+      const { sideRanges, bottomRanges } = splitRanges(ranges);
 
       return (
         <PickerPopup
           role="dialog"
+          id={!openOnInputClick ? `${id}-popup` : undefined}
           aria-labelledby={label ? `${id}-label` : undefined}
           tabIndex={-1}
           className={classes}
           ref={mergeRefs(overlay, speakerRef)}
           target={trigger}
-          style={styles}
+          style={popupStyle}
         >
           <div className={panelClasses} style={panelStyles}>
-            <Stack alignItems="flex-start">
-              {sideRanges.length > 0 && (
+            <Stack align="flex-start" h="100%">
+              {sideRanges && sideRanges.length > 0 && (
                 <PredefinedRanges
                   direction="column"
                   spacing={0}
@@ -982,7 +984,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
                 />
               )}
 
-              <Stack.Item>
+              <Box className={prefix('box')}>
                 <div className={prefix('daterange-content')}>
                   {showHeader && (
                     <Header
@@ -1013,7 +1015,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
                   onShortcutClick={handleShortcutPageDate}
                   ranges={bottomRanges}
                 />
-              </Stack.Item>
+              </Box>
             </Stack>
           </div>
         </PickerPopup>
@@ -1021,15 +1023,6 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
     };
 
     const hasValue = !isNil(value) && value.length > 1;
-    const [classes, usedClassNamePropKeys] = usePickerClassName({
-      ...props,
-      classPrefix,
-      className,
-      name: 'daterange',
-      appearance,
-      hasValue,
-      cleanable
-    });
 
     const caretAs: React.ElementType | null = useMemo(() => {
       if (caretAsProp === null) {
@@ -1088,94 +1081,90 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       loading
     });
 
+    const triggerProps = {
+      ...pick(props, triggerPropKeys),
+      onEnter: createChainedFunction(events.onActive, openButton.onEnter, handleEnter, onEnter),
+      onEntered: createChainedFunction(openButton.onEntered, props.onEntered),
+      onExit: createChainedFunction(events.onInactive, openButton.onExit, handleExit, onExit)
+    };
+
     return (
       <PickerToggleTrigger
-        trigger="active"
+        as={as}
+        pickerType="date-range"
+        responsive={responsive}
+        classPrefix={classPrefix}
+        className={merge(className, { [prefix('error')]: invalidValue })}
+        block={block}
+        disabled={disabled}
+        closeOnDisable
+        appearance={appearance}
+        style={style}
+        rootRef={root}
         ref={trigger}
-        pickerProps={pick(props, pickTriggerPropKeys)}
         placement={placement}
-        onEnter={createChainedFunction(events.onActive, handleEnter, onEnter)}
-        onExit={createChainedFunction(events.onInactive, handleExit, onExit)}
+        trigger={openOnInputClick ? 'active' : []}
+        triggerProps={triggerProps}
         speaker={renderCalendarOverlay}
+        data-cleanable={cleanable}
       >
-        <Component
-          ref={root}
-          className={merge(classes, { [prefix('error')]: invalidValue })}
-          style={style}
-        >
-          {plaintext ? (
-            <DateRangeInput value={value} format={formatStr} plaintext={plaintext} />
-          ) : (
-            <InputGroup
-              {...omit(rest, [
-                ...omitTriggerPropKeys,
-                ...usedClassNamePropKeys,
-                ...calendarOnlyProps
-              ])}
-              inside
-              className={prefix`input-group`}
+        {plaintext ? (
+          <DateRangeInput value={value} format={formatStr} plaintext={plaintext} />
+        ) : (
+          <InputGroup
+            {...omit(rest, [...calendarOnlyProps, ...triggerPropKeys])}
+            inside
+            className={prefix`input-group`}
+            disabled={disabled}
+            size={size}
+          >
+            <PickerLabel className={prefix`label`} id={`${id}-label`}>
+              {label}
+            </PickerLabel>
+            <Input
+              aria-haspopup="dialog"
+              aria-invalid={invalidValue}
+              aria-labelledby={label ? `${id}-label` : undefined}
+              {...(ariaProps as any)}
+              ref={target}
+              id={id}
+              value={customValue || value}
+              character={character}
+              format={formatStr}
+              placeholder={placeholder ? placeholder : rangeFormatStr}
               disabled={disabled}
+              readOnly={inputReadOnly}
+              htmlSize={getInputHtmlSize()}
+              onChange={handleInputChange}
+              onKeyDown={handleInputKeyDown}
+            />
+            <DatePickerIndicator
               size={size}
-            >
-              <PickerLabel className={prefix`label`} id={`${id}-label`}>
-                {label}
-              </PickerLabel>
-              <Input
-                aria-haspopup="dialog"
-                aria-invalid={invalidValue}
-                aria-labelledby={label ? `${id}-label` : undefined}
-                {...(ariaProps as any)}
-                ref={target}
-                id={id}
-                value={customValue || value}
-                character={character}
-                format={formatStr}
-                placeholder={placeholder ? placeholder : rangeFormatStr}
-                disabled={disabled}
-                readOnly={inputReadOnly}
-                htmlSize={getInputHtmlSize()}
-                onChange={handleInputChange}
-                onKeyDown={handleInputKeyDown}
-              />
-              <PickerIndicator
-                loading={loading}
-                caretAs={caretAs}
-                onClose={handleClean}
-                showCleanButton={showCleanButton}
-              />
-            </InputGroup>
-          )}
-        </Component>
+              loading={loading}
+              caretAs={caretAs}
+              onClose={handleClean}
+              showCleanButton={showCleanButton}
+              openButton={
+                !openOnInputClick
+                  ? {
+                      ref: openButton.ref,
+                      expanded: openButton.expanded,
+                      controls: `${id}-popup`,
+                      disabled: !!(disabled || readOnly || loading),
+                      label: locale?.openPicker || 'Open picker',
+                      onClick: openButton.onClick
+                    }
+                  : undefined
+              }
+            />
+          </InputGroup>
+        )}
       </PickerToggleTrigger>
     );
-  }
-) as unknown as DateRangePickerComponent;
+  },
+  StaticMethods
+);
 
 DateRangePicker.displayName = 'DateRangePicker';
-DateRangePicker.propTypes = {
-  ...pickerPropTypes,
-  ranges: PropTypes.array,
-  value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  defaultValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  defaultCalendarValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  hoverRange: PropTypes.oneOfType([oneOf(['week', 'month']), PropTypes.func]),
-  format: PropTypes.string,
-  hideHours: PropTypes.func,
-  hideMinutes: PropTypes.func,
-  hideSeconds: PropTypes.func,
-  isoWeek: PropTypes.bool,
-  weekStart: PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6]),
-  oneTap: PropTypes.bool,
-  limitEndYear: PropTypes.number,
-  limitStartYear: PropTypes.number,
-  onChange: PropTypes.func,
-  onOk: PropTypes.func,
-  disabledDate: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableDate" property instead.'),
-  shouldDisableDate: PropTypes.func,
-  onSelect: PropTypes.func,
-  showWeekNumbers: PropTypes.bool,
-  showMeridiem: PropTypes.bool,
-  showOneCalendar: PropTypes.bool
-};
 
 export default DateRangePicker;

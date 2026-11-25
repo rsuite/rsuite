@@ -1,11 +1,11 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import { createMeta } from '@/storybook/utils';
 
 import Avatar from '../../Avatar';
 import AvatarGroup from '../AvatarGroup';
-import '../styles/index.less';
-import '../../Avatar/styles/index.less';
+import '../styles/index.scss';
+import '../../Avatar/styles/index.scss';
 
 const meta = createMeta(AvatarGroup);
 
@@ -41,11 +41,22 @@ export const Stack: Story = {
   args: {
     ...defaultArgs,
     children: [
-      ...defaultArgs.children,
-      <Avatar key="4" circle>
-        +
+      <Avatar key="1" circle src="https://avatars.githubusercontent.com/u/6412038" />,
+      <Avatar key="2" circle src="https://avatars.githubusercontent.com/u/6128107" />,
+      <Avatar key="3" circle src="https://avatars.githubusercontent.com/u/139426" />,
+      <Avatar key="4" circle src="https://avatars.githubusercontent.com/u/1203827" />,
+      <Avatar key="5" circle src="https://avatars.githubusercontent.com/u/1680273" />,
+      <Avatar key="6" circle>
+        +3
       </Avatar>
     ],
     stack: true
+  }
+};
+
+export const Sizes: Story = {
+  args: {
+    ...defaultArgs,
+    size: 'lg'
   }
 };

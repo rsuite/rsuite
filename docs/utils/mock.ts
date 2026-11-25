@@ -103,6 +103,7 @@ export function mockUsers(length: number) {
     const phone = faker.phone.number();
     const amount = faker.finance.amount({ min: 1000, max: 90000 });
     const company = faker.company.name();
+    const joinDate = faker.date.past().toLocaleDateString();
 
     const age = Math.floor(Math.random() * 30) + 18;
     const stars = Math.floor(Math.random() * 10000);
@@ -129,7 +130,8 @@ export function mockUsers(length: number) {
       progress,
       amount,
       company,
-      birthdate
+      birthdate,
+      joinDate
     };
   };
 

@@ -1,8 +1,8 @@
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import DateInput from '../DateInput';
 import { createMeta } from '@/storybook/utils';
 
-import '../styles/index.less';
+import '../styles/index.scss';
 
 const meta = createMeta(DateInput);
 
@@ -27,5 +27,12 @@ export const Disabled: Story = {
   args: {
     ...defaultArgs,
     disabled: true
+  }
+};
+
+export const FormatWithTime: Story = {
+  args: {
+    ...defaultArgs,
+    format: 'yyyy-MM-dd HH:mm:ss'
   }
 };

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useEventCallback } from '@/internals/hooks';
 
 interface FocusStateProps {
-  target: React.RefObject<HTMLElement>;
+  target: React.RefObject<HTMLElement | null>;
   value?: number | string | null | undefined;
   focusActiveNode: () => void;
   onEnter?: (node: HTMLElement) => void;
@@ -26,7 +26,7 @@ function useFocusState(props: FocusStateProps) {
 
   const onExit = useEventCallback((node: HTMLElement) => {
     setActive(false);
-    focusTarget();
+    if (node.contains(node.ownerDocument.activeElement)) focusTarget();
     props.onExit?.(node);
   });
 

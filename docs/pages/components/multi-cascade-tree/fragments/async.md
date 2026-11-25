@@ -1,9 +1,9 @@
 <!--start-code-->
 
 ```js
-import { MultiCascadeTree } from 'rsuite';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
+import { MultiCascadeTree, HStack } from 'rsuite';
 import { mockAsyncData } from './mock';
 
 const [getNodes, fetchNodes] = mockAsyncData();
@@ -22,9 +22,9 @@ const App = () => {
         getChildren={fetchNodes}
         renderTreeNode={(label, item) => {
           return (
-            <>
+            <HStack>
               {item.children ? <FolderFillIcon /> : <PageIcon />} {label}
-            </>
+            </HStack>
           );
         }}
       />

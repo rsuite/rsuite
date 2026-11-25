@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { DateInput, Stack } from 'rsuite';
+import { DateInput, Stack, Button } from 'rsuite';
 
 const App = () => {
   const [value, setValue] = React.useState(new Date());
@@ -12,10 +12,10 @@ const App = () => {
   };
 
   return (
-    <Stack spacing={10} direction="column" alignItems="flex-start">
+    <Stack spacing={10} direction="column" align="flex-start" w={220}>
       <label>Controlled Value:</label>
       <DateInput value={value} onChange={handleChange} />
-      <button onClick={() => setValue(null)}>Clear</button>
+      <Button onClick={() => setValue(null)}>Clear</Button>
       <label>Uncontrolled Value:</label>
       <DateInput defaultValue={new Date()} />
     </Stack>

@@ -1,13 +1,16 @@
+/* @jsxRuntime classic */
 import React from 'react';
+import Input, { InputProps } from '../Input';
 import { useCombobox } from '@/internals/Picker';
-import Input, { type InputProps } from '../Input';
+import getOptionId from '@/internals/Picker/getOptionId';
+import { forwardRef } from '@/internals/utils';
 
 interface ComboboxProps extends InputProps {
   expanded?: boolean;
   focusItemValue?: string | null;
 }
 
-const Combobox = React.forwardRef((props: ComboboxProps, ref: React.Ref<HTMLInputElement>) => {
+const Combobox = forwardRef<typeof Input, ComboboxProps>((props, ref) => {
   const { id, popupType } = useCombobox();
   const { expanded, focusItemValue, ...rest } = props;
 
@@ -17,7 +20,10 @@ const Combobox = React.forwardRef((props: ComboboxProps, ref: React.Ref<HTMLInpu
       aria-autocomplete="list"
       aria-haspopup={popupType}
       aria-expanded={expanded}
-      aria-activedescendant={focusItemValue ? `${id}-opt-${focusItemValue}` : undefined}
+      aria-controls={expanded && id ? `${id}-${popupType}` : undefined}
+      aria-activedescendant={
+        expanded && focusItemValue ? getOptionId(id, focusItemValue) : undefined
+      }
       autoComplete="off"
       id={id}
       ref={ref}
@@ -25,5 +31,7 @@ const Combobox = React.forwardRef((props: ComboboxProps, ref: React.Ref<HTMLInpu
     />
   );
 });
+
+Combobox.displayName = 'Combobox';
 
 export default Combobox;

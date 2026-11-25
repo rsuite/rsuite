@@ -1,27 +1,19 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const RtlCssPlugin = require('rtlcss-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const pkg = require('./package.json');
-const markdownRenderer = require('./scripts/markdownRenderer');
-const format = require('date-fns/format');
+const { format } = require('date-fns');
 
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
-const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
+const SVG_LOGO_PATH = resolveToStaticPath('./components/icons/svg');
 
-const {
-  // 'production' on main branch
-  // 'preview' on pr branches
-  // emtpy on local machine
-  // @see https://vercel.com/docs/concepts/projects/environment-variables#system-environment-variables
-  VERCEL_ENV = 'local'
-} = process.env;
-
-const __USE_SRC__ = VERCEL_ENV === 'preview' || VERCEL_ENV === 'local';
-const __DEV__ = VERCEL_ENV === 'local';
-const BUILD_ID = format(new Date(), 'yyyyMMddHHmm');
+const netlifyContext = process.env.NETLIFY === 'true' ? process.env.CONTEXT : undefined;
+const buildEnv = process.env.DOCS_BUILD_ENV || netlifyContext || 'local';
+const __USE_SRC__ = buildEnv !== 'production';
+const __DEV__ = buildEnv === 'local' || buildEnv === 'dev';
+const tsconfigPath = __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json';
+const BUILD_ID = process.env.DEPLOY_ID || format(new Date(), 'yyyyMMddHHmm');
 
 /**
  * @type {import('next').NextConfig}
@@ -36,20 +28,29 @@ module.exports = {
     defaultLocale: 'en',
     localeDetection: false
   },
-  eslint: {
-    // ESLint is ignored because it's already run in CI workflow
-    ignoreDuringBuilds: true
-  },
+  transpilePackages: __USE_SRC__ ? ['rsuite'] : undefined,
   experimental: {
     externalDir: true
+  },
+  // Exclude example pages and _components directory from static generation
+  exportPathMap: async function (defaultPathMap) {
+    const pathMap = { ...defaultPathMap };
+
+    // Remove example pages from static generation
+    Object.keys(pathMap).forEach(path => {
+      if (path.includes('/examples/')) {
+        delete pathMap[path];
+      }
+    });
+
+    return pathMap;
   },
   /**
    *
    * @param {import('webpack').Configuration} config
+   * @param {{ isServer: boolean }}
    */
-  webpack(config) {
-    const originEntry = config.entry;
-
+  webpack(config, { isServer }) {
     config.module.rules.unshift({
       test: /\.svg$/,
       include: SVG_LOGO_PATH,
@@ -64,37 +65,56 @@ module.exports = {
       ]
     });
 
+    const cssLoaders = [
+      MiniCssExtractPlugin.loader,
+      {
+        loader: 'css-loader'
+      },
+      {
+        loader: 'postcss-loader',
+        options: {
+          sourceMap: true,
+          postcssOptions: {
+            plugins: [require('autoprefixer'), require('postcss-merge-rules')]
+          }
+        }
+      }
+    ];
+
+    // SCSS loader configuration
     config.module.rules.push({
-      test: /\.(le|c)ss$/,
+      test: /\.scss$/,
+      exclude: /\.module\.scss$/,
       use: [
-        MiniCssExtractPlugin.loader,
+        ...cssLoaders,
         {
-          loader: 'css-loader'
-        },
+          loader: 'sass-loader',
+          options: {
+            sourceMap: true
+          }
+        }
+      ]
+    });
+
+    // SCSS modules configuration
+    config.module.rules.push({
+      test: /\.module\.scss$/,
+      use: [
+        ...cssLoaders.slice(0, 1),
         {
-          loader: 'postcss-loader',
+          loader: 'css-loader',
           options: {
             sourceMap: true,
-            postcssOptions: {
-              plugins: [
-                require('autoprefixer'),
-                // Do not use postcss-rtl which generates a LTR+RTL css
-                // Use rtlcss-webpack-plugin which generates separate LTR css and RTL css
-                // require('postcss-rtl')({}),
-                require('postcss-custom-properties')()
-              ]
+            modules: {
+              localIdentName: '[local]___[hash:base64:5]'
             }
           }
         },
+        ...cssLoaders.slice(2),
         {
-          loader: 'less-loader',
+          loader: 'sass-loader',
           options: {
-            sourceMap: true,
-            lessOptions: {
-              globalVars: {
-                rootPath: __USE_SRC__ ? '../../../src/' : '~rsuite'
-              }
-            }
+            sourceMap: true
           }
         }
       ]
@@ -102,47 +122,24 @@ module.exports = {
 
     config.module.rules.push({
       test: /\.md$/,
-      use: [
-        {
-          loader: 'react-code-view/webpack-md-loader',
-          options: {
-            htmlOptions: {
-              // HTML Loader options
-              // See https://github.com/webpack-contrib/html-loader#options
-            },
-            markedOptions: {
-              renderer: markdownRenderer([
-                'javascript',
-                'bash',
-                'xml',
-                'css',
-                'less',
-                'json',
-                'diff',
-                'typescript'
-              ])
-              // Pass options to marked
-              // See https://marked.js.org/using_advanced#options
-            }
-          }
-        }
-      ]
+      use: [path.resolve(__dirname, 'scripts/markdown-loader.js')]
     });
 
-    /**
-     * @see https://github.com/vercel/next.js/blob/0bcc6943ae7a8c3c7d1865b4ae090edafe417c7c/packages/next/build/webpack/config/blocks/css/index.ts#L311
-     */
     config.plugins.push(
       new MiniCssExtractPlugin({
         experimentalUseImportModule: true, // isWebpack5
-        filename: 'static/css/[name].css',
-        chunkFilename: 'static/css/[contenthash].css'
-      }),
-      new RtlCssPlugin('static/css/[name]-rtl.css')
+        filename: `static/css/[name]-${BUILD_ID}.css`,
+        chunkFilename: 'static/css/[contenthash].css',
+        ignoreOrder: true // Ignore CSS order warnings
+      })
     );
 
     if (__DEV__) {
-      config.plugins.push(new ForkTsCheckerWebpackPlugin());
+      config.plugins.push(
+        new ForkTsCheckerWebpackPlugin({
+          typescript: { configFile: path.resolve(__dirname, tsconfigPath) }
+        })
+      );
     }
 
     config.optimization.minimizer.push(
@@ -163,39 +160,59 @@ module.exports = {
       })
     );
 
-    config.entry = async () => {
-      const entries = await originEntry();
-      if (entries['main.js'] && !entries['main.js'].includes('./client/polyfills.ts')) {
-        entries['main.js'].unshift('./client/polyfills.ts');
+    config.optimization.splitChunks = {
+      ...config.optimization.splitChunks,
+      cacheGroups: {
+        ...config.optimization.splitChunks.cacheGroups,
+        styles: {
+          test: /\.module\.(scss|css)$/,
+          chunks: 'all',
+          enforce: true,
+          name: 'styles'
+        }
       }
-      return entries;
     };
 
     // If we are building docs with local rsuite from src (local development and review builds),
     // we should stick `react` and `react-dom` imports to docs/node_modules
     // preventing "more than one copy of React" error
     if (__USE_SRC__) {
-      Object.assign(config.resolve.alias, {
+      config.resolve.alias = {
+        ...config.resolve.alias,
         '@/internals': path.resolve(__dirname, '../src/internals'),
-        rsuite: path.resolve(__dirname, '../src'),
+        '@rsuite-styles': path.resolve(__dirname, '../src/styles/index.scss'),
+        'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
         react: path.resolve(__dirname, './node_modules/react'),
-        'react-dom': path.resolve(__dirname, './node_modules/react-dom')
-      });
+        rsuite: path.resolve(__dirname, '../src')
+      };
+    } else {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@rsuite-styles': 'rsuite/dist/rsuite.css'
+      };
+    }
+
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false
+      };
     }
 
     return config;
   },
-  typescript: {
-    tsconfigPath: __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json'
-  },
-  trailingSlash: true,
   onDemandEntries: {
     // Period (in ms) where the server will keep pages in the buffer
     maxInactiveAge: 120 * 1e3, // default 25s
     // Number of pages that should be kept simultaneously without being disposed
     pagesBufferLength: 3 // default 2
   },
-  pageExtensions: ['tsx'],
+  typescript: {
+    tsconfigPath
+  },
+  trailingSlash: true,
+  pageExtensions: ['tsx', 'ts'],
   redirects() {
     return [
       {
@@ -205,7 +222,6 @@ module.exports = {
       }
     ];
   },
-  swcMinify: true,
   images: {
     remotePatterns: [
       {

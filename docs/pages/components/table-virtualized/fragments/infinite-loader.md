@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Table, Loader } from 'rsuite';
+import { Table, Loader, Box } from 'rsuite';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -13,7 +13,7 @@ const FixedLoader = () => (
       justifyContent: 'center',
       position: 'absolute',
       bottom: '0',
-      background: '#f5f5f5',
+      background: 'var(--rs-body)',
       width: '100%',
       padding: '4px 0'
     }}
@@ -53,7 +53,7 @@ const App = () => {
   };
 
   return (
-    <div style={{ position: 'relative' }}>
+    <Box pos="relative">
       <Table
         virtualized
         shouldUpdateScroll={false}
@@ -71,7 +71,7 @@ const App = () => {
         </Column>
       </Table>
       {loading && <FixedLoader />}
-    </div>
+    </Box>
   );
 };
 

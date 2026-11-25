@@ -1,9 +1,9 @@
-import { useCallback, useRef, useEffect } from 'react';
 import omit from 'lodash/omit';
 import isNil from 'lodash/isNil';
+import useForceUpdate from './useForceUpdate';
+import { useCallback, useRef, useEffect } from 'react';
 import { shallowEqual } from '@/internals/utils';
 import { formatNodeRefKey } from '../utils';
-import useForceUpdate from './useForceUpdate';
 import type { TreeNode, TreeNodeMap } from '@/internals/Tree/types';
 
 interface UseFlattenTreeOptions {
@@ -43,6 +43,11 @@ interface UseFlattenTreeOptions {
   uncheckableItemValues?: any[];
 
   /**
+   * An array of item values that should be disabled.
+   */
+  disabledItemValues?: any[];
+
+  /**
    * A callback function that will be called when the tree nodes change.
    * It receives a map of the tree nodes.
    */
@@ -60,6 +65,7 @@ function useFlattenTree(data: TreeNode[], options: UseFlattenTreeOptions) {
     valueKey,
     childrenKey,
     uncheckableItemValues = [],
+    disabledItemValues = [],
     cascade,
     multiple,
     callback
@@ -67,12 +73,41 @@ function useFlattenTree(data: TreeNode[], options: UseFlattenTreeOptions) {
 
   const forceUpdate = useForceUpdate();
   const flattenedNodes = useRef<TreeNodeMap>({});
+  const seenValues = useRef<Set<any>>(new Set());
 
   const updateTreeNodeCheckState = useCallback(
     (value = []) => {
       // Reset values to false
       Object.keys(flattenedNodes.current).forEach((refKey: string) => {
         const node = flattenedNodes.current[refKey];
+
+        // Check if this node or any of its parents is disabled
+        const isNodeDisabled = disabledItemValues.some((disabledValue: any) =>
+          shallowEqual(node[valueKey], disabledValue)
+        );
+
+        let hasDisabledParent = false;
+        let currentNode = node;
+        while (currentNode.parent && !hasDisabledParent) {
+          const parentRefKey = currentNode.parent.refKey;
+          if (parentRefKey && flattenedNodes.current[parentRefKey]) {
+            const parentValue = flattenedNodes.current[parentRefKey][valueKey];
+            if (
+              disabledItemValues.some((disabledValue: any) =>
+                shallowEqual(parentValue, disabledValue)
+              )
+            ) {
+              hasDisabledParent = true;
+            }
+          }
+          currentNode = currentNode.parent;
+        }
+
+        // Skip disabled nodes - they should not be affected by cascade or value changes
+        if (isNodeDisabled || hasDisabledParent) {
+          return;
+        }
+
         if (cascade && !isNil(node.parent) && !isNil(node.parent.refKey)) {
           node.check = flattenedNodes.current[node.parent.refKey].check;
         } else {
@@ -89,7 +124,7 @@ function useFlattenTree(data: TreeNode[], options: UseFlattenTreeOptions) {
         });
       });
     },
-    [cascade, uncheckableItemValues, valueKey]
+    [cascade, uncheckableItemValues, disabledItemValues, valueKey]
   );
 
   const flattenTreeData = useCallback(
@@ -100,12 +135,15 @@ function useFlattenTree(data: TreeNode[], options: UseFlattenTreeOptions) {
 
       treeData.map(node => {
         const value = node[valueKey];
-        /**
-         * because the value of the node's type is string or number,
-         * so it can used as the key of the object directly
-         * to avoid number value is converted to string. 1 and '1' will be convert to '1'
-         * we used `String_` or `Number_` prefix
-         */
+
+        // Check for duplicate values
+        if (seenValues.current.has(value)) {
+          console.error(
+            `[rsuite] The value '${value}' is duplicated. Each node in the tree data must have a unique value.`
+          );
+        }
+        seenValues.current.add(value);
+
         const refKey = formatNodeRefKey(value);
         node.refKey = refKey;
         flattenedNodes.current[refKey] = {
@@ -131,24 +169,22 @@ function useFlattenTree(data: TreeNode[], options: UseFlattenTreeOptions) {
   );
 
   useEffect(() => {
-    // when data is changed, should clear the flattenedNodes, avoid duplicate keys
     flattenedNodes.current = {};
+    seenValues.current.clear();
     flattenTreeData(data);
-  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    if (multiple) {
+      updateTreeNodeCheckState(value);
+      forceUpdate();
+    }
+  }, [data, childrenKey, labelKey, valueKey]);
 
   useEffect(() => {
     if (multiple) {
       updateTreeNodeCheckState(value);
       forceUpdate();
     }
-
-    /**
-     * Add a dependency on data, because when loading data asynchronously through getChildren,
-     * data may change and the node status needs to be updated.
-     * @see https://github.com/rsuite/rsuite/issues/3973
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, data]);
+  }, [value]);
 
   return flattenedNodes.current;
 }

@@ -1,13 +1,12 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
 import Grid from '../Grid';
 import Col from '../../Col';
 import Row from '../../Row';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Col/styles/index.less';
-import '../../Row/styles/index.less';
-import './styles.less';
+import type { StoryObj } from '@/storybook/types';
+import '../styles/index.scss';
+import '../../Col/styles/index.scss';
+import '../../Row/styles/index.scss';
 
 const meta = createMeta(Grid);
 
@@ -20,19 +19,19 @@ type Story = StoryObj<typeof meta>;
 
 const defaultArgs = {
   children: (
-    <Row className="show-grid">
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
-      <Col xs={2}>xs={2}</Col>
+    <Row>
+      <Col span={{ xs: 2 }}>Col 1</Col>
+      <Col span={{ xs: 2 }}>Col 2</Col>
+      <Col span={{ xs: 2 }}>Col 3</Col>
+      <Col span={{ xs: 2 }}>Col 4</Col>
+      <Col span={{ xs: 2 }}>Col 5</Col>
+      <Col span={{ xs: 2 }}>Col 6</Col>
+      <Col span={{ xs: 2 }}>Col 7</Col>
+      <Col span={{ xs: 2 }}>Col 8</Col>
+      <Col span={{ xs: 2 }}>Col 9</Col>
+      <Col span={{ xs: 2 }}>Col 10</Col>
+      <Col span={{ xs: 2 }}>Col 11</Col>
+      <Col span={{ xs: 2 }}>Col 12</Col>
     </Row>
   )
 };
@@ -53,16 +52,10 @@ export const Fluid: Story = {
 export const Responsive: Story = {
   args: {
     children: (
-      <Row className="show-grid">
-        <Col xs={24} sm={24} md={8}>
-          xs={24} sm={24} md={8}
-        </Col>
-        <Col xs={24} sm={24} md={8}>
-          xs={24} sm={24} md={8}
-        </Col>
-        <Col xs={24} sm={24} md={8}>
-          xs={24} sm={24} md={8}
-        </Col>
+      <Row>
+        <Col span={{ xs: 24, md: 8 }}>Col 1</Col>
+        <Col span={{ xs: 24, md: 8 }}>Col 2</Col>
+        <Col span={{ xs: 24, md: 8 }}>Col 3</Col>
       </Row>
     )
   }
@@ -71,16 +64,10 @@ export const Responsive: Story = {
 export const Gutter: Story = {
   args: {
     children: (
-      <Row className="show-grid" gutter={16}>
-        <Col xs={24} sm={24} md={8}>
-          xs={24} sm={24} md={8}
-        </Col>
-        <Col xs={24} sm={24} md={8}>
-          xs={24} sm={24} md={8}
-        </Col>
-        <Col xs={24} sm={24} md={8}>
-          xs={24} sm={24} md={8}
-        </Col>
+      <Row gutter={16}>
+        <Col span={{ xs: 24, md: 8 }}>Col 1</Col>
+        <Col span={{ xs: 24, md: 8 }}>Col 2</Col>
+        <Col span={{ xs: 24, md: 8 }}>Col 3</Col>
       </Row>
     )
   }
@@ -89,9 +76,9 @@ export const Gutter: Story = {
 export const Offset: Story = {
   args: {
     children: (
-      <Row className="show-grid">
-        <Col md={4} mdOffset={20}>
-          xs={4} xsOffset={20}
+      <Row>
+        <Col span={{ md: 4 }} offset={{ md: 20 }}>
+          Offset Col
         </Col>
       </Row>
     )
@@ -101,12 +88,12 @@ export const Offset: Story = {
 export const PushAndPull: Story = {
   args: {
     children: (
-      <Row className="show-grid">
-        <Col xs={6} xsPush={18}>
-          xs={6} xsPush={18} `left`
+      <Row>
+        <Col span={{ xs: 6 }} push={{ xs: 18 }}>
+          Pushed Col
         </Col>
-        <Col xs={6} xsPull={6}>
-          xs={6} xsPull={6} `right`
+        <Col span={{ xs: 6 }} pull={{ xs: 6 }}>
+          Pulled Col
         </Col>
       </Row>
     )
@@ -116,13 +103,11 @@ export const PushAndPull: Story = {
 export const Hidden: Story = {
   args: {
     children: (
-      <Row className="show-grid">
-        <Col xsHidden xs={12}>
-          xsHidden xs={12}
+      <Row>
+        <Col hidden={{ xs: true, md: false }} span={{ xs: 12 }}>
+          Hidden on xs
         </Col>
-        <Col xs={12}>
-          xs={12} xs={12}
-        </Col>
+        <Col span={{ xs: 12 }}>Visible Col</Col>
       </Row>
     )
   }
@@ -131,14 +116,14 @@ export const Hidden: Story = {
 export const Nesting: Story = {
   args: {
     children: (
-      <Row className="show-grid">
-        <Col xs={9}>xs={9}</Col>
-        <Col xs={15}>
-          <Row className="show-grid">
-            <Col xs={6}>xs={6}</Col>
-            <Col xs={6}>xs={6}</Col>
-            <Col xs={6}>xs={6}</Col>
-            <Col xs={6}>xs={6}</Col>
+      <Row>
+        <Col span={{ xs: 9 }}>Outer 1</Col>
+        <Col span={{ xs: 15 }}>
+          <Row>
+            <Col span={{ xs: 6 }}>Inner 1</Col>
+            <Col span={{ xs: 6 }}>Inner 2</Col>
+            <Col span={{ xs: 6 }}>Inner 3</Col>
+            <Col span={{ xs: 6 }}>Inner 4</Col>
           </Row>
         </Col>
       </Row>

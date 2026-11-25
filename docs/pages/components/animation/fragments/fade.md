@@ -1,27 +1,41 @@
 <!--start-code-->
 
 ```js
-import { Animation, Button } from 'rsuite';
+import { Animation, Button, Card } from 'rsuite';
 
-const Panel = React.forwardRef((props, ref) => (
-  <div
+const AnimatedPanel = React.forwardRef((props, ref) => (
+  <Card
     {...props}
     ref={ref}
-    style={{ background: '#000', width: 100, height: 160, overflow: 'hidden' }}
+    shaded
+    bordered={false}
+    w={240}
+    h={120}
+    c="white"
+    bg="linear-gradient(45deg, #4CAF50, #2196F3)"
   >
-    <p>Panel</p>
-    <p>Content Content Content</p>
-  </div>
+    <div>
+      <Card.Header>Fade Animation</Card.Header>
+      <Card.Body>This panel demonstrates a smooth fade transition effect.</Card.Body>
+    </div>
+  </Card>
 ));
 
 const App = () => {
   const [show, setShow] = React.useState(true);
   const onChange = () => setShow(!show);
+
   return (
-    <div className="row">
-      <Button onClick={onChange}>fade</Button>
+    <div>
+      <Button appearance="primary" onClick={onChange}>
+        Toggle Fade
+      </Button>
       <hr />
-      <Animation.Fade in={show}>{(props, ref) => <Panel {...props} ref={ref} />}</Animation.Fade>
+      <div>
+        <Animation.Fade in={show}>
+          {(props, ref) => <AnimatedPanel {...props} ref={ref} />}
+        </Animation.Fade>
+      </div>
     </div>
   );
 };

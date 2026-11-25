@@ -1,12 +1,12 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Stack, { StackProps } from '../Stack';
 import Button from '../../Button';
 import Divider from '../../Divider';
 import { createMeta } from '@/storybook/utils';
-import '../styles/index.less';
-import '../../Divider/styles/index.less';
-import '../../Button/styles/index.less';
+import '../styles/index.scss';
+import '../../Divider/styles/index.scss';
+import '../../Button/styles/index.scss';
 
 const meta = createMeta(Stack);
 

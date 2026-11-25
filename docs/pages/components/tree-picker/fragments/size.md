@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { TreePicker } from 'rsuite';
+import { TreePicker, VStack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -12,14 +12,13 @@ const data = mockTreeData({
   }
 });
 
-const styles = { width: 246, display: 'block', marginBottom: 10 };
 const App = () => (
-  <>
-    <TreePicker size="lg" placeholder="Large" data={data} style={styles} />
-    <TreePicker size="md" placeholder="Medium" data={data} style={styles} />
-    <TreePicker size="sm" placeholder="Small" data={data} style={styles} />
-    <TreePicker size="xs" placeholder="Xsmall" data={data} style={styles} />
-  </>
+  <VStack spacing={8}>
+    <TreePicker size="lg" placeholder="Large" data={data} w={246} />
+    <TreePicker size="md" placeholder="Medium" data={data} w={246} />
+    <TreePicker size="sm" placeholder="Small" data={data} w={246} />
+    <TreePicker size="xs" placeholder="Xsmall" data={data} w={246} />
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

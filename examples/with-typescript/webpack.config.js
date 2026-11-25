@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-require-imports */
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   devServer: {
-    disableHostCheck: true,
     historyApiFallback: true,
     compress: true,
     host: '0.0.0.0',
@@ -28,18 +27,24 @@ module.exports = {
   module: {
     rules: [
       // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
-      { test: /\.tsx?$/, loader: 'babel-loader?babelrc&cacheDirectory' },
+      {
+        test: /\.tsx?$/,
+        loader: 'babel-loader',
+        options: {
+          babelrc: true,
+          cacheDirectory: true
+        }
+      },
 
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
       { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
       {
-        test: /\.(less|css)$/,
+        test: /\.css$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader
           },
-          'css-loader',
-          'less-loader?javascriptEnabled=true'
+          'css-loader'
         ]
       }
     ]

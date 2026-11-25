@@ -15,11 +15,11 @@ const data = mockTreeData({
 const App = () => {
   return (
     <VStack>
-      <Cascader data={data} style={{ width: 224 }} />
+      <Cascader data={data} w={224} />
       <Cascader
         data={data}
         searchable={false}
-        style={{ width: 224 }}
+        w={224}
         placeholder="Select without search"
       />
     </VStack>

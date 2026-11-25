@@ -1,0 +1,533 @@
+import React from 'react';
+import { hydrateRoot, Root } from 'react-dom/client';
+import { renderToString } from 'react-dom/server';
+import MatchMediaMock from '@test/mocks/matchmedia-mock';
+import CustomProvider from '@/CustomProvider';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { render, screen, fireEvent, waitFor, act, within } from '@testing-library/react';
+
+interface TestPickerOptions {
+  data?: any;
+  virtualized?: boolean;
+  role?: 'combobox' | 'textbox';
+  ariaHaspopup?: 'listbox' | 'dialog' | 'grid' | 'menu' | 'tree';
+  popupAutoWidth?: boolean;
+  responsiveByDefault?: boolean;
+  responsiveSearchable?: boolean;
+  getToggleElement?: () => HTMLElement;
+  responsiveSearchRole?: 'searchbox' | 'combobox';
+}
+
+const defaultData = [
+  { label: 'User 1', value: 'user1' },
+  { label: 'User 2', value: 'user2' }
+];
+
+export function testPickers(TestComponent: React.ComponentType<any>, options?: TestPickerOptions) {
+  const {
+    data = defaultData,
+    virtualized,
+    role = 'combobox',
+    ariaHaspopup = 'listbox',
+    popupAutoWidth,
+    responsiveByDefault = true,
+    responsiveSearchable = false,
+    getToggleElement = () => screen.getByRole(role),
+    responsiveSearchRole = 'searchbox'
+  } = options || {};
+  const displayName = TestComponent.displayName;
+
+  describe(`${displayName} - Common props for all pickers`, () => {
+    describe('Responsive popup', () => {
+      let matchMedia: MatchMediaMock;
+      let initialMatchMedia: typeof window.matchMedia;
+      let initialWidth: number;
+      let initialHeight: number;
+
+      const resizeWindow = (width: number, height = 1000) => {
+        Object.assign(window, {
+          innerWidth: width,
+          innerHeight: height,
+          outerWidth: width,
+          outerHeight: height
+        }).dispatchEvent(new window.Event('resize'));
+      };
+
+      beforeEach(() => {
+        initialWidth = window.innerWidth;
+        initialHeight = window.innerHeight;
+        initialMatchMedia = window.matchMedia;
+        matchMedia = new MatchMediaMock();
+        resizeWindow(575);
+      });
+
+      afterEach(() => {
+        resizeWindow(initialWidth, initialHeight);
+        matchMedia.clear();
+        Object.defineProperty(window, 'matchMedia', {
+          configurable: true,
+          writable: true,
+          value: initialMatchMedia
+        });
+      });
+
+      it('Should preserve the default responsive behavior', () => {
+        render(<TestComponent data={data} open />);
+
+        if (responsiveByDefault) {
+          expect(document.querySelector('.rs-drawer')).to.exist;
+        } else {
+          expect(document.querySelector('.rs-drawer')).not.to.exist;
+        }
+      });
+
+      if (responsiveSearchable) {
+        it('Should preserve the responsive default when search is disabled', () => {
+          render(<TestComponent data={data} open searchable={false} />);
+
+          expect(document.querySelector('.rs-drawer')).to.exist;
+        });
+      }
+
+      it('Should allow responsive behavior to be forced or disabled', () => {
+        const { unmount } = render(<TestComponent data={data} open responsive />);
+
+        expect(document.querySelector('.rs-drawer')).to.exist;
+        if (responsiveSearchable) {
+          expect(within(screen.getByTestId('picker-popup')).getByRole(responsiveSearchRole)).to
+            .exist;
+        }
+
+        unmount();
+        render(<TestComponent data={data} open responsive={false} />);
+
+        expect(document.querySelector('.rs-drawer')).not.to.exist;
+        expect(screen.getByTestId('picker')).not.to.have.attr('responsive');
+      });
+
+      it('Should switch responsive popup behavior when the prop changes', () => {
+        const { rerender } = render(<TestComponent data={data} open responsive={false} />);
+
+        expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.be.null;
+
+        [true, false, true].forEach(responsive => {
+          rerender(<TestComponent data={data} open responsive={responsive} />);
+
+          const drawer = screen.getByTestId('picker-popup').closest('.rs-drawer');
+
+          if (responsive) {
+            expect(drawer).to.exist;
+          } else {
+            expect(drawer).to.be.null;
+          }
+        });
+      });
+
+      it('Should support a responsive default from CustomProvider', () => {
+        render(
+          <CustomProvider
+            components={{
+              [displayName as string]: {
+                defaultProps: { responsive: !responsiveByDefault }
+              }
+            }}
+          >
+            <TestComponent data={data} open />
+          </CustomProvider>
+        );
+
+        if (responsiveByDefault) {
+          expect(document.querySelector('.rs-drawer')).not.to.exist;
+        } else {
+          expect(document.querySelector('.rs-drawer')).to.exist;
+        }
+      });
+
+      it('Should only use a Drawer below the sm breakpoint', () => {
+        resizeWindow(576);
+        render(<TestComponent data={data} open responsive />);
+
+        expect(document.querySelector('.rs-drawer')).not.to.exist;
+      });
+
+      it('Should use a named breakpoint for the responsive Drawer', () => {
+        resizeWindow(800);
+        render(<TestComponent data={data} open responsive="mdDown" />);
+
+        expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.exist;
+        expect(screen.getByTestId('picker')).not.to.have.attr('responsive');
+
+        act(() => resizeWindow(992));
+
+        expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.be.null;
+      });
+
+      it('Should use a custom media query for the responsive Drawer', () => {
+        resizeWindow(1279);
+        render(<TestComponent data={data} open responsive="(max-width: 1279px)" />);
+
+        expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.exist;
+
+        act(() => resizeWindow(1280));
+
+        expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.be.null;
+      });
+
+      it('Should update the responsive query and support disabling it', () => {
+        resizeWindow(800);
+        const { rerender } = render(<TestComponent data={data} open responsive={false} />);
+
+        expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.be.null;
+
+        ['mdDown', 'xsOnly', '(max-width: 1279px)', false].forEach(responsive => {
+          rerender(<TestComponent data={data} open responsive={responsive} />);
+
+          const drawer = screen.getByTestId('picker-popup').closest('.rs-drawer');
+
+          if (responsive === 'mdDown' || responsive === '(max-width: 1279px)') {
+            expect(drawer).to.exist;
+          } else {
+            expect(drawer).to.be.null;
+          }
+        });
+      });
+
+      it('Should support a responsive query from CustomProvider', () => {
+        resizeWindow(800);
+        render(
+          <CustomProvider
+            components={{
+              [displayName as string]: {
+                defaultProps: { responsive: '(max-width: 1279px)' }
+              }
+            }}
+          >
+            <TestComponent data={data} open />
+          </CustomProvider>
+        );
+
+        expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.exist;
+      });
+
+      it.each(['mdDown', '(max-width: 1279px)'])(
+        'Should hydrate a matching responsive query without replacing server markup (%s)',
+        async responsive => {
+          resizeWindow(800);
+          const child = <TestComponent id="hydrated-picker" data={data} responsive={responsive} />;
+          const host = document.createElement('div');
+          host.innerHTML = renderToString(child);
+          document.body.append(host);
+          const serverRoot = host.firstElementChild;
+          const recoverableError = vi.fn();
+          let root: Root | undefined;
+          try {
+            await act(async () => {
+              root = hydrateRoot(host, child, { onRecoverableError: recoverableError });
+            });
+            expect(host.firstElementChild).to.equal(serverRoot);
+            expect(recoverableError).not.toHaveBeenCalled();
+            expect(host.querySelector('[responsive]')).to.be.null;
+            await act(async () => {
+              root?.render(
+                <TestComponent id="hydrated-picker" data={data} responsive={responsive} open />
+              );
+            });
+            expect(screen.getByTestId('picker-popup').closest('.rs-drawer')).to.exist;
+          } finally {
+            act(() => root?.unmount());
+            host.remove();
+          }
+        }
+      );
+    });
+
+    it('Should render a picker', () => {
+      const { container } = render(<TestComponent data={data} />);
+
+      expect(container.firstChild).to.have.class('rs-picker');
+    });
+
+    if (role === 'combobox') {
+      it('Should have a subtle appearance', () => {
+        render(<TestComponent data={data} appearance="subtle" />);
+
+        expect(getToggleElement()).to.have.attr('data-appearance', 'subtle');
+      });
+    }
+
+    it('Should be block', () => {
+      const { container } = render(<TestComponent data={data} block />);
+
+      expect(container.firstChild).to.have.attr('data-block', 'true');
+    });
+
+    if (popupAutoWidth) {
+      it('Should set minimum width for popup', () => {
+        render(<TestComponent data={data} open popupAutoWidth style={{ width: 100 }} />);
+
+        const popup = screen.getByTestId('picker-popup');
+        expect(popup.style.getPropertyValue('--rs-picker-min-width')).toBe('100px');
+      });
+    }
+
+    if (ariaHaspopup === 'tree') {
+      it('Should have a custom popupStyle', () => {
+        render(<TestComponent open popupStyle={{ fontSize: 12 }} data={data} />);
+
+        expect(screen.getByTestId('picker-popup')).to.have.style('font-size', '12px');
+      });
+
+      it('Should have a custom popupClassName', () => {
+        render(<TestComponent open popupClassName="custom-class" data={data} />);
+
+        expect(screen.getByTestId('picker-popup')).to.have.class('custom-class');
+      });
+    }
+
+    describe('Loading state', () => {
+      it('Should display a spinner when loading=true', () => {
+        render(<TestComponent data={data} loading />);
+
+        expect(screen.getByTestId('spinner')).to.exist;
+      });
+
+      it('Should display label and spinner when label is specified', () => {
+        render(<TestComponent label="User" data={data} loading />);
+
+        expect(screen.getByTestId('picker-label')).to.have.text('User');
+        expect(screen.getByTestId('spinner')).to.exist;
+      });
+
+      it('Should not open menu on click when loading=true', () => {
+        render(<TestComponent data={data} loading />);
+
+        const combobox = screen.getByRole(role);
+
+        fireEvent.click(combobox);
+        expect(screen.queryByTestId('picker-popup')).not.to.exist;
+      });
+
+      it('Should not open menu on Enter key when loading=true', () => {
+        render(<TestComponent data={data} loading />);
+
+        const combobox = screen.getByRole(role);
+
+        fireEvent.keyDown(combobox, { key: 'Enter' });
+
+        expect(screen.queryByTestId('picker-popup')).not.to.exist;
+      });
+    });
+
+    describe('ref testing', () => {
+      it('Should call `onOpen` callback', async () => {
+        const onOpen = vi.fn();
+        const ref = React.createRef<any>();
+
+        render(<TestComponent onOpen={onOpen} data={data} ref={ref} />);
+
+        act(() => ref.current.open());
+
+        await waitFor(() => {
+          expect(onOpen).toHaveBeenCalledTimes(1);
+        });
+      });
+
+      it('Should call `onClose` callback', async () => {
+        const onClose = vi.fn();
+        const ref = React.createRef<any>();
+
+        render(<TestComponent onClose={onClose} data={data} ref={ref} />);
+
+        act(() => ref.current.open());
+        act(() => ref.current.close());
+
+        await waitFor(() => {
+          expect(onClose).toHaveBeenCalledTimes(1);
+        });
+      });
+
+      it('Should provide public objects and methods', () => {
+        const ref = React.createRef<any>();
+        render(<TestComponent data={data} open virtualized={virtualized} ref={ref} />);
+
+        expect(ref.current.root).to.exist;
+        expect(ref.current.target).to.exist;
+        expect(ref.current.updatePosition).to.instanceOf(Function);
+        expect(ref.current.open).to.instanceOf(Function);
+        expect(ref.current.close).to.instanceOf(Function);
+        expect(ref.current.overlay).to.exist;
+
+        if (virtualized) {
+          expect(ref.current.list).to.exist;
+        }
+      });
+    });
+
+    describe('Open state', () => {
+      it('Should open the popup on click', () => {
+        const onOpen = vi.fn();
+
+        render(<TestComponent data={data} onOpen={onOpen} />);
+
+        const combobox = screen.getByRole(role);
+
+        fireEvent.click(combobox);
+        expect(screen.getByTestId('picker-popup')).to.exist;
+
+        expect(onOpen).toHaveBeenCalled();
+      });
+
+      it('Should open the popup on Enter key', () => {
+        const onOpen = vi.fn();
+
+        render(<TestComponent data={data} onOpen={onOpen} />);
+
+        const combobox = getToggleElement();
+
+        fireEvent.keyDown(combobox, { key: 'Enter' });
+        expect(screen.getByTestId('picker-popup')).to.exist;
+
+        expect(onOpen).toHaveBeenCalledTimes(1);
+      });
+
+      it('Should call onClose when clicking outside', async () => {
+        const onClose = vi.fn();
+
+        render(<TestComponent data={data} defaultOpen onClose={onClose} />);
+
+        fireEvent.mouseDown(document.body);
+
+        expect(onClose).toHaveBeenCalledTimes(1);
+      });
+
+      it('Should call onClose when pressing Escape key', () => {
+        const onClose = vi.fn();
+
+        render(<TestComponent data={data} defaultOpen onClose={onClose} />);
+
+        // Verify popup is open
+        expect(screen.getByTestId('picker-popup')).to.exist;
+
+        // Press Escape
+        fireEvent.keyDown(screen.getByRole(role), { key: 'Escape' });
+
+        // Verify onClose was called
+        expect(onClose).toHaveBeenCalled();
+      });
+
+      it('Should close the popup on Tab key', () => {
+        const onClose = vi.fn();
+
+        render(<TestComponent data={data} defaultOpen onClose={onClose} />);
+
+        const combobox = screen.getByRole(role);
+
+        fireEvent.keyDown(combobox, { key: 'Tab' });
+        expect(screen.getByTestId('picker-popup')).to.exist;
+
+        expect(onClose).toHaveBeenCalledTimes(1);
+      });
+
+      it('Should be controlled by `open`', () => {
+        const App = () => {
+          const [open, setOpen] = React.useState(false);
+          return (
+            <TestComponent
+              data={data}
+              open={open}
+              onOpen={() => {
+                setOpen(true);
+              }}
+              onClose={() => {
+                setOpen(false);
+              }}
+            />
+          );
+        };
+
+        render(<App />);
+
+        const combobox = screen.getByRole(role);
+
+        fireEvent.click(combobox);
+        expect(screen.getByTestId('picker-popup')).to.exist;
+      });
+    });
+  });
+}
+
+interface TestPickerSizeOptions {
+  role?: 'combobox' | 'textbox';
+  maxHeight?: number;
+  heightStep?: number;
+  subtle?: boolean;
+  getUIElements?: () => HTMLElement[];
+  [key: string]: any;
+}
+
+export function testPickerSize(
+  TestComponent: React.ComponentType<any>,
+  pickerProps: TestPickerSizeOptions = {}
+) {
+  const displayName = TestComponent.displayName;
+  const {
+    role = 'combobox',
+    maxHeight = 42,
+    heightStep = 6,
+    subtle = true,
+    getUIElements = () => screen.getAllByRole(role),
+    ...restProps
+  } = pickerProps;
+
+  describe(`${displayName} - Size`, () => {
+    it('Should have different sizes', () => {
+      render(
+        <>
+          <TestComponent size="lg" placeholder="Large" {...restProps} />
+          <TestComponent size="md" placeholder="Medium" {...restProps} />
+          <TestComponent size="sm" placeholder="Small" {...restProps} />
+          <TestComponent size="xs" placeholder="Xsmall" {...restProps} />
+        </>
+      );
+
+      const paddings = ['10px 13px', '8px 11px', '5px 9px', '2px 7px'];
+
+      getUIElements().forEach((picker, index) => {
+        if (role === 'combobox') {
+          expect(picker).to.have.style('padding', paddings[index]);
+        }
+
+        // height: 42, 36, 30, 24
+        const height = maxHeight - index * heightStep;
+        const pickerType = (picker.parentNode as HTMLElement)?.dataset?.picker;
+
+        // TODO: fix tag picker height
+        if (pickerType !== 'tag') {
+          expect(picker).to.have.style('height', `${height}px`);
+        }
+      });
+    });
+
+    if (subtle) {
+      it('Should have different sizes with subtle appearance', () => {
+        render(
+          <>
+            <TestComponent size="lg" appearance="subtle" placeholder="Large" {...restProps} />
+            <TestComponent size="md" appearance="subtle" placeholder="Medium" {...restProps} />
+            <TestComponent size="sm" appearance="subtle" placeholder="Small" {...restProps} />
+            <TestComponent size="xs" appearance="subtle" placeholder="Xsmall" {...restProps} />
+          </>
+        );
+
+        const paddings = ['10px 14px', '8px 12px', '5px 10px', '2px 8px'];
+
+        getUIElements().forEach((picker, index) => {
+          if (role === 'combobox') {
+            expect(picker).to.have.style('padding', paddings[index]);
+          }
+          expect(picker).to.have.style('height', `${maxHeight - index * heightStep}px`);
+        });
+      });
+    }
+  });
+}
