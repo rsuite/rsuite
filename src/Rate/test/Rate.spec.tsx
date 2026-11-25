@@ -117,6 +117,31 @@ describe('Rate', () => {
     expect(onChange).toHaveBeenCalledWith(3, expect.any(Object));
   });
 
+  it('Should commit the clicked rating without a preceding hover', () => {
+    const onChange = vi.fn();
+    render(<Rate defaultValue={1} onChange={onChange} />);
+
+    const stars = screen.getAllByRole('radio');
+    fireEvent.click(stars[2]);
+    fireEvent.click(stars[4]);
+
+    expect(onChange.mock.calls.map(([value]) => value)).toEqual([3, 5]);
+    expect(stars[4]).to.have.attr('aria-checked', 'true');
+  });
+
+  it('Should use the clicked half instead of the last hovered star', () => {
+    const onChange = vi.fn();
+    render(<Rate allowHalf defaultValue={4} onChange={onChange} />);
+
+    const stars = screen.getAllByRole('radio');
+    fireEvent.mouseMove(stars[1]);
+    const half = stars[2].querySelector('.rs-rate-character-before') as HTMLElement;
+    fireEvent.click(half);
+    fireEvent.click(half);
+
+    expect(onChange.mock.calls.map(([value]) => value)).toEqual([2.5, 0]);
+  });
+
   it('Should call onChange callback by KeyDown event', () => {
     const onChange = vi.fn();
 

@@ -9,6 +9,7 @@ import { useControlled, useStyles, useCustom, useEventCallback } from '@/interna
 import { forwardRef, shallowEqualArray, mergeStyles } from '@/internals/utils';
 import { transformStarStatusToValue, getFractionalValue } from './utils';
 import { useRatingStates } from './useRatingStates';
+import type { StarStatus } from './types';
 import type { Color, FormControlBaseProps, Size } from '@/internals/types';
 
 export interface RateProps<T = number>
@@ -104,19 +105,25 @@ const Rate = forwardRef<'ul', RateProps>((props, ref) => {
     onChangeActive?.(value, event);
   });
 
-  const handleChangeValue = useEventCallback((index: number, event: React.SyntheticEvent) => {
-    let nextValue = transformStarStatusToValue(starStates);
+  const handleChangeValue = useEventCallback(
+    (index: number, selectedStars: StarStatus[], event: React.SyntheticEvent) => {
+      let nextValue = transformStarStatusToValue(selectedStars);
 
-    if (cleanable && value === nextValue && getStarStates(value)[index] === starStates[index]) {
-      nextValue = 0;
-    }
+      if (
+        cleanable &&
+        value === nextValue &&
+        getStarStates(value)[index] === selectedStars[index]
+      ) {
+        nextValue = 0;
+      }
 
-    if (nextValue !== value) {
-      setValue(nextValue);
-      setStarStates(getStarStates(nextValue));
-      onChange?.(nextValue, event);
+      if (nextValue !== value) {
+        setValue(nextValue);
+        setStarStates(getStarStates(nextValue));
+        onChange?.(nextValue, event);
+      }
     }
-  });
+  );
 
   const handleKeyDown = useEventCallback((index: number, event: React.KeyboardEvent) => {
     const { key } = event;
@@ -131,30 +138,30 @@ const Rate = forwardRef<'ul', RateProps>((props, ref) => {
     setStarStates(getStarStates(nextValue));
 
     if (key === KEY_VALUES.ENTER) {
-      handleChangeValue(index, event);
+      handleChangeValue(index, starStates, event);
     }
   });
 
   const handleChangeStarStates = useEventCallback(
-    (index: number, key: string, event: React.MouseEvent) => {
-      const nextStarStates = starStates.map((_item, i) => {
-        if (i === index && key === 'before' && allowHalf) {
-          return 0.5;
-        }
-        return index >= i ? 1 : 0;
-      });
+    (index: number, key: 'before' | 'after', event: React.MouseEvent) => {
+      const nextValue = index + (key === 'before' && allowHalf ? 0.5 : 1);
+      const nextStarStates = getStarStates(nextValue);
 
       if (!shallowEqualArray(starStates, nextStarStates)) {
         setStarStates(nextStarStates);
-        onChangeActive?.(transformStarStatusToValue(nextStarStates), event);
+        onChangeActive?.(nextValue, event);
       }
+
+      return nextStarStates;
     }
   );
 
-  const handleClick = useEventCallback((index: number, key: string, event: React.MouseEvent) => {
-    handleChangeStarStates(index, key, event);
-    handleChangeValue(index, event);
-  });
+  const handleClick = useEventCallback(
+    (index: number, key: 'before' | 'after', event: React.MouseEvent) => {
+      const selectedStars = handleChangeStarStates(index, key, event);
+      handleChangeValue(index, selectedStars, event);
+    }
+  );
 
   if (plaintext) {
     return (
