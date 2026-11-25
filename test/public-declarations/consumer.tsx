@@ -185,6 +185,77 @@ export function readonlySelectPickerOptions() {
   );
 }
 
+export function selectPickerOptionInference(dynamicKey: string) {
+  type Direction = 'north' | 'south';
+  interface Region {
+    code: Direction;
+    title: string;
+    currency: string;
+    value: number;
+  }
+
+  const regions: readonly Region[] = [
+    { code: 'north', title: 'North', currency: 'USD', value: 1 },
+    { code: 'south', title: 'South', currency: 'EUR', value: 2 }
+  ];
+  const defaultRows = [{ value: 1, label: 'One', caption: 'Info' }] as const;
+  const [region, setRegion] = React.useState<Direction | null>(null);
+
+  return (
+    <>
+      <SelectPicker
+        data={regions}
+        valueKey="code"
+        labelKey="title"
+        onChange={value => {
+          const selected: Direction | null = value;
+          // @ts-expect-error The custom value key points to strings, not the numeric value field.
+          const invalid: number = value;
+          void [selected, invalid];
+        }}
+        searchBy={(query, _label, item) => item.currency.includes(query)}
+        renderOption={(label, item) => {
+          const actual: Region = item;
+          // @ts-expect-error The currency on the original record is a string.
+          const invalid: number = item.currency;
+          void [actual, invalid];
+          return label;
+        }}
+        onSelect={(value, item) => {
+          const selected: Direction = value;
+          const actual: Region = item;
+          // @ts-expect-error The original record is retained and its currency is a string.
+          const invalid: number = item.currency;
+          void [selected, actual, invalid];
+        }}
+        renderValue={(value, item, label) => {
+          const selected: Direction = value;
+          const actual: Region | undefined = item;
+          void [selected, actual];
+          return item?.currency ?? label;
+        }}
+      />
+      <SelectPickerSubpath data={regions} valueKey="code" value={region} onChange={setRegion} />
+      <SelectPickerSubpath
+        data={defaultRows}
+        renderOption={(label, item) => {
+          const caption: 'Info' = item.caption;
+          // @ts-expect-error Default options retain the custom caption type too.
+          const invalid: number = item.caption;
+          void [caption, invalid];
+          return label;
+        }}
+      />
+      <SelectPicker<Direction>
+        data={[{ code: 'north', title: 'North' }]}
+        valueKey={dynamicKey}
+        labelKey="title"
+        onChange={setRegion}
+      />
+    </>
+  );
+}
+
 export function externalPickerForms() {
   const data = [{ value: 0, label: 'Zero' }];
   // @ts-expect-error A form owner is an element ID, not an element.

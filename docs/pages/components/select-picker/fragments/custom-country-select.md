@@ -15,7 +15,9 @@ const App = () => (
         {item.icon} {label} ({item.abbr}) +{item.code}
       </div>
     )}
-    renderValue={(value, item) => {
+    renderValue={(_value, item, label) => {
+      if (!item) return label;
+
       return (
         <div>
           {item.icon} {item.name} ({item.abbr})
