@@ -104,6 +104,8 @@ const DropdownItem = forwardRef<'li', DropdownMenuItemProps>(
     const selected =
       activeProp || (!isNil(eventKey) && shallowEqual(dropdown?.activeKey, eventKey));
 
+    const checkable = restProps.role === 'menuitemradio' || restProps.role === 'menuitemcheckbox';
+
     const dispatch = dropdown?.dispatch;
 
     useEffect(() => {
@@ -177,6 +179,7 @@ const DropdownItem = forwardRef<'li', DropdownMenuItemProps>(
             ref: mergeRefs(ref, menuitemRef),
             className: classes,
             ...menuitem,
+            'aria-checked': checkable ? selected : menuitem['aria-checked'],
             ...dataAttributes,
             ...restProps,
             children: (
