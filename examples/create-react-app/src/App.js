@@ -38,8 +38,9 @@ function App() {
               </Text>
 
               <Stack spacing={10} alignItems="center">
-                <Text muted>Theme:</Text>
                 <Toggle
+                  label="Light theme"
+                  labelPlacement="start"
                   size="lg"
                   checked={theme === 'light'}
                   checkedChildren={<Icon as={FaSun} style={{ fontSize: 18 }} />}
