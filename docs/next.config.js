@@ -3,7 +3,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const pkg = require('./package.json');
-const markdownRenderer = require('./scripts/markdown-renderer');
 const { format } = require('date-fns');
 
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
@@ -123,30 +122,7 @@ module.exports = {
 
     config.module.rules.push({
       test: /\.md$/,
-      use: [
-        {
-          loader: 'react-code-view/webpack-md-loader',
-          options: {
-            htmlOptions: {
-              // HTML Loader options
-              // See https://github.com/webpack-contrib/html-loader#options
-            },
-            markedOptions: {
-              renderer: markdownRenderer([
-                'javascript',
-                'bash',
-                'xml',
-                'css',
-                'json',
-                'diff',
-                'typescript'
-              ])
-              // Pass options to marked
-              // See https://marked.js.org/using_advanced#options
-            }
-          }
-        }
-      ]
+      use: [path.resolve(__dirname, 'scripts/markdown-loader.js')]
     });
 
     config.plugins.push(

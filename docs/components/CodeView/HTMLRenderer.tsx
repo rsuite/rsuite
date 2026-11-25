@@ -1,22 +1,34 @@
-import React from 'react';
-import { MarkdownRenderer } from 'react-code-view';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import CopyCodeButton from './CopyCodeButton';
 
-export const copyButtonProps = {
-  className: 'rs-btn rs-btn-icon',
-  'data-size': 'xs',
-  'data-appearance': 'subtle',
-  'data-shape': 'circle'
-};
+export function HTMLRenderer({ children }: { children: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [blocks, setBlocks] = useState<HTMLElement[]>([]);
 
-export const HTMLRenderer = ({
-  children,
-  ...props
-}: React.ComponentProps<typeof MarkdownRenderer>) => {
+  useEffect(() => {
+    setBlocks(Array.from(ref.current?.querySelectorAll<HTMLElement>('.rcv-code-renderer') ?? []));
+  }, [children]);
+
+  if (!children) {
+    return null;
+  }
+
   return (
-    <MarkdownRenderer copyButtonProps={copyButtonProps} {...props}>
-      {children}
-    </MarkdownRenderer>
+    <>
+      <div className="rcv-markdown" ref={ref} dangerouslySetInnerHTML={{ __html: children }} />
+      {blocks.map((block, index) =>
+        createPortal(
+          <CopyCodeButton
+            aria-label="Copy code"
+            code={block.querySelector('code')?.textContent ?? ''}
+          />,
+          block,
+          String(index)
+        )
+      )}
+    </>
   );
-};
+}
 
 export default HTMLRenderer;
