@@ -2,6 +2,23 @@ import { KEY_VALUES } from '@/internals/constants';
 import { useEventCallback } from '@/internals/hooks';
 import { isComposingEvent } from '@/internals/utils';
 
+const editableInputTypes =
+  /^(text|search|tel|url|email|password|number|date|month|week|time|datetime-local)$/;
+
+function isEditableTarget(target: EventTarget) {
+  const element = target as HTMLInputElement;
+  if (element.isContentEditable) {
+    return true;
+  }
+  if (element.readOnly || element.disabled) {
+    return false;
+  }
+  return (
+    element.tagName === 'TEXTAREA' ||
+    (element.tagName === 'INPUT' && editableInputTypes.test(element.type))
+  );
+}
+
 interface ToggleKeyDownEventProps {
   toggle?: boolean;
   trigger: React.RefObject<any>;
@@ -76,7 +93,14 @@ const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
   });
 
   const onToggle = useEventCallback((event: React.KeyboardEvent) => {
-    if (readOnly || disabled || loading || isComposingEvent(event)) {
+    const composing = isComposingEvent(event);
+    const preventBackspace =
+      !composing && event.key === KEY_VALUES.BACKSPACE && !isEditableTarget(event.target);
+
+    if (readOnly || disabled || loading || composing) {
+      if (preventBackspace) {
+        event.preventDefault();
+      }
       onKeyDown?.(event);
       return;
     }
@@ -126,6 +150,11 @@ const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
         event.preventDefault();
       }
       handleClose(event);
+    }
+
+    // Menu handlers check defaultPrevented before applying their Backspace shortcut.
+    if (preventBackspace) {
+      event.preventDefault();
     }
 
     // Native event callback
