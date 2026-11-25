@@ -1,3 +1,5 @@
+import { validTouchCase } from './touch.mjs';
+
 export const states = {
   'nested-validation': ['invalid-nested-fields', 'valid-nested-submission'],
   'dynamic-fields': [
@@ -36,7 +38,8 @@ export function summarize(report, expectedCases) {
     matchesDirection(row.directionLayout, row.direction) &&
     !row.browserErrors?.length &&
     JSON.stringify(row.states?.map(state => state.name)) === JSON.stringify(states[row.scenario]) &&
-    !(row.states ?? []).some(state => state.state?.invalidReferences?.length);
+    !(row.states ?? []).some(state => state.state?.invalidReferences?.length) &&
+    validTouchCase(row, states[row.scenario]);
   const failedCases = report.cases.filter(row => !passed(row)).length;
   const browserErrors = report.cases.reduce(
     (sum, row) => sum + (row.browserErrors?.length ?? 0),
