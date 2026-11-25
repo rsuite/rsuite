@@ -172,12 +172,27 @@ function verify(workflows) {
   });
   assert(!gate['continue-on-error']);
   assert(gate.steps.every(step => !step['continue-on-error']));
+  const needsSdk =
+    "(needs.example-dependency-scope.result != 'success' || needs.example-dependency-scope.outputs.example_dependencies_only != 'true')";
+  const scope = jobs['example-dependency-scope'];
+  assert.equal(scope.if, "github.event_name == 'pull_request'");
+  assert.equal(scope.steps[0].with['fetch-depth'], 2);
+  assert.equal(scope.steps[1].run, 'node scripts/ci-example-dependencies.cjs >> "$GITHUB_OUTPUT"');
+  for (const engine of ['chromium', 'firefox']) {
+    for (const react of ['react18', 'react19', 'react19-3']) {
+      const job = jobs[`${engine}-${react}`];
+      assert.equal(job.needs, 'example-dependency-scope');
+      assert.equal(job.if, '${{ !cancelled() && ' + needsSdk + ' }}');
+    }
+  }
+
   const summaries = Object.values(jobs).filter(job =>
     /^Test \((chromium|firefox), React/.test(job.name)
   );
   assert.equal(summaries.length, 6);
   for (const summary of summaries) {
-    assert.equal(summary.if, 'always()');
+    assert.equal(summary.if, '${{ always() && ' + needsSdk + ' }}');
+    assert(summary.needs.includes('example-dependency-scope'));
     assert(summary.needs.includes('coverage'));
     assert.equal(
       summary.steps[0].run,
