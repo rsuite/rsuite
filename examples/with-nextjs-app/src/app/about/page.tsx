@@ -1,10 +1,9 @@
-'use client';
-
 import React from 'react';
 import Image from 'next/image';
 import styles from './page.module.css';
 import Navbar from '../../components/Navbar';
-import { Stack, Button } from 'rsuite';
+import Stack from 'rsuite/Stack';
+import Button from 'rsuite/Button';
 
 export default function About() {
   return (
@@ -34,7 +33,7 @@ export default function About() {
         <Button
           appearance="primary"
           size="lg"
-          href="https://rsuitejs.com/guide/use-next-pages/"
+          href="https://rsuitejs.com/guide/use-next-app/"
           target="_blank"
           rel="noopener noreferrer"
         >
