@@ -112,3 +112,55 @@ describe('SelectPicker keyboard value boundaries', () => {
     );
   });
 });
+
+describe('SelectPicker readonly options', () => {
+  it.each([false, true])(
+    'sorts, searches and selects frozen rows (virtualized=%s)',
+    async virtualized => {
+      const beta = Object.freeze({ value: 'beta', label: 'Beta Sales', team: 'Sales' });
+      const alpha = Object.freeze({ value: 'alpha', label: 'Alpha Sales', team: 'Sales' });
+      const other = Object.freeze({
+        value: 'other',
+        label: 'Other Engineering',
+        team: 'Engineering'
+      });
+      const rows = Object.freeze([beta, alpha, other]);
+      const onSelect = vi.fn();
+
+      render(
+        <CustomProvider reduceMotion>
+          <SelectPicker
+            data={rows}
+            defaultOpen
+            virtualized={virtualized}
+            groupBy="team"
+            sort={isGroup => (a, b) => (isGroup ? 0 : a.label.localeCompare(b.label))}
+            onSelect={onSelect}
+          />
+        </CustomProvider>
+      );
+
+      expect(screen.getAllByRole('option').map(option => option.textContent)).toEqual([
+        'Alpha Sales',
+        'Beta Sales',
+        'Other Engineering'
+      ]);
+
+      const search = screen.getByRole('searchbox');
+      act(() => search.focus());
+      await act(async () => userEvent.keyboard('Beta'));
+      await waitFor(() => expect(screen.getAllByRole('option')).toHaveLength(1));
+      const option = screen.getByRole('option', { name: 'Beta Sales' });
+      await nativeKey('ArrowDown');
+      await waitFor(() => expect(option).toHaveFocus());
+      await nativeKey('Enter');
+
+      expect(onSelect).toHaveBeenCalledTimes(1);
+      expect(onSelect.mock.calls[0][0]).toBe('beta');
+      expect(onSelect.mock.calls[0][1]).toBe(beta);
+      expect(onSelect.mock.calls[0][2].nativeEvent.isTrusted).toBe(true);
+      expect(rows).toEqual([beta, alpha, other]);
+      expect(screen.getByRole('combobox')).toHaveTextContent('Beta Sales');
+    }
+  );
+});

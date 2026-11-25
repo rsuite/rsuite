@@ -13,7 +13,7 @@ import type { VirtualizedListHandle } from './useVirtualizedListFocus';
 
 interface FocusItemValueProps<T = unknown> {
   target: HTMLElement | null | (() => HTMLElement | null);
-  data?: T[];
+  data?: readonly T[];
   virtualizedList?: React.RefObject<VirtualizedListHandle | null>;
   /** Reconcile an open list picker's focus with its currently eligible options. */
   reconcileFocus?: boolean;

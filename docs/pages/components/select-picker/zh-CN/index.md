@@ -111,7 +111,7 @@
 | classPrefix        | string `('picker')`                                                           | 组件 CSS 类的前缀                                  |
 | cleanable          | boolean `(true)`                                                              | 可以清除                                           |
 | container          | HTMLElement \| (() => HTMLElement)                                            | 设置渲染的容器                                     |
-| data \*            | [Option][item][]                                                              | 组件数据                                           |
+| data \*            | readonly [Option][item][]                                                     | 选项数据，支持只读数组和 `as const` 元组。         |
 | defaultValue       | [Value][value]                                                                | 默认值（非受控）                                   |
 | disabled           | boolean                                                                       | 禁用组件                                           |
 | disabledItemValues | [Value][value][]                                                              | 禁用选项                                           |
