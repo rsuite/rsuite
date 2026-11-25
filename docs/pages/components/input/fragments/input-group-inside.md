@@ -1,60 +1,56 @@
 <!--start-code-->
 
 ```js
-import { Input, InputGroup, Whisper, Tooltip } from 'rsuite';
 import SearchIcon from '@rsuite/icons/Search';
-import InfoIcon from '@rsuite/icons/legacy/Info';
-import AvatarIcon from '@rsuite/icons/legacy/Avatar';
-
-const styles = {
-  width: 300,
-  marginBottom: 10
-};
+import InfoRoundIcon from '@rsuite/icons/InfoRound';
+import { Input, InputGroup, Whisper, Tooltip, VStack, Kbd } from 'rsuite';
+import { FaRegUserCircle } from 'react-icons/fa';
 
 const App = () => (
-  <>
-    <InputGroup inside style={styles}>
-      <Input />
-      <InputGroup.Addon>
-        <Whisper placement="top" speaker={<Tooltip> Help information</Tooltip>}>
-          <InfoIcon />
-        </Whisper>
-      </InputGroup.Addon>
-    </InputGroup>
-
-    <InputGroup inside style={styles}>
+  <VStack w={300}>
+    <InputGroup inside>
       <Input />
       <InputGroup.Button>
         <SearchIcon />
       </InputGroup.Button>
     </InputGroup>
 
-    <InputGroup inside style={styles}>
+    <InputGroup inside>
       <Input />
       <InputGroup.Addon>
         <SearchIcon />
       </InputGroup.Addon>
     </InputGroup>
 
-    <InputGroup inside style={styles}>
+    <InputGroup inside>
       <InputGroup.Addon>$</InputGroup.Addon>
       <Input />
       <InputGroup.Addon>.00</InputGroup.Addon>
     </InputGroup>
 
-    <InputGroup inside style={styles}>
+    <InputGroup inside>
       <InputGroup.Addon>￥</InputGroup.Addon>
       <Input />
       <InputGroup.Addon>RMB</InputGroup.Addon>
     </InputGroup>
 
-    <InputGroup inside style={styles}>
+    <InputGroup inside>
       <InputGroup.Addon>
-        <AvatarIcon />
+        <FaRegUserCircle />
       </InputGroup.Addon>
       <Input />
     </InputGroup>
-  </>
+
+    <InputGroup inside>
+      <InputGroup.Addon>
+        <SearchIcon />
+      </InputGroup.Addon>
+      <Input placeholder="Search" autoComplete="off" />
+      <InputGroup.Addon>
+        <Kbd size="sm">⌘ K</Kbd>
+      </InputGroup.Addon>
+    </InputGroup>
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

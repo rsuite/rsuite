@@ -2,13 +2,13 @@
 
 ```js
 import { DateRangePicker, Stack } from 'rsuite';
-import subDays from 'date-fns/subDays';
-import startOfWeek from 'date-fns/startOfWeek';
-import endOfWeek from 'date-fns/endOfWeek';
-import addDays from 'date-fns/addDays';
-import startOfMonth from 'date-fns/startOfMonth';
-import endOfMonth from 'date-fns/endOfMonth';
-import addMonths from 'date-fns/addMonths';
+import { subDays } from 'date-fns/subDays';
+import { startOfWeek } from 'date-fns/startOfWeek';
+import { endOfWeek } from 'date-fns/endOfWeek';
+import { addDays } from 'date-fns/addDays';
+import { startOfMonth } from 'date-fns/startOfMonth';
+import { endOfMonth } from 'date-fns/endOfMonth';
+import { addMonths } from 'date-fns/addMonths';
 
 const predefinedRanges = [
   {
@@ -59,6 +59,11 @@ const predefinedRanges = [
   {
     label: 'All time',
     value: [new Date(new Date().getFullYear() - 1, 0, 1), new Date()],
+    placement: 'left'
+  },
+  {
+    label: 'Clear',
+    value: null,
     placement: 'left'
   },
   {
@@ -127,6 +132,10 @@ const predefinedBottomRanges = [
   {
     label: 'All time',
     value: [new Date(new Date().getFullYear() - 1, 0, 1), new Date()]
+  },
+  {
+    label: 'Clear',
+    value: null
   }
 ];
 
@@ -135,18 +144,27 @@ const App = () => (
     <DateRangePicker
       ranges={predefinedBottomRanges}
       placeholder="Placement defaults to bottom"
-      style={{ width: 300 }}
+      w={300}
+      onShortcutClick={(shortcut, event) => {
+        console.log(shortcut);
+      }}
     />
     <DateRangePicker
       ranges={predefinedRanges}
       placeholder="Placement left"
-      style={{ width: 300 }}
+      w={300}
+      onShortcutClick={(shortcut, event) => {
+        console.log(shortcut);
+      }}
     />
     <DateRangePicker
       ranges={predefinedRanges}
       showOneCalendar
       placeholder="One calendar"
-      style={{ width: 300 }}
+      w={300}
+      onShortcutClick={(shortcut, event) => {
+        console.log(shortcut);
+      }}
     />
   </Stack>
 );

@@ -1,0 +1,19 @@
+.framework-guide {
+  margin-top: 20px;
+
+  .fw-item {
+    text-align: center;
+    width: 160px;
+    padding: 20px;
+    cursor: pointer;
+
+    svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    &:hover {
+      background-color: var(--rs-btn-default-bg);
+    }
+  }
+}

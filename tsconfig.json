@@ -9,14 +9,17 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "sourceMap": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "target": "esnext",
     "module": "esnext",
     "jsx": "react",
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@test/*": ["./test/*"]
+      "@test/*": ["./test/*"],
+      "@/internals/*": ["./src/internals/*"],
+      "@/*": ["./src/*"],
+      "@/storybook/*": ["./storybook/*"]
     }
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]

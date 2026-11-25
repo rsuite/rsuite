@@ -1,3 +1,4 @@
 export default {
-  npmClient: 'npm'
+  npmClient: 'npm',
+  esbuildMinifyIIFE: true
 };

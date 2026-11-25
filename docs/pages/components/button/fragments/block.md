@@ -1,7 +1,8 @@
 <!--start-code-->
 
 ```js
-import { Button, ButtonToolbar } from 'rsuite';
+import { Button, IconButton, ButtonToolbar } from 'rsuite';
+import AddOutlineIcon from '@rsuite/icons/AddOutline';
 
 const App = () => (
   <ButtonToolbar>
@@ -9,7 +10,10 @@ const App = () => (
       Block
     </Button>
     <Button appearance="primary" block>
-      Block
+      Block Primary
+    </Button>
+    <Button block startIcon={<AddOutlineIcon />}>
+      Block With Icon
     </Button>
   </ButtonToolbar>
 );

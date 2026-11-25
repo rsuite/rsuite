@@ -1,11 +1,11 @@
 <!--start-code-->
 
 ```js
-import { Table, Toggle, TagPicker } from 'rsuite';
+import { Table, Toggle, TagPicker, VStack, HStack } from 'rsuite';
 import { mockUsers } from './mock';
 
 const { Column, HeaderCell, Cell } = Table;
-const data = mockUsers(10);
+const data = mockUsers(20);
 
 const CompactCell = props => <Cell {...props} style={{ padding: 4 }} />;
 const CompactHeaderCell = props => <HeaderCell {...props} style={{ padding: 4 }} />;
@@ -42,13 +42,9 @@ const defaultColumns = [
 ];
 
 const App = () => {
-  const [loading, setLoading] = React.useState(false);
   const [compact, setCompact] = React.useState(true);
   const [bordered, setBordered] = React.useState(true);
-  const [noData, setNoData] = React.useState(false);
   const [showHeader, setShowHeader] = React.useState(true);
-  const [autoHeight, setAutoHeight] = React.useState(true);
-  const [fillHeight, setFillHeight] = React.useState(false);
   const [hover, setHover] = React.useState(true);
   const [columnKeys, setColumnKeys] = React.useState(defaultColumns.map(column => column.key));
 
@@ -58,123 +54,55 @@ const App = () => {
 
   return (
     <div>
-      <div>
-        <span>
-          Compact：
-          <Toggle
-            checkedChildren="On"
-            unCheckedChildren="Off"
-            checked={compact}
-            onChange={setCompact}
-          />
-        </span>
+      <VStack spacing={16}>
+        <HStack>
+          <Toggle checked={compact} onChange={setCompact}>
+            Compact
+          </Toggle>
 
-        <span>
-          Bordered：
-          <Toggle
-            checkedChildren="On"
-            unCheckedChildren="Off"
-            checked={bordered}
-            onChange={setBordered}
-          />
-        </span>
+          <Toggle checked={bordered} onChange={setBordered}>
+            Bordered
+          </Toggle>
 
-        <span>
-          Show Header：
-          <Toggle
-            checkedChildren="On"
-            unCheckedChildren="Off"
-            checked={showHeader}
-            onChange={setShowHeader}
-          />
-        </span>
+          <Toggle checked={showHeader} onChange={setShowHeader}>
+            Show Header
+          </Toggle>
 
-        <span>
-          Hover：
-          <Toggle
-            checkedChildren="On"
-            unCheckedChildren="Off"
-            checked={hover}
-            onChange={setHover}
-          />
-        </span>
-        <hr />
-        <span>
-          Loading：
-          <Toggle
-            checkedChildren="On"
-            unCheckedChildren="Off"
-            checked={loading}
-            onChange={setLoading}
-          />
-        </span>
-
-        <span>
-          No data：
-          <Toggle
-            checkedChildren="On"
-            unCheckedChildren="Off"
-            checked={noData}
-            onChange={setNoData}
-          />
-        </span>
-
-        <span>
-          Auto Height：
-          <Toggle
-            checkedChildren="On"
-            unCheckedChildren="Off"
-            checked={autoHeight}
-            onChange={setAutoHeight}
-          />
-        </span>
-
-        <span>
-          Fill Height：
-          <Toggle
-            checkedChildren="On"
-            unCheckedChildren="Off"
-            checked={fillHeight}
-            onChange={setFillHeight}
-          />
-        </span>
-      </div>
+          <Toggle checked={hover} onChange={setHover}>
+            Hover
+          </Toggle>
+        </HStack>
+        <TagPicker
+          data={defaultColumns}
+          labelKey="label"
+          valueKey="key"
+          value={columnKeys}
+          onChange={setColumnKeys}
+          cleanable={false}
+        />
+      </VStack>
       <hr />
-      Columns：
-      <TagPicker
-        data={defaultColumns}
-        labelKey="label"
-        valueKey="key"
-        value={columnKeys}
-        onChange={setColumnKeys}
-        cleanable={false}
-      />
-      <hr />
-      <div style={{ height: autoHeight ? 'auto' : 400 }}>
-        <Table
-          loading={loading}
-          height={300}
-          hover={hover}
-          fillHeight={fillHeight}
-          showHeader={showHeader}
-          autoHeight={autoHeight}
-          data={noData ? [] : data}
-          bordered={bordered}
-          cellBordered={bordered}
-          headerHeight={compact ? 30 : 40}
-          rowHeight={compact ? 30 : 46}
-        >
-          {columns.map(column => {
-            const { key, label, ...rest } = column;
-            return (
-              <Column {...rest} key={key}>
-                <CustomHeaderCell>{label}</CustomHeaderCell>
-                <CustomCell dataKey={key} />
-              </Column>
-            );
-          })}
-        </Table>
-      </div>
+
+      <Table
+        height={300}
+        hover={hover}
+        showHeader={showHeader}
+        data={data}
+        bordered={bordered}
+        cellBordered={bordered}
+        headerHeight={compact ? 30 : 40}
+        rowHeight={compact ? 30 : 46}
+      >
+        {columns.map(column => {
+          const { key, label, ...rest } = column;
+          return (
+            <Column {...rest} key={key}>
+              <CustomHeaderCell>{label}</CustomHeaderCell>
+              <CustomCell dataKey={key} />
+            </Column>
+          );
+        })}
+      </Table>
     </div>
   );
 };

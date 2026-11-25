@@ -1,10 +1,13 @@
-# Radio 单选框
+# Radio 单选按钮
 
-允许用户从一组中选择一个选项。
+单选按钮用于在一系列选项中只能选择一个选项时使用。
 
 ## 获取组件
 
-<!--{include:(components/radio/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `<Radio>` 单选按钮是一个可选中的输入，当与其他单选按钮关联时，只能有一个选中。
+- `<RadioGroup>` 单选组允许用户从互斥选项列表中选择单个选项。
 
 ## 演示
 
@@ -14,54 +17,75 @@
 
 ### 禁用与只读
 
+使用 `disabled` 属性禁用单选按钮，或者使用 `readOnly` 属性设置为只读状态。
+
 <!--{include:`disabled.md`}-->
 
-### Radio 组
+### 颜色
+
+通过 `color` 属性设置单选按钮的颜色.
+<!--{include:`colors.md`}-->
+
+### 单选按钮组
+
+使用 `<RadioGroup>` 组件将多个单选按钮组合在一起，并通过 `name` 属性设置组名称。
 
 <!--{include:`radio-group.md`}-->
 
-### Radio 组 - 横向布局
+### 横向布局
+
+使用 `inline` 属性将单选按钮组设置为横向布局。
 
 <!--{include:`radio-group-inline.md`}-->
 
-### Radio 组 - Picker
+### 受控的单选按钮组
 
-<!--{include:`radio-group-inline-picker.md`}-->
+通过 `value` 和 `onChange` 属性实现对单选按钮组的受控使用。
 
-### 受控的 Radio 组
+<!--{include:`radio-group-controlled.md`}-->
 
-<!--{include:`radio-group-controller.md`}-->
+## 可访问性
 
-### 无障碍设计
+### ARIA 属性
 
-WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#radiobutton
+- 单选按钮组的 `role` 属性为 `radiogroup`。
+- 每一个单选按钮的 `role` 属性为 `radio`。
+- 如果选中单选按钮，则将 `aria-checked` 设置为 `true`。
+- 如果单选按钮禁用，则将 `aria-disabled` 设置为 `true`。
 
-- 选中 `Radio` 时将 `aria-checked` 设置为 `true`。 否则，将 `aria-checked` 设置为 `false`。
+### 键盘交互
+
+- <kbd>→</kbd> - 将焦点移动到下一个单选按钮，当焦点位于单选组中的最后一个单选按钮上则移动到第一个单选按钮。
+- <kbd>←</kbd> - 将焦点移动到上一个单选按钮。焦点位于单选组中的第一个单选按钮上则移动到最后个单选按钮。
 
 ## Props
 
 ### `<Radio>`
 
-| 属性名称       | 类型                                             | 描述                                   |
-| -------------- | ------------------------------------------------ | -------------------------------------- |
-| checked        | boolean                                          | 被选中（受控）                         |
-| defaultChecked | boolean                                          | 默认被选中                             |
-| disabled       | boolean                                          | 禁用                                   |
-| inline         | boolean                                          | 内联布局                               |
-| inputProps     | object                                           | 设置 input 元素的属性                  |
-| inputRef       | ref                                              | 将 ref 传递给 input 元素               |
-| name           | string                                           | 用于表单对应的名称                     |
-| onChange       | (value: string, checked: boolean, event) => void | checked 状态发生改变的回调函数         |
-| title          | string                                           | HTML title                             |
-| value          | string                                           | 值，对应 RadioGroup 的值，判断是否选中 |
+| 属性名称       | 类型                                             | 描述                                       | 版本        |
+| -------------- | ------------------------------------------------ | ------------------------------------------ | ----------- |
+| as             | ElementType`(div)`                               | 为组件自定义元素类型                       |             |
+| checked        | boolean                                          | 被选中（受控）                             |             |
+| color          | [Color](#code-ts-color-code)                     | 选中状态时的颜色                           | ![][5.56.0] |
+| defaultChecked | boolean                                          | 默认被选中                                 |             |
+| disabled       | boolean                                          | 禁用                                       |             |
+| inline         | boolean                                          | 内联布局                                   |             |
+| inputProps     | object                                           | 设置 input 元素的属性                      |             |
+| inputRef       | ref                                              | 将 ref 传递给 input 元素                   |             |
+| name           | string                                           | 用于表单对应的名称                         |             |
+| onChange       | (value: string, checked: boolean, event) => void | checked 状态发生改变的回调函数             |             |
+| value          | string                                           | 当前值，对应 RadioGroup 的值，判断是否选中 |             |
 
 ### `<RadioGroup>`
 
 | 属性名称     | 类型`(默认值)`                | 描述               |
 | ------------ | ----------------------------- | ------------------ |
-| appearance   | 'default' &#124; 'picker'     | 设置外观           |
-| defaultValue | string                        | 默认值             |
+| defaultValue | string                        | 默认值（非受控）   |
 | inline       | boolean                       | 内联布局           |
 | name         | string                        | 用于表单对应的名称 |
 | onChange     | (value:string, event) => void | 值改变后的回调函数 |
-| value        | string                        | 值(受控)           |
+| value        | string                        | 当前值(受控)       |
+
+### 类型定义
+
+<!--{include:(_common/types/color.md)}-->

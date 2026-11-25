@@ -1,13 +1,28 @@
-import React from 'react';
-import { Uploader, Button, Loader, Message, useToaster } from 'rsuite';
-import DefaultPage from '@/components/Page';
-import AvatarIcon from '@rsuite/icons/legacy/Avatar';
-import CameraRetroIcon from '@rsuite/icons/legacy/CameraRetro';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
+import { Uploader, Button, Loader, Message, useToaster, Box, Divider, VStack } from 'rsuite';
+import { RxCamera, RxAvatar } from 'react-icons/rx';
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['Uploader']} />
+};
 
 export default function Page() {
   return (
     <DefaultPage
-      dependencies={{ Uploader, Button, Loader, Message, AvatarIcon, CameraRetroIcon, useToaster }}
+      inDocsComponents={inDocsComponents}
+      dependencies={{
+        Uploader,
+        Button,
+        Loader,
+        Box,
+        Message,
+        Divider,
+        VStack,
+        RxCamera,
+        RxAvatar,
+        useToaster
+      }}
     />
   );
 }

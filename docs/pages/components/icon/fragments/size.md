@@ -1,18 +1,17 @@
 <!--start-code-->
 
 ```js
+import { HStack } from 'rsuite';
 import PieChartIcon from '@rsuite/icons/PieChart';
 
-const ChartIcon = ({ size }) => <PieChartIcon style={{ fontSize: size, marginRight: 10 }} />;
-
 const App = () => (
-  <>
-    <ChartIcon size="1em" />
-    <ChartIcon size="2em" />
-    <ChartIcon size="3em" />
-    <ChartIcon size="4em" />
-    <ChartIcon size="5em" />
-  </>
+  <HStack spacing={20}>
+    <PieChartIcon size="1rem" />
+    <PieChartIcon size="2rem" />
+    <PieChartIcon size="3rem" />
+    <PieChartIcon size="4rem" />
+    <PieChartIcon size="5rem" />
+  </HStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

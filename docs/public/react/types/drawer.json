@@ -1,0 +1,206 @@
+{
+  "Drawer": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "div"
+      },
+      "autoFocus": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "When set to true, the Drawer is opened and is automatically focused on its own, accessible to screen readers",
+        "defaultValue": "true"
+      },
+      "backdrop": {
+        "type": "boolean | 'static'",
+        "isRequired": false,
+        "description": "When set to true, the Drawer will display the background when it is opened. Clicking on the background will close the Drawer. If you do not want to close the Drawer, set it to 'static'."
+      },
+      "backdropClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Add an optional extra class name to .modal-backdrop It could end up looking like class=\"modal-backdrop foo-modal-backdrop in\"."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "drawer"
+      },
+      "closeButton": {
+        "type": "ReactNode | boolean",
+        "isRequired": false,
+        "description": "Custom close button, set to false to hide close button"
+      },
+      "container": {
+        "type": "HTMLElement | (() => HTMLElement)",
+        "isRequired": false,
+        "description": "Sets the rendering container"
+      },
+      "enforceFocus": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "When set to true, Drawer will prevent the focus from leaving when opened, making it easier for the secondary screen reader to access",
+        "defaultValue": "true"
+      },
+      "keyboard": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "close Drawer when press `esc`"
+      },
+      "onClose": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired when Drawer hide"
+      },
+      "onEnter": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired before the Drawer transitions in"
+      },
+      "onEntered": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired after the Drawer finishes transitioning in"
+      },
+      "onEntering": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired as the Drawer begins to transition in"
+      },
+      "onExit": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired right before the Drawer transitions out"
+      },
+      "onExited": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired after the Drawer finishes transitioning out"
+      },
+      "onExiting": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired as the Drawer begins to transition out"
+      },
+      "onOpen": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired when Drawer display"
+      },
+      "open": {
+        "type": "boolean",
+        "isRequired": true,
+        "description": "Open Drawer"
+      },
+      "placement": {
+        "type": " | 'bottomStart' | 'bottomEnd' | 'topStart' | 'topEnd' | 'leftStart' | 'leftEnd' | 'rightStart' | 'rightEnd' | 'auto' | 'autoVerticalStart' | 'autoVerticalEnd' | 'autoHorizontalStart' | 'autoHorizontalEnd'",
+        "isRequired": false,
+        "description": "The placement of Drawer",
+        "defaultValue": "right"
+      },
+      "size": {
+        "type": "'xs' | 'sm' | 'md' | lg' | 'full' | number | string",
+        "isRequired": false,
+        "description": "Set Drawer size"
+      }
+    }
+  },
+  "Drawer.Header": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "modal-header"
+      },
+      "closeButton": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "When set to true, a close button will be displayed",
+        "defaultValue": "true"
+      },
+      "onClose": {
+        "type": "(event) => void",
+        "isRequired": false,
+        "description": "Callback function when clicking the close button"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The content of the Header"
+      }
+    }
+  },
+  "Drawer.Title": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "modal-title"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The content of the Title"
+      }
+    }
+  },
+  "Drawer.Actions": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "modal-actions"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The content of the Actions"
+      }
+    }
+  },
+  "Drawer.Body": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "div"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "modal-body"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The content of the Body"
+      }
+    }
+  }
+}

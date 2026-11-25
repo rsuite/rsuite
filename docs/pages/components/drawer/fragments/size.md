@@ -1,53 +1,61 @@
 <!--start-code-->
 
 ```js
-import { Drawer, RadioGroup, Radio, ButtonToolbar, Button, IconButton, Placeholder } from 'rsuite';
-import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
-import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
-import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
-import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
-
-const styles = {
-  radioGroupLabel: {
-    padding: '8px 12px',
-    display: 'inline-block',
-    verticalAlign: 'middle'
-  }
-};
+import { Drawer, SegmentedControl, ButtonToolbar, Button, IconButton, Placeholder } from 'rsuite';
 
 const App = () => {
-  const [size, setSize] = React.useState('xs');
+  const [size, setSize] = React.useState();
   const [open, setOpen] = React.useState(false);
-  const [placement, setPlacement] = React.useState();
+  const [placement, setPlacement] = React.useState('right');
 
-  const handleOpen = key => {
+  const handleOpen = value => {
+    setSize(value);
     setOpen(true);
-    setPlacement(key);
   };
   return (
     <>
-      <RadioGroup inline appearance="picker" value={size} onChange={setSize}>
-        <span style={styles.radioGroupLabel}>Size: </span>
-        <Radio value="full">Full page</Radio>
-        <Radio value="lg">Large</Radio>
-        <Radio value="md">Medium</Radio>
-        <Radio value="sm">Small</Radio>
-        <Radio value="xs">Xsmall</Radio>
-      </RadioGroup>
+      <SegmentedControl
+        data={[
+          { value: 'left', label: 'left' },
+          { value: 'right', label: 'right' },
+          { value: 'top', label: 'top' },
+          { value: 'bottom', label: 'bottom' }
+        ]}
+        value={placement}
+        onChange={setPlacement}
+      />
       <hr />
       <ButtonToolbar>
-        <IconButton icon={<AngleRightIcon />} onClick={() => handleOpen('left')}>
-          Left
-        </IconButton>
-        <IconButton icon={<AngleLeftIcon />} onClick={() => handleOpen('right')}>
-          Right
-        </IconButton>
-        <IconButton icon={<AngleDownIcon />} onClick={() => handleOpen('top')}>
-          Top
-        </IconButton>
-        <IconButton icon={<AngleUpIcon />} onClick={() => handleOpen('bottom')}>
-          Bottom
-        </IconButton>
+        <Button size="xs" onClick={() => handleOpen('xs')}>
+          Xsmall
+        </Button>
+        <Button size="sm" onClick={() => handleOpen('sm')}>
+          Small
+        </Button>
+        <Button size="md" onClick={() => handleOpen('md')}>
+          Medium
+        </Button>
+        <Button size="lg" onClick={() => handleOpen('lg')}>
+          Large
+        </Button>
+        <Button size="lg" onClick={() => handleOpen('full')}>
+          Full page
+        </Button>
+      </ButtonToolbar>
+
+      <hr />
+      <ButtonToolbar>
+        <Button onClick={() => handleOpen(400)}>
+          <code>size=400</code>
+        </Button>
+
+        <Button onClick={() => handleOpen('50rem')}>
+          <code>size='50rem'</code>
+        </Button>
+
+        <Button onClick={() => handleOpen('calc(100% - 120px)')}>
+          <code>size='calc(100% - 120px)'</code>
+        </Button>
       </ButtonToolbar>
 
       <Drawer size={size} placement={placement} open={open} onClose={() => setOpen(false)}>

@@ -1,0 +1,7 @@
+{
+  "components": {
+    "DropdownItem": "Dropdown/DropdownItem",
+    "DropdownMenu": "Dropdown/DropdownMenu",
+    "DropdownSeparator": "Dropdown/DropdownSeparator"
+  }
+}

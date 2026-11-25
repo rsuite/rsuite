@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Button from 'rsuite/Button';
+import { Button } from 'rsuite';
 
 const StyledButton = styled(Button)`
   border-radius: 3px;

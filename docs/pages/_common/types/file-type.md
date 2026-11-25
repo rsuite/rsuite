@@ -1,9 +1,10 @@
-### `ts:FileType`
+#### `ts:FileType`
 
 ```ts
 interface FileType {
   /** File Name */
   name?: string;
+
   /** File unique identifier */
   fileKey?: number | string;
 

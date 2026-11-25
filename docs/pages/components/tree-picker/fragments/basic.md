@@ -1,21 +1,28 @@
 <!--start-code-->
 
 ```js
-import { TreePicker } from 'rsuite';
+import { TreePicker, VStack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
   limits: [3, 3, 4],
   labels: (layer, value, faker) => {
     const methodName = ['jobArea', 'jobType', 'firstName'];
-    return faker.name[methodName[layer]]();
+    return faker.person[methodName[layer]]();
   }
 });
 
 const App = () => (
-  <>
-    <TreePicker defaultExpandAll data={data} style={{ width: 246 }} />
-  </>
+  <VStack>
+    <TreePicker defaultExpandAll data={data} w={246} />
+    <TreePicker
+      defaultExpandAll
+      data={data}
+      searchable={false}
+      w={246}
+      placeholder="Select without search"
+    />
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

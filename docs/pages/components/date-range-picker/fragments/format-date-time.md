@@ -18,10 +18,10 @@ const App = () => (
       defaultCalendarValue={[new Date('2022-02-01 00:00:00'), new Date('2022-05-01 23:59:59')]}
     />
 
-    <p>Meridian format</p>
+    <p>Meridiem format</p>
     <DateRangePicker
-      format="yyyy-MM-dd hh:mm aa"
-      showMeridian
+      format="hh:mm aa"
+      showMeridiem
       defaultCalendarValue={[new Date('2022-02-01 00:00:00'), new Date('2022-05-01 23:59:59')]}
     />
   </div>

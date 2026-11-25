@@ -1,0 +1,90 @@
+{
+  "PinInput": {
+    "props": {
+      "attached": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether input fields are attached"
+      },
+      "autoFocus": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Auto-focus on the first input on mount"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class.",
+        "defaultValue": "pin-input"
+      },
+      "defaultValue": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Default PIN value (uncontrolled)"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to disable PIN input"
+      },
+      "length": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Number of PIN digits.",
+        "defaultValue": "4"
+      },
+      "mask": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to mask PIN input (like password)"
+      },
+      "name": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Name for form submission"
+      },
+      "onChange": {
+        "type": "(value: string) => void",
+        "isRequired": false,
+        "description": "Callback fired when the PIN value changes"
+      },
+      "onComplete": {
+        "type": "(value: string) => void",
+        "isRequired": false,
+        "description": "Callback fired when the PIN input is completed"
+      },
+      "otp": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Optimize for one-time password (OTP) input"
+      },
+      "placeholder": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Placeholder for input fields"
+      },
+      "readOnly": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the input is read-only"
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "Input size",
+        "defaultValue": "md"
+      },
+      "type": {
+        "type": "'number' | 'alphabetic' | 'alphanumeric' | RegExp",
+        "isRequired": false,
+        "description": "Filter input characters by type",
+        "defaultValue": "number"
+      },
+      "value": {
+        "type": "string",
+        "isRequired": false,
+        "description": "PIN value (controlled)"
+      }
+    }
+  }
+}

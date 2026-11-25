@@ -1,0 +1,73 @@
+{
+  "InlineEdit": {
+    "props": {
+      "as": {
+        "type": "elementType",
+        "isRequired": false,
+        "description": "A custom element type.",
+        "defaultValue": "div"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "If true, the InlineEdit will be disabled."
+      },
+      "defaultValue": {
+        "type": "any",
+        "isRequired": false,
+        "description": "The initial value of the InlineEdit when it is not controlled."
+      },
+      "value": {
+        "type": "any",
+        "isRequired": false,
+        "description": "The value of the InlineEdit."
+      },
+      "showControls": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "show the control buttons when editing.",
+        "defaultValue": "true"
+      },
+      "placeholder": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The placeholder of the InlineEdit."
+      },
+      "size": {
+        "type": "`'lg'` | `'md'` | `'sm'` | `'xs'`",
+        "isRequired": false,
+        "description": "The size of the InlineEdit."
+      },
+      "stateOnBlur": {
+        "type": "`'save'` | `'cancel'`",
+        "isRequired": false,
+        "description": "The state of the InlineEdit when it is blurred."
+      },
+      "onChange": {
+        "type": "(value: any, event: ChangeEvent) => void",
+        "isRequired": false,
+        "description": "The callback function that is called when the value of the InlineEdit is changed."
+      },
+      "onCancel": {
+        "type": "(event) => void",
+        "isRequired": false,
+        "description": "The callback function that is called when the InlineEdit is canceled."
+      },
+      "onSave": {
+        "type": "(event) => void",
+        "isRequired": false,
+        "description": "The callback function that is called when the InlineEdit is saved."
+      },
+      "onEdit": {
+        "type": "(event) => void",
+        "isRequired": false,
+        "description": "The callback function that is called when the InlineEdit is clicked."
+      },
+      "children": {
+        "type": "ReactNode | (props: ChildrenProps, ref: Ref<any>) => ReactNode",
+        "isRequired": false,
+        "description": "The render function of the InlineEdit."
+      }
+    }
+  }
+}

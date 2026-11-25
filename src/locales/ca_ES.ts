@@ -1,0 +1,123 @@
+import type { CalendarLocaleLabels } from './types';
+import { ca } from 'date-fns/locale/ca';
+
+const DateTimeFormats = {
+  sunday: 'Dg',
+  monday: 'Dl',
+  tuesday: 'Dt',
+  wednesday: 'Dc',
+  thursday: 'Dj',
+  friday: 'Dv',
+  saturday: 'Ds',
+  ok: 'Acceptar',
+  today: 'Avui',
+  yesterday: 'Ahir',
+  now: 'Ara',
+  hours: 'Hores',
+  minutes: 'Minuts',
+  seconds: 'Segons',
+  /**
+   * Format of the string is based on Unicode Technical Standard #35:
+   * https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
+   **/
+  formattedMonthPattern: 'MMM yyyy',
+  formattedDayPattern: 'dd MMM yyyy',
+  shortDateFormat: 'dd/MM/yyyy',
+  shortTimeFormat: 'HH:mm',
+  dateLocale: ca
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Mes anterior',
+  nextMonth: 'Mes següent',
+  selectMonth: 'Selecciona el mes',
+  selectTime: 'Selecciona l’hora'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Obre el selector'
+};
+
+const Combobox = {
+  noResultsText: "No s'han trobat resultats",
+  placeholder: 'Seleccionar',
+  searchPlaceholder: 'Cercar',
+  checkAll: 'Tots'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Nou',
+  createOption: 'Crear opció "{0}"'
+};
+
+export default {
+  code: 'ca-ES',
+  common: {
+    loading: 'Carregant...',
+    emptyMessage: 'Sense dades',
+    remove: 'Eliminar',
+    clear: 'Netejar'
+  },
+  Plaintext: {
+    unfilled: 'Sense omplir',
+    notSelected: 'No seleccionat',
+    notUploaded: 'No pujat'
+  },
+  Pagination: {
+    more: 'Més',
+    prev: 'Anterior',
+    next: 'Següent',
+    first: 'Primer',
+    last: 'Últim',
+    limit: '{0} / pàgines',
+    total: 'Total: {0}',
+    skip: 'Anar{0}'
+  },
+  DateTimeFormats,
+  Calendar,
+  DatePicker,
+  DateRangePicker: {
+    ...DatePicker,
+    last7Days: 'Últims 7 dies'
+  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
+  Uploader: {
+    inited: 'Inicial',
+    progress: 'Pujant',
+    error: 'Error',
+    complete: 'Completat',
+    emptyFile: 'Buit',
+    upload: 'Pujar',
+    removeFile: 'Eliminar fitxer'
+  },
+  CloseButton: {
+    closeLabel: 'Tancar'
+  },
+  Breadcrumb: {
+    expandText: 'Mostrar ruta'
+  },
+  Carousel: {
+    carouselRoleDescription: 'carrusel',
+    slideRoleDescription: 'diapositiva',
+    slidePosition: '{0} de {1}',
+    startRotation: 'Inicia la rotació de diapositives',
+    stopRotation: 'Atura la rotació de diapositives',
+    selectSlide: 'Tria una diapositiva',
+    slideLabel: 'Diapositiva {0} de {1}'
+  },
+  Toggle: {
+    on: 'Encendre',
+    off: 'Apagar'
+  },
+  Dialog: {
+    alert: 'Alerta',
+    confirm: 'Confirmar',
+    ok: `D'acord`,
+    cancel: 'Cancel·lar'
+  }
+};

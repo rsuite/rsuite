@@ -1,8 +1,16 @@
-import React from 'react';
-import { Divider, Button, ButtonGroup, Placeholder } from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
+import { Divider, Button, ButtonGroup, Placeholder, HStack } from 'rsuite';
 
-import DefaultPage from '@/components/Page';
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['Divider']} />
+};
 
 export default function Page() {
-  return <DefaultPage dependencies={{ Divider, Button, ButtonGroup, Placeholder }} />;
+  return (
+    <DefaultPage
+      inDocsComponents={inDocsComponents}
+      dependencies={{ Divider, Button, ButtonGroup, Placeholder, HStack }}
+    />
+  );
 }

@@ -1,6 +1,7 @@
-import it from 'date-fns/locale/it';
+import type { CalendarLocaleLabels } from './types';
+import { it } from 'date-fns/locale/it';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Do',
   monday: 'Lu',
   tuesday: 'Ma',
@@ -11,6 +12,7 @@ const Calendar = {
   ok: 'OK',
   today: 'Oggi',
   yesterday: 'Ieri',
+  now: 'Adesso',
   hours: 'Ore',
   minutes: 'Minuti',
   seconds: 'Secondi',
@@ -20,13 +22,44 @@ const Calendar = {
    **/
   formattedMonthPattern: 'MMM yyyy',
   formattedDayPattern: 'dd MMM yyyy',
+  shortDateFormat: 'dd/MM/yyyy',
+  shortTimeFormat: 'HH:mm',
   dateLocale: it as any
 };
 
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Mese precedente',
+  nextMonth: 'Mese successivo',
+  selectMonth: 'Seleziona mese',
+  selectTime: 'Seleziona ora'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Apri selettore'
+};
+
+const Combobox = {
+  noResultsText: 'Nessun risultato trovato',
+  placeholder: 'Seleziona',
+  searchPlaceholder: 'Cerca',
+  checkAll: 'Tutti'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Nuovo elemento',
+  createOption: 'Crea opzione "{0}"'
+};
+
 export default {
+  code: 'it-IT',
   common: {
     loading: 'Caricamento in corso...',
-    emptyMessage: 'Nessun elemento trovato'
+    emptyMessage: 'Nessun elemento trovato',
+    remove: 'Rimuovi',
+    clear: 'Chiaro'
   },
   Plaintext: {
     unfilled: 'Vacanti',
@@ -43,31 +76,24 @@ export default {
     total: 'Totale: {0}',
     skip: 'Vai a{0}'
   },
+  DateTimeFormats,
   Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  DatePicker,
   DateRangePicker: {
-    ...Calendar,
+    ...DatePicker,
     last7Days: 'Ultimi 7 Giorni'
   },
-  Picker: {
-    noResultsText: 'Nessun risultato trovato',
-    placeholder: 'Seleziona',
-    searchPlaceholder: 'Cerca',
-    checkAll: 'Tutti'
-  },
-  InputPicker: {
-    newItem: 'Nuovo elemento',
-    createOption: 'Crea opzione "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Inizializzato',
     progress: 'Avanzamento',
     error: 'Errore',
     complete: 'Completato',
     emptyFile: 'Vuoto',
-    upload: 'Carica'
+    upload: 'Carica',
+    removeFile: 'Rimuovi file'
   },
   CloseButton: {
     closeLabel: 'spegnimento'
@@ -75,8 +101,23 @@ export default {
   Breadcrumb: {
     expandText: 'Mostra percorso'
   },
+  Carousel: {
+    carouselRoleDescription: 'carosello',
+    slideRoleDescription: 'diapositiva',
+    slidePosition: '{0} di {1}',
+    startRotation: 'Avvia la rotazione delle diapositive',
+    stopRotation: 'Interrompi la rotazione delle diapositive',
+    selectSlide: 'Scegli diapositiva',
+    slideLabel: 'Diapositiva {0} di {1}'
+  },
   Toggle: {
     on: 'Acceso',
     off: 'Spento'
+  },
+  Dialog: {
+    alert: 'Avviso',
+    confirm: 'Conferma',
+    ok: 'OK',
+    cancel: 'Annulla'
   }
 };

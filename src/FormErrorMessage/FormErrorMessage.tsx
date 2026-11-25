@@ -1,69 +1,57 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import kebabCase from 'lodash/kebabCase';
-import { placementPolyfill, useClassNames } from '../utils';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
+/* @jsxRuntime classic */
+import React, { useContext } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
+import { CustomContext } from '@/internals/Provider/CustomContext';
+import { useStyles, useCustom } from '@/internals/hooks';
+import { forwardRef, kebabPlace } from '@/internals/utils';
+import type { ErrorMessagePlacement } from '@/internals/types';
 
-export interface FormErrorMessageProps extends WithAsProps {
+export interface FormErrorMessageProps extends BoxProps {
   /** Show error messages */
   show?: boolean;
 
   /** The placement of error messages */
-  placement?: TypeAttributes.Placement8;
+  placement?: ErrorMessagePlacement;
 }
 
-const FormErrorMessage: RsRefForwardingComponent<'div', FormErrorMessageProps> = React.forwardRef(
-  (props: FormErrorMessageProps, ref: React.Ref<HTMLDivElement>) => {
-    const {
-      as: Component = 'div',
-      classPrefix = 'form-error-message',
-      className,
-      show,
-      children,
-      placement,
-      ...rest
-    } = props;
+/**
+ * The `<Form.ErrorMessage>` component is used to display error messages in the form.
+ * @see https://rsuitejs.com/components/form/
+ */
+const FormErrorMessage = forwardRef<'div', FormErrorMessageProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('FormErrorMessage', props);
+  const { reduceMotion } = useContext(CustomContext);
+  const {
+    as,
+    classPrefix = 'form-error-message',
+    className,
+    show,
+    children,
+    placement,
+    ...rest
+  } = propsWithDefaults;
 
-    const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-    const classes = withClassPrefix('show');
-    const wrapperClasses = merge(
-      className,
-      prefix('wrapper', {
-        [`placement-${kebabCase(placementPolyfill(placement))}`]: placement
-      })
-    );
+  const { withPrefix, prefix, merge } = useStyles(classPrefix);
+  const classes = withPrefix('show');
+  const wrapperClasses = merge(className, prefix('wrapper'));
 
-    if (!show) {
-      return null;
-    }
-
-    return (
-      <Component {...rest} ref={ref} className={wrapperClasses}>
-        <span className={classes}>
-          <span className={prefix`arrow`} />
-          <span className={prefix`inner`}>{children}</span>
-        </span>
-      </Component>
-    );
-  }
-);
+  return show ? (
+    <Box
+      as={as}
+      ref={ref}
+      data-placement={kebabPlace(placement)}
+      className={wrapperClasses}
+      {...rest}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
+    >
+      <span className={classes}>
+        <span className={prefix`arrow`} />
+        <span className={prefix`inner`}>{children}</span>
+      </span>
+    </Box>
+  ) : null;
+});
 
 FormErrorMessage.displayName = 'FormErrorMessage';
-FormErrorMessage.propTypes = {
-  show: PropTypes.bool,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  placement: PropTypes.oneOf([
-    'bottomStart',
-    'bottomEnd',
-    'topStart',
-    'topEnd',
-    'leftStart',
-    'rightStart',
-    'leftEnd',
-    'rightEnd'
-  ])
-};
 
 export default FormErrorMessage;

@@ -1,30 +1,61 @@
-import React from 'react';
+import Simulation from '@/components/Simulation';
+import DefaultPage from '@/components/layout/Page';
+import RemindFillIcon from '@rsuite/icons/RemindFill';
+import ImportGuide from '@/components/ImportGuide';
 import {
   ButtonToolbar,
   Button,
+  IconButton,
   Modal,
   Toggle,
-  RadioGroup,
-  Radio,
+  SegmentedControl,
   Loader,
-  Placeholder
+  PasswordInput,
+  PasswordStrengthMeter,
+  Placeholder,
+  Form,
+  Input,
+  SelectPicker,
+  Textarea,
+  HStack,
+  Text,
+  Box,
+  Image,
+  Link
 } from 'rsuite';
-import DefaultPage from '@/components/Page';
-import RemindIcon from '@rsuite/icons/legacy/Remind';
+import CloseIcon from '@rsuite/icons/Close';
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['Modal']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="modal" />
+};
 
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         Loader,
         ButtonToolbar,
         Button,
+        IconButton,
         Modal,
         Toggle,
-        RadioGroup,
-        Radio,
-        RemindIcon,
-        Placeholder
+        SegmentedControl,
+        Form,
+        Input,
+        HStack,
+        Text,
+        Link,
+        Box,
+        Image,
+        Textarea,
+        SelectPicker,
+        RemindFillIcon,
+        PasswordInput,
+        PasswordStrengthMeter,
+        Placeholder,
+        CloseIcon
       }}
     />
   );

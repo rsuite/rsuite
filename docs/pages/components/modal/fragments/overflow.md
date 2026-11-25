@@ -10,8 +10,9 @@ const App = () => {
 
   return (
     <>
-      <span>Overflow </span>
-      <Toggle checked={overflow} onChange={checked => setOverflow(checked)} />
+      <Toggle checked={overflow} onChange={checked => setOverflow(checked)}>
+        Overflow
+      </Toggle>
       <hr />
       <ButtonToolbar>
         <Button onClick={handleOpen}>Open</Button>
@@ -25,11 +26,11 @@ const App = () => {
           <Placeholder.Paragraph rows={80} />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleClose} appearance="primary">
-            Ok
-          </Button>
           <Button onClick={handleClose} appearance="subtle">
             Cancel
+          </Button>
+          <Button onClick={handleClose} appearance="primary">
+            Ok
           </Button>
         </Modal.Footer>
       </Modal>

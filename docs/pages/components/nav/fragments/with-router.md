@@ -4,27 +4,18 @@
 import { Nav } from 'rsuite';
 import Link from 'next/link';
 
-const NavLink = React.forwardRef((props, ref) => {
-  const { href, as, ...rest } = props;
-  return (
-    <Link href={href} as={as}>
-      <a ref={ref} {...rest} />
-    </Link>
-  );
-});
-
 const App = () => (
   <Nav>
-    <Nav.Item as={NavLink} href="/">
+    <Nav.Item as={Link} href="/">
       Home
     </Nav.Item>
-    <Nav.Item as={NavLink} href="/guide/introduction">
+    <Nav.Item as={Link} href="/guide/introduction">
       Guide
     </Nav.Item>
-    <Nav.Item as={NavLink} href="/components/overview">
+    <Nav.Item as={Link} href="/components/overview">
       Components
     </Nav.Item>
-    <Nav.Item as={NavLink} href="/resources/palette">
+    <Nav.Item as={Link} href="/resources/palette">
       Resources
     </Nav.Item>
   </Nav>

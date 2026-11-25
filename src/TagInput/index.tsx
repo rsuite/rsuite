@@ -1,49 +1,8 @@
-import React, { useMemo } from 'react';
-import InputPicker, {
-  InputPickerProps,
-  InputPickerContext,
-  TriggerType
-} from '../InputPicker/InputPicker';
-import type { PickerComponent } from '../Picker/types';
-import type { TagProps } from '../Tag';
+import TagInput from './TagInput';
 
-export interface TagInputProps extends InputPickerProps {
-  /**  Tag related props. */
-  tagProps?: TagProps;
+// export types
+export type { TagInputProps } from './TagInput';
 
-  /**
-   * Set the trigger for creating tags. only valid when creatable
-   */
-  trigger: TriggerType | TriggerType[];
-}
-
-const TagInput: PickerComponent<TagInputProps> = React.forwardRef((props: TagInputProps, ref) => {
-  const { tagProps = {}, trigger = 'Enter', value, defaultValue, ...rest } = props;
-  const contextValue = useMemo(
-    () => ({ multi: true, disabledOptions: true, trigger, tagProps }),
-    [tagProps, trigger]
-  );
-
-  const data = useMemo(
-    () => (value || defaultValue || []).map(v => ({ value: v, label: v })),
-    [defaultValue, value]
-  );
-
-  return (
-    <InputPickerContext.Provider value={contextValue}>
-      <InputPicker
-        {...rest}
-        value={value}
-        defaultValue={defaultValue}
-        data={data}
-        placement={undefined}
-        creatable
-        ref={ref}
-      />
-    </InputPickerContext.Provider>
-  );
-});
-
-TagInput.displayName = 'TagInput';
-
+// export components
+export { TagInput };
 export default TagInput;

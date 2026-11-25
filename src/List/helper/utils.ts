@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { Offset } from '../../@types/common';
+import { Offset } from '@/internals/types';
 
 export interface Axis {
   x: number;
@@ -71,10 +71,19 @@ export function getEdgeOffset(
 }
 
 export function getScrollingParent(el: HTMLElement) {
-  return closestNode(el, el => {
-    const computedStyle = window.getComputedStyle(el);
-    const overflowRegex = /(auto|scroll)/;
-    const properties = ['overflow', 'overflowX', 'overflowY'];
-    return properties.some(property => overflowRegex.test(computedStyle[property]));
-  });
+  if (!el || typeof window === 'undefined' || !window.getComputedStyle) {
+    return null;
+  }
+
+  try {
+    return closestNode(el, el => {
+      const computedStyle = window.getComputedStyle(el);
+      const overflowRegex = /(auto|scroll)/;
+      const properties = ['overflow', 'overflowX', 'overflowY'];
+      return properties.some(property => overflowRegex.test(computedStyle[property]));
+    });
+  } catch {
+    // In test environments, errors may occur, so return null
+    return null;
+  }
 }

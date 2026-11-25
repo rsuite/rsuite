@@ -1,14 +1,15 @@
 # Dropdown 下拉菜单
 
-下拉菜单是一种导航，如果需要选择值请使用 SelectPicker。
-
-- `<Dropdown>` 下拉菜单。
-- `<Dropdown.Item>` 下拉菜单选项。
-- `<Dropdown.Menu>` 下拉菜单中创建子菜单。
+用于创建一个易于访问的下拉菜单，为用户提供多个选项以供选择
 
 ## 获取组件
 
-<!--{include:(components/dropdown/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `Dropdown` 下拉菜单。
+- `Dropdown.Item` 下拉菜单选项。
+- `Dropdown.Menu` 下拉菜单中创建子菜单。
+- `Dropdown.Separator` 下拉菜单中的分割线。
 
 ## 演示
 
@@ -24,40 +25,38 @@
 - `hover`
 - `contextMenu`
 
-> 同时支持多个事件 `Array<click, hover, contextMenu>`
-
 <!--{include:`trigger.md`}-->
 
-### 选项激活状态
-
-<!--{include:`active.md`}-->
-
-### 禁用状态
-
-可以禁用整个组件，也可以禁用单个选项，只需配置 `disabled` 属性。
+### 禁用
 
 <!--{include:`disabled.md`}-->
 
-### 继承按钮属性
+### 尺寸
 
-`Dropdown` 的 `toggleAs` 属性默认值为是 `Button`, 可以设置按钮相关的属性（例如: size, appearance）, 以按钮的样式展示。
-
-<!--{include:`toggle-as.md`}-->
+<!--{include:`size.md`}-->
 
 ### 没有箭头图标
 
 <!--{include:`no-caret.md`}-->
 
+### 带快捷键
+
+<!--{include:`shortcut.md`}-->
+
 ### 带图标的
 
 <!--{include:`icons.md`}-->
 
+### 带描述
+
+<!--{include:`description.md`}-->
+
 ### 分割线与面板
 
-- `divider` 设置分割选项。
-- `panel` 设置一个面板。
+- 使用 `<Dropdown.Separator>` 设置分割线。
+- 使用 `panel` 属性将一个 `Dropdown.Item` 设置为一个面板。
 
-<!--{include:`divider.md`}-->
+<!--{include:`custom.md`}-->
 
 ### 菜单位置
 
@@ -67,27 +66,19 @@
 
 <!--{include:`submenu.md`}-->
 
-### 菜单项
-
-<!--{include:`menu-items.md`}-->
-
 ### 自定义 Toggle
 
 <!--{include:`custom-toggle.md`}-->
-
-### 与 Popover 组合使用
-
-<!--{include:`with-popover.md`}-->
 
 ### 与按钮组合使用
 
 <!--{include:`buttons.md`}-->
 
-### 与 `next/link` 组合
+### 路由
+
+`Dropdown.Item` 组件可通过 `as` 属性与其他路由库（如 Next.js、React Router）结合使用。详见[组合指南](/zh/guide/composition/#code-react-router-dom-code)。
 
 <!--{include:`with-router.md`}-->
-
-> [与 React Router 中的 Link 组合](/zh/guide/composition/#react-router-dom)
 
 ## Props
 
@@ -97,10 +88,11 @@
 | --------------- | ------------------------------------------------------ | ------------------------------------------------ |
 | activeKey       | string                                                 | 激活状态的选项，对应 Dropdown.Item 中的 eventKey |
 | classPrefix     | string `('dropdown')`                                  | 组件 CSS 类的前缀                                |
-| defaultOpen     | boolean `(false)`                                      | 菜单是否初始开启                                 |
+| defaultOpen     | boolean                                                | 菜单是否初始开启                                 |
 | disabled        | boolean                                                | 禁用组件                                         |
 | icon            | Element&lt;typeof Icon&gt;                             | 设置图标                                         |
 | menuStyle       | CSSProperties                                          | 菜单样式                                         |
+| noCaret         | boolean                                                | 不展示箭头 icon                                  |
 | onClose         | () => void                                             | 菜单关闭的回调函数                               |
 | onOpen          | () => void                                             | 菜单弹出的回调函数                               |
 | onSelect        | (eventKey: string, event) => void                      | 选择后的回调函数                                 |
@@ -115,18 +107,19 @@
 
 ### `<Dropdown.Item>`
 
-| 属性名称    | 类型 `(默认值)`                | 描述                   |
-| ----------- | ------------------------------ | ---------------------- |
-| active      | boolean                        | 选中当前选项           |
-| as          | ElementType `('a')`            | 为组件自定义元素类型   |
-| children \* | ReactNode                      | 组件内容               |
-| classPrefix | string `('dropdown-item')`     | 组件 CSS 类的前缀      |
-| disabled    | boolean                        | 禁用当前选项           |
-| divider     | boolean                        | 显示为分割线           |
-| eventKey    | string                         | 当前选项的值           |
-| icon        | Element&lt;typeof Icon&gt;     | 设置图标               |
-| onSelect    | (eventKey: any, event) => void | 选中当前选项的回调函数 |
-| panel       | boolean                        | 显示一个自定义的面板   |
+| 属性名称    | 类型 `(默认值)`                | 描述                   | 版本        |
+| ----------- | ------------------------------ | ---------------------- | ----------- |
+| active      | boolean                        | 选中当前选项           |             |
+| as          | ElementType `('li')`           | 为组件自定义元素类型   |             |
+| children \* | ReactNode                      | 组件内容               |             |
+| classPrefix | string `('dropdown-item')`     | 组件 CSS 类的前缀      |             |
+| disabled    | boolean                        | 禁用当前选项           |             |
+| divider     | boolean                        | 显示为分割线           |             |
+| eventKey    | string                         | 当前选项的值           |             |
+| icon        | Element&lt;typeof Icon&gt;     | 设置图标               |             |
+| onSelect    | (eventKey: any, event) => void | 选中当前选项的回调函数 |             |
+| panel       | boolean                        | 显示一个自定义的面板   |             |
+| shortcut    | string                         | 下拉菜单项的键盘快捷键 | ![][5.58.0] |
 
 ### `<Dropdown.Menu>`
 
@@ -134,6 +127,12 @@
 | -------- | -------------------------- | ------------------ |
 | icon     | Element&lt;typeof Icon&gt; | 设置图标           |
 | title    | string                     | 作为子菜单定义标题 |
+
+### `<Dropdown.Separator>`
+
+| 属性名称 | 类型                 | 描述                 |
+| -------- | -------------------- | -------------------- |
+| as       | ElementType `('li')` | 为组件自定义元素类型 |
 
 <!--{include:(_common/types/placement8.md)}-->
 <!--{include:(_common/types/trigger.md)}-->

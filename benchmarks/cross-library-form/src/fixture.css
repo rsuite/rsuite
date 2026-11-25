@@ -1,0 +1,64 @@
+:root {
+  font-family: Arial, sans-serif;
+  color: #202020;
+  background: #fff;
+}
+body {
+  margin: 0;
+}
+.bench-host {
+  margin: 32px;
+  max-width: 480px;
+}
+.bench-host h1 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+.bench-field {
+  margin-bottom: 12px;
+}
+.bench-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+.bench-toggle {
+  display: block;
+  margin: 16px 0;
+}
+.bench-host button {
+  cursor: pointer;
+  padding: 6px 10px;
+  border: 1px solid #777;
+  border-radius: 4px;
+}
+.bench-host [data-contact-row] {
+  margin: 12px 0;
+}
+
+@media (max-width: 544px) {
+  .bench-host {
+    margin: 16px;
+  }
+
+  .bench-host [data-form-field] input,
+  .bench-host button,
+  .bench-toggle {
+    min-block-size: 44px;
+    min-inline-size: 44px;
+  }
+
+  .bench-host [data-form-field] input {
+    font-size: 16px;
+  }
+
+  .bench-toggle {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .bench-actions {
+    flex-wrap: wrap;
+  }
+}

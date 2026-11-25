@@ -1,0 +1,5 @@
+@mixin checkbox-inner-wrap($border-color) {
+  border: 1px solid $border-color;
+  background-color: transparent;
+  border-radius: var(--rs-radius-sm);
+}

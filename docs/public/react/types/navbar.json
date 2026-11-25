@@ -1,0 +1,127 @@
+{
+  "Navbar": {
+    "props": {
+      "appearance": {
+        "type": "'default' | 'inverse' | 'subtle'",
+        "isRequired": false,
+        "description": "Navigation bar appearance",
+        "defaultValue": "default"
+      },
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type",
+        "defaultValue": "nav"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "navbar"
+      },
+      "drawerOpen": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Control the open state of the drawer menu<br/> ![][6.0.0]"
+      },
+      "onDrawerOpenChange": {
+        "type": "(open: boolean) => void",
+        "isRequired": false,
+        "description": "Callback when drawer menu opens or closes<br/> ![][6.0.0]"
+      }
+    }
+  },
+  "Navbar.Brand": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type",
+        "defaultValue": "a"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Brand content"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the CSS class",
+        "defaultValue": "navbar-brand"
+      },
+      "href": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The URL of the brand link"
+      }
+    }
+  },
+  "Navbar.Content": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type",
+        "defaultValue": "div"
+      },
+      "children": {
+        "type": "ReactNode | (({ onClose }: { onClose: () => void }) => ReactNode)",
+        "isRequired": false,
+        "description": "Content or render function with onClose callback"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the CSS class",
+        "defaultValue": "navbar-content"
+      },
+      "hideFrom": {
+        "type": "[Breakpoints][breakpoints]",
+        "isRequired": false,
+        "description": "Hide content at specified breakpoint"
+      },
+      "showFrom": {
+        "type": "[Breakpoints][breakpoints]",
+        "isRequired": false,
+        "description": "Show content at specified breakpoint"
+      }
+    }
+  },
+  "Navbar.Toggle": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "Custom element type",
+        "defaultValue": "button"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the CSS class",
+        "defaultValue": "burger"
+      },
+      "color": {
+        "type": "[Color][Color] | CSSProperties['color']",
+        "isRequired": false,
+        "description": "The color of the burger lines"
+      },
+      "lineThickness": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The thickness of the burger lines"
+      },
+      "onToggle": {
+        "type": "(open: boolean) => void",
+        "isRequired": false,
+        "description": "Callback function that is called when the toggle is clicked"
+      },
+      "open": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the burger is in open (X) state"
+      }
+    }
+  }
+}

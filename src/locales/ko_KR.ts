@@ -1,6 +1,7 @@
-import ko from 'date-fns/locale/ko';
+import type { CalendarLocaleLabels } from './types';
+import { ko } from 'date-fns/locale/ko';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: '일',
   monday: '월',
   tuesday: '화',
@@ -11,6 +12,7 @@ const Calendar = {
   ok: '승인',
   today: '오늘',
   yesterday: '어제',
+  now: '지금',
   hours: '시간',
   minutes: '분',
   seconds: '초',
@@ -20,12 +22,44 @@ const Calendar = {
    **/
   formattedMonthPattern: 'yyyy 년 MM 월',
   formattedDayPattern: 'yyyy 년 MM 월 dd 일',
+  shortDateFormat: 'yyyy.MM.dd',
+  shortTimeFormat: 'HH:mm',
   dateLocale: ko as any
 };
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: '이전 달',
+  nextMonth: '다음 달',
+  selectMonth: '월 선택',
+  selectTime: '시간 선택'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: '선택기 열기'
+};
+
+const Combobox = {
+  noResultsText: '일치하지 않습니다',
+  placeholder: '고르십시오',
+  searchPlaceholder: '검색',
+  checkAll: '모두'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: '새 옵션',
+  createOption: '+새 옵션 "{0}"'
+};
+
 export default {
+  code: 'ko-KR',
   common: {
     loading: '로딩...',
-    emptyMessage: '데이터가 없습니다'
+    emptyMessage: '데이터가 없습니다',
+    remove: '제거하다',
+    clear: '분명한'
   },
   Plaintext: {
     unfilled: '채워지지 않은',
@@ -42,31 +76,24 @@ export default {
     total: '전체 {0} 개',
     skip: '이동{0}'
   },
+  DateTimeFormats,
   Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  DatePicker,
   DateRangePicker: {
-    ...Calendar,
+    ...DatePicker,
     last7Days: '지난 7 일'
   },
-  Picker: {
-    noResultsText: '일치하지 않습니다',
-    placeholder: '고르십시오',
-    searchPlaceholder: '검색',
-    checkAll: '모두'
-  },
-  InputPicker: {
-    newItem: '새 옵션',
-    createOption: '+새 옵션 "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: '머리 글자',
     progress: '업로드 중',
     error: '오류',
     complete: '끝마친',
     emptyFile: '빈',
-    upload: '업로드'
+    upload: '업로드',
+    removeFile: '파일 삭제'
   },
   CloseButton: {
     closeLabel: '종료'
@@ -74,8 +101,23 @@ export default {
   Breadcrumb: {
     expandText: '경로 표시'
   },
+  Carousel: {
+    carouselRoleDescription: '캐러셀',
+    slideRoleDescription: '슬라이드',
+    slidePosition: '{1}개 중 {0}번째',
+    startRotation: '슬라이드 자동 재생 시작',
+    stopRotation: '슬라이드 자동 재생 중지',
+    selectSlide: '슬라이드 선택',
+    slideLabel: '전체 {1}개 중 {0}번째 슬라이드'
+  },
   Toggle: {
     on: '켜기',
     off: '끄기'
+  },
+  Dialog: {
+    alert: '경고',
+    confirm: '확인',
+    ok: '확인',
+    cancel: '취소'
   }
 };

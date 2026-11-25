@@ -1,7 +1,11 @@
-import PropTypes from 'prop-types';
+import getLegacyTransitionEnd from 'dom-lib/getTransitionEnd';
 
 export function getAnimationEnd() {
   const style = document.createElement('div').style;
+  if ('animation' in style) {
+    return 'animationend';
+  }
+
   if ('webkitAnimation' in style) {
     return 'webkitAnimationEnd';
   }
@@ -9,11 +13,11 @@ export function getAnimationEnd() {
   return 'animationend';
 }
 
-export const animationPropTypes = {
-  onEnter: PropTypes.func,
-  onEntering: PropTypes.func,
-  onEntered: PropTypes.func,
-  onExit: PropTypes.func,
-  onExiting: PropTypes.func,
-  onExited: PropTypes.func
-};
+export function getTransitionEnd() {
+  const style = document.createElement('div').style;
+  if ('transition' in style) {
+    return 'transitionend';
+  }
+
+  return getLegacyTransitionEnd();
+}

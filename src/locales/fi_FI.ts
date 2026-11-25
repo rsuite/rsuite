@@ -1,6 +1,7 @@
-import fi from 'date-fns/locale/fi';
+import type { CalendarLocaleLabels } from './types';
+import { fi } from 'date-fns/locale/fi';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Su',
   monday: 'Ma',
   tuesday: 'Ti',
@@ -11,6 +12,7 @@ const Calendar = {
   ok: 'OK',
   today: 'Tänään',
   yesterday: 'Eilen',
+  now: 'Nyt',
   hours: 'Tunnit',
   minutes: 'Minuuttia',
   seconds: 'Sekunttia',
@@ -20,13 +22,44 @@ const Calendar = {
    **/
   formattedMonthPattern: 'MMM yyyy',
   formattedDayPattern: 'dd MMM yyyy',
+  shortDateFormat: 'dd.MM.yyyy',
+  shortTimeFormat: 'HH.mm',
   dateLocale: fi as any
 };
 
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Edellinen kuukausi',
+  nextMonth: 'Seuraava kuukausi',
+  selectMonth: 'Valitse kuukausi',
+  selectTime: 'Valitse aika'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Avaa valitsin'
+};
+
+const Combobox = {
+  noResultsText: 'Ei tuloksia',
+  placeholder: 'Valitse',
+  searchPlaceholder: 'Etsi',
+  checkAll: 'Kaikki'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Uusi nimike',
+  createOption: 'Luo vaihtoehto "{0}"'
+};
+
 export default {
+  code: 'fi-FI',
   common: {
     loading: 'Hetkinen...',
-    emptyMessage: 'Dataa ei löytynyt'
+    emptyMessage: 'Dataa ei löytynyt',
+    remove: 'Poista',
+    clear: 'Asia selvä'
   },
   Plaintext: {
     unfilled: 'täyttämättömät',
@@ -43,35 +76,24 @@ export default {
     total: 'yhteensä: {0}',
     skip: 'Mene{0}'
   },
+  DateTimeFormats,
   Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  DatePicker,
   DateRangePicker: {
-    ...Calendar,
+    ...DatePicker,
     last7Days: 'Viimeiset 7 päivää'
   },
-  Picker: {
-    noResultsText: 'Ei tuloksia',
-    placeholder: 'Valitse',
-    searchPlaceholder: 'Etsi',
-    checkAll: 'Kaikki',
-    loading: 'Hetkinen...'
-  },
-  Input: {
-    emptyPlaintext: 'täyttämättömät'
-  },
-  InputPicker: {
-    newItem: 'Uusi nimike',
-    createOption: 'Luo vaihtoehto "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Ensimmäinen',
     progress: 'Lataa',
     error: 'Virhe',
     complete: 'Valmis',
     emptyFile: 'Tyhjä',
-    upload: 'Lataa'
+    upload: 'Lataa',
+    removeFile: 'Poista tiedosto'
   },
   CloseButton: {
     closeLabel: 'Sammuttaa'
@@ -79,8 +101,23 @@ export default {
   Breadcrumb: {
     expandText: 'Näytä polku'
   },
+  Carousel: {
+    carouselRoleDescription: 'karuselli',
+    slideRoleDescription: 'dia',
+    slidePosition: '{0}/{1}',
+    startRotation: 'Aloita diojen automaattinen vaihto',
+    stopRotation: 'Pysäytä diojen automaattinen vaihto',
+    selectSlide: 'Valitse dia',
+    slideLabel: 'Dia {0}/{1}'
+  },
   Toggle: {
     on: 'Päällä',
     off: 'Pois päältä'
+  },
+  Dialog: {
+    alert: 'Varoitus',
+    confirm: 'Vahvista',
+    ok: 'OK',
+    cancel: 'Peruuta'
   }
 };

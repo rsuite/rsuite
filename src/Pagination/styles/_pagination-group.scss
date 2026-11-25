@@ -1,0 +1,52 @@
+@use '../../internals/Box/styles/index' as box;
+
+.rs-pagination-group {
+  --rs-pagination-font-size-xs: var(--rs-font-size-xs);
+  --rs-pagination-font-size-sm: var(--rs-font-size-sm);
+  --rs-pagination-font-size-md: var(--rs-font-size-sm);
+  --rs-pagination-font-size-lg: var(--rs-font-size-md);
+  --rs-pagination-group-gap: calc(var(--rs-spacing) * 2.5);
+
+  display: flex;
+  align-items: center;
+  gap: var(--rs-pagination-group-gap);
+
+  &-total,
+  &-skip {
+    font-size: var(--rs-pagination-font-size-md);
+  }
+
+  $sizes: (xs, sm, md, lg);
+
+  @each $size in $sizes {
+    &[data-size='#{$size}'] {
+      .rs-pagination-group-total,
+      .rs-pagination-group-skip {
+        font-size: var(--rs-pagination-font-size-#{$size});
+      }
+    }
+  }
+
+  &-grow {
+    flex-grow: 1;
+  }
+
+  .rs-pagination {
+    vertical-align: middle;
+  }
+
+  &-limit {
+    position: relative;
+  }
+
+  &-skip {
+    vertical-align: middle;
+    display: inline-block;
+
+    .rs-input {
+      width: 46px;
+      margin: 0 5px;
+      display: inline-block;
+    }
+  }
+}

@@ -1,26 +1,50 @@
-# see https://help.github.com/cn/actions/language-and-framework-guides/publishing-nodejs-packages
+# see https://docs.github.com/zh/actions/publishing-packages/publishing-nodejs-packages#publishing-packages-to-the-npm-registry
 
-name: Node.js Package
+name: Publish Package to npmjs
 
 on:
   push:
     tags: ['*']
+
+permissions:
+  contents: read
+  id-token: write
 
 jobs:
   publish:
     name: 'Publish'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v4
         with:
-          node-version: '12.x'
+          node-version: '24.x'
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
-        run: npm install
+        run: npm i --legacy-peer-deps
       - name: Build
         run: npm run build
-      - run: npm publish lib
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Resolve npm dist-tag
+        id: npm-dist-tag
+        shell: bash
+        run: |
+          VERSION=$(node -p "require('./lib/package.json').version")
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+
+          if [ "$VERSION" != "$TAG_VERSION" ]; then
+            echo "::error::Git tag $GITHUB_REF_NAME does not match package version $VERSION"
+            exit 1
+          fi
+
+          case "$VERSION" in
+            *-canary|*-canary.*|*-canary-*) DIST_TAG=canary ;;
+            *-*) DIST_TAG=next ;;
+            *) DIST_TAG=latest ;;
+          esac
+
+          echo "tag=$DIST_TAG" >> "$GITHUB_OUTPUT"
+          echo "Publishing rsuite@$VERSION with dist-tag $DIST_TAG"
+      - name: Publish
+        working-directory: ./lib
+        run: npm publish --tag "${{ steps.npm-dist-tag.outputs.tag }}" --access public --provenance

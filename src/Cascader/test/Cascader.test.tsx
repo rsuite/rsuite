@@ -1,6 +1,6 @@
 import React from 'react';
 import { expectType } from 'ts-expect';
-import { PickerHandle } from '../../Picker';
+import { PickerHandle } from '@/internals/Picker';
 import Cascader from '../Cascader';
 
 // Infer value and onChange types from data
@@ -28,6 +28,24 @@ const stringValuedData = [{ label: 'One', value: 'One' }];
   }}
 />;
 
+// Check ref type
+const ref = React.useRef<PickerHandle>(null);
+<Cascader data={[]} ref={ref} />;
+ref.current?.open?.();
 const pickerRef = React.createRef<PickerHandle>();
 
 <Cascader ref={pickerRef} data={[]} />;
+
+interface Item<T> {
+  label?: React.ReactNode;
+  value?: T;
+}
+
+// Check renderValue
+<Cascader
+  data={[]}
+  renderValue={(value: string, selectedPaths: Item<string>[]) => {
+    console.log(value, selectedPaths);
+    return selectedPaths.map(item => item.label).join(' / ');
+  }}
+/>;

@@ -8,7 +8,7 @@ const data = mockTreeData({
   limits: [3, 3, 4],
   labels: (layer, value, faker) => {
     const methodName = ['jobArea', 'jobType', 'firstName'];
-    return faker.name[methodName[layer]]();
+    return faker.person[methodName[layer]]();
   }
 });
 
@@ -23,15 +23,11 @@ const App = () => {
 
   return (
     <div>
-      Cascade: <Toggle checked={cascade} onChange={handleToggle} />
+      <Toggle checked={cascade} onChange={handleToggle}>
+        Cascade
+      </Toggle>
       <hr />
-      <MultiCascader
-        style={{ width: 280 }}
-        data={data}
-        value={value}
-        cascade={cascade}
-        onChange={setValue}
-      />
+      <MultiCascader w={280} data={data} value={value} cascade={cascade} onChange={setValue} />
     </div>
   );
 };

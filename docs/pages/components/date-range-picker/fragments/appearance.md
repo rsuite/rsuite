@@ -5,9 +5,9 @@ import { DateRangePicker } from 'rsuite';
 
 const App = () => (
   <>
-    <DateRangePicker appearance="default" placeholder="Default" style={{ width: 230 }} />
+    <DateRangePicker appearance="default" placeholder="Default" w={230} />
     <hr />
-    <DateRangePicker appearance="subtle" placeholder="Subtle" style={{ width: 230 }} />
+    <DateRangePicker appearance="subtle" placeholder="Subtle" w={230} />
   </>
 );
 ReactDOM.render(<App />, document.getElementById('root'));

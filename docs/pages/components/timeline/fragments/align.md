@@ -1,29 +1,29 @@
 <!--start-code-->
 
 ```js
-import { Timeline, Grid, Row, Col } from 'rsuite';
+import { Timeline, Grid, Row, Col, Text } from 'rsuite';
 
 const AlignTimeline = ({ align }) => (
   <Timeline align={align}>
     <Timeline.Item>
-      <p>2018-03-01</p>
-      <p>Your order starts processing</p>
+      <Text>2018-03-01</Text>
+      <Text>Your order starts processing</Text>
     </Timeline.Item>
     <Timeline.Item>
-      <p>2018-03-02</p>
-      <p>Order out of stock</p>
+      <Text>2018-03-02</Text>
+      <Text>Order out of stock</Text>
     </Timeline.Item>
     <Timeline.Item>
-      <p>2018-03-10</p>
-      <p>Arrival</p>
+      <Text>2018-03-10</Text>
+      <Text>Arrival</Text>
     </Timeline.Item>
     <Timeline.Item>
-      <p>2018-03-12</p>
-      <p>Order out of the library</p>
+      <Text>2018-03-12</Text>
+      <Text>Order out of the library</Text>
     </Timeline.Item>
     <Timeline.Item>
-      <p>2018-03-15</p>
-      <p>Sending you a piece</p>
+      <Text>2018-03-15</Text>
+      <Text>Sending you a piece</Text>
     </Timeline.Item>
   </Timeline>
 );

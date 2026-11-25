@@ -1,114 +1,167 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import Calendar from './CalendarContainer';
-import { CalendarLocale } from '../locales';
+import React from 'react';
+import CalendarContainer from './CalendarContainer';
 import Button from '../Button';
-import { FormattedDate } from '../CustomProvider';
-import { useClassNames, useCustom } from '../utils';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import useCalendarDate from './useCalendarDate';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef } from '@/internals/utils';
+import { isSameMonth, startOfDay } from '@/internals/utils/date';
+import { FormattedDate } from '@/internals/intl/FormattedDate';
+import { useStyles, useCustom, useEventCallback } from '@/internals/hooks';
+import { useCalendarDate } from './hooks';
+import type { CalendarLocale } from '../locales';
+import type { MonthDropdownProps } from './types';
 
-export interface CalendarProps extends WithAsProps {
-  /** Controlled value */
+export interface CalendarProps extends BoxProps {
+  /**
+   * Controlled value
+   */
   value?: Date;
 
-  /** Default value  */
+  /**
+   * Default value
+   */
   defaultValue?: Date;
 
-  /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day  */
+  /**
+   * ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day
+   *
+   * @see https://en.wikipedia.org/wiki/ISO_week_date
+   */
   isoWeek?: boolean;
 
-  /** Display a compact calendar   */
+  /**
+   * Display a compact calendar
+   */
   compact?: boolean;
 
-  /** Show border   */
+  /**
+   * Show border
+   */
   bordered?: boolean;
 
-  /** Custom locale */
+  /**
+   * Custom locale object
+   *
+   * @see https://rsuitejs.com/guide/i18n/#calendar
+   */
   locale?: CalendarLocale;
 
-  /**  Callback fired before the value changed  */
+  /**
+   * The index of the first day of the week (0 - Sunday)
+   * If `isoWeek` is `true`, the value of `weekStart` is ignored.
+   *
+   * @default 0
+   */
+  weekStart?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
+  /**
+   * The props for the Month Dropdown component.
+   */
+  monthDropdownProps?: MonthDropdownProps;
+
+  /**
+   * Callback fired before the value changed
+   */
   onChange?: (date: Date) => void;
 
-  /** Callback fired before the date selected */
+  /**
+   * Callback fired before the month changed
+   * @todo-Doma Change signature to `onMonthChange(year: number, month: number, reason: string)`?
+   */
+  onMonthChange?: (date: Date) => void;
+
+  /**
+   * Callback fired before the date selected
+   */
   onSelect?: (date: Date) => void;
 
-  /** Custom render calendar cells  */
+  /**
+   * Custom render calendar cells
+   */
   renderCell?: (date: Date) => React.ReactNode;
+
+  /**
+   * Custom cell classes base on it's date
+   */
+  cellClassName?: (date: Date) => string | undefined;
 }
 
-const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarProps> = React.forwardRef(
+/**
+ * The Calendar component is used to select dates.
+ * @see https://rsuitejs.com/components/calendar
+ */
+const Calendar = forwardRef<typeof CalendarContainer, CalendarProps>(
   (props: CalendarProps, ref) => {
+    const { propsWithDefaults } = useCustom('Calendar', props);
     const {
-      as: Component = Calendar,
+      as = CalendarContainer,
       bordered,
       className,
       classPrefix = 'calendar',
       compact,
-      defaultValue = new Date(),
+      defaultValue = startOfDay(new Date()),
       isoWeek,
-      locale: overrideLocale,
+      weekStart,
+      locale,
+      cellClassName,
       onChange,
+      onMonthChange,
       onSelect,
       renderCell,
       value,
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
     const { calendarDate, setCalendarDate } = useCalendarDate(value, defaultValue);
-    const { locale } = useCustom('Calendar', overrideLocale);
 
-    const handleChange = useCallback(
-      (nextValue: Date) => {
-        setCalendarDate(nextValue);
-        onChange?.(nextValue);
-      },
-      [setCalendarDate, onChange]
-    );
+    const handleChange = useEventCallback((nextValue: Date) => {
+      setCalendarDate(nextValue);
+      onChange?.(nextValue);
 
-    const handleClickToday = useCallback(() => {
+      if (!isSameMonth(nextValue, calendarDate)) {
+        onMonthChange?.(nextValue);
+      }
+    });
+
+    const handleClickToday = useEventCallback(() => {
       handleChange(new Date());
-    }, [handleChange]);
+    });
 
-    const handleSelect = useCallback(
-      (nextValue: Date) => {
-        onSelect?.(nextValue);
-        handleChange(nextValue);
-      },
-      [handleChange, onSelect]
+    const handleSelect = useEventCallback((nextValue: Date) => {
+      onSelect?.(nextValue);
+      handleChange(nextValue);
+    });
+
+    const { prefix, merge } = useStyles(classPrefix);
+
+    const renderToolbar = () => (
+      <Button className={prefix('btn-today')} size="sm" onClick={handleClickToday}>
+        {locale?.today || 'Today'}
+      </Button>
     );
 
-    const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
-
-    const renderToolbar = useCallback(
-      () => (
-        <Button className={prefix('btn-today')} size="sm" onClick={handleClickToday}>
-          {locale.today || 'Today'}
-        </Button>
-      ),
-      [handleClickToday, locale.today, prefix]
+    const renderTitle = (date: Date) => (
+      <FormattedDate date={date} formatStr={locale?.formattedMonthPattern || 'MMMM  yyyy'} />
     );
 
-    const customRenderCell = useCallback((date: Date) => renderCell?.(date), [renderCell]);
-
-    const classes = merge(className, withClassPrefix('panel', { bordered, compact }));
+    const classes = merge(className, prefix('panel', { bordered, compact }));
 
     return (
-      <Component
+      <Box
         {...rest}
+        as={as}
         inline
         className={classes}
         ref={ref}
         isoWeek={isoWeek}
+        weekStart={weekStart}
         format="yyyy-MM-dd"
         calendarDate={calendarDate}
         limitEndYear={1000}
         locale={locale}
-        renderTitle={date => (
-          <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
-        )}
+        renderTitle={renderTitle}
         renderToolbar={renderToolbar}
-        renderCell={customRenderCell}
+        renderCell={renderCell}
+        cellClassName={cellClassName}
         onMoveForward={handleChange}
         onMoveBackward={handleChange}
         onChangeMonth={handleChange}
@@ -118,19 +171,6 @@ const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarProps> = 
   }
 );
 
-CalendarPanel.displayName = 'CalendarPanel';
-CalendarPanel.propTypes = {
-  value: PropTypes.instanceOf(Date),
-  defaultValue: PropTypes.instanceOf(Date),
-  isoWeek: PropTypes.bool,
-  compact: PropTypes.bool,
-  bordered: PropTypes.bool,
-  locale: PropTypes.object,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  onChange: PropTypes.func,
-  onSelect: PropTypes.func,
-  renderCell: PropTypes.func
-};
+Calendar.displayName = 'Calendar';
 
-export default CalendarPanel;
+export default Calendar;

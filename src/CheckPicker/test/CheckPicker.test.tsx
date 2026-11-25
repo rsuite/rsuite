@@ -1,7 +1,7 @@
 import React from 'react';
-import { expectType } from 'ts-expect';
-import { PickerHandle } from '../../Picker';
 import CheckPicker from '../CheckPicker';
+import { expectType } from 'ts-expect';
+import { PickerHandle } from '@/internals/Picker';
 
 // Infer value and onChange types from data
 const numberValuedData = [{ label: 'One', value: 1 }];
@@ -32,11 +32,26 @@ const stringValuedData = [{ label: 'One', value: 'One' }];
   }}
 />;
 
-const pickerRef = React.createRef<PickerHandle>();
-
-<CheckPicker ref={pickerRef} data={[]} />;
-
 // With a label
 <CheckPicker label="User" data={[]} />;
 
 <CheckPicker caretAs={() => <div />} data={[]} />;
+
+// Check ref type
+const ref = React.useRef<PickerHandle>(null);
+<CheckPicker data={[]} ref={ref} />;
+ref.current?.open?.();
+
+interface Item<T> {
+  label?: React.ReactNode;
+  value?: T;
+}
+
+// Check renderValue
+<CheckPicker
+  data={[]}
+  renderValue={(value: string[], items: Item<string>[]) => {
+    console.log(value, items);
+    return value.map(v => items.find(item => item.value === v)?.label).join(', ');
+  }}
+/>;

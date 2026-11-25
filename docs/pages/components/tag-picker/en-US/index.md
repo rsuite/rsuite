@@ -4,7 +4,7 @@ Multi-select by tag and support new options
 
 ## Import
 
-<!--{include:(components/tag-picker/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 
@@ -14,90 +14,133 @@ Multi-select by tag and support new options
 
 ### Size
 
+Supports four sizes: `lg`, `md`, `sm`, and `xs`.
+
 <!--{include:`size.md`}-->
 
 ### Block
+
+Set the `block` property to make the picker fill its parent container.
 
 <!--{include:`block.md`}-->
 
 ### Group
 
+Use the `groupBy` property to display options in groups.
+
 <!--{include:`group.md`}-->
 
 ### Creatable
+
+Enable the `creatable` property to allow creating new options.
 
 <!--{include:`creatable.md`}-->
 
 ### Custom
 
+Customize tag and option rendering using `renderValue`, `renderOption`, and other render props.
+
 <!--{include:`custom.md`}-->
 
-### Disabled and read only
+### Disabled and Read Only
+
+Supports `disabled` to disable the entire picker, `readOnly` for read-only state, and `disabledItemValues` to disable specific options.
 
 <!--{include:`disabled.md`}-->
 
-### Async
+### Async Loading
+
+Implement async search and loading of options using the `onSearch` callback.
 
 <!--{include:`async.md`}-->
 
+## Responsive
+
+By default, the popup becomes a full-width Drawer on extra-small screens only when `searchable={false}`. Set `responsive` to force a searchable Drawer, or `responsive={false}` to always keep a positioned popup.
+
+<!--{include:<example-responsive>}-->
+
 ## Accessibility
 
-Learn more in [Accessibility](/guide/accessibility).
+### ARIA properties
+
+- When the picker has an editable input, it has role `combobox`. Its `id`, `tabIndex`, and ARIA properties belong to the input; the picker handle still targets the toggle frame. With `searchable={false}`, the toggle is the combobox.
+- Arrow navigation keeps DOM focus on the editable input so that you can continue typing. `aria-activedescendant` references the highlighted option while it is mounted.
+- In a responsive dialog, the external trigger has `aria-haspopup="dialog"`; the dialog search input controls the listbox.
+- Has the `aria-haspopup="listbox"` attribute to indicate that the combobox has a popup listbox.
+- Has the `aria-expanded` attribute to indicate whether the listbox is open or not.
+- Has the `aria-controls` attribute to indicate the ID of the listbox element.
+- Has the `aria-activedescendant` attribute to indicate the ID of the focused option.
+- When `label` is set, the `aria-labelledby` attribute is added to the combobox element and the listbox element and is set to the value of the `id` attribute of `label`.
+- listbox has the `aria-multiselectable=true` attribute to indicate that the listbox is multi-selectable.
+
+### Keyboard interactions
+
+- <kbd>↓</kbd> - Highlight the next option.
+- <kbd>↑</kbd> - Highlight the previous option.
+- <kbd>Enter</kbd> - Select the focused option.
+- <kbd>Esc</kbd> - Close the listbox.
+- <kbd>Tab</kbd> - Close the listbox and move to the next control. Home, End, and left/right arrows retain their text editing behavior in the editable input.
 
 ## Props
 
 ### `<TagPicker>`
 
-| Property           | Type`(Default)`                                                                | Description                                                 |
-| ------------------ | ------------------------------------------------------------------------------ | ----------------------------------------------------------- |
-| cacheData          | [ItemDataType][item][]                                                         | Option to cache `value` when searching asynchronously       |
-| classPrefix        | string `('picker')`                                                            | The prefix of the component CSS class                       |
-| cleanable          | boolean `(true)`                                                               | Whether the selected value can be cleared                   |
-| container          | HTMLElement &#124; (() => HTMLElement)                                         | Sets the rendering container                                |
-| creatable          | boolean                                                                        | Settings can create new options                             |
-| data \*            | [ItemDataType][item][]                                                         | The data of component                                       |
-| defaultValue       | string[]                                                                       | Default values of the selected items                        |
-| disabled           | boolean                                                                        | Whether disabled component                                  |
-| disabledItemValues | string[]                                                                       | Disable item by value                                       |
-| groupBy            | string                                                                         | Set group condition key in data                             |
-| labelKey           | string `('label')`                                                             | Set label key in data                                       |
-| listProps          | [ListProps][listprops]                                                         | Properties of virtualized lists.                            |
-| locale             | [PickerLocaleType](/guide/i18n/#pickers)                                       | Locale text                                                 |
-| menuMaxHeight      | number `(320)`                                                                 | The max height of Dropdown                                  |
-| menuClassName      | string                                                                         | A css class to apply to the Menu DOM node.                  |
-| menuStyle          | CSSProperties                                                                  | A style to apply to the Menu DOM node.                      |
-| onChange           | (value:string[], event) => void                                                | Callback fired when value change                            |
-| onClean            | (event) => void                                                                | Callback fired when value clean                             |
-| onClose            | () => void                                                                     | Callback fired when close component                         |
-| onCreate           | (value: string[], item: [ItemDataType][item], event) => void                   | Callback fired when a new option is created                 |
-| onEnter            | () => void                                                                     | Callback fired before the overlay transitions in            |
-| onEntered          | () => void                                                                     | Callback fired after the overlay finishes transitioning in  |
-| onEntering         | () => void                                                                     | Callback fired as the overlay begins to transition in       |
-| onExit             | () => void                                                                     | Callback fired right before the overlay transitions out     |
-| onExited           | () => void                                                                     | Callback fired after the overlay finishes transitioning out |
-| onExiting          | () => void                                                                     | Callback fired as the overlay begins to transition out      |
-| onGroupTitleClick  | (event) => void                                                                | Callback fired when click the group title                   |
-| onOpen             | () => void                                                                     | Callback fired when open component                          |
-| onSearch           | (searchKeyword:string, event) => void                                          | Callback fired when search                                  |
-| onSelect           | (value:string[], item: [ItemDataType][item] , event) => void                   | Callback fired when item is selected                        |
-| open               | boolean                                                                        | Whether open the component                                  |
-| placeholder        | ReactNode `('Select')`                                                         | Setting placeholders                                        |
-| placement          | [Placement](#code-ts-placement-code)`('bottomStart')`                          | The placement of component                                  |
-| preventOverflow    | boolean                                                                        | Prevent floating element overflow                           |
-| renderExtraFooter  | () => ReactNode                                                                | Custom render extra footer                                  |
-| renderMenuGroup    | (groupTitle: ReactNode, item: [ItemDataType][item]) => ReactNode               | Custom render menu group                                    |
-| renderMenuItem     | (label:ReactNode, item: [ItemDataType][item]) => ReactNode                     | Custom render menu items                                    |
-| renderValue        | (value: string[], items:[ItemDataType][item][], tags:ReactNode[]) => ReactNode | Custom render selected items                                |
-| searchBy           | (keyword: string, label: ReactNode, item: [ItemDataType][item]) => boolean     | Custom search rules                                         |
-| searchable         | boolean `(true)`                                                               | Whether dispaly search input box                            |
-| size               | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                              | A picker can have different sizes                           |
-| sort               | (isGroup: boolean) => (a: any, b: any) => number                               | Sort options                                                |
-| tagProps           | [TagProps][tagprops]                                                           | Set the props of the Tag                                    |
-| toggleAs           | ElementType `('a')`                                                            | You can use a custom element for this component             |
-| trigger            | 'Enter' &#124; 'Space' &#124; 'Comma' `('Enter')`                              | Set the trigger for creating tags                           |
-| value              | string[]                                                                       | Specifies the values of the selected items (Controlled)     |
-| valueKey           | string `('value')`                                                             | Set value key in data                                       |
-| virtualized        | boolean                                                                        | Whether using Virtualized List                              |
+| Property           | Type`(Default)`                                                          | Description                                             |
+| ------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------- |
+| cacheData          | [Option][item][]                                                         | Option to cache `value` when searching asynchronously   |
+| classPrefix        | string `('picker')`                                                      | The prefix of the component CSS class                   |
+| cleanable          | boolean `(true)`                                                         | Whether the selected value can be cleared               |
+| container          | HTMLElement \| (() => HTMLElement)                                       | Sets the rendering container                            |
+| creatable          | boolean                                                                  | Allow creating new options                              |
+| data \*            | [Option][item][]                                                         | The data of component                                   |
+| defaultValue       | string[]                                                                 | Default values of the selected items                    |
+| disabled           | boolean                                                                  | Whether to disable the component                        |
+| disabledItemValues | string[]                                                                 | Values of disabled items                                |
+| groupBy            | string                                                                   | Key for grouping data items                             |
+| labelKey           | string `('label')`                                                       | Key for the label in data items                         |
+| listboxMaxHeight   | number `(320)`                                                           | Maximum height of the listbox                           |
+| listProps          | [ListProps][listprops]                                                   | Properties of virtualized lists                         |
+| loading            | boolean `(false)`                                                        | Whether to display a loading state indicator            |
+| locale             | [PickerLocaleType](/guide/i18n/#pickers)                                 | Locale settings for component text                      |
+| onChange           | (value:string[], event) => void                                          | Callback fired when value changes                       |
+| onClean            | (event) => void                                                          | Callback fired when value is cleared                    |
+| onClose            | () => void                                                               | Callback fired when component closes                    |
+| onCreate           | (value: string[], item: [Option][item], event) => void                   | Callback fired when a new option is created             |
+| onEnter            | () => void                                                               | Callback fired before overlay transitions in            |
+| onEntered          | () => void                                                               | Callback fired after overlay finishes transitioning in  |
+| onEntering         | () => void                                                               | Callback fired as overlay begins to transition in       |
+| onExit             | () => void                                                               | Callback fired right before overlay transitions out     |
+| onExited           | () => void                                                               | Callback fired after overlay finishes transitioning out |
+| onExiting          | () => void                                                               | Callback fired as overlay begins to transition out      |
+| onGroupTitleClick  | (event) => void                                                          | Callback fired when group title is clicked              |
+| onOpen             | () => void                                                               | Callback fired when component opens                     |
+| onSearch           | (search:string, event) => void                                           | Callback fired when search is performed                 |
+| onSelect           | (value:string[], item: [Option][item] , event) => void                   | Callback fired when an item is selected                 |
+| onTagRemove        | (value: string, event: MouseEvent) => void                               | Callback fired when a tag is removed                    |
+| open               | boolean                                                                  | Whether the component is open                           |
+| placeholder        | ReactNode `('Select')`                                                   | Placeholder text                                        |
+| placement          | [Placement](#code-ts-placement-code)`('bottomStart')`                    | The placement of the component                          |
+| popupClassName     | string                                                                   | Custom CSS class for the popup                          |
+| popupStyle         | CSSProperties                                                            | Custom style for the popup                              |
+| preventOverflow    | boolean                                                                  | Prevent floating element overflow                       |
+| renderCheckbox     | (checkboxProps: CheckboxProps) => ReactNode                              | Custom render function for option checkboxes            |
+| renderExtraFooter  | () => ReactNode                                                          | Custom render function for extra footer                 |
+| renderListbox      | (listbox: ReactNode) => ReactNode                                        | Custom render function for listbox                      |
+| renderOption       | (label:ReactNode, item: [Option][item]) => ReactNode                     | Custom render function for options                      |
+| renderOptionGroup  | (groupTitle: ReactNode, item: [Option][item]) => ReactNode               | Custom render function for option groups                |
+| renderValue        | (value: string[], items:[Option][item][], tags:ReactNode[]) => ReactNode | Custom render function for selected items               |
+| responsive         | boolean                                                                  | Controls the responsive Drawer; defaults to `!searchable` when omitted |
+| searchable         | boolean `(true)`                                                         | Whether the component is searchable                     |
+| searchBy           | (keyword: string, label: ReactNode, item: [Option][item]) => boolean     | Custom search rules                                     |
+| size               | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                    | The size of the component                               |
+| sort               | (isGroup: boolean) => (a: any, b: any) => number                         | Sort function for options                               |
+| tagProps           | [TagProps][tagprops]                                                     | Properties for the Tag component                        |
+| toggleAs           | ElementType `('a')`                                                      | Custom component for the toggle                         |
+| trigger            | 'Enter' \| 'Space' \| 'Comma' `('Enter')`                                | Trigger for creating tags                               |
+| value              | string[]                                                                 | Current values of the selected items (controlled)       |
+| valueKey           | string `('value')`                                                       | Key for the value in data items                         |
+| virtualized        | boolean                                                                  | Whether to use virtualized list                         |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 <!--{include:(_common/types/placement.md)}-->
@@ -105,4 +148,4 @@ Learn more in [Accessibility](/guide/accessibility).
 
 [listprops]: #code-ts-list-props-code
 [tagprops]: https://rsuitejs.com/components/tag#Props
-[item]: #code-ts-item-data-type-code
+[item]: #code-ts-option-code

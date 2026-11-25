@@ -33,42 +33,42 @@ return (
 
 ## Third-party routing library
 
-The navigation component of React Suite supports the `as` prop, which is used to receive the component type of a third-party routing library. Included components: `Dropdown`, `Breadcrumb`, `Nav`.
+The navigation component of React Suite supports the `as` prop, which is used to receive the component type of a third-party routing library. Included components: `Dropdown`, `Breadcrumb`,`Menu`,`Nav`.
 
-### next/link
+### `next/link`
 
 ```jsx
 import Link from 'next/link';
 
-const NavLink = React.forwardRef(({ href, as, ...rest }, ref) => (
-  <Link href={href} as={as}>
-    <a ref={ref} {...rest} />
-  </Link>
-));
+<Nav.Item as={Link} href="/about">
+  About
+</Nav.Item>;
 
-return (
-  <Nav.Item as={NavLink} href="/">
-    Home
-  </Nav.Item>
-);
+<Breadcrumb.Item as={Link} href="/about">
+  About
+</Breadcrumb.Item>;
+
+<Menu.Item as={Link} href="/about">
+  About
+</Menu.Item>;
+
+<Dropdown.Item as={Link} href="/about">
+  About
+</Dropdown.Item>;
 ```
 
-### react-router-dom
+### `react-router-dom`
 
 ```jsx
 import { Link } from 'react-router-dom';
 
-const NavLink = React.forwardRef(({ href, children, ...rest }, ref) => (
-  <Link ref={ref} to={href} {...rest}>
-    {children}
-  </Link>
-));
+<Breadcrumb.Item as={Link} to="/home">
+  Home
+</Breadcrumb.Item>
 
-return (
-  <Nav.Item as={NavLink} href="/">
-    Home
-  </Nav.Item>
-);
+<Nav.Item as={Link} to="/about">
+  About
+</Nav.Item>
 ```
 
 ## Precautions

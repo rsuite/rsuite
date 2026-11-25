@@ -7,102 +7,82 @@
 </p>
 
 [![npm][npm-svg]][npm-home]
-[![codecov](https://codecov.io/gh/rsuite/rsuite/branch/main/graph/badge.svg?token=HGeKd0BD3t)](https://codecov.io/gh/rsuite/rsuite)
+[![GitHub Actions][nodejs-ci-svg]][nodejs-ci]
+[![npm bundle size][npm-bundle-size-img]][npm-bundle-size]
+[![codecov][codecov-img]][codecov]
 [![Discord][discord-svg]][discord-invite]
 [![Gitter][gitter-svg]][gitter]
 [![Gitter][gitter-cn-svg]][gitter-cn]
+[![Gitpod ready-to-code][gitpod-img]][gitpod]
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/rsuite/rsuite)
 
-React Suite 是一套 React 组件库，为后台产品而生。同时也是一个具有贴心设计以及对开发者友好的 UI 框架。
-
-### UI Design
-
-React Suite 设计原型与规范， [点击查看][rsuite-design]。
+React Suite 是一套 React 组件库。致力于提供高质量并且全面的 React 组件，以帮助开发者快速构建 Web 应用。
 
 ## 支持的平台
 
 ### 浏览器
 
-React Suite 支持最新的，稳定版的全部主流浏览器和平台。 从 React Suite 5 开始不支持 IE10 以下版本(包括 IE10)。不推荐在移动端使用。
+| ![][edge]<br/>Edge | ![][firefox]<br/>Firefox | ![][chrome]<br/>Chrome | ![][safari]<br/>Safari | ![][electron]<br/>Electron |
+| ------------------ | ------------------------ | ---------------------- | ---------------------- | -------------------------- |
+| Edge               | last 2 versions          | last 2 versions        | last 2 versions        | last 2 versions            |
 
-| IE   | Edge | Firefox | Chrome | Safari |
-| ---- | ---- | ------- | ------ | ------ |
-| >=11 | >=14 | >= 45   | >= 49  | >= 10  |
+[edge]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png
+[firefox]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
+[chrome]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
+[safari]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png
+[electron]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png
 
 ### 服务端
 
 React Suite 支持服务端渲染， 支持通过 [Next.js](https://github.com/zeit/next.js) 构建应用。
 
-## 支持的开发环境
-
-- 支持 React 16 +
-- 支持 [TypeScript](http://www.typescriptlang.org/)
-- 支持 [Electron](https://electronjs.org/)
-
 ## 安装
 
-React Suite 可通过 [npm][npm-home] 安装。
-
 ```bash
-npm i rsuite --save
+# with npm
+npm install rsuite
+
+# with Yarn
+yarn add rsuite
+
+# with pnpm
+pnpm add rsuite
+
+# with Bun
+bun add rsuite
 ```
 
 ## 使用
 
-这里有一个简单的示例：
-
 ```jsx
 import { Button } from 'rsuite';
-import 'rsuite/styles/index.less'; // or 'rsuite/dist/rsuite.min.css'
+import 'rsuite/styles/index.css';
 
 function App() {
   return <Button appearance="primary">Hello World</Button>;
 }
 ```
 
-您可以在 [CodeSandbox][live-preview-on-codesandbox] 上查看该示例。
+更多关于如何开始的指南，请查看[这里](https://rsuitejs.com/guide/usage/)。
 
-### 文档
+## 文档
 
-您可以阅读[完整文档][rsuite-doc-guide]，或者从下面几个章节开始学习
+https://rsuitejs.com 是 React Suite 的最新版本的网站。有关旧版本，请访问这里。
 
-- [如何使用？][rsuite-doc-guide]
-- [自定义主题][rsuite-doc-guide-themes]
-- [国际化][rsuite-doc-guide-intl]
-- [Right-to-left][rsuite-doc-guide-intl]
-- [组件][rsuite-components-overview]
-
-<details>
-<summary>更多的示例</summary>
-
-- [管理系统][demo-admin]
-- [模块化按需加载][demo-modular-import]
-- [CDN 引入][demo-cdn]
-- [国际化方案][demo-intl-app]
-- [多主题方案][demo-multiple-themes]
-- [RTL 方案 - rtlcss][demo-rtlcss]
-- [RTL 方案 - postcss-rtl][demo-postcss-rtl]
-- [在 create-react-app 中使用][demo-create-react-app]
-- [在 Electron 中使用][demo-electron]
-- [在 Flow 中使用][demo-flow-app]
-- [在 TypeScript 中使用][demo-typescript-app]
-- [在 Next.js 中使用][demo-nextjs]
-- [在 Next.js 和 Typescript 中使用 ][demo-nextjs-typescript]
-- [在 UmiJS 中使用][demo-umi-app]
-- [在 Snowpack 中使用][demo-snowpack]
-- [在 Vite 中使用][demo-vite]
-</details>
-
-## 历史版本
-
-上个大版本 4.x 将不再添加新特性，
-我们推荐你升级到最新的 5.x 版本。
-4.x 的功能修复仍会在一段时间内提供支持，
-安全修复也会支持，直到 6.x 开始开发。
-
-### 历史版本的文档
-
+- [5.x 版本文档](https://v5.rsuitejs.com/)
 - [4.x 版本文档](https://v4.rsuitejs.com/)
 - [3.x 版本文档](https://v3.rsuitejs.com/)
+
+v5 将不再添加新特性，我们推荐你升级到最新的 v6 版本。v5 的功能修复仍会在一段时间内提供支持，安全修复也会支持，直到 v7 开始开发。
+
+## 框架使用指南
+
+React Suite 可以在您喜欢的框架中使用。我们为这些框架准备了逐步指南：
+
+- [Next.js (App)](https://rsuitejs.com/guide/use-next-app/)
+- [Next.js (Page)](https://rsuitejs.com/guide/use-next-pages)
+- [Create React App](https://rsuitejs.com/guide/use-with-create-react-app/)
+- [Vite](https://rsuitejs.com/guide/use-vite/)
 
 ## 更新日志
 
@@ -111,6 +91,32 @@ function App() {
 ## 贡献
 
 在开始之前，确保您已读[贡献指南][contributing]。
+
+## 赞助服务
+
+这些优秀的服务帮助我们构建和维护项目。
+
+| Service                                         | Description                                   |
+| ----------------------------------------------- | --------------------------------------------- |
+| [![GitHub][github-logo]][github]                | Github 让我们可以托管 Git 仓库并协调贡献。    |
+| [![Netlify][netlify-logo]][netlify]             | Netlify 为文档站提供托管服务。                |
+| [![CodeCov][codecov-logo]][codecov]             | CodeCov 让我们可以检查代码覆盖率。            |
+| [![Gitee][gitee-logo]][gitee]                   | Gitee 授予我们 GVP - Gitee 最有价值开源项目。 |
+| [![CodeSandbox][codesandbox-logo]][codesandbox] | CodeSandbox 让我们可以提供组件的实时预览。    |
+| [![Stackblitz][stackblitz-logo]][stackblitz]    | Stackblitz 让我们可以提供组件的实时预览。     |
+
+[github]: https://github.com/
+[github-logo]: https://avatars.githubusercontent.com/u/9919?s=32&v=4
+[netlify]: https://www.netlify.com/
+[netlify-logo]: https://avatars.githubusercontent.com/u/7892489?s=32&v=4
+[codecov]: https://about.codecov.io/
+[codecov-logo]: https://avatars.githubusercontent.com/u/8226205?s=32&v=4
+[gitee]: https://gitee.com/
+[gitee-logo]: https://gitee.com/static/images/logo-en.svg
+[codesandbox]: https://codesandbox.io/
+[codesandbox-logo]: https://avatars.githubusercontent.com/u/32880324?s=32&v=4
+[stackblitz]: https://stackblitz.com/
+[stackblitz-logo]: https://avatars.githubusercontent.com/u/28635252?s=32&v=4
 
 ## 支持 React Suite
 
@@ -123,12 +129,12 @@ function App() {
 这个项目的存在归功于所有贡献者。
 
 <a href="https://github.com/rsuite/rsuite/graphs/contributors" target="_blank">
-  <img src="https://contrib.rocks/image?repo=rsuite/rsuite" />
+  <img src="https://contrib.rocks/image?repo=rsuite/rsuite&max=600" />
 </a>
 
 [![opencollective-now][opencollective-svg]][opencollective-home]
 
-国内交流群, 添加 React Suite 小助手，备注 rsuite， 邀请入群。
+微信交流群, 添加 React Suite 小助手，备注 rsuite， 邀请入群。
 
 <img src="https://user-images.githubusercontent.com/1203827/51657342-7ace0180-1fdf-11e9-9237-5d19c7a5c7da.jpeg" width="200" />
 
@@ -136,42 +142,26 @@ function App() {
 
 React Suite 基于 [MIT licensed][license] 发布。
 
-[readm-en]: https://github.com/rsuite/rsuite/blob/master/README.md
+[readm-en]: https://github.com/rsuite/rsuite/blob/main/README.md
 [npm-svg]: https://img.shields.io/npm/v/rsuite
 [npm-home]: https://www.npmjs.com/package/rsuite
+[npm-bundle-size-img]: https://badgen.net/bundlephobia/minzip/rsuite?icon=npm
+[npm-bundle-size]: https://bundlephobia.com/package/rsuite
+[nodejs-ci-svg]: https://github.com/rsuite/rsuite/workflows/Node.js%20CI/badge.svg
+[nodejs-ci]: https://github.com/rsuite/rsuite/actions/workflows/nodejs-ci.yml?query=branch%3Amain+workflow%3A%22Node.js+CI%22
 [discord-svg]: https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
 [discord-invite]: https://discord.gg/R8mnjwh
-[rsuite-design]: https://rsuitejs.com/design/default
-[live-preview-on-codesandbox]: https://codesandbox.io/s/rsuite-template-5vq6zo2z5l
-[rsuite-doc-guide]: https://rsuitejs.com/guide/introduction
-[rsuite-doc-guide-themes]: https://rsuitejs.com/guide/customization
-[rsuite-doc-guide-intl]: https://rsuitejs.com/guide/intl
-[rsuite-doc-guide-intl]: https://rsuitejs.com/en/guide/intl
-[rsuite-components-overview]: https://rsuitejs.com/components/overview
 [release-notes]: https://github.com/rsuite/rsuite/releases
-[contributing]: https://github.com/rsuite/rsuite/blob/master/CONTRIBUTING.zh-CN.md
-[prettierrc]: https://github.com/rsuite/rsuite/wiki/.prettierrc
+[contributing]: https://github.com/rsuite/rsuite/blob/main/CONTRIBUTING.md
 [issues-11]: https://github.com/rsuite/rsuite/issues/11
 [opencollective-svg]: https://opencollective.com/rsuite/tiers/backer.svg?avatarHeight=36
 [opencollective-home]: https://opencollective.com/rsuite
-[license]: https://github.com/rsuite/rsuite/blob/master/LICENSE
+[license]: https://github.com/rsuite/rsuite/blob/main/LICENSE
 [gitter]: https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-svg]: https://img.shields.io/gitter/room/rsuite/rsuite?label=chat-english
 [gitter-cn]: https://gitter.im/rsuite/rsuite-CN?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-cn-svg]: https://img.shields.io/gitter/room/rsuite/rsuite?label=chat-chinese
-[demo-admin]: https://github.com/rsuite/rsuite-management-system
-[demo-modular-import]: https://github.com/rsuite/rsuite/tree/master/examples/with-babel-preset-rsuite
-[demo-cdn]: https://github.com/rsuite/rsuite/tree/master/examples/cdn
-[demo-create-react-app]: https://github.com/rsuite/rsuite/tree/master/examples/create-react-app
-[demo-electron]: https://github.com/rsuite/rsuite/tree/master/examples/with-electron
-[demo-intl-app]: https://github.com/rsuite/rsuite/tree/master/examples/custom-i18n
-[demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes
-[demo-flow-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-flow
-[demo-typescript-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-typescript
-[demo-nextjs]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs
-[demo-umi-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-umi
-[demo-rtlcss]: https://github.com/rsuite/rsuite/tree/master/examples/with-rtlcss
-[demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/master/examples/with-postcss-rtl
-[demo-nextjs-typescript]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs-typescript
-[demo-snowpack]: https://github.com/rsuite/rsuite/tree/master/examples/with-snowpack
-[demo-vite]: https://github.com/rsuite/rsuite/tree/master/examples/with-vite
+[codecov]: https://codecov.io/gh/rsuite/rsuite
+[codecov-img]: https://codecov.io/gh/rsuite/rsuite/branch/main/graph/badge.svg?token=HGeKd0BD3t
+[gitpod]: https://gitpod.io/#https://github.com/rsuite/rsuite
+[gitpod-img]: https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod

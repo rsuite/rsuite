@@ -1,0 +1,8 @@
+@mixin column-resize-spanner {
+  height: 36px;
+  width: 3px;
+  z-index: var(--rs-zindex-table-column-resize-spanner);
+  position: absolute;
+  cursor: ew-resize !important;
+  outline: none;
+}

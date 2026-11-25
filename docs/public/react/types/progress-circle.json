@@ -1,0 +1,79 @@
+{
+  "ProgressCircle": {
+    "props": {
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "progress"
+      },
+      "gapDegree": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The gap degree of half circle, 0 ~ 360",
+        "defaultValue": "0"
+      },
+      "gapPosition": {
+        "type": "'right' | 'top' | 'bottom' | 'left'",
+        "isRequired": false,
+        "description": "Circular progress bar gap position",
+        "defaultValue": "top"
+      },
+      "percent": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Percent of progress",
+        "defaultValue": "0"
+      },
+      "renderInfo": {
+        "type": "(percent: number, status?: 'success' | 'fail' | 'active') => ReactNode",
+        "isRequired": false,
+        "description": "Custom render function for info content"
+      },
+      "showInfo": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Show text",
+        "defaultValue": "true"
+      },
+      "status": {
+        "type": "'success' | 'fail' | 'active'",
+        "isRequired": false,
+        "description": "Progress status"
+      },
+      "sections": {
+        "type": "{ percent: number, color: string }[]",
+        "isRequired": false,
+        "description": "Multiple sections with different colors"
+      },
+      "strokeColor": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Line color"
+      },
+      "strokeLinecap": {
+        "type": "'round' | 'square' | 'butt'",
+        "isRequired": false,
+        "description": "The end of different types of open paths",
+        "defaultValue": "round"
+      },
+      "strokeWidth": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Line width",
+        "defaultValue": "6"
+      },
+      "trailColor": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Trail color"
+      },
+      "trailWidth": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Trail width",
+        "defaultValue": "6"
+      }
+    }
+  }
+}

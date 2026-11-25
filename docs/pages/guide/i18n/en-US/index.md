@@ -1,4 +1,4 @@
-# i18n
+# Localization 🌏
 
 The locale in the React Suite component defaults to English. If you need to set another locale, you can configure it with [`<CustomProvider>`](/components/custom-provider/).
 
@@ -19,35 +19,49 @@ return (
 
 ## Supported locales
 
-| Locale | Description         |
-| ------ | ------------------- |
-| ar_EG  | Arabic (Egypt)      |
-| da_DK  | Danish              |
-| de_DE  | German              |
-| en_GB  | English             |
-| en_US  | American English    |
-| es_AR  | Spanish (Argentina) |
-| es_ES  | Spanish (Spain)     |
-| fa_IR  | Persian (Iran)      |
-| fi_FI  | Finnish             |
-| it_IT  | Italian             |
-| ko_KR  | Korean              |
-| pt_BR  | Portuguese (Brazil) |
-| ru_RU  | Russian             |
-| sv_SE  | Swedish             |
-| tr_TR  | Turkish             |
-| zh_CN  | Simplified Chinese  |
-| zh_TW  | traditional Chinese |
-| fr_FR  | French              |
+| BCP 47 language tag | Locale                                           | Import name |
+| ------------------- | ------------------------------------------------ | ----------- |
+| ar-EG               | Arabic (Egypt)                                   | `arEG`      |
+| ca-ES               | Catalan                                          | `caES`      |
+| cs-CZ               | Czech                                            | `csCZ`      |
+| da-DK               | Danish                                           | `daDK`      |
+| de-DE               | German                                           | `deDE`      |
+| en-GB               | British English                                  | `enGB`      |
+| en-US               | American English                                 | `enUS`      |
+| es-AR               | Spanish (Argentina)                              | `esAR`      |
+| es-ES               | Spanish (Spain)                                  | `esES`      |
+| fa-IR               | Persian (Iran)                                   | `faIR`      |
+| fi-FI               | Finnish                                          | `fiFI`      |
+| fr-FR               | French                                           | `frFR`      |
+| gu-IN               | Gujarati                                         | `guIN`      |
+| hu-HU               | Hungarian                                        | `huHU`      |
+| it-IT               | Italian                                          | `itIT`      |
+| ja-JP               | Japanese                                         | `jaJP`      |
+| kk-KZ               | Kazakh                                           | `kkKZ`      |
+| ko-KR               | Korean                                           | `koKR`      |
+| nb-NO               | Norwegian Bokmål                                 | `nbNO`      |
+| ne-NP               | Nepali                                           | `neNP`      |
+| nl-NL               | Dutch                                            | `nlNL`      |
+| pl-PL               | Polish (Poland)                                  | `plPL`      |
+| pt-BR               | Portuguese (Brazil)                              | `ptBR`      |
+| ru-RU               | Russian                                          | `ruRU`      |
+| sv-SE               | Swedish                                          | `svSE`      |
+| th-TH               | Thai                                             | `thTH`      |
+| tr-TR               | Turkish                                          | `trTR`      |
+| uk-UA               | Ukrainian                                        | `ukUA`      |
+| zh-CN               | Simplified Chinese                               | `zhCN`      |
+| zh-TW               | Traditional Chinese（Taiwan, Province of China） | `zhTW`      |
+
+> [How to add new language to rsuite?](https://github.com/rsuite/rsuite/discussions/2927)
 
 ## Customize
 
 React Suite is very easy to customize. In general, you should create a locale setting with your customizations.
 
 ```jsx
-import enGB from 'date-fns/locale/en-GB';
+import { enGB } from 'date-fns/locale/en-GB';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Su',
   monday: 'Mo',
   tuesday: 'Tu',
@@ -58,6 +72,7 @@ const Calendar = {
   ok: 'OK',
   today: 'Today',
   yesterday: 'Yesterday',
+  now: 'Now',
   hours: 'Hours',
   minutes: 'Minutes',
   seconds: 'Seconds',
@@ -67,13 +82,31 @@ const Calendar = {
    **/
   formattedMonthPattern: 'MMM yyyy',
   formattedDayPattern: 'dd MMM yyyy',
-  dateLocale: enGB
+  shortDateFormat: 'dd/MM/yyyy',
+  shortTimeFormat: 'HH:mm',
+  dateLocale: enGB as any
+};
+
+const Combobox = {
+  noResultsText: 'No results found',
+  placeholder: 'Select',
+  searchPlaceholder: 'Search',
+  checkAll: 'All'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'New item',
+  createOption: 'Create option "{0}"'
 };
 
 const locale = {
+  code: 'en-GB',
   common: {
     loading: 'Loading...',
-    emptyMessage: 'No data found'
+    emptyMessage: 'No data found',
+    remove: 'Remove',
+    clear: 'Clear'
   },
   Plaintext: {
     unfilled: 'Unfilled',
@@ -90,31 +123,24 @@ const locale = {
     total: 'Total Rows: {0}',
     skip: 'Go to{0}'
   },
-  Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  DateTimeFormats,
+  Calendar: DateTimeFormats,
+  DatePicker: DateTimeFormats,
   DateRangePicker: {
-    ...Calendar,
+    ...DateTimeFormats,
     last7Days: 'Last 7 Days'
   },
-  Picker: {
-    noResultsText: 'No results found',
-    placeholder: 'Select',
-    searchPlaceholder: 'Search',
-    checkAll: 'All'
-  },
-  InputPicker: {
-    newItem: 'New item',
-    createOption: 'Create option "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Initial',
     progress: 'Uploading',
     error: 'Error',
     complete: 'Finished',
     emptyFile: 'Empty',
-    upload: 'Upload'
+    upload: 'Upload',
+    removeFile: 'Remove file'
   },
   CloseButton: {
     closeLabel: 'Close'
@@ -127,6 +153,8 @@ const locale = {
     off: 'Close'
   }
 };
+
+
 
 return (
   <CustomProvider locale={locale}>

@@ -1,23 +1,45 @@
-import React from 'react';
-import { DateRangePicker, Button, Divider, Stack } from 'rsuite';
-import DefaultPage from '@/components/Page';
-import startOfWeek from 'date-fns/startOfWeek';
-import endOfWeek from 'date-fns/endOfWeek';
-import addDays from 'date-fns/addDays';
-import startOfMonth from 'date-fns/startOfMonth';
-import endOfMonth from 'date-fns/endOfMonth';
-import subDays from 'date-fns/subDays';
-import isAfter from 'date-fns/isAfter';
-import addMonths from 'date-fns/addMonths';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
+import Simulation from '@/components/Simulation';
+import { DateRangePicker, Button, Divider, Stack, HStack, VStack, Text } from 'rsuite';
+import {
+  startOfWeek,
+  endOfWeek,
+  addDays,
+  startOfMonth,
+  endOfMonth,
+  subDays,
+  isAfter,
+  addMonths,
+  format
+} from 'date-fns';
+import { BsCalendar2MonthFill } from 'react-icons/bs';
+import {
+  FaCalendar,
+  FaCalendarWeek,
+  FaCalendarDay,
+  FaCalendarCheck,
+  FaClock
+} from 'react-icons/fa';
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['DateRangePicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="date-range-picker" />
+};
 
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         Stack,
+        HStack,
+        VStack,
+        Text,
         DateRangePicker,
         Button,
         Divider,
+        format,
         addDays,
         subDays,
         isAfter,
@@ -25,9 +47,15 @@ export default function Page() {
         endOfWeek,
         startOfMonth,
         endOfMonth,
-        addMonths
+        addMonths,
+        FaCalendar,
+        FaCalendarWeek,
+        FaCalendarDay,
+        FaCalendarCheck,
+        FaClock,
+        BsCalendar2MonthFill
       }}
-      sandboxDependencies={{ 'date-fns': '^2.13.0' }}
+      sandboxDependencies={{ 'date-fns': '^4.1.0' }}
     />
   );
 }

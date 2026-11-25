@@ -1,16 +1,15 @@
 <!--start-code-->
 
 ```js
-import { DatePicker } from 'rsuite';
+import { DatePicker, Stack } from 'rsuite';
 
-const styles = { width: 200, display: 'block', marginBottom: 10 };
 const App = () => (
-  <>
-    <DatePicker size="lg" placeholder="Large" style={styles} />
-    <DatePicker size="md" placeholder="Medium" style={styles} />
-    <DatePicker size="sm" placeholder="Small" style={styles} />
-    <DatePicker size="xs" placeholder="Xsmall" style={styles} />
-  </>
+  <Stack direction="column" spacing={8} alignItems="flex-start">
+    <DatePicker size="lg" placeholder="Large" />
+    <DatePicker size="md" placeholder="Medium" />
+    <DatePicker size="sm" placeholder="Small" />
+    <DatePicker size="xs" placeholder="Xsmall" />
+  </Stack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

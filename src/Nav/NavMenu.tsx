@@ -1,12 +1,11 @@
 import React, { Dispatch, useContext, useReducer } from 'react';
 import NavDropdown, { NavDropdownProps } from './NavDropdown';
 import NavDropdownMenu, { NavDropdownMenuProps } from './NavDropdownMenu';
-import { SidenavContext } from '../Sidenav/Sidenav';
-import SidenavDropdown from '../Sidenav/SidenavDropdown';
-import { NavbarContext } from '../Navbar';
 import NavbarDropdown from '../Navbar/NavbarDropdown';
 import NavbarDropdownMenu from '../Navbar/NavbarDropdownMenu';
-import SidenavDropdownMenu from '../Sidenav/SidenavDropdownMenu';
+import SidenavDropdown from '../Sidenav/SidenavDropdown';
+import { NavbarContext } from '../Navbar';
+import { SidenavContext } from '../Sidenav/SidenavContext';
 
 export interface NavMenuProps extends NavDropdownProps, Omit<NavDropdownMenuProps, 'onToggle'> {}
 
@@ -57,9 +56,12 @@ const reducer = (state: NavMenuState, action: NavMenuAction): NavMenuState => {
 };
 
 /**
- * The <Nav.Menu> API
- * When used as direct child of <Nav>, render the NavDropdown
- * When used within another <Nav.Menu>, render the NavDropdownMenu
+ * The `Nav.Menu` component is used to create navigation menus.
+ *
+ * - When used as direct child of `<Nav>`, render the NavDropdown
+ * - When used within another `<Nav.Menu>`, render the NavDropdownMenu
+ *
+ * @see https://rsuitejs.com/components/nav
  */
 const NavMenu = React.forwardRef((props: NavMenuProps, ref: React.Ref<any>) => {
   const parentNavMenu = useContext(NavMenuContext);
@@ -70,13 +72,6 @@ const NavMenu = React.forwardRef((props: NavMenuProps, ref: React.Ref<any>) => {
   const sidenav = useContext(SidenavContext);
 
   if (!parentNavMenu) {
-    if (navbar) {
-      return (
-        <NavMenuContext.Provider value={navMenuContext}>
-          <NavbarDropdown ref={ref} {...props} />
-        </NavMenuContext.Provider>
-      );
-    }
     if (sidenav) {
       return (
         <NavMenuContext.Provider value={navMenuContext}>
@@ -84,6 +79,15 @@ const NavMenu = React.forwardRef((props: NavMenuProps, ref: React.Ref<any>) => {
         </NavMenuContext.Provider>
       );
     }
+
+    if (navbar) {
+      return (
+        <NavMenuContext.Provider value={navMenuContext}>
+          <NavbarDropdown ref={ref} {...props} />
+        </NavMenuContext.Provider>
+      );
+    }
+
     return (
       <NavMenuContext.Provider value={navMenuContext}>
         <NavDropdown ref={ref} {...props} />
@@ -93,10 +97,6 @@ const NavMenu = React.forwardRef((props: NavMenuProps, ref: React.Ref<any>) => {
 
   if (navbar) {
     return <NavbarDropdownMenu ref={ref} {...props} />;
-  }
-
-  if (sidenav) {
-    return <SidenavDropdownMenu ref={ref} {...props} />;
   }
 
   return <NavDropdownMenu ref={ref} {...props} />;

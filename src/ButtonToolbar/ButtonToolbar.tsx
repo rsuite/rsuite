@@ -1,9 +1,10 @@
+/* @jsxRuntime classic */
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import Stack, { StackProps } from '../Stack';
+import { useStyles, useCustom } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
 
-export interface ButtonToolbarProps extends WithAsProps {
+export interface ButtonToolbarProps extends StackProps {
   /**
    * The ARIA role describing the button toolbar. Generally the default
    * "toolbar" role is correct. An `aria-label` or `aria-labelledby`
@@ -12,26 +13,27 @@ export interface ButtonToolbarProps extends WithAsProps {
   role?: string;
 }
 
-const ButtonToolbar: RsRefForwardingComponent<'div', ButtonToolbarProps> = React.forwardRef(
+/**
+ * The ButtonToolbar component is used to group a series of buttons together in a single line.
+ * @see https://rsuitejs.com/components/button/#button-toolbar
+ */
+const ButtonToolbar = forwardRef<typeof Stack, ButtonToolbarProps>(
   (props: ButtonToolbarProps, ref) => {
+    const { propsWithDefaults } = useCustom('ButtonToolbar', props);
     const {
+      as,
       className,
       classPrefix = 'btn-toolbar',
-      as: Component = 'div',
       role = 'toolbar',
       ...rest
-    } = props;
+    } = propsWithDefaults;
 
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
-    return <Component {...rest} role={role} ref={ref} className={classes} />;
+    const { withPrefix, merge } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix());
+    return <Stack wrap spacing={8} as={as} role={role} ref={ref} className={classes} {...rest} />;
   }
 );
 
 ButtonToolbar.displayName = 'ButtonToolbar';
-ButtonToolbar.propTypes = {
-  as: PropTypes.elementType,
-  classPrefix: PropTypes.string
-};
 
 export default ButtonToolbar;

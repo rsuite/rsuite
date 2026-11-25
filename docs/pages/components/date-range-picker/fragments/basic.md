@@ -3,11 +3,10 @@
 ```js
 import { DateRangePicker } from 'rsuite';
 
-const App = () => (
-  <>
-    <DateRangePicker />
-  </>
-);
+const App = () => {
+  return <DateRangePicker />;
+};
+
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 

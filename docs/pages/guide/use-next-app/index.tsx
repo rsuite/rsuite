@@ -1,3 +1,14 @@
-import Page from '@/components/Page';
+import Page from '@/components/layout/Page';
+import InstallGuide from '@/components/InstallGuide';
 
-export default Page;
+const inDocsComponents = {
+  'install-guide': () => <InstallGuide />
+};
+
+const PageComponent = () => {
+  return <Page inDocsComponents={inDocsComponents} />;
+};
+
+PageComponent.displayName = 'NextAppGuidePage';
+
+export default PageComponent;

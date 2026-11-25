@@ -1,14 +1,21 @@
-import React from 'react';
-import DefaultPage from '@/components/Page';
-import { Tree, Button, InputNumber, Panel, SelectPicker, Stack } from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
+import ImportGuide from '@/components/ImportGuide';
+import { Tree, Button, NumberInput, Panel, SelectPicker, Stack } from 'rsuite';
+import {
+  MdOutlineKeyboardArrowDown,
+  MdOutlineKeyboardArrowRight,
+  MdFilePresent,
+  MdFolder
+} from 'react-icons/md';
 import {
   importFakerString,
+  mockAsyncData,
+  mockAsyncDataString,
   mockTreeData,
   mockTreeDataToString,
-  mockAsyncData,
-  mockAsyncDataString
+  sandboxFakerVersion
 } from '@/utils/mock';
 
 const mockfile = {
@@ -17,21 +24,30 @@ const mockfile = {
 };
 
 const sandboxDependencies = {
-  '@faker-js/faker': 'latest'
+  ...sandboxFakerVersion
+};
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['Tree']} />
 };
 
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         Button,
-        InputNumber,
+        NumberInput,
         Tree,
         Panel,
         FolderFillIcon,
         PageIcon,
         SelectPicker,
         Stack,
+        MdOutlineKeyboardArrowDown,
+        MdOutlineKeyboardArrowRight,
+        MdFilePresent,
+        MdFolder,
         mockTreeData,
         mockAsyncData
       }}

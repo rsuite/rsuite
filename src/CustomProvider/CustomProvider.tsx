@@ -1,119 +1,76 @@
-import React, { useEffect } from 'react';
-import { getClassNamePrefix, prefix } from '../utils/prefix';
-import { Locale } from '../locales';
-import { addClass, removeClass, canUseDOM } from '../DOMHelper';
-import ToastContainer, { ToastContainerInstance, toastPlacements } from '../toaster/ToastContainer';
-import { usePortal } from '../utils';
+/* @jsxRuntime classic */
+import React, { useRef, useMemo } from 'react';
+import IconProvider from '@rsuite/icons/IconProvider';
+import { usePortal } from '@/internals/hooks';
+import { getClassNamePrefix } from '@/internals/utils';
+import { CustomContext, CustomProviderProps } from '@/internals/Provider/CustomContext';
+import ToastContainer, {
+  ToastContainerInstance,
+  toastPlacements,
+  defaultToasterContainer
+} from '../toaster/ToastContainer';
+import DialogContainer, { DialogContainerInstance } from '../useDialog/DialogContainer';
+import useThemeClass from './useThemeClass';
 
-export interface CustomValue<T = Locale> {
-  /** Language configuration */
-  locale: T;
-
-  /** Support right-to-left */
-  rtl: boolean;
-
-  /**
-   * Return the formatted date string in the given format. The result may vary by locale.
-   *
-   * Example:
-   *
-   *  import format from 'date-fns/format';
-   *  import eo from 'date-fns/locale/eo'
-   *
-   *  function formatDate(date, formatStr) {
-   *    return format(date, formatStr, { locale: eo });
-   *  }
-   *
-   * */
-  formatDate: (date: Date | number, format: string) => string;
-
-  /**
-   * Return the date parsed from string using the given format string.
-   *
-   * Example:
-   *
-   *  import parse from 'date-fns/parse';
-   *  import eo from 'date-fns/locale/eo'
-   *
-   *  function parseDate(date, formatStr) {
-   *    return parse(date, formatStr, new Date(), { locale: eo });
-   *  }
-   *
-   * */
-  parseDate: (dateString: string, formatString: string) => Date;
-
-  /**
-   * A Map of toast containers
-   */
-  toasters?: React.MutableRefObject<Map<string, ToastContainerInstance>>;
-}
-
-export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>> {
-  /** Supported themes */
-  theme?: 'light' | 'dark' | 'high-contrast';
-
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
-
-  /** Primary content */
-  children?: React.ReactNode;
-
-  /** Sets a container for toast rendering */
-  toastContainer?: HTMLElement | (() => HTMLElement | null) | null;
-}
-
-const CustomContext = React.createContext<CustomProviderProps>({});
-const themes = ['light', 'dark', 'high-contrast'];
-
-const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
+/**
+ * CustomProvider is used to provide global configuration, such as language, theme, etc.
+ *
+ * @see https://rsuitejs.com/components/custom-provider
+ */
+export default function CustomProvider(props: Omit<CustomProviderProps, 'toasters'>) {
   const {
     children,
     classPrefix = getClassNamePrefix(),
+    iconClassPrefix = classPrefix,
     theme,
-    toastContainer: container,
+    toastContainer = defaultToasterContainer,
+    csp,
+    disableInlineStyles,
     ...rest
   } = props;
-  const toasters = React.useRef(new Map<string, ToastContainerInstance>());
-  const { Portal } = usePortal({ container, waitMount: true });
+  const toasters = useRef(new Map<string, ToastContainerInstance>());
+  // This creates a ref that matches the expected type in CustomContext
+  const dialogContainerRef = useRef<DialogContainerInstance>(null);
+  const { Portal } = usePortal({ container: toastContainer, waitMount: true });
 
-  const value = React.useMemo(
-    () => ({ classPrefix, theme, toasters, ...rest }),
-    [classPrefix, theme, rest]
+  const value = useMemo(
+    () => ({ classPrefix, csp, theme, toasters, toastContainer, ...rest }),
+    [classPrefix, csp, theme, toastContainer, rest]
   );
 
-  useEffect(() => {
-    if (canUseDOM && theme) {
-      addClass(document.body, prefix(classPrefix, `theme-${theme}`));
+  const iconContext = useMemo(
+    () => ({ classPrefix: iconClassPrefix, csp, disableInlineStyles }),
+    [iconClassPrefix, csp, disableInlineStyles]
+  );
 
-      // Remove the className that will cause style conflicts
-      themes.forEach(t => {
-        if (t !== theme) {
-          removeClass(document.body, prefix(classPrefix, `theme-${t}`));
-        }
-      });
-    }
-  }, [classPrefix, theme]);
+  useThemeClass(classPrefix, theme);
+
+  // Create a context value with proper types
+  const contextValue = {
+    dialogContainer: dialogContainerRef,
+    ...value
+  };
 
   return (
-    <CustomContext.Provider value={value}>
-      {children}
-      <Portal>
-        <div className="rs-toast-provider">
-          {toastPlacements.map(placement => (
-            <ToastContainer
-              key={placement}
-              placement={placement}
-              ref={ref => {
-                toasters.current.set(placement, ref);
-              }}
-            />
-          ))}
-        </div>
-      </Portal>
+    <CustomContext.Provider value={contextValue}>
+      <IconProvider value={iconContext}>
+        {children}
+        <Portal>
+          <div className={`${classPrefix}toast-provider`}>
+            {toastPlacements.map(placement => (
+              <ToastContainer
+                key={placement}
+                placement={placement}
+                ref={(ref: any) => {
+                  toasters.current.set(placement, ref);
+                }}
+              />
+            ))}
+          </div>
+          {/* Dialog container for managing dialogs */}
+          <DialogContainer ref={dialogContainerRef} />
+        </Portal>
+      </IconProvider>
     </CustomContext.Provider>
   );
-};
-
-export { CustomContext };
-
-export default CustomProvider;
+}

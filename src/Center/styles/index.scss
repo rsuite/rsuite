@@ -1,0 +1,11 @@
+@use '../../internals/Box/styles/index' as box;
+
+.rs-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &[data-inline] {
+    display: inline-flex;
+  }
+}

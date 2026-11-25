@@ -1,37 +1,37 @@
-# Right-to-left
+# 从右到左 (RTL)
 
-为支持阿拉伯语和希伯来语等语言的习惯，对从右到左（RTL）读取的语言的 UI。
+支持阿拉伯语、希伯来语等从右到左（RTL）阅读的语言。
 
-## 使用步骤
+## 使用
 
-### 1.HTML 设置
+<div class="rs-doc-steps">
+<h3 class="rs-doc-step-header">整个页面</h3>
+<div class="rs-doc-step-body">
 
-确保在 body 上设置了 dir 属性：
+在 `<html>` 元素上设置 `dir="rtl"`，即可让整个页面采用从右到左的方向。RSuite 组件默认使用文档方向。
 
 ```html
 <html dir="rtl"></html>
 ```
 
-### 2.配置 CustomProvider
+</div>
 
-在 CustomProvider 组件上设置 rtl 属性，及所有组件根据 RTL 布局渲染。
+<h3 class="rs-doc-step-header">局部区域</h3>
+<div class="rs-doc-step-body">
+
+如果只在从左到右的页面中为某个区域启用 RTL，请在包裹该区域的 DOM 元素上设置 `dir="rtl"`，以控制文字方向和 CSS 布局。再在该元素内使用 `<CustomProvider rtl>`，让 RSuite 组件的交互（例如 Tabs 的方向键导航）也采用同一方向。
 
 ```jsx
-function RTL(props) {
-  return <CustomProvider rtl>{props.children}</CustomProvider>;
+import { CustomProvider } from 'rsuite';
+
+function App({ children }) {
+  return (
+    <div dir="rtl">
+      <CustomProvider rtl>{children}</CustomProvider>
+    </div>
+  );
 }
 ```
 
-### 3.引入 RTL 样式文件
-
-- 使用已编译的 RTL 版本的 CSS 文件
-
-```less
-@import '~rsuite/dist/rsuite-rtl.min.css';
-```
-
-- 如果使用 Less 版本，则通过 [rtlcss](https://rtlcss.com/) 处理最终成 CSS
-
-```less
-@import '~rsuite/styles/index.less';
-```
+</div>
+</div>

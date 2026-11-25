@@ -1,15 +1,27 @@
-import React from 'react';
-import { CheckTreePicker, Button, Toggle, Checkbox } from 'rsuite';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
+import PlacementContainer from '@/components/PlacementContainer';
+import Simulation from '@/components/Simulation';
+import {
+  CheckTreePicker,
+  Button,
+  Toggle,
+  Checkbox,
+  VStack,
+  HStack,
+  Loader,
+  Box,
+  Text
+} from 'rsuite';
 import {
   importFakerString,
+  mockAsyncData,
+  mockAsyncDataString,
   mockTreeData,
   mockTreeDataToString,
-  mockAsyncData,
-  mockAsyncDataString
+  sandboxFakerVersion
 } from '@/utils/mock';
 
 const mockfile = {
@@ -18,22 +30,33 @@ const mockfile = {
 };
 
 const sandboxDependencies = {
-  '@faker-js/faker': 'latest'
+  ...sandboxFakerVersion
+};
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['CheckTreePicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="check-tree-picker" />
 };
 
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         Checkbox,
         CheckTreePicker,
         Button,
         Toggle,
-        SpinnerIcon,
         PeoplesIcon,
         AdminIcon,
+        VStack,
+        HStack,
+        Loader,
+        Box,
+        Text,
         mockTreeData,
-        mockAsyncData
+        mockAsyncData,
+        PlacementContainer
       }}
       sandboxDependencies={sandboxDependencies}
       sandboxFiles={[mockfile]}

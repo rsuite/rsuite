@@ -1,0 +1,70 @@
+{
+  "Timeline": {
+    "props": {
+      "align": {
+        "type": "'left' | 'right' | 'alternate'",
+        "isRequired": false,
+        "description": "Timeline content alignment",
+        "defaultValue": "left"
+      },
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "ul"
+      },
+      "children": {
+        "type": "Timeline.Item[]",
+        "isRequired": true,
+        "description": "The content of the component"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "timeline"
+      },
+      "endless": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Timeline endless"
+      },
+      "isItemActive": {
+        "type": "(index: number, totalItemsCount: number) => boolean",
+        "isRequired": false,
+        "description": "Determine whether an item should be marked as active"
+      }
+    }
+  },
+  "Timeline.Item": {
+    "props": {
+      "children": {
+        "type": "ReactNode",
+        "isRequired": true,
+        "description": "The content of the component"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "timeline-item"
+      },
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "li"
+      },
+      "dot": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Customizing the Timeline item"
+      },
+      "time": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Customizing the Timeline time"
+      }
+    }
+  }
+}

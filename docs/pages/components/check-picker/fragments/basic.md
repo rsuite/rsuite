@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { CheckPicker } from 'rsuite';
+import { CheckPicker, VStack } from 'rsuite';
 
 const data = [
   'Eugenia',
@@ -25,9 +25,10 @@ const data = [
 ].map(item => ({ label: item, value: item }));
 
 const App = () => (
-  <>
-    <CheckPicker data={data} style={{ width: 224 }} />
-  </>
+  <VStack>
+    <CheckPicker data={data} w={224} />
+    <CheckPicker data={data} searchable={false} w={224} placeholder="Select without search" />
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

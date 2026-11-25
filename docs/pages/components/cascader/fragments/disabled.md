@@ -1,43 +1,42 @@
 <!--start-code-->
 
 ```js
-import { Cascader } from 'rsuite';
+import { Cascader, VStack, HStack, Divider, Text } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
   limits: [3, 3, 4],
   labels: (layer, value, faker) => {
     const methodName = ['jobArea', 'jobType', 'firstName'];
-    return faker.name[methodName[layer]]();
+    return faker.person[methodName[layer]]();
   }
 });
 
-const ControlLabel = ({ children }) => (
-  <label style={{ width: 130, display: 'inline-block' }}>{children}</label>
+const Field = ({ label, children, ...rest }) => (
+  <HStack align="start">
+    <Text muted w={120}>
+      {label}
+    </Text>
+    <Cascader {...rest} w={180} />
+  </HStack>
 );
 
 const App = () => (
-  <>
-    <ControlLabel>Disabled: </ControlLabel>
-    <Cascader disabled defaultValue="1-1" data={data} style={{ widht: 224 }} />
-
-    <hr />
-    <ControlLabel>Disabled option: </ControlLabel>
-    <Cascader
-      data={data}
-      defaultValue="1-1"
-      disabledItemValues={['2', '1-1']}
-      style={{ widht: 224 }}
-    />
-    <hr />
-    <ControlLabel>Read only: </ControlLabel>
-    <Cascader readOnly defaultValue="1-1" data={data} style={{ widht: 224 }} />
-
-    <hr />
-    <ControlLabel>Plaintext: </ControlLabel>
-    <Cascader plaintext defaultValue="1-1" data={data} style={{ widht: 224 }} />
-  </>
+  <VStack divider={<Divider />}>
+    <VStack>
+      <Field label="Disabled" disabled defaultValue="1-1" data={data} />
+      <Field
+        label="Disabled option"
+        data={data}
+        defaultValue="1-1"
+        disabledItemValues={['2', '1-1']}
+      />
+    </VStack>
+    <Field label="ReadOnly" readOnly defaultValue="1-1" data={data} />
+    <Field label="Plaintext" plaintext defaultValue="1-1" data={data} />
+  </VStack>
 );
+
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 

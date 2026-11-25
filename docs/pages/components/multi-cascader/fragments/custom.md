@@ -11,38 +11,42 @@ const data = mockTreeData({
   limits: [3, 3, 4],
   labels: (layer, value, faker) => {
     const methodName = ['jobArea', 'jobType', 'firstName'];
-    return faker.name[methodName[layer]]();
+    return faker.person[methodName[layer]]();
   }
 });
+
+const Column = ({ header, children }) => {
+  return (
+    <div>
+      <div
+        style={{
+          background: '#154c94',
+          padding: '4px 10px',
+          color: ' #fff',
+          textAlign: 'center'
+        }}
+      >
+        {header}
+      </div>
+      {children}
+    </div>
+  );
+};
 
 const App = () => (
   <MultiCascader
     data={data}
     block
-    menuWidth={220}
-    renderMenuItem={(label, item) => {
+    columnWidth={220}
+    renderTreeNode={(label, node) => {
       return (
         <div>
           <AdminIcon /> {label}
         </div>
       );
     }}
-    renderMenu={(children, menu, parentNode, layer) => {
-      return (
-        <div>
-          <div
-            style={{
-              background: '#154c94',
-              padding: '4px 10px',
-              color: ' #fff',
-              textAlign: 'center'
-            }}
-          >
-            {headers[layer]}
-          </div>
-          {menu}
-        </div>
-      );
+    renderColumn={(childNodes, { layer }) => {
+      return <Column header={headers[layer]}> {childNodes}</Column>;
     }}
     placeholder={
       <span>

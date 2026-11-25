@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-import { createChainedFunction, useClassNames } from '../utils';
-import { ModalContext } from './ModalContext';
-import CloseButton from '../CloseButton';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import Close from '@rsuite/icons/Close';
+import CloseButton from '@/internals/CloseButton';
 import IconButton from '../IconButton';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef, createChainedFunction } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
+import { ModalContext } from './ModalContext';
 
-export interface ModalHeaderProps extends WithAsProps {
+export interface ModalHeaderProps extends BoxProps {
   /** Primary content */
   children?: React.ReactNode;
 
@@ -18,54 +17,36 @@ export interface ModalHeaderProps extends WithAsProps {
   onClose?: (event: React.MouseEvent) => void;
 }
 
-const ModalHeader: RsRefForwardingComponent<'div', ModalHeaderProps> = React.forwardRef(
-  (props: ModalHeaderProps, ref) => {
-    const {
-      as: Component = 'div',
-      classPrefix = 'modal-header',
-      className,
-      closeButton = true,
-      children,
-      onClose,
-      ...rest
-    } = props;
-    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
+const ModalHeader = forwardRef<'div', ModalHeaderProps>((props, ref) => {
+  const {
+    as,
+    classPrefix = 'modal-header',
+    className,
+    closeButton = true,
+    children,
+    onClose,
+    ...rest
+  } = props;
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
-    const context = useContext(ModalContext);
+  const context = useContext(ModalContext);
+  const { onModalClose } = context || {};
 
-    const buttonElement = !context?.isDrawer ? (
-      <CloseButton
-        className={prefix('close')}
-        onClick={createChainedFunction(onClose, context?.onModalClose)}
-      />
-    ) : (
-      <IconButton
-        icon={<Close />}
-        appearance="subtle"
-        size="sm"
-        className={prefix('close')}
-        onClick={createChainedFunction(onClose, context?.onModalClose)}
-      />
-    );
-
-    return (
-      <Component {...rest} ref={ref} className={classes}>
-        {closeButton && buttonElement}
-        {children}
-      </Component>
-    );
-  }
-);
+  return (
+    <Box as={as} {...rest} ref={ref} className={classes}>
+      {closeButton && (
+        <CloseButton
+          as={IconButton}
+          className={prefix('close')}
+          onClick={createChainedFunction(onClose, onModalClose)}
+        />
+      )}
+      {children}
+    </Box>
+  );
+});
 
 ModalHeader.displayName = 'ModalHeader';
-ModalHeader.propTypes = {
-  as: PropTypes.elementType,
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  closeButton: PropTypes.bool,
-  children: PropTypes.node,
-  onHide: PropTypes.func
-};
 
 export default ModalHeader;

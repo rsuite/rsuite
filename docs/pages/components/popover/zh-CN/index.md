@@ -2,12 +2,12 @@
 
 鼠标点击/移入的时候，弹出的弹出框，用于显示更多内容。
 
-- `<Popover>` 弹出框。
-- `<Whisper>` 监听触发器，包裹被监听对象的外面，触发事件后通知到 `<Popover>` 展示出来。
-
 ## 获取组件
 
-<!--{include:(components/popover/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `Popover` 弹出框。
+- `Whisper` 监听触发器，包裹被监听对象的外面，触发事件后通知到 `<Popover>` 展示出来。
 
 ## 演示
 
@@ -40,9 +40,9 @@
 
 <!--{include:`container.md`}-->
 
-### 与 Dropdown 组合使用
+### 与 `Menu` 组合使用
 
-<!--{include:`with-dropdown.md`}-->
+<!--{include:`with-menu.md`}-->
 
 ### 隐藏箭头
 
@@ -67,6 +67,7 @@
 | classPrefix | string `('popover')` | 组件 CSS 类的前缀  |
 | title       | ReactNode            | 标题               |
 | visible     | boolean              | 组件默认可见的     |
+| full        | boolean              | 撑满容器           |
 
 <!--{include:(components/whisper/zh-CN/props.md)}-->
 <!--{include:(_common/types/placement-all.md)}-->

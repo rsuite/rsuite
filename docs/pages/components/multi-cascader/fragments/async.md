@@ -16,15 +16,9 @@ const App = () => {
         value={value}
         onChange={setValue}
         placeholder="Select"
-        style={{ width: 224 }}
+        w={224}
         data={initialData}
         getChildren={fetchNodes}
-        renderMenu={(children, menu, parentNode) => {
-          if (parentNode && parentNode.loading) {
-            return <p style={{ padding: 10, color: '#999', textAlign: 'center' }}>Loading...</p>;
-          }
-          return menu;
-        }}
       />
     </div>
   );

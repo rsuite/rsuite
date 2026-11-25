@@ -11,15 +11,20 @@ const App = () => {
 
   return (
     <Stack direction="column" spacing={8} alignItems="flex-start">
+      <label>Controlled Value:</label>
       <DateRangePicker value={value} onChange={setValue} />
 
       <DateRangePicker
         value={value}
         onChange={setValue}
-        showMeridian
+        showMeridiem
         format="yyyy-MM-dd HH:mm:ss"
         defaultCalendarValue={[new Date('2022-02-01 00:00:00'), new Date('2022-03-01 23:59:59')]}
       />
+
+      <label>Uncontrolled Value:</label>
+
+      <DateRangePicker defaultValue={[new Date(), new Date()]} />
     </Stack>
   );
 };

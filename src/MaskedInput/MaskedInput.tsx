@@ -1,19 +1,22 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import TextMask from './TextMask';
 import Input, { InputProps } from '../Input';
+import { forwardRef } from '@/internals/utils';
+import { useCustom } from '@/internals/hooks';
+import type { PropsWithoutChange } from '@/internals/types';
 import type { TextMaskProps } from './TextMask';
 
-import { RsRefForwardingComponent } from '../@types/common';
+export type MaskedInputProps = PropsWithoutChange<TextMaskProps> & Omit<InputProps, 'type'>;
 
-export type MaskedInputProps = Omit<TextMaskProps, 'onChange'> & Omit<InputProps, 'type'>;
+const MaskedInput = forwardRef<'input', MaskedInputProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('MaskedInput', props);
 
-const MaskedInput: RsRefForwardingComponent<'input', MaskedInputProps> = React.forwardRef<
-  HTMLInputElement,
-  MaskedInputProps
->((props: MaskedInputProps, ref) => {
-  const { as: inputAs = TextMask } = props;
+  const { as: inputAs = TextMask } = propsWithDefaults;
 
-  return <Input {...props} as={inputAs} ref={ref} />;
+  return <Input {...propsWithDefaults} as={inputAs} ref={ref} />;
 });
+
+MaskedInput.displayName = 'MaskedInput';
 
 export default MaskedInput;

@@ -8,17 +8,17 @@ const data = mockTreeData({
   limits: [3, 3, 4],
   labels: (layer, value, faker) => {
     const methodName = ['jobArea', 'jobType', 'firstName'];
-    return faker.name[methodName[layer]]();
+    return faker.person[methodName[layer]]();
   }
 });
 
 const App = () => (
   <div>
     <p>Cascade:</p>
-    <MultiCascader data={data} defaultValue={['1-1', '1-2', '2']} />
+    <MultiCascader data={data} defaultValue={['1-1', '1-2', '2']} minw={224} />
     <hr />
     <p>Not cascaded:</p>
-    <MultiCascader data={data} defaultValue={['1-1', '1-2', '2']} cascade={false} />
+    <MultiCascader data={data} defaultValue={['1-1', '1-2', '2']} cascade={false} minw={224} />
   </div>
 );
 

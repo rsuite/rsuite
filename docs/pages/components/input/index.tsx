@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Input,
   InputGroup,
@@ -11,19 +10,40 @@ import {
   SelectPicker,
   ButtonToolbar,
   Toggle,
-  FlexboxGrid
+  Stack,
+  VStack,
+  HStack,
+  Loader,
+  Dropdown,
+  Popover,
+  Divider,
+  Kbd,
+  Box,
+  Text
 } from 'rsuite';
-import DefaultPage from '@/components/Page';
-
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
+import InfoRoundIcon from '@rsuite/icons/InfoRound';
+import EyeCloseIcon from '@rsuite/icons/EyeClose';
+import VisibleIcon from '@rsuite/icons/Visible';
+import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 import SearchIcon from '@rsuite/icons/Search';
-import InfoIcon from '@rsuite/icons/legacy/Info';
-import AvatarIcon from '@rsuite/icons/legacy/Avatar';
-import EyeIcon from '@rsuite/icons/legacy/Eye';
-import EyeSlashIcon from '@rsuite/icons/legacy/EyeSlash';
+import CloseOutlineIcon from '@rsuite/icons/CloseOutline';
+import { FaRegUserCircle } from 'react-icons/fa';
+
+const inDocsComponents = {
+  'import-guide': () => (
+    <ImportGuide
+      components={['Input', 'InputGroup', 'MaskedInput']}
+      hasCssComponents={['Input', 'InputGroup']}
+    />
+  )
+};
 
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         Input,
         InputGroup,
@@ -32,16 +52,27 @@ export default function Page() {
         Grid,
         Row,
         Col,
-        SearchIcon,
-        InfoIcon,
-        AvatarIcon,
-        EyeIcon,
-        EyeSlashIcon,
         MaskedInput,
         SelectPicker,
         ButtonToolbar,
         Toggle,
-        FlexboxGrid
+        Stack,
+        VStack,
+        HStack,
+        Loader,
+        Popover,
+        Dropdown,
+        Divider,
+        Kbd,
+        Box,
+        Text,
+        SearchIcon,
+        InfoRoundIcon,
+        EyeCloseIcon,
+        VisibleIcon,
+        ArrowDownIcon,
+        CloseOutlineIcon,
+        FaRegUserCircle
       }}
     />
   );

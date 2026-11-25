@@ -1,0 +1,118 @@
+{
+  "AutoComplete": {
+    "props": {
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "auto-complete"
+      },
+      "data": {
+        "type": "Option[] | string[]",
+        "isRequired": true,
+        "description": "The data of component"
+      },
+      "defaultValue": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The default value (uncontrolled)"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether disabled select"
+      },
+      "filterBy": {
+        "type": "(value: string, item: Option) => boolean",
+        "isRequired": false,
+        "description": "Custom filter rules (will only display items that value is a substring of which by default)"
+      },
+      "onChange": {
+        "type": "(value:string, event) => void",
+        "isRequired": false,
+        "description": "Called when select an option or input value change, or value of input is changed"
+      },
+      "onClose": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired when hidden"
+      },
+      "onEnter": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired before the overlay transitions in"
+      },
+      "onEntered": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired after the overlay finishes transitioning in"
+      },
+      "onEntering": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired as the overlay begins to transition in"
+      },
+      "onExit": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired right before the overlay transitions out"
+      },
+      "onExited": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired after the overlay finishes transitioning out"
+      },
+      "onExiting": {
+        "type": "() => void",
+        "isRequired": false,
+        "description": "Callback fired as the overlay begins to transition out"
+      },
+      "onSelect": {
+        "type": "(item: Option, event) => void",
+        "isRequired": false,
+        "description": "Called when a option is selected."
+      },
+      "placeholder": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The placeholder of input"
+      },
+      "popupClassName": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Custom class name for the popup"
+      },
+      "popupStyle": {
+        "type": "CSSProperties",
+        "isRequired": false,
+        "description": "Custom style for the popup"
+      },
+      "renderListbox": {
+        "type": "(listbox:ReactNode) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render listbox"
+      },
+      "renderOption": {
+        "type": "(label:ReactNode, item: Option) => ReactNode",
+        "isRequired": false,
+        "description": "Custom render option"
+      },
+      "selectOnEnter": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "When set to `false`, the Enter key selection function is invalid",
+        "defaultValue": "true"
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "A component can have different sizes"
+      },
+      "value": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The current value (controlled)"
+      }
+    }
+  }
+}

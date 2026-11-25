@@ -4,7 +4,7 @@ Used to display an avatar or brand.
 
 ## Import
 
-<!--{include:(components/avatar/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 
@@ -14,8 +14,6 @@ Used to display an avatar or brand.
 
 ### Character avatar
 
-You can change the `<Avatar>` background color and font color by `style`;
-
 <!--{include:`text.md`}-->
 
 ### Icon avatars
@@ -24,13 +22,28 @@ You can change the `<Avatar>` background color and font color by `style`;
 
 ### Image avatars
 
-You can set `alt` for `<Avatar>` , it make sure avatar show pure text avatar when image load failed.
-
 <!--{include:`image.md`}-->
 
-### Sizes
+### Size
 
 <!--{include:`size.md`}-->
+
+### Bordered
+
+<!--{include:`bordered.md`}-->
+
+### Color
+
+<!--{include:`color.md`}-->
+
+### Avatar Fallbacks
+
+If there is an error loading the src of the avatar, there are 2 fallbacks:
+
+1. If there is an `alt` prop, the value of the alt attribute will be rendered.
+2. If there is no `alt` prop, a default avatar will be rendered.
+
+<!--{include:`fallback.md`}-->
 
 ### Stacked avatars
 
@@ -44,22 +57,31 @@ You can set `alt` for `<Avatar>` , it make sure avatar show pure text avatar whe
 
 ### `<Avatar>`
 
-| Property    | Type`(Default)`                                   | Description                                                                                    |
-| ----------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| alt         | string                                            | This attribute defines the alternative text for the image avatar                               |
-| children    | string, Element<typeof Icon>                      | Content(It maybe text or icon)                                                                 |
-| circle      | boolean                                           | Render a circle avatar                                                                         |
-| classPrefix | string `('avatar')`                               | The prefix of the component CSS class                                                          |
-| imgProps    | object                                            | Attributes applied to the `img` element if the component is used to display an image.          |
-| size        | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | Size of avatar                                                                                 |
-| sizes       | string                                            | The `sizes` attribute for the `img` element.                                                   |
-| src         | string                                            | The `src` attribute for the `img` element.                                                     |
-| srcSet      | string                                            | The `srcSet` attribute for the `img` element. Use this attribute for responsive image display. |
+| Property    | Type                                                  | Description                                                                                    | Version     |
+| ----------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ----------- |
+| alt         | string                                                | This attribute defines the alternative text for the image avatar.                              |             |
+| bordered    | boolean                                               | Whether to show the border.                                                                    | ![][5.59.0] |
+| children    | string \| Element<typeof Icon>                        | Content(It maybe text or icon).                                                                |             |
+| circle      | boolean                                               | Render a circle avatar.                                                                        |             |
+| classPrefix | string `('avatar')`                                   | The prefix of the component CSS class.                                                         |             |
+| color       | [ColorScheme][color-scheme] \| CSSProperties['color'] | Set the background color of the avatar.                                                        | ![][5.59.0] |
+| imgProps    | object                                                | Attributes applied to the `img` element if the component is used to display an image.          |             |
+| onError     | (event) => void                                       | Callback when the image fails to load.                                                         | ![][5.59.0] |
+| size        | [Size][size] \| `('md')`                              | Size of avatar.                                                                                |             |
+| sizes       | string                                                | The `sizes` attribute for the `img` element.                                                   |             |
+| src         | string                                                | The `src` attribute for the `img` element.                                                     |             |
+| srcSet      | string                                                | The `srcSet` attribute for the `img` element. Use this attribute for responsive image display. |             |
 
 ### `<AvatarGroup>`
 
-| Property | Type`(Default)`                          | Description                    |
-| -------- | ---------------------------------------- | ------------------------------ |
-| size     | enum: 'lg'&#124;'md'&#124;'sm'&#124;'xs' | Set the size of all avatars    |
-| spacing  | number                                   | Set the spacing of the avatars |
-| stack    | boolean                                  | Render all avatars as stacks   |
+| Property | Type`(Default)` | Description                     |
+| -------- | --------------- | ------------------------------- |
+| size     | [Size][size]    | Set the size of all avatars.    |
+| spacing  | number          | Set the spacing of the avatars. |
+| stack    | boolean         | Render all avatars as stacks.   |
+
+<!--{include:(_common/types/color-scheme.md)}-->
+<!--{include:(_common/types/size.md)}-->
+
+[color-scheme]: #code-ts-color-scheme-code
+[size]: #code-ts-size-code

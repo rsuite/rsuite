@@ -1,6 +1,6 @@
 import React, { useState, useRef, useImperativeHandle, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { partitionHTMLProps, isIE, guid } from '../utils';
+import Box from '@/internals/Box';
+import { partitionHTMLProps, isIE, guid } from '@/internals/utils';
 
 const sizerStyle: React.CSSProperties = {
   position: 'absolute',
@@ -50,8 +50,8 @@ export interface InputInstance {
  */
 const useInputWidth = (
   props: Partial<InputAutosizeProps>,
-  sizerRef: React.RefObject<HTMLDivElement>,
-  placeholderRef: React.RefObject<HTMLDivElement>
+  sizerRef: React.RefObject<HTMLDivElement | null>,
+  placeholderRef: React.RefObject<HTMLDivElement | null>
 ) => {
   const { minWidth = 1, placeholder, value, onAutosize } = props;
   const [inputWidth, setInputWidth] = useState(minWidth);
@@ -63,9 +63,9 @@ const useInputWidth = (
 
     let width: number;
     if (placeholder && !value && placeholderRef.current) {
-      width = Math.max(sizerRef.current.scrollWidth, placeholderRef.current.scrollWidth) + 2;
+      width = Math.max(sizerRef.current.scrollWidth, placeholderRef.current.scrollWidth) + 10;
     } else {
-      width = sizerRef.current.scrollWidth + 2;
+      width = sizerRef.current.scrollWidth + 10;
     }
 
     if (width < minWidth) {
@@ -114,7 +114,6 @@ const InputAutosize = React.forwardRef(
     });
 
     const inputWidth = useInputWidth(props, sizerRef, placeholderRef);
-    const wrapperStyle: React.CSSProperties = { display: 'inline-block', ...style };
     const nextInputStyle: React.CSSProperties = {
       boxSizing: 'content-box',
       width: `${inputWidth}px`,
@@ -154,7 +153,7 @@ const InputAutosize = React.forwardRef(
     }
 
     return (
-      <div ref={rootRef} className={className} style={wrapperStyle}>
+      <Box ref={rootRef} className={className} style={style} display="inline-block">
         {isIE() ? (
           <style
             dangerouslySetInnerHTML={{ __html: `input#${inputId}::-ms-clear {display: none;}` }}
@@ -169,24 +168,11 @@ const InputAutosize = React.forwardRef(
             {placeholder}
           </div>
         ) : null}
-      </div>
+      </Box>
     );
   }
 );
 
 InputAutosize.displayName = 'InputAutosize';
-InputAutosize.propTypes = {
-  className: PropTypes.string,
-  defaultValue: PropTypes.any,
-  inputId: PropTypes.string,
-  inputClassName: PropTypes.string,
-  inputStyle: PropTypes.object,
-  minWidth: PropTypes.number,
-  onChange: PropTypes.func,
-  placeholder: PropTypes.string,
-  style: PropTypes.object,
-  value: PropTypes.any,
-  onAutosize: PropTypes.func
-};
 
 export default InputAutosize;

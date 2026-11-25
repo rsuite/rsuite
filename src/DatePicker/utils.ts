@@ -1,10 +1,19 @@
+import omit from 'lodash/omit';
+import { overlayPropKeys } from '@/internals/Picker';
 import { ToolbarProps } from './Toolbar';
-import { subDays, startOfDay, endOfDay } from '../utils/dateUtils';
-import { InnerRange, RangeType } from './types';
-import { DateRange } from '../DateRangePicker/types';
+import {
+  subDays,
+  startOfDay,
+  endOfDay,
+  calendarOnlyProps,
+  startOfToday
+} from '@/internals/utils/date';
+import type { DateOptionPreset } from '@/internals/types';
+import type { InnerRange } from './types';
+import type { DateRange } from '../DateRangePicker/types';
 
 export function getDefaultRanges<T extends Date | DateRange>(value: T): InnerRange<T>[] {
-  const today = new Date();
+  const today = startOfToday();
 
   /**
    * If it is an array type, it returns the default shortcut key suitable for DateRangePicker Toolbar,
@@ -29,7 +38,7 @@ export function getDefaultRanges<T extends Date | DateRange>(value: T): InnerRan
 
 const generateRangesIterator =
   <T extends Date | DateRange>({ calendarDate }: Pick<ToolbarProps<T>, 'calendarDate'>) =>
-  ({ value, ...rest }: RangeType<T>): InnerRange<T> => ({
+  ({ value, ...rest }: DateOptionPreset<T | null>): InnerRange<T | null> => ({
     value: typeof value === 'function' ? value(calendarDate) : value,
     ...rest
   });
@@ -42,8 +51,27 @@ const generateRangesIterator =
 export const getRanges = <T extends Date | DateRange>({
   ranges,
   calendarDate
-}: Pick<ToolbarProps<T>, 'ranges' | 'calendarDate'>): InnerRange<T>[] => {
+}: Pick<ToolbarProps<T>, 'ranges' | 'calendarDate'>): InnerRange<T | null>[] => {
   return typeof ranges === 'undefined'
     ? getDefaultRanges(calendarDate)
     : ranges.map(generateRangesIterator({ calendarDate }));
+};
+
+export function splitRanges<T extends Date | DateRange>(ranges?: DateOptionPreset<T | null>[]) {
+  // The shortcut option on the left side of the calendar panel
+  const sideRanges = ranges?.filter(range => range?.placement === 'left');
+
+  // The shortcut option on the bottom of the calendar panel
+  const bottomRanges = ranges?.filter(
+    range => range?.placement === 'bottom' || range?.placement === undefined
+  );
+
+  return {
+    sideRanges,
+    bottomRanges
+  };
+}
+
+export const getRestProps = (props: any, omitProps: string[] = []) => {
+  return omit(props, [...overlayPropKeys, ...calendarOnlyProps, ...omitProps]);
 };

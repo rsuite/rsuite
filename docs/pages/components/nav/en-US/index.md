@@ -2,9 +2,9 @@
 
 Provides a list of various forms of navigation menus, which can be landscape and portrait layout.
 
-## Usage
+## Import
 
-<!--{include:(components/nav/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 
@@ -14,20 +14,23 @@ Provides a list of various forms of navigation menus, which can be landscape and
 
 ### Appearance
 
-`appearance` values include: `default`,`tabs`,`subtle`.
+`appearance` property sets the appearance of the navigation.
+
+- `default` - default navigation.
+- `tabs` - Tabbed navigation.
+- `subtle` - Subtle navigation.
 
 <!--{include:`appearance.md`}-->
 
-> For subtle and tabs navigation, you can set a reversed property to reverse direction and fit all directions.
+### Reversed
+
+<!--{include:`reversed.md`}-->
 
 ### Vertical
 
 <!--{include:`vertical.md`}-->
 
-### Option Status
-
-- active
-- disabled
+### Disabled Item
 
 <!--{include:`status.md`}-->
 
@@ -43,34 +46,25 @@ Provides a list of various forms of navigation menus, which can be landscape and
 
 <!--{include:`icon.md`}-->
 
-### Used with `Link` in `next/link`
+### Routing Library
+
+The `Nav.Item` component can be used with other routing libraries (such as Next.js, React Router) through the `as` prop. See the [Composition Guide](https://rsuitejs.com/guide/composition/#react-router-dom) for details.
 
 <!--{include:`with-router.md`}-->
-
-> [ Used with `Link` in React Router](/guide/composition/#react-router-dom)
-
-### Responsive
-
-<!--{include:`responsive-nav.md`}-->
-
-### Removable
-
-<!--{include:`removable-nav.md`}-->
 
 ## Props
 
 ### `<Nav>`
 
-| Property    | Type `(Default)`                                      | Description                                                |
-| ----------- | ----------------------------------------------------- | ---------------------------------------------------------- |
-| activeKey   | string                                                | Active `key`, corresponding to `eventkey` in `<Nav.item>`. |
-| appearance  | 'default' &#124; 'tabs' &#124; 'subtle' `('default')` | A navigation can have different appearances                |
-| children \* | ChildrenArray&lt;NavItem or Dropdown&gt;              | The contents of the component.                             |
-| classPrefix | string `('nav')`                                      | The prefix of the component CSS class                      |
-| justified   | boolean                                               | Justified navigation                                       |
-| onSelect    | (eventKey: string, event) => void                     | Callback function triggered after selection                |
-| pullRight   | boolean                                               | appears on the right.                                      |
-| vertical    | boolean                                               | Stacked navigation                                         |
+| Property    | Type `(Default)`                              | Description                                                |
+| ----------- | --------------------------------------------- | ---------------------------------------------------------- |
+| activeKey   | string                                        | Active `key`, corresponding to `eventkey` in `<Nav.item>`. |
+| appearance  | 'default' \| 'tabs' \| 'subtle' `('default')` | A navigation can have different appearances                |
+| children \* | ChildrenArray&lt;NavItem or Dropdown&gt;      | The contents of the component.                             |
+| classPrefix | string `('nav')`                              | The prefix of the component CSS class                      |
+| justified   | boolean                                       | Justified navigation                                       |
+| onSelect    | (eventKey: string, event) => void             | Callback function triggered after selection                |
+| vertical    | boolean                                       | Stacked navigation                                         |
 
 ### `<Nav.Item>`
 
@@ -80,18 +74,34 @@ Provides a list of various forms of navigation menus, which can be landscape and
 | as          | ElementType `('a')`               | You can use a custom element type for this component. |
 | children \* | ReactNode                         | The contents of the component                         |
 | disabled    | boolean                           | Disabled status                                       |
+| eventKey    | string                            | The value of the current option                       |
 | href        | string                            | Link                                                  |
 | icon        | Element&lt;typeof Icon&gt;        | Sets the icon for the component                       |
 | onSelect    | (eventKey: string, event) => void | Select the callback function that the event triggers. |
 
 ### `<Nav.Menu>`
 
-| Property      | Type `(Default)`                               | Description                                                    |
-| ------------- | ---------------------------------------------- | -------------------------------------------------------------- |
-| icon          | ReactElement                                   | Icon of the item that opens the menu                           |
-| noCaret       | boolean `(false)`                              | Whether to hide the caret icon                                 |
-| onClose       | (event: SyntheticEvent) => void                | Callback when menu closes                                      |
-| onOpen        | (event: SyntheticEvent) => void                | Callback when menu opens                                       |
-| onToggle      | (open: boolean, event: SyntheticEvent) => void | Callback when menu opens/closes                                |
-| openDirection | "start"&#124;"end" `("end")`                   | Direction that menu opens towards (only available on submenus) |
-| title         | ReactNode                                      | Content of the item that opens the menu                        |
+| Property      | Type `(Default)`               | Description                                                    |
+| ------------- | ------------------------------ | -------------------------------------------------------------- |
+| icon          | ReactElement                   | Icon of the item that opens the menu                           |
+| noCaret       | boolean `(false)`              | Whether to hide the caret icon                                 |
+| onClose       | (event) => void                | Callback when menu closes                                      |
+| onOpen        | (event) => void                | Callback when menu opens                                       |
+| onToggle      | (open: boolean, event) => void | Callback when menu opens/closes                                |
+| openDirection | "start"\|"end" `("end")`       | Direction that menu opens towards (only available on submenus) |
+| title         | ReactNode                      | Content of the item that opens the menu                        |
+
+### `<Nav.MegaMenu>`
+
+![][6.0.0]
+
+| Property  | Type `(Default)`                                             | Description                                                                                  |
+| --------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| title     | ReactNode                                                    | Title or content of the mega menu trigger                                                    |
+| children  | ReactNode \| ((props: { onClose: () => void }) => ReactNode) | Content of the mega menu, can be a React node or a function that returns a node with onClose |
+| placement | [Placement](#code-ts-placement-code) `('autoVertical')`      | Placement of the mega menu                                                                   |
+| ...       | [NavItemProps][NavItemProps]                                 | Extends all props from `<Nav.Item>` component                                                |
+
+[NavItemProps]: /components/nav/#code-lt-nav-item-gt-code
+
+<!--{include:(_common/types/placement-all.md)}-->

@@ -1,30 +1,3 @@
-export const data = [
-  {
-    label: 'Master',
-    value: 'Master',
-    children: [
-      {
-        label: 'tester0',
-        value: 'tester0'
-      },
-      {
-        label: 'tester1',
-        value: 'tester1',
-        children: [
-          {
-            label: 'tester2',
-            value: 'tester2'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    label: 'Disabled node',
-    value: 'disabled'
-  }
-];
-
 export const originMockData = [
   {
     value: 'root-node',
@@ -61,5 +34,20 @@ export const changedMockData = [
         children: []
       }
     ]
+  }
+];
+
+export const controlledData = [
+  {
+    label: 'Eugenia',
+    value: 'Eugenia'
+  },
+  {
+    label: 'Kariane',
+    value: 'Kariane'
+  },
+  {
+    label: 'Louisa',
+    value: 'Louisa'
   }
 ];

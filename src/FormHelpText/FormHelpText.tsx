@@ -1,61 +1,68 @@
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import HelpOutlineIcon from '@rsuite/icons/HelpOutline';
 import Tooltip from '../Tooltip';
 import Whisper from '../Whisper';
-import { useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { FormGroupContext } from '../FormGroup/FormGroup';
-import HelpO from '@rsuite/icons/legacy/HelpO';
+import Box, { BoxProps } from '@/internals/Box';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useCustom } from '@/internals/hooks';
+import { useFormGroup } from '../FormGroup';
+import { useFormGroupRegistration } from '../FormGroup/useFormGroupRegistration';
+import { registerFormGroupPart } from '../FormGroup/formGroupRelations';
 
-export interface FormHelpTextProps extends WithAsProps {
+export interface FormHelpTextProps
+  extends BoxProps,
+    Omit<React.HTMLAttributes<HTMLSpanElement>, 'color'> {
   /** Whether to show through the Tooltip component */
   tooltip?: boolean;
 }
 
-const FormHelpText: RsRefForwardingComponent<'span', FormHelpTextProps> = React.forwardRef(
-  (props: FormHelpTextProps, ref: React.Ref<any>) => {
-    const {
-      as: Component = 'span',
-      classPrefix = 'form-help-text',
-      className,
-      tooltip,
-      children,
-      ...rest
-    } = props;
+/**
+ * The `<Form.HelpText>` component is used to display help information in the form.
+ * @see https://rsuitejs.com/components/form/
+ */
+const FormHelpText = forwardRef<'span', FormHelpTextProps>((props, ref) => {
+  const { helpTextId } = useFormGroup();
+  const { propsWithDefaults } = useCustom('FormHelpText', props);
+  const {
+    as = 'span',
+    classPrefix = 'form-help-text',
+    className,
+    tooltip,
+    children,
+    id = helpTextId,
+    ...rest
+  } = propsWithDefaults;
+  useFormGroupRegistration('helpText', tooltip ? undefined : id);
 
-    const { controlId } = useContext(FormGroupContext);
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ tooltip }));
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix({ tooltip }));
 
-    if (tooltip) {
-      return (
-        <Whisper ref={ref} placement="topEnd" speaker={<Tooltip {...rest}>{children}</Tooltip>}>
-          <Component className={classes}>
-            <HelpO />
-          </Component>
-        </Whisper>
-      );
-    }
-
+  if (tooltip) {
     return (
-      <Component
-        id={controlId ? `${controlId}-help-text` : null}
-        {...rest}
+      <Whisper
         ref={ref}
-        className={classes}
+        placement="topEnd"
+        speaker={
+          <Tooltip id={id} {...rest}>
+            {children}
+          </Tooltip>
+        }
       >
-        {children}
-      </Component>
+        <Box as={as} role="img" aria-label="help" className={classes}>
+          <HelpOutlineIcon aria-hidden={true} />
+        </Box>
+      </Whisper>
     );
   }
-);
+
+  return (
+    <Box as={as} id={id} {...rest} ref={ref} className={classes}>
+      {children}
+    </Box>
+  );
+});
 
 FormHelpText.displayName = 'FormHelpText';
-FormHelpText.propTypes = {
-  className: PropTypes.string,
-  tooltip: PropTypes.bool,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string
-};
+registerFormGroupPart(FormHelpText, 'helpText');
 
 export default FormHelpText;

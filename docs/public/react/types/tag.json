@@ -1,0 +1,65 @@
+{
+  "Tag": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "div"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": true,
+        "description": "The content of the component."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "tag"
+      },
+      "closable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to display the Close button"
+      },
+      "color": {
+        "type": "'red' | 'orange' | 'yellow' | 'green' | 'cyan' | 'blue' | 'violet' | CSSProperties['color']",
+        "isRequired": false,
+        "description": "Set the tag color, supports preset colors and custom CSS colors"
+      },
+      "onClose": {
+        "type": "(event) => void",
+        "isRequired": false,
+        "description": "Click the callback function for the Close button"
+      },
+      "size": {
+        "type": "'sm' | 'md' | 'lg'",
+        "isRequired": false,
+        "description": "Set the tag size",
+        "defaultValue": "md"
+      }
+    }
+  },
+  "TagGroup": {
+    "props": {
+      "as": {
+        "type": "ElementType",
+        "isRequired": false,
+        "description": "You can use a custom element type for this component",
+        "defaultValue": "div"
+      },
+      "children": {
+        "type": "ReactNode",
+        "isRequired": true,
+        "description": "The content of the component."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "tag-group"
+      }
+    }
+  }
+}

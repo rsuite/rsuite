@@ -2,15 +2,13 @@
 
 ```js
 import { Nav } from 'rsuite';
-import HomeIcon from '@rsuite/icons/legacy/Home';
 
 const App = () => (
-  <Nav>
-    <Nav.Item icon={<HomeIcon />}>Home</Nav.Item>
-    <Nav.Item>News</Nav.Item>
-    <Nav.Item>Solutions</Nav.Item>
-    <Nav.Item>Products</Nav.Item>
-    <Nav.Item>About</Nav.Item>
+  <Nav defaultActiveKey="home">
+    <Nav.Item eventKey="home">Home</Nav.Item>
+    <Nav.Item eventKey="products">Products</Nav.Item>
+    <Nav.Item eventKey="services">Services</Nav.Item>
+    <Nav.Item eventKey="contact">Contact Us</Nav.Item>
   </Nav>
 );
 

@@ -1,15 +1,12 @@
 # Button
 
-Commonly used operating buttons, button combinations, button layouts.
-
-- `<Button>` is the most basic element in the component, you can quickly create a styled button.
-- `<IconButton>` Button with icon.
-- `<ButtonGroup>` Button group control can put a group of buttons together and control the layout.
-- `<ButtonToolbar>` Button Toolbar Controls.
+Commonly used operating buttons。
 
 ## Import
 
-<!--{include:(components/button/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `Button` is the most basic element in the component, you can quickly create a styled button.
 
 ## Examples
 
@@ -19,37 +16,33 @@ Commonly used operating buttons, button combinations, button layouts.
 
 ### Appearance
 
-`appearance` property can set appearance of button:
-
-- 'default'(default) default button.
-- 'primary' Emphasi, guide button.
-- 'link' Button like link.
-- 'subtle' Weakened button.
-- 'ghost' Ghost button, background transparent, place button on background element.
+`appearance` property sets the button style, options includes: `default`, `primary`, `link`, `subtle`, `ghost`.
 
 <!--{include:`appearance.md`}-->
 
-### Size
+### Sizes
 
-The `size` property sets the button size, options includes: 'lg', 'md', 'sm', 'xs'.
+The `size` property sets the button size, options includes: `lg`, `md`, `sm`, `xs`.
 
 <!--{include:`size.md`}-->
 
-### Colorful button
+### Colors
 
-The `color` property sets the button style, Options include: 'red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'.
+The `color` property sets the button style, Options include: `red`, `orange`, `yellow`, `green`, `cyan`, `blue`, `violet`.
 
 <!--{include:`color.md`}-->
 
-### Custom combination button
+### Icon before
 
-<!--{include:`custom.md`}-->
+Display an icon before the text.
 
-### Icon button
+<!--{include:`with-icon-before.md`}-->
 
-`<IconButton>` is a component designed for icon buttons that sets the icon required for the `Icon` property definition. Only the icon button can be set to a round button.
+### Icon after
 
-<!--{include:`icon-button.md`}-->
+Display an icon after the text.
+
+<!--{include:`with-icon-after.md`}-->
 
 ### Block
 
@@ -65,82 +58,47 @@ This is generally applicable to flow layouts, or to full rows at the top and bot
 
 <!--{include:`active.md`}-->
 
+### Toggleable
+
+The Button is `toggleable`, allowing you to switch its state between active and inactive.
+
+<!--{include:`toggleable.md`}-->
+
 ### Loading
 
 <!--{include:`loading.md`}-->
 
-### Button group
+## Accessibility
 
-<!--{include:`group-basic.md`}-->
+### ARIA Properties
 
-### Vertical group
+- Button has role of `button`.
 
-<!--{include:`vertical.md`}-->
+### Keyboard interaction
 
-### Split button
-
-<!--{include:`split-button.md`}-->
-
-### Button toolbar
-
-<!--{include:`toolbar.md`}-->
-
-### Justified
-
-The buttons are laid out horizontally in the button set and are equally wide.
-
-<!--{include:`justified.md`}-->
-
-## Accessing DOM
-
-The underlying `<button>` element is accessible via `ref` attribute of `Button`.
-
-```tsx
-function App() {
-  const buttonRef = useRef<HTMLButtonElement>(null);
-
-  return <Button ref={buttonRef}>Text</Button>;
-}
-```
+- When Button has focus, <kbd>Space</kbd> or <kbd>Enter</kbd> activates it.
 
 ## Props
 
 ### `<Button>`
 
-| Property    | Type `(Default)`                                     | Description                                                    |
-| ----------- | ---------------------------------------------------- | -------------------------------------------------------------- |
-| active      | boolean                                              | A button can show it is currently the active user selection    |
-| appearance  | [Appearance](#code-ts-appearance-code) `('default')` | A button can have different appearances                        |
-| as          | ElementType `('button')`                             | You can use a custom element for this component                |
-| block       | boolean                                              | Spans the full width of the Button parent                      |
-| children \* | ReactNode                                            | Primary content                                                |
-| classPrefix | string `('btn')`                                     | The prefix of the component CSS class                          |
-| color       | [Color](#code-ts-color-code)                         | A button can have different colors                             |
-| disabled    | boolean                                              | A button can show it is currently unable to be interacted with |
-| href        | string                                               | Providing a `href` will render an `a` element                  |
-| loading     | boolean                                              | A button can show a loading indicator                          |
-| size        | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`    | A button can have different sizes                              |
-
-### `<IconButton>`
-
-`Iconbutton` extends all props of `Button`
-
-| Property    | Type `(Default)`                     | Description                           |
-| ----------- | ------------------------------------ | ------------------------------------- |
-| circle      | boolean                              | Set circle button                     |
-| classPrefix | string `('btn-icon')`                | The prefix of the component CSS class |
-| icon        | Element&lt;typeof Icon&gt;           | Set the icon of button                |
-| placement   | enum: 'left'&#124;'right' `('left')` | The placement of icon                 |
-
-### `<ButtonGroup>`
-
-| Property    | Type `(Default)`                                  | Description                           |
-| ----------- | ------------------------------------------------- | ------------------------------------- |
-| block       | boolean                                           | Display block buttongroups            |
-| classPrefix | string `('btn-group')`                            | The prefix of the component CSS class |
-| justified   | boolean                                           | Horizontal constant width layout      |
-| size        | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | Set button size                       |
-| vertical    | boolean                                           | Vertical layouts of button            |
+| Property    | Type                                                 | Description                                                            | Version    |
+| ----------- | ---------------------------------------------------- | ---------------------------------------------------------------------- | ---------- |
+| active      | boolean                                              | A button can show it is currently the active user selection            |            |
+| appearance  | [Appearance](#code-ts-appearance-code) `('default')` | A button can have different appearances                                |            |
+| as          | ElementType `('button')`                             | You can use a custom element for this component                        |            |
+| block       | boolean                                              | Spans the full width of the Button parent                              |            |
+| children    | ReactNode                                            | Primary content                                                        |            |
+| classPrefix | string `('btn')`                                     | The prefix of the component CSS class                                  |            |
+| color       | [Color](#code-ts-color-code)                         | A button can have different colors                                     |            |
+| disabled    | boolean                                              | A button can show it is currently unable to be interacted with         |            |
+| endIcon     | ReactNode                                            | Display an icon after buttont text                                     |            |
+| href        | string                                               | Providing a `href` will render an `a` element                          |            |
+| loading     | boolean                                              | A button can show a loading indicator                                  |            |
+| onToggle    | (active: boolean, event: MouseEvent) => void         | Callback when the button is toggled between active and inactive states | ![][6.0.0] |
+| size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                | A button can have different sizes                                      |            |
+| startIcon   | ReactNode                                            | Display an icon before buttont text                                    |            |
+| toggleable  | boolean                                              | A button can switch between active and inactive states                 | ![][6.0.0] |
 
 <!--{include:(_common/types/appearance.md)}-->
 <!--{include:(_common/types/color.md)}-->

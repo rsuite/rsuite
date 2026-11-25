@@ -1,10 +1,10 @@
 import Form from './Form';
-export type { FormInstance, FormProps } from './Form';
-export type { FormGroupProps } from '../FormGroup';
-export type { FormErrorMessageProps } from '../FormErrorMessage';
-export type { FormControlLabelProps } from '../FormControlLabel';
-export type { FormHelpTextProps } from '../FormHelpText';
-export type { FormControlProps } from '../FormControl';
-export * from './useFormClassNames';
 
+// export types
+export type { FormProps } from './Form';
+export type { FormInstance } from './hooks/useFormRef';
+export type { Resolver, ResolverResult } from './resolvers';
+
+// export components
+export { Form };
 export default Form;

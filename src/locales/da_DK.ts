@@ -1,6 +1,7 @@
-import da from 'date-fns/locale/da';
+import type { CalendarLocaleLabels } from './types';
+import { da } from 'date-fns/locale/da';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Sø',
   monday: 'Ma',
   tuesday: 'Ti',
@@ -11,6 +12,7 @@ const Calendar = {
   ok: 'OK',
   today: 'I dag',
   yesterday: 'I går',
+  now: 'Nu',
   hours: 'Timer',
   minutes: 'Minutter',
   seconds: 'Sekunder',
@@ -20,13 +22,44 @@ const Calendar = {
    **/
   formattedMonthPattern: 'MMM yyyy',
   formattedDayPattern: 'dd MMM yyyy',
+  shortDateFormat: 'dd/MM/yyyy',
+  shortTimeFormat: 'HH:mm',
   dateLocale: da as any
 };
 
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Forrige måned',
+  nextMonth: 'Næste måned',
+  selectMonth: 'Vælg måned',
+  selectTime: 'Vælg tidspunkt'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Åbn vælger'
+};
+
+const Combobox = {
+  noResultsText: 'Ingen resultater fundet',
+  placeholder: 'Vælg',
+  searchPlaceholder: 'Søg',
+  checkAll: 'Alle'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Ny besked',
+  createOption: 'Opret mulighed "{0}"'
+};
+
 export default {
+  code: 'da-DK',
   common: {
     loading: 'Indlæser...',
-    emptyMessage: 'Ingen data fundet'
+    emptyMessage: 'Ingen data fundet',
+    remove: 'Fjerne',
+    clear: 'Ryd'
   },
   Plaintext: {
     unfilled: 'ubesatte',
@@ -43,31 +76,24 @@ export default {
     total: 'total: {0}',
     skip: 'Gå til{0}'
   },
+  DateTimeFormats,
   Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  DatePicker,
   DateRangePicker: {
-    ...Calendar,
+    ...DatePicker,
     last7Days: 'Seneste 7 dage'
   },
-  Picker: {
-    noResultsText: 'Ingen resultater fundet',
-    placeholder: 'Vælg',
-    searchPlaceholder: 'Søg',
-    checkAll: 'Alle'
-  },
-  InputPicker: {
-    newItem: 'Ny besked',
-    createOption: 'Opret mulighed "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Initial',
     progress: 'Uploade',
     error: 'Fejl',
     complete: 'Færdig',
     emptyFile: 'Tom',
-    upload: 'Upload'
+    upload: 'Upload',
+    removeFile: 'Fjern fil'
   },
   CloseButton: {
     closeLabel: 'lukke ned'
@@ -75,8 +101,23 @@ export default {
   Breadcrumb: {
     expandText: 'Vis sti'
   },
+  Carousel: {
+    carouselRoleDescription: 'karrusel',
+    slideRoleDescription: 'dias',
+    slidePosition: '{0} af {1}',
+    startRotation: 'Start automatisk diasskift',
+    stopRotation: 'Stop automatisk diasskift',
+    selectSlide: 'Vælg dias',
+    slideLabel: 'Dias {0} af {1}'
+  },
   Toggle: {
     on: 'på',
     off: 'Av'
+  },
+  Dialog: {
+    alert: 'Advarsel',
+    confirm: 'Bekræft',
+    ok: 'OK',
+    cancel: 'Annuller'
   }
 };

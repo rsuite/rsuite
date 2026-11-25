@@ -1,15 +1,22 @@
-import React from 'react';
-import { CheckTree, Toggle } from 'rsuite';
-import DefaultPage from '@/components/Page';
-import PageIcon from '@rsuite/icons/Page';
+import DefaultPage from '@/components/layout/Page';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
+import PageIcon from '@rsuite/icons/Page';
+import ImportGuide from '@/components/ImportGuide';
+import { CheckTree, Panel, Button, Toggle, NumberInput, Stack } from 'rsuite';
+import {
+  MdOutlineKeyboardArrowDown,
+  MdOutlineKeyboardArrowRight,
+  MdFilePresent,
+  MdFolder
+} from 'react-icons/md';
 
 import {
   importFakerString,
+  mockAsyncData,
+  mockAsyncDataString,
   mockTreeData,
   mockTreeDataToString,
-  mockAsyncData,
-  mockAsyncDataString
+  sandboxFakerVersion
 } from '@/utils/mock';
 
 const mockfile = {
@@ -18,13 +25,33 @@ const mockfile = {
 };
 
 const sandboxDependencies = {
-  '@faker-js/faker': 'latest'
+  ...sandboxFakerVersion
+};
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['CheckTree']} />
 };
 
 export default function Page() {
   return (
     <DefaultPage
-      dependencies={{ CheckTree, Toggle, PageIcon, FolderFillIcon, mockTreeData, mockAsyncData }}
+      inDocsComponents={inDocsComponents}
+      dependencies={{
+        Panel,
+        Button,
+        CheckTree,
+        Toggle,
+        NumberInput,
+        Stack,
+        PageIcon,
+        FolderFillIcon,
+        MdFilePresent,
+        MdFolder,
+        MdOutlineKeyboardArrowDown,
+        MdOutlineKeyboardArrowRight,
+        mockTreeData,
+        mockAsyncData
+      }}
       sandboxDependencies={sandboxDependencies}
       sandboxFiles={[mockfile]}
     />

@@ -2,24 +2,29 @@
 
 一组处理表单数据的组件和模型。
 
-- `<Form>` 定义一个表单。
-- `<Form.Group>` 表单控件组，用于表单控件布局。
-- `<Form.Control>` 表单控件，定义一个表单字段。
-- `<Form.ControlLabel>` 表单控件对应的标题。
-- `<Form.HelpText>` 表单控件对应帮助信息。
-- `<Form.ErrorMessage>` 表单控件对应的错误提示信息。
-
 ## 获取组件
 
-<!--{include:(components/form/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- **基础组件**:
+  - `Form` 用于定义支持数据校验的表单。
+  - `Form.Label` 表单字段对应的标题。
+  - `Form.Control` 定义表单字段的控件。默认为 `Input` 组件。 可以通过 `accepter` 属性自定义组件。
+- **布局相关组件**:
+  - `Form.Stack` 用于布局一组表单控件。
+  - `Form.Group` 用于布局单个表单控件。
+- **字段状态组件**:
+  - `Form.Text` 提供表单字段的帮助信息。
+  - `Form.ErrorMessage` 显示表单字段的错误提示信息。
+  - `Form.ErrorSummary` 汇总错误，并提供到对应控件的链接。
+- **Hooks**
+  - `useFormControl`: 为自定义表单组件提供表单控制功能的 Hook，使其能够与 Form 组件无缝集成。
 
 ## 布局
 
 ---
 
-### 默认
-
-默认为垂直布局
+### 垂直布局
 
 <!--{include:`basic.md`}-->
 
@@ -47,7 +52,7 @@
 
 ### 帮助说明
 
-`<Form.HelpText>` 可以在表单组件下面定义一个帮助说明信息，如果设置 `tooltip` 属性，就会在表单组件显示一个图标，以 `<Tooltip>` 的方式显示帮助说明信息。
+`<Form.Text>` 可以在表单组件下面定义一个帮助说明信息，如果设置 `tooltip` 属性，就会在表单组件显示一个图标，以 `<Tooltip>` 的方式显示帮助说明信息。
 
 <!--{include:`help-block.md`}-->
 
@@ -64,15 +69,32 @@
 
 <!--{include:`status.md`}-->
 
-## 无障碍设计
+### 错误汇总与字段导航
 
-- 通过 `<Form.Group>` 的 `controlId` 属性，可以在 `<Form.Control>` 上设置 `id` 同时在 `<Form.ControlLabel>` 上设置 `htmlFor`。另外会为 `<Form.Control>` 生成`aria-labelledby` 和 `aria- describeby`， 对应到 `<Form.ControlLabel>` 与 `<Form.HelpText>` 的 `id`。
+使用 `Form.ErrorSummary` 为长表单提供有序的错误概览。通过 `items` 传入已有校验或服务端错误状态，并由应用翻译 `header`、字段标签和错误消息。组件不会执行校验，也不会在出现或更新时自动移动焦点。
 
-```html
+下面的示例仅在提交时校验。提交失败后，应用在错误内容提交到 DOM 之后，通过 effect 聚焦错误汇总。使用 Tab 选择错误链接，再按 Enter，便可聚焦并滚动到对应控件；现有字段值与行内错误提示保持不变。
+
+<!--{include:`error-summary.md`}-->
+
+每个 `controlId` 都必须是实际可聚焦控件的唯一 DOM ID。`Form.Group controlId` 会把该 ID 传给 `Form.Control`；自定义 `accepter` 必须将其转发到正确的输入框或可聚焦控件，不能用布局容器或未转发的 ID 代替。不提供 `controlId` 的错误仅显示为文本。
+
+导航会跳过未挂载、禁用、ARIA 禁用、隐藏或 inert 的目标，并限制在错误汇总所属的对话框内。组件不会展开标签页或加载字段。对于延迟加载或自定义字段，可以在 `onSelect(item, event)` 中调用 `event.preventDefault()`，自行显示字段，再在更新后聚焦它。回调把焦点交给其他已连接元素时，组件会保留该焦点。
+
+需要动态播报时，可以显式设置 `role` 或 `aria-live`。默认汇总是带标题关联的区域，没有 live region；现有字段错误仍提供各自的反馈。
+
+## 可访问性
+
+### ARIA 属性
+
+- 您应该为每个表单设置 `aria-label` 或 `aria-labelledby` 属性，以便屏幕阅读器可以正确地读取表单的目的。
+- 通过 `<Form.Group>` 的 `controlId` 属性，可以在 `<Form.Control>` 上设置 `id` 同时在 `<Form.Label>` 上设置 `htmlFor`。另外会为 `<Form.Control>` 生成`aria-labelledby` 和 `aria-describedby`， 对应到 `<Form.Label>` 与 `<Form.Text>` 的 `id`。
+
+```jsx
 <Form.Group controlId="name">
-  <Form.ControlLabel>Username</Form.ControlLabel>
+  <Form.Label>Username</Form.Label>
   <Form.Control />
-  <Form.HelpText>Username is required</Form.HelpText>
+  <Form.Text>Username is required</Form.Text>
 </Form.Group>
 ```
 
@@ -93,115 +115,220 @@
 </div>
 ```
 
+### 必需的 JavaScript 功能
+
 - 在 Form 内点击 `type='submit'` 的按钮，会自动触发表单的 submit 事件。
 
 ## Props
 
 ### `<Form>`
 
-| 名称             | 类型 `(默认值)`                                               | 描述                                               |
-| ---------------- | ------------------------------------------------------------- | -------------------------------------------------- |
-| checkTrigger     | 'change' &#124; 'blur' &#124; 'none' `('change')`             | 触发表单校验的类型                                 |
-| classPrefix      | string `('form')`                                             | 组件 CSS 类的前缀                                  |
-| disabled         | boolean `(false)`                                             | 禁用表单                                           |
-| errorFromContext | boolean `(true)`                                              | Form.Control 中的错误提醒默认从 Context 获取       |
-| fluid            | boolean                                                       | 让表单中的 Input 100% 撑满容器，只在垂直布局中有效 |
-| formDefaultValue | object                                                        | 表单的初始默认值 `非受控组件`                      |
-| formError        | object                                                        | 表单错误信息                                       |
-| formValue        | object                                                        | 表单的值 `受控组件`                                |
-| layout           | 'horizontal' &#124; 'vertical' &#124; 'inline' `('vertical')` | 设置表单内的元素左右两栏布局                       |
-| model            | Schema                                                        | SchemaModel 对象                                   |
-| onChange         | (formValue: object, event) => void                            | 数据改变后的回调函数                               |
-| onCheck          | (formError: object) => void                                   | 数据校验的回调函数                                 |
-| onError          | (formError: object) => void                                   | 校验出错的回调函数                                 |
-| plaintext        | boolean `(false)`                                             | 表单显示为纯文本                                   |
-| readOnly         | boolean `(false)`                                             | 只读表单                                           |
+| 名称             | 类型 `(默认值)`                                       | 描述                                                 | 版本       |
+| ---------------- | ----------------------------------------------------- | ---------------------------------------------------- | ---------- |
+| checkTrigger     | 'change' \| 'blur' \| 'none' `('change')`             | 定义何时触发表单校验                                 |            |
+| disabled         | boolean `(false)`                                     | 禁用整个表单                                         |            |
+| errorFromContext | boolean `(true)`                                      | 默认从 Context 获取 Form.Control 的错误提示          |            |
+| fluid            | boolean                                               | 使表单控件在垂直布局中 100% 撑满容器                 |            |
+| formDefaultValue | object                                                | 表单的初始默认值（非受控组件）                       |            |
+| formError        | object                                                | 表单的错误信息                                       |            |
+| formValue        | object                                                | 表单的值（受控组件）                                 |            |
+| layout           | 'horizontal' \| 'vertical' \| 'inline' `('vertical')` | 表单布局方式                                         |            |
+| model            | Schema                                                | SchemaModel 实例对象                                 |            |
+| nestedField      | boolean `(false)`                                     | 支持表单数据嵌套                                     |            |
+| onChange         | (formValue: object, event) => void                    | 数据改变时的回调函数                                 |            |
+| onCheck          | (formError: object) => void                           | 数据校验时的回调函数                                 |            |
+| onError          | (formError: object) => void                           | 校验出错时的回调函数                                 |            |
+| onReset          | (formValue: object, event?: FormEvent) => void        | 表单重置时的回调函数                                 |            |
+| onSubmit         | (formValue: object, event?: FormEvent) => void        | 提交表单时的回调函数，仅在数据校验通过后触发         |            |
+| plaintext        | boolean `(false)`                                     | 将表单显示为纯文本                                   |            |
+| readOnly         | boolean `(false)`                                     | 将表单设置为只读                                     |            |
+| resolver         | [Resolver](#code-ts-resolver-code)                    | 用于第三方 Schema 库的校验解析器，优先级高于 `model` | ![][6.2.0] |
 
-### Form methods
+### `<Form.Stack>`
 
-- check 检验表单数据
+![][6.0.0]
 
-```js
-check: (callback?: (formError: E) => void) => boolean;
-```
-
-- checkAsync 异步检验表单数据
-
-```js
-checkAsync: () => Promise<any>;
-```
-
-- checkForField 校验表单单个字段值
-
-```js
-checkForField: (
-    fieldName: keyof T,
-    callback?: (checkResult: CheckResult<errorMsg>) => void
-  ) => boolean;
-```
-
-- checkForFieldAsync 异步校验表单单个字段值
-
-```js
-checkForFieldAsync: (fieldName: keyof T) => Promise<CheckResult>;
-```
-
-- cleanErrors 清除错误信息
-
-```js
-cleanErrors(callback: () => void) => void
-```
-
-- cleanErrorForField 清除单个字段错误信息
-
-```js
-cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
-```
+| 名称        | 类型`(默认值)`                                        | 描述                                 |
+| ----------- | ----------------------------------------------------- | ------------------------------------ |
+| classPrefix | string `('form-stack')`                               | 组件的 CSS 类前缀                    |
+| fluid       | boolean                                               | 使表单控件在垂直布局中 100% 撑满容器 |
+| layout      | 'horizontal' \| 'vertical' \| 'inline' `('vertical')` | 表单布局方式                         |
+| spacing     | number                                                | 控件之间的间距                       |
 
 ### `<Form.Control>`
 
-| 名称                   | 类型`(默认值)`                                        | 描述                                                                                                                      |
-| ---------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| accepter               | ElementType `(Input)`                                 | 受代理的组件                                                                                                              |
-| checkAsync             | boolean                                               | 异步数据校验                                                                                                              |
-| checkTrigger           | 'change' &#124; 'blur' &#124; 'none'                  | 数据校验的触发类型,会覆盖 `<Form>`上的设置                                                                                |
-| classPrefix            | string `('form-control')`                             | 组件 CSS 类的前缀                                                                                                         |
-| errorMessage           | ReactNode                                             | 显示错误信息                                                                                                              |
-| errorPlacement         | [Placement](#code-ts-placement-code)`('bottomStart')` | 错误信息显示位置                                                                                                          |
-| name \*                | string                                                | 表单元素名称                                                                                                              |
-| plaintext              | boolean                                               | 使控件为纯文本                                                                                                            |
-| readOnly               | boolean                                               | 使控件为只读                                                                                                              |
-| rule                   | checkType                                             | 当前字段的校验规则，如果与`<Form>`的`model`冲突，以当前为准，[示例](/zh/components/form-validation/#field-级别的校验规则) |
-| shouldResetWithUnmount | boolean`('false')`                                    | 卸载组件时删除字段值和错误消息                                                                                            |
+| 名称                   | 类型`(默认值)`                                        | 描述                                                                                                                    |
+| ---------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| accepter               | ElementType `(Input)`                                 | 被代理的组件                                                                                                            |
+| checkAsync             | boolean                                               | 是否进行异步数据校验                                                                                                    |
+| checkTrigger           | 'change' \| 'blur' \| 'none'                          | 数据校验触发类型，覆盖 `<Form>` 中的设置                                                                                |
+| classPrefix            | string `('form-control')`                             | 组件的 CSS 类前缀                                                                                                       |
+| errorMessage           | ReactNode                                             | 显示的错误信息                                                                                                          |
+| errorPlacement         | [Placement](#code-ts-placement-code)`('bottomStart')` | 错误信息显示位置                                                                                                        |
+| name \*                | string                                                | 控件的名称，支持嵌套路径，如 `address.city`，用于获取和设置表单值                                                       |
+| plaintext              | boolean                                               | 将控件设置为纯文本                                                                                                      |
+| readOnly               | boolean                                               | 将控件设置为只读                                                                                                        |
+| rule                   | checkType                                             | 字段的校验规则，若与 `<Form>` 的 `model` 冲突则以当前为准，[示例](/zh/components/form-validation/#field-级别的校验规则) |
+| shouldResetWithUnmount | boolean`('false')`                                    | 卸载组件时是否删除字段值和错误信息                                                                                      |
+
+开启 `shouldResetWithUnmount` 后，Form.Control 在控件容器被移除时清除字段值和错误。StrictMode 重放 effect 或 React Activity 隐藏内容时，只要容器仍然挂载，就会保留字段值和错误。自定义 `as` 容器可以通过转发 DOM ref 支持此行为。如果容器无法提供 DOM ref，清理会在 React 执行 effect 清理时触发。
 
 ### `<Form.Group>`
 
-| 属性名称    | 类型`(默认值)`          | 描述                                                                        |
-| ----------- | ----------------------- | --------------------------------------------------------------------------- |
-| classPrefix | string `('form-group')` | 组件 CSS 类的前缀                                                           |
-| controlId   | string                  | 在 `<Form.Control>`上设置 `id`，在 `<Form.ControlLabel>` 上设置 `htmlFor`。 |
+| 属性名称    | 类型`(默认值)`          | 描述                                                                |
+| ----------- | ----------------------- | ------------------------------------------------------------------- |
+| classPrefix | string `('form-group')` | 组件的 CSS 类前缀                                                   |
+| controlId   | string                  | 在 `<Form.Control>` 上设置 `id`，在 `<Form.Label>` 上设置 `htmlFor` |
 
-### `<Form.ControlLabel>`
+### `<Form.Label>`
 
 | 属性名称    | 类型`(默认值)`                  | 描述                                                            |
 | ----------- | ------------------------------- | --------------------------------------------------------------- |
-| classPrefix | string `('form-control-label')` | 组件 CSS 类的前缀                                               |
-| htmlFor     | string                          | 对应 html label 标签的 for 属性，默认为 Form.Group 的 controlId |
+| classPrefix | string `('form-control-label')` | 组件的 CSS 类前缀                                               |
+| htmlFor     | string                          | 对应 HTML label 标签的 for 属性，默认为 Form.Group 的 controlId |
 
-### `<Form.HelpText>`
+### `<Form.Text>`
 
 | 属性名称    | 类型`(默认值)`              | 描述                                                            |
 | ----------- | --------------------------- | --------------------------------------------------------------- |
-| classPrefix | string `('form-help-text')` | 组件 CSS 类的前缀                                               |
-| htmlFor     | string                      | 对应 html label 标签的 for 属性，默认为 Form.Group 的 controlId |
+| classPrefix | string `('form-help-text')` | 组件的 CSS 类前缀                                               |
+| htmlFor     | string                      | 对应 HTML label 标签的 for 属性，默认为 Form.Group 的 controlId |
 | tooltip     | boolean                     | 是否通过 Tooltip 组件显示                                       |
 
 ### `<Form.ErrorMessage>`
 
 | 属性名称    | 类型`(默认值)`                                        | 描述              |
 | ----------- | ----------------------------------------------------- | ----------------- |
-| classPrefix | string `('form-error-message')`                       | 组件 CSS 类的前缀 |
+| classPrefix | string `('form-error-message')`                       | 组件的 CSS 类前缀 |
 | placement   | [Placement](#code-ts-placement-code)`('bottomStart')` | 错误信息显示位置  |
 | show        | boolean                                               | 是否显示错误信息  |
 
-<!--{include:(_common/types/placement8.md)}-->
+### `<Form.ErrorSummary>`
+
+| 属性      | 类型 `(默认值)`                                          | 描述                                             |
+| --------- | -------------------------------------------------------- | ------------------------------------------------ |
+| header \* | ReactNode                                                | 由应用本地化的错误汇总标题                       |
+| items \*  | readonly [FormErrorSummaryItem](#formerrorsummaryitem)[] | 按期望顺序排列的错误字段，空数组时不显示汇总     |
+| onSelect  | (item: FormErrorSummaryItem, event: MouseEvent) => void  | 导航前调用；可阻止默认行为，自行显示或聚焦字段   |
+| tabIndex  | number `(-1)`                                            | 汇总根节点的 Tab 顺序；可通过转发的 ref 显式聚焦 |
+
+#### FormErrorSummaryItem
+
+| 属性       | 类型      | 描述                                                       |
+| ---------- | --------- | ---------------------------------------------------------- |
+| name \*    | string    | 唯一且稳定的字段标识，作为普通字符串处理，不解析为嵌套路径 |
+| label \*   | ReactNode | 发生错误的字段标签                                         |
+| message \* | ReactNode | 错误描述及修正方式                                         |
+| controlId  | string    | 实际可聚焦控件的唯一 DOM ID；不提供时只显示文本            |
+
+组件也可以通过命名导出 `FormErrorSummary`，或从 `rsuite/FormErrorSummary` 默认导入。支持 Box 样式属性及标准 DOM/ARIA 属性。导航先聚焦精确目标，再以 `nearest` 对齐即时滚动，不会推断或聚焦布局容器的后代。
+
+### Form ref
+
+| 名称               | 类型                                                                          | 描述                                     |
+| ------------------ | ----------------------------------------------------------------------------- | ---------------------------------------- |
+| check              | (callback?: (formError: E) => void) => boolean                                | 检验表单数据                             |
+| checkAsync         | () => Promise<CheckResult>                                                    | 异步检验表单数据                         |
+| checkForField      | (fieldName: string, callback?: (checkResult: CheckResult) => void) => boolean | 校验表单单个字段值                       |
+| checkForFieldAsync | (fieldName: string) => Promise<CheckResult>                                   | 异步校验表单单个字段值                   |
+| cleanErrorForField | (fieldName: string, callback?: () => void) => void                            | 清除单个字段错误信息                     |
+| cleanErrors        | (callback: () => void) => void                                                | 清除错误信息                             |
+| reset              | () => void                                                                    | 重置表单数据为初始值，并清除所有错误信息 |
+| resetErrors        | () => void                                                                    | 重置错误信息                             |
+| submit             | () => void                                                                    | 触发表单提交并校验数据                   |
+
+`check`、`checkForField`、`checkAsync`、`checkForFieldAsync` 和 `submit` 会在调用时获取表单值。非受控表单包含同一事件中已接受的修改，因此在 `onChange` 内调用这些方法会使用本次修改。受控表单使用最近一次已提交的 `formValue`；传给 `onChange` 的建议值只有在外部状态提交后才会生效。
+
+每次校验使用同一个捕获的值对象，跨字段规则也使用该对象。校验成功后，`submit` 将同一个对象传给 `onSubmit`，即使 `onCheck` 重置了表单，或 resolver 等待期间表单值发生变化。这些方法不会克隆捕获的对象，请以不可变方式更新表单值。
+
+校验模型、resolver 及校验和提交回调会与表单值在同一提交阶段更新，并在子组件的 layout effect 运行前生效。因此，已保存的 Form ref 会使用同一次提交的配置，包括在 schema 校验与 resolver 之间切换时。尚未提交的挂起渲染不会替换当前配置。
+
+### Schema
+
+Schema 依赖于 [schema-typed](https://github.com/rsuite/schema-typed#schema-typed) 库，用于定义数据模型。
+
+<!--{include:(_common/types/placement-error-message.md)}-->
+
+#### `ts:Resolver`
+
+```ts
+interface ResolverResult<E = Record<string, any>> {
+  errors: E;
+}
+
+type Resolver<V = Record<string, any>, E = Record<string, any>> = (
+  formValue: V,
+  context?: any
+) => ResolverResult<E> | Promise<ResolverResult<E>>;
+```
+
+## Hooks
+
+### `useFormControl`
+
+![][6.0.0]
+
+`useFormControl` hook 为自定义表单组件提供表单控制功能。必须在 `<Form>` 组件内使用。
+
+```tsx
+const {
+  value, // 当前字段值
+  error, // 字段错误信息
+  plaintext, // 字段是否为纯文本模式
+  readOnly, // 字段是否为只读
+  disabled, // 字段是否禁用
+  onChange, // 字段值变化处理函数
+  onBlur, // 字段失焦事件处理函数
+  onCheck, // 手动触发字段验证的处理函数
+  setValue // 直接设置字段值
+} = useFormControl(props);
+```
+
+#### 属性
+
+| 名称                   | 类型`(默认值)`             | 描述                                          |
+| ---------------------- | -------------------------- | --------------------------------------------- |
+| checkAsync             | boolean`(false)`           | 是否执行异步验证                              |
+| checkTrigger           | 'change' \| 'blur' \| null | 数据验证触发类型，会覆盖 Form 的 checkTrigger |
+| errorMessage           | React.ReactNode            | 自定义错误信息                                |
+| name                   | string                     | 表单字段名称（必填）                          |
+| rule                   | CheckType                  | 验证规则（来自 Schema）                       |
+| shouldResetWithUnmount | boolean`(false)`           | 组件卸载时是否移除字段值和错误信息            |
+| value                  | any                        | 当前值（受控）                                |
+
+#### 返回值
+
+| 名称      | 类型                                           | 描述                                                                                              |
+| --------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| disabled  | boolean                                        | 字段是否禁用（继承自 Form）                                                                       |
+| error     | React.ReactNode                                | 字段错误信息                                                                                      |
+| onBlur    | () => void                                     | 字段失焦事件处理函数                                                                              |
+| onChange  | (value: any, event: SyntheticEvent) => void    | 字段值变化处理函数                                                                                |
+| onCheck   | (value: any) => void                           | 手动触发字段验证的处理函数                                                                        |
+| plaintext | boolean                                        | 字段是否为纯文本模式（继承自 Form）                                                               |
+| readOnly  | boolean                                        | 字段是否为只读（继承自 Form）                                                                     |
+| setValue  | (value: any, shouldValidate?: boolean) => void | 直接设置字段值，不会触发 onChange 事件。如果 shouldValidate 为 true，将根据 checkTrigger 触发验证 |
+| value     | any                                            | 当前字段值                                                                                        |
+
+#### 示例
+
+```jsx
+import { useFormControl } from 'rsuite';
+
+function CustomField({ name, label }) {
+  const { value, error, onChange, onBlur } = useFormControl({ name });
+
+  return (
+    <div className="custom-field">
+      <label>{label}</label>
+      <input value={value || ''} onChange={e => onChange(e.target.value, e)} onBlur={onBlur} />
+      {error && <div className="error-message">{error}</div>}
+    </div>
+  );
+}
+
+// 使用方式
+<Form>
+  <CustomField name="email" label="邮箱" />
+</Form>;
+```

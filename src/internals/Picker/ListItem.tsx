@@ -1,0 +1,71 @@
+import React from 'react';
+import useCombobox from './hooks/useCombobox';
+import getOptionId from './getOptionId';
+import getOptionKey from './getOptionKey';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useEventCallback } from '@/internals/hooks';
+import type { WithAsProps, HTMLPropsWithoutSelect } from '@/internals/types';
+
+export interface ListItemProps extends WithAsProps, HTMLPropsWithoutSelect {
+  active?: boolean;
+  disabled?: boolean;
+  value?: string | number;
+  focus?: boolean;
+  title?: string;
+  onSelect?: (value: any, event: React.MouseEvent) => void;
+  onKeyDown?: (event: React.KeyboardEvent) => void;
+  renderItem?: (value: any) => React.ReactNode;
+}
+
+const ListItem = forwardRef<'div', ListItemProps>((props, ref) => {
+  const {
+    as: Component = 'div',
+    role = 'option',
+    classPrefix = 'dropdown-menu-item',
+    active,
+    children,
+    className,
+    disabled,
+    focus,
+    value,
+    onKeyDown,
+    onSelect,
+    renderItem,
+    ...rest
+  } = props;
+
+  const { id } = useCombobox();
+
+  const handleClick = useEventCallback((event: React.MouseEvent) => {
+    event.preventDefault();
+    if (!disabled) {
+      onSelect?.(value, event);
+    }
+  });
+
+  const { withPrefix, merge, rootPrefix } = useStyles(classPrefix);
+  const classes = withPrefix({ active, focus, disabled });
+
+  return (
+    <Component
+      role={role}
+      aria-selected={active}
+      aria-disabled={disabled}
+      id={getOptionId(id, value)}
+      data-key={value}
+      data-picker-key={getOptionKey(value)}
+      {...rest}
+      ref={ref}
+      className={merge(className, rootPrefix`picker-list-item`)}
+      tabIndex={-1}
+      onKeyDown={disabled ? null : onKeyDown}
+      onClick={handleClick}
+    >
+      <span className={classes}>{renderItem ? renderItem(value) : children}</span>
+    </Component>
+  );
+});
+
+ListItem.displayName = 'ListItem';
+
+export default ListItem;

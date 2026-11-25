@@ -1,7 +1,27 @@
-import React from 'react';
-import { Progress, Button, ButtonGroup, Row, Col } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
+import { Progress, Button, ButtonGroup, VStack, HStack, Box, Text, Divider } from 'rsuite';
+import { FaCheckCircle } from 'react-icons/fa';
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['Progress']} />
+};
 
 export default function Page() {
-  return <DefaultPage dependencies={{ Progress, Button, ButtonGroup, Row, Col }} />;
+  return (
+    <DefaultPage
+      inDocsComponents={inDocsComponents}
+      dependencies={{
+        Progress,
+        Button,
+        ButtonGroup,
+        Divider,
+        VStack,
+        HStack,
+        Box,
+        Text,
+        FaCheckCircle
+      }}
+    />
+  );
 }

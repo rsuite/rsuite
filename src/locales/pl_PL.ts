@@ -1,0 +1,119 @@
+import type { CalendarLocaleLabels } from './types';
+import { pl } from 'date-fns/locale/pl';
+
+const DateTimeFormats = {
+  sunday: 'Ndz',
+  monday: 'Pon',
+  tuesday: 'Wt',
+  wednesday: 'Śr',
+  thursday: 'Czw',
+  friday: 'Pt',
+  saturday: 'Sob',
+  ok: 'OK',
+  today: 'Dzisiaj',
+  yesterday: 'Wczoraj',
+  now: 'Teraz',
+  hours: 'Godziny',
+  minutes: 'Minuty',
+  seconds: 'Sekundy',
+  formattedMonthPattern: 'MMM, yyyy',
+  formattedDayPattern: 'dd MMM, yyyy',
+  shortDateFormat: 'dd.MM.yyyy',
+  shortTimeFormat: 'HH:mm',
+  dateLocale: pl as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Poprzedni miesiąc',
+  nextMonth: 'Następny miesiąc',
+  selectMonth: 'Wybierz miesiąc',
+  selectTime: 'Wybierz czas'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Otwórz panel wyboru'
+};
+
+const Combobox = {
+  noResultsText: 'Nie znaleziono',
+  placeholder: 'Wybierz',
+  searchPlaceholder: 'Szukaj',
+  checkAll: 'Wszystkie'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Nowy item',
+  createOption: 'Stwórz opcję "{0}"'
+};
+
+export default {
+  code: 'pl-PL',
+  common: {
+    loading: 'Ładowanie...',
+    emptyMessage: 'Nie znaleziono',
+    remove: 'Usuń',
+    clear: 'Wyczyść'
+  },
+  Plaintext: {
+    unfilled: 'Nie wypełnione',
+    notSelected: 'Nie wybrane',
+    notUploaded: 'Nie wysłane'
+  },
+  Pagination: {
+    more: 'Więcej',
+    prev: 'Poprzednie',
+    next: 'Następne',
+    first: 'Pierwsze',
+    last: 'Ostatnie',
+    limit: '{0} / stron',
+    total: 'Wierszy: {0}',
+    skip: 'Omiń{0}'
+  },
+  DateTimeFormats,
+  Calendar,
+  DatePicker,
+  DateRangePicker: {
+    ...DatePicker,
+    last7Days: 'Ostatnie 7 dni'
+  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
+  Uploader: {
+    inited: 'Początkowy',
+    progress: 'Wysyłanie',
+    error: 'Błąd',
+    complete: 'Ukończone',
+    emptyFile: 'Pusty',
+    upload: 'Wyślij',
+    removeFile: 'Usuń plik'
+  },
+  CloseButton: {
+    closeLabel: 'Zamknij'
+  },
+  Breadcrumb: {
+    expandText: 'Pokaż ścieżkę'
+  },
+  Carousel: {
+    carouselRoleDescription: 'karuzela',
+    slideRoleDescription: 'slajd',
+    slidePosition: '{0} z {1}',
+    startRotation: 'Rozpocznij automatyczne zmienianie slajdów',
+    stopRotation: 'Zatrzymaj automatyczne zmienianie slajdów',
+    selectSlide: 'Wybierz slajd',
+    slideLabel: 'Slajd {0} z {1}'
+  },
+  Toggle: {
+    on: 'Otwórz',
+    off: 'Zamknij'
+  },
+  Dialog: {
+    alert: 'Ostrzeżenie',
+    confirm: 'Potwierdź',
+    ok: 'OK',
+    cancel: 'Anuluj'
+  }
+};

@@ -1,11 +1,32 @@
-import React from 'react';
-import { Message, Button, ButtonToolbar, SelectPicker, useToaster, Placeholder } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import {
+  Message,
+  Button,
+  ButtonToolbar,
+  SelectPicker,
+  useToaster,
+  Placeholder,
+  Divider
+} from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['Message']} />
+};
 
 export default function Page() {
   return (
     <DefaultPage
-      dependencies={{ Message, Button, ButtonToolbar, SelectPicker, useToaster, Placeholder }}
+      inDocsComponents={inDocsComponents}
+      dependencies={{
+        Message,
+        Button,
+        ButtonToolbar,
+        SelectPicker,
+        useToaster,
+        Placeholder,
+        Divider
+      }}
     />
   );
 }

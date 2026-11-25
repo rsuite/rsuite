@@ -1,57 +1,57 @@
 <!--start-code-->
 
 ```js
-import { DatePicker } from 'rsuite';
-import isBefore from 'date-fns/isBefore';
+import { DatePicker, VStack, HStack, Text, Divider } from 'rsuite';
+import { isBefore } from 'date-fns/isBefore';
 
-const Label = props => {
-  return <label style={{ width: 120, display: 'inline-block', marginTop: 10 }} {...props} />;
-};
+const Field = ({ label, children, ...rest }) => (
+  <HStack>
+    <Text muted w={120}>
+      {label}
+    </Text>
+    <DatePicker {...rest} w={180} />
+  </HStack>
+);
 
 const App = () => (
-  <div className="field">
-    <Label>Disabled: </Label>
-    <DatePicker disabled style={{ width: 200 }} />
-    <br />
-    <Label>Disabled date: </Label>
-    <DatePicker disabledDate={date => isBefore(date, new Date())} style={{ width: 200 }} />
-    <br />
-    <Label>Disabled month: </Label>
-    <DatePicker
-      disabledDate={date => isBefore(date, new Date())}
-      format="yyyy-MM"
-      style={{ width: 200 }}
-    />
-    <br />
-    <Label>Disabled time: </Label>
-    <DatePicker
-      format="HH:mm:ss"
-      ranges={[]}
-      defaultValue={new Date('2017-12-12 09:15:30')}
-      disabledHours={hour => hour < 8 || hour > 18}
-      disabledMinutes={minute => minute % 15 !== 0}
-      disabledSeconds={second => second % 30 !== 0}
-      style={{ width: 200 }}
-    />
-    <br />
-    <Label>Hidden time: </Label>
-    <DatePicker
-      format="HH:mm:ss"
-      ranges={[]}
-      defaultValue={new Date('2017-12-12 09:15:30')}
-      hideHours={hour => hour < 8 || hour > 18}
-      hideMinutes={minute => minute % 15 !== 0}
-      hideSeconds={second => second % 30 !== 0}
-      style={{ width: 200 }}
-    />
-    <hr />
-    <Label>Read only: </Label>
-    <DatePicker readOnly defaultValue={new Date()} style={{ width: 200 }} />
-
-    <hr />
-    <Label>Plaintext: </Label>
-    <DatePicker plaintext defaultValue={new Date()} style={{ width: 200 }} />
-  </div>
+  <VStack divider={<Divider />}>
+    <VStack>
+      <Field label="Disabled" disabled />
+      <Field
+        label="Disabled date"
+        defaultValue={new Date()}
+        shouldDisableDate={date => isBefore(date, new Date())}
+      />
+      <Field
+        label="Disabled month"
+        shouldDisableDate={date => {
+          const month = date.getMonth();
+          return month === 0 || month === 11;
+        }}
+        format="yyyy-MM"
+      />
+      <Field
+        label="Disabled time"
+        format="HH:mm:ss"
+        ranges={[]}
+        defaultValue={new Date('2017-12-12 09:15:30')}
+        shouldDisableHour={hour => hour < 8 || hour > 18}
+        shouldDisableMinute={minute => minute % 15 !== 0}
+        shouldDisableSecond={second => second % 30 !== 0}
+      />
+      <Field
+        label="Hidden time"
+        format="HH:mm:ss"
+        ranges={[]}
+        defaultValue={new Date('2017-12-12 09:15:30')}
+        hideHours={hour => hour < 8 || hour > 18}
+        hideMinutes={minute => minute % 15 !== 0}
+        hideSeconds={second => second % 30 !== 0}
+      />
+    </VStack>
+    <Field label="Read only" readOnly defaultValue={new Date()} />
+    <Field label="Plaintext" plaintext defaultValue={new Date()} />
+  </VStack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

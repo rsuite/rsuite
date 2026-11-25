@@ -37,18 +37,43 @@ node_modules
 
 .scannerwork/
 
-# custom
+# eslint
 
-.vscode
-_build
-build
+.eslintcache
+
+# stylelint
+
+.stylelintcache
+
+# custom
 .DS_Store
-lib/
-es/
+
+# Editor
+.vscode
 .idea
-karma.sauce.conf.js
-dev-publish.sh
-dist
-docs/out/
-/types
-/less/
+.windsurf
+.cursor
+
+# build
+lib/
+benchmarks/cross-library-picker/async-dist/
+*.tsbuildinfo
+
+# test screenshots (visual regression baselines generated at runtime)
+**/__screenshots__/
+.vitest-attachments/
+# Netlify local build files
+.netlify/
+
+# Environment variables
+.env
+.env.*
+
+# Public declaration consumer diagnostics
+test/public-declarations/results/
+
+# Public package runtime diagnostics
+test/public-runtime/results/
+
+# Optional native Firefox diagnostic artifacts
+artifacts/firefox-profile/

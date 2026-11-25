@@ -1,6 +1,7 @@
-import enUS from 'date-fns/locale/en-US';
+import type { CalendarLocaleLabels } from './types';
+import { enUS } from 'date-fns/locale/en-US';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Su',
   monday: 'Mo',
   tuesday: 'Tu',
@@ -11,18 +12,50 @@ const Calendar = {
   ok: 'OK',
   today: 'Today',
   yesterday: 'Yesterday',
+  now: 'Now',
   hours: 'Hours',
   minutes: 'Minutes',
   seconds: 'Seconds',
   formattedMonthPattern: 'MMM, yyyy',
   formattedDayPattern: 'MMM dd, yyyy',
+  shortDateFormat: 'MM/dd/yyyy',
+  shortTimeFormat: 'hh:mm aa',
   dateLocale: enUS as any
 };
 
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Previous month',
+  nextMonth: 'Next month',
+  selectMonth: 'Select month',
+  selectTime: 'Select time'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Open picker'
+};
+
+const Combobox = {
+  noResultsText: 'No results found',
+  placeholder: 'Select',
+  searchPlaceholder: 'Search',
+  checkAll: 'All'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'New item',
+  createOption: 'Create option "{0}"'
+};
+
 export default {
+  code: 'en-US',
   common: {
     loading: 'Loading...',
-    emptyMessage: 'No data found'
+    emptyMessage: 'No data found',
+    remove: 'Remove',
+    clear: 'Clear'
   },
   Plaintext: {
     unfilled: 'Unfilled',
@@ -39,31 +72,24 @@ export default {
     total: 'Total Rows: {0}',
     skip: 'Go to{0}'
   },
+  DateTimeFormats,
   Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  DatePicker,
   DateRangePicker: {
-    ...Calendar,
+    ...DatePicker,
     last7Days: 'Last 7 Days'
   },
-  Picker: {
-    noResultsText: 'No results found',
-    placeholder: 'Select',
-    searchPlaceholder: 'Search',
-    checkAll: 'All'
-  },
-  InputPicker: {
-    newItem: 'New item',
-    createOption: 'Create option "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Initial',
     progress: 'Uploading',
     error: 'Error',
     complete: 'Finished',
     emptyFile: 'Empty',
-    upload: 'Upload'
+    upload: 'Upload',
+    removeFile: 'Remove file'
   },
   CloseButton: {
     closeLabel: 'Close'
@@ -71,8 +97,23 @@ export default {
   Breadcrumb: {
     expandText: 'Show path'
   },
+  Carousel: {
+    carouselRoleDescription: 'carousel',
+    slideRoleDescription: 'slide',
+    slidePosition: '{0} of {1}',
+    startRotation: 'Start slide rotation',
+    stopRotation: 'Stop slide rotation',
+    selectSlide: 'Choose slide',
+    slideLabel: 'Slide {0} of {1}'
+  },
   Toggle: {
-    on: 'Open',
-    off: 'Close'
+    on: 'ON',
+    off: 'OFF'
+  },
+  Dialog: {
+    alert: 'Alert',
+    confirm: 'Confirm',
+    ok: 'OK',
+    cancel: 'Cancel'
   }
 };

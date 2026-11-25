@@ -1,5 +1,8 @@
 import toaster from './toaster';
 
+// export types
 export type { Toaster } from './toaster';
-export { default as useToaster } from './useToaster';
+
+// export components
+export { toaster };
 export default toaster;

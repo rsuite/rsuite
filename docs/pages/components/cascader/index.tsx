@@ -1,16 +1,18 @@
-import React from 'react';
-import { Cascader, Button, RadioGroup, Radio } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import AdminIcon from '@rsuite/icons/Admin';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
-
+import ImportGuide from '@/components/ImportGuide';
+import PlacementContainer from '@/components/PlacementContainer';
+import { Cascader, Button, RadioGroup, Radio, VStack, HStack, Box, Divider, Text } from 'rsuite';
+import Simulation from '@/components/Simulation';
 import {
+  importFakerString,
+  mockAsyncData,
+  mockAsyncDataString,
   mockTreeData,
   mockTreeDataToString,
-  mockAsyncData,
-  importFakerString,
-  mockAsyncDataString
+  sandboxFakerVersion
 } from '@/utils/mock';
 
 const mockfile = {
@@ -19,13 +21,21 @@ const mockfile = {
 };
 
 const sandboxDependencies = {
-  '@faker-js/faker': 'latest'
+  ...sandboxFakerVersion
+};
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['Cascader']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="cascader" />
 };
 
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
+        Box,
+        PlacementContainer,
         Cascader,
         Button,
         RadioGroup,
@@ -33,6 +43,10 @@ export default function Page() {
         AdminIcon,
         FolderFillIcon,
         PageIcon,
+        VStack,
+        HStack,
+        Divider,
+        Text,
         mockAsyncData,
         mockTreeData
       }}

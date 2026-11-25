@@ -1,0 +1,7 @@
+{
+  "components": {
+    "PlaceholderParagraph": "Placeholder/PlaceholderParagraph",
+    "PlaceholderGrid": "Placeholder/PlaceholderGrid",
+    "PlaceholderGraph": "Placeholder/PlaceholderGraph"
+  }
+}

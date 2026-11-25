@@ -1,24 +1,30 @@
 <!--start-code-->
 
 ```js
-import { Stack, Slider, Input, Button } from 'rsuite';
+import { VStack, HStack, Slider, Text, Center } from 'rsuite';
+
+const DecorativeBox = ({ children, ...rest }) => (
+  <Center bg="var(--rs-placeholder)" p={40} rounded="lg" {...rest}>
+    {children}
+  </Center>
+);
 
 const App = () => {
-  const [size, setSize] = React.useState(6);
+  const [spacing, setSpacing] = React.useState(6);
 
   return (
-    <Stack direction="column" spacing={20} alignItems="flex-start">
-      <Stack spacing={12}>
-        Spacing:
-        <Slider value={size} style={{ width: 300 }} onChange={value => setSize(value)} />
+    <VStack spacing={20}>
+      <HStack wrap>
+        <Text muted>Spacing</Text>
+        <Slider value={spacing} w={300} onChange={setSpacing} keepTooltipOpen />
+      </HStack>
+      <Stack spacing={spacing}>
+        <DecorativeBox />
+        <DecorativeBox />
+        <DecorativeBox />
+        <DecorativeBox />
       </Stack>
-      <Stack spacing={size}>
-        Label:
-        <Input />
-        <Button appearance="primary">Submit</Button>
-        <Button>Reset</Button>
-      </Stack>
-    </Stack>
+    </VStack>
   );
 };
 

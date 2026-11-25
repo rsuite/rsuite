@@ -4,7 +4,7 @@
 
 ## 获取组件
 
-<!--{include:(components/loader/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## 演示
 
@@ -12,7 +12,7 @@
 
 <!--{include:`basic.md`}-->
 
-### 自定义描述
+### 包含内容
 
 <!--{include:`content.md`}-->
 
@@ -32,21 +32,28 @@
 
 <!--{include:`backdrop.md`}-->
 
-### Inverse
+### 颜色翻转
 
 <!--{include:`inverse.md`}-->
+
+## 可访问性
+
+### ARIA 属性
+
+- Loader 拥有 `role="status"` 属性。
+- 当 Loader 设置了 `content` 属性时，会将 `aria-labelledby` 属性设置为 `content`元素的 `id`。
 
 ## Props
 
 ### `<Loader>`
 
-| 属性名称    | 类型 `(默认值)`                                   | 描述               |
-| ----------- | ------------------------------------------------- | ------------------ |
-| backdrop    | boolean                                           | 显示背景           |
-| center      | boolean                                           | 在容器中居中显示   |
-| classPrefix | string                                            | 组件 CSS 类的前缀  |
-| content     | ReactNode                                         | 自定义描述文本     |
-| inverse     | boolean                                           | 翻转加载器颜色     |
-| size        | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | 设置加载器尺寸     |
-| speed       | 'fast' &#124; 'normal' &#124; 'slow'`('normal')`  | 加载器旋转速度     |
-| vertical    | boolean                                           | 图标与文字垂直显示 |
+| 属性名称    | 类型 `(默认值)`                                      | 描述               |
+| ----------- | ---------------------------------------------------- | ------------------ |
+| backdrop    | boolean                                              | 显示背景           |
+| center      | boolean                                              | 在容器中居中显示   |
+| classPrefix | string `('loader')`                                  | 组件 CSS 类的前缀  |
+| content     | ReactNode                                            | 自定义描述文本     |
+| inverse     | boolean                                              | 翻转加载器颜色     |
+| size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                | 设置加载器尺寸     |
+| speed       | 'fast' \| 'normal' \| 'slow' \| 'paused'`('normal')` | 加载器旋转速度     |
+| vertical    | boolean                                              | 图标与文字垂直显示 |

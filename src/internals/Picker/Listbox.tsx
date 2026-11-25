@@ -1,0 +1,412 @@
+import React, { useRef, useState, useEffect, useMemo } from 'react';
+import isUndefined from 'lodash/isUndefined';
+import isString from 'lodash/isString';
+import isNumber from 'lodash/isNumber';
+import findIndex from 'lodash/findIndex';
+import pickBy from 'lodash/pickBy';
+import scrollTop from 'dom-lib/scrollTop';
+import get from 'lodash/get';
+import classNames from 'classnames';
+import ListItemGroup from './ListItemGroup';
+import getOptionKey from './getOptionKey';
+import getOptionId from './getOptionId';
+import useVirtualizedListFocus from './hooks/useVirtualizedListFocus';
+import useActiveDescendant from './hooks/useActiveDescendant';
+import type { VirtualizedListHandle } from './hooks/useVirtualizedListFocus';
+import VirtualizedListItem, { ItemRendererProvider } from './VirtualizedListItem';
+import useCombobox from './hooks/useCombobox';
+import Highlight from '../../Highlight';
+import {
+  List,
+  AutoSizer,
+  ListProps,
+  ListHandle,
+  VariableSizeList,
+  ListChildComponentProps
+} from '@/internals/Windowing';
+import { RSUITE_PICKER_GROUP_KEY } from '@/internals/symbols';
+import {
+  useStyles,
+  useMount,
+  useEventCallback,
+  useIsomorphicLayoutEffect
+} from '@/internals/hooks';
+import { shallowEqual, mergeRefs, mergeStyles, getCssValue } from '@/internals/utils';
+import { KEY_GROUP_TITLE } from '@/internals/utils/getDataGroupBy';
+import type { StandardProps, Option, DataProps, HTMLPropsWithoutSelect } from '@/internals/types';
+interface InnerOption extends Option {
+  [RSUITE_PICKER_GROUP_KEY]?: boolean;
+}
+
+/**
+ * Props for the Listbox component.
+ */
+/**
+ * Props for the Listbox component.
+ * @template Multiple - Whether multiple selection is enabled.
+ */
+export interface ListboxProps<Multiple = false>
+  extends StandardProps,
+    Partial<DataProps<InnerOption>>,
+    HTMLPropsWithoutSelect {
+  groupBy?: string;
+  disabled?: boolean;
+  disabledItemValues?: any[];
+  activeItemValues?: any[];
+  focusItemValue?: any;
+  /** Keep a reconciled logical focus mounted without moving DOM focus. */
+  scrollToFocus?: boolean;
+  maxHeight?: number;
+  /** Content shown as a disabled, unselected option in an empty listbox. */
+  emptyContent?: React.ReactNode;
+
+  listItemAs: React.ElementType | string;
+  listItemClassPrefix?: string;
+  listItemProps?: any;
+  rowHeight?: number;
+  /** */
+  rowGroupHeight?: number;
+  /** */
+  virtualized?: boolean;
+  /** */
+  listProps?: Partial<ListProps>;
+  /** */
+  listRef?: React.Ref<ListHandle>;
+  /** Internal keyboard navigation for virtualized options. */
+  keyboardNavigationRef?: React.Ref<VirtualizedListHandle>;
+  /** Reports only the mounted logical focus target of an editable combobox. */
+  onActiveDescendantChange?: (id: string | undefined) => void;
+
+  /**
+   * Query string for filtering.
+   */
+  query?: string;
+
+  /**
+   * Custom function to render a selected option.
+   * @param itemLabel - The label of the item.
+   * @param item - The selected item.
+   * @returns The rendered React node.
+   */
+  renderOption?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
+
+  /**
+   * Custom function to render a menu group.
+   * @param title - The title of the group.
+   * @param item - The group item.
+   * @returns The rendered React node.
+   */
+  renderOptionGroup?: (title: React.ReactNode, item: any) => React.ReactNode;
+
+  /**
+   * Event handler for selecting an option.
+   * @param value - The selected value.
+   * @param item - The selected item.
+   * @param event - The mouse event.
+   * @param checked - The checked state (only applicable for multiple selection).
+   */
+  onSelect?: Multiple extends true
+    ? (value: any, item: any, event: React.MouseEvent, checked: boolean) => void
+    : Multiple extends false
+      ? (value: any, item: any, event: React.MouseEvent) => void
+      : any;
+
+  /**
+   * Event handler for clicking on a group title.
+   * @param event - The mouse event.
+   */
+  onGroupTitleClick?: (event: React.MouseEvent) => void;
+}
+
+export type ListboxComponent = React.ForwardRefExoticComponent<ListboxProps> & {
+  <Multiple = false>(props: ListboxProps<Multiple>): any;
+};
+
+const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<any>>(
+  (props, ref) => {
+    const {
+      data = [],
+      groupBy,
+      disabled: disabledProp,
+      maxHeight = 320,
+      emptyContent,
+      activeItemValues = [],
+      disabledItemValues = [],
+      classPrefix = 'listbox',
+      valueKey = 'value',
+      labelKey = 'label',
+      virtualized,
+      listProps,
+      listRef: virtualizedListRef,
+      keyboardNavigationRef,
+      onActiveDescendantChange,
+      className,
+      style,
+      focusItemValue,
+      scrollToFocus,
+      listItemClassPrefix,
+      listItemAs: ListItem,
+      listItemProps,
+      rowHeight = 36,
+      rowGroupHeight = 48,
+      query,
+      renderOptionGroup,
+      renderOption,
+      onGroupTitleClick,
+      onSelect,
+      ...rest
+    } = props;
+
+    const { prefix, merge, rootPrefix } = useStyles(classPrefix);
+    const groupable = !!groupBy;
+    const classes = merge(
+      className,
+      rootPrefix('picker-listbox'),
+      prefix('items', { grouped: groupable })
+    );
+    const { id, labelId, popupType, multiple } = useCombobox();
+
+    const menuBodyContainerRef = useRef<HTMLDivElement>(null);
+    const listRef = useRef<ListHandle>(null);
+    const mergedListRef = useMemo(
+      () => mergeRefs(mergeRefs(listRef, virtualizedListRef), listProps?.ref),
+      [virtualizedListRef, listProps?.ref]
+    );
+
+    const [foldedGroupKeys, setFoldedGroupKeys] = useState<string[]>([]);
+
+    const handleGroupTitleClick = useEventCallback((key: string, event: React.MouseEvent) => {
+      const nextGroupKeys = foldedGroupKeys.filter(item => item !== key);
+      if (nextGroupKeys.length === foldedGroupKeys.length) {
+        nextGroupKeys.push(key);
+      }
+      setFoldedGroupKeys(nextGroupKeys);
+      onGroupTitleClick?.(event);
+    });
+
+    const handleSelect = useEventCallback(
+      (item: any, value: any, event: React.MouseEvent, checked?: boolean) => {
+        if (disabledProp) return;
+
+        onSelect?.(value, item, event, checked);
+      }
+    );
+
+    const getRowHeight = (list: any[], index) => {
+      const item = list[index];
+
+      if (groupable && item[RSUITE_PICKER_GROUP_KEY] && index !== 0) {
+        return rowGroupHeight;
+      }
+
+      return rowHeight;
+    };
+
+    useEffect(() => {
+      const container = menuBodyContainerRef.current;
+
+      if (!container) {
+        return;
+      }
+
+      const focusId = focusItemValue == null ? undefined : getOptionId(id, focusItemValue);
+      const focusedItem = focusId
+        ? container.querySelector<HTMLElement>(`#${CSS.escape(focusId)}`)
+        : null;
+      const activeItem =
+        focusedItem && container.contains(focusedItem)
+          ? focusedItem
+          : container.querySelector<HTMLElement>(`.${prefix('item-focus')}`) ||
+            container.querySelector<HTMLElement>('[role="option"][aria-selected="true"]') ||
+            container.querySelector<HTMLElement>(`.${prefix('item-active')}`);
+
+      if (!activeItem) {
+        return;
+      }
+
+      const option = activeItem.closest<HTMLElement>('[role="option"]');
+      const optionBounds = (
+        option && container.contains(option) ? option : activeItem
+      ).getBoundingClientRect();
+      const contentTop = container.getBoundingClientRect().top + container.clientTop;
+      const contentBottom = contentTop + container.clientHeight;
+      if (optionBounds.top < contentTop) {
+        scrollTop(container, scrollTop(container) + optionBounds.top - contentTop);
+      } else if (optionBounds.bottom > contentBottom) {
+        scrollTop(container, scrollTop(container) + optionBounds.bottom - contentBottom);
+      }
+    }, [focusItemValue, id, prefix]);
+
+    const filteredItems = groupable
+      ? data.filter(item => {
+          // Display group title items
+          if (item[RSUITE_PICKER_GROUP_KEY]) return true;
+
+          // Display items under the unfolded group
+          const groupValue = get(item, groupBy);
+          // Legacy flattened data stores the group title on its parent.
+          const groupTitle = groupValue === undefined ? item.parent?.[KEY_GROUP_TITLE] : groupValue;
+          // getDataGroupBy uses object keys, so group titles are strings.
+          return !foldedGroupKeys.includes(String(groupTitle));
+        })
+      : data;
+    const rowCount = filteredItems.length;
+
+    const focusItemIndex =
+      scrollToFocus && virtualized && focusItemValue != null
+        ? filteredItems.findIndex(
+            item => !item[RSUITE_PICKER_GROUP_KEY] && shallowEqual(item[valueKey], focusItemValue)
+          )
+        : -1;
+
+    useIsomorphicLayoutEffect(() => {
+      if (!disabledProp && focusItemIndex >= 0) listRef.current?.scrollToItem?.(focusItemIndex);
+    }, [disabledProp, focusItemIndex, focusItemValue]);
+
+    const reportActiveDescendant = useActiveDescendant({
+      menuRef: menuBodyContainerRef,
+      focusItemValue,
+      onChange: onActiveDescendantChange
+    });
+
+    const handleItemsRendered = useVirtualizedListFocus({
+      items: filteredItems,
+      valueKey,
+      disabledItemValues,
+      menuRef: menuBodyContainerRef,
+      listRef,
+      navigationRef: keyboardNavigationRef,
+      onItemsRendered: props => {
+        reportActiveDescendant();
+        listProps?.onItemsRendered?.(props);
+      }
+    });
+
+    const renderItem: any = ({
+      index = 0,
+      style,
+      data,
+      item: itemData
+    }: Partial<ListChildComponentProps> & { item?: any }) => {
+      const item = itemData || data[index];
+      const value = item[valueKey];
+      const itemLabel = item[labelKey];
+      const label = query ? (
+        <Highlight query={query} as="span">
+          {itemLabel}
+        </Highlight>
+      ) : (
+        itemLabel
+      );
+
+      if (isUndefined(label) && !item[RSUITE_PICKER_GROUP_KEY]) {
+        throw Error(`labelKey "${labelKey}" is not defined in "data" : ${index}`);
+      }
+
+      // Use `value` in keys when If `value` is string or number
+      const itemKey = isString(value) || isNumber(value) ? getOptionKey(value) : index;
+
+      //  Render <ListboxGroup> component when `groupBy` is defined
+      if (groupable && item[RSUITE_PICKER_GROUP_KEY]) {
+        const groupValue = item[KEY_GROUP_TITLE];
+        return (
+          <ListItemGroup
+            style={style}
+            classPrefix={'picker-menu-group'}
+            className={classNames({
+              folded: foldedGroupKeys.some(key => key === groupValue)
+            })}
+            key={`group-${groupValue}`}
+            onClick={handleGroupTitleClick.bind(null, groupValue)}
+          >
+            {renderOptionGroup ? renderOptionGroup(groupValue, item) : groupValue}
+          </ListItemGroup>
+        );
+      } else if (isUndefined(value) && !isUndefined(item[RSUITE_PICKER_GROUP_KEY])) {
+        throw Error(`valueKey "${valueKey}" is not defined in "data" : ${index} `);
+      }
+
+      const disabled =
+        disabledProp ||
+        disabledItemValues?.some(disabledValue => shallowEqual(disabledValue, value));
+      const active = activeItemValues?.some(v => shallowEqual(v, value));
+      const focus = !isUndefined(focusItemValue) && shallowEqual(focusItemValue, value);
+
+      return (
+        <ListItem
+          aria-posinset={index + 1}
+          aria-setsize={rowCount}
+          style={style}
+          key={itemKey}
+          disabled={disabled}
+          active={active}
+          focus={focus}
+          value={value}
+          classPrefix={listItemClassPrefix}
+          onSelect={handleSelect.bind(null, item)}
+          {...pickBy(listItemProps, v => v !== undefined)}
+          data-grouped={groupable || undefined}
+        >
+          {renderOption ? renderOption(label, item) : label}
+        </ListItem>
+      );
+    };
+
+    useMount(() => {
+      const initialValue =
+        scrollToFocus && focusItemValue != null ? focusItemValue : activeItemValues?.[0];
+      const itemIndex = findIndex(filteredItems, item => item[valueKey] === initialValue);
+      listRef.current?.scrollToItem?.(itemIndex);
+    });
+
+    const styles = mergeStyles(style, { '--rs-picker-listbox-max-height': getCssValue(maxHeight) });
+
+    return (
+      <div
+        role="listbox"
+        id={`${id}-${popupType}`}
+        aria-labelledby={labelId}
+        aria-multiselectable={multiple}
+        className={classes}
+        ref={mergeRefs(menuBodyContainerRef, ref)}
+        style={styles}
+        {...rest}
+      >
+        {rowCount === 0 ? (
+          emptyContent != null &&
+          typeof emptyContent !== 'boolean' && (
+            <div role="option" aria-disabled="true" aria-selected="false">
+              {emptyContent}
+            </div>
+          )
+        ) : virtualized ? (
+          <ItemRendererProvider value={renderItem}>
+            <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>
+              {({ height }) => (
+                <List
+                  as={VariableSizeList}
+                  height={height || maxHeight}
+                  itemCount={rowCount}
+                  itemData={filteredItems}
+                  itemSize={getRowHeight.bind(this, filteredItems)}
+                  className={rootPrefix('virt-list')}
+                  {...listProps}
+                  ref={mergedListRef}
+                  onItemsRendered={handleItemsRendered}
+                >
+                  {VirtualizedListItem}
+                </List>
+              )}
+            </AutoSizer>
+          </ItemRendererProvider>
+        ) : (
+          filteredItems.map((item, index: number) => renderItem({ index, item }))
+        )}
+      </div>
+    );
+  }
+);
+
+Listbox.displayName = 'Listbox';
+
+export default Listbox;

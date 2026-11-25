@@ -1,87 +1,113 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import React, { useContext, useMemo } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
+import { CustomContext } from '@/internals/Provider/CustomContext';
+import { useStyles, useCustom } from '@/internals/hooks';
+import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
 
-export interface PlaceholderGridProps extends WithAsProps {
-  /* number of rows */
+export interface PlaceholderGridProps extends BoxProps {
+  /**
+   * The number of rows.
+   *
+   * @default 5
+   */
   rows?: number;
 
-  /* height of rows */
+  /**
+   * The height of the row.
+   *
+   * @default 10
+   */
   rowHeight?: number;
 
-  /* margin of rows */
+  /**
+   * @deprecated Use `rowSpacing` instead.
+   */
   rowMargin?: number;
 
-  /* number of columns */
+  /**
+   * The spacing between rows.
+   *
+   * @default 20
+   * @version 5.59.1
+   */
+  rowSpacing?: number;
+
+  /**
+   * The number of columns.
+   * @default 5
+   */
   columns?: number;
 
-  /** Placeholder status */
+  /**
+   * Placeholder status, display the loading state.
+   */
   active?: boolean;
 }
 
-const PlaceholderGrid: RsRefForwardingComponent<'div', PlaceholderGridProps> = React.forwardRef(
-  (props: PlaceholderGridProps, ref) => {
-    const {
-      as: Component = 'div',
-      className,
-      classPrefix = 'placeholder',
-      rows = 5,
-      columns = 5,
-      rowHeight = 10,
-      rowMargin = 20,
-      active,
-      ...rest
-    } = props;
+/**
+ * The `Placeholder.Grid` component is used to display the loading state of the block.
+ * @see https://rsuitejs.com/components/placeholder
+ */
+const PlaceholderGrid = forwardRef<'div', PlaceholderGridProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('PlaceholderGrid', props);
+  const { reduceMotion } = useContext(CustomContext);
+  const {
+    as,
+    className,
+    classPrefix = 'placeholder',
+    rows = 5,
+    columns = 5,
+    rowHeight,
+    rowSpacing,
+    active,
+    style,
+    ...rest
+  } = propsWithDefaults;
 
-    const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix('grid', { active }));
+  const { merge, prefix, cssVar, withPrefix } = useStyles(classPrefix);
+
+  const classes = merge(className, withPrefix('grid'));
+  const styles = mergeStyles(
+    style,
+    cssVar('row-height', rowHeight, getCssValue),
+    cssVar('row-spacing', rowSpacing, getCssValue)
+  );
+
+  const items = useMemo(() => {
     const colItems: React.ReactElement[] = [];
-    const firstRowItemWidth = Math.random() * 30 + 30;
-    const itemWidth = firstRowItemWidth / 2;
+    const rowClassName = prefix`row`;
+    const columnClassName = prefix`grid-col`;
+
     for (let i = 0; i < columns; i++) {
       const rowItems: React.ReactElement[] = [];
       for (let j = 0; j < rows; j++) {
-        let widthPercent = Math.random() * 50 + 10; // when first column
-        if (i > 0) {
-          // when other columns
-          widthPercent = j > 0 ? itemWidth : firstRowItemWidth;
-        }
-        rowItems.push(
-          <p
-            key={j}
-            style={{
-              width: `${widthPercent}%`,
-              height: rowHeight,
-              marginTop: j > 0 ? rowMargin : undefined
-            }}
-          />
-        );
+        rowItems.push(<div key={j} className={rowClassName} />);
       }
       colItems.push(
-        <div key={i} className={classNames(prefix('grid-col'))}>
+        <div key={i} className={columnClassName}>
           {rowItems}
         </div>
       );
     }
-    return (
-      <Component {...rest} ref={ref} className={classes}>
-        {colItems}
-      </Component>
-    );
-  }
-);
+
+    return colItems;
+  }, [columns, prefix, rowHeight, rowSpacing, rows]);
+
+  return (
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      style={styles}
+      data-active={active}
+      {...rest}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
+    >
+      {items}
+    </Box>
+  );
+});
 
 PlaceholderGrid.displayName = 'PlaceholderGrid';
-PlaceholderGrid.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  rows: PropTypes.number,
-  columns: PropTypes.number,
-  rowHeight: PropTypes.number,
-  rowMargin: PropTypes.number,
-  active: PropTypes.bool
-};
 
 export default PlaceholderGrid;

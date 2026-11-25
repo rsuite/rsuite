@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Table,
   Toggle,
@@ -14,21 +13,30 @@ import {
   TagPicker,
   Tag,
   Progress,
-  Loader
+  Loader,
+  Placeholder,
+  HStack,
+  VStack,
+  Input,
+  InputGroup,
+  Box,
+  Center
 } from 'rsuite';
 import { faker } from '@faker-js/faker/locale/en';
-import DefaultPage from '@/components/Page';
-
+import FakeBrowser from '@/components/FakeBrowser';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
 import MoreIcon from '@rsuite/icons/legacy/More';
 import CollaspedOutlineIcon from '@rsuite/icons/CollaspedOutline';
 import ExpandOutlineIcon from '@rsuite/icons/ExpandOutline';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+import SpinnerIcon from '@rsuite/icons/Spinner';
 import {
-  mockUsers,
+  importFakerString,
   mockTreeData,
-  mockUsersString,
   mockTreeDataToString,
-  importFakerString
+  mockUsers,
+  mockUsersString,
+  sandboxFakerVersion
 } from '@/utils/mock';
 
 const mockfile = {
@@ -37,15 +45,21 @@ const mockfile = {
 };
 
 const sandboxDependencies = {
-  '@faker-js/faker': 'latest'
+  ...sandboxFakerVersion
+};
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['Table']} />
 };
 
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         Nav,
         Checkbox,
+        Center,
         Toggle,
         Popover,
         Whisper,
@@ -54,6 +68,7 @@ export default function Page() {
         Table,
         Button,
         Dropdown,
+        Box,
         MoreIcon,
         CollaspedOutlineIcon,
         ExpandOutlineIcon,
@@ -64,6 +79,12 @@ export default function Page() {
         Progress,
         faker,
         Loader,
+        Placeholder,
+        Input,
+        InputGroup,
+        HStack,
+        VStack,
+        FakeBrowser,
         mockTreeData,
         mockUsers
       }}

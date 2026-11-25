@@ -1,341 +1,464 @@
 import React, { HTMLAttributes, useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import pick from 'lodash/pick';
+import ArrowUpIcon from '@rsuite/icons/ArrowUp';
 import MonthDropdown from './MonthDropdown';
-import TimeDropdown from './TimeDropdown';
+import TimeDropdown, { type TimeDropdownProps } from './TimeDropdown';
 import CalendarBody from './CalendarBody';
 import CalendarHeader, { CalendarHeaderProps } from './CalendarHeader';
-import { useClassNames, composeFunctions } from '../utils';
+import { useStyles, useEventCallback } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
 import {
-  disabledTime,
-  addMonths,
-  shouldRenderDate,
-  shouldRenderTime,
-  shouldRenderMonth,
-  setDate,
-  isSameMonth,
+  startOfToday,
   calendarOnlyProps,
-  omitHideDisabledProps
-} from '../utils/dateUtils';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+  omitHideDisabledProps,
+  DateMode,
+  useDateMode,
+  isValid,
+  setHours,
+  setMinutes,
+  setSeconds
+} from '@/internals/utils/date';
+import { WithAsProps } from '@/internals/types';
 import { CalendarLocale } from '../locales';
-import { CalendarProvider } from './CalendarContext';
-import useCalendarState, { CalendarState } from './useCalendarState';
-import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
+import { type CalendarContextValue, CalendarProvider } from './CalendarProvider';
+import { useCalendarState, CalendarState } from './hooks';
+import { MonthDropdownProps } from './types';
+import type {
+  PlainDate,
+  PlainDateTime,
+  PlainTime,
+  PlainYearMonth
+} from '@/internals/utils/date/types';
+import { isEveryDayInMonth, toPlainDateTime } from '@/internals/utils/date/plainDate';
+import { useIsDateTimeDisabled } from '@/internals/utils/date/disableTime';
 
 export interface CalendarProps
   extends WithAsProps,
     Omit<HTMLAttributes<HTMLDivElement>, 'onSelect' | 'onChange' | 'onMouseMove'>,
     CalendarHeaderProps {
-  /** The panel render based on date range */
+  /**
+   * The panel render based on date range
+   */
   dateRange?: Date[];
 
-  /** Date displayed on the current page */
+  /**
+   * The Id of the target element that triggers the opening of the calendar
+   */
+  targetId?: string;
+
+  /**
+   * Date displayed on the current page
+   */
   calendarDate: Date;
 
-  /** Whether to show week numbers */
+  /**
+   * Whether to show week numbers
+   */
   showWeekNumbers?: boolean;
 
+  /**
+   * Whether to show meridiem
+   */
+  showMeridiem?: boolean;
+
+  /**
+   * Whether inline mode
+   */
   inline?: boolean;
 
+  /**
+   * Default state of the calendar, can be `MONTH` or `TIME`
+   */
   defaultState?: CalendarState;
 
-  /** Disabled date */
+  /**
+   * Disabled dates on the calendar
+   */
   disabledDate?: (date: Date) => boolean;
 
-  /** Disabled hours */
+  /**
+   * Disabled hours on time view
+   */
   disabledHours?: (hour: number, date: Date) => boolean;
 
-  /** Disabled minutes */
+  /**
+   * Disabled minutes on time view
+   */
   disabledMinutes?: (minute: number, date: Date) => boolean;
 
-  /** Hidden seconds */
+  /**
+   * Hidden seconds on time view
+   */
   disabledSeconds?: (second: number, date: Date) => boolean;
 
-  /** Format str */
+  /**
+   * Format of the date
+   */
   format: string;
 
-  /** Hidden hours */
+  /**
+   * Hidden hours on time view
+   */
   hideHours?: (hour: number, date: Date) => boolean;
 
-  /** Hidden minutes */
+  /**
+   * Hidden minutes on time view
+   */
   hideMinutes?: (minute: number, date: Date) => boolean;
 
-  /** Hidden seconds */
+  /**
+   * Hidden seconds on time view
+   */
   hideSeconds?: (second: number, date: Date) => boolean;
 
-  /** The value that mouse hover on in range selection */
+  /**
+   * The value that mouse hover on in range selection
+   */
   hoverRangeValue?: [Date, Date];
 
-  /** Is it in the same month as today */
-  inSameMonth?: (date: Date) => boolean;
-
-  /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day */
+  /**
+   * ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day
+   *
+   * @see https://en.wikipedia.org/wiki/ISO_week_date
+   */
   isoWeek?: boolean;
 
-  /** Limit showing how many years in the future */
+  /**
+   * The index of the calendar
+   */
+  index?: number;
+
+  /**
+   * the index of the first day of the week (0 - Sunday)
+   * If `isoWeek` is `true`, the value of `weekStart` is ignored.
+   *
+   * @default 0
+   */
+  weekStart?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
+  /**
+   * Limit showing how many years in the future
+   */
   limitEndYear?: number;
 
-  /** Custom locale */
-  locale: CalendarLocale;
+  /**
+   * Limit showing how many years in the past
+   */
+  limitStartYear?: number;
 
-  /** Callback after the date has changed */
+  /**
+   * Custom locale object
+   *
+   * @see https://rsuitejs.com/guide/i18n/#calendar
+   */
+  locale?: CalendarLocale;
+
+  /**
+   * The props for the Month Dropdown component.
+   */
+  monthDropdownProps?: MonthDropdownProps;
+
+  /**
+   * Callback after the date has changed
+   */
   onChangeMonth?: (nextPageDate: Date, event: React.MouseEvent) => void;
 
-  /** Callback after the time has changed */
-  onChangeTime?: (nextPageTime: Date, event: React.MouseEvent) => void;
+  /**
+   * Callback after the time has changed
+   */
+  onChangeTime?: (nextPageTime: Date, event: React.SyntheticEvent) => void;
 
-  /** Callback after mouse enter other date cell */
+  /**
+   * Callback after mouse enter other date cell
+   */
   onMouseMove?: (date: Date) => void;
 
-  /** Switch to the callback triggered after the previous month. */
+  /**
+   * Switch to the callback triggered after the previous month
+   */
   onMoveBackward?: (nextPageDate: Date) => void;
 
-  /** Switch to the callback triggered after the next month. */
+  /**
+   * Switch to the callback triggered after the next month
+   */
   onMoveForward?: (nextPageDate: Date) => void;
 
-  /** Callback fired before the date selected */
+  /**
+   * Callback fired before the date selected
+   */
   onSelect?: (date: Date, event: React.MouseEvent) => void;
 
-  /** Custom rendering cell*/
+  /**
+   * Custom rendering cell
+   */
   renderCell?: (date: Date) => React.ReactNode;
 
-  /** Called when opening the month view */
+  /**
+   * Custom rendering cell on the picker
+   */
+  renderCellOnPicker?: (date: Date) => React.ReactNode;
+
+  /**
+   * Custom cell classes base on it's date
+   */
+  cellClassName?: (date: Date) => string | undefined;
+
+  /**
+   * Called when opening the month view
+   */
   onToggleMonthDropdown?: (toggle: boolean) => void;
 
-  /** Called when opening the time view */
+  /**
+   * Called when opening the time view
+   */
   onToggleTimeDropdown?: (toggle: boolean) => void;
 }
 
-const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRef(
-  (props: CalendarProps, ref) => {
-    const {
-      as: Component = 'div',
-      className,
-      classPrefix = 'calendar',
-      dateRange,
-      disabledBackward,
-      defaultState,
-      disabledDate,
-      disabledForward,
-      format,
-      hoverRangeValue,
-      inSameMonth,
-      isoWeek = false,
-      limitEndYear,
-      locale,
-      onChangeMonth,
-      onChangeTime,
-      onMouseMove,
-      onMoveBackward,
-      onMoveForward,
-      onSelect,
-      onToggleMeridian,
-      onToggleMonthDropdown,
-      onToggleTimeDropdown,
-      calendarDate,
-      renderCell,
-      renderTitle,
-      renderToolbar,
-      showMeridian,
-      showWeekNumbers,
-      inline,
-      ...rest
-    } = props;
-    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+const CalendarContainer = forwardRef<'div', CalendarProps>((props: CalendarProps, ref) => {
+  const {
+    as: Component = 'div',
+    className,
+    classPrefix = 'calendar',
+    calendarDate: calendarDateProp,
+    dateRange,
+    disabledBackward,
+    defaultState,
+    disabledForward,
+    format,
+    hoverRangeValue,
+    inline,
+    isoWeek = false,
+    weekStart,
+    targetId,
+    limitEndYear,
+    limitStartYear,
+    locale,
+    monthDropdownProps,
+    showMeridiem,
+    showWeekNumbers,
+    cellClassName: cellClassNameProp,
+    disabledDate,
+    onChangeMonth,
+    onChangeTime,
+    onMouseMove: onMouseMoveProp,
+    onMoveBackward,
+    onMoveForward,
+    onSelect: onSelectProp,
+    onToggleMonthDropdown,
+    onToggleTimeDropdown,
+    renderCell: renderCellProp,
+    renderCellOnPicker: renderCellOnPickerProp,
+    renderTitle,
+    renderToolbar,
+    ...rest
+  } = props;
 
-    const { calendarState, reset, openMonth, openTime } = useCalendarState(defaultState);
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
 
-    const isDisabledDate = useCallback(
-      (date: Date) => disabledDate?.(date) ?? false,
-      [disabledDate]
-    );
-    const isTimeDisabled = (date: Date) => disabledTime(props, date);
-    const handleMoveForward = useCallback(() => {
-      onMoveForward?.(addMonths(calendarDate, 1));
-    }, [onMoveForward, calendarDate]);
+  const calendarDate = useMemo(() => {
+    return isValid(calendarDateProp) ? calendarDateProp : startOfToday();
+  }, [calendarDateProp]);
 
-    const handleMoveBackward = useCallback(() => {
-      onMoveBackward?.(addMonths(calendarDate, -1));
-    }, [onMoveBackward, calendarDate]);
+  const { calendarState, reset, handlers } = useCalendarState({
+    defaultState,
+    calendarDate,
+    onMoveForward,
+    onMoveBackward,
+    onToggleTimeDropdown,
+    onToggleMonthDropdown
+  });
 
-    // It is displayed as the month to be selected.
-    const toggleMonthView = useCallback(() => {
-      if (calendarState === CalendarState.MONTH) {
-        reset();
-      } else {
-        openMonth();
-      }
+  const isDateDisabled = useCallback(
+    (date: PlainDate) => {
+      return disabledDate?.(toJsDate(date)) ?? false;
+    },
+    [disabledDate]
+  );
 
-      onToggleMonthDropdown?.(calendarState !== CalendarState.MONTH);
-    }, [calendarState, onToggleMonthDropdown, openMonth, reset]);
+  const isMonthDisabled = useCallback(
+    (yearMonth: PlainYearMonth) => {
+      return isEveryDayInMonth(yearMonth, isDateDisabled);
+    },
+    [isDateDisabled]
+  );
 
-    // It is displayed as a time to be selected.
-    const toggleTimeView = useCallback(() => {
-      if (calendarState === CalendarState.TIME) {
-        reset();
-      } else {
-        openTime();
-      }
+  const handleCloseDropdown = useEventCallback(() => reset());
 
-      onToggleTimeDropdown?.(calendarState !== CalendarState.TIME);
-    }, [calendarState, onToggleTimeDropdown, openTime, reset]);
+  const { mode, has } = useDateMode(format);
+  const timeMode = calendarState === CalendarState.TIME || mode === DateMode.Time;
+  const monthMode = calendarState === CalendarState.MONTH || mode === DateMode.Month;
 
-    const handleCloseDropdown = useCallback(() => reset(), [reset]);
+  const calendarClasses = merge(
+    className,
+    withPrefix({
+      'time-view': timeMode,
+      'month-view': monthMode,
+      'only-time': mode === DateMode.Time,
+      'show-week-numbers': showWeekNumbers
+    })
+  );
+  const timeDropdownProps = useTimeDropdownProps(rest);
 
-    const renderDate = shouldRenderDate(format);
-    const renderTime = shouldRenderTime(format);
-    const renderMonth = shouldRenderMonth(format);
+  const isDateTimeDisabled = useIsDateTimeDisabled(timeDropdownProps);
+  const isTimeDisabled = useCallback(
+    (date: Date) => isDateTimeDisabled(toPlainDateTime(date)),
+    [isDateTimeDisabled]
+  );
 
-    const onlyShowTime = renderTime && !renderDate && !renderMonth;
-    const onlyShowMonth = renderMonth && !renderDate && !renderTime;
-    const showTime = calendarState === CalendarState.TIME || onlyShowTime;
-    const showMonth = calendarState === CalendarState.MONTH || onlyShowMonth;
+  const handleChangeMonth = useEventCallback(
+    (yearMonth: PlainYearMonth, event: React.MouseEvent) => {
+      reset();
+      // Call `onChangeMonth` with the first day in the month
+      onChangeMonth?.(new Date(yearMonth.year, yearMonth.month - 1, 1), event);
+    }
+  );
 
-    const inSameThisMonthDate = useCallback(
-      (date: Date) =>
-        composeFunctions(
-          d => setDate(d, 1),
-          d => isSameMonth(d, date)
-        )(date),
-      []
-    );
+  const cellClassName = useCallback(
+    (date: PlainDate) => cellClassNameProp?.(toJsDate(date)),
+    [cellClassNameProp]
+  );
 
-    const calendarClasses = merge(
-      className,
-      withClassPrefix({
-        'time-view': showTime,
-        'month-view': showMonth,
-        'show-week-numbers': showWeekNumbers
-      })
-    );
-    const timeDropdownProps = pick(rest, calendarOnlyProps);
+  const onMouseMove = useCallback(
+    (date: PlainDate) => onMouseMoveProp?.(toJsDate(date)),
+    [onMouseMoveProp]
+  );
 
-    const handleChangeMonth = useCallback(
-      (date: Date, event: React.MouseEvent) => {
-        reset();
-        onChangeMonth?.(date, event);
-      },
-      [onChangeMonth, reset]
-    );
+  const onSelect = useCallback(
+    (date: PlainDate, event: React.MouseEvent) => onSelectProp?.(toJsDate(date), event),
+    [onSelectProp]
+  );
 
-    const contextValue = useMemo(
-      () => ({
-        date: calendarDate,
-        dateRange,
-        disabledDate: isDisabledDate,
-        format,
-        hoverRangeValue,
-        inSameMonth: inSameMonth ?? inSameThisMonthDate,
-        isoWeek,
-        locale,
-        onChangeMonth: handleChangeMonth,
-        onChangeTime,
-        onMouseMove,
-        onSelect,
-        renderCell,
-        showWeekNumbers,
-        inline
-      }),
-      [
-        calendarDate,
-        dateRange,
-        format,
-        handleChangeMonth,
-        hoverRangeValue,
-        inSameMonth,
-        inSameThisMonthDate,
-        inline,
-        isDisabledDate,
-        isoWeek,
-        locale,
-        onChangeTime,
-        onMouseMove,
-        onSelect,
-        renderCell,
-        showWeekNumbers
-      ]
-    );
-    return (
-      <CalendarProvider value={contextValue}>
-        <Component
-          {...omitHideDisabledProps<Partial<CalendarProps>>(rest)}
-          className={calendarClasses}
-          ref={ref}
-        >
+  const renderCell = useCallback(
+    (date: PlainDate) => renderCellProp?.(toJsDate(date)),
+    [renderCellProp]
+  );
+
+  const renderCellOnPicker = useCallback(
+    (date: PlainDate) => renderCellOnPickerProp?.(toJsDate(date)),
+    [renderCellOnPickerProp]
+  );
+
+  const handleChangeTime = useEventCallback((time: PlainTime, event: React.SyntheticEvent) => {
+    let nextDate = calendarDate || startOfToday();
+
+    nextDate = setHours(nextDate, time.hour);
+    nextDate = setMinutes(nextDate, time.minute);
+    nextDate = setSeconds(nextDate, time.second);
+
+    onChangeTime?.(nextDate, event);
+  });
+
+  const contextValue = {
+    date: calendarDate,
+    dateRange,
+    format,
+    hoverRangeValue,
+    inline,
+    isoWeek,
+    weekStart,
+    targetId,
+    locale,
+    showWeekNumbers,
+    monthDropdownProps,
+    cellClassName,
+    disabledDate: isDateDisabled,
+    onChangeMonth: handleChangeMonth,
+    onChangeTime: handleChangeTime,
+    onMouseMove,
+    onSelect,
+    renderCell: typeof renderCellProp === 'undefined' ? undefined : renderCell,
+    renderCellOnPicker:
+      typeof renderCellOnPickerProp === 'undefined' ? undefined : renderCellOnPicker
+  } satisfies CalendarContextValue;
+
+  const currentViewingMonth = useMemo(() => {
+    return { year: calendarDate.getFullYear(), month: calendarDate.getMonth() + 1 };
+  }, [calendarDate]);
+
+  return (
+    <CalendarProvider value={contextValue}>
+      <Component
+        data-testid="calendar"
+        {...omitHideDisabledProps<Partial<CalendarProps>>(rest)}
+        className={calendarClasses}
+        ref={ref}
+      >
+        {mode !== DateMode.Time && (
           <CalendarHeader
-            showMonth={renderMonth}
-            showDate={renderDate}
-            showTime={renderTime}
-            showMeridian={showMeridian}
+            {...handlers}
+            showMonth={has('month')}
+            showDate={has('day')}
+            showTime={has('time')}
             disabledTime={isTimeDisabled}
-            onMoveForward={handleMoveForward}
-            onMoveBackward={handleMoveBackward}
-            onToggleMonthDropdown={toggleMonthView}
-            onToggleTimeDropdown={toggleTimeView}
-            onToggleMeridian={onToggleMeridian}
             renderTitle={renderTitle}
             renderToolbar={renderToolbar}
             disabledBackward={disabledBackward}
             disabledForward={disabledForward}
           />
-          {renderDate && <CalendarBody />}
-          {renderMonth && (
-            <MonthDropdown
-              show={showMonth}
-              limitEndYear={limitEndYear}
-              disabledMonth={isDisabledDate}
-            />
-          )}
-          {renderTime && (
-            <TimeDropdown {...timeDropdownProps} show={showTime} showMeridian={showMeridian} />
-          )}
+        )}
+        {has('day') && <CalendarBody yearMonth={currentViewingMonth} />}
+        {has('month') && (
+          <MonthDropdown
+            show={monthMode}
+            limitEndYear={limitEndYear}
+            limitStartYear={limitStartYear}
+            isMonthDisabled={isMonthDisabled}
+          />
+        )}
+        {has('time') && (
+          <TimeDropdown {...timeDropdownProps} show={timeMode} showMeridiem={showMeridiem} />
+        )}
 
-          {(showMonth || showTime) && renderDate && (
-            <button
-              className={prefix('btn-close')}
-              onClick={handleCloseDropdown}
-              aria-label={`Collapse ${showMonth ? 'month' : 'time'} view`}
-            >
-              <AngleUpIcon />
-            </button>
-          )}
-        </Component>
-      </CalendarProvider>
-    );
-  }
-);
+        {(monthMode || timeMode) && has('day') && (
+          <button
+            className={prefix('btn-close')}
+            onClick={handleCloseDropdown}
+            aria-label={`Collapse ${monthMode ? 'month' : 'time'} view`}
+          >
+            <ArrowUpIcon />
+          </button>
+        )}
+      </Component>
+    </CalendarProvider>
+  );
+});
 
 CalendarContainer.displayName = 'CalendarContainer';
-CalendarContainer.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  disabledDate: PropTypes.func,
-  disabledHours: PropTypes.func,
-  disabledMinutes: PropTypes.func,
-  disabledSeconds: PropTypes.func,
-  format: PropTypes.string,
-  hideHours: PropTypes.func,
-  hideMinutes: PropTypes.func,
-  hideSeconds: PropTypes.func,
-  inSameMonth: PropTypes.func,
-  isoWeek: PropTypes.bool,
-  limitEndYear: PropTypes.number,
-  locale: PropTypes.object,
-  onChangeMonth: PropTypes.func,
-  onChangeTime: PropTypes.func,
-  onMoveBackward: PropTypes.func,
-  onMoveForward: PropTypes.func,
-  onSelect: PropTypes.func,
-  onToggleMeridian: PropTypes.func,
-  onToggleMonthDropdown: PropTypes.func,
-  onToggleTimeDropdown: PropTypes.func,
-  calendarDate: PropTypes.instanceOf(Date),
-  renderCell: PropTypes.func,
-  renderTitle: PropTypes.func,
-  renderToolbar: PropTypes.func,
-  showMeridian: PropTypes.bool,
-  showWeekNumbers: PropTypes.bool
-};
 
 export default CalendarContainer;
+
+/**
+ * Convert the `hide*` and `disabled*` props to handle PlainDateTime instead of Date,
+ * to be passed to TimeDropdown.
+ */
+function useTimeDropdownProps(
+  calendarProps: Pick<CalendarProps, (typeof calendarOnlyProps)[number]>
+): Pick<TimeDropdownProps, (typeof calendarOnlyProps)[number]> {
+  const { hideHours, hideMinutes, hideSeconds, disabledHours, disabledMinutes, disabledSeconds } =
+    calendarProps;
+
+  return useMemo(
+    () => ({
+      hideHours: (hour: number, date: PlainDateTime) =>
+        hideHours?.(hour, toJsDateTime(date)) ?? false,
+      hideMinutes: (minute: number, date: PlainDateTime) =>
+        hideMinutes?.(minute, toJsDateTime(date)) ?? false,
+      hideSeconds: (second: number, date: PlainDateTime) =>
+        hideSeconds?.(second, toJsDateTime(date)) ?? false,
+      disabledHours: (hour: number, date: PlainDateTime) =>
+        disabledHours?.(hour, toJsDateTime(date)) ?? false,
+      disabledMinutes: (minute: number, date: PlainDateTime) =>
+        disabledMinutes?.(minute, toJsDateTime(date)) ?? false,
+      disabledSeconds: (second: number, date: PlainDateTime) =>
+        disabledSeconds?.(second, toJsDateTime(date)) ?? false
+    }),
+    [hideHours, hideMinutes, hideSeconds, disabledHours, disabledMinutes, disabledSeconds]
+  );
+}
+
+function toJsDate(date: PlainDate): Date {
+  return new Date(date.year, date.month - 1, date.day);
+}
+
+function toJsDateTime(date: PlainDateTime): Date {
+  return new Date(date.year, date.month - 1, date.day, date.hour, date.minute, date.second);
+}

@@ -8,14 +8,14 @@ const data = mockTreeData({
   limits: [3, 3, 4],
   labels: (layer, value, faker) => {
     const methodName = ['jobArea', 'jobType', 'firstName'];
-    return faker.name[methodName[layer]]();
+    return faker.person[methodName[layer]]();
   }
 });
 
 const App = () => {
   const [value, setValue] = React.useState(['1-1', '1-2']);
 
-  return <MultiCascader value={value} onChange={setValue} data={data} />;
+  return <MultiCascader value={value} onChange={setValue} data={data} minw={224} />;
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -18,7 +18,7 @@ const App = () => {
           <CompactCell dataKey="name" />
         </Column>
 
-        <Column width={300} fullText>
+        <Column width={200} fullText>
           <HeaderCell>Url</HeaderCell>
           <CompactCell dataKey="avatar" />
         </Column>

@@ -1,26 +1,19 @@
 import React, { useCallback, useContext } from 'react';
 import omit from 'lodash/omit';
-import Menu from '../Menu/Menu';
-import MenuItem from '../Menu/MenuItem';
-import { mergeRefs, useClassNames } from '../utils';
-import PropTypes from 'prop-types';
-import { StandardProps } from '../@types/common';
-import { IconProps } from '@rsuite/icons/lib/Icon';
-import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
-import AngleRight from '@rsuite/icons/legacy/AngleRight';
-import useCustom from '../utils/useCustom';
+import Menu from '@/internals/Menu/Menu';
+import MenuItem from '@/internals/Menu/MenuItem';
+import PagePreviousIcon from '@rsuite/icons/PagePrevious';
+import PageNextIcon from '@rsuite/icons/PageNext';
 import NavContext from './NavContext';
-import deprecatePropType from '../utils/deprecatePropType';
+import { useStyles, useCustom } from '@/internals/hooks';
+import { mergeRefs } from '@/internals/utils';
+import type { StandardProps, SanitizedHTMListProps } from '@/internals/types';
+import type { IconProps } from '@rsuite/icons/Icon';
+import type { DeprecatedDropdownMenuProps } from '../Dropdown/types';
 
-export interface NavDropdownMenuProps<T = any> extends StandardProps {
+export interface NavDropdownMenuProps<T = any> extends StandardProps, DeprecatedDropdownMenuProps {
   /** Define the title as a submenu */
   title?: React.ReactNode;
-
-  /**
-   * The submenu expands from the left and defaults to the right
-   * @deprecated Use openDirection="start" instead
-   */
-  pullLeft?: boolean;
 
   /**
    * Direction that the sub-menu open towards
@@ -31,159 +24,156 @@ export interface NavDropdownMenuProps<T = any> extends StandardProps {
    */
   openDirection?: 'start' | 'end';
 
+  /** No caret variation */
+  noCaret?: boolean;
+
   /**
-   *  Only used for setting the default expand state when it's a submenu.
+   * Only used for setting the default expand state when it's a submenu.
    */
   eventKey?: T;
 
   /** Set the icon */
   icon?: React.ReactElement<IconProps>;
 
+  /** Whether the dropdown menu is open */
   open?: boolean;
+
+  /** Whether the dropdown menu is collapsible */
   collapsible?: boolean;
+
+  /** Whether the dropdown menu is expanded */
   expanded?: boolean;
+
+  /** Whether the dropdown menu is active */
   active?: boolean;
+
+  /** Whether the dropdown menu is disabled */
   disabled?: boolean;
+
+  /**
+   * Callback function that is triggered when the dropdown menu is toggled
+   * @param open - Whether the dropdown menu is open
+   * @param eventKey - The eventKey of the dropdown menu
+   * @param event - The event object
+   */
   onToggle?: (open: boolean, eventKey?: T | undefined, event?: React.SyntheticEvent) => void;
 }
 
 /**
  * @private
  */
-const NavDropdownMenu = React.forwardRef<
-  HTMLElement,
-  NavDropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>
->((props, ref) => {
-  const nav = useContext(NavContext);
+const NavDropdownMenu = React.forwardRef<HTMLElement, NavDropdownMenuProps & SanitizedHTMListProps>(
+  (props, ref) => {
+    const nav = useContext(NavContext);
 
-  if (!nav) {
-    throw new Error('<Nav.Dropdown.Menu> should be used within a <Nav> component.');
+    if (!nav) {
+      throw new Error('<Nav.Dropdown.Menu> should be used within a <Nav> component.');
+    }
+
+    const {
+      onToggle,
+      eventKey,
+      title,
+      classPrefix = 'dropdown-menu',
+      children,
+      openDirection = 'end',
+      noCaret,
+      ...rest
+    } = props;
+
+    const { rtl } = useCustom();
+    const handleToggleSubmenu = useCallback(
+      (open: boolean, event: React.SyntheticEvent) => {
+        onToggle?.(open, eventKey, event);
+      },
+      [eventKey, onToggle]
+    );
+    const { prefix } = useStyles(classPrefix);
+
+    const { withPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
+      useStyles('dropdown-menu');
+
+    const {
+      merge: mergeItemClassNames,
+      withPrefix: withItemClassPrefix,
+      prefix: prefixItemClassName
+    } = useStyles('dropdown-item');
+
+    // Parent menu exists. This is a submenu.
+    // Should render a `menuitem` that controls this submenu.
+    const { icon, className, disabled, ...menuProps } = omit(rest, ['trigger']);
+
+    const Icon = rtl ? PagePreviousIcon : PageNextIcon;
+
+    return (
+      <Menu
+        openMenuOn={['mouseover', 'click']}
+        renderMenuButton={({ open, ...menuButtonProps }, buttonRef) => (
+          <MenuItem disabled={disabled}>
+            {({ selected, active, ...menuitem }, menuitemRef) => {
+              const classes = mergeItemClassNames(
+                className,
+                prefixItemClassName`toggle`,
+                withItemClassPrefix()
+              );
+
+              return (
+                <div
+                  ref={mergeRefs(buttonRef, menuitemRef as any)}
+                  className={classes}
+                  data-open={open}
+                  data-focus={active}
+                  data-active={selected}
+                  data-disabled={disabled}
+                  data-with-icon={icon}
+                  data-event-key={eventKey}
+                  data-event-key-type={typeof eventKey}
+                  {...(menuitem as any)}
+                  {...omit(menuButtonProps, ['role'])}
+                >
+                  {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+                  {title}
+                  {!noCaret && <Icon className={prefix`toggle-icon`} />}
+                </div>
+              );
+            }}
+          </MenuItem>
+        )}
+        renderMenuPopup={({ open, ...popupProps }, popupRef) => {
+          const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
+
+          return (
+            <ul
+              ref={popupRef}
+              className={menuClassName}
+              hidden={!open}
+              data-direction={openDirection}
+              {...popupProps}
+              {...menuProps}
+            >
+              {children}
+            </ul>
+          );
+        }}
+        onToggleMenu={handleToggleSubmenu}
+      >
+        {({ open, ...menuContainer }, menuContainerRef) => {
+          const classes = mergeItemClassNames(className, withItemClassPrefix('submenu'));
+          return (
+            <li
+              ref={mergeRefs(ref, menuContainerRef as any)}
+              className={classes}
+              data-open={open}
+              data-disabled={disabled}
+              {...(menuContainer as any)}
+            />
+          );
+        }}
+      </Menu>
+    );
   }
-
-  const {
-    onToggle,
-    eventKey,
-    title,
-    classPrefix = 'dropdown-menu',
-    children,
-    openDirection = 'end',
-    ...rest
-  } = props;
-
-  const { rtl } = useCustom('DropdownMenu');
-
-  const handleToggleSubmenu = useCallback(
-    (open: boolean, event: React.SyntheticEvent) => {
-      onToggle?.(open, eventKey, event);
-    },
-    [eventKey, onToggle]
-  );
-  const { prefix } = useClassNames(classPrefix);
-
-  const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
-    useClassNames('dropdown-menu');
-
-  const {
-    merge: mergeItemClassNames,
-    withClassPrefix: withItemClassPrefix,
-    prefix: prefixItemClassName
-  } = useClassNames('dropdown-item');
-
-  // Parent menu exists. This is a submenu.
-  // Should render a `menuitem` that controls this submenu.
-  const { icon, className, disabled, ...menuProps } = omit(rest, ['trigger']);
-
-  const Icon = rtl ? AngleLeft : AngleRight;
-
-  return (
-    <Menu
-      openMenuOn={['mouseover', 'click']}
-      renderMenuButton={({ open, ...menuButtonProps }, buttonRef) => (
-        <MenuItem disabled={disabled}>
-          {({ selected, active, ...menuitem }, menuitemRef) => {
-            const classes = mergeItemClassNames(
-              className,
-              prefixItemClassName`toggle`,
-              withItemClassPrefix({
-                'with-icon': icon,
-                open,
-                active: selected,
-                disabled,
-                focus: active
-              })
-            );
-
-            return (
-              <div
-                ref={mergeRefs(buttonRef, menuitemRef as any)}
-                className={classes}
-                data-event-key={eventKey}
-                data-event-key-type={typeof eventKey}
-                {...(menuitem as any)}
-                {...omit(menuButtonProps, ['role'])}
-              >
-                {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
-                {title}
-                <Icon className={prefix`toggle-icon`} />
-              </div>
-            );
-          }}
-        </MenuItem>
-      )}
-      renderMenuPopup={({ open, ...popupProps }, popupRef) => {
-        const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
-
-        return (
-          <ul
-            ref={popupRef}
-            className={menuClassName}
-            hidden={!open}
-            data-direction={openDirection}
-            {...popupProps}
-            {...menuProps}
-          >
-            {children}
-          </ul>
-        );
-      }}
-      onToggleMenu={handleToggleSubmenu}
-    >
-      {({ open, ...menuContainer }, menuContainerRef) => {
-        const classes = mergeItemClassNames(
-          className,
-          withItemClassPrefix({
-            disabled,
-            open,
-            submenu: true
-          })
-        );
-        return (
-          <li
-            ref={mergeRefs(ref, menuContainerRef as any)}
-            className={classes}
-            {...(menuContainer as any)}
-          />
-        );
-      }}
-    </Menu>
-  );
-});
+);
 
 NavDropdownMenu.displayName = 'Nav.Dropdown.Menu';
-NavDropdownMenu.propTypes = {
-  active: PropTypes.bool,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  icon: PropTypes.any,
-  classPrefix: PropTypes.string,
-  pullLeft: deprecatePropType(PropTypes.bool, 'Use openDirection="start" instead.'),
-  openDirection: PropTypes.oneOf(['start', 'end']),
-  title: PropTypes.node,
-  open: PropTypes.bool,
-  eventKey: PropTypes.any,
-  expanded: PropTypes.bool,
-  collapsible: PropTypes.bool,
-  onToggle: PropTypes.func
-};
 
 export default NavDropdownMenu;

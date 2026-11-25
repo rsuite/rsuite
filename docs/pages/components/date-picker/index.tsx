@@ -1,16 +1,64 @@
-import React from 'react';
-import { DatePicker, Button, InputGroup, Input, Stack } from 'rsuite';
-import addDays from 'date-fns/addDays';
-import subDays from 'date-fns/subDays';
-import isBefore from 'date-fns/isBefore';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
+import Simulation from '@/components/Simulation';
+import PlacementContainer from '@/components/PlacementContainer';
+import {
+  DatePicker,
+  Button,
+  InputGroup,
+  Input,
+  Stack,
+  SegmentedControl,
+  Box,
+  VStack,
+  HStack,
+  Text,
+  Divider
+} from 'rsuite';
+import { format, addDays, subDays, isBefore } from 'date-fns';
+import {
+  FaCalendar,
+  FaCalendarWeek,
+  FaCalendarDay,
+  FaCalendarCheck,
+  FaClock
+} from 'react-icons/fa';
+import { BsCalendar2MonthFill } from 'react-icons/bs';
 
-import DefaultPage from '@/components/Page';
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['DatePicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="date-picker" />
+};
 
 export default function Page() {
   return (
     <DefaultPage
-      dependencies={{ DatePicker, Button, InputGroup, Input, Stack, addDays, subDays, isBefore }}
-      sandboxDependencies={{ 'date-fns': '^2.13.0' }}
+      inDocsComponents={inDocsComponents}
+      dependencies={{
+        DatePicker,
+        Button,
+        InputGroup,
+        SegmentedControl,
+        Input,
+        Box,
+        VStack,
+        HStack,
+        Stack,
+        Text,
+        Divider,
+        format,
+        addDays,
+        subDays,
+        isBefore,
+        FaCalendar,
+        FaCalendarWeek,
+        FaCalendarDay,
+        FaCalendarCheck,
+        FaClock,
+        BsCalendar2MonthFill,
+        PlacementContainer
+      }}
+      sandboxDependencies={{ 'date-fns': '^4.1.0' }}
     />
   );
 }

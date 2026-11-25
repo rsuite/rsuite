@@ -1,0 +1,109 @@
+// Main section containers
+.groupSection {
+  margin-bottom: 3rem;
+  scroll-margin-top: 2rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Type section styling
+.typeSection {
+  margin-bottom: 2.5rem;
+  scroll-margin-top: 2rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Category heading styles (h2)
+.categoryHeading {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 2.5rem 0 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rs-border-primary);
+  color: var(--rs-text-primary);
+}
+
+// Type heading styles (h3)
+.typeHeading {
+  font-size: 18px;
+  margin: 2rem 0 1rem;
+  color: var(--rs-text-secondary);
+  font-weight: 500;
+}
+
+// Variables table styles
+.variablesTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 2rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  tr {
+    background: transparent;
+  }
+
+  th, td {
+    padding: 0.5rem 0;
+    text-align: left;
+    vertical-align: top;
+    background: transparent;
+    border-bottom: 1px solid var(--rs-border-secondary);
+  }
+
+  th {
+    font-weight: 600;
+    border-bottom: 2px solid var(--rs-border-primary);
+    color: var(--rs-text-primary);
+  }
+
+  tr {
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--rs-state-hover-bg);
+    }
+  }
+}
+
+
+// Variable name cell
+.variableName {
+  font-family: var(--rs-font-family-monospace);
+  font-size: 0.875rem;
+  color: var(--rs-text-primary);
+  white-space: nowrap;
+
+  code {
+    background: #818b981f;
+    color: var(--rs-text-primary) !important;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+}
+
+// Variable value cell
+.variableValue {
+  font-family: var(--rs-font-family-monospace);
+  font-size: 0.875rem;
+  color: var(--rs-text-secondary);
+  word-break: break-word;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .variablesTable {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .variableName {
+    white-space: normal;
+  }
+}

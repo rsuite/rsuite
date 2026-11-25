@@ -6,19 +6,19 @@ import { Message } from 'rsuite';
 const App = () => (
   <>
     <Message showIcon type="info">
-      Informational
+      <strong>Info!</strong> You can use the `Message` component to display a info message.
     </Message>
     <Message showIcon type="success">
-      Success
+      <strong>Success!</strong> You can use the `Message` component to display a success message.
     </Message>
     <Message showIcon type="warning">
-      Warning
+      <strong>Warning!</strong> You can use the `Message` component to display a warning message.
     </Message>
     <Message showIcon type="error">
-      Error
+      <strong>Error!</strong> You can use the `Message` component to display a error message.
     </Message>
-
-    <Message showIcon type="info" header="Informational">
+    <hr />
+    <Message showIcon type="info" header="Info">
       Additional description and informations about copywriting.
     </Message>
 

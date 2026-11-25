@@ -1,6 +1,12 @@
-import createComponent, { ComponentProps } from '../utils/createComponent';
+import { createComponent, ComponentProps } from '@/internals/utils';
+
 export type TagGroupProps = ComponentProps;
 
-const TagGroup = createComponent({ name: 'TagGroup' });
+/**
+ * The `TagGroup` component for use with the `Tag` component.
+ *
+ * @see https://rsuitejs.com/components/tag/
+ */
+const TagGroup = createComponent<'div', TagGroupProps>({ name: 'TagGroup' });
 
 export default TagGroup;

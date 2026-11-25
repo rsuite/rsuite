@@ -1,60 +1,83 @@
-import React from 'react';
-import usePages from '@/utils/usePages';
-import DefaultPage from '@/components/Page';
-import AppContext from '@/components/AppContext';
-import { ButtonGroup, IconButton, Input, InputGroup } from 'rsuite';
-import CategorizedList from './CategorizedList';
-import SortedList from './SortedList';
-
+import { useMemo, useState } from 'react';
+import usePages, { type MenuItem } from '@/hooks/usePages';
+import DefaultPage from '@/components/layout/Page';
 import SearchIcon from '@rsuite/icons/Search';
+import { CategorizedList } from '@/components/overview/CategorizedList';
+import { SortedList } from '@/components/overview/SortedList';
+import { useApp } from '@/hooks/useApp';
+import { ButtonGroup, HStack, IconButton, Input, InputGroup, Text } from 'rsuite';
 import { FaSortAlphaUp, FaList } from 'react-icons/fa';
+import styles from './index.module.scss';
+
+function includes(str: string, keyword: string) {
+  return str?.toLowerCase().includes(keyword?.toLowerCase());
+}
+
+const filterComponents = (item: MenuItem, search: string) => {
+  const { name, title, keywords, apis, components, hooks } = item;
+  return (
+    includes(name, search) ||
+    includes(title, search) ||
+    keywords?.some(keyword => includes(keyword, search)) ||
+    apis?.some(api => includes(api, search)) ||
+    hooks?.some(hook => includes(hook, search)) ||
+    components?.some(component => includes(component, search))
+  );
+};
+
+const useComponents = () => {
+  const pages = usePages();
+  const [search, setSearch] = useState('');
+
+  const components = useMemo(() => {
+    return pages?.[1]?.children
+      .map(item => {
+        if (item.children) {
+          return {
+            ...item,
+            children: item.children.filter(child => filterComponents(child, search))
+          };
+        }
+        return filterComponents(item, search) ? item : null;
+      })
+      .filter(item => item?.children?.length);
+  }, [pages, search]);
+
+  return { components, search, setSearch };
+};
 
 export default function Page() {
-  const { language, messages } = React.useContext(AppContext);
-  const pages = usePages();
-  const [type, setType] = React.useState<'category' | 'sorted'>('category');
-  const [search, setSearch] = React.useState('');
-
-  const filterComponents = (name: string, title: string) => {
-    if (language === 'zh') {
-      return (
-        name.toLowerCase().includes(search.toLowerCase()) ||
-        title.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-    return name.toLowerCase().includes(search.toLowerCase());
-  };
-
-  const components = (pages?.[1]?.children).filter(
-    item => !['overview', 'css-packs'].includes(item.id) && filterComponents(item.name, item.title)
-  );
+  const { language, locales } = useApp();
+  const [type, setType] = useState<'category' | 'sorted'>('category');
+  const { components, setSearch } = useComponents();
 
   return (
     <DefaultPage>
-      <div className="component-overview">
-        <div className="toolbar">
-          <ButtonGroup>
+      <div className={styles['component-overview']}>
+        <HStack className={styles['toolbar']} spacing={10}>
+          <ButtonGroup className={styles['group']} size="lg">
             <IconButton
               icon={<FaList />}
               active={type === 'category'}
               onClick={() => setType('category')}
-            ></IconButton>
+            />
             <IconButton
               icon={<FaSortAlphaUp />}
               active={type === 'sorted'}
               onClick={() => setType('sorted')}
-            ></IconButton>
+            />
           </ButtonGroup>
-          <InputGroup size="md" inside className="component-search-input">
+          <InputGroup inside className={styles['component-search-input']} size="lg">
             <Input
-              placeholder={messages.common.searchComponents}
+              placeholder={locales.common.searchComponents}
               onChange={value => setSearch(value)}
+              autoComplete="off"
             />
             <InputGroup.Addon>
               <SearchIcon />
             </InputGroup.Addon>
           </InputGroup>
-        </div>
+        </HStack>
 
         {type === 'category' ? (
           <CategorizedList components={components} language={language} />
@@ -62,6 +85,18 @@ export default function Page() {
           <SortedList components={components} />
         )}
       </div>
+      <hr />
+      <Text>
+        {locales.components.noComponent}
+
+        <a
+          href="https://github.com/rsuite/rsuite/issues/new?assignees=&labels=feature+request&projects=&template=2.feature_request.md&title="
+          target="_blank"
+          rel="noreferrer"
+        >
+          {locales.components.requestNewComponent}
+        </a>
+      </Text>
     </DefaultPage>
   );
 }

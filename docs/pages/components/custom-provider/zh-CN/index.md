@@ -1,13 +1,16 @@
-# CustomProvider
+# CustomProvider 个性化配置
 
-支持本地化、Right to Left、主题等个性化配置。
+支持本地化、从右到左、主题等个性化配置。
+
+## 获取组件
+
+<!--{include:<import-guide>}-->
 
 ## 使用
 
 ### 国际化与本地化配置
 
 ```jsx
-import { CustomProvider } from 'rsuite';
 import zhCN from 'rsuite/locales/zh_CN';
 
 return (
@@ -17,25 +20,72 @@ return (
 );
 ```
 
-### Right to Left
+### 从右到左
+
+使用 `rtl` 让 RSuite 组件的交互采用从右到左的方向。如果只在从左到右的页面中为某个区域启用 RTL，还需在包裹该区域的 DOM 元素上设置 `dir="rtl"`，让文字和 CSS 布局采用同一方向。
 
 ```jsx
-import { CustomProvider } from 'rsuite';
-
 return (
-  <CustomProvider rtl>
-    <App />
-  </CustomProvider>
+  <div dir="rtl">
+    <CustomProvider rtl>
+      <App />
+    </CustomProvider>
+  </div>
 );
 ```
 
 ### 配置主题
 
 ```jsx
-import { CustomProvider } from 'rsuite';
-
 return (
   <CustomProvider theme="dark">
+    <App />
+  </CustomProvider>
+);
+```
+
+### 全局配置组件的默认值
+
+```jsx
+const components = {
+  Button: {
+    defaultProps: { size: 'sm' }
+  },
+  Input: {
+    defaultProps: { size: 'sm' }
+  }
+  // 更多组件...
+};
+
+return (
+  <CustomProvider components={components}>
+    <App />
+  </CustomProvider>
+);
+```
+
+### 减少动态效果
+
+内置 Animation 组件、Modal 和 Drawer 默认遵循系统的 `prefers-reduced-motion` 偏好。使用 `reduceMotion` 可以全局覆盖此设置：
+
+```jsx
+<CustomProvider reduceMotion>
+  <Modal open />
+  <Animation.Fade in reduceMotion={false}>
+    <div>这个动画被显式允许。</div>
+  </Animation.Fade>
+</CustomProvider>
+```
+
+组件的 `reduceMotion` 设置优先于全局设置。`false` 显式允许动画；两处均未设置时遵循系统偏好。支持内置过渡、默认 Modal/Drawer 背景板和静态背景板的抖动，并保留过渡回调。其他使用 `Animation.Transition` 的组件也会继承此策略。不使用它的动画（包括自定义内容动画）继续使用各自的设置。生命周期与自定义动画说明见 [Animation](../animation/#减少动态效果)。
+
+### Content Security Policy
+
+在 `@rsuite/icons` 中的图标动画使用了内联样式，如果您的项目启用了 [Content Security Policy][csp]，请确保配置了 [nonce][nonce] 值。
+
+```jsx
+return (
+  <CustomProvider csp={{ nonce: 'xxxxxx' }}>
     <App />
   </CustomProvider>
 );
@@ -45,10 +95,22 @@ return (
 
 ### `<CustomProvider>`
 
-| 属性名称   | 类型`(默认值)`                                     | 描述                                                 |
-| ---------- | -------------------------------------------------- | ---------------------------------------------------- |
-| formatDate | (date: Date, format?: string) => string            | 以给定格式返回格式化的日期字符串，结果可能因地区而异 |
-| locale     | object`(rsuite/locales/default)`               | 语言包配置                                           |
-| parseDate  | (dateString: string, formatString: string) => Date | 使用给定的格式字符串返回从字符串解析的日期           |
-| rtl        | boolean                                            | 可设置文本和其他元素的默认方向是从左到右             |
-| theme      | 'light' &#124; 'dark' &#124; 'high-contrast'       | 支持的主题                                           |
+| 属性名称            | 类型`(默认值)`                          | 描述                                                                      | 版本        |
+| ------------------- | --------------------------------------- | ------------------------------------------------------------------------- | ----------- |
+| components          | [Components](#code-ts-components-code)  | 自定义组件默认配置                                                        | ![][5.74.0] |
+| csp                 | { nonce: string }                       | 配置 [Content Security Policy][csp] 的 [nonce][nonce] 值                  | ![][5.73.0] |
+| disableInlineStyles | boolean                                 | 禁用内联样式                                                              | ![][5.73.0] |
+| disableRipple       | boolean                                 | 禁用组件的涟漪效果，受影响的组件包括：`Button`、`Nav.Item`、 `Pagination` |             |
+| formatDate          | (date: Date, format?: string) => string | 以给定格式返回格式化的日期字符串，结果可能因地区而异                      |             |
+| locale              | [Locale][locale] [`(en-GB)`][en_gb]     | 语言包配置                                                                |             |
+| parseDate           | (date: string, format: string) => Date  | 使用给定的格式字符串返回从字符串解析的日期                                |             |
+| reduceMotion        | boolean                                 | 减少内置过渡动态效果；未设置时遵循系统偏好                                |             |
+| rtl                 | boolean                                 | 启用 RSuite 组件从右到左的交互行为。                                      |             |
+| theme               | 'light' \| 'dark' \| 'high-contrast'    | 支持的主题                                                                |             |
+
+<!--{include:(_common/types/react-suite-components.md)}-->
+
+[csp]: https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP
+[nonce]: https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/nonce
+[en_gb]: https://github.com/rsuite/rsuite/blob/main/src/locales/en_GB.ts
+[locale]: https://github.com/rsuite/rsuite/blob/main/src/locales/index.ts

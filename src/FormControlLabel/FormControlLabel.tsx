@@ -1,47 +1,44 @@
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
-import { FormGroupContext } from '../FormGroup/FormGroup';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import React from 'react';
+import Box, { BoxProps } from '@/internals/Box';
+import { useStyles, useCustom } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
+import { useFormGroup } from '../FormGroup';
+import { useFormGroupRegistration } from '../FormGroup/useFormGroupRegistration';
+import { registerFormGroupPart } from '../FormGroup/formGroupRelations';
 
 export interface FormControlLabelProps
-  extends WithAsProps,
-    React.LabelHTMLAttributes<HTMLLabelElement> {
+  extends BoxProps,
+    Omit<React.LabelHTMLAttributes<HTMLLabelElement>, 'color'> {
   /** Attribute of the html label tag, defaults to the controlId of the FormGroup */
   htmlFor?: string;
 }
 
-const FormControlLabel: RsRefForwardingComponent<'label', FormControlLabelProps> = React.forwardRef(
+/**
+ * The `<Form.ControlLabel>` component renders a label with required indicator, for form controls.
+ * @see https://rsuitejs.com/components/form/
+ */
+const FormControlLabel = forwardRef<'label', FormControlLabelProps>(
   (props: FormControlLabelProps, ref) => {
+    const { propsWithDefaults } = useCustom('FormControlLabel', props);
+    const { labelId, controlId } = useFormGroup();
     const {
-      as: Component = 'label',
+      as = 'label',
       classPrefix = 'form-control-label',
-      htmlFor,
+      htmlFor = controlId,
       className,
+      id = labelId,
       ...rest
-    } = props;
+    } = propsWithDefaults;
+    useFormGroupRegistration('label', id);
 
-    const { controlId } = useContext(FormGroupContext);
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
+    const { withPrefix, merge } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix());
 
-    return (
-      <Component
-        id={controlId ? `${controlId}-control-label` : null}
-        htmlFor={htmlFor || controlId}
-        {...rest}
-        ref={ref}
-        className={classes}
-      />
-    );
+    return <Box as={as} id={id} htmlFor={htmlFor} {...rest} ref={ref} className={classes} />;
   }
 );
 
 FormControlLabel.displayName = 'FormControlLabel';
-FormControlLabel.propTypes = {
-  className: PropTypes.string,
-  htmlFor: PropTypes.string,
-  classPrefix: PropTypes.string
-};
+registerFormGroupPart(FormControlLabel, 'label');
 
 export default FormControlLabel;

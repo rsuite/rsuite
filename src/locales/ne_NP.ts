@@ -1,0 +1,123 @@
+import type { CalendarLocaleLabels } from './types';
+import { enGB } from 'date-fns/locale/en-GB';
+
+const DateTimeFormats = {
+  sunday: 'आ',
+  monday: 'सो',
+  tuesday: 'म',
+  wednesday: 'बु',
+  thursday: 'बि',
+  friday: 'शु',
+  saturday: 'श',
+  ok: 'हुन्छ',
+  today: 'आज',
+  yesterday: 'हिजो',
+  now: 'अब',
+  hours: 'घण्टा',
+  minutes: 'मिनेट',
+  seconds: 'सेकेन्ड',
+  /**
+   * Format of the string is based on Unicode Technical Standard #35:
+   * https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
+   **/
+  formattedMonthPattern: 'MMM yyyy',
+  formattedDayPattern: 'dd MMM yyyy',
+  shortDateFormat: 'dd/MM/yyyy',
+  shortTimeFormat: 'HH:mm',
+  dateLocale: enGB as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'अघिल्लो महिना',
+  nextMonth: 'अर्को महिना',
+  selectMonth: 'महिना छान्नुहोस्',
+  selectTime: 'समय छान्नुहोस्'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'चयनकर्ता खोल्नुहोस्'
+};
+
+const Combobox = {
+  noResultsText: 'कुनै परिणाम फेला परेन',
+  placeholder: 'चयन गर्नुहोस्',
+  searchPlaceholder: 'खोजी गर्नुहोस्',
+  checkAll: 'सबै'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'नयाँ थप्नुहोस्',
+  createOption: 'विकल्प सिर्जना गर्नुहोस् "{0}"'
+};
+
+export default {
+  code: 'ne-NP',
+  common: {
+    loading: 'लोड हुँदैछ...',
+    emptyMessage: 'कुनै डाटा छैन',
+    remove: 'हटाउनुहोस्',
+    clear: 'खाली गर्नुहोस्'
+  },
+  Plaintext: {
+    unfilled: 'भरिएको छैन',
+    notSelected: 'चयन गरिएको छैन',
+    notUploaded: 'अपलोड गरिएको छैन'
+  },
+  Pagination: {
+    more: 'थप',
+    prev: 'अघिल्लो',
+    next: 'अर्को',
+    first: 'पहिलो',
+    last: 'अन्तिम',
+    limit: '{0} / पृष्ठ',
+    total: 'कुल पङ्क्तिहरू: {0}',
+    skip: '{0} पृष्ठमा जानुहोस्'
+  },
+  DateTimeFormats,
+  Calendar,
+  DatePicker,
+  DateRangePicker: {
+    ...DatePicker,
+    last7Days: 'पछिल्लो ७ दिन'
+  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
+  Uploader: {
+    inited: 'प्रारम्भिक',
+    progress: 'अपलोड गर्दै',
+    error: 'त्रुटि भयो',
+    complete: 'समाप्त',
+    emptyFile: 'खाली',
+    upload: 'अपलोड गर्नुहोस्',
+    removeFile: 'फाइल हटाउनुहोस्'
+  },
+  CloseButton: {
+    closeLabel: 'बन्द गर्नुहोस्'
+  },
+  Breadcrumb: {
+    expandText: 'स्थान देखाउनुहोस्'
+  },
+  Carousel: {
+    carouselRoleDescription: 'स्लाइड प्रदर्शन',
+    slideRoleDescription: 'स्लाइड',
+    slidePosition: '{1} मध्ये {0}',
+    startRotation: 'स्लाइडको स्वचालित परिवर्तन सुरु गर्नुहोस्',
+    stopRotation: 'स्लाइडको स्वचालित परिवर्तन रोक्नुहोस्',
+    selectSlide: 'स्लाइड छान्नुहोस्',
+    slideLabel: '{1} मध्ये स्लाइड {0}'
+  },
+  Toggle: {
+    on: 'खोल्नुहोस्',
+    off: 'बन्द गर्नुहोस्'
+  },
+  Dialog: {
+    alert: 'सतर्कता',
+    confirm: 'पुष्टि गर्नुहोस्',
+    ok: 'ठिक छ',
+    cancel: 'रद्द गर्नुहोस्'
+  }
+};

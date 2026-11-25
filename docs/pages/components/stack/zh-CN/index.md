@@ -4,40 +4,90 @@
 
 ## 获取组件
 
-<!--{include:(components/stack/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `Stack` 用于水平或垂直堆叠元素。
+- `HStack` 用于水平堆叠元素。![][5.65.0]
+- `VStack` 用于垂直堆叠元素。![][5.65.0]
 
 ## 演示
 
-### 默认
+### 水平
 
- <!--{include:`basic.md`}-->
+<!--{include:`horizontal.md`}-->
+
+### 垂直
+
+<!--{include:`vertical.md`}-->
 
 ### 分割线
 
- <!--{include:`divider.md`}-->
+<!--{include:`divider.md`}-->
 
 ### 间距
 
- <!--{include:`space.md`}-->
+<!--{include:`space.md`}-->
 
 ### 换行
 
- <!--{include:`wrap.md`}-->
+<!--{include:`wrap.md`}-->
 
 ### 交互
 
- <!--{include:`interactive.md`}-->
+<!--{include:`interactive.md`}-->
+
+### 子项对齐
+
+<!--{include:`align-self.md`}-->
+
+### 子项拉伸
+
+<!--{include:`grow.md`}-->
+
+## 响应式
+
+<!--{include:<example-responsive>}-->
 
 ## Props
 
 ### `<Stack>`
 
-| 属性名称       | 类型`(默认值)`                                                                              | 描述                                   |
-| -------------- | ------------------------------------------------------------------------------------------- | -------------------------------------- |
-| alignItems     | 'flex-start' &#124; 'center' &#124; 'flex-end' &#124; 'stretch' &#124; 'baseline'           | 定义一组子项在交叉轴上的对齐方式       |
-| classPrefix    | string `('stack')`                                                                          | 组件 CSS 类的前缀                      |
-| direction      | 'row' &#124; 'row-reverse' &#124; 'column' &#124; 'column-reverse'                          | 定义一组子项的方向                     |
-| divider        | ReactNode                                                                                   | 为每一个子项直接添加分隔符             |
-| justifyContent | 'flex-start' &#124; 'center' &#124; 'flex-end' &#124; 'space-between' &#124; 'space-around' | 定义一组子项在主轴上的对齐方式         |
-| spacing        | number, string                                                                              | 为每一个子项直接设置间距               |
-| wrap           | boolean                                                                                     | 定义一组子项是强制在一行上还是在多行上 |
+继承 [`Box`][boxprops] 组件的属性
+
+| 属性名称    | 类型 `(默认值)`                               | 描述                                   |
+| ----------- | --------------------------------------------- | -------------------------------------- |
+| as          | ElementType                                   | 自定义根元素                           |
+| classPrefix | string `('stack')`                            | 组件 CSS 类的前缀                      |
+| direction   | [ResponsiveCSSProperty<'flexDirection'>][rcp] | 定义一组子项的方向, 支持响应式值       |
+| divider     | ReactNode                                     | 为每一个子项直接添加分隔符             |
+| wrap        | boolean                                       | 定义一组子项是强制在一行上还是在多行上 |
+
+### `<HStack>`
+
+继承 `Stack` 组件的属性
+
+| 属性名称 | 类型 `(默认值)`                                         | 描述                             |
+| -------- | ------------------------------------------------------- | -------------------------------- |
+| align    | [ResponsiveCSSProperty<'alignItems'>][rcp] `('center')` | 定义一组子项在交叉轴上的对齐方式 |
+| reverse  | boolean                                                 | 反转一组子项在堆叠中的顺序       |
+
+### `<VStack>`
+
+继承 `Stack` 组件的属性
+
+| 属性名称 | 类型 `(默认值)`                                             | 描述                             |
+| -------- | ----------------------------------------------------------- | -------------------------------- |
+| align    | [ResponsiveCSSProperty<'alignItems'>][rcp] `('flex-start')` | 定义一组子项在交叉轴上的对齐方式 |
+| divider  | ReactNode                                                   | 为每一个子项直接添加分隔符       |
+| reverse  | boolean                                                     | 反转一组子项在堆叠中的顺序       |
+
+### `<Stack.Item>`
+
+继承 [`Box`][boxprops] 组件的属性
+
+### 类型定义
+
+<!--{include:(_common/types/responsive-css-property.md)}-->
+
+[rcp]: #code-ts-responsive-css-property-code
+[boxprops]: /zh/components/box/#props

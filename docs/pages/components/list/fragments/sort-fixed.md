@@ -17,7 +17,7 @@ const App = () => {
     }, []);
 
   return (
-    <List sortable onSort={handleSortEnd}>
+    <List sortable bordered onSort={handleSortEnd}>
       {data.flatMap((browser, index) => [
         <List.Item key={index} index={index * 2} collection="order" disabled>
           {index + 1}

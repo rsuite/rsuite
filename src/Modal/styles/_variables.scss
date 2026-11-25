@@ -1,0 +1,16 @@
+:root {
+  --rs-modal-shadow: var(--rs-shadow-lg);
+  --rs-modal-margin-top: 4rem;
+  --rs-modal-title-font-size: var(--rs-font-size-lg);
+  --rs-modal-title-line-height: var(--rs-text-line-height-lg);
+  --rs-modal-body-padding: calc(var(--rs-spacing) * 5);
+  --rs-modal-content-padding: calc(var(--rs-spacing) * 5);
+  --rs-modal-btn-close-spacing: calc(var(--rs-spacing) * 5);
+  --rs-modal-footer-gap: calc(var(--rs-spacing) * 2.5);
+  --rs-modal-size-xs: 400px;
+  --rs-modal-size-sm: 600px;
+  --rs-modal-size-md: 800px;
+  --rs-modal-size-lg: 968px;
+  --rs-modal-max-width: 100%;
+  --rs-modal-padding-inline: calc(var(--rs-spacing) * 5);
+}

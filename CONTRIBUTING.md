@@ -37,6 +37,12 @@ It's also possible to run tests in several different components as `M` accepts a
     # run tests in src/Button and src/ButtonGroup directories
     $ M={Button,ButtonGroup} npm run tdd
 
+When writing tests, we use [the BDD assertion style](https://www.chaijs.com/api/bdd/).
+
+```ts
+expect(instance).to.have.class('class-in');
+```
+
 ## Bug reports
 
 We uniformly collect bugs and state management through 'Github Issues'. If you find a bug, you can notify us by 'Github issues'.
@@ -59,6 +65,8 @@ git clone https://github.com/<your-username>/rsuite.git
 # Navigate to the newly cloned directory
 cd rsuite
 ```
+
+- Use Node.js 22 or 24 to develop and test RSuite.
 
 - Install project dependencies, executing at the project root:
 

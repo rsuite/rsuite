@@ -1,0 +1,30 @@
+{
+  "name": "@rsuite/cra-template",
+  "version": "1.0.1",
+  "keywords": [
+    "react",
+    "create-react-app",
+    "rsuite",
+    "template"
+  ],
+  "description": "The official rsuite+javascript template for Create React App.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rsuite/rsuite.git",
+    "directory": "tooling/cra-template"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=14"
+  },
+  "bugs": {
+    "url": "https://github.com/rsuite/rsuite/issues"
+  },
+  "files": [
+    "template",
+    "template.json"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

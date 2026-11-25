@@ -1,18 +1,24 @@
-# Icons
+# Icon
 
 React Suite provides some guidance and suggestions for using icons in React Suite applications.
 
 ## React Suite Icons
 
+<a href="/resources/icons" target="_blank" rel="noopener noreferrer" title="React Suite Icons" >
+ <img src="/images/icons.png" alt="React Icons" style="max-width: 100%; width: 400px; margin-bottom:20px">
+</a>
+
 React Suite provides a set of icon components, you need to install the `@rsuite/icons` icon component.
 
-> [React Suite Icons](/resources/icons)
+## Install
 
-<!--{include:(components/icon/fragments/install.md)}-->
+<!--{include:<install-guide>}-->
 
-**Usage**
+## Import
 
-<!--{include:(components/icon/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+## Examples
 
 ### Size
 
@@ -78,22 +84,23 @@ If you are a user of [iconfont.cn](https://iconfont.cn), you can use the `create
 
 Both `<Icon>` and the imported single icon have the following props.
 
-| Property | Type `(Default)`               | Description                                               |
-| -------- | ------------------------------ | --------------------------------------------------------- |
-| as       | ElementType&lt;SVGElement&gt;  | Custom svg icon component                                 |
-| fill     | string `(currentColor)`        | Icon fill color                                           |
-| flip     | 'horizontal' &#124; 'vertical' | Flip icon                                                 |
-| pulse    | boolean                        | Use `pulse` to have it rotate with eight steps            |
-| rotate   | number                         | Rotate icon                                               |
-| spin     | boolean                        | Use the `spin` to get any icon to rotate                  |
-| style    | CSSProperties                  | The style properties of icon, like `fontSize` and `color` |
+| Property | Type `(Default)`              | Description                                               |
+| -------- | ----------------------------- | --------------------------------------------------------- |
+| as       | ElementType&lt;SVGElement&gt; | Custom svg icon component                                 |
+| fill     | string `(currentColor)`       | Icon fill color                                           |
+| flip     | 'horizontal' \| 'vertical'    | Flip icon                                                 |
+| pulse    | boolean                       | Use `pulse` to have it rotate with eight steps            |
+| rotate   | number                        | Rotate icon                                               |
+| size     | string                        | Icon size (sets both width and height)                    |
+| spin     | boolean                       | Use the `spin` to get any icon to rotate                  |
+| style    | CSSProperties                 | The style properties of icon, like `fontSize` and `color` |
 
 ### `createIconFont`
 
 | Property    | Type `(Default)`                 | Description                                                                  |
 | ----------- | -------------------------------- | ---------------------------------------------------------------------------- |
 | commonProps | HTMLAttributes&lt;SVGElement&gt; | Define extra properties to the component                                     |
-| scriptUrl   | string &#124; string[]           | Use the js url generated online by iconfont.cn, or you can use the local url |
+| scriptUrl   | string \| string[]               | Use the js url generated online by iconfont.cn, or you can use the local url |
 
 ### `<IconFont>`
 
@@ -103,12 +110,12 @@ Both `<Icon>` and the imported single icon have the following props.
 const IconFont = createIconFont(...);
 ```
 
-| Property | Type `(Default)`               | Description                                               |
-| -------- | ------------------------------ | --------------------------------------------------------- |
-| fill     | string `(currentColor)`        | Icon fill color                                           |
-| flip     | 'horizontal' &#124; 'vertical' | Flip icon                                                 |
-| icon     | string                         | Use the name from the iconfont icon set                   |
-| pulse    | boolean                        | Use `pulse` to have it rotate with eight steps            |
-| rotate   | number                         | Rotate icon                                               |
-| spin     | boolean                        | Use the `spin` to get any icon to rotate                  |
-| style    | CSSProperties                  | The style properties of icon, like `fontSize` and `color` |
+| Property | Type `(Default)`           | Description                                               |
+| -------- | -------------------------- | --------------------------------------------------------- |
+| fill     | string `(currentColor)`    | Icon fill color                                           |
+| flip     | 'horizontal' \| 'vertical' | Flip icon                                                 |
+| icon     | string                     | Use the name from the iconfont icon set                   |
+| pulse    | boolean                    | Use `pulse` to have it rotate with eight steps            |
+| rotate   | number                     | Rotate icon                                               |
+| spin     | boolean                    | Use the `spin` to get any icon to rotate                  |
+| style    | CSSProperties              | The style properties of icon, like `fontSize` and `color` |

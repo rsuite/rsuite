@@ -1,36 +1,28 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Button from '../Button';
-import { useClassNames } from '../utils';
 import PredefinedRanges, { PredefinedRangesProps } from './PredefinedRanges';
 import Stack from '../Stack';
-
-export type { RangeType } from './types';
+import { useStyles } from '@/internals/hooks';
 
 export interface ToolbarProps<T = any, Shortcut = T> extends PredefinedRangesProps<T, Shortcut> {
   hideOkBtn?: boolean;
-  disabledOkBtn?: (value: T) => boolean;
+  disableOkBtn?: (value: T) => boolean;
   onOk?: (event: React.MouseEvent) => void;
 }
 
 type ToolbarComponent = React.ForwardRefExoticComponent<ToolbarProps> & {
-  <T = any, Shortcut = T>(props: ToolbarProps<T, Shortcut>): React.ReactElement | null;
+  <T = any, Shortcut = T>(props: ToolbarProps<T, Shortcut>): any;
 };
 
-interface SubmitButtonProps {
+interface OkButtonProps {
   calendarDate: any;
   children: React.ReactNode;
-  hide?: boolean;
-  disabledOkBtn?: (value: any) => boolean;
+  disableOkBtn?: (value: any) => boolean;
   onOk?: (event: React.MouseEvent) => void;
 }
 
-const SubmitButton = ({ hide, disabledOkBtn, calendarDate, onOk, children }: SubmitButtonProps) => {
-  if (hide) {
-    return null;
-  }
-
-  const disabled = disabledOkBtn?.(calendarDate);
+const OkButton = ({ disableOkBtn, calendarDate, onOk, children }: OkButtonProps) => {
+  const disabled = disableOkBtn?.(calendarDate);
 
   return (
     <Button
@@ -51,70 +43,51 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
   const {
     className,
     classPrefix = 'picker-toolbar',
-    disabledOkBtn,
-    disabledShortcut,
-    hideOkBtn,
-    onOk,
-    onClickShortcut,
     calendarDate,
     ranges,
     locale,
+    hideOkBtn,
+    disableOkBtn,
+    disableShortcut,
+    onOk,
+    onShortcutClick,
     ...rest
   } = props;
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, prefix, withPrefix } = useStyles(classPrefix);
 
   if (hideOkBtn && ranges?.length === 0) {
     return null;
   }
 
-  const classes = merge(className, withClassPrefix());
+  const classes = merge(className, withPrefix());
+
+  // If there are no ranges, the ok button should be aligned to the right
+  const justify = ranges?.length === 0 ? 'flex-end' : 'space-between';
 
   return (
-    <Stack
-      ref={ref}
-      className={classes}
-      justifyContent="space-between"
-      alignItems="flex-start"
-      {...rest}
-    >
+    <Stack ref={ref} className={classes} justify={justify} align="flex-start" {...rest}>
       <PredefinedRanges
         wrap
         className={prefix('ranges')}
         ranges={ranges}
         calendarDate={calendarDate}
         locale={locale}
-        disabledShortcut={disabledShortcut}
-        onClickShortcut={onClickShortcut}
+        disableShortcut={disableShortcut}
+        onShortcutClick={onShortcutClick}
+        data-testid="daterange-predefined-bottom"
       />
       <div className={prefix('right')}>
-        <SubmitButton
-          disabledOkBtn={disabledOkBtn}
-          hide={hideOkBtn}
-          calendarDate={calendarDate}
-          onOk={onOk}
-        >
-          {locale?.ok}
-        </SubmitButton>
+        {!hideOkBtn && (
+          <OkButton disableOkBtn={disableOkBtn} calendarDate={calendarDate} onOk={onOk}>
+            {locale?.ok}
+          </OkButton>
+        )}
       </div>
     </Stack>
   );
 });
 
 Toolbar.displayName = 'Toolbar';
-Toolbar.propTypes = {
-  ranges: PropTypes.array,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  calendarDate: PropTypes.oneOfType([
-    PropTypes.instanceOf(Date),
-    PropTypes.arrayOf(PropTypes.instanceOf(Date))
-  ]).isRequired,
-  onClickShortcut: PropTypes.func,
-  onOk: PropTypes.func,
-  disabledShortcut: PropTypes.func,
-  disabledOkBtn: PropTypes.func,
-  hideOkBtn: PropTypes.bool
-};
 
 export default Toolbar;

@@ -2,40 +2,46 @@
 
 Before you start using it, you need to master at least the basics of front-end development and the core concepts of React. If you encounter problems during the learning process, you can discuss them in the [developer community][gitter-home].
 
-## Install
+## 1. Install
 
-### Using npm or yarn
+To install rsuite, run one of the following commands in your terminal:
 
-We recommend using npm or yarn to install.First you need to properly install the NPM environment locally and install rsuite via npm.
+<!--{include:<install-guide>}-->
 
-```bash
-$ npm i rsuite --save
-```
-
-If you are using yarn you can also install through yarn:
-
-```bash
-$ yarn add rsuite
-```
-
-## Examples
+## 2. Usage
 
 The following is a simple example of using a default button component.
 
 ```jsx
 import { Button } from 'rsuite';
-import 'rsuite/styles/index.less'; // or 'rsuite/dist/rsuite.min.css'
+import 'rsuite/dist/rsuite.css';
 
 function App() {
-  return <Button appearance="primary">Hello World</Button>;
+  return <Button>Hello World</Button>;
 }
 ```
 
-## Online example
+### 2.1. Without CSS Reset (Optional)
 
-<iframe src="https://codesandbox.io/embed/k9v972q3lr" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+`rsuite.css` includes a [CSS reset](/guide/css-reset/). If you want to use your own CSS reset, you can import the `rsuite-no-reset.css` file instead.
 
-- [Use in create-react-app](/guide/use-with-create-react-app/)
-- [Use in Next.js](/guide/use-next-app/)
+```diff
+- import 'rsuite/dist/rsuite.css';
++ import 'rsuite/dist/rsuite-no-reset.css';
+```
+
+### 2.2. Importing Component Styles on Demand (Optional)
+
+If you only need the styles of some components, you can import the styles of the components on demand.
+
+```jsx
+import 'rsuite/Button/styles/index.css';
+```
+
+## Framework Guide
+
+React Suite can be used in your favorite framework. We have prepared step-by-step guides for these frameworks:
+
+<!--{include:<framework-guide>}-->
 
 [gitter-home]: https://gitter.im/rsuite/rsuite

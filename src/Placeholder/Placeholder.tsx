@@ -1,15 +1,20 @@
 import PlaceholderGraph from './PlaceholderGraph';
 import PlaceholderGrid from './PlaceholderGrid';
 import PlaceholderParagraph, { PlaceholderParagraphProps } from './PlaceholderParagraph';
-import { RsRefForwardingComponent } from '../@types/common';
+import { InternalRefForwardingComponent } from '@/internals/types';
 
-export interface Placeholder extends RsRefForwardingComponent<'div', PlaceholderParagraphProps> {
+export interface Placeholder
+  extends InternalRefForwardingComponent<'div', PlaceholderParagraphProps> {
   Paragraph: typeof PlaceholderParagraph;
   Grid: typeof PlaceholderGrid;
   Graph: typeof PlaceholderGraph;
 }
 
-const Placeholder: Placeholder = PlaceholderParagraph as Placeholder;
+/**
+ * The `Placeholder` component is used to display the loading state of the block.
+ * @see https://rsuitejs.com/components/placeholder
+ */
+const Placeholder: Placeholder = PlaceholderParagraph as unknown as Placeholder;
 
 Placeholder.Paragraph = PlaceholderParagraph;
 Placeholder.Grid = PlaceholderGrid;

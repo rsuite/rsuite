@@ -1,18 +1,62 @@
-import React from 'react';
-import { CheckPicker, Button, Checkbox, RadioGroup, Radio } from 'rsuite';
-import DefaultPage from '@/components/Page';
-import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
+import PlacementContainer from '@/components/PlacementContainer';
+import Simulation from '@/components/Simulation';
+import {
+  SelectPicker,
+  CheckPicker,
+  SegmentedControl,
+  Button,
+  Checkbox,
+  VStack,
+  HStack,
+  Loader,
+  Toggle,
+  Divider,
+  Box,
+  Text
+} from 'rsuite';
+import { FaUserGroup, FaUser } from 'react-icons/fa6';
+
+import { importFakerString, mockUsers, mockUsersString, sandboxFakerVersion } from '@/utils/mock';
+
+const mockfile = {
+  name: 'mock.js',
+  content: [importFakerString, mockUsersString].join('\n')
+};
+
+const sandboxDependencies = {
+  ...sandboxFakerVersion
+};
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['CheckPicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="check-picker" />
+};
 
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
+      sandboxDependencies={sandboxDependencies}
+      sandboxFiles={[mockfile]}
       dependencies={{
+        mockUsers,
+        PlacementContainer,
+        Box,
+        VStack,
+        HStack,
+        Toggle,
+        SelectPicker,
         CheckPicker,
+        SegmentedControl,
         Button,
         Checkbox,
-        RadioGroup,
-        Radio,
-        SpinnerIcon
+        Loader,
+        Divider,
+        Text,
+        FaUserGroup,
+        FaUser
       }}
     />
   );

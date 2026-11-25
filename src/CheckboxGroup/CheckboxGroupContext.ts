@@ -1,10 +1,9 @@
 import React from 'react';
-import type { ValueType } from '../Checkbox';
 
 export interface CheckboxGroupContextValue {
   inline?: boolean;
   name?: string;
-  value?: ValueType[];
+  value?: (string | number)[];
   controlled?: boolean;
   disabled?: boolean;
   readOnly?: boolean;

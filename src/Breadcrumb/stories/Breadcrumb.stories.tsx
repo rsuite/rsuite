@@ -1,0 +1,92 @@
+import React from 'react';
+import type { StoryObj } from '@/storybook/types';
+import Breadcrumb from '../Breadcrumb';
+import HomeIcon from '@rsuite/icons/legacy/Home';
+import { createMeta } from '@/storybook/utils';
+import '../styles/index.scss';
+
+const meta = createMeta(Breadcrumb);
+
+export default {
+  title: 'Components/Breadcrumb',
+  ...meta
+};
+
+type Story = StoryObj<typeof meta>;
+
+const defaultArgs = {
+  children: [
+    <Breadcrumb.Item key="1">Home</Breadcrumb.Item>,
+    <Breadcrumb.Item key="2">Components</Breadcrumb.Item>,
+    <Breadcrumb.Item key="3">Breadcrumb</Breadcrumb.Item>
+  ]
+};
+
+export const Default: Story = {
+  args: {
+    ...defaultArgs
+  }
+};
+
+export const CustomSeparator: Story = {
+  args: {
+    ...defaultArgs,
+    separator: '>'
+  }
+};
+
+export const WithExpand: Story = {
+  args: {
+    children: [
+      <Breadcrumb.Item key={1}>Item A</Breadcrumb.Item>,
+      <Breadcrumb.Item key={2}>Item B</Breadcrumb.Item>,
+      <Breadcrumb.Item key={3}>Item C</Breadcrumb.Item>,
+      <Breadcrumb.Item key={4}>Item D</Breadcrumb.Item>,
+      <Breadcrumb.Item key={5}>Item E</Breadcrumb.Item>,
+      <Breadcrumb.Item key={6}>Item F</Breadcrumb.Item>
+    ],
+    maxItems: 5
+  }
+};
+
+export const WithActive: Story = {
+  args: {
+    children: [
+      <Breadcrumb.Item key="1">Home</Breadcrumb.Item>,
+      <Breadcrumb.Item key="2">Components</Breadcrumb.Item>,
+      <Breadcrumb.Item key="3" active>
+        Breadcrumb
+      </Breadcrumb.Item>
+    ]
+  }
+};
+
+export const WithLinks: Story = {
+  args: {
+    children: [
+      <Breadcrumb.Item key="1" href="/">
+        Home
+      </Breadcrumb.Item>,
+      <Breadcrumb.Item key="2" href="/components">
+        Components
+      </Breadcrumb.Item>,
+      <Breadcrumb.Item key="3" active>
+        Breadcrumb
+      </Breadcrumb.Item>
+    ]
+  }
+};
+
+export const WithIcons: Story = {
+  args: {
+    children: [
+      <Breadcrumb.Item key="1" icon={<HomeIcon />}>
+        Home
+      </Breadcrumb.Item>,
+      <Breadcrumb.Item key="2">Components</Breadcrumb.Item>,
+      <Breadcrumb.Item key="3" active>
+        Breadcrumb
+      </Breadcrumb.Item>
+    ]
+  }
+};
