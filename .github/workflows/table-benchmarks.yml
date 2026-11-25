@@ -82,9 +82,14 @@ jobs:
       - name: Run Chromium and Firefox virtual workflows
         working-directory: benchmarks/cross-library-table
         run: node run.mjs --skip-build --workflow virtual --output results/virtual/report.json
-      - name: Reject malformed or contradictory reports
+      - name: Run Chromium and Firefox virtual workflows with 50,000 rows
         working-directory: benchmarks/cross-library-table
-        run: node checks/report-integrity.mjs results/virtual/report.json
+        run: node run.mjs --skip-build --workflow virtual --virtual-rows 50000 --output results/virtual-50000/report.json
+      - name: Reject malformed or contradictory virtual reports for both workloads
+        working-directory: benchmarks/cross-library-table
+        run: |
+          node checks/report-integrity.mjs results/virtual/report.json
+          node checks/report-integrity.mjs results/virtual-50000/report.json
       - name: Run Chromium and Firefox loading and empty recovery
         working-directory: benchmarks/cross-library-table
         run: node run.mjs --skip-build --workflow lifecycle --output results/lifecycle/report.json

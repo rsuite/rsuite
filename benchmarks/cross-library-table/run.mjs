@@ -14,6 +14,7 @@ import { assertBuildState, artifactGuard } from './runner/build-state.mjs';
 import { virtualWorkflow } from './runner/virtual-workflow.mjs';
 import { validateVirtualReport } from './runner/virtual-report.mjs';
 import { virtualOwnership } from './runner/virtual-oracle.mjs';
+import { defaultVirtualRowCount, parseVirtualRowCount } from './src/virtual/workload.mjs';
 import { lifecycleWorkflow } from './runner/lifecycle-workflow.mjs';
 import { validateLifecycleReport } from './runner/lifecycle-report.mjs';
 import { lifecycleOwnership } from './runner/lifecycle-oracle.mjs';
@@ -21,23 +22,39 @@ const root = import.meta.dirname,
   args = process.argv.slice(2);
 const outputIndex = args.indexOf('--output'),
   browserIndex = args.indexOf('--browser'),
-  workflowIndex = args.indexOf('--workflow');
+  workflowIndex = args.indexOf('--workflow'),
+  virtualRowsIndex = args.indexOf('--virtual-rows');
 const workflowName = workflowIndex < 0 ? 'selection' : args[workflowIndex + 1];
 if (!['selection', 'tree', 'virtual', 'lifecycle'].includes(workflowName))
   throw Error('Invalid workflow');
+if (virtualRowsIndex >= 0 && workflowName !== 'virtual')
+  throw Error('--virtual-rows requires --workflow virtual');
+const virtualRows =
+  virtualRowsIndex < 0 ? defaultVirtualRowCount : parseVirtualRowCount(args[virtualRowsIndex + 1]);
+const virtualQuery = virtualRowsIndex < 0 ? '' : '?rows=' + virtualRows;
+const runWorkflow = {
+  selection: workflow,
+  tree: treeWorkflow,
+  virtual: (page, profile, checkpoint) => virtualWorkflow(page, profile, checkpoint, virtualRows),
+  lifecycle: lifecycleWorkflow
+}[workflowName];
 const output = path.resolve(
   outputIndex < 0
     ? path.join(
         root,
         'results',
-        workflowName === 'selection' ? 'table.json' : workflowName + '.json'
+        workflowName === 'selection'
+          ? 'table.json'
+          : workflowName === 'virtual' && virtualRows !== defaultVirtualRowCount
+            ? 'virtual-' + virtualRows + '.json'
+            : workflowName + '.json'
       )
     : args[outputIndex + 1]
 );
 const browserName = browserIndex < 0 ? 'all' : args[browserIndex + 1];
 if (!['all', 'chromium', 'firefox'].includes(browserName)) throw Error('Invalid browser');
 for (let index = 0; index < args.length; index++) {
-  if (['--output', '--browser', '--workflow'].includes(args[index])) index++;
+  if (['--output', '--browser', '--workflow', '--virtual-rows'].includes(args[index])) index++;
   else if (args[index] !== '--skip-build') throw Error('Unknown argument ' + args[index]);
 }
 if (!args.includes('--skip-build')) {
@@ -91,12 +108,14 @@ const report = {
     violations: []
   },
   workflow: workflowName,
+  ...(workflowName === 'virtual' && { virtualRows }),
   qualification: 'Prototype: adapters and driver require review before qualified comparison',
   scope:
     workflowName === 'lifecycle'
       ? 'Loaded to loading to empty to recovered data with shared explicit application request/selection policy; native loading and composed content ownership recorded. No AT/performance/ranking claim.'
       : workflowName === 'virtual'
-        ? '10k rows, application jump controls and native checkbox selection. Mounted rows, visible identity markers and complete row border boxes reported separately, including focused-row persistence. Whole-row geometry protocol 1 does not require every target row to be fully exposed. No performance/ranking/AT conformance result.'
+        ? virtualRows +
+          ' rows, application jump controls and native checkbox selection. Mounted rows, visible identity markers and complete row border boxes reported separately, including focused-row persistence. Whole-row geometry protocol 1 does not require every target row to be fully exposed. No performance/ranking/AT conformance result.'
         : workflowName === 'tree'
           ? 'Three-level hierarchy, retained selection and root reorder. Functional and limited tree semantics gates are reported separately; native/composed ownership explicit. No AT/conformance/ranking result.'
           : 'One sort/filter/ID-selection workflow; native engines versus explicit application composition. No performance/conformance/ranking result.',
@@ -168,17 +187,10 @@ try {
                 '/' +
                 library +
                 '/' +
-                (workflowName === 'selection' ? '' : workflowName + '.html')
+                (workflowName === 'selection' ? '' : workflowName + '.html') +
+                virtualQuery
             );
-            await (
-              workflowName === 'tree'
-                ? treeWorkflow
-                : workflowName === 'virtual'
-                  ? virtualWorkflow
-                  : workflowName === 'lifecycle'
-                    ? lifecycleWorkflow
-                    : workflow
-            )(page, profile, async (name, observation) => {
+            await runWorkflow(page, profile, async (name, observation) => {
               const state = await capture();
               row.checkpoints.push({ name, state, observation });
               assert.deepEqual(state.brokenReferences, []);

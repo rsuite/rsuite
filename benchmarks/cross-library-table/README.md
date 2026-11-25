@@ -83,9 +83,12 @@ package; all three competitor asset sets and the SDK remain identical. The
 published package and all four production asset sets are restored afterwards.
 This does not measure a public npm release of the fixes.
 
-The virtual workflow uses 10,000 fixed records and a 400px body viewport. Shared
-application jump buttons request the top, row 9000 and the end. Both input profiles
-select the actual row checkbox and retain its key across viewport changes. DOM
+The virtual workflow supports 10,000 fixed records by default and 50,000 with
+the explicit workload flag. Both use the same adapters and 400px body viewport.
+Shared application jump buttons request the top, the row at index 9,000 or
+45,000, and the final row. The report binds the requested count to the fixture
+count observed at each checkpoint and validates the visible jump and final row
+IDs for that workload. Both input profiles select the actual row checkbox and retain its key across viewport changes. DOM
 membership, visible identity markers and complete row border boxes are reported
 separately: a native focused row may remain mounted outside the viewport. Bounded
 DOM counts are correctness checks, not performance measurements.
@@ -115,6 +118,8 @@ targets must be rejected without sending pointer input in both browsers.
 
     node run.mjs --skip-build --workflow virtual --output /absolute/path/virtual.json
     node checks/report-integrity.mjs /absolute/path/virtual.json
+    node run.mjs --skip-build --workflow virtual --virtual-rows 50000 --output /absolute/path/virtual-50000.json
+    node checks/report-integrity.mjs /absolute/path/virtual-50000.json
 
 Whole-row geometry protocol 1 records each row's border box, its ancestor client
 scrollports (excluding borders), the section/browser bounds and the column-header
