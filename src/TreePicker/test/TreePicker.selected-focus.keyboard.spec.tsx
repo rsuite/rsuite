@@ -289,6 +289,7 @@ describe('TreePicker controlled selected focus', () => {
     async action => {
       const onEntered = vi.fn();
       const replacement = makeData(1000, 700, 0);
+      replacement[0].label = 'Replacement first row';
       const initialData = makeData(5, 2, 'initial-value');
       const outside = React.createRef<HTMLButtonElement>();
       const lateFocus: string[] = [];
@@ -333,7 +334,12 @@ describe('TreePicker controlled selected focus', () => {
                 }
               }}
             />
-            <button ref={outside}>Outside</button>
+            <button
+              ref={outside}
+              data-owner={data === initialData || data === replacement ? undefined : 'copy'}
+            >
+              Outside
+            </button>
           </>
         );
       }
@@ -343,9 +349,20 @@ describe('TreePicker controlled selected focus', () => {
         await open(onEntered, 1);
         if (action === 'close') await waitFor(() => expect(screen.queryByRole('tree')).to.be.null);
         else {
-          await waitFor(() => expect(screen.getByRole('treeitem', { name: 'Node 0' })).to.exist);
-          if (action === 'focus') expect(outside.current).to.have.focus;
-          else if (action === 'value') expect(screen.getByRole('combobox')).to.have.text('Node 2');
+          await waitFor(() => {
+            expect(screen.getByRole('treeitem', { name: 'Replacement first row' })).to.exist;
+            if (action === 'focus') {
+              expect(outside.current).to.have.focus;
+            } else if (action === 'value') {
+              expect(screen.getByRole('combobox')).to.have.text('Node 2');
+              expect(screen.getByRole('treeitem', { name: 'Node 2' })).to.have.attribute(
+                'aria-selected',
+                'true'
+              );
+            } else {
+              expect(outside.current).to.have.attribute('data-owner', 'copy');
+            }
+          });
         }
         expect(lateFocus).to.deep.equal([]);
         expect(offsets.every(offset => offset === 0)).to.be.true;
