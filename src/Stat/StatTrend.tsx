@@ -43,8 +43,16 @@ const ArrowEqual = (props: React.SVGProps<SVGSVGElement>) => {
 };
 
 export interface StatTrendProps extends BoxProps {
-  indicator?: 'up' | 'down' | 'equal';
+  /** A named direction or a numeric change. Zero and NaN use the equal indicator. */
+  indicator?: 'up' | 'down' | 'equal' | number;
   appearance?: 'default' | 'subtle';
+}
+
+function resolveDirection(indicator: NonNullable<StatTrendProps['indicator']>) {
+  if (typeof indicator !== 'number') return indicator;
+  if (indicator > 0) return 'up';
+  if (indicator < 0) return 'down';
+  return 'equal';
 }
 
 const StatTrend = forwardRef<'dd', StatTrendProps>((props, ref) => {
@@ -59,9 +67,10 @@ const StatTrend = forwardRef<'dd', StatTrendProps>((props, ref) => {
   } = props;
 
   const { merge, prefix, withPrefix } = useStyles(classPrefix);
-  const classes = merge(className, withPrefix(appearance, indicator));
+  const direction = resolveDirection(indicator);
+  const classes = merge(className, withPrefix(appearance, direction));
   const IndicatorIcon =
-    indicator === 'up' ? ArrowUp : indicator === 'down' ? ArrowDown : ArrowEqual;
+    direction === 'up' ? ArrowUp : direction === 'down' ? ArrowDown : ArrowEqual;
 
   return (
     <Box as={as} ref={ref} className={classes} {...rest}>

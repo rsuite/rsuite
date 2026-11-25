@@ -12,7 +12,7 @@ const results = path.join(__dirname, 'results');
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const fixture = fs.readFileSync(path.join(__dirname, 'consumer.tsx'), 'utf8');
 assert.equal(ts.version, '5.7.3');
-assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 74);
+assert.equal((fixture.match(/@ts-expect-error/g) || []).length, 75);
 const polymorphicFixture = fs.readFileSync(path.join(__dirname, 'polymorphic.tsx'), 'utf8');
 assert.equal((polymorphicFixture.match(/@ts-expect-error/g) || []).length, 19);
 const pinInputAccessibilityFixture = fs.readFileSync(
