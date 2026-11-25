@@ -377,6 +377,8 @@
 
     // Table
     --rs-table-border-color: var(--rs-border-secondary);
+    --rs-table-row-selected-bg: var(--rs-primary-900);
+    --rs-table-row-selected-outline: var(--rs-primary-200);
     --rs-table-shadow: rgb(9 9 9 / 99%);
     --rs-table-sort: var(--rs-primary-500);
     --rs-table-resize: var(--rs-primary-500);
