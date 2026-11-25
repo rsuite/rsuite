@@ -93,6 +93,23 @@ describe('CascadeTree', () => {
     }
   });
 
+  it('Should reset the expanded path when the controlled value is changed', () => {
+    const { rerender } = render(<CascadeTree data={items} value="3-1" />);
+
+    expect(screen.getAllByRole('group')).to.length(2);
+
+    rerender(<CascadeTree data={items} value={null} />);
+
+    expect(screen.getAllByRole('group')).to.length(1);
+
+    rerender(<CascadeTree data={items} value="3-2" />);
+
+    expect(screen.getAllByRole('group')).to.length(2);
+    expect(screen.getByRole('treeitem', { name: '3-2' }).firstChild).to.have.class(
+      'rs-cascade-tree-item-active'
+    );
+  });
+
   it('Should item able to stringfy', () => {
     const onSelect = vi.fn();
     const renderTreeNode = vi.fn();

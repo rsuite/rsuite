@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import FakeBrowser from '../FakeBrowser';
 import Icon from '@rsuite/icons/Icon';
-import hljs from 'highlight.js';
+import HighlightedCode from '../CodeView/HighlightedCode';
 import {
   HStack,
   IconButton,
@@ -47,7 +47,6 @@ const Simulation: React.FC<SimulationProps> = ({
   const [sourceCode, setSourceCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const { locales } = useApp();
-  const codeRef = useRef<HTMLElement>(null);
   const exampleUrl = `/components/${componentName}/examples?example=${example}`;
   const [isMobile] = useMediaQuery('xs');
 
@@ -101,12 +100,6 @@ const Simulation: React.FC<SimulationProps> = ({
     }
   }, [type, componentName, example]);
 
-  useEffect(() => {
-    if (codeRef.current && sourceCode) {
-      hljs.highlightElement(codeRef.current);
-    }
-  }, [sourceCode]);
-
   const handleChangeDevice = (key: string) => {
     if (key === 'openInNewTab') {
       window.open(exampleUrl, '_blank');
@@ -158,13 +151,11 @@ const Simulation: React.FC<SimulationProps> = ({
           >
             <Loader size="md" content="Loading..." />
           </div>
-        ) : (
-          <pre className="hljs" style={{ display: type === 'code' ? 'block' : 'none' }}>
-            <code ref={codeRef} className="typescript">
-              {sourceCode}
-            </code>
-          </pre>
-        )}
+        ) : sourceCode ? (
+          <div className="simulation-source" hidden={type !== 'code'}>
+            <HighlightedCode code={sourceCode} language="tsx" />
+          </div>
+        ) : null}
         <iframe
           src={exampleUrl}
           style={{

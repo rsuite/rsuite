@@ -615,6 +615,10 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
   const { sideRanges, bottomRanges } = splitRanges(ranges);
 
   const renderCalendarOverlay = (positionProps: PositionChildProps, speakerRef) => {
+    if (disabled) {
+      return <PickerPopup ref={mergeRefs(overlay, speakerRef)} />;
+    }
+
     const { className } = positionProps;
     const classes = merge(popupClassName, className, prefix('popup-date'));
 
@@ -732,6 +736,7 @@ const DatePicker = forwardRef<'div', DatePickerProps>((props: DatePickerProps, r
       className={merge(className, { [prefix('error')]: invalidValue })}
       block={block}
       disabled={disabled}
+      closeOnDisable
       appearance={appearance}
       style={style}
       rootRef={root}

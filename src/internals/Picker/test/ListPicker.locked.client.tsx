@@ -3,10 +3,13 @@ import { version as reactDOMVersion } from 'react-dom';
 import { createRoot } from 'react-dom/client';
 import SelectPicker from '../../../SelectPicker';
 import CheckPicker from '../../../CheckPicker';
+import InputPicker from '../../../InputPicker';
+import TagPicker from '../../../TagPicker';
 import type { Option } from '../../types';
 import '../../../styles/_themes.scss';
 import '../../../SelectPicker/styles/index.scss';
 import '../../../CheckPicker/styles/index.scss';
+import '../../../TagPicker/styles/index.scss';
 
 type Flag = 'enabled' | 'disabled' | 'readOnly' | 'loading';
 type Value = string | number | null;
@@ -40,7 +43,7 @@ function Fixture() {
   });
   const common = {
     data,
-    defaultOpen: true,
+    ...(options.has('controlled') ? { open: true } : { defaultOpen: true }),
     virtualized: options.has('virtualized'),
     searchable: false,
     disabled: flag === 'disabled',
@@ -63,11 +66,23 @@ function Fixture() {
         }
       : {})
   };
+  type FixturePickerProps<V> = typeof common & {
+    value: V;
+    onChange: (value: V, event: React.SyntheticEvent) => void;
+  };
+  const SinglePicker: React.ComponentType<FixturePickerProps<Value>> = options.has('input')
+    ? InputPicker
+    : SelectPicker;
+  const MultiplePicker: React.ComponentType<FixturePickerProps<(string | number)[]>> = options.has(
+    'input'
+  )
+    ? TagPicker
+    : CheckPicker;
   return (
     <div style={{ padding: 24 }} data-flag={flag} data-listening={listenKeys} data-testid="fixture">
       <div>
         {options.has('check') ? (
-          <CheckPicker
+          <MultiplePicker
             {...common}
             value={values}
             onChange={(next, event) => {
@@ -76,7 +91,7 @@ function Fixture() {
             }}
           />
         ) : (
-          <SelectPicker
+          <SinglePicker
             {...common}
             value={value}
             onChange={(next, event) => {

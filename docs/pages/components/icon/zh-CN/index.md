@@ -5,7 +5,7 @@
 ## React Suite 图标
 
 <a href="/resources/icons" target="_blank" rel="noopener noreferrer" title="React Suite Icons" >
- <img src="../../../../public/images/icons.png" alt="React Icons" style="max-width: 400px; margin-bottom:20px">
+ <img src="/images/icons.png" alt="React Icons" style="max-width: 400px; margin-bottom:20px">
 </a>
 
 我们提供了一套图标组件，您需要安装`@rsuite/icons`图标组件。
