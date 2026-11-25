@@ -1,17 +1,11 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import Ripple from '../Ripple';
-import { useClassNames, createChainedFunction } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import React from 'react';
+import Button, { ButtonProps } from '../Button';
+import { useStyles, useEventCallback } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
 
-export interface PaginationButtonProps
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLUListElement>, 'onSelect'> {
+export interface PaginationButtonProps<T = number | string> extends Omit<ButtonProps, 'onSelect'> {
   /** The value of the current option */
-  eventKey?: number | string;
-
-  /** Called when the button is clicked. */
-  onClick?: React.MouseEventHandler;
+  eventKey: T;
 
   /** A button can show it is currently unable to be interacted with */
   disabled?: boolean;
@@ -22,75 +16,66 @@ export interface PaginationButtonProps
   /** Primary content */
   children?: React.ReactNode;
 
-  /** Select the callback function for the current option  */
-  onSelect?: (eventKey: number | string, event: React.MouseEvent) => void;
+  /** Called when the button is clicked */
+  onClick?: React.MouseEventHandler<HTMLElement>;
+
+  /** Select the callback function for the current option */
+  onSelect?: (eventKey: T, event: React.MouseEvent<HTMLElement>) => void;
 }
 
-const PaginationButton: RsRefForwardingComponent<'button', PaginationButtonProps> =
-  React.forwardRef((props: PaginationButtonProps, ref) => {
-    const {
-      as: Component = 'button',
-      active,
-      disabled,
-      className,
-      classPrefix = 'pagination-btn',
-      children,
-      eventKey,
-      style,
-      onSelect,
-      onClick,
-      ...rest
-    } = props;
+/**
+ * PaginationButton component for pagination navigation.
+ * Renders a button that can be used in pagination contexts.
+ */
+const PaginationButton = forwardRef<typeof Button, PaginationButtonProps>((props, ref) => {
+  const {
+    as,
+    active,
+    disabled,
+    className,
+    classPrefix = 'pagination-btn',
+    children,
+    eventKey,
+    onSelect,
+    onClick,
+    ...rest
+  } = props;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ active, disabled }));
+  const { merge, withPrefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
 
-    const handleClick = useCallback(
-      (event: React.MouseEvent) => {
-        if (disabled) {
-          return;
-        }
-        onSelect?.(eventKey, event);
-      },
-      [disabled, eventKey, onSelect]
-    );
-
-    const asProps: Partial<PaginationButtonProps> = {};
-
-    if (typeof Component !== 'string') {
-      asProps.eventKey = eventKey;
-      asProps.active = active;
+  const handleClick = useEventCallback((event: React.MouseEvent<HTMLElement>) => {
+    if (disabled) {
+      return;
     }
 
-    return (
-      <Component
-        {...rest}
-        {...asProps}
-        disabled={disabled}
-        onClick={createChainedFunction(onClick, handleClick)}
-        ref={ref}
-        className={classes}
-        style={style}
-      >
-        {children}
-        {!disabled ? <Ripple /> : null}
-      </Component>
-    );
+    onClick?.(event);
+
+    // Only call onSelect if the event hasn't been prevented
+    if (!event.defaultPrevented && onSelect) {
+      onSelect(eventKey, event);
+    }
   });
 
+  return (
+    <Button
+      {...rest}
+      as={as}
+      disabled={disabled}
+      onClick={handleClick}
+      ref={ref}
+      className={classes}
+      appearance="subtle"
+      aria-disabled={disabled}
+      aria-current={active ? 'page' : undefined}
+      active={active}
+      data-event-key={eventKey}
+    >
+      {children}
+    </Button>
+  );
+});
+
 PaginationButton.displayName = 'PaginationButton';
-PaginationButton.propTypes = {
-  classPrefix: PropTypes.string,
-  eventKey: PropTypes.any,
-  onSelect: PropTypes.func,
-  onClick: PropTypes.func,
-  disabled: PropTypes.bool,
-  active: PropTypes.bool,
-  className: PropTypes.string,
-  as: PropTypes.elementType,
-  children: PropTypes.node,
-  style: PropTypes.object,
-  renderItem: PropTypes.func
-};
 
 export default PaginationButton;

@@ -1,6 +1,7 @@
-import arSA from 'date-fns/locale/ar-SA';
+import type { CalendarLocaleLabels } from './types';
+import { arSA } from 'date-fns/locale/ar-SA';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'ح',
   monday: 'ن',
   tuesday: 'ث',
@@ -11,18 +12,50 @@ const Calendar = {
   ok: 'حسناً',
   today: 'اليوم',
   yesterday: 'أمس',
+  now: 'الآن',
   hours: 'ساعات',
   minutes: 'دقائق',
   seconds: 'ثواني',
   formattedMonthPattern: 'MMM, yyyy',
   formattedDayPattern: 'MMM dd, yyyy',
+  shortDateFormat: 'MM/dd/yyyy',
+  shortTimeFormat: 'HH:mm aa',
   dateLocale: arSA as any
 };
 
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'الشهر السابق',
+  nextMonth: 'الشهر التالي',
+  selectMonth: 'اختر الشهر',
+  selectTime: 'اختر الوقت'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'فتح أداة الاختيار'
+};
+
+const Combobox = {
+  noResultsText: 'لا يوجد نتائج',
+  placeholder: 'إختيار',
+  searchPlaceholder: 'البحث',
+  checkAll: 'الجميع'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'عنصر جديد',
+  createOption: 'إنشاء العنصر "{0}"'
+};
+
 export default {
+  code: 'ar-SA',
   common: {
     loading: 'جاري التحميل...',
-    emptyMessage: 'لا يوجد المزيد من البيانات'
+    emptyMessage: 'لا يوجد المزيد من البيانات',
+    remove: 'حذف',
+    clear: 'يزيل'
   },
   Plaintext: {
     unfilled: 'شاغرة',
@@ -40,31 +73,24 @@ export default {
     total: 'الإجمالي: {0}',
     skip: 'اذهب إل {0}'
   },
+  DateTimeFormats,
   Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  DatePicker,
   DateRangePicker: {
-    ...Calendar,
+    ...DatePicker,
     last7Days: 'أخر 7 أيام'
   },
-  Picker: {
-    noResultsText: 'لا يوجد نتائج',
-    placeholder: 'إختيار',
-    searchPlaceholder: 'البحث',
-    checkAll: 'الجميع'
-  },
-  InputPicker: {
-    newItem: 'عنصر جديد',
-    createOption: 'إنشاء العنصر "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'تم البدء',
     progress: 'جاري الرفع',
     error: 'خطأ',
     complete: 'تم الإنتهاء',
     emptyFile: 'فارغ',
-    upload: 'رفع'
+    upload: 'رفع',
+    removeFile: 'حذف الملف'
   },
   CloseButton: {
     closeLabel: 'اغلق'
@@ -72,8 +98,23 @@ export default {
   Breadcrumb: {
     expandText: 'عرض المسار'
   },
+  Carousel: {
+    carouselRoleDescription: 'عرض شرائح',
+    slideRoleDescription: 'شريحة',
+    slidePosition: '{0} من {1}',
+    startRotation: 'بدء التبديل التلقائي للشرائح',
+    stopRotation: 'إيقاف التبديل التلقائي للشرائح',
+    selectSlide: 'اختيار شريحة',
+    slideLabel: 'الشريحة {0} من {1}'
+  },
   Toggle: {
     on: 'إيقاف',
     off: 'تشغيل'
+  },
+  Dialog: {
+    alert: 'تنبيه',
+    confirm: 'تأكيد',
+    ok: 'موافق',
+    cancel: 'إلغاء'
   }
 };

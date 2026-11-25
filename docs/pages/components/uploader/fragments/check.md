@@ -1,10 +1,13 @@
 <!--start-code-->
 
 ```js
+import { Uploader, Button } from 'rsuite';
+
 const App = () => {
   const [loading, setLoading] = React.useState(false);
+
   return (
-    <div>
+    <>
       <Uploader
         action="//jsonplaceholder.typicode.com/posts/"
         shouldQueueUpdate={() => {
@@ -15,7 +18,9 @@ const App = () => {
           alert('File check passed, run upload');
           return true;
         }}
-      />
+      >
+        <Button>Select files...</Button>
+      </Uploader>
       <hr />
       <Uploader
         action="//jsonplaceholder.typicode.com/posts/"
@@ -40,10 +45,11 @@ const App = () => {
       >
         <Button loading={loading}>Upload via async check</Button>
       </Uploader>
-    </div>
+    </>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

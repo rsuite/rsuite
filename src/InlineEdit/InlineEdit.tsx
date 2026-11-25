@@ -1,0 +1,134 @@
+import React from 'react';
+import EditableControls from './EditableControls';
+import useFocusEvent from './useFocusEvent';
+import useEditState from './useEditState';
+import Box, { BoxProps } from '@/internals/Box';
+import { useStyles, useCustom } from '@/internals/hooks';
+import { forwardRef, mergeRefs } from '@/internals/utils';
+import { renderChildren, defaultRenderInput, ChildrenProps } from './renderChildren';
+
+export interface InlineEditProps extends Omit<BoxProps, 'children'> {
+  /**
+   * If true, the InlineEdit will be disabled.
+   */
+  disabled?: boolean;
+
+  /**
+   * The initial value of the InlineEdit when it is not controlled.
+   */
+  defaultValue?: any;
+
+  /**
+   * The value of the InlineEdit.
+   */
+  value?: any;
+
+  /**
+   * show the control buttons when editing.
+   * @default true
+   */
+  showControls?: boolean;
+
+  /**
+   * The placeholder of the InlineEdit.
+   */
+  placeholder?: string;
+
+  /**
+   * The size of the InlineEdit.
+   */
+  size?: 'lg' | 'md' | 'sm' | 'xs';
+
+  /**
+   * The state of the InlineEdit when it is blurred.
+   */
+  stateOnBlur?: 'save' | 'cancel';
+
+  /**
+   * The callback function that is called when the value of the InlineEdit is changed.
+   */
+  onChange?: (value: any, event: React.ChangeEvent) => void;
+
+  /**
+   * The callback function that is called when the InlineEdit is canceled.
+   */
+  onCancel?: (event?: React.SyntheticEvent) => void;
+
+  /**
+   * The callback function that is called when the InlineEdit is saved.
+   */
+  onSave?: (event?: React.SyntheticEvent) => void;
+
+  /**
+   * The callback function that is called when the InlineEdit is clicked.
+   */
+  onEdit?: (event: React.SyntheticEvent) => void;
+
+  /**
+   * The render function of the InlineEdit.
+   */
+  children?:
+    | ((props: ChildrenProps, ref: React.Ref<any>) => React.ReactElement)
+    | React.ReactElement;
+}
+
+const InlineEdit = forwardRef<'div', InlineEditProps, any, 'children'>((props, ref) => {
+  const { propsWithDefaults } = useCustom('InlineEdit', props);
+  const {
+    as,
+    children = defaultRenderInput,
+    classPrefix = 'inline-edit',
+    className,
+    disabled,
+    size = 'md',
+    showControls = true,
+    stateOnBlur = 'save',
+    placeholder,
+    ...rest
+  } = propsWithDefaults;
+
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
+  const { value, isEditing, onSave, onCancel, onChange, onKeyDown, onClick, onFocus, htmlProps } =
+    useEditState({ ...rest, disabled });
+
+  const { target, root, onBlur } = useFocusEvent({
+    isEditing,
+    stateOnBlur,
+    onSave,
+    onCancel
+  });
+
+  const childrenProps = {
+    size,
+    value,
+    disabled,
+    placeholder,
+    plaintext: !isEditing,
+    onChange,
+    onBlur
+  };
+
+  return (
+    <Box
+      as={as}
+      ref={mergeRefs(root, ref)}
+      tabIndex={0}
+      className={merge(className, withPrefix())}
+      onClick={onClick}
+      onKeyDown={onKeyDown}
+      onFocus={onFocus}
+      data-disabled={disabled}
+      data-size={size}
+      {...htmlProps}
+    >
+      {renderChildren(children, childrenProps, target)}
+      {showControls && isEditing && (
+        <EditableControls className={prefix('controls')} onSave={onSave} onCancel={onCancel} />
+      )}
+    </Box>
+  );
+});
+
+InlineEdit.displayName = 'InlineEdit';
+
+export default InlineEdit;

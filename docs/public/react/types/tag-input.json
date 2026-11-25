@@ -1,0 +1,48 @@
+{
+  "TagInput": {
+    "props": {
+      "defaultValue": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Default values of the selected items"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether disabled component"
+      },
+      "onChange": {
+        "type": "(value:string[], event) => void",
+        "isRequired": false,
+        "description": "Callback fired when value change"
+      },
+      "onClean": {
+        "type": "(event) => void",
+        "isRequired": false,
+        "description": "Callback fired when value clean"
+      },
+      "onTagRemove": {
+        "type": "(value: string, event: MouseEvent) => void",
+        "isRequired": false,
+        "description": "Callback fired when tag remove"
+      },
+      "size": {
+        "type": "'lg' | 'md' | 'sm' | 'xs'",
+        "isRequired": false,
+        "description": "A picker can have different sizes",
+        "defaultValue": "md"
+      },
+      "trigger": {
+        "type": "'Enter' | 'Space' | 'Comma'",
+        "isRequired": false,
+        "description": "Set the trigger for creating tags",
+        "defaultValue": "['Enter', 'Space']"
+      },
+      "value": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "Specifies the values of the selected items (Controlled)"
+      }
+    }
+  }
+}

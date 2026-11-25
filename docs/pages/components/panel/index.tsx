@@ -1,39 +1,37 @@
-import React from 'react';
-import { Button, Panel, PanelGroup, Table, Grid, Row, Col } from 'rsuite';
-import DefaultPage from '@/components/Page';
-import useFetchData from '@/utils/useFetchData';
+import {
+  Button,
+  Panel,
+  PanelGroup,
+  Table,
+  Grid,
+  Row,
+  Col,
+  Placeholder,
+  Stack,
+  ButtonGroup
+} from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
 
-const { HeaderCell, Cell, Column } = Table;
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['Panel', 'PanelGroup']} />
+};
 
 export default function Page() {
-  const { response: tableData } = useFetchData('users');
   return (
     <DefaultPage
-      examples={[
-        'basic',
-        'bordered',
-        'shaded',
-        'no-header',
-        'card',
-        'card-grid',
-        'collapsible',
-        'body-fill',
-        'panel-group',
-        'accordion-group',
-        'accordion-group-active'
-      ]}
+      inDocsComponents={inDocsComponents}
       dependencies={{
         Table,
         PanelGroup,
         Panel,
+        Stack,
+        ButtonGroup,
         Button,
-        HeaderCell,
-        Cell,
-        Column,
         Grid,
         Row,
         Col,
-        tableData
+        Placeholder
       }}
     />
   );

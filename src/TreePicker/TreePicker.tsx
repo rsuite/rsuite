@@ -1,835 +1,282 @@
-import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
-import PropTypes from 'prop-types';
-import { pick, omit, isUndefined, isNil, isFunction } from 'lodash';
-import { List, AutoSizer, ListInstance, ListRowProps } from '../Picker/VirtualizedList';
-import TreeNode from './TreeNode';
+import React, { useMemo } from 'react';
+import pick from 'lodash/pick';
+import isNil from 'lodash/isNil';
+import isFunction from 'lodash/isFunction';
+import useTreeWithChildren from '../Tree/hooks/useTreeWithChildren';
+import useFlattenTree from '../Tree/hooks/useFlattenTree';
+import useFocusState from './hooks/useFocusState';
+import useExpandTree from '../Tree/hooks/useExpandTree';
+import TreeView, { TreeViewProps } from '../Tree/TreeView';
 import { PickerLocale } from '../locales';
-import {
-  createChainedFunction,
-  useClassNames,
-  useCustom,
-  useControlled,
-  TREE_NODE_DROP_POSITION,
-  KEY_VALUES,
-  mergeRefs,
-  shallowEqual
-} from '../utils';
-
-import {
-  getExpandWhenSearching,
-  hasVisibleChildren,
-  getDragNodeKeys,
-  calDropNodePosition,
-  createUpdateTreeDataFunction,
-  useTreeDrag,
-  useFlattenTreeData,
-  getTreeActiveNode,
-  getDefaultExpandItemValues,
-  useTreeNodeRefs,
-  useTreeSearch,
-  focusPreviousItem,
-  getFocusableItems,
-  focusNextItem,
-  getActiveItem,
-  toggleExpand,
-  useGetTreeNodeChildren,
-  focusToActiveTreeNode,
-  leftArrowHandler,
-  focusTreeNode,
-  rightArrowHandler,
-  isSearching
-} from '../utils/treeUtils';
-
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import { forwardRef, createChainedFunction, mergeRefs } from '@/internals/utils';
+import { formatNodeRefKey, getActiveItem, getTreeActiveNode } from '../Tree/utils';
 import {
   PickerToggle,
-  PickerOverlay,
-  SearchBar,
+  PickerPopup,
   PickerToggleTrigger,
-  createConcatChildrenFunction,
-  usePickerClassName,
+  usePickerRef,
   onMenuKeyDown,
-  usePublicMethods,
-  listPickerPropTypes,
-  OverlayTriggerInstance,
-  pickTriggerPropKeys,
-  omitTriggerPropKeys,
+  triggerPropKeys,
   PositionChildProps,
-  PickerComponent,
-  useToggleKeyDownEvent
-} from '../Picker';
+  useToggleKeyDownEvent,
+  PickerToggleProps
+} from '@/internals/Picker';
+import { isLeafNode } from '@/internals/Tree/utils';
+import { TreeProvider, useTreeImperativeHandle } from '@/internals/Tree/TreeProvider';
+import { TreeNode } from '@/internals/Tree/types';
+import type { FormControlPickerProps, DeprecatedMenuProps } from '@/internals/types';
+import type { TreeExtraProps } from '../Tree/types';
 
-import { TreeDragProps, TreeBaseProps } from '../Tree/Tree';
-import { FormControlPickerProps, ItemDataType } from '../@types/common';
-
-import { TreeNodeType } from '../CheckTreePicker/utils';
-import TreeContext from '../Tree/TreeContext';
-
-// default value for virtualized
-export const maxTreeHeight = 320;
-
-export interface TreePickerProps<T = number | string>
-  extends TreeBaseProps<T, ItemDataType>,
-    TreeDragProps,
-    FormControlPickerProps<T, PickerLocale, ItemDataType> {
-  /** The height of Dropdown */
-  height?: number;
-
-  /** Tree node cascade */
-  cascade?: boolean;
-
-  /** A picker that can be counted */
-  countable?: boolean;
-
-  /** Whether display search input box */
-  searchable?: boolean;
-
-  /** Whether using virtualized list */
-  virtualized?: boolean;
-
-  /** Set the option value for the expand node */
-  defaultExpandItemValues?: ItemDataType[];
-
-  /** Set the option value for the expand node with controlled*/
-  expandItemValues?: ItemDataType[];
-
-  /** Custom render selected items */
+export interface TreePickerProps<V = number | string | null>
+  extends TreeViewProps<V>,
+    TreeExtraProps,
+    DeprecatedMenuProps,
+    FormControlPickerProps<V, PickerLocale, TreeNode>,
+    Pick<PickerToggleProps, 'caretAs' | 'loading'> {
+  /**
+   * Custom render selected items
+   */
   renderValue?: (
-    value: T,
-    selectedItems: ItemDataType,
+    value: V,
+    selectedNode: TreeNode,
     selectedElement: React.ReactNode
   ) => React.ReactNode;
 
-  /** Called when scrolling */
-  onScroll?: (event: React.SyntheticEvent) => void;
+  /**
+   * The height of the tree
+   */
+  treeHeight?: number;
+
+  /**
+   * Popup auto width
+   *
+   * @default true
+   */
+  popupAutoWidth?: boolean;
+
+  /**
+   * Whether only leaf nodes can be selected
+   *
+   * @default false
+   */
+  onlyLeafSelectable?: boolean;
 }
 
-const emptyArray = [];
-
-const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, ref) => {
+/**
+ * The `TreePicker` component is used for selecting single options which are organized in a tree structure.
+ *
+ * @see https://rsuitejs.com/components/tree-picker/
+ */
+const TreePicker = forwardRef<'div', TreePickerProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('TreePicker', props);
   const {
-    as: Component = 'div',
-    data = emptyArray,
+    as,
     appearance = 'default',
-    style,
-    value: controlledValue,
-    locale: overrideLocale,
-    height = 360,
-    className,
-    disabled,
-    placement = 'bottomStart',
-    cleanable = true,
-    menuStyle,
-    searchable = true,
-    virtualized,
     classPrefix = 'picker',
-    defaultValue,
-    placeholder,
-    searchKeyword,
-    menuClassName,
-    menuAutoWidth = true,
-    searchBy,
-    toggleAs,
-    labelKey = 'label',
-    valueKey = 'value',
+    cleanable = true,
     childrenKey = 'children',
-    draggable,
-    defaultExpandAll,
-    disabledItemValues = emptyArray,
+    data = [],
+    disabled,
+    defaultValue,
+    defaultExpandAll = false,
+    disabledItemValues = [],
+    defaultExpandItemValues = [],
     expandItemValues: controlledExpandItemValues,
-    defaultExpandItemValues,
     id,
+    block,
+    className,
+    locale,
+    labelKey = 'label',
+    onlyLeafSelectable,
+    placeholder,
+    placement = 'bottomStart',
+    style,
+    searchKeyword,
+    searchable = true,
+    showIndentLine,
+    popupClassName,
+    popupStyle,
+    popupAutoWidth = true,
+    responsive,
+    treeHeight = 320,
+    valueKey = 'value',
+    virtualized = false,
+    value: controlledValue,
     listProps,
+    toggleAs,
+    searchBy,
     getChildren,
-    renderTreeIcon,
-    renderTreeNode,
-    onExit,
-    onExited,
     onClean,
-    onOpen,
     onSearch,
     onSelect,
+    onSelectItem,
     onChange,
-    onEntered,
-    onClose,
-    onDragEnd,
-    onDragStart,
-    onDragEnter,
-    onDragLeave,
-    onDragOver,
-    onDrop,
     onExpand,
-    renderExtraFooter,
-    renderMenu,
+    onEnter,
+    onExit,
+    onEntered,
     renderValue,
-    renderDragNode,
+    renderTree,
+    renderTreeIcon,
+    renderTreeNode,
+    renderExtraFooter,
     ...rest
-  } = props;
-  const triggerRef = useRef<OverlayTriggerInstance>();
-  const targetRef = useRef<HTMLButtonElement>();
-  const listRef = useRef<ListInstance>();
-  const overlayRef = useRef<HTMLDivElement>();
-  const searchInputRef = useRef<HTMLInputElement>();
-  const treeViewRef = useRef<HTMLDivElement>();
-  const { rtl, locale } = useCustom<PickerLocale>('Picker', overrideLocale);
-  const { inline, dragNodeRef } = useContext(TreeContext);
+  } = propsWithDefaults;
 
-  const [value, setValue, isControlled] = useControlled(controlledValue, defaultValue);
-  const {
-    data: treeData,
-    setData: setTreeData,
-    loadingNodeValues,
-    loadChildren
-  } = useGetTreeNodeChildren(data, valueKey, childrenKey);
+  const { trigger, root, target, overlay, list, searchInput, treeView } = usePickerRef(ref);
+  const [value, setValue] = useControlled(controlledValue, defaultValue);
+  const itemDataKeys = { childrenKey, labelKey, valueKey };
 
-  const [expandItemValues, setExpandItemValues] = useControlled(
+  const { treeData, loadingNodeValues, appendChild } = useTreeWithChildren(data, itemDataKeys);
+  const flattenedNodes = useFlattenTree(treeData, { ...itemDataKeys });
+
+  const { expandItemValues, handleExpandTreeNode } = useExpandTree(data, {
+    ...itemDataKeys,
+    defaultExpandAll,
+    defaultExpandItemValues,
     controlledExpandItemValues,
-    getDefaultExpandItemValues(treeData, {
-      defaultExpandAll,
-      valueKey,
-      childrenKey,
-      defaultExpandItemValues
-    })
-  );
-  const [active, setActive] = useState(false);
-  const [focusItemValue, setFocusItemValue] = useState(null);
-
-  const { flattenNodes, forceUpdate, formatVirtualizedTreeData } = useFlattenTreeData({
-    data: treeData,
-    labelKey,
-    valueKey,
-    childrenKey,
-    callback: () => {
-      // after flattenData, always trigger re-render
-      forceUpdate();
-    }
+    onExpand,
+    getChildren,
+    appendChild
   });
-  const { prefix, merge } = useClassNames(classPrefix);
-  const { prefix: treePrefix, withClassPrefix: withTreeClassPrefix } = useClassNames('tree');
 
-  const { filteredData, searchKeywordState, setSearchKeyword, handleSearch, setFilteredData } =
-    useTreeSearch({
-      labelKey,
-      childrenKey,
-      searchKeyword,
-      data: treeData,
-      searchBy,
-      callback: (
-        searchKeyword: string,
-        _filterData: TreeNodeType[],
-        event: React.KeyboardEvent<HTMLInputElement>
-      ) => {
-        onSearch?.(searchKeyword, event);
-      }
-    });
+  const { prefix, merge } = useStyles(classPrefix);
+  const activeNode = getTreeActiveNode(flattenedNodes, value, valueKey);
 
-  const {
-    dragNodeKeys,
-    dragOverNodeKey,
-    dragNode,
-    dropNodePosition,
-    setDragNodeKeys,
-    setDragOverNodeKey,
-    setDragNode,
-    setDropNodePosition
-  } = useTreeDrag();
+  const { register, focusFirstNode, focusActiveNode } = useTreeImperativeHandle();
+  const { active, focusItemValue, setFocusItemValue, triggerProps } = useFocusState({
+    focusActiveNode,
+    target,
+    value,
+    onEnter,
+    onExit,
+    onEntered
+  });
 
-  const { treeNodesRefs, saveTreeNodeRef } = useTreeNodeRefs();
+  const handleSelect = useEventCallback(
+    (treeNode: TreeNode, value: string | number | null, event: React.SyntheticEvent) => {
+      onSelect?.(treeNode, value, event);
 
-  const activeNode = getTreeActiveNode(flattenNodes, value, valueKey);
-
-  const getFormattedNodes = useCallback(
-    (render?: any) => {
-      let formattedNodes = [];
-      if (virtualized) {
-        formattedNodes = formatVirtualizedTreeData(flattenNodes, filteredData, expandItemValues, {
-          searchKeyword: searchKeywordState
-        }).filter(n => n.visible);
-      } else {
-        formattedNodes = filteredData.map((dataItem, index) => render?.(dataItem, index, 1));
+      // Only leaf nodes can update the value and close the picker.
+      if (onlyLeafSelectable && !isLeafNode(treeNode)) {
+        return;
       }
 
-      return formattedNodes;
-    },
-    [
-      searchKeywordState,
-      expandItemValues,
-      filteredData,
-      flattenNodes,
-      formatVirtualizedTreeData,
-      virtualized
-    ]
-  );
+      setFocusItemValue(value);
+      handleChange(value, event);
 
-  const focusActiveNode = useCallback(() => {
-    focusToActiveTreeNode({
-      list: listRef.current,
-      valueKey,
-      selector: `.${treePrefix('node-active')}`,
-      activeNode,
-      virtualized,
-      container: treeViewRef.current,
-      formattedNodes: getFormattedNodes()
-    });
-  }, [treePrefix, activeNode, getFormattedNodes, valueKey, virtualized]);
-
-  useEffect(() => {
-    setFilteredData(data, searchKeywordState);
-    setTreeData(data);
-  }, [data, searchKeywordState, setFilteredData, setTreeData]);
-
-  useEffect(() => {
-    setFilteredData(treeData, searchKeywordState);
-  }, [treeData, searchKeywordState, setFilteredData]);
-
-  useEffect(() => {
-    if (Array.isArray(controlledExpandItemValues)) {
-      setExpandItemValues(controlledExpandItemValues);
+      target.current?.focus();
+      trigger.current?.close?.();
     }
-  }, [controlledExpandItemValues, setExpandItemValues]);
+  );
 
-  useEffect(() => {
-    setSearchKeyword(searchKeyword ?? '');
-  }, [searchKeyword, setSearchKeyword]);
-
-  useEffect(() => {
-    if (dragNodeRef) {
-      dragNodeRef.current = treeViewRef.current?.querySelector(`.${treePrefix('drag-node-mover')}`);
+  const handleClean = useEventCallback((event: React.SyntheticEvent) => {
+    const target = event.target as Element;
+    // exclude searchbox
+    if (target.matches('input[role="searchbox"]') || disabled || !cleanable) {
+      return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    setValue(null);
+    onChange?.(null, event);
+  });
 
-  const getDropData = useCallback(
-    (nodeData: any) => {
-      const options = { valueKey, childrenKey };
-      return {
-        /** draggingNode */
-        dragNode,
-        /** dropNode */
-        dropNode: nodeData,
-        /** dragAndDrop Position type */
-        dropNodePosition,
-        createUpdateDataFunction: createUpdateTreeDataFunction(
-          {
-            dragNode,
-            dropNode: nodeData,
-            dropNodePosition
-          },
-          options
-        )
-      };
-    },
-    [dragNode, valueKey, childrenKey, dropNodePosition]
-  );
+  const handleTreePressEnter = useEventCallback((event: React.SyntheticEvent) => {
+    if (isNil(focusItemValue)) {
+      return;
+    }
 
-  const getTreeNodeProps = (node: any, layer: number, index?: number) => {
-    const draggingNode = dragNode ?? {};
-    return {
-      as: Component,
-      rtl,
-      value: node[valueKey],
-      label: node[labelKey],
-      index,
-      layer,
-      loading: loadingNodeValues.some(item => shallowEqual(item, node[valueKey])),
-      expand: node.expand,
-      active: shallowEqual(node[valueKey], value),
-      focus: shallowEqual(node[valueKey], focusItemValue),
-      visible: node.visible,
-      draggable,
-      dragging: shallowEqual(node[valueKey], draggingNode[valueKey]),
-      children: node[childrenKey],
-      nodeData: node,
-      disabled: disabledItemValues.some(disabledItem => shallowEqual(disabledItem, node[valueKey])),
-      dragOver:
-        shallowEqual(node[valueKey], dragOverNodeKey) &&
-        dropNodePosition === TREE_NODE_DROP_POSITION.DRAG_OVER,
-      dragOverTop:
-        shallowEqual(node[valueKey], dragOverNodeKey) &&
-        dropNodePosition === TREE_NODE_DROP_POSITION.DRAG_OVER_TOP,
-      dragOverBottom:
-        shallowEqual(node[valueKey], dragOverNodeKey) &&
-        dropNodePosition === TREE_NODE_DROP_POSITION.DRAG_OVER_BOTTOM,
-      onSelect: handleSelect,
-      onDragStart: handleDragStart,
-      onDragEnter: handleDragEnter,
-      onDragOver: handleDragOver,
-      onDragLeave: handleDragLeave,
-      onDragEnd: handleDragEnd,
-      onDrop: handleDrop,
-      onExpand: handleExpand,
-      onRenderTreeNode: renderTreeNode,
-      onRenderTreeIcon: renderTreeIcon
-    };
-  };
+    const activeItem = getActiveItem(focusItemValue, flattenedNodes, valueKey);
 
-  const handleSelect = useCallback(
-    (nodeData: any, event: React.SyntheticEvent) => {
-      if (!nodeData) {
-        return;
-      }
-      const nodeValue = nodeData[valueKey];
-      if (!isControlled) {
-        setValue(nodeValue);
-      }
+    handleSelect(activeItem, focusItemValue, event);
+  });
 
-      setFocusItemValue(nodeData[valueKey]);
-      onChange?.(nodeValue, event);
-      onSelect?.(nodeData, nodeValue, event);
-      targetRef.current?.focus();
-      triggerRef.current?.close?.();
-    },
-    [valueKey, isControlled, onChange, onSelect, setValue]
-  );
+  const handleTreeKeyDown = useEventCallback((event: React.KeyboardEvent<any>) => {
+    if (event.defaultPrevented) {
+      return;
+    }
 
-  const handleExpand = useCallback(
-    (node: any) => {
-      const nextExpandItemValues = toggleExpand({
-        node: node,
-        isExpand: !node.expand,
-        expandItemValues,
-        valueKey
-      });
-      setExpandItemValues(nextExpandItemValues);
-      onExpand?.(
-        nextExpandItemValues,
-        node,
-        createConcatChildrenFunction(node, node[valueKey], { valueKey, childrenKey })
-      );
-      if (
-        isFunction(getChildren) &&
-        !node.expand &&
-        Array.isArray(node[childrenKey]) &&
-        node[childrenKey].length === 0
-      ) {
-        loadChildren(node, getChildren);
-      }
-    },
-    [
-      valueKey,
-      childrenKey,
-      expandItemValues,
-      getChildren,
-      onExpand,
-      setExpandItemValues,
-      loadChildren
-    ]
-  );
-
-  const handleDragStart = useCallback(
-    (nodeData: any, event: React.DragEvent) => {
-      if (draggable) {
-        setDragNodeKeys(getDragNodeKeys(nodeData, childrenKey, valueKey));
-        setDragNode(flattenNodes[nodeData.refKey]);
-        onDragStart?.(nodeData, event);
-      }
-    },
-    [draggable, childrenKey, flattenNodes, onDragStart, setDragNodeKeys, setDragNode, valueKey]
-  );
-
-  const handleDragEnter = useCallback(
-    (nodeData: any, event: React.DragEvent) => {
-      if (dragNodeKeys.some(d => shallowEqual(d, nodeData[valueKey]))) {
-        return;
-      }
-
-      if (dragNode) {
-        setDragOverNodeKey(nodeData[valueKey]);
-        setDropNodePosition(calDropNodePosition(event, treeNodesRefs[nodeData.refKey]));
-      }
-      onDragEnter?.(nodeData, event);
-    },
-    [
-      dragNode,
-      treeNodesRefs,
-      dragNodeKeys,
-      onDragEnter,
-      setDragOverNodeKey,
-      setDropNodePosition,
-      valueKey
-    ]
-  );
-
-  const handleDragOver = useCallback(
-    (nodeData: any, event: React.DragEvent) => {
-      if (dragNodeKeys.some(d => shallowEqual(d, nodeData[valueKey]))) {
-        return;
-      }
-
-      if (dragNode && shallowEqual(nodeData[valueKey], dragOverNodeKey)) {
-        const lastDropNodePosition = calDropNodePosition(event, treeNodesRefs[nodeData.refKey]);
-        if (lastDropNodePosition === dropNodePosition) return;
-
-        setDropNodePosition(lastDropNodePosition);
-      }
-
-      onDragOver?.(nodeData, event);
-    },
-    [
-      dragNode,
-      dragNodeKeys,
-      dragOverNodeKey,
-      dropNodePosition,
-      onDragOver,
-      setDropNodePosition,
-      treeNodesRefs,
-      valueKey
-    ]
-  );
-
-  const handleDragLeave = useCallback(
-    (nodeData: any, event: React.DragEvent) => {
-      onDragLeave?.(nodeData, event);
-    },
-    [onDragLeave]
-  );
-
-  const handleDragEnd = useCallback(
-    (nodeData: any, event: React.DragEvent) => {
-      setDragNode(null);
-      setDragNodeKeys([]);
-      setDragOverNodeKey(null);
-      onDragEnd?.(nodeData, event);
-    },
-    [setDragNode, setDragNodeKeys, setDragOverNodeKey, onDragEnd]
-  );
-
-  const handleDrop = useCallback(
-    (nodeData: any, event: React.DragEvent) => {
-      if (dragNodeKeys.some(d => shallowEqual(d, nodeData[valueKey]))) {
-        console.error('Cannot drag a node to itself and its children');
-      } else {
-        const dropData = getDropData(nodeData);
-        onDrop?.(dropData, event);
-      }
-      setDragNode(null);
-      setDragNodeKeys([]);
-      setDragOverNodeKey(null);
-    },
-    [dragNodeKeys, setDragNode, setDragOverNodeKey, setDragNodeKeys, onDrop, getDropData, valueKey]
-  );
-
-  const handleOpen = useCallback(() => {
-    triggerRef.current?.open?.();
-    focusActiveNode();
-    onOpen?.();
-    setActive(true);
-  }, [focusActiveNode, onOpen]);
-
-  const handleClose = useCallback(() => {
-    triggerRef.current?.close?.();
-    setSearchKeyword('');
-    setActive(false);
-    setFocusItemValue(activeNode?.[valueKey]);
-    /**
-     * when using keyboard toggle picker, should refocus on PickerToggle Component after close picker menu
-     */
-    targetRef.current?.focus();
-  }, [activeNode, setSearchKeyword, valueKey]);
-
-  usePublicMethods(ref, { triggerRef, overlayRef, targetRef }, inline);
-
-  const handleFocusItem = useCallback(
-    (key: string) => {
-      const focusableItems = getFocusableItems(
-        filteredData,
-        {
-          disabledItemValues,
-          valueKey,
-          childrenKey,
-          expandItemValues
-        },
-        isSearching(searchKeywordState)
-      );
-      const selector = `.${treePrefix('node-label')}`;
-      const focusProps = {
-        focusItemValue,
-        focusableItems,
-        treeNodesRefs,
-        selector,
-        valueKey,
-        callback: nextFocusItemValue => {
-          setFocusItemValue(nextFocusItemValue);
-        }
-      };
-      if (key === KEY_VALUES.DOWN) {
-        focusNextItem(focusProps);
-        return;
-      }
-      if (key === KEY_VALUES.UP) {
-        focusPreviousItem(focusProps);
-      }
-    },
-    [
-      searchKeywordState,
-      expandItemValues,
-      filteredData,
-      focusItemValue,
-      treeNodesRefs,
-      treePrefix,
-      valueKey,
-      childrenKey,
-      disabledItemValues
-    ]
-  );
-
-  const handleLeftArrow = useCallback(() => {
-    const focusItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
-    leftArrowHandler({
-      focusItem,
-      expand: expandItemValues.includes(focusItem?.[valueKey]),
-      onExpand: handleExpand,
-      onFocusItem: () => {
-        setFocusItemValue(focusItem?.parent?.[valueKey]);
-        focusTreeNode(focusItem?.parent?.refKey, treeNodesRefs, `.${treePrefix('node-label')}`);
-      }
+    onMenuKeyDown(event, {
+      del: handleClean,
+      down: () => focusFirstNode(),
+      enter: handleTreePressEnter
     });
-  }, [
-    expandItemValues,
-    flattenNodes,
-    focusItemValue,
-    handleExpand,
-    treeNodesRefs,
-    treePrefix,
-    valueKey
-  ]);
-
-  const handleRightArrow = useCallback(() => {
-    const focusItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
-
-    rightArrowHandler({
-      focusItem,
-      expand: expandItemValues.includes(focusItem?.[valueKey]),
-      childrenKey,
-      onExpand: handleExpand,
-      onFocusItem: () => {
-        handleFocusItem(KEY_VALUES.DOWN);
-      }
-    });
-  }, [
-    focusItemValue,
-    flattenNodes,
-    valueKey,
-    expandItemValues,
-    childrenKey,
-    handleExpand,
-    handleFocusItem
-  ]);
-
-  const selectActiveItem = useCallback(
-    (event: React.SyntheticEvent) => {
-      const activeItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
-      handleSelect(activeItem, event);
-    },
-    [flattenNodes, valueKey, focusItemValue, handleSelect]
-  );
-
-  const handleClean = useCallback(
-    (event: React.SyntheticEvent) => {
-      const target = event.target as Element;
-      // exclude searchBar
-      if (target.matches('div[role="searchbox"] > input')) {
-        return;
-      }
-      setValue(null);
-      onChange?.(null, event);
-    },
-    [onChange, setValue]
-  );
+  });
 
   const onPickerKeydown = useToggleKeyDownEvent({
     toggle: !activeNode || !active,
-    triggerRef,
-    targetRef,
-    overlayRef,
-    searchInputRef,
+    disabled,
+    trigger,
+    target,
+    overlay,
+    searchInput,
     active,
     onExit: handleClean,
-    onClose: handleClose,
-    onMenuKeyDown: event => {
-      onMenuKeyDown(event, {
-        down: () => handleFocusItem(KEY_VALUES.DOWN),
-        up: () => handleFocusItem(KEY_VALUES.UP),
-        left: rtl ? handleRightArrow : handleLeftArrow,
-        right: rtl ? handleLeftArrow : handleRightArrow,
-        enter: selectActiveItem,
-        del: handleClean
-      });
-    },
+    onMenuKeyDown: handleTreeKeyDown,
     ...rest
   });
 
-  const handleTreeKeyDown = useCallback(
-    (event: React.KeyboardEvent<any>) => {
-      if (!treeViewRef.current) {
-        return;
-      }
-
-      onMenuKeyDown(event, {
-        down: () => handleFocusItem(KEY_VALUES.DOWN),
-        up: () => handleFocusItem(KEY_VALUES.UP),
-        left: rtl ? handleRightArrow : handleLeftArrow,
-        right: rtl ? handleLeftArrow : handleRightArrow,
-        enter: selectActiveItem
-      });
-    },
-    [handleFocusItem, handleLeftArrow, handleRightArrow, rtl, selectActiveItem]
+  const handleChange = useEventCallback(
+    (nextValue: string | number | null, event: React.SyntheticEvent) => {
+      setValue(nextValue);
+      onChange?.(nextValue, event);
+    }
   );
 
-  const renderNode = (node: any, index: number, layer: number) => {
-    if (!node.visible) {
-      return null;
-    }
+  const treeContext = useMemo(
+    () => ({
+      register,
+      props: { labelKey, valueKey, childrenKey, virtualized, renderTreeIcon, renderTreeNode }
+    }),
+    [childrenKey, labelKey, valueKey, virtualized, register, renderTreeIcon, renderTreeNode]
+  );
 
-    const children = node[childrenKey];
-    const expand = getExpandWhenSearching(
-      searchKeywordState,
-      expandItemValues.includes(node[valueKey])
-    );
-    const visibleChildren =
-      isUndefined(searchKeywordState) || searchKeywordState.length === 0
-        ? !!children
-        : hasVisibleChildren(node, childrenKey);
-
-    const nodeProps = {
-      ...getTreeNodeProps({ ...node, expand }, layer, index),
-      hasChildren: visibleChildren
-    };
-
-    if (nodeProps.hasChildren) {
-      layer += 1;
-      const openClass = treePrefix('open');
-      const childrenClass = merge(treePrefix('node-children'), {
-        [openClass]: expand && visibleChildren
-      });
-
-      const nodes = children || [];
-      return (
-        <div className={childrenClass} key={node[valueKey]}>
-          <TreeNode {...nodeProps} ref={ref => saveTreeNodeRef(node.refKey, ref)} />
-          <div className={treePrefix('children')}>
-            {nodes.map((child, i) => renderNode(child, i, layer))}
-          </div>
-        </div>
-      );
-    }
-    return (
-      <TreeNode
-        ref={ref => saveTreeNodeRef(node.refKey, ref)}
-        key={node[valueKey]}
-        {...nodeProps}
+  const tree = (
+    <TreeProvider value={treeContext}>
+      <TreeView
+        ref={treeView}
+        disabled={disabled || rest.readOnly || rest.loading}
+        value={value}
+        data={treeData}
+        sourceData={data}
+        disabledItemValues={disabledItemValues}
+        expandItemValues={expandItemValues}
+        showIndentLine={showIndentLine}
+        searchable={searchable}
+        searchKeyword={searchKeyword}
+        searchBy={searchBy}
+        searchInputRef={searchInput}
+        loadingNodeValues={loadingNodeValues}
+        flattenedNodes={flattenedNodes}
+        listProps={listProps}
+        listRef={list}
+        locale={locale}
+        height={treeHeight}
+        onExpand={handleExpandTreeNode}
+        onSearch={onSearch}
+        onSelect={handleSelect}
+        onSelectItem={onSelectItem}
+        onFocusItem={setFocusItemValue}
       />
-    );
-  };
+    </TreeProvider>
+  );
 
-  const renderVirtualListNode =
-    (nodes: any[]) =>
-    ({ key, index, style }: ListRowProps) => {
-      const node = nodes[index];
-      const { layer, visible } = node;
-
-      const expand = getExpandWhenSearching(
-        searchKeywordState,
-        expandItemValues.includes(node[valueKey])
-      );
-      if (!node.visible) {
-        return null;
-      }
-
-      const nodeProps = {
-        ...getTreeNodeProps({ ...node, expand }, layer),
-        style,
-        hasChildren: node.hasChildren
-      };
-
-      return (
-        visible && (
-          <TreeNode ref={ref => saveTreeNodeRef(node.refKey, ref)} key={key} {...nodeProps} />
-        )
-      );
-    };
-
-  const renderDefaultDragNode = () => {
-    if (draggable) {
-      let dragNodeContent = dragNode?.[labelKey];
-      if (isFunction(renderDragNode)) {
-        dragNodeContent = renderDragNode(dragNode);
-      }
-      return <span className={treePrefix('drag-node-mover')}>{dragNodeContent}</span>;
-    }
-    return null;
-  };
-
-  const renderTree = () => {
-    const classes = withTreeClassPrefix({
-      [className ?? '']: inline,
-      virtualized
-    });
-
-    const formattedNodes = getFormattedNodes(renderNode);
-    const styles = inline ? { height, ...style } : {};
-    return (
-      <div
-        role="tree"
-        id={id ? `${id}-listbox` : undefined}
-        ref={inline ? mergeRefs(treeViewRef, ref as any) : treeViewRef}
-        className={classes}
-        style={styles}
-        onKeyDown={inline ? handleTreeKeyDown : undefined}
-      >
-        <div className={treePrefix('nodes')}>
-          {virtualized ? (
-            <AutoSizer
-              defaultHeight={inline ? height : maxTreeHeight}
-              style={{ width: 'auto', height: 'auto' }}
-            >
-              {({ height, width }) => (
-                <List
-                  ref={listRef}
-                  width={width}
-                  height={height}
-                  rowHeight={36}
-                  rowCount={formattedNodes.length}
-                  rowRenderer={renderVirtualListNode(formattedNodes)}
-                  scrollToAlignment="center"
-                  {...listProps}
-                />
-              )}
-            </AutoSizer>
-          ) : (
-            formattedNodes
-          )}
-        </div>
-        {renderDefaultDragNode()}
-      </div>
-    );
-  };
-
-  const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
-    const { left, top, className } = positionProps;
-    const classes = merge(className, menuClassName, prefix('tree-menu'));
-    const mergedMenuStyle = { ...menuStyle, left, top };
-    const styles = virtualized ? { height, ...mergedMenuStyle } : { ...mergedMenuStyle };
+  const renderTreeView = (positionProps: PositionChildProps, speakerRef) => {
+    const { className } = positionProps;
+    const classes = merge(className, popupClassName, prefix('tree-menu'));
 
     return (
-      <PickerOverlay
-        autoWidth={menuAutoWidth}
+      <PickerPopup
+        autoWidth={popupAutoWidth}
         className={classes}
-        style={styles}
-        ref={mergeRefs(overlayRef, speakerRef)}
+        style={popupStyle}
+        ref={mergeRefs(overlay, speakerRef)}
         onKeyDown={onPickerKeydown}
-        target={triggerRef}
+        target={trigger}
       >
-        {searchable ? (
-          <SearchBar
-            placeholder={locale.searchPlaceholder}
-            onChange={handleSearch}
-            value={searchKeywordState}
-            inputRef={searchInputRef}
-          />
-        ) : null}
-        {renderMenu ? renderMenu(renderTree()) : renderTree()}
+        {renderTree ? renderTree(tree) : tree}
         {renderExtraFooter?.()}
-      </PickerOverlay>
+      </PickerPopup>
     );
   };
 
@@ -843,7 +290,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   if (hasValidValue) {
     const node = activeNode ?? {};
     selectedElement = node[labelKey];
-    if (isFunction(renderValue)) {
+    if (isFunction(renderValue) && value) {
       selectedElement = renderValue(value, node, selectedElement);
       if (isNil(selectedElement)) {
         hasValidValue = false;
@@ -851,76 +298,49 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     }
   }
 
-  const [classes, usedClassNamePropKeys] = usePickerClassName({
-    ...props,
-    classPrefix,
-    appearance,
-    hasValue: hasValidValue,
-    name: 'tree',
-    cleanable
-  });
-
-  if (inline) {
-    return renderTree();
-  }
-
   return (
     <PickerToggleTrigger
-      pickerProps={pick(props, pickTriggerPropKeys)}
-      ref={triggerRef}
+      as={as}
+      id={id}
+      pickerType="tree"
+      responsive={responsive}
+      block={block}
+      disabled={disabled}
+      appearance={appearance}
+      popupType="tree"
+      triggerProps={{
+        ...pick(props, triggerPropKeys),
+        ...triggerProps
+      }}
+      ref={trigger}
       placement={placement}
-      onEnter={handleOpen}
-      onEntered={onEntered}
-      onExit={createChainedFunction(onClose, onExit)}
-      onExited={createChainedFunction(handleClose, onExited)}
-      speaker={renderDropdownMenu}
+      speaker={renderTreeView}
+      rootRef={root}
+      style={style}
+      classPrefix={classPrefix}
+      className={className}
     >
-      <Component className={classes} style={style}>
-        <PickerToggle
-          {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys, 'cascade'])}
-          id={id}
-          ref={targetRef}
-          appearance={appearance}
-          onKeyDown={onPickerKeydown}
-          onClean={createChainedFunction(handleClean, onClean)}
-          cleanable={cleanable && !disabled}
-          as={toggleAs}
-          disabled={disabled}
-          hasValue={hasValidValue}
-          active={active}
-          placement={placement}
-          inputValue={value}
-        >
-          {selectedElement || locale.placeholder}
-        </PickerToggle>
-      </Component>
+      <PickerToggle
+        ref={target}
+        appearance={appearance}
+        onClean={createChainedFunction(handleClean, onClean)}
+        cleanable={cleanable && !disabled}
+        as={toggleAs}
+        disabled={disabled}
+        hasValue={hasValidValue}
+        active={active}
+        placement={placement}
+        inputValue={value}
+        focusItemValue={isNil(focusItemValue) ? undefined : formatNodeRefKey(focusItemValue)}
+        {...rest}
+        onKeyDown={onPickerKeydown}
+      >
+        {selectedElement || locale?.placeholder}
+      </PickerToggle>
     </PickerToggleTrigger>
   );
 });
 
 TreePicker.displayName = 'TreePicker';
-TreePicker.propTypes = {
-  ...listPickerPropTypes,
-  locale: PropTypes.any,
-  appearance: PropTypes.oneOf(['default', 'subtle']),
-  height: PropTypes.number,
-  draggable: PropTypes.bool,
-  virtualized: PropTypes.bool,
-  searchable: PropTypes.bool,
-  menuAutoWidth: PropTypes.bool,
-  searchKeyword: PropTypes.string,
-  defaultExpandAll: PropTypes.bool,
-  expandItemValues: PropTypes.array,
-  defaultExpandItemValues: PropTypes.array,
-  onSearch: PropTypes.func,
-  onExpand: PropTypes.func,
-  onSelect: PropTypes.func,
-  renderMenu: PropTypes.func,
-  renderTreeNode: PropTypes.func,
-  renderTreeIcon: PropTypes.func,
-  renderExtraFooter: PropTypes.func,
-  renderDragNode: PropTypes.func,
-  searchBy: PropTypes.func
-};
 
 export default TreePicker;

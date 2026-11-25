@@ -1,0 +1,96 @@
+{
+  "Panel": {
+    "props": {
+      "bodyFill": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Content area filled with containers"
+      },
+      "bodyProps": {
+        "type": "HTMLAttributes",
+        "isRequired": false,
+        "description": "The properties of the content area"
+      },
+      "bordered": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Show border"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "panel"
+      },
+      "collapsible": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether it is a collapsible panel"
+      },
+      "defaultExpanded": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Expand by default"
+      },
+      "eventKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The event key corresponding to the panel."
+      },
+      "expanded": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Expand the Panel"
+      },
+      "header": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The head displays information."
+      },
+      "id": {
+        "type": "string",
+        "isRequired": false,
+        "description": "HTML ID attribute"
+      },
+      "scrollShadow": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The shadow of the content when scrolling"
+      },
+      "shaded": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Add shadow effect to the border"
+      }
+    }
+  },
+  "PanelGroup": {
+    "props": {
+      "accordion": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether it is a collapsible panel"
+      },
+      "activeKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "Expand the Panel, corresponding to the 'Panel' of 'eventkey'"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class"
+      },
+      "defaultActiveKey": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The default expansion panel"
+      },
+      "onSelect": {
+        "type": "(eventKey: string, event) => void",
+        "isRequired": false,
+        "description": "Toggles the callback function for the expand panel"
+      }
+    }
+  }
+}

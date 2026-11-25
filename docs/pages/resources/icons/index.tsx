@@ -1,18 +1,19 @@
-import React from 'react';
+/* eslint-disable @typescript-eslint/no-require-imports */
 import { Row, Col } from 'rsuite';
-import { Markdown } from 'react-markdown-reader';
-import AppContext from '@/components/AppContext';
-import IconList from '@/components/IconList';
-import DefaultPage from '@/components/Page';
+import { HTMLRenderer } from '@/components/CodeView/HTMLRenderer';
+import { useApp } from '@/hooks/useApp';
+import IconList from '@/components/resources/icons/IconList';
+import DefaultPage from '@/components/layout/Page';
 
 export default function Page() {
-  const { localePath } = React.useContext(AppContext);
+  const { localePath } = useApp();
+
   return (
     <DefaultPage>
       <IconList />
       <Row>
-        <Col md={24}>
-          <Markdown>{require(`.${localePath}/footer.md`)}</Markdown>
+        <Col span={24}>
+          <HTMLRenderer>{require(`.${localePath}/footer.md`)?.default}</HTMLRenderer>
         </Col>
       </Row>
     </DefaultPage>

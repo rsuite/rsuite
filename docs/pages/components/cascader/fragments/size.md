@@ -1,21 +1,26 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/province-simplified.json
- */
+import { Cascader, VStack } from 'rsuite';
+import { mockTreeData } from './mock';
 
-const styles = { width: 224, display: 'block', marginBottom: 10 };
-const instance = (
-  <div>
-    <Cascader toggleAs={Button} size="lg" placeholder="Large" data={data} style={styles} />
-    <Cascader toggleAs={Button} size="md" placeholder="Medium" data={data} style={styles} />
-    <Cascader toggleAs={Button} size="sm" placeholder="Small" data={data} style={styles} />
-    <Cascader toggleAs={Button} size="xs" placeholder="Xsmall" data={data} style={styles} />
-  </div>
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.person[methodName[layer]]();
+  }
+});
+
+const App = () => (
+  <VStack>
+    <Cascader size="lg" placeholder="Large" data={data} w={224} />
+    <Cascader size="md" placeholder="Medium" data={data} w={224} />
+    <Cascader size="sm" placeholder="Small" data={data} w={224} />
+    <Cascader size="xs" placeholder="Xsmall" data={data} w={224} />
+  </VStack>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

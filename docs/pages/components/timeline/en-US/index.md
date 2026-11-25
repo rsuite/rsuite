@@ -4,13 +4,25 @@ Vertical display timeline.
 
 ## Import
 
-<!--{include:(components/timeline/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
+
+### Custom active item
+
+By default the last `Timeline.Item` is marked as active (with a blue dot).
+You could change this behavior by providing a function for `isItemActive` prop.
+
+Two preset values are provided for convenience.
+
+- `Timeline.ACTIVE_FIRST` Mark the first item as active
+- `Timeline.ACTIVE_LAST` Mark the last item as active (the default behavior)
+
+<!--{include:`custom-active-item.md`}-->
 
 ### Custom alignment
 
@@ -24,6 +36,12 @@ Vertical display timeline.
 
 <!--{include:`endless.md`}-->
 
+### Reverse
+
+Reverse the order of Timeline items, so the newest item appears at the top.
+
+<!--{include:`reverse.md`}-->
+
 ### Custom Icon
 
 <!--{include:`custom.md`}-->
@@ -32,13 +50,15 @@ Vertical display timeline.
 
 ### `<Timeline>`
 
-| Property    | Type `(Default)`                                          | Description                                          |
-| ----------- | --------------------------------------------------------- | ---------------------------------------------------- |
-| align       | enum: 'left' &#124; 'right' &#124; 'alternate' `('left')` | Timeline content alignment                           |
-| children \* | Timeline.Item[]                                           | The content of the component                         |
-| classPrefix | string `('timeline')`                                     | The prefix of the component CSS class                |
-| as          | ElementType `('ul')`                                      | You can use a custom element type for this component |
-| endless     | boolean                                                   | Timeline endless                                     |
+| Property     | Type `(Default)`                                    | Description                                          | Version     |
+| ------------ | --------------------------------------------------- | ---------------------------------------------------- | ----------- |
+| align        | 'left' \| 'right' \| 'alternate' `('left')`         | Timeline content alignment                           |             |
+| as           | ElementType `('ul')`                                | You can use a custom element type for this component |             |
+| children \*  | Timeline.Item[]                                     | The content of the component                         |             |
+| classPrefix  | string `('timeline')`                               | The prefix of the component CSS class                |             |
+| endless      | boolean                                             | Timeline endless                                     |             |
+| isItemActive | (index: number, totalItemsCount: number) => boolean | Determine whether an item should be marked as active |             |
+| reverse      | boolean                                             | Reverse the order of Timeline items                  | ![][6.2.0]  |
 
 ### `<Timeline.Item>`
 

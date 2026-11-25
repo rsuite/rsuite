@@ -1,21 +1,25 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Dropdown, ButtonToolbar } from 'rsuite';
+
+const App = () => (
   <ButtonToolbar>
-    <Dropdown title="Disabled" disabled>
-      <Dropdown.Item>Item A</Dropdown.Item>
-      <Dropdown.Item>Item B</Dropdown.Item>
-      <Dropdown.Item>Item C</Dropdown.Item>
+    <Dropdown title="Disabled Dropdown" disabled>
+      <Dropdown.Item>Item 1</Dropdown.Item>
+      <Dropdown.Item>Item 2</Dropdown.Item>
+      <Dropdown.Item>Item 3</Dropdown.Item>
     </Dropdown>
-    <Dropdown title="Disabled Item">
-      <Dropdown.Item disabled>Disabled Item A</Dropdown.Item>
-      <Dropdown.Item disabled>Disabled Item B</Dropdown.Item>
-      <Dropdown.Item>Item C</Dropdown.Item>
+
+    <Dropdown title="Disabled Menu Item">
+      <Dropdown.Item>Item 1</Dropdown.Item>
+      <Dropdown.Item>Item 2</Dropdown.Item>
+      <Dropdown.Item disabled>Item 3 - Disabled</Dropdown.Item>
     </Dropdown>
   </ButtonToolbar>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

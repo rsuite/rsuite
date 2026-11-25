@@ -1,78 +1,32 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { CheckPicker } from 'rsuite';
+import PlacementContainer from '@/components/PlacementContainer';
 
-const CustomCheckPicker = ({ placement, ...rest }) => (
-  <CheckPicker
-    style={{ width: 150 }}
-    data={data}
-    placement={placement}
-    placeholder={placement}
-    {...rest}
-  />
-);
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd'].map(item => ({
+  label: item,
+  value: item
+}));
 
-const instance = (
-  <div>
-    <table className="placement-table">
-      <tbody>
-        <tr>
-          <td />
-          <td>
-            <CustomCheckPicker placement="topStart" />
-          </td>
-          <td>
-            <CustomCheckPicker placement="topEnd" />
-          </td>
-          <td />
-        </tr>
-        <tr>
-          <td>
-            <CustomCheckPicker placement="leftStart" />
-          </td>
-          <td />
-          <td />
-          <td>
-            <CustomCheckPicker placement="rightStart" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <CustomCheckPicker placement="leftEnd" />
-          </td>
-          <td />
-          <td />
-          <td>
-            <CustomCheckPicker placement="rightEnd" />
-          </td>
-        </tr>
-        <tr>
-          <td />
-          <td>
-            <CustomCheckPicker placement="bottomStart" />
-          </td>
-          <td>
-            <CustomCheckPicker placement="bottomEnd" />
-          </td>
-          <td />
-        </tr>
-      </tbody>
-    </table>
-    <hr />
-    <CustomCheckPicker placement="auto" />
-    <hr />
-    <CustomCheckPicker placement="autoVerticalStart" style={{ width: 200 }} />{' '}
-    <CustomCheckPicker placement="autoVerticalEnd" style={{ width: 200 }} />
-    <hr />
-    <CustomCheckPicker placement="autoHorizontalStart" style={{ width: 200 }} />{' '}
-    <CustomCheckPicker placement="autoHorizontalEnd" style={{ width: 200 }} />
-  </div>
-);
-ReactDOM.render(instance);
+const App = () => {
+  return (
+    <PlacementContainer>
+      {({ container, placement, preventOverflow }) => (
+        <CheckPicker
+          w={224}
+          preventOverflow={preventOverflow}
+          placement={placement}
+          container={preventOverflow ? container : undefined}
+          data={data}
+          placeholder={`Will pop from ${placement}`}
+        />
+      )}
+    </PlacementContainer>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById('app'));
 ```
 
 <!--end-code-->

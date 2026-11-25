@@ -1,9 +1,15 @@
 <!--start-code-->
 
 ```js
-const instance = <Placeholder.Grid rows={5} columns={6} active />;
+import { Placeholder } from 'rsuite';
 
-ReactDOM.render(instance);
+const App = () => (
+  <>
+    <Placeholder.Grid rows={5} columns={6} active />
+  </>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

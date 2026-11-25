@@ -1,132 +1,189 @@
-import React, { useState, useEffect } from 'react';
-import {
-  ButtonToolbar,
-  Button,
-  CheckboxGroup,
-  Checkbox,
-  RadioGroup,
-  Radio,
-  Toggle,
-  Slider,
-  Input,
-  Panel,
-  Loader
-} from 'rsuite';
-import ColorPanel from '@/components/ColorPanel';
-import SketchPicker from '@/components/SketchPicker';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import ColorPicker from '@/components/ColorPicker';
+import ThemeGroup from '@/components/ThemeGroup';
+import AdminFrame from '@/components/resources/palette/AdminFrame/AdminFrame';
+import DefaultPage from '@/components/layout/Page';
+import FakeBrowser from '@/components/FakeBrowser';
+import useClipboard from '@/hooks/useClipboard';
 import { readThemeName } from '@/utils/themeHelpers';
-import NextHead from 'next/head';
-import DefaultPage from '@/components/Page';
-import palette from 'rsuite/styles/plugins/palette';
-import loadable from '@loadable/component';
-import { useLess } from '@/utils/useLess';
+import { HStack, VStack, Dropdown, ModalProps } from 'rsuite';
+import { ColorMeta, ColorGroup, ColorModal } from '@/components/ColorPalette';
+import { getPalette } from '@/utils/palette';
+import { useApp } from '@/hooks/useApp';
+import styles from './index.module.scss';
 
-const colors = [
-  '#34C3FF',
-  '#3498FF',
-  '#2575FC',
-  '#0052CC',
-  '#1361AA',
-  '#3F51B5',
-  '#2487C2',
-  '#FFEB3B',
-  '#F5A623',
-  '#F44336',
-  '#e54304',
-  '#e91e63',
-  '#9c27b0',
-  '#429321',
-  '#4A148C',
-  '#673AB7',
-  '#880061',
-  '#607d8b'
-];
+const colors: ColorMeta[] = [
+  '50',
+  '100',
+  '200',
+  '300',
+  '400',
+  '500',
+  '600',
+  '700',
+  '800',
+  '900'
+].map(level => ({
+  level,
+  cssVar: `--rs-primary-${level}`
+}));
 
-const CirclePicker = loadable(() => import('react-color/lib/components/circle/Circle'));
-
-const lessUrl = 'https://cdn.bootcss.com/less.js/3.9.0/less.min.js';
 const getThemeIsDefault = () => ['light', null].includes(readThemeName());
 
 interface PreviewProps {
   themeColor: string;
 }
 
+function ColorCards(props: { container: ModalProps['container'] }) {
+  const { container } = props;
+  const [color, setColor] = useState<ColorMeta | null>(null);
+  return (
+    <>
+      <ColorGroup
+        colors={colors}
+        useCssVar
+        className={styles['color-box-row']}
+        colorboxClassName={styles['color-box']}
+        onShowColor={(color, event) => {
+          const colorVal = getComputedStyle(event.target as HTMLElement).backgroundColor;
+
+          color.rgb = colorVal;
+
+          setColor(color);
+        }}
+      />
+      <ColorModal
+        color={color}
+        open={!!color}
+        title={`Primary Color`}
+        onClose={() => setColor(null)}
+        container={container}
+      />
+    </>
+  );
+}
+
+function colorLog(key: string, value: string) {
+  const keyStyle = 'background: #606060; color: #fff; border-radius: 3px 0 0 3px;';
+  const valueStyle = `background: ${value}; color: #fff; border-radius: 0 3px 3px 0;`;
+  console.log(`%c ${key}: %c ${value} `, keyStyle, valueStyle);
+}
+
 function Preview({ themeColor }: PreviewProps) {
-  const less = useLess(lessUrl, {
-    async: true,
-    logLevel: 0,
-    globalVars: {
-      '@palette-color': themeColor,
-      '@theme-is-default': getThemeIsDefault()
-    },
-    plugins: [palette]
-  });
+  const rootRef = useRef<HTMLDivElement>(null);
+  const { theme } = useApp();
+  const [isStyleLoaded, setIsStyleLoaded] = useState(false);
+  const styleId = 'dynamic-palette-styles';
+
+  // Function to update SCSS styles
+  const updateScssStyles = useCallback(() => {
+    const themeIsDefault = getThemeIsDefault();
+
+    // Create or update style element
+    let styleElement = document.getElementById(styleId) as HTMLStyleElement;
+
+    if (!styleElement) {
+      styleElement = document.createElement('style');
+      styleElement.id = styleId;
+      document.head.appendChild(styleElement);
+    }
+
+    // Fetch dynamically generated SCSS
+    const fetchDynamicStyles = async () => {
+      try {
+        setIsStyleLoaded(false);
+        const response = await fetch(
+          `/api/palette?color=${encodeURIComponent(themeColor)}&theme=${themeIsDefault ? 'light' : theme}`
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to load dynamic styles');
+        }
+
+        const cssContent = await response.text();
+        styleElement.textContent = `#palettePreview {
+        ${cssContent}
+        }`;
+        setIsStyleLoaded(true);
+
+        colorLog('Current theme color', themeColor);
+      } catch (error) {
+        console.error('Error loading dynamic styles:', error);
+      }
+    };
+
+    fetchDynamicStyles();
+  }, [themeColor, theme]);
 
   useEffect(() => {
-    less?.modifyVars({
-      '@palette-color': themeColor,
-      '@theme-is-default': getThemeIsDefault()
-    });
-  }, [less, themeColor]);
+    updateScssStyles();
+
+    // Cleanup on unmount
+    return () => {
+      const styleElement = document.getElementById(styleId);
+      if (styleElement) {
+        styleElement.remove();
+      }
+    };
+  }, [updateScssStyles]);
 
   return (
-    <div className="palette-preview" id="palettePreview">
-      <NextHead>
-        <link rel="stylesheet/less" type="text/css" href="/less/palette.less" />
-      </NextHead>
-
-      <Panel header={<h3>Preview {!less && <Loader content="Downloading Less.js" />}</h3>} bordered>
-        <ButtonToolbar>
-          <Button appearance="default">Default</Button>
-          <Button appearance="primary">Primary</Button>
-          <Button appearance="link">Link</Button>
-          <Button appearance="ghost">Ghost</Button>
-        </ButtonToolbar>
-        <hr />
-        <CheckboxGroup name="check" defaultValue={['1', '2']} inline>
-          <Checkbox value="1">Javascript</Checkbox>
-          <Checkbox value="2">CSS</Checkbox>
-          <Checkbox value="3">HTML</Checkbox>
-        </CheckboxGroup>
-        <hr />
-        <RadioGroup name="radio" defaultValue="1" inline>
-          <Radio value="1">Front end</Radio>
-          <Radio value="2">Back end </Radio>
-        </RadioGroup>
-        <hr />
-        <Input />
-        <hr />
-        <Toggle defaultChecked />
-        <hr />
-        <Slider progress defaultValue={50} />
-      </Panel>
+    <div className={styles['palette-preview']} id="palettePreview" ref={rootRef}>
+      <ColorCards container={() => rootRef.current} />
+      <FakeBrowser className={styles['fake-browser']}>
+        <AdminFrame loading={!isStyleLoaded} />
+      </FakeBrowser>
     </div>
+  );
+}
+
+function CopyButton({ color }: { color: string }) {
+  const { copyToClipboard, copied } = useClipboard();
+
+  const handleCopy = useCallback(
+    (eventKey: string) => {
+      const colors = getPalette(color);
+
+      if (eventKey === 'css') {
+        const text = colors.map(item => `${item.cssName}: ${item.hex};`).join('\n');
+        copyToClipboard(text);
+      } else if (eventKey === 'scss') {
+        const text = colors.map(item => `${item.scssName}: ${item.hex};`).join('\n');
+
+        copyToClipboard(text);
+      }
+    },
+    [color, copyToClipboard]
+  );
+
+  return (
+    <Dropdown title={copied ? 'Copied' : 'Copy'} onSelect={handleCopy}>
+      <Dropdown.Item eventKey="css">Copy CSS Variable</Dropdown.Item>
+      <Dropdown.Item eventKey="scss">Copy SCSS Variable</Dropdown.Item>
+    </Dropdown>
   );
 }
 
 export default function Page() {
   const [color, setColor] = useState('#3498FF');
 
-  function handleChangeComplete({ hex: color }) {
+  const handleChangeComplete = useCallback(({ hex: color }) => {
     setColor(color);
-  }
+  }, []);
 
   return (
     <DefaultPage hidePageNav>
-      <div className="row-split">
-        <div className="col-side">
-          <div className="circle-picker-wrapper">
-            <CirclePicker color={color} colors={colors} onChangeComplete={handleChangeComplete} />
-          </div>
-          <SketchPicker color={color} onChangeComplete={handleChangeComplete} />
-          <div className="panel-color-wrap">
-            <ColorPanel baseColor={color} />
-          </div>
-        </div>
-        <div className="col-content">
-          <Preview themeColor={color} />
-        </div>
-      </div>
+      <VStack spacing={20} align="center">
+        <ThemeGroup />
+        <HStack justify="center" spacing={10}>
+          <ColorPicker color={color} onChangeComplete={handleChangeComplete} />
+          <CopyButton color={color} />
+        </HStack>
+      </VStack>
+
+      <Preview themeColor={color} />
+
+      <div id="ad-view" data-hide="true" />
     </DefaultPage>
   );
 }

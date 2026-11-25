@@ -1,37 +1,46 @@
 <!--start-code-->
 
 ```js
-const Panel = React.forwardRef(({ ...props }, ref) => (
-  <div
+import { Animation, Button, Card } from 'rsuite';
+
+const AnimatedPanel = React.forwardRef((props, ref) => (
+  <Card
     {...props}
     ref={ref}
-    style={{
-      background: '#000',
-      width: 100,
-      height: 160,
-      overflow: 'hidden'
-    }}
+    shaded
+    bordered={false}
+    w={240}
+    h={120}
+    c="white"
+    bg="linear-gradient(45deg, #4CAF50, #2196F3)"
   >
-    <p>Panel</p>
-    <p>Content Content Content</p>
-  </div>
+    <div>
+      <Card.Header>Bounce Animation</Card.Header>
+      <Card.Body>This is a beautiful animated panel that demonstrates the bounce effect.</Card.Body>
+    </div>
+  </Card>
 ));
 
 const App = () => {
   const [show, setShow] = React.useState(true);
-  const handleToggle = () => setShow(!show);
+  const onChange = () => setShow(!show);
+
   return (
-    <div className="row">
-      <Button onClick={handleToggle}>toggle</Button>
+    <div>
+      <Button appearance="primary" onClick={onChange}>
+        Toggle Bounce
+      </Button>
       <hr />
-      <Animation.Bounce in={show}>
-        {(props, ref) => <Panel {...props} ref={ref} />}
-      </Animation.Bounce>
+      <div>
+        <Animation.Bounce in={show}>
+          {(props, ref) => <AnimatedPanel {...props} ref={ref} />}
+        </Animation.Bounce>
+      </div>
     </div>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

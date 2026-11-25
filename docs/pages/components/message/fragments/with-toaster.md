@@ -1,12 +1,16 @@
 <!--start-code-->
 
 ```js
+import { Message, useToaster, ButtonToolbar, SelectPicker, Button } from 'rsuite';
+
 const App = () => {
   const [type, setType] = React.useState('info');
   const [placement, setPlacement] = React.useState('topCenter');
+  const toaster = useToaster();
+
   const message = (
-    <Message showIcon type={type} >
-      {type}: The message appears on the {placement}.
+    <Message showIcon type={type} closable>
+      <strong>{type}!</strong> The message appears on the {placement}.
     </Message>
   );
 
@@ -25,7 +29,7 @@ const App = () => {
             { label: 'error', value: 'error' }
           ]}
           onChange={setType}
-          style={{ width: 200 }}
+          w={200}
         />
         <SelectPicker
           cleanable={false}
@@ -39,9 +43,14 @@ const App = () => {
             { label: 'bottomEnd', value: 'bottomEnd' }
           ]}
           onChange={setPlacement}
-          style={{ width: 200 }}
+          w={200}
         />
-        <Button onClick={() => toaster.push(message, { placement })}>Push</Button>
+        <Button
+          onClick={() => toaster.push(message, { placement, duration: 5000 })}
+          appearance="primary"
+        >
+          Push
+        </Button>
         <Button onClick={() => toaster.remove()}>Remove</Button>
         <Button onClick={() => toaster.clear()}>Clear</Button>
       </ButtonToolbar>
@@ -49,7 +58,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

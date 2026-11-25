@@ -1,6 +1,10 @@
 <!--start-code-->
 
 ```js
+import { ButtonToolbar, Button, DOMHelper } from 'rsuite';
+
+const { scrollTop } = DOMHelper;
+
 const App = () => {
   return (
     <div>
@@ -25,7 +29,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

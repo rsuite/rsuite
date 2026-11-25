@@ -1,21 +1,11 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { CheckPicker, Checkbox, Button, HStack } from 'rsuite';
 
-const footerStyles = {
-  padding: '10px 2px',
-  borderTop: '1px solid #e5e5e5'
-};
-
-const footerButtonStyle = {
-  float: 'right',
-  marginRight: 10,
-  marginTop: 2
-};
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+  item => ({ label: item, value: item })
+);
 
 const allValue = data.map(item => item.value);
 
@@ -37,13 +27,17 @@ const App = () => {
         data={data}
         placeholder="Select"
         ref={picker}
-        style={{ width: 224 }}
+        w={224}
         value={value}
         onChange={handleChange}
         renderExtraFooter={() => (
-          <div style={footerStyles}>
+          <HStack
+            justifyContent="space-between"
+            px={12}
+            py={4}
+            bdt="1px solid var(--rs-border-primary)"
+          >
             <Checkbox
-              inline
               indeterminate={value.length > 0 && value.length < allValue.length}
               checked={value.length === allValue.length}
               onChange={handleCheckAll}
@@ -52,7 +46,6 @@ const App = () => {
             </Checkbox>
 
             <Button
-              style={footerButtonStyle}
               appearance="primary"
               size="sm"
               onClick={() => {
@@ -61,14 +54,14 @@ const App = () => {
             >
               Ok
             </Button>
-          </div>
+          </HStack>
         )}
       />
     </div>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

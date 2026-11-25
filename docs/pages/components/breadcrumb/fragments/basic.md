@@ -1,14 +1,17 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <Breadcrumb>
-    <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-    <Breadcrumb.Item href="/components">Components</Breadcrumb.Item>
+import { Breadcrumb } from 'rsuite';
+
+const App = () => (
+  <Breadcrumb aria-label="breadcrumb">
+    <Breadcrumb.Item>Home</Breadcrumb.Item>
+    <Breadcrumb.Item>Components</Breadcrumb.Item>
     <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>
   </Breadcrumb>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

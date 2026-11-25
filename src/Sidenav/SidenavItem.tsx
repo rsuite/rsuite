@@ -1,72 +1,103 @@
 import React, { useContext, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import isNil from 'lodash/isNil';
-import { useClassNames, shallowEqual, mergeRefs, appendTooltip } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { IconProps } from '@rsuite/icons/lib/Icon';
-import Ripple from '../Ripple';
-import SafeAnchor from '../SafeAnchor';
-import NavContext from '../Nav/NavContext';
-import MenuItem from '../Menu/MenuItem';
+import SafeAnchor from '@/internals/SafeAnchor';
+import NavContext, { NavContextProps } from '../Nav/NavContext';
+import MenuItem from '@/internals/Menu/MenuItem';
 import omit from 'lodash/omit';
-import { SidenavContext } from './Sidenav';
+import Whisper, { WhisperInstance } from '../Whisper';
+import Tooltip from '../Tooltip';
+import Box, { BaseBoxProps } from '@/internals/Box';
+import { forwardRef, shallowEqual, mergeRefs, createChainedFunction } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
+import { SidenavContext } from './SidenavContext';
+import type { HTMLPropsWithoutSelect } from '@/internals/types';
+import type { IconProps } from '@rsuite/icons/Icon';
 
-export interface SidenavItemProps<T = any>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
-  /** Activation status */
+/**
+ * Props of SidenavItem component
+ */
+export interface SidenavItemProps<T = any> extends BaseBoxProps, HTMLPropsWithoutSelect {
+  /**
+   * Whether the item is activated
+   */
   active?: boolean;
 
-  /** Set the icon */
+  /**
+   * The icon displayed next to the item
+   */
   icon?: React.ReactElement<IconProps>;
 
-  /** Whether or not component is disabled */
+  /**
+   * Disable the item
+   */
   disabled?: boolean;
 
-  /** The value of the current option */
+  /**
+   * The value of the item that is used to identify the item
+   */
   eventKey?: T;
 
-  /** Selected callback function */
-  onSelect?: (eventKey: T, event: React.MouseEvent<HTMLElement>) => void;
-
+  /**
+   * Render a divider
+   */
   divider?: boolean;
 
+  /**
+   * Render a panel
+   */
   panel?: boolean;
+
+  /**
+   * The content of the tooltip
+   */
+  tooltip?: React.ReactNode;
+
+  /**
+   * The callback function when the item is selected
+   */
+  onSelect?: (eventKey: T, event: React.MouseEvent) => void;
 }
 
-const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forwardRef<
-  HTMLLIElement,
-  SidenavItemProps
->((props: SidenavItemProps, ref) => {
+/**
+ * @private
+ */
+const SidenavItem = forwardRef<'li', SidenavItemProps>((props, ref) => {
+  const sidenav = useContext(SidenavContext);
+
+  if (!sidenav) {
+    throw new Error(
+      '<SidenavItem> component is not supposed to be used standalone. Use <Nav.Item> inside <Sidenav> instead.'
+    );
+  }
+
   const {
-    as: Component = SafeAnchor,
+    as = SafeAnchor,
     active: activeProp,
+    classPrefix = 'sidenav-item',
     children,
     className,
     disabled,
-    classPrefix = 'sidenav-item',
-    icon,
+    divider,
     eventKey,
+    icon,
+    panel,
     style,
+    tooltip = children,
     onClick,
     onSelect,
-    divider,
-    panel,
     ...rest
   } = props;
 
-  const sidenav = useContext(SidenavContext);
-
-  const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext);
-
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-
+  const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext) as NavContextProps;
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const selected = activeProp ?? (!isNil(eventKey) && shallowEqual(activeKey, eventKey));
+  const whisperRef = React.useRef<WhisperInstance>(null);
 
-  const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const handleClick = useCallback<React.MouseEventHandler<HTMLElement>>(
+    event => {
       if (disabled) return;
-
+      whisperRef.current?.close();
       onSelect?.(eventKey, event);
       onSelectFromNav?.(eventKey, event);
       onClick?.(event);
@@ -74,39 +105,60 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
     [disabled, onSelect, onSelectFromNav, eventKey, onClick]
   );
 
-  if (!sidenav.expanded) {
-    return (
-      <MenuItem selected={selected} disabled={disabled} onActivate={handleClick}>
-        {({ selected, active, ...menuitem }, menuitemRef) => {
-          const classes = merge(
-            className,
-            withClassPrefix({ focus: active, active: selected, disabled })
-          );
+  const clonedIcon = icon
+    ? React.cloneElement(icon, {
+        className: classNames(prefix('icon'), icon.props.className)
+      })
+    : null;
 
-          // Show tooltip when inside a collapse <Sidenav>
-          return appendTooltip({
-            children: (triggerProps, triggerRef) => {
+  const title =
+    typeof children === 'string' ? <span className={prefix('title')}>{children}</span> : children;
+
+  if (!sidenav.expanded) {
+    if (panel || divider) {
+      return null;
+    }
+
+    return (
+      <Whisper
+        trigger="hover"
+        speaker={<Tooltip>{tooltip}</Tooltip>}
+        placement="right"
+        ref={whisperRef}
+      >
+        {(triggerProps, triggerRef) => (
+          <MenuItem selected={selected} disabled={disabled} onActivate={handleClick}>
+            {({ selected, active, ...menuitem }, menuitemRef) => {
+              const classes = merge(className, withPrefix());
+
+              // Show tooltip when inside a collapse <Sidenav>
               return (
-                <Component
+                <Box
+                  as={as}
                   ref={mergeRefs(mergeRefs(ref, menuitemRef), triggerRef as any)}
-                  disabled={Component === SafeAnchor ? disabled : undefined}
+                  disabled={as === SafeAnchor ? disabled : undefined}
                   className={classes}
+                  data-active={selected}
+                  data-disabled={disabled}
+                  data-focus={active}
                   data-event-key={eventKey}
                   {...omit(rest, ['divider', 'panel'])}
                   {...triggerProps}
                   {...menuitem}
+                  onMouseOver={createChainedFunction(
+                    menuitem.onMouseOver,
+                    triggerProps.onMouseOver
+                  )}
+                  onMouseOut={createChainedFunction(menuitem.onMouseOut, triggerProps.onMouseOut)}
                 >
-                  {icon}
-                  {children}
-                  <Ripple />
-                </Component>
+                  {clonedIcon}
+                  {title}
+                </Box>
               );
-            },
-            message: children,
-            placement: 'right'
-          });
-        }}
-      </MenuItem>
+            }}
+          </MenuItem>
+        )}
+      </Whisper>
     );
   }
 
@@ -137,37 +189,24 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
   }
 
   return (
-    <Component
+    <Box
+      as={as}
       ref={ref as any}
-      className={merge(className, withClassPrefix({ active: selected, disabled }))}
+      className={merge(className, withPrefix())}
       onClick={handleClick}
       style={style}
       aria-selected={selected || undefined}
+      data-active={selected}
+      data-disabled={disabled}
       data-event-key={eventKey}
       {...rest}
     >
-      {icon}
-      {children}
-      <Ripple />
-    </Component>
+      {clonedIcon}
+      {title}
+    </Box>
   );
 });
 
 SidenavItem.displayName = 'Sidenav.Item';
-SidenavItem.propTypes = {
-  classPrefix: PropTypes.string,
-  disabled: PropTypes.bool,
-  icon: PropTypes.node,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  eventKey: PropTypes.any,
-  as: PropTypes.elementType,
-  style: PropTypes.object,
-  onSelect: PropTypes.func,
-  onMouseEnter: PropTypes.func,
-  onMouseLeave: PropTypes.func,
-  onContextMenu: PropTypes.func,
-  onClick: PropTypes.func
-};
 
 export default SidenavItem;

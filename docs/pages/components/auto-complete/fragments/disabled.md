@@ -1,32 +1,34 @@
 <!--start-code-->
 
 ```js
-/**
- * import { AutoComplete } from 'rsuite';
- */
+import { AutoComplete, VStack, HStack, Text, Divider } from 'rsuite';
 
-const data = [
-  'HYPER Advertiser',
-  'HYPER Web Analytics',
-  'HYPER Video Analytics',
-  'HYPER DMP',
-  'HYPER Ad Serving',
-  'HYPER Data Discovery'
-];
-const instance = (
-  <div>
-    <label>Disabled:</label>
-    <AutoComplete data={data} disabled defaultValue="HYPER Web Analytics" />
-    <hr />
-    <label>Read only:</label>
-    <AutoComplete data={data} readOnly defaultValue="HYPER Web Analytics" />
-    <hr />
-    <label>Plaintext:</label>
-    <AutoComplete data={data} plaintext defaultValue="HYPER Web Analytics" />
-  </div>
+const data = [];
+
+const App = () => (
+  <VStack divider={<Divider />}>
+    <HStack>
+      <Text muted w={80}>
+        Disabled
+      </Text>
+      <AutoComplete data={data} disabled defaultValue="Eugenia" w={200} />
+    </HStack>
+    <HStack>
+      <Text muted w={80}>
+        ReadOnly
+      </Text>
+      <AutoComplete data={data} readOnly defaultValue="Eugenia" w={200} />
+    </HStack>
+    <HStack>
+      <Text muted w={80}>
+        Plaintext
+      </Text>
+      <AutoComplete data={data} plaintext defaultValue="Eugenia" w={200} />
+    </HStack>
+  </VStack>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,17 +1,16 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div className="notification-container">
-    <Notification closable type="info">
-      <Paragraph width={320} rows={3} />
+import { Notification } from 'rsuite';
+
+const App = () => (
+  <>
+    <Notification type="error" header="Operation failed" closable>
+      The email failed to send, please try again later.
     </Notification>
-    <Notification closable type="info" header="Informational">
-      <Paragraph width={320} rows={3} />
-    </Notification>
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

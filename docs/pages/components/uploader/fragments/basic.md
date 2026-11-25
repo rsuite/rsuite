@@ -1,9 +1,17 @@
 <!--start-code-->
 
 ```js
-const instance = <Uploader action="//jsonplaceholder.typicode.com/posts/" />;
+import { Uploader, Button } from 'rsuite';
 
-ReactDOM.render(instance);
+const App = () => (
+  <>
+    <Uploader action="//jsonplaceholder.typicode.com/posts/">
+      <Button>Select files...</Button>
+    </Uploader>
+  </>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

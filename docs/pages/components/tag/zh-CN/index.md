@@ -1,10 +1,10 @@
 # Tag 标签
 
-`<Tag>`
+用于标记和选择的标签。
 
 ## 获取组件
 
-<!--{include:(components/tag/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## 演示
 
@@ -14,13 +14,19 @@
 
 ### 尺寸
 
+通过 `size` 属性调整标签大小（可选值：'sm'、'md'、'lg'）。
+
 <!--{include:`size.md`}-->
 
 ### 多彩标签
 
+使用 `color` 属性自定义标签颜色。支持预设主题颜色或自定义 CSS 颜色。当设置自定义颜色时，基于对比度自动计算出合适的文本颜色。
+
 <!--{include:`color.md`}-->
 
 ### 动态添加标签
+
+使用 `closable` 属性和 `onClose` 回调创建可交互的标签添加和删除。
 
 <!--{include:`dynamic.md`}-->
 
@@ -28,10 +34,24 @@
 
 ### `<Tag>`
 
-| 属性名称    | 类型`(默认值)`        | 描述                   |
-| ----------- | --------------------- | ---------------------- |
-| children \* | ReactNode             | 组件的内容             |
-| classPrefix | string `('tag')`      | 组件 CSS 类的前缀      |
-| closable    | boolean               |
-| as          | ElementType `('div')` | 为组件自定义元素类型   |
-| onClose     | (event) => void       | 点击关闭按钮的回调函数 |
+| 属性名称    | 类型`(默认值)`                                         | 描述                                    |
+| ----------- | ------------------------------------------------------ | --------------------------------------- |
+| as          | ElementType `('div')`                                  | 为组件自定义元素类型                    |
+| children \* | ReactNode                                              | 组件的内容                              |
+| classPrefix | string `('tag')`                                       | 组件 CSS 类的前缀                       |
+| closable    | boolean                                                | 是否显示关闭按钮                        |
+| color       | [Color](#code-ts-color-code) \| CSSProperties['color'] | 标签颜色，支持预设颜色和自定义 CSS 颜色 |
+| onClose     | (event) => void                                        | 点击关闭按钮的回调函数                  |
+| size        | 'sm' \| 'md' \| 'lg' `('md')`                          | 标签尺寸                                |
+
+### `<TagGroup>`
+
+| 属性名称    | 类型`(默认值)`         | 描述                 |
+| ----------- | ---------------------- | -------------------- |
+| as          | ElementType `('div')`  | 为组件自定义元素类型 |
+| children \* | ReactNode              | 组件的内容           |
+| classPrefix | string `('tag-group')` | 组件 CSS 类的前缀    |
+
+### 类型定义
+
+<!--{include:(_common/types/color.md)}-->

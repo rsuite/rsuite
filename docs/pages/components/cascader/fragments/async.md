@@ -1,32 +1,13 @@
 <!--start-code-->
 
 ```js
-function createNode() {
-  const hasChildren = Math.random() > 0.2;
-  return {
-    label: `Node ${(Math.random() * 1e18).toString(36).slice(0, 3).toUpperCase()}`,
-    value: Math.random() * 1e18,
-    children: hasChildren ? [] : null
-  };
-}
+import { Cascader } from 'rsuite';
+import FolderFillIcon from '@rsuite/icons/FolderFill';
+import PageIcon from '@rsuite/icons/Page';
+import { mockAsyncData } from './mock';
 
-function createChildren() {
-  const children = [];
-  for (let i = 0; i < Math.random() * 10; i++) {
-    children.push(createNode());
-  }
-  return children;
-}
-
-function fetchNodes(id) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(createChildren());
-    }, 500);
-  });
-}
-
-const defaultData = createChildren();
+const [getNodes, fetchNodes] = mockAsyncData();
+const initialData = getNodes(5);
 
 const App = () => {
   const [value, setValue] = React.useState();
@@ -37,30 +18,25 @@ const App = () => {
         value={value}
         onChange={setValue}
         placeholder="Select"
-        style={{ width: 224 }}
-        data={defaultData}
+        w={224}
+        data={initialData}
+        columnWidth={200}
         getChildren={node => {
           return fetchNodes(node.id);
         }}
-        /**
-         *  Set the status of data loading.
-        renderMenu={(children, menu, parentNode) => {
-          if (parentNode && parentNode.loading) {
-            return (
-              <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>
-                Loading...
-              </p>
-            );
-          }
-          return menu;
+        renderTreeNode={(label, item) => {
+          return (
+            <>
+              {item.children ? <FolderFillIcon /> : <PageIcon />} {label}
+            </>
+          );
         }}
-        */
       />
     </div>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

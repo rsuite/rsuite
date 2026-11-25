@@ -1,14 +1,15 @@
-
 <!--start-code-->
 
 ```js
+import { Panel, Placeholder, Row, Col } from 'rsuite';
+
 const Card = props => (
   <Panel {...props} bordered header="Card title">
-    <Paragraph />
+    <Placeholder.Paragraph />
   </Panel>
 );
 
-const instance = (
+const App = () => (
   <Row>
     <Col md={6} sm={12}>
       <Card />
@@ -25,7 +26,7 @@ const instance = (
   </Row>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

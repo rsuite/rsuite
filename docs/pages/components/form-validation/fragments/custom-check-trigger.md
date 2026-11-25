@@ -1,30 +1,25 @@
 <!--start-code-->
 
 ```js
-const model = Schema.Model({
-  name: Schema.Types.StringType()
-    .isEmail('Please enter a valid email address.')
-    .isRequired('This field is required.')
-});
+import { Form, Button, SegmentedControl, Row, Col } from 'rsuite';
+import { SchemaModel, StringType } from 'rsuite/Schema';
 
 const Field = React.forwardRef((props, ref) => {
   const { name, message, label, accepter, error, ...rest } = props;
   return (
     <Form.Group ref={ref} className={error ? 'has-error' : ''}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
+      <Form.Label>{label} </Form.Label>
       <Form.Control name={name} accepter={accepter} errorMessage={error} {...rest} />
-      <Form.HelpText>{message}</Form.HelpText>
+      <Form.Text>{message}</Form.Text>
     </Form.Group>
   );
 });
 
-const styles = {
-  radioGroupLabel: {
-    padding: '8px 12px',
-    display: 'inline-block',
-    verticalAlign: 'middle'
-  }
-};
+const model = SchemaModel({
+  name: StringType()
+    .isEmail('Please enter a valid email address.')
+    .isRequired('This field is required.')
+});
 
 const App = () => {
   const formRef = React.useRef();
@@ -41,22 +36,20 @@ const App = () => {
   };
 
   return (
-    <FlexboxGrid>
-      <FlexboxGrid.Item colspan={12}>
-        <RadioGroup
-          inline
-          appearance="picker"
+    <Row>
+      <Col span={{ xs: 24, md: 12 }}>
+        <SegmentedControl
+          data={[
+            { value: 'blur', label: 'blur' },
+            { value: 'change', label: 'change' },
+            { value: 'none', label: 'none' }
+          ]}
           value={checkTrigger}
           onChange={value => {
             setCheckTrigger(value);
             setFormError({});
           }}
-        >
-          <span style={styles.radioGroupLabel}>checkTrigger: </span>
-          <Radio value="blur">blur</Radio>
-          <Radio value="change">change</Radio>
-          <Radio value="none">none</Radio>
-        </RadioGroup>
+        />
         <hr />
         <Form
           ref={formRef}
@@ -67,20 +60,22 @@ const App = () => {
           model={model}
           checkTrigger={checkTrigger}
         >
-          <Field name="name" label="Email" error={formError.name} message="Email address" />
-          <Button appearance="primary" onClick={handleSubmit}>
+          <Form.Stack>
+            <Field name="name" label="Email" error={formError.name} message="Email address" />
+          </Form.Stack>
+          <Button appearance="primary" onClick={handleSubmit} mt={20}>
             Submit
           </Button>
         </Form>
-      </FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={12}>
+      </Col>
+      <Col hidden={{ md: true }} span={{ xs: 24, md: 12 }}>
         <JSONView formValue={formValue} formError={formError} />
-      </FlexboxGrid.Item>
-    </FlexboxGrid>
+      </Col>
+    </Row>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

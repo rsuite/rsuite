@@ -1,21 +1,27 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { TreePicker, VStack } from 'rsuite';
+import { mockTreeData } from './mock';
 
-const styles = { width: 246, display: 'block', marginBottom: 10 };
-const instance = (
-  <div>
-    <TreePicker size="lg" placeholder="Large" data={data} style={styles} />
-    <TreePicker size="md" placeholder="Medium" data={data} style={styles} />
-    <TreePicker size="sm" placeholder="Small" data={data} style={styles} />
-    <TreePicker size="xs" placeholder="Xsmall" data={data} style={styles} />
-  </div>
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.person[methodName[layer]]();
+  }
+});
+
+const App = () => (
+  <VStack spacing={8}>
+    <TreePicker size="lg" placeholder="Large" data={data} w={246} />
+    <TreePicker size="md" placeholder="Medium" data={data} w={246} />
+    <TreePicker size="sm" placeholder="Small" data={data} w={246} />
+    <TreePicker size="xs" placeholder="Xsmall" data={data} w={246} />
+  </VStack>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

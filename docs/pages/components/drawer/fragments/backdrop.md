@@ -1,30 +1,22 @@
 <!--start-code-->
 
 ```js
-const styles = {
-  radioGroupLabel: {
-    padding: '8px 12px',
-    display: 'inline-block',
-    verticalAlign: 'middle'
-  }
-};
+import { Drawer, SegmentedControl, ButtonToolbar, Button, Placeholder, Text } from 'rsuite';
+
 const App = () => {
   const [backdrop, setBackdrop] = React.useState('static');
   const [open, setOpen] = React.useState(false);
   return (
-    <div>
-      <RadioGroup
-        name="radioList"
-        appearance="picker"
-        inline
+    <>
+      <SegmentedControl
+        data={[
+          { value: 'static', label: 'static' },
+          { value: true, label: 'true' },
+          { value: false, label: 'false' }
+        ]}
         value={backdrop}
         onChange={setBackdrop}
-      >
-        <span style={styles.radioGroupLabel}>Backdrop: </span>
-        <Radio value="static">static</Radio>
-        <Radio value={true}>true</Radio>
-        <Radio value={false}>false</Radio>
-      </RadioGroup>
+      />
       <hr />
 
       <ButtonToolbar>
@@ -41,14 +33,14 @@ const App = () => {
           </Drawer.Actions>
         </Drawer.Header>
         <Drawer.Body>
-          <Paragraph />
+          <Placeholder.Paragraph />
         </Drawer.Body>
       </Drawer>
-    </div>
+    </>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,131 +1,116 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import useUniqueId from '../utils/useUniqueId';
-import MenuContext, { MenuActionTypes, MoveFocusTo } from './MenuContext';
+import React, { useCallback, useContext, cloneElement } from 'react';
+import classNames from 'classnames';
+import MenuItemBase from '@/internals/Menu/MenuItem';
+import MenuContext from './MenuContext';
+import isNil from 'lodash/isNil';
+import Text from '../Text';
+import { useStyles } from '@/internals/hooks';
+import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
+import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
+import type { IconProps } from '@rsuite/icons/Icon';
+import type { HTMLPropsWithoutSelect } from '@/internals/types';
+import type { BoxProps } from '@/internals/Box';
 
-export interface MenuItemProps {
+export interface MenuItemProps<T = any> extends BoxProps, HTMLPropsWithoutSelect {
   /** Active the current option */
-  selected?: boolean;
+  active?: boolean;
 
   /** Disable the current option */
   disabled?: boolean;
 
-  /** Render prop */
-  children: (
-    menuitem: React.LiHTMLAttributes<HTMLLIElement> & MenuitemRenderProps,
-    ref: React.Ref<HTMLLIElement>
-  ) => React.ReactElement;
+  /** The description of the current option */
+  description?: React.ReactNode;
 
-  /** Callback when menuitem is being activated */
-  onActivate?: (event: React.SyntheticEvent) => void;
+  /** The value of the current option */
+  eventKey?: T;
+
+  /** Set the icon */
+  icon?: React.ReactElement<IconProps>;
+
+  /**
+   * The menu item keyboard shortcut.
+   */
+  shortcut?: React.ReactNode;
+
+  /**
+   * Select the callback function for the current option
+   */
+  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
-export interface MenuitemRenderProps {
-  selected: boolean;
-  active: boolean;
-}
-
-/**
- * Headless ARIA `menuitem`
- */
-function MenuItem(props: MenuItemProps) {
-  const { children, selected, disabled, onActivate } = props;
-
-  const menuitemRef = useRef<HTMLLIElement>();
-  const menuitemId = useUniqueId('menuitem-');
+const MenuItem = forwardRef<'li', MenuItemProps>((props: MenuItemProps, ref: React.Ref<any>) => {
+  const {
+    as = 'li',
+    active: activeProp,
+    classPrefix = 'menu-item',
+    className,
+    description,
+    shortcut,
+    eventKey,
+    icon,
+    children,
+    disabled,
+    onSelect,
+    ...rest
+  } = props;
 
   const menu = useContext(MenuContext);
-  // fixme make sure <MenuItem> is used inside a <Menu>
-  const [menuState, dispatch] = menu ?? [];
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
 
-  // Whether this menuitem has focus (indicated by `aria-activedescendant` from parent menu)
-  const hasFocus =
-    menuState?.items[menuState?.activeItemIndex]?.element === menuitemRef.current &&
-    !!menuitemRef.current;
-
-  const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLLIElement>) => {
-      if (disabled) {
-        return;
-      }
-
-      onActivate?.(event);
+  const handleSelectItem = useCallback(
+    (event: React.SyntheticEvent) => {
+      onSelect?.(eventKey, event);
+      menu?.onSelect?.(eventKey, event);
     },
-    [disabled, onActivate]
+    [onSelect, eventKey, menu]
   );
 
-  // Gain/release focus on mousedown in `menubar`
+  const selected = activeProp || (!isNil(eventKey) && shallowEqual(menu?.activeKey, eventKey));
 
-  const handleMouseDown = useCallback(() => {
-    dispatch({
-      type: MenuActionTypes.MoveFocus,
-      to: MoveFocusTo.Specific,
-      id: menuitemRef.current.id
-    });
-  }, [dispatch]);
+  const renderMenuItem = useRenderMenuItem(as);
 
-  // Gain/release focus on mouseenter/mouseleave in `menu`
-  const handleMouseMove = useCallback(() => {
-    dispatch({
-      type: MenuActionTypes.MoveFocus,
-      to: MoveFocusTo.Specific,
-      id: menuitemRef.current.id
-    });
-  }, [dispatch]);
+  return (
+    <MenuItemBase selected={selected} disabled={disabled} onActivate={handleSelectItem}>
+      {({ selected, active, ...menuitem }, menuitemRef) => {
+        const classes = merge(className, withPrefix());
 
-  const handleMouseLeave = useCallback(() => {
-    dispatch({
-      type: MenuActionTypes.MoveFocus,
-      to: MoveFocusTo.None
-    });
-  }, [dispatch]);
+        const dataAttributes = {
+          'data-active': selected,
+          'data-disabled': disabled,
+          'data-focus': active
+        };
 
-  useEffect(() => {
-    const menuitemElement = menuitemRef.current;
-
-    dispatch?.({
-      type: MenuActionTypes.RegisterItem,
-      element: menuitemElement,
-      props: { disabled }
-    });
-    return () => {
-      dispatch?.({ type: MenuActionTypes.UnregisterItem, id: menuitemElement.id });
-    };
-  }, [menuitemRef, disabled, dispatch]);
-
-  const menuitemProps: React.LiHTMLAttributes<HTMLLIElement> & MenuitemRenderProps = {
-    id: menuitemId,
-    role: 'menuitem',
-    // fixme Only use `aria-checked` on menuitemradio and menuitemcheckbox
-    'aria-checked': selected || undefined,
-    'aria-disabled': disabled,
-    tabIndex: -1,
-    onClick: handleClick,
-    // render props
-
-    selected,
-    active: hasFocus
-  };
-
-  // Only move focus on hover in a `menu`, not `menubar`
-  if (menuState?.role === 'menu') {
-    menuitemProps.onMouseMove = handleMouseMove;
-    menuitemProps.onMouseLeave = handleMouseLeave;
-  }
-
-  if (menuState?.role === 'menubar') {
-    menuitemProps.onMouseDown = handleMouseDown;
-  }
-
-  return children(menuitemProps, menuitemRef);
-}
+        return renderMenuItem({
+          ref: mergeRefs(ref, menuitemRef),
+          className: classes,
+          ...dataAttributes,
+          ...menuitem,
+          ...rest,
+          children: (
+            <>
+              {icon &&
+                cloneElement(icon, {
+                  className: classNames(prefix('menu-icon'), icon.props.className)
+                })}
+              <div className={prefix('content')}>
+                <Text as="span">{children}</Text>
+                <Text as="span" muted>
+                  {description}
+                </Text>
+              </div>
+              {shortcut && (
+                <Text as="kbd" className={prefix('shortcut')} muted>
+                  {shortcut}
+                </Text>
+              )}
+            </>
+          )
+        });
+      }}
+    </MenuItemBase>
+  );
+});
 
 MenuItem.displayName = 'MenuItem';
-MenuItem.propTypes = {
-  selected: PropTypes.bool,
-  disabled: PropTypes.bool,
-  children: PropTypes.func.isRequired,
-  onActivate: PropTypes.func
-};
 
 export default MenuItem;

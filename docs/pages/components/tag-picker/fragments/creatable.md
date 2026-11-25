@@ -1,18 +1,22 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { TagPicker } from 'rsuite';
 
-const instance = (
-  <div>
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+  item => ({
+    label: item,
+    value: item,
+    role: Math.random() > 0.5 ? 'Owner' : 'Guest'
+  })
+);
+
+const App = () => (
+  <>
     <TagPicker
       creatable
       data={data}
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
+      w={300}
       onCreate={(value, item) => {
         console.log(value, item);
       }}
@@ -21,17 +25,17 @@ const instance = (
     <TagPicker
       creatable
       data={data}
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
+      w={300}
       groupBy="role"
       placeholder="Group Select"
       onCreate={(value, item) => {
         console.log(value, item);
       }}
     />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

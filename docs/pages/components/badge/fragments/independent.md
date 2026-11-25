@@ -1,19 +1,36 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
-    <Badge />
+import { Badge, HStack } from 'rsuite';
+import { MdCheck, MdNotifications } from 'react-icons/md';
+import { BsExclamation } from 'react-icons/bs';
 
-    <Badge style={{ background: '#4caf50' }} />
+const App = () => (
+  <>
+    <HStack>
+      <Badge />
+      <Badge style={{ background: '#4caf50' }} />
 
-    <Badge content="99+" />
-
-    <Badge content="NEW" />
-  </div>
+      <Badge compact color="green" content={<MdCheck size={16} />} />
+      <Badge compact content={<MdNotifications size={16} />} />
+      <Badge content="6" />
+      <Badge content="99+" />
+      <Badge content="new" color="yellow" />
+    </HStack>
+    <hr />
+    <HStack>
+      <Badge compact color="green" content={<MdCheck size={16} />} />
+      <Text>Ready</Text>
+    </HStack>
+    <hr />
+    <HStack>
+      <Badge compact color="red" content={<BsExclamation size={16} />} />
+      <Text>Error</Text>
+    </HStack>
+  </>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

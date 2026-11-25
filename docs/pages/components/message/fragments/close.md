@@ -1,18 +1,20 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Message } from 'rsuite';
+
+const App = () => (
+  <>
     <Message closable type="info">
-      Informational
+      <strong>Info!</strong> You can use the `Message` component to display a info message.
     </Message>
-    <Message closable type="info" header="Informational">
-      Detailed description and advices about successful copywriting.
-      <a href="#">This is a Link.</a>
+    <Message closable type="info" header={<strong>Info!</strong>}>
+      Additional description and informations about copywriting.
     </Message>
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

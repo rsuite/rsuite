@@ -1,45 +1,40 @@
-import { Component } from 'preact';
-import style from './style';
-import { Button, Message } from 'rsuite';
-import React from 'preact/compat';
+import React from 'react';
+import PageLayout from '../../components/PageLayout';
 
-export default class Profile extends Component {
-  state = {
-    time: Date.now(),
-    count: 10
-  };
+// Note: `user` comes from the URL, courtesy of our router
+const Profile = ({ user }) => {
+  const cards = [
+    {
+      title: 'Docs',
+      href: 'https://rsuitejs.com/guide/introduction/',
+      description: 'Find in-depth information about RSuite.'
+    },
+    {
+      title: 'Components',
+      href: 'https://rsuitejs.com/components/overview/',
+      description: 'Browse all components and examples.'
+    },
+    {
+      title: 'Preact',
+      href: 'https://preactjs.com/',
+      description: 'Fast 3kB alternative to React with the same modern API.'
+    },
+    {
+      title: 'Vite',
+      href: 'https://vite.dev/guide/',
+      description: 'Get the most out of Vite with Preact.'
+    }
+  ];
 
-  // update the current time
-  updateTime = () => {
-    this.setState({ time: Date.now() });
-  };
+  return (
+    <PageLayout
+      activeKey="profile"
+      codePath="src/routes/profile/index.js"
+      title={`Profile: ${user}`}
+      subtitle="A simple client-side page with RSuite components"
+      cards={cards}
+    />
+  );
+};
 
-  increment = () => {
-    this.setState({ count: this.state.count + 1 });
-  };
-
-  // gets called when this route is navigated to
-  componentDidMount() {
-    // start a timer for the clock:
-    this.timer = setInterval(this.updateTime, 1000);
-  }
-
-  // gets called just before navigating away from the route
-  componentWillUnmount() {
-    clearInterval(this.timer);
-  }
-
-  // Note: `user` comes from the URL, courtesy of our router
-  render({ user }, { time, count }) {
-    return (
-      <div class={style.profile}>
-        <Message showIcon type="info" description="Preact with RSuite UI." />
-        <h1>Profile: {user}</h1>
-        <div>Current time: {new Date(time).toLocaleString()}</div>
-        <p>
-          <Button appearance="ghost" onClick={this.increment}>Click Me</Button> Clicked {count} times.
-        </p>
-      </div>
-    );
-  }
-}
+export default Profile;

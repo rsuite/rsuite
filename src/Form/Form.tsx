@@ -1,414 +1,390 @@
-import React, { useMemo, useCallback, useState, useImperativeHandle, useRef } from 'react';
-import PropTypes from 'prop-types';
-import isUndefined from 'lodash/isUndefined';
-import omit from 'lodash/omit';
-import { Schema, SchemaModel } from 'schema-typed';
-import type { CheckResult } from 'schema-typed';
-import { useClassNames } from '../utils';
-import FormContext, { FormValueContext } from './FormContext';
-import FormControl from '../FormControl';
+import React, { useMemo, FormHTMLAttributes } from 'react';
+import FormControl, { FormControlComponent } from '../FormControl';
 import FormControlLabel from '../FormControlLabel';
 import FormErrorMessage from '../FormErrorMessage';
+import FormErrorSummary from '../FormErrorSummary';
 import FormGroup from '../FormGroup';
 import FormHelpText from '../FormHelpText';
-import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
+import FormStack from '../FormStack';
+import Box from '@/internals/Box';
+import useSchemaModel from './hooks/useSchemaModel';
+import useFormValidate from './hooks/useFormValidate';
+import useFormEventCallback from './hooks/useFormEventCallback';
+import usePointerBlurValidation from './hooks/usePointerBlurValidation';
+import useFormValue from './hooks/useFormValue';
+import useFormRef, { FormInstance, FormImperativeMethods } from './hooks/useFormRef';
+import { forwardRef } from '@/internals/utils';
+import { Schema, SchemaModel } from 'schema-typed';
+import { useEventCallback, useCustom } from '@/internals/hooks';
+import { FormValueProvider, FormProvider } from './FormContext';
+import type { WithAsProps, CheckTriggerType } from '@/internals/types';
+import type { Resolver } from './resolvers';
 
-export interface FormProps<
-  T = Record<string, any>,
-  errorMsgType = any,
-  E = { [P in keyof T]?: errorMsgType }
-> extends WithAsProps,
-    Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onChange' | 'onSubmit' | 'onError'> {
-  /** Set the left and right columns of the layout of the elements within the form */
+export interface FormProps<V = Record<string, any>, M = any, E = { [P in keyof V]?: M }>
+  extends WithAsProps,
+    Omit<FormHTMLAttributes<HTMLFormElement>, 'onChange' | 'onSubmit' | 'onError' | 'onReset'> {
+  /**
+   * Set the left and right columns of the layout of the elements within the form。
+   *
+   * @default 'vertical'
+   */
   layout?: 'horizontal' | 'vertical' | 'inline';
 
-  /** The fluid property allows the Input 100% of the form to fill the container, valid only in vertical layouts. */
+  /**
+   * The fluid property allows the Input 100% of the form to fill the container, valid only in vertical layouts.
+   */
   fluid?: boolean;
 
-  /** Current value of the input. Creates a controlled component */
-  formValue?: T;
+  /**
+   * Current value of the input. Creates a controlled component
+   */
+  formValue?: V | null;
 
-  /** Initial value */
-  formDefaultValue?: T;
+  /**
+   * Initial value
+   */
+  formDefaultValue?: V | null;
 
-  /** Error message of form */
-  formError?: E;
+  /**
+   * Error message of form
+   */
+  formError?: E | null;
 
-  /** Trigger the type of form validation */
-  checkTrigger?: TypeAttributes.CheckTrigger;
+  /**
+   * Trigger the type of form validation.
+   *
+   * @default 'change'
+   */
+  checkTrigger?: CheckTriggerType;
 
-  /** SchemaModel object */
+  /**
+   * SchemaModel object
+   *
+   * @see https://github.com/rsuite/schema-typed
+   */
   model?: Schema;
 
-  /** Make the form readonly */
+  /**
+   * A resolver function for integrating third-party validation libraries such as
+   * Yup, Zod, AJV, Joi, Valibot, etc.
+   *
+   * When provided, the `resolver` takes precedence over the `model` prop for
+   * form-level validation (`check` / `checkAsync`).  Field-level inline `rule`
+   * props on `<Form.Control>` components are still respected.
+   *
+   * The resolver receives the current form values and must return (or resolve to)
+   * a `{ errors }` object where each key is a field name and each value is an
+   * error message or error object.  An empty `errors` object means the form is valid.
+   *
+   * **Note:** If the resolver is asynchronous, form-level sync validation
+   * (`check()`) will return `false` and log a warning. Use `checkAsync()` or
+   * rely on the `onSubmit` callback (which always awaits the resolver).
+   *
+   * @example
+   * ```tsx
+   * import * as yup from 'yup';
+   *
+   * const schema = yup.object({ name: yup.string().email().required() });
+   * const resolver = async (formValue) => {
+   *   try {
+   *     await schema.validate(formValue, { abortEarly: false });
+   *     return { errors: {} };
+   *   } catch (e) {
+   *     const errors = {};
+   *     e.inner.forEach(err => { if (err.path) errors[err.path] = err.message; });
+   *     return { errors };
+   *   }
+   * };
+   *
+   * <Form resolver={resolver} onSubmit={handleSubmit}>…</Form>
+   * ```
+   */
+  resolver?: Resolver<V>;
+
+  /**
+   * Make the form readonly
+   */
   readOnly?: boolean;
 
-  /** Render the form as plain text */
+  /**
+   * Render the form as plain text
+   */
   plaintext?: boolean;
 
-  /** Disable the form. */
+  /**
+   * Disable the form
+   */
   disabled?: boolean;
 
-  /** The error message comes from context */
+  /**
+   * The error message comes from context
+   */
   errorFromContext?: boolean;
 
-  /** Callback fired when data changing */
-  onChange?: (formValue: T, event: React.SyntheticEvent) => void;
+  /**
+   * The form data is nested.
+   * You may now nest fields with "dot syntax" (e.g. address.city).
+   *
+   * @default false
+   * @version v5.51.0
+   * @example
+   * ```jsx
+   * <Form formValue={{ address: { city: 'Shanghai' } }} nestedField>
+   *  <FormControl name="address.city" />
+   * </Form>
+   * ```
+   */
+  nestedField?: boolean;
 
-  /** Callback fired when error checking */
+  /**
+   * Callback fired when data changing
+   */
+  onChange?: (formValue: V, event?: React.SyntheticEvent) => void;
+
+  /**
+   * Callback fired when error checking
+   */
   onError?: (formError: E) => void;
 
-  /** Callback fired when data cheking */
+  /**
+   * Callback fired when data cheking
+   */
   onCheck?: (formError: E) => void;
 
-  /** Callback fired when form submit */
-  onSubmit?: (checkStatus: boolean, event: React.FormEvent<HTMLFormElement>) => void;
+  /**
+   * Callback fired when form submit，only when the form data is validated will trigger
+   */
+  onSubmit?: (formValue: V | null, event?: React.FormEvent<HTMLFormElement>) => void;
+
+  /**
+   * Callback fired when form reset
+   */
+  onReset?: (formValue: V | null, event?: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export interface FormInstance<
-  T = Record<string, any>,
-  errorMsg = string,
-  E = { [P in keyof T]?: errorMsg }
-> {
-  root: React.FormHTMLAttributes<HTMLFormElement>;
+const defaultSchema = SchemaModel({});
 
-  /** Verify form data */
-  check?: (callback?: (formError: E) => void) => boolean;
+const Subcomponents = {
+  Stack: FormStack,
+  Control: FormControl as FormControlComponent,
+  Label: FormControlLabel,
+  ErrorMessage: FormErrorMessage,
+  ErrorSummary: FormErrorSummary,
+  Group: FormGroup,
+  Text: FormHelpText,
 
-  /** Asynchronously check form data */
-  checkAsync?: () => Promise<any>;
+  /**
+   * @deprecated Use `Form.Label` instead
+   */
+  ControlLabel: FormControlLabel,
 
-  /** Check the data field */
-  checkForField?: (
-    fieldName: keyof T,
-    callback?: (checkResult: CheckResult<errorMsg>) => void
-  ) => boolean;
+  /**
+   * @deprecated Use `Form.Text` instead
+   */
+  HelpText: FormHelpText
+};
 
-  /** Asynchronous verification as a data field */
-  checkForFieldAsync?: (fieldName: keyof T) => Promise<CheckResult>;
-
-  /** Clear all error messages */
-  cleanErrors?: (callback?: () => void) => void;
-
-  /** Clear the error message of the specified field */
-  cleanErrorForField?: (fieldName: keyof E, callback?: () => void) => void;
-
-  /** All error messages are reset, and an initial value can be set */
-  resetErrors?: (formError: E, callback?: () => void) => void;
-}
-
-export interface FormComponent
-  extends RsRefForwardingComponent<'form', FormProps & { ref?: React.Ref<FormInstance> }> {
-  Control: typeof FormControl;
-  ControlLabel: typeof FormControlLabel;
-  ErrorMessage: typeof FormErrorMessage;
-  Group: typeof FormGroup;
-  HelpText: typeof FormHelpText;
-}
-
-const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
+/**
+ * The `Form` component is a form interface for collecting and validating user input.
+ * @see https://rsuitejs.com/components/form
+ */
+const Form = forwardRef<
+  'form',
+  FormProps & { ref?: React.Ref<FormInstance> },
+  typeof Subcomponents
+>((props, ref) => {
+  const { propsWithDefaults } = useCustom('Form', props);
   const {
     checkTrigger = 'change',
-    classPrefix = 'form',
     errorFromContext = true,
     formDefaultValue = {},
-    formValue,
-    formError,
+    formValue: controlledFormValue,
+    formError: controlledFormError,
+    nestedField = false,
     fluid,
-    layout = 'vertical',
-    model = SchemaModel({}),
+    layout,
+    model: formModel = defaultSchema,
+    resolver,
     readOnly,
     plaintext,
-    className,
     children,
     disabled,
     onSubmit,
+    onReset,
     onCheck,
     onError,
     onChange,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(
-    className,
-    withClassPrefix(layout, fluid && layout === 'vertical' ? 'fluid' : 'fixed-width', {
-      readonly: readOnly,
-      disabled,
-      plaintext
-    })
+  const { getCombinedModel, pushFieldRule, removeFieldRule } = useSchemaModel(
+    formModel,
+    nestedField
   );
-  const [_formValue, setFormValue] = useState(formDefaultValue);
-  const [_formError, setFormError] = useState(formError || {});
+  const { formValue, getFormValue, onRemoveValue, setFieldValue, resetFormValue } = useFormValue(
+    controlledFormValue,
+    { formDefaultValue, nestedField }
+  );
 
-  const getFormValue = useCallback(() => {
-    return isUndefined(formValue) ? _formValue : formValue;
-  }, [_formValue, formValue]);
+  const formValidateProps = {
+    getFormValue,
+    getCombinedModel,
+    onCheck,
+    onError,
+    nestedField,
+    resolver
+  };
 
-  const getFormError = useCallback(() => {
-    return isUndefined(formError) ? _formError : formError;
-  }, [formError, _formError]);
+  const {
+    formError,
+    onRemoveError,
+    check,
+    checkAsync,
+    checkForField,
+    checkFieldForNextValue,
+    checkForFieldAsync,
+    checkFieldAsyncForNextValue,
+    cleanErrors,
+    resetErrors,
+    cleanErrorForField,
+    reserveFieldValidation,
+    readNativeValidation,
+    commitNativeValidationRetirement
+  } = useFormValidate(controlledFormError, formValidateProps);
 
-  /**
-   * Validate the form data and return a boolean.
-   * The error message after verification is returned in the callback.
-   * @param callback
-   */
-  const check = useCallback(
-    (callback?: (formError: any) => void) => {
-      const formValue = getFormValue() || {};
-      const formError = {};
-      let errorCount = 0;
-
-      Object.keys(model.spec).forEach(key => {
-        const checkResult = model.checkForField(key, formValue);
-        if (checkResult.hasError === true) {
-          errorCount += 1;
-          formError[key] = checkResult?.errorMessage || checkResult;
+  const submit = useFormEventCallback((event?: React.FormEvent<HTMLFormElement>) => {
+    const nextFormValue = getFormValue();
+    if (resolver) {
+      // When a resolver is provided, always use the async validation path so that
+      // both sync and async resolvers are handled correctly.
+      checkAsync().then(({ hasError }) => {
+        if (!hasError) {
+          onSubmit?.(nextFormValue, event);
         }
       });
+      return;
+    }
 
-      setFormError(formError);
-      onCheck?.(formError);
-      callback?.(formError);
+    // Check the form before submitting
+    if (check()) {
+      onSubmit?.(nextFormValue, event);
+    }
+  });
 
-      if (errorCount > 0) {
-        onError?.(formError);
-        return false;
-      }
+  const reset = useEventCallback((event?: React.FormEvent<HTMLFormElement>) => {
+    resetErrors();
+    const resetValue = resetFormValue();
+    if (resetValue) {
+      onChange?.(resetValue);
+    }
+    onReset?.(resetValue, event);
+  });
 
-      return true;
-    },
-    [onCheck, onError, model, getFormValue]
-  );
+  const handleSubmit = useEventCallback((event: React.FormEvent<HTMLFormElement>) => {
+    event?.preventDefault?.();
+    event?.stopPropagation?.();
 
-  /**
-   * Check the data field
-   * @param fieldName
-   * @param callback
-   */
-  const checkForField = useCallback(
-    (fieldName: string, callback?: (checkResult: any) => void) => {
-      const formValue = getFormValue() || {};
-      const checkResult = model.checkForField(fieldName, formValue);
+    // Prevent submission when the form is disabled, readOnly, or plaintext
+    if (disabled || readOnly || plaintext) {
+      return;
+    }
 
-      const formError = {
-        ...getFormError(),
-        [fieldName]: checkResult?.errorMessage || checkResult
-      };
+    submit(event);
+  });
 
-      setFormError(formError);
-      onCheck?.(formError);
-      callback?.(checkResult);
+  const handleReset = useEventCallback((event: React.FormEvent<HTMLFormElement>) => {
+    event?.preventDefault?.();
+    event?.stopPropagation?.();
 
-      if (checkResult.hasError) {
-        onError?.(formError);
-      }
+    // Prevent reset when the form is disabled, readOnly, or plaintext
+    if (disabled || readOnly || plaintext) {
+      return;
+    }
 
-      return !checkResult.hasError;
-    },
-    [model, getFormValue, getFormError, onCheck, onError]
-  );
+    reset(event);
+  });
 
-  /**
-   * Check form data asynchronously and return a Promise
-   */
-  const checkAsync = useCallback(() => {
-    const formValue = getFormValue() || {};
-    const promises = [];
-    const keys = [];
-
-    Object.keys(model.spec).forEach(key => {
-      keys.push(key);
-      promises.push(model.checkForFieldAsync(key, formValue));
-    });
-
-    return Promise.all(promises).then(values => {
-      const formError = {};
-      let errorCount = 0;
-
-      for (let i = 0; i < values.length; i++) {
-        if (values[i].hasError) {
-          errorCount += 1;
-          formError[keys[i]] = values[i].errorMessage;
-        }
-      }
-
-      onCheck?.(formError);
-      setFormError(formError);
-
-      if (errorCount > 0) {
-        onError?.(formError);
-      }
-
-      return { hasError: errorCount > 0, formError };
-    });
-  }, [model, getFormValue, onCheck, onError]);
-
-  /**
-   * Asynchronously check form fields and return Promise
-   * @param fieldName
-   */
-  const checkForFieldAsync = useCallback(
-    (fieldName: string) => {
-      const formValue = getFormValue() || {};
-      return model.checkForFieldAsync(fieldName, formValue).then(checkResult => {
-        const formError = { ...getFormError(), [fieldName]: checkResult.errorMessage };
-
-        onCheck?.(formError);
-        setFormError(formError);
-
-        if (checkResult.hasError) {
-          onError?.(formError);
-        }
-
-        return checkResult;
-      });
-    },
-    [model, getFormValue, getFormError, onCheck, onError]
-  );
-
-  const cleanErrors = useCallback(() => {
-    setFormError({});
-  }, []);
-
-  const cleanErrorForField = useCallback(
-    (fieldName: string) => {
-      setFormError(omit(_formError, [fieldName]));
-    },
-    [_formError]
-  );
-
-  const resetErrors = useCallback((formError: any = {}) => {
-    setFormError(formError);
-  }, []);
-
-  useImperativeHandle(ref, () => ({
-    root: rootRef.current,
+  const imperativeMethods: FormImperativeMethods = {
     check,
     checkForField,
     checkAsync,
     checkForFieldAsync,
     cleanErrors,
     cleanErrorForField,
-    resetErrors
-  }));
+    reset,
+    resetErrors,
+    submit
+  };
 
-  const handleSubmit = useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
-      if (disabled || readOnly || plaintext) {
-        return;
-      }
-      event.preventDefault();
-      event.stopPropagation();
+  const formRef = useFormRef(ref, { imperativeMethods });
+  const deferBlurValidation = usePointerBlurValidation(formRef, reserveFieldValidation);
 
-      const checkStatus = check();
-      onSubmit?.(checkStatus, event);
-    },
-    [disabled, readOnly, plaintext, check, onSubmit]
-  );
+  const removeFieldValue = useEventCallback((name: string) => {
+    const formValue = onRemoveValue(name);
+    onChange?.(formValue);
+  });
 
-  const handleFieldError = useCallback(
-    (name: string, errorMessage: React.ReactNode) => {
-      const formError = {
-        ...getFormError(),
-        [name]: errorMessage
-      };
-      setFormError(formError);
-      onError?.(formError);
-      onCheck?.(formError);
-    },
-    [onError, onCheck, getFormError]
-  );
+  const removeFieldError = useEventCallback((name: string) => {
+    onRemoveError(name);
+  });
 
-  const handleFieldSuccess = useCallback(
-    (name: string) => {
-      const formError = omit(getFormError(), [name]);
-      setFormError(formError);
-      onCheck?.(formError);
-    },
-    [onCheck, getFormError]
-  );
-
-  const handleFieldChange = useCallback(
+  const onFieldChange = useEventCallback(
     (name: string, value: any, event: React.SyntheticEvent) => {
-      const formValue = getFormValue();
-      const nextFormValue = {
-        ...formValue,
-        [name]: value
-      };
-      setFormValue(nextFormValue);
+      const nextFormValue = setFieldValue(name, value);
       onChange?.(nextFormValue, event);
-    },
-    [onChange, getFormValue]
+    }
   );
 
-  const rootRef = useRef();
-  const formContextValue = useMemo(
-    () => ({
-      model,
-      checkTrigger,
-      formDefaultValue,
-      errorFromContext,
-      readOnly,
-      plaintext,
-      disabled,
-      formError: getFormError(),
-      onFieldChange: handleFieldChange,
-      onFieldError: handleFieldError,
-      onFieldSuccess: handleFieldSuccess
-    }),
-    [
-      model,
-      checkTrigger,
-      formDefaultValue,
-      errorFromContext,
-      readOnly,
-      plaintext,
-      disabled,
-      getFormError,
-      handleFieldChange,
-      handleFieldError,
-      handleFieldSuccess
-    ]
-  );
+  const formContextValue = {
+    errorFromContext,
+    checkTrigger,
+    plaintext,
+    readOnly,
+    disabled,
+    formError,
+    nestedField,
+    readNativeValidation,
+    commitNativeValidationRetirement,
+    pushFieldRule,
+    removeFieldValue,
+    removeFieldError,
+    removeFieldRule,
+    onFieldChange,
+    getFormValue,
+    deferBlurValidation,
+    checkFieldForNextValue,
+    checkFieldAsyncForNextValue
+  };
+
+  const formChild = useMemo(() => {
+    return fluid || layout ? (
+      <FormStack fluid={fluid} layout={layout}>
+        {children}
+      </FormStack>
+    ) : (
+      children
+    );
+  }, [fluid, children, layout]);
 
   return (
-    <form {...rest} ref={rootRef} onSubmit={handleSubmit} className={classes}>
-      <FormContext.Provider value={formContextValue}>
-        <FormValueContext.Provider value={formValue}>{children}</FormValueContext.Provider>
-      </FormContext.Provider>
-    </form>
+    <Box
+      as="form"
+      data-rs="form"
+      data-disabled={disabled}
+      data-readonly={readOnly}
+      data-plaintext={plaintext}
+      ref={formRef}
+      onSubmit={handleSubmit}
+      onReset={handleReset}
+      {...rest}
+    >
+      <FormProvider value={formContextValue}>
+        <FormValueProvider value={formValue}>{formChild}</FormValueProvider>
+      </FormProvider>
+    </Box>
   );
-}) as unknown as FormComponent;
-
-Form.Control = FormControl;
-Form.ControlLabel = FormControlLabel;
-Form.ErrorMessage = FormErrorMessage;
-Form.Group = FormGroup;
-Form.HelpText = FormHelpText;
-Form.Control = FormControl;
+}, Subcomponents);
 
 Form.displayName = 'Form';
-Form.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  children: PropTypes.node,
-  errorFromContext: PropTypes.bool,
-  layout: PropTypes.oneOf(['horizontal', 'vertical', 'inline']),
-  fluid: PropTypes.bool,
-  formValue: PropTypes.object,
-  formDefaultValue: PropTypes.object,
-  formError: PropTypes.object,
-  checkTrigger: PropTypes.oneOf(['change', 'blur', 'none']),
-  onChange: PropTypes.func,
-  onError: PropTypes.func,
-  onCheck: PropTypes.func,
-  onSubmit: PropTypes.func,
-  model: PropTypes.any,
-  readOnly: PropTypes.bool,
-  plaintext: PropTypes.bool,
-  disabled: PropTypes.bool
-};
 
 export default Form;

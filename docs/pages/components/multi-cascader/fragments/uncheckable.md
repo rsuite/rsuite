@@ -1,22 +1,29 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/province-simplified.json
- */
+import { MultiCascader, Button } from 'rsuite';
+import { mockTreeData } from './mock';
 
-const instance = (
-  <div>
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.person[methodName[layer]]();
+  }
+});
+
+const App = () => (
+  <>
     <MultiCascader
       data={data}
       block
       renderValue={(value, selectedItems) => selectedItems.map(item => item.label).join(' , ')}
       uncheckableItemValues={['1', '2', '2-1']}
     />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

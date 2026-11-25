@@ -1,16 +1,14 @@
 <!--start-code-->
 
 ```js
-/**
- * import { Rate } from 'rsuite'
- * import BeerIcon from '@rsuite/icons/legacy/Beer';
- */
+import { Rate } from 'rsuite';
+import { FaCoffee } from "react-icons/fa";
 
-const instance = (
-  <Rate defaultValue={2.5} allowHalf vertical character={<BeerIcon />} color="blue" />
+const App = () => (
+  <Rate defaultValue={2.5} allowHalf vertical character={<FaCoffee />} color="blue" />
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

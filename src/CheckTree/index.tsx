@@ -1,28 +1,9 @@
-import React, { useRef } from 'react';
-import { FormControlPickerProps, RsRefForwardingComponent } from '../@types/common';
-import CheckTreePicker, { ValueType } from '../CheckTreePicker';
+import CheckTree from './CheckTree';
 
-import { TreeBaseProps } from '../Tree/Tree';
-import TreeContext from '../Tree/TreeContext';
+// export types
+export type { CheckTreeProps } from './CheckTree';
+export type { CheckTreeNodeProps } from './CheckTreeNode';
 
-export interface CheckTreeProps
-  extends TreeBaseProps<ValueType>,
-    FormControlPickerProps<ValueType> {
-  /** Tree node cascade */
-  cascade?: boolean;
-}
-
-const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forwardRef(
-  (props: CheckTreeProps, ref: React.Ref<any>) => {
-    const dragNodeRef = useRef();
-    return (
-      <TreeContext.Provider value={{ inline: true, dragNodeRef }}>
-        <CheckTreePicker ref={ref} {...props} />
-      </TreeContext.Provider>
-    );
-  }
-);
-
-CheckTree.displayName = 'CheckTree';
-
+// export components
+export { CheckTree };
 export default CheckTree;

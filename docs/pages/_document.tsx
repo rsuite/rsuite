@@ -1,30 +1,57 @@
-import React from 'react';
-import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { Html, Head, Main, NextScript } from 'next/document';
+import {
+  createOrganizationSchema,
+  createSoftwareApplicationSchema,
+  createSoftwareSourceCodeSchema,
+  serializeJsonLd
+} from '../utils/jsonld';
 
-interface DocumentProps {
-  userLanguage: string;
-}
+export default function Document() {
+  // Generate global JSON-LD schemas
+  const organizationSchema = createOrganizationSchema();
+  const softwareAppSchema = createSoftwareApplicationSchema();
+  const sourceCodeSchema = createSoftwareSourceCodeSchema();
 
-class MyDocument extends Document<DocumentProps> {
-  static async getInitialProps(ctx) {
-    const initialProps = await Document.getInitialProps(ctx);
-    return { ...initialProps, userLanguage: ctx.query.userLanguage || 'en' };
-  }
+  return (
+    <Html>
+      <Head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@alpha" />
+        {/* Import CSS for nprogress */}
+        <link rel="stylesheet" type="text/css" href="/css/nprogress.css" />
 
-  render() {
-    const { userLanguage } = this.props;
+        {/* Global JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(softwareAppSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(sourceCodeSchema) }}
+        />
 
-    return (
-      <Html lang={userLanguage}>
-        <Head>
-          <script type="text/javascript" src="/js/babel.min.js"></script>
-        </Head>
-        <body>
-          <Main />
-          <NextScript />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3VVC8ZNFF9"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-3VVC8ZNFF9');
+`
+          }}
+        />
+      </Head>
+      <body>
+        <Main />
+        <NextScript />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
               (function(i,d,t,o,u,h,s,f){i[t]=i[t]||[], i[t].push(h);
                 i[h]=i[h]||function(){return (i[h].q=i[h].q||[]).push(arguments)};
                 s=d.createElement(o);s.src=u;s.async=1;f=d.getElementsByTagName(o)[0];
@@ -33,23 +60,9 @@ class MyDocument extends Document<DocumentProps> {
                 _ha('create', '5156', { auto_track: true });
                 _ha('send', 'pageview');
               `
-            }}
-          />
-
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-              ((window.gitter = {}).chat = {}).options = {
-                room: 'rsuite/${userLanguage === 'zh' ? 'rsuite-CN' : 'rsuite'}'
-              };
-              `
-            }}
-          ></script>
-          <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
-        </body>
-      </Html>
-    );
-  }
+          }}
+        />
+      </body>
+    </Html>
+  );
 }
-
-export default MyDocument;

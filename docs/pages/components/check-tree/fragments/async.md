@@ -1,44 +1,44 @@
 <!--start-code-->
 
 ```js
-const AsyncExample = () => {
-  const [value, setValue] = useState([]);
-  const [data, setData] = useState([
-    {
-      label: 'Parent Node',
-      value: '0',
-      children: []
-    }
-  ]);
+import { CheckTree } from 'rsuite';
+import FolderFillIcon from '@rsuite/icons/FolderFill';
+import PageIcon from '@rsuite/icons/Page';
+import { mockAsyncData } from './mock';
+
+const [getNodes, fetchNodes] = mockAsyncData();
+const data = getNodes(5);
+
+const TreeNode = ({ children, ...rest }) => {
+  return (
+    <div {...rest} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+      {children}
+    </div>
+  );
+};
+
+const App = () => {
+  const [value, setValue] = React.useState([]);
 
   return (
     <CheckTree
       data={data}
       value={value}
-      style={{ width: 280 }}
+      w={280}
       onChange={value => setValue(value)}
-      getChildren={activeNode =>
-        new Promise(resolve => {
-          setTimeout(() => {
-            resolve([
-              {
-                label: 'Child Node',
-                value: `${activeNode.refKey}-0`,
-                children: []
-              },
-              {
-                label: 'Child Node',
-                value: `${activeNode.refKey}-1`,
-                children: []
-              }
-            ]);
-          }, 1000);
-        })
-      }
+      getChildren={fetchNodes}
+      renderTreeNode={node => {
+        return (
+          <TreeNode>
+            {node.children ? <FolderFillIcon /> : <PageIcon />} {node.label}
+          </TreeNode>
+        );
+      }}
     />
   );
 };
-ReactDOM.render(<AsyncExample />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

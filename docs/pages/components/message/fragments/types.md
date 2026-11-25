@@ -1,15 +1,26 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
-    <Message type="info">Informational</Message>
-    <Message type="success">Success</Message>
-    <Message type="warning">Warning</Message>
-    <Message type="error">Error</Message>
-  </div>
+import { Message } from 'rsuite';
+
+const App = () => (
+  <>
+    <Message type="info">
+      <strong>Info!</strong> You can use the `Message` component to display a info message.
+    </Message>
+    <Message type="success">
+      <strong>Success!</strong> You can use the `Message` component to display a success message.
+    </Message>
+    <Message type="warning">
+      <strong>Warning!</strong> You can use the `Message` component to display a warning message.
+    </Message>
+    <Message type="error">
+      <strong>Error!</strong> You can use the `Message` component to display a error message.
+    </Message>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

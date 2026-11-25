@@ -1,27 +1,24 @@
 import React, { useCallback, useContext } from 'react';
+import classNames from 'classnames';
+import MenuItem from '@/internals/Menu/MenuItem';
 import isNil from 'lodash/isNil';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { createChainedFunction, shallowEqual, useClassNames } from '../utils';
-import { SidenavContext } from './Sidenav';
-import PropTypes from 'prop-types';
-import { IconProps } from '@rsuite/icons/lib/Icon';
-import Ripple from '../Ripple';
-import SafeAnchor from '../SafeAnchor';
 import NavContext from '../Nav/NavContext';
-import DropdownContext from '../Dropdown/DropdownContext';
-import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
+import ExpandedSidenavDropdownItem from './ExpandedSidenavDropdownItem';
+import { forwardRef, mergeRefs, shallowEqual } from '@/internals/utils';
+import { SidenavContext } from './SidenavContext';
+import { useStyles } from '@/internals/hooks';
+import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
+import type { BoxProps } from '@/internals/Box';
+import type { HTMLPropsWithoutSelect } from '@/internals/types';
+import type { IconProps } from '@rsuite/icons/Icon';
+import type { DeprecatedDropdownItemProps } from '../Dropdown/types';
 
 export interface SidenavDropdownItemProps<T = any>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
+  extends BoxProps,
+    DeprecatedDropdownItemProps,
+    HTMLPropsWithoutSelect {
   /** Active the current option */
   active?: boolean;
-
-  /** Primary content */
-  children?: React.ReactNode;
-
-  /** You can use a custom element for this component */
-  as?: React.ElementType;
 
   /** Whether to display the divider */
   divider?: boolean;
@@ -41,135 +38,120 @@ export interface SidenavDropdownItemProps<T = any>
   /** The submenu that this menuitem controls (if exists) */
   submenu?: React.ReactElement;
 
-  /** Whether the submenu is expanded, used in Sidenav. */
-  expanded?: boolean;
-
   /** Select the callback function for the current option  */
   onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
 /**
- * Tree View Node
- * @see https://www.w3.org/TR/wai-aria-practices-1.2/#TreeView
+ * @private this component is not supposed to be used directly
+ *          Instead it's rendered by a <Nav.Item> within a <Sidenav>
+ *
+ * <Sidenav>
+ *   <Nav>
+ *     <Nav.Menu>
+ *       <Nav.Item></Nav.Item> -> This will render <SidenavDropdownItem> component
+ *     </Nav.Menu>
+ *   </Nav>
+ * </Sidenav>
  */
-const SidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemProps> =
-  React.forwardRef<HTMLLIElement, SidenavDropdownItemProps>((props, ref) => {
-    const {
-      as: Component = 'li',
-      active: activeProp,
+const SidenavDropdownItem = forwardRef<'li', SidenavDropdownItemProps>((props, ref) => {
+  const sidenav = useContext(SidenavContext);
+  const nav = useContext(NavContext);
+
+  if (!sidenav || !nav) {
+    throw new Error(
+      '<Sidenav.Dropdown.Item> must be used within a <Nav> within a <Sidenav> component.'
+    );
+  }
+
+  const {
+    as = 'li',
+    active: activeProp,
+    classPrefix = 'dropdown-item',
+    className,
+    children,
+    divider,
+    disabled,
+    eventKey,
+    icon,
+    panel,
+    onSelect,
+    ...restProps
+  } = props;
+
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
+
+  const handleSelectItem = useCallback(
+    (event: React.SyntheticEvent) => {
+      onSelect?.(eventKey, event);
+      nav.onSelect?.(eventKey, event);
+    },
+    [onSelect, eventKey, nav]
+  );
+
+  const selected = activeProp || (!isNil(eventKey) && shallowEqual(nav?.activeKey, eventKey));
+
+  const renderDropdownItem = useRenderMenuItem(as);
+
+  if (sidenav.expanded) {
+    return <ExpandedSidenavDropdownItem ref={ref} {...props} />;
+  }
+
+  if (divider) {
+    return renderDropdownItem({
+      ref,
+      role: 'separator',
+      className: merge(prefix('divider'), className),
+      ...restProps
+    });
+  }
+
+  if (panel) {
+    return renderDropdownItem({
+      ref,
+      className: merge(prefix('panel'), className),
       children,
-      disabled,
-      divider,
-      panel,
-      className,
-      style,
-      classPrefix = 'dropdown-item',
-      icon,
-      eventKey,
-      onClick,
-      onSelect,
-      ...rest
-    } = props;
+      ...restProps
+    });
+  }
+  return (
+    <MenuItem selected={selected} disabled={disabled} onActivate={handleSelectItem}>
+      {({ selected, active, ...menuitem }, menuitemRef) => {
+        const classes = merge(className, withPrefix({ divider, panel }));
 
-    const { activeKey, onSelect: onSidenavSelect } = useContext(SidenavContext);
-    const nav = useContext(NavContext);
-    const dropdown = useContext(DropdownContext);
+        const dataAttributes: { [key: string]: any } = {
+          'data-active': selected,
+          'data-disabled': disabled,
+          'data-focus': active,
+          'data-with-icon': !!icon,
+          'data-event-key': eventKey
+        };
 
-    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+        if (!isNil(eventKey) && typeof eventKey !== 'string') {
+          dataAttributes['data-event-key-type'] = typeof eventKey;
+        }
 
-    const selected =
-      activeProp ??
-      (!isNil(eventKey) &&
-        (shallowEqual(eventKey, activeKey) || shallowEqual(nav?.activeKey, eventKey)));
-
-    const classes = merge(
-      className,
-      withClassPrefix({
-        'with-icon': icon,
-        active: selected,
-        disabled
-      })
-    );
-
-    const handleClick = useCallback(
-      (event: React.MouseEvent<HTMLLIElement>) => {
-        if (disabled) return;
-
-        onSelect?.(eventKey, event);
-        dropdown?.onSelect(eventKey, event);
-        onSidenavSelect?.(eventKey, event);
-      },
-      [disabled, onSelect, onSidenavSelect, eventKey, dropdown]
-    );
-
-    const menuitemEventHandlers: React.HTMLAttributes<HTMLElement> = {
-      onClick: createChainedFunction(handleClick, onClick)
-    };
-
-    const renderDropdownItem = useRenderDropdownItem(Component);
-
-    if (divider) {
-      return renderDropdownItem({
-        ref,
-        role: 'separator',
-        style,
-        className: merge(prefix('divider'), className),
-        ...rest
-      });
-    }
-
-    if (panel) {
-      return renderDropdownItem({
-        ref,
-        role: 'none presentation',
-        style,
-        className: merge(prefix('panel'), className),
-        ...rest,
-        children
-      });
-    }
-
-    return renderDropdownItem(
-      {
-        ref,
-        ...rest,
-        style,
-        className: classes,
-        'aria-current': selected || undefined,
-        ...menuitemEventHandlers,
-        children: (
-          <>
-            {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
-            {children}
-            <Ripple />
-          </>
-        )
-      },
-      SafeAnchor
-    );
-  });
+        return renderDropdownItem({
+          ref: mergeRefs(ref, menuitemRef),
+          className: classes,
+          ...menuitem,
+          ...dataAttributes,
+          ...restProps,
+          children: (
+            <>
+              {icon &&
+                React.cloneElement(icon, {
+                  className: classNames(prefix('menu-icon'), icon.props.className)
+                })}
+              {children}
+            </>
+          )
+        });
+      }}
+    </MenuItem>
+  );
+});
 
 SidenavDropdownItem.displayName = 'Sidenav.Dropdown.Item';
-SidenavDropdownItem.propTypes = {
-  as: PropTypes.elementType,
-  expanded: PropTypes.bool,
-  active: PropTypes.bool,
-  divider: PropTypes.bool,
-  panel: PropTypes.bool,
-  disabled: PropTypes.bool,
-  submenu: PropTypes.element,
-  onSelect: PropTypes.func,
-  onClick: PropTypes.func,
-  icon: PropTypes.node,
-  eventKey: PropTypes.any,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  tabIndex: PropTypes.number,
-  title: PropTypes.node,
-  onMouseOver: PropTypes.func,
-  onMouseOut: PropTypes.func
-};
 
 export default SidenavDropdownItem;

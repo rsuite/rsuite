@@ -1,20 +1,20 @@
 <!--start-code-->
 
 ```js
-// import PieChartIcon from '@rsuite/icons/PieChartIcon';
-
-const ChartIcon = ({ size }) => <PieChartIcon style={{ fontSize: size, marginRight: 10 }} />;
+import { HStack } from 'rsuite';
+import PieChartIcon from '@rsuite/icons/PieChart';
 
 const App = () => (
-  <div>
-    <ChartIcon size="1em" />
-    <ChartIcon size="2em" />
-    <ChartIcon size="3em" />
-    <ChartIcon size="4em" />
-    <ChartIcon size="5em" />
-  </div>
+  <HStack spacing={20}>
+    <PieChartIcon size="1rem" />
+    <PieChartIcon size="2rem" />
+    <PieChartIcon size="3rem" />
+    <PieChartIcon size="4rem" />
+    <PieChartIcon size="5rem" />
+  </HStack>
 );
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

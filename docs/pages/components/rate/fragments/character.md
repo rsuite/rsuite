@@ -1,57 +1,36 @@
 <!--start-code-->
 
 ```js
-/**
- * import { Rate } from 'rsuite'
- * import { Icon } from '@rsuite/icons';
- * import HeartIcon from '@rsuite/icons/legacy/Heart';
- * import * as SvgIcons from '@/components/SvgIcons'; // SvgIcons is external resources.
- *
- * <style>
- *   .rs-icon.fill-color use{
- *       fill: currentColor;
- *   }
- * </style>
- */
+import { Rate, VStack, Divider } from 'rsuite';
+import { FaHeart, FaRegStar, FaStar } from 'react-icons/fa';
+
 const App = () => {
   const [value, setValue] = React.useState(2.5);
-  const handleChange = value => {
-    setValue(value);
-  };
   return (
-    <div>
-      <div>
-        <Rate
-          allowHalf
-          value={value}
-          character={<HeartIcon />}
-          color="red"
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <Rate allowHalf value={value} character="鼎" color="blue" onChange={handleChange} />
-      </div>
-      <div>
-        <Rate allowHalf value={value} character="A" onChange={handleChange} />
-      </div>
-      <div>
-        <Rate allowHalf value={value} character="👍" onChange={handleChange} />
-      </div>
-      <div>
-        <Rate
-          allowHalf
-          value={value}
-          vertical
-          character={<Icon className="fill-color" as={SvgIcons.Dark} />}
-          onChange={handleChange}
-        />
-      </div>
-    </div>
+    <VStack spacing={10}>
+      <Divider label="Svg icon" labelPlacement="start" />
+      <Rate allowHalf value={value} character={<FaHeart />} color="red" onChange={setValue} />
+      <Rate
+        allowHalf
+        value={value}
+        onChange={setValue}
+        color="yellow"
+        renderCharacter={(value, index) => {
+          if (value >= index + 1) {
+            return <FaStar />;
+          }
+          return <FaRegStar />;
+        }}
+      />
+      <Divider label="Emoji" labelPlacement="start" />
+      <Rate allowHalf value={value} character="❤️" onChange={setValue} />
+      <Rate allowHalf value={value} character="👍" onChange={setValue} />
+      <Rate allowHalf value={value} character="⭐️" onChange={setValue} />
+    </VStack>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,32 +1,27 @@
 <!--start-code-->
 
 ```js
-const MyLink = React.forwardRef((props, ref) => {
-  const { href, as, ...rest } = props;
-  return (
-    <Link href={href} as={as}>
-      <a ref={ref} {...rest} />
-    </Link>
-  );
-});
+import { Nav } from 'rsuite';
+import Link from 'next/link';
 
-const instance = (
+const App = () => (
   <Nav>
-    <Nav.Item as={MyLink} href="/">
+    <Nav.Item as={Link} href="/">
       Home
     </Nav.Item>
-    <Nav.Item as={MyLink} href="/guide/introduction">
+    <Nav.Item as={Link} href="/guide/introduction">
       Guide
     </Nav.Item>
-    <Nav.Item as={MyLink} href="/components/overview">
+    <Nav.Item as={Link} href="/components/overview">
       Components
     </Nav.Item>
-    <Nav.Item as={MyLink} href="/resources/palette">
+    <Nav.Item as={Link} href="/resources/palette">
       Resources
     </Nav.Item>
   </Nav>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

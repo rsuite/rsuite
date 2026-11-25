@@ -1,33 +1,22 @@
-import { h, Component } from 'preact';
 import { Router } from 'preact-router';
+import { CustomProvider } from 'rsuite';
 
-import 'rsuite/dist/styles/rsuite-default.css';
-import Header from './header';
+import React from 'react';
 
-// Code-splitting is automated for routes
+// Code-splitting is automated for `routes` directory
 import Home from '../routes/home';
 import Profile from '../routes/profile';
 
-export default class App extends Component {
+const App = () => (
+  <CustomProvider theme='dark'>
+    <div id="app">
+      <Router>
+        <Home path="/" />
+        <Profile path="/profile/" user="me" />
+        <Profile path="/profile/:user" />
+      </Router>
+    </div>
+  </CustomProvider>
+);
 
-	/** Gets fired when the route changes.
-	 *	@param {Object} event		"change" event from [preact-router](http://git.io/preact-router)
-	 *	@param {string} event.url	The newly routed URL
-	 */
-	handleRoute = e => {
-		this.currentUrl = e.url;
-	};
-
-	render() {
-		return (
-			<div id="app">
-				<Header />
-				<Router onChange={this.handleRoute}>
-					<Home path="/" />
-					<Profile path="/profile/" user="me" />
-					<Profile path="/profile/:user" />
-				</Router>
-			</div>
-		);
-	}
-}
+export default App;

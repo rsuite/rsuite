@@ -1,0 +1,77 @@
+
+.rs-scroll-view {
+  // Shadow variant
+  &.rs-scroll-view-shadow {
+    overflow: auto;
+    padding: 0px;
+
+    &::before,
+    &::after {
+      content: '';
+      position: sticky;
+      width: 100%;
+      height: 2px;
+      visibility: hidden;
+      display: block;
+      z-index: 1;
+    }
+
+    &::before {
+      top: -2px;
+      box-shadow: 3px 0 5px var(--rs-scroll-view-shadow-color);
+    }
+
+    &::after {
+      bottom: -2px;
+      box-shadow: -3px 0 5px var(--rs-scroll-view-shadow-color);
+    }
+
+    // Thumb position states
+    &.rs-scroll-view-thumb-middle {
+      &::before,
+      &::after {
+        visibility: visible;
+      }
+    }
+
+    &.rs-scroll-view-thumb-top {
+      &::after {
+        visibility: visible;
+      }
+    }
+
+    &.rs-scroll-view-thumb-bottom {
+      &::before {
+        visibility: visible;
+      }
+    }
+  }
+
+
+  // Custom scrollbar variant
+  // https://css-tricks.com/custom-scrollbars-in-webkit/
+  &.rs-scroll-view-custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--rs-scrollbar-thumb-bg) var(--rs-scrollbar-bg);
+
+    // Webkit scrollbar styles
+    &::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--rs-scrollbar-bg);
+      border-radius: var(--rs-radius-lg);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--rs-scrollbar-thumb-bg);
+      border-radius: var(--rs-radius-md);
+      border: 3px solid var(--rs-scrollbar-bg);
+
+      &:hover {
+        background-color: var(--rs-scrollbar-thumb-hover-bg);
+      }
+    }
+  }
+}

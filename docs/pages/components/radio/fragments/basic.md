@@ -1,13 +1,16 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Radio, HStack } from 'rsuite';
+
+const App = () => (
+  <HStack spacing={20}>
     <Radio> Radio</Radio>
     <Radio checked> Checked Radio</Radio>
-  </div>
+  </HStack>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,39 +1,43 @@
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import React, { useCallback, useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { IconProps } from '@rsuite/icons/lib/Icon';
-import { SidenavContext } from '../Sidenav/Sidenav';
-import deprecatePropType from '../utils/deprecatePropType';
-import MenuItem from '../Menu/MenuItem';
+import classNames from 'classnames';
+import MenuItem from '@/internals/Menu/MenuItem';
 import DropdownContext from './DropdownContext';
 import isNil from 'lodash/isNil';
-import { createChainedFunction, mergeRefs, shallowEqual, useClassNames } from '../utils';
-import { NavbarContext } from '../Navbar/Navbar';
-import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
-import DisclosureContext, { DisclosureActionTypes } from '../Disclosure/DisclosureContext';
-import SafeAnchor from '../SafeAnchor';
+import pick from 'lodash/pick';
+import Nav from '../Nav';
 import NavContext from '../Nav/NavContext';
-import useInternalId from '../utils/useInternalId';
+import Text from '../Text';
+import DropdownSeparator, { type DropdownSeparatorProps } from './DropdownSeparator';
+import { useRenderMenuItem } from '@/internals/Menu/useRenderMenuItem';
+import { useStyles, useInternalId } from '@/internals/hooks';
+import { forwardRef, mergeRefs, shallowEqual, warnOnce } from '@/internals/utils';
 import { DropdownActionType } from './DropdownState';
-import { useRenderDropdownItem } from './useRenderDropdownItem';
+import type { IconProps } from '@rsuite/icons/Icon';
+import type { BoxProps } from '@/internals/Box';
+import type { HTMLPropsWithoutSelect } from '@/internals/types';
+import type { DeprecatedDropdownItemProps } from './types';
+
+interface DeprecatedDropdownMenuItemProps extends DeprecatedDropdownItemProps {
+  /**
+   * Whether to display the divider
+   *
+   * @deprecated Use dedicated <Dropdown.Separator> component instead
+   */
+  divider?: boolean;
+}
 
 export interface DropdownMenuItemProps<T = any>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
+  extends BoxProps,
+    DeprecatedDropdownMenuItemProps,
+    HTMLPropsWithoutSelect {
   /** Active the current option */
   active?: boolean;
 
-  /** Primary content */
-  children?: React.ReactNode;
-
-  /** You can use a custom element for this component */
-  as?: React.ElementType;
-
-  /** Whether to display the divider */
-  divider?: boolean;
-
   /** Disable the current option */
   disabled?: boolean;
+
+  /** The description of the current option */
+  description?: React.ReactNode;
 
   /** The value of the current option */
   eventKey?: T;
@@ -48,41 +52,38 @@ export interface DropdownMenuItemProps<T = any>
   submenu?: React.ReactElement;
 
   /**
-   * The sub-level menu appears from the right side by default, and when `pullLeft` is set, it appears from the left.
-   * @deprecated Submenus are now pointing the same direction.
+   * The dropdown item keyboard shortcut.
+   *
+   * @version 5.58.0
    */
-  pullLeft?: boolean;
+  shortcut?: React.ReactNode;
 
   /**
-   * Whether the submenu is opened.
-   * @deprecated
-   * @internal
+   * Select the callback function for the current option
    */
-  open?: boolean;
-
-  /** Select the callback function for the current option  */
   onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
-
 /**
- * The <Dropdown.Item> API
- * When used inside <Sidenav>, renders a <TreeviewItem>
- * Otherwise renders a <MenuItem>
+ * The `<Dropdown.Item>` API
+ * - When used inside `<Sidenav>`, renders a `<TreeviewItem>`
+ * - Otherwise renders a `<MenuItem>`
  */
-const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.forwardRef(
+const DropdownItem = forwardRef<'li', DropdownMenuItemProps>(
   (props: DropdownMenuItemProps, ref: React.Ref<any>) => {
     const {
+      as = 'li',
+      active: activeProp,
       classPrefix = 'dropdown-item',
       className,
-      active: activeProp,
-      eventKey,
-      onSelect,
-      icon,
-      as: Component = 'li',
-      divider,
-      panel,
       children,
+      shortcut,
       disabled,
+      description,
+      divider,
+      eventKey,
+      icon,
+      panel,
+      onSelect,
       ...restProps
     } = props;
 
@@ -90,7 +91,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
 
     const nav = useContext(NavContext);
     const dropdown = useContext(DropdownContext);
-    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+    const { merge, withPrefix, prefix } = useStyles(classPrefix);
 
     const handleSelectItem = useCallback(
       (event: React.SyntheticEvent) => {
@@ -100,24 +101,8 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
       [onSelect, eventKey, dropdown]
     );
 
-    const sidenav = useContext(SidenavContext);
-    const navbar = useContext(NavbarContext);
-    const disclosure = useContext(DisclosureContext);
-
-    const [, dispatchDisclosure] = disclosure ?? [];
-
-    const handleClickNavbarDropdownItem = useCallback(
-      (event: React.SyntheticEvent) => {
-        dispatchDisclosure({ type: DisclosureActionTypes.Hide });
-        handleSelectItem?.(event);
-      },
-      [dispatchDisclosure, handleSelectItem]
-    );
-
     const selected =
-      activeProp ||
-      (!isNil(eventKey) &&
-        (shallowEqual(dropdown?.activeKey, eventKey) || shallowEqual(nav?.activeKey, eventKey)));
+      activeProp || (!isNil(eventKey) && shallowEqual(dropdown?.activeKey, eventKey));
 
     const dispatch = dropdown?.dispatch;
 
@@ -144,18 +129,22 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
       }
     }, [internalId, selected, dispatch]);
 
-    const renderDropdownItem = useRenderDropdownItem(Component);
+    const renderDropdownItem = useRenderMenuItem(as);
 
-    if (sidenav?.expanded) {
-      return <SidenavDropdownItem ref={ref} {...props} />;
+    // If using <Dropdown.Item> within <Nav>
+    // Suggest <Nav.Item>
+    if (nav) {
+      warnOnce(
+        'Usage of <Dropdown.Item> within <Nav> is deprecated. Replace with <Nav.Item> within <Nav.Menu>.'
+      );
+
+      return <Nav.Item ref={ref} {...props} />;
     }
+
     if (divider) {
-      return renderDropdownItem({
-        ref,
-        role: 'separator',
-        className: merge(prefix('divider'), className),
-        ...restProps
-      });
+      return (
+        <DropdownSeparator as="li" {...(pick(props, ['data-testid']) as DropdownSeparatorProps)} />
+      );
     }
 
     if (panel) {
@@ -167,59 +156,16 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
       });
     }
 
-    if (navbar) {
-      const classes = merge(
-        className,
-        withClassPrefix({
-          'with-icon': icon,
-          disabled,
-          divider,
-          panel,
-          active: selected
-        })
-      );
-
-      const dataAttributes: { [key: string]: any } = {
-        'data-event-key': eventKey
-      };
-
-      if (!isNil(eventKey) && typeof eventKey !== 'string') {
-        dataAttributes['data-event-key-type'] = typeof eventKey;
-      }
-      return (
-        <li>
-          <SafeAnchor
-            ref={ref}
-            className={classes}
-            aria-current={selected || undefined}
-            {...dataAttributes}
-            {...restProps}
-            as={Component}
-            onClick={createChainedFunction(handleClickNavbarDropdownItem, restProps.onClick)}
-          >
-            {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
-            {children}
-          </SafeAnchor>
-        </li>
-      );
-    }
-
     return (
       <MenuItem selected={selected} disabled={disabled} onActivate={handleSelectItem}>
         {({ selected, active, ...menuitem }, menuitemRef) => {
-          const classes = merge(
-            className,
-            withClassPrefix({
-              'with-icon': icon,
-              active: selected,
-              disabled,
-              focus: active,
-              divider,
-              panel
-            })
-          );
+          const classes = merge(className, withPrefix({ divider, panel }));
 
           const dataAttributes: { [key: string]: any } = {
+            'data-disabled': disabled,
+            'data-focus': active,
+            'data-active': selected,
+            'data-with-icon': !!icon,
             'data-event-key': eventKey
           };
 
@@ -235,8 +181,22 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
             ...restProps,
             children: (
               <>
-                {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
-                {children}
+                {icon &&
+                  React.cloneElement(icon, {
+                    className: classNames(prefix('menu-icon'), icon.props.className)
+                  })}
+                <div className={prefix('content')}>
+                  <Text as="span">{children}</Text>
+                  <Text as="span" muted>
+                    {description}
+                  </Text>
+                </div>
+
+                {shortcut && (
+                  <Text as="kbd" className={prefix('shortcut')} muted>
+                    {shortcut}
+                  </Text>
+                )}
               </>
             )
           });
@@ -247,25 +207,5 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
 );
 
 DropdownItem.displayName = 'Dropdown.Item';
-DropdownItem.propTypes = {
-  as: PropTypes.elementType,
-  divider: PropTypes.bool,
-  panel: PropTypes.bool,
-  trigger: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['click', 'hover'])]),
-  open: deprecatePropType(PropTypes.bool),
-  active: PropTypes.bool,
-  disabled: PropTypes.bool,
-  pullLeft: deprecatePropType(PropTypes.bool),
-  submenu: PropTypes.element,
-  onSelect: PropTypes.func,
-  onClick: PropTypes.func,
-  icon: PropTypes.node,
-  eventKey: PropTypes.any,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  tabIndex: PropTypes.number
-};
 
 export default DropdownItem;

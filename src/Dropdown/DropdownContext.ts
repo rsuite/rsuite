@@ -2,8 +2,8 @@ import React, { Dispatch } from 'react';
 import { DropdownAction } from './DropdownState';
 
 export interface DropdownContextProps {
-  activeKey?: string;
-  onSelect: (eventKey: string, event: React.SyntheticEvent) => void;
+  activeKey?: string | number;
+  onSelect?: (eventKey: string | undefined, event: React.SyntheticEvent) => void;
   hasSelectedItem?: boolean;
   dispatch?: Dispatch<DropdownAction>;
 }

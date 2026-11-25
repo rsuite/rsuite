@@ -6,44 +6,42 @@ This article describes how you can help rsuite do a better job and contribute wi
 
 ## Development
 
-### Test-Driven Development（TDD）
+Fork this repo to your namespace and clone to your local machine.
 
-1. Fork `https://github.com/rsuite/rsuite` this repo.
+    $ git clone git@github.com:<YOUR NAME>/rsuite.git
+    $ cd rsuite
 
-```bash
-$ git clone git@github.com:<YOUR NAME>/rsuite.git
-$ cd rsuite
+Install dependencies in root directory and `docs/` directory.
+
+    $ npm i && npm i --prefix docs
+
+Now you can start the development server by running `npm run dev` in `docs/` directory. It's serving at http://127.0.0.1:3000/ by default.
+
+    $ npm run dev --prefix docs
+
+### Testing
+
+Most of the time while you're making changes,
+you should make sure you're not breaking the tests.
+To run and watch unit tests, you can run `npm run tdd` in root directory.
+
+    $ npm run tdd
+
+And it's possible to run only tests in a specific component using an `M` environment variable.
+
+    # only run tests in src/Button directory
+    $ M=Button npm run tdd
+
+It's also possible to run tests in several different components as `M` accepts any glob pattern.
+
+    # run tests in src/Button and src/ButtonGroup directories
+    $ M={Button,ButtonGroup} npm run tdd
+
+When writing tests, we use [the BDD assertion style](https://www.chaijs.com/api/bdd/).
+
+```ts
+expect(instance).to.have.class('class-in');
 ```
-
-2. Install it and run
-
-```bash
-$ npm i
-$ npm run tdd
-```
-
-3. Run a single component test case.
-
-```bash
-$ M=Button npm run tdd
-```
-
-### UI-Driven Development
-
-1. Fork `https://github.com/rsuite/rsuite` this repo.
-
-```bash
-$ git clone git@github.com:<YOUR NAME>/rsuite.git
-```
-
-2. Install it and run
-
-```bash
-$ npm i
-$ npm run dev
-```
-
-3. Your show time. Open url http://127.0.0.1:3000/ in browser.
 
 ## Bug reports
 
@@ -67,6 +65,8 @@ git clone https://github.com/<your-username>/rsuite.git
 # Navigate to the newly cloned directory
 cd rsuite
 ```
+
+- Use Node.js 22 or 24 to develop and test RSuite.
 
 - Install project dependencies, executing at the project root:
 

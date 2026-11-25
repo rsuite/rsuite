@@ -1,6 +1,5 @@
-import React from 'react';
 import loadable from '@loadable/component';
-import DefaultPage from '@/components/Page';
+import DefaultPage from '@/components/layout/Page';
 import {
   Form,
   Button,
@@ -10,47 +9,59 @@ import {
   RadioGroup,
   Checkbox,
   Radio,
-  Schema,
+  SegmentedControl,
   CheckPicker,
-  InputNumber,
+  useFormControl,
+  NumberInput,
+  PasswordInput,
   Panel,
   SelectPicker,
   Slider,
   DatePicker,
   Input,
   Message,
-  Rate,
   Uploader,
   toaster,
-  FlexboxGrid,
-  IconButton
+  IconButton,
+  Toggle,
+  Box,
+  Row,
+  Col
 } from 'rsuite';
+import {
+  SchemaModel,
+  StringType,
+  ObjectType,
+  NumberType,
+  ArrayType,
+  BooleanType
+} from 'rsuite/Schema';
 
 import PlusIcon from '@rsuite/icons/Plus';
 import MinusIcon from '@rsuite/icons/Minus';
+import { JSONView } from '@/components/JSONView';
 
-const JSONTree = loadable(() => import('react-json-tree'));
-const MaskedInput = loadable(() => import('react-text-mask'));
+const Select = loadable(() => import('react-select'));
 
-const JSONView = ({ formValue, formError }: any) => (
-  <div style={{ marginBottom: 10 }}>
-    <Panel className="json-tree-wrapper" header={<p>formValue</p>}>
-      <JSONTree data={formValue} />
-    </Panel>
+const sandboxDependencies = {
+  'react-json-tree': '^0.15.0',
+  'react-select': '^5.4.0'
+};
 
-    <Panel className="json-tree-wrapper" header={<p>formError</p>}>
-      <JSONTree data={formError} />
-    </Panel>
-  </div>
-);
 export default function Page() {
   return (
     <DefaultPage
       dependencies={{
-        Schema,
+        SchemaModel,
+        StringType,
+        ObjectType,
+        NumberType,
+        ArrayType,
+        BooleanType,
+        JSONView,
         Form,
         Input,
-        InputNumber,
+        NumberInput,
         Button,
         ButtonGroup,
         ButtonToolbar,
@@ -58,22 +69,27 @@ export default function Page() {
         CheckPicker,
         SelectPicker,
         RadioGroup,
+        SegmentedControl,
         Checkbox,
+        PasswordInput,
         Panel,
         Radio,
-        JSONView,
-        MaskedInput,
+        Select,
         Slider,
         DatePicker,
         Message,
         toaster,
-        Rate,
         Uploader,
-        FlexboxGrid,
+        Row,
+        Col,
         IconButton,
         PlusIcon,
-        MinusIcon
+        MinusIcon,
+        Toggle,
+        Box,
+        useFormControl
       }}
+      sandboxDependencies={sandboxDependencies}
     />
   );
 }

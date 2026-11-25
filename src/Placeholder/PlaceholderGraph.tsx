@@ -1,47 +1,71 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+/* @jsxRuntime classic */
+import React, { useContext } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
+import { CustomContext } from '@/internals/Provider/CustomContext';
+import { useStyles, useCustom } from '@/internals/hooks';
+import { forwardRef, getCssValue, mergeStyles } from '@/internals/utils';
 
-export interface PlaceholderGraphProps extends WithAsProps {
-  /* height of rows */
+export interface PlaceholderGraphProps extends BoxProps {
+  /**
+   * The height of the graph.
+   *
+   * @default 200
+   */
   height?: number;
 
-  /* width of rows */
+  /**
+   * The width of the graph.
+   *
+   * @default 100%
+   */
   width?: number;
 
-  /** Placeholder status */
+  /**
+   * Placeholder status, display the loading state.
+   */
   active?: boolean;
 }
 
-const PlaceholderGraph: RsRefForwardingComponent<'div', PlaceholderGraphProps> = React.forwardRef(
-  (props: PlaceholderGraphProps, ref) => {
-    const {
-      as: Component = 'div',
-      className,
-      width,
-      height = 200,
-      style,
-      active,
-      classPrefix = 'placeholder',
-      ...rest
-    } = props;
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
+/**
+ * The `Placeholder.Graph` component is used to display the loading state of the block.
+ * @see https://rsuitejs.com/components/placeholder
+ */
+const PlaceholderGraph = forwardRef<'div', PlaceholderGraphProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('PlaceholderGraph', props);
+  const { reduceMotion } = useContext(CustomContext);
+  const {
+    as,
+    className,
+    classPrefix = 'placeholder',
+    width,
+    height,
+    style,
+    active,
+    ...rest
+  } = propsWithDefaults;
 
-    const classes = merge(className, withClassPrefix('graph', { active }));
-    const styles = { width: width || '100%', height, ...style };
-    return <Component {...rest} ref={ref} className={classes} style={styles} />;
-  }
-);
+  const { merge, cssVar, withPrefix } = useStyles(classPrefix);
+
+  const classes = merge(className, withPrefix('graph'));
+  const styles = mergeStyles(
+    style,
+    cssVar('graph-width', width, getCssValue),
+    cssVar('graph-height', height, getCssValue)
+  );
+
+  return (
+    <Box
+      as={as}
+      ref={ref}
+      className={classes}
+      style={styles}
+      data-active={active}
+      {...rest}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
+    />
+  );
+});
 
 PlaceholderGraph.displayName = 'PlaceholderGraph';
-PlaceholderGraph.propTypes = {
-  className: PropTypes.string,
-  style: PropTypes.object,
-  classPrefix: PropTypes.string,
-  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  active: PropTypes.bool
-};
 
 export default PlaceholderGraph;

@@ -1,60 +1,46 @@
 <!--start-code-->
 
 ```js
-const styles = {
-  radioGroupLabel: {
-    padding: '8px 12px',
-    display: 'inline-block',
-    verticalAlign: 'middle'
-  }
-};
+import { Carousel, SegmentedControl, Divider, Text } from 'rsuite';
+
 function App() {
   const [placement, setPlacement] = React.useState('bottom');
   const [shape, setShape] = React.useState('dot');
+
   return (
-    <div>
-      <RadioGroup
-        name="radioList"
-        inline
-        appearance="picker"
-        defaultValue={placement}
+    <>
+      <SegmentedControl
+        data={[
+          { value: 'top', label: 'Top' },
+          { value: 'bottom', label: 'Bottom' },
+          { value: 'left', label: 'Left' },
+          { value: 'right', label: 'Right' }
+        ]}
+        value={placement}
         onChange={setPlacement}
-      >
-        <span style={styles.radioGroupLabel}>Placement: </span>
-        <Radio value="top">Top</Radio>
-        <Radio value="bottom">Bottom</Radio>
-        <Radio value="left">Left</Radio>
-        <Radio value="right">Right</Radio>
-      </RadioGroup>
+      />
       <Divider vertical />
-      <RadioGroup
-        name="radioList"
-        inline
-        appearance="picker"
-        defaultValue={shape}
+      <SegmentedControl
+        data={[
+          { value: 'dot', label: 'Dot' },
+          { value: 'bar', label: 'Bar' }
+        ]}
+        value={shape}
         onChange={setShape}
-      >
-        <span style={styles.radioGroupLabel}>Shape: </span>
-        <Radio value="dot">Dot</Radio>
-        <Radio value="bar">Bar</Radio>
-      </RadioGroup>
-      <Carousel
-        key={`${placement}.${shape}`}
-        placement={placement}
-        shape={shape}
-        className="custom-slider"
-      >
-        <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=1" height="250" />
-        <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=2" height="250" />
-        <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=3" height="250" />
-        <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=4" height="250" />
-        <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=5" height="250" />
+      />
+      <hr />
+      <Carousel key={`${placement}.${shape}`} placement={placement} shape={shape} w={600} h={250}>
+        <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=1" height="250" />
+        <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=2" height="250" />
+        <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=3" height="250" />
+        <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=4" height="250" />
+        <img src="https://placehold.co/600x250/8f8e94/FFFFFF?text=5" height="250" />
       </Carousel>
-    </div>
+    </>
   );
 }
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

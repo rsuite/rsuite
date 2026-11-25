@@ -1,0 +1,22 @@
+import { Image, Placeholder, Button } from 'rsuite';
+import NextImage from 'next/image';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['Image']} />
+};
+
+export default function Page() {
+  return (
+    <DefaultPage
+      inDocsComponents={inDocsComponents}
+      dependencies={{
+        Placeholder,
+        NextImage,
+        Image,
+        Button
+      }}
+    />
+  );
+}

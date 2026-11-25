@@ -1,14 +1,10 @@
 import React from 'react';
-import noop from 'lodash/noop';
 
 export interface NavContextProps {
-  activeKey: string | null;
-  onSelect: (eventKey: string, event: React.SyntheticEvent) => void;
+  activeKey: string | number | undefined;
+  onSelect?: (eventKey: string | number | undefined, event: React.SyntheticEvent) => void;
 }
 
-const NavContext = React.createContext<NavContextProps>({
-  activeKey: null,
-  onSelect: noop
-});
+const NavContext = React.createContext<NavContextProps | null>(null);
 
 export default NavContext;

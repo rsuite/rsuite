@@ -1,10 +1,58 @@
-import React, { useState } from 'react';
-import { TreePicker, Button } from 'rsuite';
-import DefaultPage from '@/components/Page';
-import useFetchData from '@/utils/useFetchData';
-import Spinner from '@rsuite/icons/legacy/Spinner';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
+import PeoplesIcon from '@rsuite/icons/Peoples';
+import AdminIcon from '@rsuite/icons/Admin';
+import FolderFillIcon from '@rsuite/icons/FolderFill';
+import PageIcon from '@rsuite/icons/Page';
+import Simulation from '@/components/Simulation';
+import PlacementContainer from '@/components/PlacementContainer';
+import { TreePicker, Button, VStack, HStack, Loader, Box, Text, Divider } from 'rsuite';
+import {
+  importFakerString,
+  mockAsyncData,
+  mockAsyncDataString,
+  mockTreeData,
+  mockTreeDataToString,
+  sandboxFakerVersion
+} from '@/utils/mock';
+
+const mockfile = {
+  name: 'mock.js',
+  content: [importFakerString, mockTreeDataToString, mockAsyncDataString].join('\n')
+};
+
+const sandboxDependencies = {
+  ...sandboxFakerVersion
+};
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['TreePicker']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="tree-picker" />
+};
 
 export default function Page() {
-  const { response: data } = useFetchData('city-simplified');
-  return <DefaultPage dependencies={{ TreePicker, Button, Spinner, data, useState }} />;
+  return (
+    <DefaultPage
+      inDocsComponents={inDocsComponents}
+      dependencies={{
+        TreePicker,
+        Button,
+        VStack,
+        HStack,
+        PeoplesIcon,
+        AdminIcon,
+        FolderFillIcon,
+        PageIcon,
+        Loader,
+        Box,
+        Text,
+        Divider,
+        PlacementContainer,
+        mockTreeData,
+        mockAsyncData
+      }}
+      sandboxDependencies={sandboxDependencies}
+      sandboxFiles={[mockfile]}
+    />
+  );
 }

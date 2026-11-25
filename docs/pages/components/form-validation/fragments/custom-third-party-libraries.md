@@ -1,40 +1,51 @@
 <!--start-code-->
 
 ```js
-const { ArrayType, StringType } = Schema.Types;
-const model = Schema.Model({
-  phone: StringType().isRequired('This field is required.')
-});
-
-const InputMask = React.forwardRef(({ onChange, ...rest }, ref) => (
-  <MaskedInput
-    {...rest}
-    ref={ref}
-    className="rs-input"
-    onChange={event => {
-      onChange(event.target.value);
-    }}
-  />
-));
+import { Form, Button, Message, toaster, Row, Col } from 'rsuite';
+import { SchemaModel, StringType } from 'rsuite/Schema';
+import Select from 'react-select';
 
 const Field = React.forwardRef((props, ref) => {
   const { name, message, label, accepter, error, ...rest } = props;
   return (
     <Form.Group ref={ref} className={error ? 'has-error' : ''}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
+      <Form.Label>{label} </Form.Label>
       <Form.Control name={name} accepter={accepter} errorMessage={error} {...rest} />
-      <Form.HelpText>{message}</Form.HelpText>
+      <Form.Text>{message}</Form.Text>
     </Form.Group>
   );
 });
 
-const mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+const model = SchemaModel({
+  foods: StringType().isRequired('This field is required.')
+});
+
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' }
+];
+
+const CustomSelect = React.forwardRef((props, ref) => {
+  const { value, onChange, ...rest } = props;
+  return (
+    <Select
+      isClearable
+      width={200}
+      ref={ref}
+      {...rest}
+      onChange={option => {
+        onChange(option?.value || null);
+      }}
+    />
+  );
+});
 
 const App = () => {
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
-    phone: ''
+    foods: ''
   });
 
   const handleSubmit = () => {
@@ -54,8 +65,8 @@ const App = () => {
   };
 
   return (
-    <FlexboxGrid>
-      <FlexboxGrid.Item colspan={12}>
+    <Row>
+      <Col span={{ xs: 24, md: 12 }}>
         <Form
           ref={formRef}
           onChange={setFormValue}
@@ -63,29 +74,32 @@ const App = () => {
           formDefaultValue={formValue}
           model={model}
         >
-          <Field
-            name="phone"
-            label="Phone Number"
-            mask={mask}
-            accepter={InputMask}
-            error={formError.phone}
-          />
+          <Form.Stack>
+            <Field
+              name="foods"
+              label="Food"
+              accepter={CustomSelect}
+              options={options}
+              error={formError.foods}
+            />
+          </Form.Stack>
 
-          <Form.Group>
+          <hr />
+          <ButtonToolbar>
             <Button appearance="primary" onClick={handleSubmit}>
               Submit
             </Button>
-          </Form.Group>
+          </ButtonToolbar>
         </Form>
-      </FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={12}>
+      </Col>
+      <Col hidden={{ md: true }} span={{ xs: 24, md: 12 }}>
         <JSONView formValue={formValue} formError={formError} />
-      </FlexboxGrid.Item>
-    </FlexboxGrid>
+      </Col>
+    </Row>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

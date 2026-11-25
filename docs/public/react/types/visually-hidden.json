@@ -1,0 +1,16 @@
+{
+  "VisuallyHidden": {
+    "props": {
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "The children to be visually hidden."
+      },
+      "as": {
+        "type": "ElementType `'span'`",
+        "isRequired": false,
+        "description": "The HTML element to render."
+      }
+    }
+  }
+}

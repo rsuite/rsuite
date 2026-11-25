@@ -1,0 +1,24 @@
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+    patch:
+      default:
+        target: auto
+        informational: true
+
+ignore:
+  - "skills/**"
+  - "docs/**"
+  - "tooling/**"
+  - "**/*.test.ts"
+  - "**/*.test.tsx"
+  - "**/stories/**"
+  - "**/test/**"
+
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: false

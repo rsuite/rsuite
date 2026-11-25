@@ -1,5 +1,4 @@
 import trim from 'lodash/trim';
-import { ItemDataType } from '../@types/common';
 
 export function transformData(data: any[]) {
   if (!data) {
@@ -19,11 +18,11 @@ export function transformData(data: any[]) {
   });
 }
 
-export const shouldDisplay = (
-  filterBy: (value: string, item: ItemDataType) => boolean,
-  value: any
+export const shouldDisplay = <TItem extends { label: string }>(
+  filterBy: ((value: string, item: TItem) => boolean) | undefined,
+  value: string
 ) => {
-  return (item: any) => {
+  return (item: TItem) => {
     if (typeof filterBy === 'function') {
       return filterBy(value, item);
     }
@@ -31,7 +30,7 @@ export const shouldDisplay = (
     if (!trim(value)) {
       return false;
     }
-    const keyword = (value || '').toLocaleLowerCase();
+    const keyword = value.toLocaleLowerCase();
     return `${item.label}`.toLocaleLowerCase().indexOf(keyword) >= 0;
   };
 };

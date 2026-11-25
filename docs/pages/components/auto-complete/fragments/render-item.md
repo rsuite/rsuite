@@ -1,23 +1,35 @@
 <!--start-code-->
 
 ```js
-/**
- * import { AutoComplete } from 'rsuite';
- * import MemberIcon from '@rsuite/icons/Member';
- */
+import { AutoComplete } from 'rsuite';
+import MemberIcon from '@rsuite/icons/Member';
 
 const data = [
-  'HYPER Advertiser',
-  'HYPER Web Analytics',
-  'HYPER Video Analytics',
-  'HYPER DMP',
-  'HYPER Ad Serving',
-  'HYPER Data Discovery'
+  'Eugenia',
+  'Bryan',
+  'Linda',
+  'Nancy',
+  'Lloyd',
+  'Alice',
+  'Julia',
+  'Albert',
+  'Louisa',
+  'Lester',
+  'Lola',
+  'Lydia',
+  'Hal',
+  'Hannah',
+  'Harriet',
+  'Hattie',
+  'Hazel',
+  'Hilda'
 ];
-const instance = (
+
+const App = () => (
   <AutoComplete
     data={data}
-    renderMenuItem={item => {
+    w={224}
+    renderOption={item => {
       return (
         <div>
           <MemberIcon /> {item}
@@ -27,7 +39,7 @@ const instance = (
   />
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

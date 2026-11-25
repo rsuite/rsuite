@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Steps } from 'rsuite';
+
+const App = () => (
   <Steps current={1} small>
     <Steps.Item title="Finished" />
     <Steps.Item title="In progress" />
@@ -9,7 +11,8 @@ const instance = (
     <Steps.Item title="Waiting" />
   </Steps>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

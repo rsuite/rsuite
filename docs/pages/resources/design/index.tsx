@@ -1,8 +1,8 @@
 import React from 'react';
+import Page from '@/components/layout/Page';
 import { Panel, Row, Col } from 'rsuite';
-import Page from '@/components/Page';
-import { ResourcesDesign, ResourcesFigma, ResourcesSketch } from '@/components/SvgIcons';
-import AppContext from '@/components/AppContext';
+import { ResourcesDesign, ResourcesFigma, ResourcesSketch } from '@/components/icons';
+import { useApp } from '@/hooks/useApp';
 
 interface CardProps {
   header: React.ReactNode;
@@ -33,31 +33,31 @@ const Card = (props: CardProps) => {
   );
 };
 
-export default () => {
-  const { messages } = React.useContext(AppContext);
+export default function Index() {
+  const { locales } = useApp();
 
   const resources = [
     {
-      header: messages.resourcesDesign.defaultHeader,
-      description: messages.resourcesDesign.defaultDescription,
+      header: locales.resourcesDesign.defaultHeader,
+      description: locales.resourcesDesign.defaultDescription,
       icon: <ResourcesDesign style={{ fontSize: 100, fill: '#fff' }} />,
       href: '/design/default/'
     },
     {
-      header: messages.resourcesDesign.darkHeader,
-      description: messages.resourcesDesign.darkDescription,
+      header: locales.resourcesDesign.darkHeader,
+      description: locales.resourcesDesign.darkDescription,
       icon: <ResourcesDesign style={{ fontSize: 100, fill: '#aaa' }} />,
       href: '/design/dark/'
     },
     {
-      header: messages.resourcesDesign.figmaHeader,
-      description: messages.resourcesDesign.figmaDescription,
+      header: locales.resourcesDesign.figmaHeader,
+      description: locales.resourcesDesign.figmaDescription,
       icon: <ResourcesFigma style={{ fontSize: 100 }} />,
       href: 'https://www.figma.com/community/file/994524751550165025'
     },
     {
-      header: messages.resourcesDesign.sketchHeader,
-      description: messages.resourcesDesign.sketchDescription,
+      header: locales.resourcesDesign.sketchHeader,
+      description: locales.resourcesDesign.sketchDescription,
       icon: <ResourcesSketch style={{ fontSize: 100 }} />,
       href: 'https://1drv.ms/u/s!AtZRl-M-NXJTgt957t5P7UOe8jH7Yw?e=ar7ppY'
     }
@@ -76,4 +76,4 @@ export default () => {
       </Row>
     </Page>
   );
-};
+}

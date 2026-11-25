@@ -1,48 +1,62 @@
 <!--start-code-->
 
 ```js
-const Panel = React.forwardRef(({ ...props }, ref) => (
-  <div
+import { Animation, Button, ButtonToolbar, Card } from 'rsuite';
+
+const AnimatedPanel = React.forwardRef((props, ref) => (
+  <Card
     {...props}
     ref={ref}
-    style={{
-      background: '#000',
-      width: 100,
-      height: 160,
-      overflow: 'hidden'
-    }}
+    shaded
+    bordered={false}
+    w={240}
+    h={120}
+    c="white"
+    bg="linear-gradient(45deg, #4CAF50, #2196F3)"
   >
-    <p>Panel</p>
-    <p>Content Content Content</p>
-  </div>
+    <div>
+      <Card.Header>Slide Animation</Card.Header>
+      <Card.Body>This panel demonstrates sliding transitions from different directions.</Card.Body>
+    </div>
+  </Card>
 ));
 
 const App = () => {
   const [show, setShow] = React.useState(true);
   const [placement, setPlacement] = React.useState('right');
 
-  const handleToggle = placement => {
+  const onChange = placement => {
     setShow(!show);
     setPlacement(placement);
   };
 
   return (
-    <div className="row">
+    <div>
       <ButtonToolbar>
-        <Button onClick={() => handleToggle('left')}>Slide Left</Button>
-        <Button onClick={() => handleToggle('right')}>Slide Right</Button>
-        <Button onClick={() => handleToggle('top')}>Slide Top</Button>
-        <Button onClick={() => handleToggle('bottom')}>Slide Bottom</Button>
+        <Button appearance="primary" onClick={() => onChange('left')}>
+          Slide Left
+        </Button>
+        <Button appearance="primary" onClick={() => onChange('right')}>
+          Slide Right
+        </Button>
+        <Button appearance="primary" onClick={() => onChange('top')}>
+          Slide Top
+        </Button>
+        <Button appearance="primary" onClick={() => onChange('bottom')}>
+          Slide Bottom
+        </Button>
       </ButtonToolbar>
       <hr />
-      <Animation.Slide in={show} placement={placement}>
-        {(props, ref) => <Panel {...props} ref={ref} />}
-      </Animation.Slide>
+      <div>
+        <Animation.Slide in={show} placement={placement}>
+          {(props, ref) => <AnimatedPanel {...props} ref={ref} />}
+        </Animation.Slide>
+      </div>
     </div>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

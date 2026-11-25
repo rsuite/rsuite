@@ -1,16 +1,22 @@
 import React from 'react';
+import useCustomConfig from '@/internals/hooks/useCustomConfig';
 import Transition, { TransitionProps } from './Transition';
-import { useClassNames } from '../utils';
+import { useStyles } from '@/internals/hooks';
 
 export type FadeProps = TransitionProps;
 
+/**
+ * Fade animation component
+ * @see https://rsuitejs.com/components/animation/#fade
+ */
 const Fade = React.forwardRef(
   ({ timeout = 300, className, ...props }: FadeProps, ref: React.Ref<any>) => {
-    const { prefix, merge } = useClassNames('anim');
+    const { prefix, merge } = useStyles('anim');
+    const { propsWithDefaults } = useCustomConfig('Fade', props);
 
     return (
       <Transition
-        {...props}
+        {...propsWithDefaults}
         ref={ref}
         timeout={timeout}
         className={merge(className, prefix('fade'))}

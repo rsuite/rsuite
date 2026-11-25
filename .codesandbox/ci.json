@@ -1,3 +1,7 @@
 {
+  "installCommand": "install:codesandbox",
+  "publishDirectory": {
+    "rsuite": "lib"
+  },
   "sandboxes": ["rsuite-tp-ci-bdiu7"]
 }

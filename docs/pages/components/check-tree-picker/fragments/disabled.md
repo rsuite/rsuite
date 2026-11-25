@@ -1,47 +1,52 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { CheckTreePicker, VStack, HStack, Text, Divider } from 'rsuite';
+import { mockTreeData } from './mock';
 
-const Label = props => {
-  return <label style={{ width: 120, display: 'inline-block', marginTop: 10 }} {...props} />;
-};
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.person[methodName[layer]]();
+  }
+});
 
-const instance = (
-  <div>
-    <Label>Disabled: </Label>
-    <CheckTreePicker disabled data={data} defaultValue={[24]} style={{ width: 220 }} />
-    <br />
-    <Label>Disabled option: </Label>
-    <CheckTreePicker
-      defaultExpandAll
-      data={data}
-      disabledItemValues={[1, 3, 36]}
-      defaultValue={[24]}
-      style={{ width: 220 }}
-    />
-    <br />
-    <Label>Uncheckable: </Label>
-    <CheckTreePicker
-      defaultExpandAll
-      data={data}
-      uncheckableItemValues={[1, 3, 36]}
-      defaultValue={[24]}
-      style={{ width: 220 }}
-    />
-
-    <hr />
-    <Label>Read only: </Label>
-    <CheckTreePicker readOnly data={data} defaultValue={[24]} style={{ width: 220 }} />
-    <hr />
-    <Label>Plaintext: </Label>
-    <CheckTreePicker plaintext data={data} defaultValue={[24]} style={{ width: 220 }} />
-  </div>
+const Field = ({ label, children, ...rest }) => (
+  <HStack>
+    <Text muted w={120}>
+      {label}
+    </Text>
+    <CheckTreePicker {...rest} w={180} />
+  </HStack>
 );
-ReactDOM.render(instance);
+
+const App = () => (
+  <VStack divider={<Divider />}>
+    <VStack>
+      <Field label="Disabled" disabled data={data} defaultValue={['1-2']} />
+      <Field
+        label="Disabled option"
+        defaultExpandAll
+        data={data}
+        disabledItemValues={['1-1', '1-1-2']}
+        defaultValue={['1-2']}
+      />
+    </VStack>
+    <Field
+      label="Uncheckable"
+      defaultExpandAll
+      data={data}
+      uncheckableItemValues={['1-1', '1-1-2']}
+      defaultValue={['1-2']}
+    />
+
+    <Field label="ReadOnly" readOnly data={data} defaultValue={['1-2']} />
+    <Field label="Plaintext" plaintext data={data} defaultValue={['1-2']} />
+  </VStack>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

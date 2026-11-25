@@ -1,15 +1,8 @@
 <!--start-code-->
 
 ```js
-/**
- * import { Rate } from 'rsuite'
- */
+import { Rate, HStack, Text } from 'rsuite';
 
-const textStyle = {
-  verticalAlign: 'top',
-  lineHeight: '42px',
-  display: 'inline-block'
-};
 const texts = {
   1: 'Useless',
   2: 'Poor',
@@ -22,14 +15,14 @@ const App = () => {
   const [hoverValue, setHoverValue] = React.useState(3);
 
   return (
-    <div>
-      <Rate defaultValue={3} onChangeActive={setHoverValue} />{' '}
-      <span style={textStyle}>{texts[hoverValue]}</span>
-    </div>
+    <HStack spacing={10}>
+      <Rate defaultValue={3} onChangeActive={setHoverValue} />
+      <Text>{texts[hoverValue]}</Text>
+    </HStack>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

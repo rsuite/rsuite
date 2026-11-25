@@ -1,14 +1,17 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Uploader } from 'rsuite';
+import { RxCamera } from 'react-icons/rx';
+
+const App = () => (
   <Uploader multiple listType="picture" action="//jsonplaceholder.typicode.com/posts/">
     <button>
-      <CameraRetro />
+      <RxCamera size={24} />
     </button>
   </Uploader>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

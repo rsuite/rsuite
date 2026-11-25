@@ -1,12 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useContext, useEffect, useRef } from 'react';
-import { WithAsProps } from '../@types/common';
-import { mergeRefs, useClassNames } from '../utils';
+import React, { useContext, useEffect, useRef } from 'react';
 import ListContext from './ListContext';
+import Box, { BaseBoxProps } from '@/internals/Box';
+import { forwardRef, mergeRefs } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
 import { Collection } from './helper/useManager';
 
-export interface ListItemProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
+export interface ListItemProps extends BaseBoxProps, React.HTMLAttributes<HTMLElement> {
   /* Index of list item, for sort */
   index?: number;
 
@@ -15,53 +14,63 @@ export interface ListItemProps extends WithAsProps, React.HTMLAttributes<HTMLEle
 
   /* disable drag */
   disabled?: boolean;
+
+  /* Size of list item */
+  size?: 'lg' | 'md' | 'sm' | 'xs';
 }
 
-const ListItem = React.forwardRef((props: ListItemProps, ref: React.Ref<HTMLDivElement>) => {
+/**
+ * The `List.Item` component is used to specify the layout of the list item.
+ * @see https://rsuitejs.com/components/list
+ */
+const ListItem = forwardRef<'div', ListItemProps>((props, ref) => {
   const {
-    as: Component = 'div',
+    as,
     children,
     className,
     classPrefix = 'list-item',
     collection = 0,
     disabled,
     index,
+    size: sizeProp,
     ...rest
   } = props;
 
-  const { bordered, register, size } = useContext(ListContext);
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const listItemRef = useRef(null);
+  const { bordered, register, size: parentSize } = useContext(ListContext);
+  const size = sizeProp || parentSize;
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const listItemRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const { unregister } = register({
-      node: listItemRef.current,
-      edgeOffset: null,
-      info: { collection, disabled, index }
-    });
-    return unregister;
+    if (listItemRef.current) {
+      const { unregister } = register({
+        node: listItemRef.current,
+        edgeOffset: null,
+        info: { collection, disabled, index }
+      });
+      return unregister;
+    }
   }, [collection, disabled, index, register]);
 
-  const classes = merge(className, withClassPrefix(size, { disabled, bordered }));
+  const classes = merge(className, withPrefix());
 
   return (
-    <Component
+    <Box
+      as={as}
       role="listitem"
       aria-disabled={disabled}
-      {...rest}
-      ref={mergeRefs(listItemRef, ref)}
+      data-size={size}
+      data-disabled={disabled}
+      data-bordered={bordered}
+      ref={mergeRefs(listItemRef as any, ref)}
       className={classes}
+      {...rest}
     >
       {children}
-    </Component>
+    </Box>
   );
 });
 
 ListItem.displayName = 'ListItem';
-ListItem.propTypes = {
-  index: PropTypes.number,
-  collection: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  disabled: PropTypes.bool,
-  children: PropTypes.node
-};
+
 export default ListItem;

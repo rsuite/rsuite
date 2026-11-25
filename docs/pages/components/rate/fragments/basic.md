@@ -1,12 +1,15 @@
 <!--start-code-->
 
 ```js
-/**
- * import { Rate } from 'rsuite'
- */
-const instance = <Rate defaultValue={3} />;
+import { Rate } from 'rsuite';
 
-ReactDOM.render(instance);
+const App = () => (
+  <>
+    <Rate defaultValue={3} />
+  </>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

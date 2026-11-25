@@ -1,28 +1,57 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import SafeAnchor from '../SafeAnchor';
-import { useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import SafeAnchor from '@/internals/SafeAnchor';
+import Box, { BoxProps } from '@/internals/Box';
+import { extractBoxProps, omitBoxProps } from '@/internals/Box/utils';
+import { forwardRef } from '@/internals/utils';
+import { useStyles } from '@/internals/hooks';
 
-export interface BreadcrumbItemProps extends WithAsProps<React.ElementType | string> {
-  // Style as the currently active section
+export interface BreadcrumbItemProps extends BoxProps {
+  /**
+   * The wrapper element of the BreadcrumbItem.
+   */
+  wrapperAs?: React.ElementType;
+
+  /**
+   * The active state of the BreadcrumbItem.
+   */
   active?: boolean;
 
-  // Render as an `a` tag instead of a `div` and adds the href attribute
+  /**
+   * The href attribute specifies the URL of the page the link goes to.
+   */
   href?: string;
 
-  // Display title.
+  /**
+   * The title attribute specifies extra information about an element.
+   */
   title?: string;
 
-  // The target attribute specifies where to open the linked document
+  /**
+   * The target attribute specifies where to open the linked document.
+   */
   target?: string;
+
+  /**
+   * The separator between each breadcrumb item.
+   */
+  separator?: React.ReactNode;
+
+  /**
+   * The icon of the BreadcrumbItem.
+   */
+  icon?: React.ReactNode;
 }
 
-const BreadcrumbItem: RsRefForwardingComponent<'a', BreadcrumbItemProps> = React.forwardRef(
+/**
+ * The `<Breadcrumb.Item>` component is used to specify each section of the Breadcrumb.
+ * @see https://rsuitejs.com/components/breadcrumb
+ */
+const BreadcrumbItem = forwardRef<'a', BreadcrumbItemProps>(
   (props: BreadcrumbItemProps, ref: React.Ref<any>) => {
     const {
-      as: Component = SafeAnchor,
+      wrapperAs: Wrapper = 'li',
       href,
+      as: Component = href ? SafeAnchor : 'span',
       classPrefix = 'breadcrumb-item',
       title,
       target,
@@ -30,46 +59,34 @@ const BreadcrumbItem: RsRefForwardingComponent<'a', BreadcrumbItemProps> = React
       style,
       active,
       children,
+      separator,
+      icon,
       ...rest
     } = props;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ active }));
+    const { merge, withPrefix } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix());
 
-    if (active) {
-      return (
-        <span ref={ref} {...rest} style={style} className={classes}>
-          {children}
-        </span>
-      );
-    }
+    // Separate BoxProps for wrapper and other props for inner component
+    const boxProps = extractBoxProps(rest);
+    const componentProps = omitBoxProps(rest);
 
     return (
-      <Component
-        {...rest}
-        href={href}
-        title={title}
-        target={target}
-        ref={ref}
-        style={style}
-        className={classes}
-      >
-        {children}
-      </Component>
+      <Box as={Wrapper} style={style} className={classes} data-active={active} {...boxProps}>
+        {icon}
+        {active ? (
+          <span>{children}</span>
+        ) : (
+          <Component ref={ref} href={href} title={title} target={target} {...componentProps}>
+            {children}
+          </Component>
+        )}
+        {separator}
+      </Box>
     );
   }
 );
 
 BreadcrumbItem.displayName = 'BreadcrumbItem';
-BreadcrumbItem.propTypes = {
-  active: PropTypes.bool,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  href: PropTypes.string,
-  title: PropTypes.string,
-  target: PropTypes.string,
-  classPrefix: PropTypes.string,
-  as: PropTypes.elementType
-};
 
 export default BreadcrumbItem;

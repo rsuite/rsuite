@@ -1,22 +1,36 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/province-simplified.json
- */
+import { Cascader } from 'rsuite';
+import { mockTreeData } from './mock';
+import PlacementContainer from '@/components/PlacementContainer';
 
-const CustomCascader = ({ placement }) => (
-  <Cascader data={data} placement={placement} placeholder={placement} />
-);
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.person[methodName[layer]]();
+  }
+});
 
-const instance = (
-  <div>
-    <CustomCascader placement="topStart" /> <CustomCascader placement="bottomStart" />{' '}
-    <CustomCascader placement="autoVerticalStart" />
-  </div>
-);
-ReactDOM.render(instance);
+const App = () => {
+  return (
+    <PlacementContainer>
+      {({ container, placement, preventOverflow }) => (
+        <Cascader
+          w={224}
+          preventOverflow={preventOverflow}
+          data={data}
+          placement={placement}
+          container={preventOverflow ? container : undefined}
+          placeholder={`Will pop from ${placement}`}
+        />
+      )}
+    </PlacementContainer>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

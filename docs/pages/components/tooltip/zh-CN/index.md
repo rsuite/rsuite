@@ -1,13 +1,13 @@
-# Tooltip 文字提示
+# Tooltip 工具提示框
 
 用于辅助的文字提示，可代替 HTML 元素默认的 title 属性。
 
-- `<Tooltip>` 文字提示。
-- `<Whisper>` 监听触发器，包裹被监听对象的外面，触发事件后通知到 `<Tooltip>` 展示出来。
-
 ## 获取组件
 
-<!--{include:(components/tooltip/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `Tooltip` 文字提示。
+- `Whisper` 监听触发器，包裹被监听对象的外面，触发事件后通知到 `<Tooltip>` 展示出来。
 
 ## 演示
 
@@ -49,18 +49,34 @@
 
 <!--{include:`disabled-elements.md`}-->
 
-## Props
+### 隐藏箭头
 
-<!--{include:(_common/types/placement-all.md)}-->
+您可以通过设置 `arrow` 属性为 `false` 隐藏箭头指示器。
+
+<!--{include:`arrow.md`}-->
+
+### 跟随光标
+
+您可以通过设置 `followCursor` 属性为 `true` 来让 `Tooltip` 跟随光标移动。
+
+<!--{include:`follow-cursor.md`}-->
+
+### 无障碍描述
+
+当 `Whisper` 使用直接的 `Tooltip` 作为 speaker，且触发器是 React 元素时，会把已挂载 Tooltip 的 ID 加入触发器的 `aria-describedby`。已有描述 ID 保持顺序并去重。组件或 `CustomProvider` 提供的 Tooltip ID 会保留，否则会生成稳定的 ID。
+
+自动关联在 Tooltip 节点实际挂载期间有效，包括退出动画；节点移除后，只清除自动加入的关联。触发器需要把 ref 转发到 DOM 元素；目标节点需要具有 `role="tooltip"`，并在触发器所在文档内具有有效且唯一的 ID。覆盖 role 或位于其他文档的目标不会建立自动关联。函数 speaker、函数触发器、自定义 speaker 包装组件和 `Popover` 保持原有行为。使用 `controlId` 可管理显式关联，其原有行为不变。该 DOM 关联不保证屏幕阅读器播报描述的时机。
 
 ## Props
 
 ### `<Tooltip>`
 
-| 属性名称    | 类型 `(默认值)`      | 描述              |
-| ----------- | -------------------- | ----------------- |
-| children \* | ReactNode            | 组件的内容        |
-| classPrefix | string `('tooltip')` | 组件 CSS 类的前缀 |
-| visible     | boolean              | 组件默认可见的    |
+| 属性名称    | 类型 `(默认值)`      | 描述               |
+| ----------- | -------------------- | ------------------ |
+| arrow       | boolean `(true)`     | 是否显示箭头指示器 |
+| children \* | ReactNode            | 组件的内容         |
+| classPrefix | string `('tooltip')` | 组件 CSS 类的前缀  |
+| visible     | boolean              | 组件默认可见的     |
 
 <!--{include:(components/whisper/zh-CN/props.md)}-->
+<!--{include:(_common/types/placement-all.md)}-->

@@ -1,8 +1,15 @@
 <!--start-code-->
 
 ```js
-const instance = <Slider />;
-ReactDOM.render(instance);
+import { Slider } from 'rsuite';
+
+const App = () => (
+  <>
+    <Slider />
+  </>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

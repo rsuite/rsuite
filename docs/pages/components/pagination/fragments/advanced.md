@@ -1,11 +1,14 @@
 <!--start-code-->
 
 ```js
-const MyToggle = ({ label, checked, onChange }) => {
+import { Pagination, Toggle, SelectPicker, TagPicker, NumberInput } from 'rsuite';
+
+const Switch = ({ label, checked, onChange }) => {
   return (
     <span>
-      {label}：
-      <Toggle checked={checked} onChange={onChange} />
+      <Toggle checked={checked} onChange={onChange}>
+        {label}
+      </Toggle>
     </span>
   );
 };
@@ -27,70 +30,73 @@ const App = () => {
   const [limit, setLimit] = React.useState(50);
 
   return (
-    <div>
+    <>
       <div>
-        <MyToggle label="first" checked={first} onChange={setFirst} />
-        <MyToggle label="last" checked={last} onChange={setLast} />
-        <MyToggle label="prev" checked={prev} onChange={setPrev} />
-        <MyToggle label="next" checked={next} onChange={setNext} />
-
-        <MyToggle label="ellipsis" checked={ellipsis} onChange={setEllipsis} />
-        <MyToggle label="boundaryLinks" checked={boundaryLinks} onChange={setBoundaryLinks} />
+        <HStack spacing={16} wrap>
+          <Switch label="first" checked={first} onChange={setFirst} />
+          <Switch label="last" checked={last} onChange={setLast} />
+          <Switch label="prev" checked={prev} onChange={setPrev} />
+          <Switch label="next" checked={next} onChange={setNext} />
+          <Switch label="ellipsis" checked={ellipsis} onChange={setEllipsis} />
+          <Switch label="boundaryLinks" checked={boundaryLinks} onChange={setBoundaryLinks} />
+        </HStack>
         <hr />
-        <span>
-          size：
-          <SelectPicker
-            value={size}
-            onChange={setSize}
-            cleanable={false}
-            searchable={false}
-            data={[
-              { value: 'xs', label: 'xs' },
-              { value: 'sm', label: 'sm' },
-              { value: 'md', label: 'md' },
-              { value: 'lg', label: 'lg' }
-            ]}
-          />
-        </span>
+        <HStack spacing={16} wrap>
+          <HStack>
+            size：
+            <SelectPicker
+              value={size}
+              onChange={setSize}
+              cleanable={false}
+              searchable={false}
+              data={[
+                { value: 'xs', label: 'xs' },
+                { value: 'sm', label: 'sm' },
+                { value: 'md', label: 'md' },
+                { value: 'lg', label: 'lg' }
+              ]}
+            />
+          </HStack>
 
-        <span style={{ marginLeft: 20 }}>
-          limit：
-          <SelectPicker
-            value={limit}
-            onChange={setLimit}
-            cleanable={false}
-            searchable={false}
-            data={limitOptions.map(key => ({ value: key, label: key }))}
-          />
-        </span>
+          <HStack>
+            limit：
+            <SelectPicker
+              value={limit}
+              onChange={setLimit}
+              cleanable={false}
+              searchable={false}
+              data={limitOptions.map(key => ({ value: key, label: key }))}
+            />
+          </HStack>
 
-        <span style={{ marginLeft: 20 }}>
-          maxButtons：
-          <InputNumber
-            style={{ width: 80, display: 'inline-flex' }}
-            value={maxButtons}
-            max={10}
-            min={1}
-            onChange={value => {
-              setMaxButtons(parseInt(value));
-            }}
-          />
-        </span>
+          <HStack>
+            maxButtons：
+            <NumberInput
+              w={80}
+              value={maxButtons}
+              max={10}
+              min={1}
+              onChange={value => {
+                setMaxButtons(parseInt(value));
+              }}
+            />
+          </HStack>
 
-        <span style={{ marginLeft: 20 }}>
-          total：
-          <InputNumber
-            style={{ width: 80, display: 'inline-flex' }}
-            value={total}
-            min={0}
-            onChange={value => {
-              setTotal(parseInt(value));
-            }}
-          />
-        </span>
+          <HStack>
+            total：
+            <NumberInput
+              w={80}
+              value={total}
+              min={0}
+              onChange={value => {
+                setTotal(parseInt(value));
+              }}
+            />
+          </HStack>
+        </HStack>
 
         <hr />
-        <span>
+        <HStack>
           layout：
           <TagPicker
             value={layout}
@@ -106,7 +112,7 @@ const App = () => {
               { value: 'skip', label: 'skip' }
             ]}
           />
-        </span>
+        </HStack>
       </div>
 
       <hr />
@@ -127,11 +133,11 @@ const App = () => {
         onChangePage={setActivePage}
         onChangeLimit={setLimit}
       />
-    </div>
+    </>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,44 +1,65 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { SelectPicker, HStack } from 'rsuite';
+import { FaUserGroup, FaUser } from 'react-icons/fa6';
+import { mockUsers } from './mock';
 
-const instance = (
+/**
+ *  Data structure:
+ *  [
+ *    { firstLetter: 'A', name: 'Alan', firstName: 'Alan' },
+ *    { firstLetter: 'B', name: 'Benson', firstName: 'Benson' },
+ *  ]
+ */
+const data = mockUsers(100)
+  .map(item => {
+    const firstLetter = item.firstName[0].toUpperCase();
+    return { firstLetter, ...item };
+  })
+  .sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter));
+
+const App = () => (
   <SelectPicker
     data={data}
-    style={{ width: 224 }}
-    groupBy="role"
+    groupBy="firstLetter"
+    labelKey="firstName"
+    valueKey="name"
     placeholder="Select User"
-    renderMenuItem={(label, item) => {
-      return (
-        <div>
-          <i className="rs-icon rs-icon-user" /> {label}
-        </div>
-      );
-    }}
-    renderMenuGroup={(label, item) => {
-      return (
-        <div>
-          <i className="rs-icon rs-icon-group" /> {label} - ({item.children.length})
-        </div>
-      );
-    }}
-    renderValue={(value, item) => {
-      return (
-        <div>
-          <span style={{ color: '#575757' }}>
-            <i className="rs-icon rs-icon-user" /> User :
-          </span>{' '}
-          {value}
-        </div>
-      );
-    }}
+    renderOption={renderOption}
+    renderOptionGroup={renderOptionGroup}
+    renderValue={renderValue}
   />
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
+
+const renderOption = (label, item) => {
+  return (
+    <HStack>
+      <FaUser /> <span>{label}</span>
+    </HStack>
+  );
+};
+
+const renderOptionGroup = (label, item) => {
+  return (
+    <HStack>
+      <FaUserGroup />
+      <span>
+        {label} - ({item.children.length})
+      </span>
+    </HStack>
+  );
+};
+
+const renderValue = (value, items) => {
+  return (
+    <HStack>
+      <FaUserGroup /> User: {value}
+    </HStack>
+  );
+};
 ```
 
 <!--end-code-->

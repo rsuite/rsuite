@@ -1,3 +1,5 @@
+### `ts:DropDataType`
+
 ```ts
 type DropDataType = {
   /** drag node data */

@@ -1,18 +1,23 @@
+import { ComponentType, FunctionComponent } from 'react';
 import Transition, { TransitionProps } from './Transition';
 import Slide, { SlideProps } from './Slide';
 import Collapse, { CollapseProps } from './Collapse';
 import Fade, { FadeProps } from './Fade';
 import Bounce, { BounceProps } from './Bounce';
 
+// export types
+export type { TransitionProps, SlideProps, CollapseProps, FadeProps, BounceProps };
+
 export interface AnimationAPI {
-  Transition: React.ComponentType<TransitionProps>;
-  Collapse: React.ComponentType<CollapseProps>;
-  Fade: React.FunctionComponent<FadeProps>;
-  Bounce: React.FunctionComponent<BounceProps>;
-  Slide: React.FunctionComponent<SlideProps>;
+  Transition: ComponentType<TransitionProps>;
+  Collapse: ComponentType<CollapseProps>;
+  Fade: FunctionComponent<FadeProps>;
+  Bounce: FunctionComponent<BounceProps>;
+  Slide: FunctionComponent<SlideProps>;
 }
 
-const Animation: AnimationAPI = {
+// export components
+export const Animation: AnimationAPI = {
   Transition,
   Collapse,
   Fade,
@@ -20,5 +25,5 @@ const Animation: AnimationAPI = {
   Slide
 };
 
-export type { TransitionProps, SlideProps, CollapseProps, FadeProps, BounceProps };
+export { Transition, Slide, Collapse, Fade, Bounce };
 export default Animation;

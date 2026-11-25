@@ -1,37 +1,37 @@
 <!--start-code-->
 
 ```js
-const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
+import { Form, ButtonToolbar, Button, Input, HStack, PasswordInput, Textarea } from 'rsuite';
 
-const instance = (
-  <Form>
-    <Form.Group controlId="name">
-      <Form.ControlLabel>Username</Form.ControlLabel>
-      <Form.Control name="name" />
-      <Form.HelpText>Username is required</Form.HelpText>
-    </Form.Group>
-    <Form.Group controlId="email">
-      <Form.ControlLabel>Email</Form.ControlLabel>
-      <Form.Control name="email" type="email" />
-      <Form.HelpText tooltip>Email is required</Form.HelpText>
-    </Form.Group>
-    <Form.Group controlId="password">
-      <Form.ControlLabel>Password</Form.ControlLabel>
-      <Form.Control name="password" type="password" autoComplete="off" />
-    </Form.Group>
-    <Form.Group controlId="textarea">
-      <Form.ControlLabel>Textarea</Form.ControlLabel>
-      <Form.Control rows={5} name="textarea" accepter={Textarea} />
-    </Form.Group>
-    <Form.Group>
-      <ButtonToolbar>
-        <Button appearance="primary">Submit</Button>
-        <Button appearance="default">Cancel</Button>
-      </ButtonToolbar>
-    </Form.Group>
-  </Form>
+const FormField = ({ name, label, text, ...props }) => (
+  <Form.Group controlId={name}>
+    <Form.Label>{label}</Form.Label>
+    <Form.Control name={name} {...props} />
+    {text && <Form.Text>{text}</Form.Text>}
+  </Form.Group>
 );
-ReactDOM.render(instance);
+
+const App = () => {
+  return (
+    <Form>
+      {/* Default vertical layout */}
+      <Form.Stack>
+        <FormField name="name" label="Username" text="Username is required" />
+        <FormField name="email" label="Email" text="Email is required" type="email" />
+        <FormField name="password" label="Password" accepter={PasswordInput} />
+        <FormField name="textarea" label="Textarea" accepter={Textarea} rows={5} />
+        <Form.Group>
+          <ButtonToolbar>
+            <Button appearance="primary">Submit</Button>
+            <Button appearance="default">Cancel</Button>
+          </ButtonToolbar>
+        </Form.Group>
+      </Form.Stack>
+    </Form>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

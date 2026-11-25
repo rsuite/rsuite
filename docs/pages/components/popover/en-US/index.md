@@ -2,16 +2,16 @@
 
 When the mouse clicks/moves in, the pop-up pop-up box is used to display more content.
 
-- `<Popover>` Pop-up box.
-- `<Whisper>` Monitor triggers, wrap the outside of the listener object, and notify the `Tooltip` when the event is triggered.
-
 ## Import
 
-<!--{include:(components/popover/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `Popover` Pop-up box.
+- `Whisper` Monitor triggers, wrap the outside of the listener object, and notify the `Tooltip` when the event is triggered.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 
@@ -40,21 +40,34 @@ Positioned popover components in scrolling container
 
 <!--{include:`container.md`}-->
 
-### Used with Dropdown
+### Used with Menu
 
-<!--{include:`with-dropdown.md`}-->
+<!--{include:`with-menu.md`}-->
+
+### Hide arrow indicator
+
+You can hide arrow indicator by setting `arrow` props to `false`;
+
+<!--{include:`arrow.md`}-->
+
+### Follow cursor
+
+You can enable the `Popover` to follow the cursor by setting `followCursor={true}`.
+
+<!--{include:`follow-cursor.md`}-->
 
 ## Props
-
-<!--{include:(_common/types/placement-all.md)}-->
 
 ### `<Popover>`
 
 | Property    | Type `(Default)`     | Description                            |
 | ----------- | -------------------- | -------------------------------------- |
+| arrow       | boolean `(true)`     | Whether show the arrow indicator       |
 | children \* | ReactNode            | The content of the component.          |
 | classPrefix | string `('popover')` | The prefix of the component CSS class. |
 | title       | ReactNode            | The title of the component.            |
 | visible     | boolean              | The component is visible by default.   |
+| full        | boolean              | The content full the container         |
 
 <!--{include:(components/whisper/en-US/props.md)}-->
+<!--{include:(_common/types/placement-all.md)}-->

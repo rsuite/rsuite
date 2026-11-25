@@ -1,8 +1,10 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Loader } from 'rsuite';
+
+const App = () => (
+  <>
     <Loader size="xs" content="Xsmall" />
     <hr />
     <Loader size="sm" content="Small" />
@@ -10,10 +12,10 @@ const instance = (
     <Loader size="md" content="Medium" />
     <hr />
     <Loader size="lg" content="Large" />
-  </div>
+  </>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

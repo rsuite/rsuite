@@ -1,48 +1,28 @@
 <!--start-code-->
 
 ```js
+import { TagPicker } from 'rsuite';
+import { mockUsers } from './mock';
+
 /**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
+ *  Data structure:
+ *  [
+ *    { firstLetter: 'A', name: 'Alan', firstName: 'Alan' },
+ *    { firstLetter: 'B', name: 'Benson', firstName: 'Benson' },
+ *  ]
  */
+const data = mockUsers(100)
+  .map(item => {
+    const firstLetter = item.firstName[0].toUpperCase();
+    return { firstLetter, ...item };
+  })
+  .sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter));
 
-const instance = (
-  <div>
-    <TagPicker data={data} groupBy="role" style={{ width: 300 }} />
-    <hr />
-    <p>Sort:</p>
-    <TagPicker
-      data={data}
-      groupBy="role"
-      sort={isGroup => {
-        if (isGroup) {
-          return (a, b) => {
-            return compare(a.groupTitle, b.groupTitle);
-          };
-        }
-
-        return (a, b) => {
-          return compare(a.value, b.value);
-        };
-      }}
-      style={{ width: 300 }}
-    />
-  </div>
+const App = () => (
+  <TagPicker data={data} groupBy="firstLetter" labelKey="firstName" valueKey="name" w={300} />
 );
 
-function compare(a, b) {
-  let nameA = a.toUpperCase();
-  let nameB = b.toUpperCase();
-
-  if (nameA < nameB) {
-    return -1;
-  }
-  if (nameA > nameB) {
-    return 1;
-  }
-  return 0;
-}
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

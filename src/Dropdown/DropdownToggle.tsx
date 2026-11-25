@@ -1,21 +1,19 @@
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import Button from '../Button';
-import { useClassNames } from '../utils';
-import { IconProps } from '@rsuite/icons/lib/Icon';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
-import useToggleCaret from '../utils/useToggleCaret';
-import { SidenavContext } from '../Sidenav/Sidenav';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useToggleCaret } from '@/internals/hooks';
+import { IconProps } from '@rsuite/icons/Icon';
+import { WithAsProps, PlacementCorners } from '@/internals/types';
 
 export interface DropdownToggleProps extends WithAsProps {
   icon?: React.ReactElement<IconProps>;
   noCaret?: boolean;
   renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
-  placement?: TypeAttributes.Placement8;
+  placement?: PlacementCorners;
 }
 
-const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProps> =
-  React.forwardRef((props: DropdownToggleProps, ref) => {
+const DropdownToggle = forwardRef<typeof Button, DropdownToggleProps>(
+  (props: DropdownToggleProps, ref) => {
     const {
       as: Component = Button,
       className,
@@ -24,18 +22,15 @@ const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProp
       children,
       icon,
       noCaret,
-      placement,
+      placement = 'bottomStart',
       ...rest
     } = props;
 
-    const sidenav = useContext(SidenavContext);
-    const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ 'no-caret': noCaret }));
-
-    const inSidenav = !!sidenav;
+    const { prefix, withPrefix, merge } = useStyles(classPrefix);
+    const classes = merge(className, withPrefix({ 'no-caret': noCaret }));
 
     // Caret icon is down by default, when Dropdown is used in Sidenav.
-    const Caret = useToggleCaret(inSidenav ? 'bottomStart' : placement);
+    const Caret = useToggleCaret(placement);
 
     const toggle = (
       <Component {...rest} ref={ref} className={classes}>
@@ -49,27 +44,9 @@ const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProp
     );
 
     return renderToggle ? renderToggle(rest, ref) : toggle;
-  });
+  }
+);
 
 DropdownToggle.displayName = 'DropdownToggle';
-DropdownToggle.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  icon: PropTypes.node,
-  classPrefix: PropTypes.string,
-  noCaret: PropTypes.bool,
-  as: PropTypes.elementType,
-  renderToggle: PropTypes.func,
-  placement: PropTypes.oneOf([
-    'bottomStart',
-    'bottomEnd',
-    'topStart',
-    'topEnd',
-    'leftStart',
-    'rightStart',
-    'leftEnd',
-    'rightEnd'
-  ])
-};
 
 export default DropdownToggle;

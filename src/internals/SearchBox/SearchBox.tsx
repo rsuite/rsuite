@@ -1,0 +1,57 @@
+import React from 'react';
+import SearchIcon from '@rsuite/icons/Search';
+import Input from '../../Input';
+import InputGroup from '../../InputGroup';
+import { useStyles } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
+import type { WithAsProps } from '@/internals/types';
+
+export interface SearchBoxProps extends WithAsProps {
+  value?: string;
+  placeholder?: string;
+  className?: string;
+  inputRef?: React.Ref<HTMLInputElement>;
+  inputProps?: React.AriaAttributes &
+    Pick<React.InputHTMLAttributes<HTMLInputElement>, 'role' | 'id' | 'inputMode' | 'enterKeyHint'>;
+  onChange?: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const SearchBox = forwardRef<'div', SearchBoxProps>((props: SearchBoxProps, ref) => {
+  const {
+    as: Component = 'div',
+    classPrefix = 'search-box',
+    value,
+    className,
+    placeholder,
+    inputRef,
+    inputProps,
+    onChange,
+    ...rest
+  } = props;
+  const { withPrefix, merge, prefix } = useStyles(classPrefix);
+  const classes = merge(className, withPrefix());
+
+  return (
+    <Component {...rest} ref={ref} className={classes}>
+      <InputGroup inside>
+        <Input
+          role="searchbox"
+          {...inputProps}
+          className={prefix`input`}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          ref={inputRef}
+        />
+
+        <InputGroup.Addon>
+          <SearchIcon className={prefix`icon`} />
+        </InputGroup.Addon>
+      </InputGroup>
+    </Component>
+  );
+});
+
+SearchBox.displayName = 'SearchBox';
+
+export default SearchBox;

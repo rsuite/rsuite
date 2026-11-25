@@ -1,36 +1,31 @@
 <!--start-code-->
 
 ```js
-/**
- *  PreventOverflowContainer from
- *  https://github.com/rsuite/rsuite/blob/master/docs/components/PreventOverflowContainer.tsx
- */
-
-const speaker = (
-  <Popover title="Title" style={{ width: 200 }}>
-    <p>This is a defalut Popover </p>
-    <p>Content</p>
-  </Popover>
-);
+import { Popover, Whisper, Button } from 'rsuite';
+import PlacementContainer from '@/components/PlacementContainer';
 
 const App = () => (
-  <PreventOverflowContainer height={300}>
-    {getContainer => (
+  <PlacementContainer placement="auto">
+    {({ container, placement, preventOverflow }) => (
       <Whisper
         preventOverflow
         trigger="click"
-        controlId="control-id-container"
-        container={getContainer}
-        speaker={speaker}
-        placement="auto"
+        container={container}
+        placement={placement}
+        speaker={
+          <Popover title="Title" w={200}>
+            <p>This is a default Popover</p>
+            <p>Content</p>
+          </Popover>
+        }
       >
-        <Button appearance="primary">Click</Button>
+        <Button appearance="primary">Click me</Button>
       </Whisper>
     )}
-  </PreventOverflowContainer>
+  </PlacementContainer>
 );
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

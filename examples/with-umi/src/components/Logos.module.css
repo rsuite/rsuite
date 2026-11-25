@@ -1,0 +1,15 @@
+.umiLogo {
+  position: relative;
+  width: auto;
+  height: 100px;
+  object-fit: contain;
+  display: block;
+}
+
+.rsuiteLogo {
+  position: relative;
+  width: auto;
+  height: 100px;
+  object-fit: contain;
+  display: block;
+}

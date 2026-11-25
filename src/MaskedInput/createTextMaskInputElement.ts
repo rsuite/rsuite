@@ -3,14 +3,12 @@ import isNumber from 'lodash/isNumber';
 import adjustCaretPosition from './adjustCaretPosition';
 import conformToMask from './conformToMask';
 import { convertMaskToPlaceholder, processCaretTraps, defaultPlaceholderChar } from './utilities';
+import { safeSetSelection } from '@/internals/utils';
 
 const emptyString = '';
-const strNone = 'none';
 const strObject = 'object';
-const isAndroid = typeof navigator !== 'undefined' && /Android/i.test(navigator.userAgent);
-const defer = typeof requestAnimationFrame !== 'undefined' ? requestAnimationFrame : setTimeout;
 
-export default function createTextMaskInputElement(config) {
+export default function createTextMaskInputElement(config?) {
   // Anything that we will need to keep between `update` calls, we will store in this `state` object.
   const state = { previousConformedValue: undefined, previousPlaceholder: undefined };
 
@@ -21,7 +19,7 @@ export default function createTextMaskInputElement(config) {
     // The caller can send a `rawValue` to be conformed and set on the input element. However, the default use-case
     // is for this to be read from the `inputElement` directly.
     update(
-      rawValue,
+      rawValue?,
       {
         inputElement,
         mask: providedMask,
@@ -72,6 +70,8 @@ export default function createTextMaskInputElement(config) {
       // In framework components that support reactivity, it's possible to turn off masking by passing
       // `false` for `mask` after initialization. See https://github.com/text-mask/text-mask/pull/359
       if (providedMask === false) {
+        const value = getSafeRawValue(rawValue);
+        if (inputElement.value !== value) inputElement.value = value;
         return;
       }
 
@@ -98,6 +98,7 @@ export default function createTextMaskInputElement(config) {
 
         // disable masking if `mask` is `false`
         if (mask === false) {
+          if (inputElement.value !== safeRawValue) inputElement.value = safeRawValue;
           return;
         }
 
@@ -144,7 +145,7 @@ export default function createTextMaskInputElement(config) {
         // indicate rejection. Or return just a string when there are no piped characters.
         // If the `pipe` returns `false` or a string, the block below turns it into an object that the rest
         // of the code can work with.
-        if (pipeResults === false) {
+        if (typeof pipeResults === 'boolean' && pipeResults === false) {
           // If the `pipe` rejects `conformedValue`, we use the `previousConformedValue`, and set `rejected` to `true`.
           pipeResults = { value: previousConformedValue, rejected: true };
         } else if (isString(pipeResults)) {
@@ -187,19 +188,12 @@ export default function createTextMaskInputElement(config) {
       }
 
       inputElement.value = inputElementValue; // set the input value
-      safeSetSelection(inputElement, adjustedCaretPosition); // adjust caret position
+
+      if (typeof adjustedCaretPosition === 'number') {
+        safeSetSelection(inputElement, adjustedCaretPosition, adjustedCaretPosition); // adjust caret position
+      }
     }
   };
-}
-
-function safeSetSelection(element, selectionPosition) {
-  if (document.activeElement === element) {
-    if (isAndroid) {
-      defer(() => element.setSelectionRange(selectionPosition, selectionPosition, strNone), 0);
-    } else {
-      element.setSelectionRange(selectionPosition, selectionPosition, strNone);
-    }
-  }
 }
 
 function getSafeRawValue(inputValue) {

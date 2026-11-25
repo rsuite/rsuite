@@ -1,13 +1,19 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { Tree } from 'rsuite';
+import { mockTreeData } from './mock';
+
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.person[methodName[layer]]();
+  }
+});
 
 const App = () => {
-  const [treeData, setTreeData] = useState(data);
+  const [treeData, setTreeData] = React.useState(data);
   return (
     <Tree
       data={treeData}
@@ -19,7 +25,8 @@ const App = () => {
     />
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

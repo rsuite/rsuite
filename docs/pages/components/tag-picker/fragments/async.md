@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { TagPicker, HStack, Loader } from 'rsuite';
+
 const useUsers = (defaultUsers = []) => {
   const [users, setUsers] = React.useState(defaultUsers);
   const [loading, setLoading] = React.useState(false);
@@ -32,27 +34,27 @@ const App = () => {
       data={users}
       cacheData={cacheData}
       value={value}
-      style={{ width: 300 }}
+      w={300}
       labelKey="login"
       valueKey="id"
       onChange={setValue}
       onSearch={featUsers}
       onSelect={handleSelect}
-      renderMenu={menu => {
+      renderListbox={listbox => {
         if (loading) {
           return (
-            <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>
-              <Spinner spin /> Loading...
-            </p>
+            <HStack justifyContent="center">
+              <Loader content="Loading..." />
+            </HStack>
           );
         }
-        return menu;
+        return listbox;
       }}
     />
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

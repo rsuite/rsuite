@@ -1,16 +1,18 @@
 <!--start-code-->
 
 ```js
-// import GearIcon from '@rsuite/icons/Gear';
-// import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+import { HStack } from 'rsuite';
+import GearIcon from '@rsuite/icons/Gear';
+import SpinnerIcon from '@rsuite/icons/Spinner';
 
 const App = () => (
-  <div className="icon-example-list">
+  <HStack spacing={10}>
     <GearIcon spin style={{ fontSize: '2em' }} />
     <SpinnerIcon pulse style={{ fontSize: '2em' }} />
-  </div>
+  </HStack>
 );
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

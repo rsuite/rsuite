@@ -1,35 +1,30 @@
 <!--start-code-->
 
 ```js
-const NavLink = React.forwardRef((props, ref) => {
-  const { href, as, ...rest } = props;
-  return (
-    <Link href={href} as={as}>
-      <a ref={ref} {...rest} />
-    </Link>
-  );
-});
+import Link from 'next/link';
+import { Breadcrumb, VStack } from 'rsuite';
+import { MdArrowRightAlt } from 'react-icons/md';
 
-const MyBreadcrumb = ({ separator }) => (
-  <Breadcrumb separator={separator}>
-    <Breadcrumb.Item as={NavLink} href="/">
+const BreadcrumbBox = ({ separator }) => (
+  <Breadcrumb aria-label="breadcrumb" separator={separator}>
+    <Breadcrumb.Item as={Link} href="/">
       Home
     </Breadcrumb.Item>
-    <Breadcrumb.Item as={NavLink} href="/components/overview">
+    <Breadcrumb.Item as={Link} href="/components/overview">
       Components
     </Breadcrumb.Item>
     <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>
   </Breadcrumb>
 );
 
-const instance = (
-  <div>
-    <MyBreadcrumb separator={'-'} />
-    <MyBreadcrumb separator={'>'} />
-    <MyBreadcrumb separator={<AngleRight />} />
-  </div>
+const App = () => (
+  <VStack spacing={20}>
+    <BreadcrumbBox separator={'-'} />
+    <BreadcrumbBox separator={'>'} />
+    <BreadcrumbBox separator={<MdArrowRightAlt size={16} />} />
+  </VStack>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,0 +1,9 @@
+{
+  "components": {
+    "DrawerBody": "Drawer/DrawerBody",
+    "DrawerHeader": "Drawer/DrawerHeader",
+    "DrawerFooter": "Drawer/DrawerFooter",
+    "DrawerActions": "Drawer/DrawerActions",
+    "DrawerTitle": "Drawer/DrawerTitle"
+  }
+}

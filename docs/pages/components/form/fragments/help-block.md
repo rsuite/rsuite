@@ -1,21 +1,25 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <Form>
+import { Form, HStack } from 'rsuite';
+
+const App = () => (
+  <Form layout="vertical">
     <Form.Group controlId="email-5">
       <Form.Control name="email" placeholder="Email" />
-      <Form.HelpText>This field is required</Form.HelpText>
+      <Form.Text>This field is required</Form.Text>
     </Form.Group>
 
     <Form.Group controlId="name-5">
-      <Form.Control name="name" placeholder="Name" />
-      <Form.HelpText tooltip>This field is required</Form.HelpText>
+      <HStack>
+        <Form.Control name="name" placeholder="Name" />
+        <Form.Text tooltip>This field is required</Form.Text>
+      </HStack>
     </Form.Group>
   </Form>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

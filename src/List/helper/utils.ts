@@ -1,10 +1,12 @@
 import { CSSProperties } from 'react';
-import { Offset } from '../../@types/common';
+import { Offset } from '@/internals/types';
 
 export interface Axis {
-  x?: number;
-  y?: number;
+  x: number;
+  y: number;
 }
+
+export type EdgeOffset = Omit<Offset, 'width' | 'height'>;
 
 /**
  * interactive elements should be skiped
@@ -51,16 +53,16 @@ export function closestNode(sourceNode: HTMLElement, judge: (target: HTMLElement
 export function getEdgeOffset(
   node: HTMLElement,
   parent: HTMLElement,
-  offset: Offset = { left: 0, top: 0 }
-): Offset {
+  offset: EdgeOffset = { left: 0, top: 0 }
+): Partial<EdgeOffset> {
   if (!node || !parent) {
     return {};
   }
 
   // Get the actual offsetTop / offsetLeft value, no matter how deep the node is nested
   const nodeOffset = {
-    left: offset.left + node.offsetLeft,
-    top: offset.top + node.offsetTop
+    left: (offset.left || 0) + node.offsetLeft,
+    top: (offset.top || 0) + node.offsetTop
   };
   if (node.parentNode === parent) {
     return nodeOffset;
@@ -69,10 +71,19 @@ export function getEdgeOffset(
 }
 
 export function getScrollingParent(el: HTMLElement) {
-  return closestNode(el, el => {
-    const computedStyle = window.getComputedStyle(el);
-    const overflowRegex = /(auto|scroll)/;
-    const properties = ['overflow', 'overflowX', 'overflowY'];
-    return properties.some(property => overflowRegex.test(computedStyle[property]));
-  });
+  if (!el || typeof window === 'undefined' || !window.getComputedStyle) {
+    return null;
+  }
+
+  try {
+    return closestNode(el, el => {
+      const computedStyle = window.getComputedStyle(el);
+      const overflowRegex = /(auto|scroll)/;
+      const properties = ['overflow', 'overflowX', 'overflowY'];
+      return properties.some(property => overflowRegex.test(computedStyle[property]));
+    });
+  } catch {
+    // In test environments, errors may occur, so return null
+    return null;
+  }
 }

@@ -1,55 +1,36 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { TagPicker, VStack, HStack, Text, Divider } from 'rsuite';
 
-const instance = (
-  <div>
-    <label>Disabled: </label>
-    <TagPicker
-      disabled
-      data={data}
-      placeholder="-"
-      defaultValue={['Julius']}
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
-    />
-
-    <label style={{ marginLeft: 10 }}>Disabled option: </label>
-    <TagPicker
-      data={data}
-      placeholder="-"
-      defaultValue={['Julius']}
-      disabledItemValues={['Eugenia', 'Travon', 'Vincenza']}
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
-    />
-    <hr />
-    <label>Read only: </label>
-    <TagPicker
-      readOnly
-      data={data}
-      placeholder="-"
-      defaultValue={['Julius']}
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
-    />
-    <hr />
-    <label>Plaintext: </label>
-    <TagPicker
-      plaintext
-      data={data}
-      placeholder="-"
-      defaultValue={['Julius']}
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
-    />
-  </div>
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+  item => ({ label: item, value: item })
 );
-ReactDOM.render(instance);
+
+const Field = ({ label, children, ...rest }) => (
+  <HStack>
+    <Text muted w={80}>
+      {label}
+    </Text>
+    <TagPicker {...rest} />
+  </HStack>
+);
+
+const App = () => (
+  <VStack divider={<Divider />}>
+    <Field label="Disabled" disabled data={data} defaultValue={['Eugenia']} />
+    <Field
+      label="Disabled option"
+      data={data}
+      defaultValue={['Eugenia']}
+      disabledItemValues={['Bryan', 'Linda', 'Nancy']}
+    />
+    <Field label="ReadOnly" readOnly data={data} defaultValue={['Eugenia']} />
+    <Field label="Plaintext" plaintext data={data} defaultValue={['Eugenia']} />
+  </VStack>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

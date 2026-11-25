@@ -1,16 +1,18 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <CheckboxGroup inline name="checkboxList">
-    <Checkbox>Item A</Checkbox>
-    <Checkbox>Item B</Checkbox>
-    <Checkbox>Item C</Checkbox>
-    <Checkbox disabled>Item D</Checkbox>
+import { Checkbox, CheckboxGroup } from 'rsuite';
+
+const App = () => (
+  <CheckboxGroup inline name="checkbox-group">
+    <Checkbox value="A">Checkbox A</Checkbox>
+    <Checkbox value="B">Checkbox B</Checkbox>
+    <Checkbox value="C">Checkbox C</Checkbox>
+    <Checkbox value="D">Checkbox D</Checkbox>
   </CheckboxGroup>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

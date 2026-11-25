@@ -2,16 +2,16 @@
 
 A text tip for secondary, which replaces the default title property of an HTML element.
 
-- `<Tooltip>` Text tip.
-- `<Whisper>` Monitor triggers, wrap the outside of the listener object, and notify the `Tooltip` when the event is triggered.
-
 ## Import
 
-<!--{include:(components/tooltip/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `Tooltip` Text tip.
+- `Whisper` Monitor triggers, wrap the outside of the listener object, and notify the `Tooltip` when the event is triggered.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 
@@ -49,16 +49,34 @@ Elements with the disabled attribute aren’t interactive, meaning users cannot 
 
 <!--{include:`disabled-elements.md`}-->
 
-## Props
+### Accessible descriptions
 
-<!--{include:(_common/types/placement-all.md)}-->
+When a `Whisper` has a direct `Tooltip` speaker and an element trigger, it adds the mounted tooltip's ID to the trigger's `aria-describedby`. Existing description IDs keep their order and are deduplicated. A Tooltip ID supplied by you or by `CustomProvider` is preserved; otherwise a stable ID is generated.
+
+The automatic description exists while the actual tooltip node is mounted, including its exit transition, and is removed when that node is detached. The trigger must forward its ref to a DOM element. The target must have `role="tooltip"` and a valid, unique ID in the trigger's document; a role override or a target in another document does not create an automatic association. Render-function speakers, render-function triggers, custom speaker wrappers, and `Popover` keep their existing behavior. Use `controlId` to manage an explicit association; its existing behavior is unchanged. This DOM association does not guarantee when a screen reader announces the description.
+
+### Hide arrow indicator
+
+You can hide arrow indicator by setting `arrow` props to `false`;
+
+<!--{include:`arrow.md`}-->
+
+### Follow cursor
+
+You can enable the `Tooltip` to follow the cursor by setting `followCursor={true}`.
+
+<!--{include:`follow-cursor.md`}-->
+
+## Props
 
 ### `<Tooltip>`
 
 | Property    | Type `(Default)`     | Description                           |
 | ----------- | -------------------- | ------------------------------------- |
+| arrow       | boolean `(true)`     | Whether show the arrow indicator      |
 | children \* | ReactNode            | The content of the component.         |
 | classPrefix | string `('tooltip')` | The prefix of the component CSS class |
 | visible     | boolean              | The component is visible by default   |
 
 <!--{include:(components/whisper/en-US/props.md)}-->
+<!--{include:(_common/types/placement-all.md)}-->

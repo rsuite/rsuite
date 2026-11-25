@@ -1,37 +1,22 @@
 <!--start-code-->
 
 ```js
-const { StringType, NumberType } = Schema.Types;
+import { Form, Button, ButtonToolbar, PasswordInput, Row, Col } from 'rsuite';
+import { SchemaModel, StringType, NumberType } from 'rsuite/Schema';
 
-const model = Schema.Model({
-  name: StringType().isRequired('This field is required.'),
-  email: StringType()
-    .isEmail('Please enter a valid email address.')
-    .isRequired('This field is required.'),
-  age: NumberType('Please enter a valid number.').range(
-    18,
-    30,
-    'Please enter a number from 18 to 30'
-  ),
-  password: StringType().isRequired('This field is required.'),
-  verifyPassword: StringType()
-    .addRule((value, data) => {
-      console.log(data);
-
-      if (value !== data.password) {
-        return false;
-      }
-
-      return true;
-    }, 'The two passwords do not match')
-    .isRequired('This field is required.')
+const model = SchemaModel({
+  name: StringType().isRequired(),
+  email: StringType().isEmail().isRequired(),
+  age: NumberType().range(18, 30),
+  password: StringType().isRequired().proxy(['confirmPassword']),
+  confirmPassword: StringType().equalTo('password')
 });
 
 const TextField = React.forwardRef((props, ref) => {
   const { name, label, accepter, ...rest } = props;
   return (
-    <Form.Group controlId={`${name}-4`} ref={ref}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
+    <Form.Group ref={ref}>
+      <Form.Label>{label} </Form.Label>
       <Form.Control name={name} accepter={accepter} {...rest} />
     </Form.Group>
   );
@@ -45,7 +30,7 @@ const App = () => {
     email: '',
     age: '',
     password: '',
-    verifyPassword: ''
+    confirmPassword: ''
   });
 
   const handleSubmit = () => {
@@ -63,8 +48,8 @@ const App = () => {
   };
 
   return (
-    <FlexboxGrid>
-      <FlexboxGrid.Item colspan={12}>
+    <Row gutter={[16, 24]}>
+      <Col span={{ xs: 24, md: 12 }}>
         <Form
           ref={formRef}
           onChange={setFormValue}
@@ -72,18 +57,15 @@ const App = () => {
           formValue={formValue}
           model={model}
         >
-          <TextField name="name" label="Username" />
-          <TextField name="email" label="Email" />
-          <TextField name="age" label="Age" />
-          <TextField name="password" label="Password" type="password" autoComplete="off" />
-          <TextField
-            name="verifyPassword"
-            label="Verify password"
-            type="password"
-            autoComplete="off"
-          />
+          <Form.Stack>
+            <TextField name="name" label="Username" />
+            <TextField name="email" label="Email" />
+            <TextField name="age" label="Age" />
+            <TextField name="password" label="Password" accepter={PasswordInput} />
+            <TextField name="confirmPassword" label="Confirm Password" accepter={PasswordInput} />
+          </Form.Stack>
 
-          <ButtonToolbar>
+          <ButtonToolbar mt={20}>
             <Button appearance="primary" onClick={handleSubmit}>
               Submit
             </Button>
@@ -91,15 +73,15 @@ const App = () => {
             <Button onClick={handleCheckEmail}>Check Email</Button>
           </ButtonToolbar>
         </Form>
-      </FlexboxGrid.Item>
-      <FlexboxGrid.Item colspan={12}>
+      </Col>
+      <Col hidden={{ md: true }} span={{ xs: 24, md: 12 }}>
         <JSONView formValue={formValue} formError={formError} />
-      </FlexboxGrid.Item>
-    </FlexboxGrid>
+      </Col>
+    </Row>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

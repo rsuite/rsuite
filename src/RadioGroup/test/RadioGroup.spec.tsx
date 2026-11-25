@@ -1,0 +1,211 @@
+import React from 'react';
+import RadioGroup from '../RadioGroup';
+import Radio from '../../Radio';
+import { describe, expect, it, vi } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/cases';
+
+describe('RadioGroup', () => {
+  testStandardProps(<RadioGroup />);
+
+  it('Should render a radio group', () => {
+    render(
+      <RadioGroup>
+        <Radio>Test1</Radio>
+        <Radio>Test2</Radio>
+      </RadioGroup>
+    );
+    expect(screen.getAllByRole('radio')).to.have.lengthOf(2);
+  });
+
+  it('Should have a name in input', () => {
+    const name = 'Test';
+    render(
+      <RadioGroup name={name}>
+        <Radio>Test1</Radio>
+        <Radio>Test2</Radio>
+      </RadioGroup>
+    );
+
+    for (const radio of screen.getAllByRole('radio')) {
+      expect(radio).to.have.attr('name', 'Test');
+    }
+  });
+
+  it('Should have `data-inline` attribute in radio', () => {
+    render(
+      <RadioGroup inline>
+        <Radio>Test1</Radio>
+        <Radio>Test2</Radio>
+      </RadioGroup>
+    );
+
+    expect(screen.getByRole('radiogroup')).to.have.attr('data-inline', 'true');
+
+    screen.getByRole('radiogroup').childNodes.forEach(radio => {
+      expect(radio).to.have.attr('data-inline', 'true');
+    });
+  });
+
+  it('Should output a h1', () => {
+    render(
+      <RadioGroup inline>
+        <h1 data-testid="h1">Group</h1>
+        <Radio>Test1</Radio>
+      </RadioGroup>
+    );
+
+    expect(screen.getByTestId('h1')).to.exist;
+  });
+
+  it('Should be checked when set value', () => {
+    render(
+      <RadioGroup value={2}>
+        <Radio value={1}>Test1</Radio>
+        <Radio value={2}>Test2</Radio>
+        <Radio value={3}>Test3</Radio>
+        <Radio value={4}>Test4</Radio>
+      </RadioGroup>
+    );
+
+    expect(screen.getByLabelText('Test2')).to.be.checked;
+    expect(
+      screen.getByText((_content, element) => element?.textContent === 'Test2', {
+        selector: '.rs-radio'
+      })
+    ).to.have.attr('data-checked', 'true');
+  });
+
+  it('Should be checked when set defaultValue', () => {
+    render(
+      <RadioGroup defaultValue={2}>
+        <Radio value={1}>Test1</Radio>
+        <Radio value={2}>Test2</Radio>
+        <Radio value={3}>Test3</Radio>
+        <Radio>Test4</Radio>
+      </RadioGroup>
+    );
+
+    expect(screen.getByLabelText('Test2')).to.be.checked;
+    expect(
+      screen.getByText((_content, element) => element?.textContent === 'Test2', {
+        selector: '.rs-radio'
+      })
+    ).to.have.attr('data-checked', 'true');
+  });
+
+  it('Should call onChange callback with correct value', () => {
+    const onChange = vi.fn();
+    render(
+      <RadioGroup onChange={onChange}>
+        <Radio value={1}>Test1</Radio>
+        <Radio value={2}>Test2</Radio>
+        <Radio value={3}>Test3</Radio>
+        <Radio value={4}>Test4</Radio>
+      </RadioGroup>
+    );
+
+    fireEvent.click(screen.getByText('Test3'));
+    expect(onChange).toHaveBeenCalledTimes(1);
+    // The event is passed as the second argument
+    expect(onChange.mock.calls[0][0]).toBe(3);
+    expect(onChange.mock.calls[0][1]).toBeInstanceOf(Object);
+  });
+
+  it('Should call onChange callback', () => {
+    const onChange = vi.fn();
+    const onGroupChange = vi.fn();
+
+    render(
+      <RadioGroup onChange={onGroupChange}>
+        <Radio value={1}>Test1</Radio>
+        <Radio value={2}>Test2</Radio>
+        <Radio value={3} onChange={onChange}>
+          Test3
+        </Radio>
+        <Radio value={4}>Test4</Radio>
+      </RadioGroup>
+    );
+
+    fireEvent.click(screen.getByText('Test3'));
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onGroupChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('Should call onChange callback with correct event target', () => {
+    const onChange = vi.fn();
+    render(
+      <RadioGroup name="test" onChange={onChange}>
+        <Radio value={1}>Test1</Radio>
+        <Radio value={2}>Test2</Radio>
+        <Radio value={3}>Test3</Radio>
+        <Radio value={4}>Test4</Radio>
+      </RadioGroup>
+    );
+
+    fireEvent.click(screen.getByText('Test3'));
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    // Check the first argument is the value
+    expect(onChange.mock.calls[0][0]).toBe(3);
+    // Check the second argument is the event object
+    const event = onChange.mock.calls[0][1];
+    expect(event).toBeDefined();
+    expect(event.target).toBeDefined();
+    expect(event.target.name).toBe('test');
+  });
+
+  it('Should be selected as false', () => {
+    render(
+      // FIXME `value` prop does not accept boolean values
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      <RadioGroup value={false}>
+        {/* FIXME `value` prop does not accept boolean values */}
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore */}
+        <Radio value={true}>true</Radio>
+        {/* FIXME `value` prop does not accept boolean values */}
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore */}
+        <Radio value={false}>false</Radio>
+      </RadioGroup>
+    );
+
+    expect(screen.getByRole('radio', { name: 'false' })).to.be.checked;
+  });
+
+  it('Should apply appearance', () => {
+    render(<RadioGroup appearance="picker" />);
+
+    expect(screen.getByRole('radiogroup')).to.have.attr('data-appearance', 'picker');
+  });
+
+  describe('Plain text', () => {
+    it("Should render selected radio's label", () => {
+      render(
+        <RadioGroup plaintext value={2} data-testid="radio-group">
+          <Radio value={1}>Choice 1</Radio>
+          <Radio value={2}>Choice 2</Radio>
+          <Radio value={3}>Choice 3</Radio>
+          <Radio value={4}>Choice 4</Radio>
+        </RadioGroup>
+      );
+
+      expect(screen.getByTestId('radio-group')).to.have.text('Choice 2');
+    });
+    it('Should render "not selected" if none is selected', () => {
+      render(
+        <RadioGroup plaintext data-testid="radio-group">
+          <Radio value={1}>Choice 1</Radio>
+          <Radio value={2}>Choice 2</Radio>
+          <Radio value={3}>Choice 3</Radio>
+          <Radio value={4}>Choice 4</Radio>
+        </RadioGroup>
+      );
+
+      expect(screen.getByTestId('radio-group')).to.have.text('Not selected');
+    });
+  });
+});

@@ -1,13 +1,31 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { TreePicker, VStack } from 'rsuite';
+import { mockTreeData } from './mock';
 
-const instance = <TreePicker defaultExpandAll data={data} style={{ width: 246 }} />;
-ReactDOM.render(instance);
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.person[methodName[layer]]();
+  }
+});
+
+const App = () => (
+  <VStack>
+    <TreePicker defaultExpandAll data={data} w={246} />
+    <TreePicker
+      defaultExpandAll
+      data={data}
+      searchable={false}
+      w={246}
+      placeholder="Select without search"
+    />
+  </VStack>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

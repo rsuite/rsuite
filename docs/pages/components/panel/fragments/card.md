@@ -1,10 +1,11 @@
-
 <!--start-code-->
 
 ```js
-const instance = (
+import { Panel } from 'rsuite';
+
+const App = () => (
   <Panel shaded bordered bodyFill style={{ display: 'inline-block', width: 240 }}>
-    <img src="https://via.placeholder.com/240x240" height="240" />
+    <img src="https://placehold.co/240x180" height="180" />
     <Panel header="RSUITE">
       <p>
         <small>
@@ -15,7 +16,7 @@ const instance = (
   </Panel>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

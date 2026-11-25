@@ -1,45 +1,45 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- * 
- * import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
- * 
- */
+import { SelectPicker, HStack, Loader } from 'rsuite';
+
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+  item => ({ label: item, value: item })
+);
 
 const App = () => {
   const [items, setItems] = React.useState([]);
   const updateData = () => {
-    if (items.length === 0) {
-      setItems(data);
-    }
+    setTimeout(() => {
+      if (items.length === 0) {
+        setItems(data);
+      }
+    }, 2000);
   };
 
-  const renderMenu = menu => {
+  const renderListbox = listbox => {
     if (items.length === 0) {
       return (
-        <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>
-          <SpinnerIcon spin /> Loading...
-        </p>
+        <HStack justifyContent="center">
+          <Loader content="Loading..." />
+        </HStack>
       );
     }
-    return menu;
+    return listbox;
   };
 
   return (
     <SelectPicker
       data={items}
-      style={{ width: 224 }}
+      w={224}
       onOpen={updateData}
       onSearch={updateData}
-      renderMenu={renderMenu}
+      renderListbox={renderListbox}
     />
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

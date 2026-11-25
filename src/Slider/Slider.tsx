@@ -1,15 +1,16 @@
 import React, { useCallback, useMemo, useRef } from 'react';
-import PropTypes from 'prop-types';
 import getWidth from 'dom-lib/getWidth';
 import getHeight from 'dom-lib/getHeight';
 import getOffset from 'dom-lib/getOffset';
 import ProgressBar from './ProgressBar';
 import Handle from './Handle';
 import Graduated from './Graduated';
-import { useClassNames, useControlled, useCustom } from '../utils';
-import { precisionMath, checkValue } from './utils';
-import { WithAsProps, FormControlBaseProps } from '../@types/common';
-import Plaintext from '../Plaintext';
+import Plaintext from '@/internals/Plaintext';
+import Box, { BoxProps } from '@/internals/Box';
+import { useStyles, useCustom, useControlled, useEventCallback } from '@/internals/hooks';
+import { forwardRef } from '@/internals/utils';
+import { precisionMath, checkValue, getPosition } from './utils';
+import type { FormControlBaseProps, Size, Offset } from '@/internals/types';
 
 export interface LocaleType {
   placeholder?: string;
@@ -18,7 +19,7 @@ export interface LocaleType {
   loading?: string;
 }
 
-export interface SliderProps<T = number> extends WithAsProps, FormControlBaseProps<T> {
+export interface SliderProps<T = number> extends BoxProps, FormControlBaseProps<T> {
   /**
    * The label of the slider.
    */
@@ -62,14 +63,36 @@ export interface SliderProps<T = number> extends WithAsProps, FormControlBasePro
   /** Show sliding progress bar */
   progress?: boolean;
 
+  /** Placeholder text */
+  placeholder?: React.ReactNode;
+
   /** Vertical Slide */
   vertical?: boolean;
+
+  /**
+   * If true, tooltip will always be visible  even without hover
+   */
+  keepTooltipOpen?: boolean;
+
+  /**
+   * A slider can have different sizes.
+   *
+   * @default 'sm'
+   * @version 6.0.0
+   */
+  size?: Size;
+
+  /**
+   * Custom marks on the ruler
+   * @version 6.0.0
+   */
+  marks?: { value: number; label: React.ReactNode }[];
 
   /** Customize labels on the render ruler */
   renderMark?: (mark: number) => React.ReactNode;
 
   /** Customize the content of the rendered Tooltip. */
-  renderTooltip?: (value: number) => React.ReactNode;
+  renderTooltip?: (value: number | undefined) => React.ReactNode;
 
   /** Accepts a function which returns a string value that provides a user-friendly name for the current value of the slider. */
   getAriaValueText?: (value: number, eventKey?: 'start' | 'end') => string;
@@ -78,72 +101,53 @@ export interface SliderProps<T = number> extends WithAsProps, FormControlBasePro
   onChangeCommitted?: (value: T, event: React.MouseEvent) => void;
 }
 
-export const sliderPropTypes = {
-  min: PropTypes.number,
-  max: PropTypes.number,
-  step: PropTypes.number,
-  value: PropTypes.number,
-  defaultValue: PropTypes.number,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  handleClassName: PropTypes.string,
-  handleTitle: PropTypes.node,
-  barClassName: PropTypes.string,
-  handleStyle: PropTypes.object,
-  disabled: PropTypes.bool,
-  plaintext: PropTypes.bool,
-  readOnly: PropTypes.bool,
-  graduated: PropTypes.bool,
-  tooltip: PropTypes.bool,
-  progress: PropTypes.bool,
-  vertical: PropTypes.bool,
-  onChange: PropTypes.func,
-  onChangeCommitted: PropTypes.func,
-  renderMark: PropTypes.func,
-  renderTooltip: PropTypes.func,
-  getAriaValueText: PropTypes.func
-};
-
-const Slider = React.forwardRef((props: SliderProps, ref) => {
+/**
+ * A Slider is an interface for users to adjust a value in a specific range.
+ *
+ * @see https://rsuitejs.com/components/slider
+ */
+const Slider = forwardRef<'div', SliderProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('Slider', props);
   const {
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledby,
     'aria-valuetext': ariaValuetext,
-    as: Componnet = 'div',
-    graduated,
+    as,
     className,
-    barClassName,
-    progress,
-    vertical,
-    disabled,
-    readOnly,
-    plaintext,
     classPrefix = 'slider',
-    min = 0,
+    barClassName,
+    defaultValue = 0,
+    disabled,
+    progress,
+    graduated,
     handleClassName,
     handleStyle,
     handleTitle,
-    tooltip = true,
+    keepTooltipOpen,
+    readOnly,
     step = 1,
-    defaultValue = 0,
-    value: valueProp,
+    size = 'sm',
+    tooltip = true,
     max: maxProp = 100,
+    placeholder,
+    plaintext,
+    marks,
+    min = 0,
+    vertical,
+    value: valueProp,
     getAriaValueText,
     renderTooltip,
     renderMark,
     onChange,
     onChangeCommitted,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
-  const barRef = useRef<HTMLDivElement>();
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const barRef = useRef<HTMLDivElement>(null);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
   const { rtl } = useCustom('Slider');
 
-  const classes = merge(
-    className,
-    withClassPrefix({ vertical, disabled, readOnly, graduated, 'with-mark': renderMark })
-  );
+  const classes = merge(className, withPrefix());
 
   const max = useMemo(
     () => precisionMath(Math.floor((maxProp - min) / step) * step + min),
@@ -154,13 +158,16 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
    * Returns a valid value that does not exceed the specified range of values.
    */
   const getValidValue = useCallback(
-    (value: number) => {
+    (value: number | undefined) => {
       return checkValue(value, min, max);
     },
     [max, min]
   );
 
-  const [value, setValue] = useControlled(getValidValue(valueProp), getValidValue(defaultValue));
+  const [value, setValue] = useControlled(
+    getValidValue(valueProp),
+    getValidValue(defaultValue) as number
+  );
   const count = useMemo(() => precisionMath((max - min) / step), [max, min, step]);
 
   // Get the height of the progress bar
@@ -193,14 +200,24 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
    * A value within the valid range is calculated from the position triggered by the event.
    */
   const getValueByPosition = useCallback(
-    (event: React.MouseEvent) => {
-      const barOffset = getOffset(barRef.current);
-      const offset = vertical
-        ? barOffset.top + barOffset.height - event.pageY
-        : event.pageX - barOffset.left;
-      const offsetValue = rtl && !vertical ? barOffset.width - offset : offset;
+    (event: React.MouseEvent | React.TouchEvent) => {
+      const barOffset = getOffset(barRef.current) as Offset;
+      const { pageX, pageY } = getPosition(event);
 
-      return getValueByOffset(offsetValue) + min;
+      let offset;
+      if (vertical) {
+        // For vertical sliders, top is 0% and bottom is 100% in both LTR and RTL
+        offset = barOffset.top + barOffset.height - pageY;
+      } else {
+        // For horizontal sliders, handle RTL direction
+        offset = pageX - barOffset.left;
+        if (rtl) {
+          // In RTL, invert the offset so that dragging right decreases the value
+          offset = barOffset.width - offset;
+        }
+      }
+
+      return getValueByOffset(offset) + min;
     },
     [getValueByOffset, min, rtl, vertical]
   );
@@ -208,86 +225,111 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
   /**
    * Callback function that is fired when the mousemove is triggered
    */
-  const handleChangeValue = useCallback(
-    (event: React.MouseEvent) => {
-      if (disabled || readOnly) {
-        return;
-      }
-      const nextValue = getValidValue(getValueByPosition(event));
-      setValue(nextValue);
-      onChange?.(nextValue, event);
-    },
-    [disabled, getValidValue, getValueByPosition, onChange, readOnly, setValue]
-  );
+  const handleChangeValue = useEventCallback((event: React.MouseEvent) => {
+    if (disabled || readOnly) {
+      return;
+    }
+
+    const nextValue = getValidValue(getValueByPosition(event)) as number;
+
+    setValue(nextValue);
+    onChange?.(nextValue, event);
+  });
 
   /**
    * Callback function that is fired when the mouseup is triggered
    */
-  const handleChangeCommitted = useCallback(
-    (event: React.MouseEvent) => {
-      if (disabled || readOnly) {
+  const handleChangeCommitted = useEventCallback((event: React.MouseEvent) => {
+    if (disabled || readOnly) {
+      return;
+    }
+
+    const nextValue = getValidValue(getValueByPosition(event)) as number;
+
+    onChangeCommitted?.(nextValue, event);
+  });
+
+  const handleClickBar = useEventCallback((event: React.MouseEvent) => {
+    handleChangeValue(event);
+    handleChangeCommitted(event);
+  });
+
+  const handleInputChange = useEventCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    if (disabled || readOnly) {
+      return;
+    }
+
+    const nextValue = getValidValue(event.currentTarget.valueAsNumber) as number;
+    setValue(nextValue);
+    onChange?.(nextValue, event);
+  });
+
+  const handleKeyDown = useEventCallback((event: React.KeyboardEvent) => {
+    if (disabled || readOnly) {
+      return;
+    }
+
+    let nextValue;
+    const increaseKey = rtl ? 'ArrowLeft' : 'ArrowRight';
+    const decreaseKey = rtl ? 'ArrowRight' : 'ArrowLeft';
+
+    switch (event.key) {
+      case 'Home':
+        nextValue = min;
+        break;
+      case 'End':
+        nextValue = max;
+        break;
+      case increaseKey:
+      case 'ArrowUp':
+        nextValue = Math.min(max, value + step);
+        break;
+
+      case decreaseKey:
+      case 'ArrowDown':
+        nextValue = Math.max(min, value - step);
+        break;
+      default:
         return;
-      }
-      const nextValue = getValidValue(getValueByPosition(event));
+    }
 
-      onChangeCommitted?.(nextValue, event);
-    },
-    [disabled, getValidValue, getValueByPosition, onChangeCommitted, readOnly]
-  );
+    // Prevent scroll of the page
+    event.preventDefault();
 
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent) => {
-      let nextValue;
-      const increaseKey = rtl ? 'ArrowLeft' : 'ArrowRight';
-      const decreaseKey = rtl ? 'ArrowRight' : 'ArrowLeft';
-
-      switch (event.key) {
-        case 'Home':
-          nextValue = min;
-          break;
-        case 'End':
-          nextValue = max;
-          break;
-        case increaseKey:
-        case 'ArrowUp':
-          nextValue = Math.min(max, value + step);
-          break;
-
-        case decreaseKey:
-        case 'ArrowDown':
-          nextValue = Math.max(min, value - step);
-          break;
-        default:
-          return;
-      }
-
-      // Prevent scroll of the page
-      event.preventDefault();
-
-      setValue(nextValue);
-      onChange?.(nextValue, event);
-    },
-    [max, min, onChange, rtl, setValue, step, value]
-  );
+    setValue(nextValue);
+    onChange?.(nextValue, event);
+  });
 
   if (plaintext) {
     return (
-      <Plaintext localeKey="notSelected" ref={ref}>
+      <Plaintext localeKey="notSelected" ref={ref} placeholder={placeholder}>
         {value}
       </Plaintext>
     );
   }
 
   return (
-    <Componnet {...rest} ref={ref} className={classes} role="presentation">
-      <div ref={barRef} className={merge(barClassName, prefix('bar'))} onClick={handleChangeValue}>
+    <Box
+      as={as}
+      ref={ref}
+      role="presentation"
+      className={classes}
+      data-size={size}
+      data-disabled={disabled}
+      data-readonly={readOnly}
+      data-graduated={graduated}
+      data-with-mark={renderMark ? 'true' : undefined}
+      data-direction={vertical ? 'vertical' : 'horizontal'}
+      {...rest}
+    >
+      <div
+        ref={barRef}
+        className={merge(barClassName, prefix('bar'))}
+        onClick={handleClickBar}
+        data-testid="slider-bar"
+      >
         {progress && (
-          <ProgressBar
-            rtl={rtl}
-            vertical={vertical}
-            start={0}
-            end={((value - min) / (max - min)) * 100}
-          />
+          <ProgressBar vertical={vertical} start={0} end={((value - min) / (max - min)) * 100} />
         )}
         {graduated && (
           <Graduated
@@ -296,42 +338,47 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
             max={max}
             count={count}
             value={value}
+            marks={marks}
             renderMark={renderMark}
           />
         )}
       </div>
-      {
-        <Handle
-          position={((value - min) / (max - min)) * 100}
-          className={handleClassName}
-          style={handleStyle}
-          disabled={disabled}
-          vertical={vertical}
-          tooltip={tooltip}
-          rtl={rtl}
-          value={value}
-          renderTooltip={renderTooltip}
-          onDragMove={handleChangeValue}
-          onKeyDown={handleKeyDown}
-          onDragEnd={handleChangeCommitted}
-          tabIndex={disabled || readOnly ? null : 0}
-          aria-orientation={vertical ? 'vertical' : 'horizontal'}
-          aria-valuenow={value}
-          aria-disabled={disabled}
-          aria-valuetext={getAriaValueText ? getAriaValueText(value) : ariaValuetext}
-          aria-label={ariaLabel}
-          aria-labelledby={ariaLabelledby}
-          aria-valuemax={max}
-          aria-valuemin={min}
-        >
-          {handleTitle}
-        </Handle>
-      }
-    </Componnet>
+
+      <Handle
+        position={((value - min) / (max - min)) * 100}
+        className={handleClassName}
+        style={handleStyle}
+        disabled={disabled}
+        readOnly={readOnly}
+        min={min}
+        max={max}
+        step={step}
+        onInputChange={handleInputChange}
+        vertical={vertical}
+        tooltip={tooltip}
+        value={value}
+        keepTooltipOpen={keepTooltipOpen}
+        renderTooltip={renderTooltip}
+        onDragMove={handleChangeValue}
+        onKeyDown={handleKeyDown}
+        onDragEnd={handleChangeCommitted}
+        tabIndex={disabled || readOnly ? undefined : 0}
+        aria-orientation={vertical ? 'vertical' : 'horizontal'}
+        aria-valuenow={value}
+        aria-disabled={disabled}
+        aria-readonly={readOnly}
+        aria-valuetext={getAriaValueText ? getAriaValueText(value) : ariaValuetext}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledby}
+        aria-valuemax={max}
+        aria-valuemin={min}
+      >
+        {handleTitle}
+      </Handle>
+    </Box>
   );
 });
 
 Slider.displayName = 'Slider';
-Slider.propTypes = sliderPropTypes;
 
 export default Slider;

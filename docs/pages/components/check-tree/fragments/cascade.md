@@ -1,29 +1,36 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { CheckTree } from 'rsuite';
+import { mockTreeData } from './mock';
 
-const CascadeDemo = () => {
-  const [cascade, setCascade] = useState(false);
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.person[methodName[layer]]();
+  }
+});
+
+const App = () => {
+  const [cascade, setCascade] = React.useState(false);
   return (
     <div>
-      Cascade:{' '}
       <Toggle
         checked={cascade}
         onChange={checked => {
           setCascade(checked);
         }}
-      />
+      >
+        Cascade
+      </Toggle>
       <hr />
       <CheckTree defaultExpandAll cascade={cascade} defaultValue={[2, 38]} data={data} />
     </div>
   );
 };
 
-ReactDOM.render(<CascadeDemo />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

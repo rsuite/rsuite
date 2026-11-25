@@ -1,23 +1,21 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div className="avatar-group">
+import { AvatarGroup, Badge, Avatar } from 'rsuite';
+
+const App = () => (
+  <AvatarGroup spacing={20}>
     <Badge>
-      <Avatar>
-        <Icon as={AvatarIcon} />
-      </Avatar>
+      <Avatar src="https://i.pravatar.cc/150?u=1" />
     </Badge>
 
     <Badge content="20">
-      <Avatar>
-        <Icon as={AvatarIcon} />
-      </Avatar>
+      <Avatar src="https://i.pravatar.cc/150?u=2" />
     </Badge>
-  </div>
+  </AvatarGroup>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,13 +1,11 @@
 <!--start-code-->
 
 ```js
-const message = (
-  <Notification>
-    <Paragraph width={320} rows={3} />
-  </Notification>
-);
+import { Notification } from 'rsuite';
 
-ReactDOM.render(message);
+const App = () => <Notification>You have a new message, please check it.</Notification>;
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

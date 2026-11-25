@@ -1,30 +1,37 @@
 <!--start-code-->
 
 ```js
+import { Uploader, Button } from 'rsuite';
+
 const App = () => {
-  const [value, setValue] = React.useState([]);
-  const handleUpload = () => {
-    uploaderRef.current.start();
-  };
-  const uploaderRef = React.useRef();
+  const [fileList, setFileList] = React.useState([]);
+  const uploader = React.useRef();
+
   return (
-    <div>
+    <>
       <Uploader
-        value={value}
+        fileList={fileList}
         autoUpload={false}
         action="//jsonplaceholder.typicode.com/posts/"
-        onChange={setValue}
-        ref={uploaderRef}
-      />
+        onChange={setFileList}
+        ref={uploader}
+      >
+        <Button>Select files...</Button>
+      </Uploader>
       <hr />
-      <Button disabled={!value.length} onClick={handleUpload}>
+      <Button
+        disabled={!fileList.length}
+        onClick={() => {
+          uploader.current.start();
+        }}
+      >
         Start Upload
       </Button>
-    </div>
+    </>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

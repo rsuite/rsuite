@@ -1,61 +1,42 @@
 <!--start-code-->
 
 ```js
-const AsyncExample = () => {
-  const [value, setValue] = useState([]);
-  const [data, setData] = useState([]);
+import { CheckTreePicker, Loader, HStack } from 'rsuite';
+import { mockAsyncData } from './mock';
+
+const [getNodes, fetchNodes] = mockAsyncData();
+
+const App = () => {
+  const [value, setValue] = React.useState([]);
+  const [data, setData] = React.useState([]);
 
   return (
     <CheckTreePicker
       data={data}
       value={value}
-      style={{ width: 280 }}
-      onChange={(value) => setValue(value)}
+      w={280}
+      getChildren={fetchNodes}
+      onChange={value => setValue(value)}
       onOpen={() => {
         if (data.length === 0) {
-          setTimeout(() => {
-            setData([
-              {
-                label: 'Parent Node',
-                value: '0',
-                children: [],
-              },
-            ]);
-          }, 1000);
+          setTimeout(() => setData(getNodes(5)), 1000);
         }
       }}
-      renderMenu={(menu) => {
+      renderTree={tree => {
         if (data.length === 0) {
           return (
-            <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>
-              <Spinner spin /> 加载中...
-            </p>
+            <HStack justifyContent="center">
+              <Loader content="Loading..." />
+            </HStack>
           );
         }
-        return menu;
+        return tree;
       }}
-      getChildren={(activeNode) =>
-        new Promise((resolve) => {
-          setTimeout(() => {
-            resolve([
-              {
-                label: 'Child Node',
-                value: `${activeNode.refKey}-0`,
-                children: [],
-              },
-              {
-                label: 'Child Node',
-                value: `${activeNode.refKey}-1`,
-                children: [],
-              },
-            ]);
-          }, 1000);
-        })
-      }
     />
   );
 };
-ReactDOM.render(<AsyncExample />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

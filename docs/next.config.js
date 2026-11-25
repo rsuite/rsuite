@@ -1,109 +1,120 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const RtlCssPlugin = require('rtlcss-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const pkg = require('./package.json');
-const findPages = require('./scripts/findPages');
-const markdownRenderer = require('./scripts/markdownRenderer');
+const { format } = require('date-fns');
 
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
-const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
-const __DEV__ = process.env.NODE_ENV !== 'production';
+const SVG_LOGO_PATH = resolveToStaticPath('./components/icons/svg');
 
-const {
-  // 'production' on main branch
-  // 'preview' on pr branches
-  // emtpy on local machine
-  // @see https://vercel.com/docs/concepts/projects/environment-variables#system-environment-variables
-  VERCEL_ENV = 'local'
-} = process.env;
-
-const __USE_SRC__ = VERCEL_ENV === 'preview' || VERCEL_ENV === 'local';
-
-const RSUITE_ROOT = path.join(__dirname, '../src');
-const LANGUAGES = {
-  // key: [language, path]
-  default: ['en', ''],
-  en: ['en', '/en'],
-  zh: ['zh', '/zh']
-};
-
-const getLanguage = language => LANGUAGES[language] || '';
-const babelBuildInclude = __USE_SRC__
-  ? [RSUITE_ROOT, path.join(__dirname, './')]
-  : [path.join(__dirname, './')];
+const netlifyContext = process.env.NETLIFY === 'true' ? process.env.CONTEXT : undefined;
+const buildEnv = process.env.DOCS_BUILD_ENV || netlifyContext || 'local';
+const __USE_SRC__ = buildEnv !== 'production';
+const __DEV__ = buildEnv === 'local' || buildEnv === 'dev';
+const tsconfigPath = __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json';
+const BUILD_ID = process.env.DEPLOY_ID || format(new Date(), 'yyyyMMddHHmm');
 
 /**
  * @type {import('next').NextConfig}
  */
 module.exports = {
   env: {
-    DEV: __DEV__ ? 1 : 0,
-    VERSION: pkg.version
+    VERSION: pkg.version,
+    BUILD_ID
+  },
+  i18n: {
+    locales: ['en', 'zh'],
+    defaultLocale: 'en',
+    localeDetection: false
+  },
+  transpilePackages: __USE_SRC__ ? ['rsuite'] : undefined,
+  experimental: {
+    externalDir: true
+  },
+  // Exclude example pages and _components directory from static generation
+  exportPathMap: async function (defaultPathMap) {
+    const pathMap = { ...defaultPathMap };
+
+    // Remove example pages from static generation
+    Object.keys(pathMap).forEach(path => {
+      if (path.includes('/examples/')) {
+        delete pathMap[path];
+      }
+    });
+
+    return pathMap;
   },
   /**
    *
    * @param {import('webpack').Configuration} config
+   * @param {{ isServer: boolean }}
    */
-  webpack(config) {
-    const originEntry = config.entry;
-
+  webpack(config, { isServer }) {
     config.module.rules.unshift({
       test: /\.svg$/,
       include: SVG_LOGO_PATH,
+      issuer: /\.[jt]sx?$/,
       use: [
-        {
-          loader: 'babel-loader'
-        },
         {
           loader: '@svgr/webpack',
           options: {
-            babel: false,
             icon: true
           }
         }
       ]
     });
 
+    const cssLoaders = [
+      MiniCssExtractPlugin.loader,
+      {
+        loader: 'css-loader'
+      },
+      {
+        loader: 'postcss-loader',
+        options: {
+          sourceMap: true,
+          postcssOptions: {
+            plugins: [require('autoprefixer'), require('postcss-merge-rules')]
+          }
+        }
+      }
+    ];
+
+    // SCSS loader configuration
     config.module.rules.push({
-      test: /\.ts|tsx?$/,
-      use: ['babel-loader?babelrc'],
-      include: babelBuildInclude,
-      exclude: /node_modules/
+      test: /\.scss$/,
+      exclude: /\.module\.scss$/,
+      use: [
+        ...cssLoaders,
+        {
+          loader: 'sass-loader',
+          options: {
+            sourceMap: true
+          }
+        }
+      ]
     });
 
+    // SCSS modules configuration
     config.module.rules.push({
-      test: /\.(le|c)ss$/,
+      test: /\.module\.scss$/,
       use: [
-        MiniCssExtractPlugin.loader,
+        ...cssLoaders.slice(0, 1),
         {
-          loader: 'css-loader'
-        },
-        {
-          loader: 'postcss-loader',
+          loader: 'css-loader',
           options: {
             sourceMap: true,
-            postcssOptions: {
-              plugins: [
-                require('autoprefixer'),
-                // Do not use postcss-rtl which generates a LTR+RTL css
-                // Use rtlcss-webpack-plugin which generates separate LTR css and RTL css
-                // require('postcss-rtl')({}),
-                require('postcss-custom-properties')()
-              ]
+            modules: {
+              localIdentName: '[local]___[hash:base64:5]'
             }
           }
         },
+        ...cssLoaders.slice(2),
         {
-          loader: 'less-loader',
+          loader: 'sass-loader',
           options: {
-            sourceMap: true,
-            lessOptions: {
-              globalVars: {
-                rootPath: __USE_SRC__ ? '../../../src/' : '~rsuite'
-              }
-            }
+            sourceMap: true
           }
         }
       ]
@@ -111,40 +122,25 @@ module.exports = {
 
     config.module.rules.push({
       test: /\.md$/,
-      use: [
-        {
-          loader: 'html-loader'
-        },
-        {
-          loader: 'markdown-loader',
-          options: {
-            pedantic: true,
-            renderer: markdownRenderer([
-              'javascript',
-              'bash',
-              'xml',
-              'css',
-              'less',
-              'json',
-              'diff',
-              'typescript'
-            ])
-          }
-        }
-      ]
+      use: [path.resolve(__dirname, 'scripts/markdown-loader.js')]
     });
 
-    /**
-     * @see https://github.com/vercel/next.js/blob/0bcc6943ae7a8c3c7d1865b4ae090edafe417c7c/packages/next/build/webpack/config/blocks/css/index.ts#L311
-     */
     config.plugins.push(
       new MiniCssExtractPlugin({
         experimentalUseImportModule: true, // isWebpack5
-        filename: 'static/css/[name].css',
-        chunkFilename: 'static/css/[contenthash].css'
-      }),
-      new RtlCssPlugin('static/css/[name]-rtl.css')
+        filename: `static/css/[name]-${BUILD_ID}.css`,
+        chunkFilename: 'static/css/[contenthash].css',
+        ignoreOrder: true // Ignore CSS order warnings
+      })
     );
+
+    if (__DEV__) {
+      config.plugins.push(
+        new ForkTsCheckerWebpackPlugin({
+          typescript: { configFile: path.resolve(__dirname, tsconfigPath) }
+        })
+      );
+    }
 
     config.optimization.minimizer.push(
       /**
@@ -164,58 +160,73 @@ module.exports = {
       })
     );
 
-    config.entry = async () => {
-      const entries = await originEntry();
-      if (entries['main.js'] && !entries['main.js'].includes('./client/polyfills.ts')) {
-        entries['main.js'].unshift('./client/polyfills.ts');
+    config.optimization.splitChunks = {
+      ...config.optimization.splitChunks,
+      cacheGroups: {
+        ...config.optimization.splitChunks.cacheGroups,
+        styles: {
+          test: /\.module\.(scss|css)$/,
+          chunks: 'all',
+          enforce: true,
+          name: 'styles'
+        }
       }
-      return entries;
     };
 
     // If we are building docs with local rsuite from src (local development and review builds),
-    // we should target `react` and `react-dom` imports to root node_modules
+    // we should stick `react` and `react-dom` imports to docs/node_modules
+    // preventing "more than one copy of React" error
     if (__USE_SRC__) {
-      Object.assign(config.resolve.alias, {
-        react: path.resolve(__dirname, '../node_modules/react'),
-        'react-dom': path.resolve(__dirname, '../node_modules/react-dom')
-      });
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@/internals': path.resolve(__dirname, '../src/internals'),
+        '@rsuite-styles': path.resolve(__dirname, '../src/styles/index.scss'),
+        'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
+        react: path.resolve(__dirname, './node_modules/react'),
+        rsuite: path.resolve(__dirname, '../src')
+      };
+    } else {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@rsuite-styles': 'rsuite/dist/rsuite.css'
+      };
+    }
+
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false
+      };
     }
 
     return config;
   },
-  typescript: {
-    tsconfigPath: __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json'
-  },
-  trailingSlash: true,
-  exportPathMap: () => {
-    const pages = findPages();
-    const map = {};
-
-    function traverse(nextPages, userLanguage) {
-      const [language, rootPath] = getLanguage(userLanguage);
-
-      nextPages.forEach(page => {
-        if (page.children.length === 0) {
-          map[`${rootPath}${page.pathname}`] = {
-            page: page.pathname,
-            query: { userLanguage: language }
-          };
-          return;
-        }
-
-        traverse(page.children, userLanguage);
-      });
-    }
-
-    Object.keys(LANGUAGES).forEach(key => traverse(pages, key));
-
-    return map;
-  },
-  exclude: SVG_LOGO_PATH,
   onDemandEntries: {
     // Period (in ms) where the server will keep pages in the buffer
     maxInactiveAge: 120 * 1e3, // default 25s
     // Number of pages that should be kept simultaneously without being disposed
     pagesBufferLength: 3 // default 2
+  },
+  typescript: {
+    tsconfigPath
+  },
+  trailingSlash: true,
+  pageExtensions: ['tsx', 'ts'],
+  redirects() {
+    return [
+      {
+        source: '/design/:theme(default|dark)',
+        destination: '/design/:theme/index.html',
+        permanent: true
+      }
+    ];
+  },
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'images.unsplash.com'
+      }
+    ]
   }
 };

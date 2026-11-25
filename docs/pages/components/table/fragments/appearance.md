@@ -1,15 +1,14 @@
 <!--start-code-->
 
 ```js
-/**
- * import fakeData from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users.json
- */
+import { Table, Toggle, TagPicker, VStack, HStack } from 'rsuite';
+import { mockUsers } from './mock';
+
+const { Column, HeaderCell, Cell } = Table;
+const data = mockUsers(20);
 
 const CompactCell = props => <Cell {...props} style={{ padding: 4 }} />;
-const CompactHeaderCell = props => (
-  <HeaderCell {...props} style={{ padding: 4, backgroundColor: '#3498ff', color: '#fff' }} />
-);
+const CompactHeaderCell = props => <HeaderCell {...props} style={{ padding: 4 }} />;
 
 const defaultColumns = [
   {
@@ -29,26 +28,23 @@ const defaultColumns = [
     label: 'Last Name',
     width: 123
   },
+
   {
-    key: 'city',
-    label: 'City',
+    key: 'gender',
+    label: 'Gender',
     width: 200
   },
   {
-    key: 'street',
-    label: 'Street',
+    key: 'city',
+    label: 'City',
     flexGrow: 1
   }
 ];
 
 const App = () => {
-  const data = fakeData.filter((v, i) => i < 10);
-  const [loading, setLoading] = React.useState(false);
   const [compact, setCompact] = React.useState(true);
   const [bordered, setBordered] = React.useState(true);
-  const [noData, setNoData] = React.useState(false);
   const [showHeader, setShowHeader] = React.useState(true);
-  const [autoHeight, setAutoHeight] = React.useState(false);
   const [hover, setHover] = React.useState(true);
   const [columnKeys, setColumnKeys] = React.useState(defaultColumns.map(column => column.key));
 
@@ -58,94 +54,40 @@ const App = () => {
 
   return (
     <div>
-      <div>
-        <span>
-          Compact：
-          <Toggle
-            checkedChildren="On"
-            unCheckedChildren="Off"
-            checked={compact}
-            onChange={setCompact}
-          />
-        </span>
+      <VStack spacing={16}>
+        <HStack>
+          <Toggle checked={compact} onChange={setCompact}>
+            Compact
+          </Toggle>
 
-        <span>
-          Bordered：
-          <Toggle
-            checkedChildren="On"
-            unCheckedChildren="Off"
-            checked={bordered}
-            onChange={setBordered}
-          />
-        </span>
+          <Toggle checked={bordered} onChange={setBordered}>
+            Bordered
+          </Toggle>
 
-        <span>
-          Show Header：
-          <Toggle
-            checkedChildren="On"
-            unCheckedChildren="Off"
-            checked={showHeader}
-            onChange={setShowHeader}
-          />
-        </span>
+          <Toggle checked={showHeader} onChange={setShowHeader}>
+            Show Header
+          </Toggle>
 
-        <span>
-          Hover：
-          <Toggle
-            checkedChildren="On"
-            unCheckedChildren="Off"
-            checked={hover}
-            onChange={setHover}
-          />
-        </span>
-        <hr />
-        <span>
-          Loading：
-          <Toggle
-            checkedChildren="On"
-            unCheckedChildren="Off"
-            checked={loading}
-            onChange={setLoading}
-          />
-        </span>
-
-        <span>
-          No data：
-          <Toggle
-            checkedChildren="On"
-            unCheckedChildren="Off"
-            checked={noData}
-            onChange={setNoData}
-          />
-        </span>
-
-        <span>
-          Auto Height：
-          <Toggle
-            checkedChildren="On"
-            unCheckedChildren="Off"
-            checked={autoHeight}
-            onChange={setAutoHeight}
-          />
-        </span>
-      </div>
+          <Toggle checked={hover} onChange={setHover}>
+            Hover
+          </Toggle>
+        </HStack>
+        <TagPicker
+          data={defaultColumns}
+          labelKey="label"
+          valueKey="key"
+          value={columnKeys}
+          onChange={setColumnKeys}
+          cleanable={false}
+        />
+      </VStack>
       <hr />
-      Columns：<TagPicker
-        data={defaultColumns}
-        labelKey="label"
-        valueKey="key"
-        value={columnKeys}
-        onChange={setColumnKeys}
-        cleanable={false}
-      />
-      <hr />
+
       <Table
-        loading={loading}
         height={300}
         hover={hover}
         showHeader={showHeader}
-        autoHeight={autoHeight}
-        data={noData ? [] : data}
+        data={data}
         bordered={bordered}
         cellBordered={bordered}
         headerHeight={compact ? 30 : 40}
@@ -165,7 +107,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

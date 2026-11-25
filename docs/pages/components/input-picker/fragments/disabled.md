@@ -1,31 +1,48 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { InputPicker, VStack, HStack, Text, Divider } from 'rsuite';
 
-const instance = (
-  <div>
-    <label>Disabled: </label>
-    <InputPicker disabled data={data} defaultValue={'Julius'} />
-    <label style={{ marginLeft: 10 }}> Disabled option: </label>
-    <InputPicker
-      data={data}
-      defaultValue={'Julius'}
-      disabledItemValues={['Eugenia', 'Travon', 'Vincenza']}
-    />
-    <hr />
-    <label>Read only: </label>
-    <InputPicker readOnly data={data} defaultValue={'Julius'} />
-
-    <hr />
-    <label>Plaintext: </label>
-    <InputPicker plaintext data={data} defaultValue={'Julius'} />
-  </div>
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+  item => ({ label: item, value: item })
 );
-ReactDOM.render(instance);
+
+const App = () => (
+  <VStack divider={<Divider />}>
+    <HStack>
+      <Text muted w={100}>
+        Disabled
+      </Text>
+      <InputPicker disabled data={data} defaultValue={'Julia'} w={200} />
+    </HStack>
+    <HStack>
+      <Text muted w={100}>
+        Disabled option
+      </Text>
+      <InputPicker
+        data={data}
+        defaultValue={'Julia'}
+        disabledItemValues={['Eugenia', 'Bryan', 'Lloyd']}
+        w={200}
+      />
+    </HStack>
+    <HStack>
+      <Text muted w={100}>
+        ReadOnly
+      </Text>
+      <InputPicker readOnly data={data} defaultValue={'Julia'} w={200} />
+    </HStack>
+
+    <HStack>
+      <Text muted w={100}>
+        Plaintext
+      </Text>
+      <InputPicker plaintext data={data} defaultValue={'Julia'} w={200} />
+    </HStack>
+  </VStack>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

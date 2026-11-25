@@ -1,28 +1,34 @@
 <!--start-code-->
 
 ```js
-/**
- * import fakeData from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users.json
- */
+import { Table, Tag } from 'rsuite';
+import CollaspedOutlineIcon from '@rsuite/icons/CollaspedOutline';
+import ExpandOutlineIcon from '@rsuite/icons/ExpandOutline';
+import { mockUsers } from './mock';
 
+const { Column, HeaderCell, Cell } = Table;
+const data = mockUsers(5);
 const rowKey = 'id';
+
 const ExpandCell = ({ rowData, dataKey, expandedRowKeys, onChange, ...props }) => (
-  <Cell {...props}>
+  <Cell {...props} style={{ padding: 5 }}>
     <IconButton
-      size="xs"
       appearance="subtle"
       onClick={() => {
         onChange(rowData);
       }}
       icon={
-        expandedRowKeys.some((key) => key === rowData[rowKey]) ? <MinusSquareO /> : <PlusSquareO />
+        expandedRowKeys.some(key => key === rowData[rowKey]) ? (
+          <CollaspedOutlineIcon />
+        ) : (
+          <ExpandOutlineIcon />
+        )
       }
     />
   </Cell>
 );
 
-const renderRowExpanded = (rowData) => {
+const renderRowExpanded = rowData => {
   return (
     <div>
       <div
@@ -31,26 +37,25 @@ const renderRowExpanded = (rowData) => {
           height: 60,
           float: 'left',
           marginRight: 10,
-          background: '#eee',
+          background: '#eee'
         }}
       >
-        <img src={rowData.avartar} style={{ width: 60 }} />
+        <img src={rowData.avatar} style={{ width: 60 }} />
       </div>
-      <p>{rowData.email}</p>
-      <p>{rowData.date}</p>
+      <p>Email: {rowData.email}</p>
+      <p>Phone: {rowData.phone}</p>
     </div>
   );
 };
 
 const App = () => {
-  const data = fakeData.filter((v, i) => i < 5);
   const [expandedRowKeys, setExpandedRowKeys] = React.useState([]);
 
   const handleExpanded = (rowData, dataKey) => {
     let open = false;
     const nextExpandedRowKeys = [];
 
-    expandedRowKeys.forEach((key) => {
+    expandedRowKeys.forEach(key => {
       if (key === rowData[rowKey]) {
         open = true;
       } else {
@@ -67,11 +72,12 @@ const App = () => {
 
   return (
     <Table
+      shouldUpdateScroll={false} // Prevent the scrollbar from scrolling to the top after the table content area height changes.
       height={300}
       data={data}
       rowKey={rowKey}
       expandedRowKeys={expandedRowKeys}
-      onRowClick={(data) => {
+      onRowClick={data => {
         console.log(data);
       }}
       renderRowExpanded={renderRowExpanded}
@@ -91,20 +97,25 @@ const App = () => {
         <Cell dataKey="lastName" />
       </Column>
 
-      <Column width={200}>
-        <HeaderCell>City</HeaderCell>
-        <Cell dataKey="city" />
+      <Column width={100}>
+        <HeaderCell>Gender</HeaderCell>
+        <Cell dataKey="gender" />
+      </Column>
+
+      <Column width={100}>
+        <HeaderCell>Age</HeaderCell>
+        <Cell dataKey="age" />
       </Column>
 
       <Column width={200}>
-        <HeaderCell>Street</HeaderCell>
-        <Cell dataKey="street" />
+        <HeaderCell>City</HeaderCell>
+        <Cell dataKey="city" />
       </Column>
     </Table>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

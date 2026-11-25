@@ -1,18 +1,30 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div className="avatar-group">
+import { AvatarGroup, Badge, Avatar } from 'rsuite';
+import { FaUserLarge } from 'react-icons/fa6';
+import { FcBusinessman, FcCustomerSupport } from 'react-icons/fc';
+
+const App = () => (
+  <AvatarGroup spacing={6}>
     <Avatar>
-      <User />
+      <FaUserLarge />
     </Avatar>
     <Avatar>
-      <Icon as={AvatarIcon} />
+      <FaUserLarge size={30} />
     </Avatar>
-  </div>
+
+    <Avatar>
+      <FcBusinessman size={30} />
+    </Avatar>
+
+    <Avatar>
+      <FcCustomerSupport size={30} />
+    </Avatar>
+  </AvatarGroup>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

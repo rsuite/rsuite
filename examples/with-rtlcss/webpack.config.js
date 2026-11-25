@@ -2,52 +2,68 @@
 
 const path = require('path');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
-const merge = require('webpack-merge');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const RTLCSSPlugin = require('./scripts/RTLCSSPlugin');
-const HtmlWebpackHandleCssInjectPlugin = require('./scripts/HtmlWebpackHandleCssInjectPlugin');
-const themesConfig = require('./theme.config');
+const RtlCssPlugin = require('rtlcss-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const config = merge(
-  {
-    devServer: {
-      disableHostCheck: true,
-      historyApiFallback: true,
-      compress: true,
-      host: '0.0.0.0',
-      port: 3000
-    },
-    entry: {
-      app: './src/index.js'
-    },
-    output: {
-      filename: '[name].bundle.js?[hash]',
-      path: path.resolve(__dirname, 'dist'),
-      publicPath: '/'
-    },
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          use: ['babel-loader?babelrc']
-        }
-      ]
-    },
-    plugins: [
-      new ExtractTextPlugin('style.[hash].css'),
-      new HtmlwebpackPlugin({
-        template: 'src/index.html',
-        inject: true
-      }),
-      new HtmlWebpackHandleCssInjectPlugin({
-        filter: () => false
-      }),
-      new RTLCSSPlugin({
-        path: 'css'
-      })
-    ]
+/** @type {import('webpack').Configuration} */
+module.exports = {
+  devServer: {
+    historyApiFallback: true,
+    compress: true,
+    host: '0.0.0.0',
+    port: 3000,
+    hot: true,
   },
-  themesConfig
-);
-
-module.exports = config;
+  entry: {
+    app: './src/index.js',
+    css: './src/index.less',
+  },
+  output: {
+    filename: '[name].[contenthash:8].bundle.js?',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: ['babel-loader?babelrc'],
+      },
+      {
+        test: /\.(css|less)$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+              esModule: false,
+            },
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              sourceMap: true,
+              lessOptions: {
+                javascriptEnabled: true,
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: `css/style.css`,
+    }),
+    new RtlCssPlugin('css/style.rtl.css'),
+    new HtmlwebpackPlugin({
+      template: 'src/index.html',
+      inject: true,
+      excludeChunks: ['css'],
+    }),
+  ],
+};

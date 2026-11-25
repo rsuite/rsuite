@@ -1,0 +1,119 @@
+@keyframes logo-bounce-in {
+  from,
+  20%,
+  40%,
+  60%,
+  80%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  0% {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+  20% {
+    opacity: 1;
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+  40% {
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+  60% {
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+  80% {
+    transform: scale3d(0.97, 0.97, 0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes axisLineMove {
+  0% {
+    stroke-dashoffset: 500;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes limbLineMove {
+  0% {
+    stroke-dashoffset: 200;
+    stroke-opacity: 0;
+  }
+  30% {
+    stroke-opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    stroke-opacity: 1;
+  }
+}
+
+@keyframes circleMove {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Component styles
+.rsuite-logo {
+  .cls-1 {
+    fill: #6292f0;
+  }
+
+  .cls-2 {
+    fill: #ec727d;
+  }
+
+  .cls-1,
+  .cls-2 {
+    fill-rule: evenodd;
+  }
+
+  .polyline-limb {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    animation: limbLineMove 2s ease-out forwards;
+  }
+
+  .polyline-axis {
+    stroke-dasharray: 500;
+    stroke-dashoffset: 500;
+    animation: axisLineMove 2s ease-out forwards;
+  }
+
+  .circle {
+    transform-origin: center;
+    animation: circleMove 2s ease-out forwards;
+  }
+}
+
+.logo-animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.logo-animated-delay-half-seconds {
+  animation-delay: 0.5s;
+}
+
+.bounce-in {
+  animation-name: logo-bounce-in;
+}

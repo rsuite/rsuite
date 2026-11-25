@@ -1,13 +1,7 @@
 <!--start-code-->
 
 ```js
-const styles = {
-  radioGroupLabel: {
-    padding: '8px 12px',
-    display: 'inline-block',
-    verticalAlign: 'middle'
-  }
-};
+import { Modal, ButtonToolbar, Button, SegmentedControl, Placeholder, Text } from 'rsuite';
 
 const App = () => {
   const [open, setOpen] = React.useState(false);
@@ -16,19 +10,16 @@ const App = () => {
   const handleClose = () => setOpen(false);
 
   return (
-    <div className="modal-container">
-      <RadioGroup
-        name="radioList"
-        appearance="picker"
-        inline
+    <>
+      <SegmentedControl
+        data={[
+          { value: 'static', label: 'static' },
+          { value: true, label: 'true' },
+          { value: false, label: 'false' }
+        ]}
         value={backdrop}
-        onChange={value => setBackdrop(value)}
-      >
-        <span style={styles.radioGroupLabel}>Backdrop: </span>
-        <Radio value="static">static</Radio>
-        <Radio value={true}>true</Radio>
-        <Radio value={false}>false</Radio>
-      </RadioGroup>
+        onChange={setBackdrop}
+      />
       <hr />
       <ButtonToolbar>
         <Button onClick={handleOpen}> Open</Button>
@@ -40,21 +31,22 @@ const App = () => {
         </Modal.Header>
 
         <Modal.Body>
-          <Paragraph />
+          <Placeholder.Paragraph />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleClose} appearance="primary">
-            Ok
-          </Button>
           <Button onClick={handleClose} appearance="subtle">
             Cancel
           </Button>
+          <Button onClick={handleClose} appearance="primary">
+            Ok
+          </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

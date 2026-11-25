@@ -1,9 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
+import React, { useContext } from 'react';
+import Box, { BoxProps } from '@/internals/Box';
+import { CustomContext } from '@/internals/Provider/CustomContext';
+import { forwardRef } from '@/internals/utils';
+import { useStyles, useCustom, useUniqueId } from '@/internals/hooks';
+import type { Size } from '@/internals/types';
 
-export interface LoaderProps extends WithAsProps {
+export interface LoaderProps extends BoxProps {
   /** Centered in the container */
   center?: boolean;
 
@@ -20,66 +22,65 @@ export interface LoaderProps extends WithAsProps {
   content?: React.ReactNode;
 
   /** The speed at which the loader rotates */
-  speed?: 'normal' | 'fast' | 'slow';
+  speed?: 'normal' | 'fast' | 'slow' | 'paused';
 
   /** A loader can have different sizes */
-  size?: TypeAttributes.Size;
+  size?: Size;
 }
 
-const Loader: RsRefForwardingComponent<'div', LoaderProps> = React.forwardRef(
-  (props: LoaderProps, ref) => {
-    const {
-      as: Component = 'div',
-      classPrefix = 'loader',
-      className,
-      inverse,
-      backdrop,
-      speed = 'normal',
-      center,
-      vertical,
-      content,
-      size,
-      ...rest
-    } = props;
+/**
+ * The `Loader` component is used to indicate the loading state of a page or a section.
+ * @see https://rsuitejs.com/components/loader
+ */
+const Loader = forwardRef<'div', LoaderProps>((props, ref) => {
+  const { propsWithDefaults } = useCustom('Loader', props);
+  const { reduceMotion } = useContext(CustomContext);
+  const {
+    as,
+    classPrefix = 'loader',
+    className,
+    inverse,
+    backdrop,
+    speed = 'normal',
+    center,
+    vertical,
+    content,
+    size = 'sm',
+    ...rest
+  } = propsWithDefaults;
 
-    const hasContent = !!content;
-    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withPrefix, prefix } = useStyles(classPrefix);
+  const labelId = useUniqueId('loader-label-');
+  const classes = merge(className, withPrefix());
 
-    const classes = merge(
-      className,
-      prefix('wrapper', `speed-${speed}`, size, {
-        'backdrop-wrapper': backdrop,
-        'has-content': hasContent,
-        vertical,
-        inverse,
-        center
-      })
-    );
-
-    return (
-      <Component role="progressbar" {...rest} ref={ref} className={classes}>
-        {backdrop && <div className={prefix('backdrop')} />}
-        <div className={withClassPrefix()}>
-          <span className={prefix('spin')} />
-          {hasContent && <span className={prefix('content')}>{content}</span>}
-        </div>
-      </Component>
-    );
-  }
-);
+  return (
+    <Box
+      as={as}
+      role="status"
+      aria-labelledby={content ? labelId : undefined}
+      ref={ref}
+      className={classes}
+      data-size={size}
+      data-speed={speed}
+      data-center={backdrop || center}
+      data-direction={vertical ? 'vertical' : 'horizontal'}
+      data-inverse={inverse}
+      {...rest}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
+    >
+      {backdrop && <div className={prefix('backdrop')} />}
+      <div className={prefix('box')}>
+        <span className={prefix('spin')} />
+        {content && (
+          <span id={labelId} className={prefix('content')}>
+            {content}
+          </span>
+        )}
+      </div>
+    </Box>
+  );
+});
 
 Loader.displayName = 'Loader';
-Loader.propTypes = {
-  as: PropTypes.elementType,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  center: PropTypes.bool,
-  backdrop: PropTypes.bool,
-  inverse: PropTypes.bool,
-  vertical: PropTypes.bool,
-  content: PropTypes.node,
-  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs']),
-  speed: PropTypes.oneOf(['normal', 'fast', 'slow'])
-};
 
 export default Loader;

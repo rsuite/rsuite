@@ -1,41 +1,50 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { CheckTreePicker, Button, HStack } from 'rsuite';
+import PeoplesIcon from '@rsuite/icons/Peoples';
+import AdminIcon from '@rsuite/icons/Admin';
+import { mockTreeData } from './mock';
 
-const instance = (
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.person[methodName[layer]]();
+  }
+});
+
+const App = () => (
   <CheckTreePicker
+    block
     defaultExpandAll
     data={data}
-    style={{ width: 280 }}
     placeholder={
-      <span>
-        <i className="rs-icon rs-icon-map-marker" /> Select region
-      </span>
+      <HStack>
+        <PeoplesIcon /> Select
+      </HStack>
     }
     renderTreeNode={nodeData => {
       return (
-        <span>
-          <i className="rs-icon rs-icon-map-marker" /> {nodeData.label}
-        </span>
+        <HStack>
+          <AdminIcon /> {nodeData.label}
+        </HStack>
       );
     }}
     renderValue={(value, checkedItems) => {
       return (
-        <span>
-          <span style={{ color: '#575757' }}>
-            <i className="rs-icon rs-icon-map-marker" /> Region :
-          </span>{' '}
+        <HStack>
+          <HStack c="#575757">
+            <PeoplesIcon /> Peoples:
+          </HStack>
           {checkedItems.map(item => item.label).join(' , ')}
-        </span>
+        </HStack>
       );
     }}
   />
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

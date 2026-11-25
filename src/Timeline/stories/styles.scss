@@ -1,0 +1,29 @@
+.custom-timeline {
+  margin-inline-start: 20px;
+
+  .rs-timeline-item-custom-dot {
+    .rs-icon {
+      position: absolute;
+      background: #fff;
+      top: 0;
+      inset-inline-start: -2px;
+      border: 2px solid #ddd;
+      width: 40px;
+      height: 40px;
+      border-radius: var(--rs-radius-full);
+      font-size: var(--rs-font-size-lg);
+      color: #999;
+      margin-inline-start: -13px;
+      justify-content: center;
+      padding: 8px;
+    }
+  }
+
+  .rs-timeline-item-content {
+    margin-inline-start: 24px;
+  }
+}
+
+.rs-timeline-item-content p {
+  margin: 0;
+}

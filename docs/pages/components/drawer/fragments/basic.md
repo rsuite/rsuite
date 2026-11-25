@@ -1,12 +1,14 @@
 <!--start-code-->
 
 ```js
+import { Drawer, ButtonToolbar, Button, Placeholder } from 'rsuite';
+
 const App = () => {
   const [open, setOpen] = React.useState(false);
   const [openWithHeader, setOpenWithHeader] = React.useState(false);
 
   return (
-    <div>
+    <>
       <ButtonToolbar>
         <Button onClick={() => setOpen(true)}>Open</Button>
         <Button onClick={() => setOpenWithHeader(true)}>Open with header</Button>
@@ -14,7 +16,7 @@ const App = () => {
 
       <Drawer open={open} onClose={() => setOpen(false)}>
         <Drawer.Body>
-          <Paragraph />
+          <Placeholder.Paragraph />
         </Drawer.Body>
       </Drawer>
 
@@ -29,13 +31,14 @@ const App = () => {
           </Drawer.Actions>
         </Drawer.Header>
         <Drawer.Body>
-          <Paragraph />
+          <Placeholder.Paragraph rows={20} />
         </Drawer.Body>
       </Drawer>
-    </div>
+    </>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

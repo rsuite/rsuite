@@ -8,50 +8,338 @@ on:
     branches:
       - main
       - next
-      - v4
-      - 'ci/**'
   pull_request:
     branches:
       - main
       - next
-      - v4
 
 jobs:
-  test:
-    name: 'Test'
-
+  lint:
+    name: 'Lint'
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        browser: [ChromeCi, Firefox]
-
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup kernel, increase watchers
-        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '12.x'
-      - name: Cache Node.js modules
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
-          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-node-
-            ${{ runner.OS }}-
-      - name: Install dependencies
-        run: npm ci
-      - name: Run headless tests
-        run: xvfb-run --auto-servernum npm test
+          # Use the runner cache without a network lookup for the LTS alias.
+          node-version: '24'
+      - name: Test build scripts
+        run: node --test scripts/*.node-test.cjs
+      - run: npm ci --legacy-peer-deps
+      - name: Check docs type file boundaries
+        run: node --test test/build/docs-type-files.integration-test.cjs
+      - name: Check source map offset bounds
+        run: node --test test/build/source-map-offsets.integration-test.cjs
+      - name: Check browser and public consumer CI coverage
+        run: node --test test/build/browser-ci-capacity.integration-test.cjs test/build/firefox-process.integration-test.mjs
+      - name: Check component defaults registry
+        run: npm run test:component-registry && npm run check:component-types
+      - name: Test Sass mixins
+        run: node --test test/scss/*.node-test.cjs
+      - run: npm run format:check
+      - run: npm run lint
+      - name: Check source preview types
+        run: npm run check:source-preview
+
+  # Bound each Chromium browser run while keeping all tests across independent runners.
+  chromium-react18:
+    name: 'Chromium runners (React18)'
+    uses: ./.github/workflows/chromium-tests.yml
+    with:
+      react-version: React18
+      react-runtime: 18.2.0
+
+  chromium-react19:
+    name: 'Chromium runners (React19)'
+    uses: ./.github/workflows/chromium-tests.yml
+    with:
+      react-version: React19
+      react-runtime: 19.0.0
+
+  chromium-react19-3:
+    name: 'Chromium runners (React19.3)'
+    uses: ./.github/workflows/chromium-tests.yml
+    with:
+      react-version: React19.3
+      react-runtime: 19.3.0
+
+  # Allow time for runner setup and finalization around the required checks.
+  chromium-react18-summary:
+    name: 'Test (chromium, React18)'
+    needs: [chromium-react18, coverage]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Preserve the existing required check for both tests and coverage delivery.
+      - name: Require all Chromium shards to pass
         env:
-          CI: true
-          BROWSER: ${{ matrix.browser }}
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+          SHARD_RESULT: ${{ needs.chromium-react18.result }}
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
+
+  chromium-react19-summary:
+    name: 'Test (chromium, React19)'
+    needs: [chromium-react19, coverage]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Preserve the existing required check for both tests and coverage delivery.
+      - name: Require all Chromium shards to pass
+        env:
+          SHARD_RESULT: ${{ needs.chromium-react19.result }}
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
+
+  chromium-react19-3-summary:
+    name: 'Test (chromium, React19.3)'
+    needs: [chromium-react19-3, coverage]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Preserve the existing required check for both tests and coverage delivery.
+      - name: Require all Chromium shards to pass
+        env:
+          SHARD_RESULT: ${{ needs.chromium-react19-3.result }}
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
+
+  # Keep each Firefox shard on its own runner so native keyboard tests retain one page.
+  firefox-react18:
+    name: 'Firefox runners (React18)'
+    uses: ./.github/workflows/firefox-tests.yml
+    with:
+      react-version: React18
+      react-runtime: 18.2.0
+
+  firefox-react19:
+    name: 'Firefox runners (React19)'
+    uses: ./.github/workflows/firefox-tests.yml
+    with:
+      react-version: React19
+      react-runtime: 19.0.0
+
+  firefox-react19-3:
+    name: 'Firefox runners (React19.3)'
+    uses: ./.github/workflows/firefox-tests.yml
+    with:
+      react-version: React19.3
+      react-runtime: 19.3.0
+
+  firefox-react18-summary:
+    name: 'Test (firefox, React18)'
+    needs: [firefox-react18, coverage]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Failed, cancelled, or skipped tests or uploads must fail the existing required check.
+      - name: Require all Firefox shards to pass
+        env:
+          SHARD_RESULT: ${{ needs.firefox-react18.result }}
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
+
+  firefox-react19-summary:
+    name: 'Test (firefox, React19)'
+    needs: [firefox-react19, coverage]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require all Firefox shards to pass
+        env:
+          SHARD_RESULT: ${{ needs.firefox-react19.result }}
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
+
+  firefox-react19-3-summary:
+    name: 'Test (firefox, React19.3)'
+    needs: [firefox-react19-3, coverage]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require all Firefox shards to pass
+        env:
+          SHARD_RESULT: ${{ needs.firefox-react19-3.result }}
+          COVERAGE_RESULT: ${{ needs.coverage.result }}
+        run: test "$SHARD_RESULT" = success && test "$COVERAGE_RESULT" = success
+
+  coverage:
+    name: 'Coverage (${{ matrix.kind }})'
+    # Authenticate uploads for Dependabot without exposing a repository secret.
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    needs:
+      - chromium-react18
+      - chromium-react19
+      - chromium-react19-3
+      - firefox-react18
+      - firefox-react19
+      - firefox-react19-3
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        kind: [chromium, firefox, ssr]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          flags: ${{ matrix.browser }}
+          node-version: '22'
+      - name: Download coverage
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ${{ matrix.kind == 'ssr' && 'server-coverage-*' || format('browser-coverage-{0}-*', matrix.kind) }}
+          path: coverage-reports
+          # Every shard uses the same filename; retain its artifact directory.
+          merge-multiple: false
+      - name: Require every coverage report
+        id: coverage
+        env:
+          COVERAGE_KIND: ${{ matrix.kind }}
+        run: |
+          if [ "$COVERAGE_KIND" = "ssr" ]; then
+            node scripts/verify-ssr-coverage-ci.cjs coverage-reports
+          else
+            node scripts/verify-browser-coverage-ci.cjs coverage-reports "$COVERAGE_KIND"
+          fi
+      - name: Check coverage delivery outcome controls
+        run: node --test test/build/codecov-upload.integration-test.cjs
+      # Retry only authentication/delivery; never repeat tests or report validation.
+      # The final gate requires success even when earlier attempts continue after error.
+      - name: Upload coverage to Codecov (attempt 1)
+        id: codecov_1
+        continue-on-error: true
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          use_oidc: true
+          flags: ${{ matrix.kind }}
+          files: ${{ steps.coverage.outputs.files }}
+          disable_search: true
+          fail_ci_if_error: true
+      - name: Wait before coverage delivery attempt 2
+        if: ${{ !cancelled() && steps.codecov_1.outcome == 'failure' }}
+        run: sleep 2
+      - name: Upload coverage to Codecov (attempt 2)
+        id: codecov_2
+        if: ${{ !cancelled() && steps.codecov_1.outcome == 'failure' }}
+        continue-on-error: true
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          use_oidc: true
+          flags: ${{ matrix.kind }}
+          files: ${{ steps.coverage.outputs.files }}
+          disable_search: true
+          fail_ci_if_error: true
+      - name: Wait before coverage delivery attempt 3
+        if: ${{ !cancelled() && steps.codecov_2.outcome == 'failure' }}
+        run: sleep 4
+      - name: Upload coverage to Codecov (attempt 3)
+        id: codecov_3
+        if: ${{ !cancelled() && steps.codecov_2.outcome == 'failure' }}
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          use_oidc: true
+          flags: ${{ matrix.kind }}
+          files: ${{ steps.coverage.outputs.files }}
+          disable_search: true
+          fail_ci_if_error: true
+      - name: Require successful coverage delivery
+        if: ${{ always() }}
+        env:
+          CODECOV_ATTEMPT_1: ${{ steps.codecov_1.outcome }}
+          CODECOV_ATTEMPT_2: ${{ steps.codecov_2.outcome }}
+          CODECOV_ATTEMPT_3: ${{ steps.codecov_3.outcome }}
+        run: node scripts/check-codecov-upload-ci.cjs
+
+  public-types:
+    name: 'Public declaration types'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cache public consumer dependency downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-public-consumers-${{ hashFiles('package-lock.json', 'test/public-declarations/package-lock.json', 'test/public-runtime/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-public-consumers-
+            ${{ runner.OS }}-node-
+      - run: npm ci --legacy-peer-deps
+      - name: Install locked declaration consumers
+        run: npm ci --prefix test/public-declarations --legacy-peer-deps --ignore-scripts
+      - name: Build the public package entries
+        run: npm run build:ts && npm run build:types
+      - name: Check React 18 and 19 public declarations
+        run: npm run test:public-types
+      - name: Retain public consumer diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-declaration-consumers
+          path: test/public-declarations/results
+          if-no-files-found: ignore
+
+  public-runtime:
+    name: 'Public runtime'
+    # This job also launches the locked Playwright browsers for UMD consumers.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cache public consumer dependency downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-public-consumers-${{ hashFiles('package-lock.json', 'test/public-declarations/package-lock.json', 'test/public-runtime/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-public-consumers-
+            ${{ runner.OS }}-node-
+      - run: npm ci --legacy-peer-deps
+      - name: Install locked runtime consumers
+        run: npm ci --prefix test/public-runtime --legacy-peer-deps --ignore-scripts
+      - name: Install UMD consumer browsers
+        run: |
+          node scripts/install-browser-ci.cjs chromium
+          node scripts/install-browser-ci.cjs firefox
+      - name: Build the public package entries
+        # Declaration path resolution also normalizes emitted JavaScript.
+        run: npm run build:ts && npm run build:types && npm run dist
+      - name: Check React 18 and 19 package runtime SSR
+        run: npm run test:public-runtime
+      - name: Check React 18 and 19 UMD browser runtime
+        run: npm run test:public-umd
+      - name: Retain public consumer diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-runtime-consumers
+          path: test/public-runtime/results
+          if-no-files-found: ignore
+
+  public-declarations:
+    name: 'Public declarations'
+    needs: [public-types, public-runtime]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Require declarations and runtime consumers to pass
+        env:
+          DECLARATION_RESULT: ${{ needs.public-types.result }}
+          RUNTIME_RESULT: ${{ needs.public-runtime.result }}
+        run: test "$DECLARATION_RESULT" = success && test "$RUNTIME_RESULT" = success

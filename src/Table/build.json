@@ -1,0 +1,8 @@
+{
+  "components": {
+    "TableCell": "Table/TableCell",
+    "TableColumn": "Table/TableColumn",
+    "TableHeaderCell": "Table/TableHeaderCell",
+    "TableColumnGroup": "Table/TableColumnGroup"
+  }
+}

@@ -1,19 +1,21 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Tag, TagGroup } from 'rsuite';
+
+const App = () => (
   <TagGroup>
     <Tag>Text</Tag>
     <Tag closable>Closable</Tag>
     <Tag>
-      <a target="_blank" href="http://www.hypers.com">
+      <a target="_blank" href="https://rsuitejs.com" rel="noreferrer">
         Link
       </a>
     </Tag>
   </TagGroup>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

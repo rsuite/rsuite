@@ -1,0 +1,46 @@
+{
+  "name": "@rsuite/storybook",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "packageManager": "npm@11.19.1",
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "check": "node ../node_modules/typescript/bin/tsc --project tsconfig.json --noEmit",
+    "build-storybook": "storybook build",
+    "test:smoke": "node test/smoke.mjs",
+    "chromatic": "npx chromatic --project-token=chpt_d24f620612a1e7a"
+  },
+  "dependencies": {
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.1",
+    "@storybook/addon-a11y": "^10.6.3",
+    "@storybook/addon-docs": "^10.6.3",
+    "@storybook/addon-links": "^10.6.3",
+    "@storybook/addon-onboarding": "^10.6.3",
+    "@storybook/react": "^10.6.3",
+    "@storybook/react-vite": "^10.6.3",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "chromatic": "^11.0.0",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "eslint-plugin-storybook": "^0.6.15",
+    "sass": "^1.89.1",
+    "storybook": "^10.6.3",
+    "storybook-dark-mode": "^5.0.0",
+    "typescript": "^5.2.2",
+    "vite": "^8.3.4"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}

@@ -1,13 +1,14 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { TagInput } from 'rsuite';
+
+const App = () => (
+  <>
     <TagInput
       trigger={'Enter'}
       placeholder="Enter"
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
+      w={300}
       onCreate={(value, item) => {
         console.log(value, item);
       }}
@@ -16,8 +17,7 @@ const instance = (
     <TagInput
       trigger={'Space'}
       placeholder="Space"
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
+      w={300}
       onCreate={(value, item) => {
         console.log(value, item);
       }}
@@ -26,8 +26,7 @@ const instance = (
     <TagInput
       trigger={'Comma'}
       placeholder="Comma"
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
+      w={300}
       onCreate={(value, item) => {
         console.log(value, item);
       }}
@@ -36,15 +35,15 @@ const instance = (
     <TagInput
       trigger={['Enter', 'Space', 'Comma']}
       placeholder="Enter, Space, Comma"
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
+      w={300}
       onCreate={(value, item) => {
         console.log(value, item);
       }}
     />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

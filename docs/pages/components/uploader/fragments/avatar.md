@@ -1,6 +1,9 @@
 <!--start-code-->
 
 ```js
+import { Uploader, Message, Loader, Box, useToaster } from 'rsuite';
+import { RxAvatar } from 'react-icons/rx';
+
 function previewFile(file, callback) {
   const reader = new FileReader();
   reader.onloadend = () => {
@@ -9,12 +12,8 @@ function previewFile(file, callback) {
   reader.readAsDataURL(file);
 }
 
-const styles = {
-  width: 150,
-  height: 150
-};
-
 const App = () => {
+  const toaster = useToaster();
   const [uploading, setUploading] = React.useState(false);
   const [fileInfo, setFileInfo] = React.useState(null);
 
@@ -29,7 +28,7 @@ const App = () => {
           setFileInfo(value);
         });
       }}
-      onSuccess={(response: Object, file: FileType) => {
+      onSuccess={(response, file) => {
         setUploading(false);
         toaster.push(<Message type="success">Uploaded successfully</Message>);
         console.log(response);
@@ -40,19 +39,19 @@ const App = () => {
         toaster.push(<Message type="error">Upload failed</Message>);
       }}
     >
-      <button style={styles}>
+      <Box as="button" w={150} h={150}>
         {uploading && <Loader backdrop center />}
         {fileInfo ? (
           <img src={fileInfo} width="100%" height="100%" />
         ) : (
-          <Avatar style={{ fontSize: 80 }} />
+          <RxAvatar size={40} color="var(--rs-gray-500)" />
         )}
-      </button>
+      </Box>
     </Uploader>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

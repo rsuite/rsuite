@@ -1,39 +1,30 @@
 <!--start-code-->
 
 ```js
-/**
- *  PreventOverflowContainer from
- *  https://github.com/rsuite/rsuite/blob/master/docs/components/PreventOverflowContainer.tsx
- */
+import { Tooltip, Whisper } from 'rsuite';
+import PlacementContainer from '@/components/PlacementContainer';
 
-const speaker = (
-  <Tooltip style={{ width: 120 }}>
-    This is a <i>tooltip</i> .
-  </Tooltip>
+const App = () => (
+  <PlacementContainer placement="auto">
+    {({ container, placement, preventOverflow }) => (
+      <Whisper
+        preventOverflow
+        trigger="click"
+        container={container}
+        placement={placement}
+        speaker={
+          <Tooltip w={120}>
+            This is a <i>tooltip</i> .
+          </Tooltip>
+        }
+      >
+        <Button appearance="primary">Click me</Button>
+      </Whisper>
+    )}
+  </PlacementContainer>
 );
 
-class Demo extends React.Component {
-  render() {
-    return (
-      <PreventOverflowContainer height={300}>
-        {getContainer => (
-          <Whisper
-            controlId="control-id-container"
-            preventOverflow
-            trigger="click"
-            container={getContainer}
-            speaker={speaker}
-            placement="auto"
-          >
-            <Button appearance="primary">Click</Button>
-          </Whisper>
-        )}
-      </PreventOverflowContainer>
-    );
-  }
-}
-
-ReactDOM.render(<Demo />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

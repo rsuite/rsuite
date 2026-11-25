@@ -1,0 +1,123 @@
+import type { CalendarLocaleLabels } from './types';
+import { cs } from 'date-fns/locale/cs';
+
+const DateTimeFormats = {
+  sunday: 'Ne',
+  monday: 'Po',
+  tuesday: 'Út',
+  wednesday: 'St',
+  thursday: 'Čt',
+  friday: 'Pá',
+  saturday: 'So',
+  ok: 'OK',
+  today: 'Dnes',
+  yesterday: 'Včera',
+  now: 'Nyní',
+  hours: 'Hodiny',
+  minutes: 'Minuty',
+  seconds: 'Sekundy',
+  /**
+   * Format of the string is based on Unicode Technical Standard #35:
+   * https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
+   **/
+  formattedMonthPattern: 'MMM yyyy',
+  formattedDayPattern: 'dd. MMM yyyy',
+  shortDateFormat: 'dd.MM.yyyy',
+  shortTimeFormat: 'HH:mm',
+  dateLocale: cs as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Předchozí měsíc',
+  nextMonth: 'Následující měsíc',
+  selectMonth: 'Vybrat měsíc',
+  selectTime: 'Vybrat čas'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Otevřít výběr'
+};
+
+const Combobox = {
+  noResultsText: 'Nenalezeny žádné výsledky',
+  placeholder: 'Vybrat',
+  searchPlaceholder: 'Vyhledat',
+  checkAll: 'Vybrat vše'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Nová položka ',
+  createOption: 'Vytvořit možnost "{0}"'
+};
+
+export default {
+  code: 'cs-CZ',
+  common: {
+    loading: 'Načítaní...',
+    emptyMessage: 'Nejsou k dispozici žádné data',
+    remove: 'Odstarnit',
+    clear: 'Vymazat'
+  },
+  Plaintext: {
+    unfilled: 'Nevyplněno',
+    notSelected: 'Nevybráno',
+    notUploaded: 'Nenahráno'
+  },
+  Pagination: {
+    more: 'Víc',
+    prev: 'Předchozí',
+    next: 'Další',
+    first: 'První',
+    last: 'Poslední',
+    limit: '{0} / stránku',
+    total: 'Celkový počet řádků : {0}',
+    skip: 'Jít na {0}'
+  },
+  DateTimeFormats,
+  Calendar,
+  DatePicker,
+  DateRangePicker: {
+    ...DatePicker,
+    last7Days: 'Posledních 7 dní'
+  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
+  Uploader: {
+    inited: 'Púvodní',
+    progress: 'Nahrávání',
+    error: 'Error',
+    complete: 'Dokočeno',
+    emptyFile: 'Prázdný soubor',
+    upload: 'Nahrát',
+    removeFile: 'Odstranit soubor'
+  },
+  CloseButton: {
+    closeLabel: 'Zavřít'
+  },
+  Breadcrumb: {
+    expandText: 'Zobrazit cestu'
+  },
+  Carousel: {
+    carouselRoleDescription: 'karusel',
+    slideRoleDescription: 'snímek',
+    slidePosition: '{0} z {1}',
+    startRotation: 'Spustit střídání snímků',
+    stopRotation: 'Zastavit střídání snímků',
+    selectSlide: 'Vybrat snímek',
+    slideLabel: 'Snímek {0} z {1}'
+  },
+  Toggle: {
+    on: 'Otevřít',
+    off: 'Zavřít'
+  },
+  Dialog: {
+    alert: 'Upozornění',
+    confirm: 'Potvrdit',
+    ok: 'OK',
+    cancel: 'Zrušit'
+  }
+};

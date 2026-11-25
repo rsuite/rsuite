@@ -1,34 +1,72 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 import getOffset from 'dom-lib/getOffset';
-import { Offset, RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { mergeRefs, useClassNames, useElementResize, useEventListener } from '../utils';
+import Box, { BoxProps } from '@/internals/Box';
+import {
+  useStyles,
+  useElementResize,
+  useEventListener,
+  useCustom,
+  useMount
+} from '@/internals/hooks';
+import { mergeRefs, forwardRef } from '@/internals/utils';
+import type { Offset } from '@/internals/types';
 
-export interface AffixProps extends WithAsProps {
+export interface AffixProps extends BoxProps {
+  /** Specify the container. */
+  container?: HTMLElement | (() => HTMLElement);
+
   /** Distance from top */
   top?: number;
 
   /** Callback after the state changes. */
   onChange?: (fixed?: boolean) => void;
 
-  /** Specify the container. */
-  container?: HTMLElement | (() => HTMLElement);
+  /** Callback after the offset changes. */
+  onOffsetChange?: (offset?: Offset) => void;
 }
 
 /**
  * Get the layout size and offset of the mount element
  */
-function useOffset(mountRef: React.RefObject<HTMLDivElement>) {
-  const [offset, setOffset] = useState<Offset>(null);
+function useOffset(
+  mountRef: React.RefObject<HTMLDivElement | null>,
+  onOffsetChange?: (offset?: Offset) => void
+) {
+  const [offset, setOffset] = useState<Offset | null>(null);
+
   const updateOffset = useCallback(() => {
-    setOffset(getOffset(mountRef.current));
-  }, [mountRef]);
+    if (!mountRef.current) {
+      return;
+    }
+
+    const newOffset = getOffset(mountRef.current);
+
+    if (
+      newOffset?.height !== offset?.height ||
+      newOffset?.width !== offset?.width ||
+      newOffset?.top !== offset?.top ||
+      newOffset?.left !== offset?.left
+    ) {
+      setOffset(newOffset);
+
+      if (offset !== null && newOffset !== null) {
+        onOffsetChange?.(newOffset);
+      }
+    }
+  }, [mountRef, offset, onOffsetChange]);
 
   // Update after the element size changes
   useElementResize(() => mountRef.current, updateOffset);
 
   // Initialize after the first render
-  useEffect(updateOffset, [updateOffset]);
+  useMount(updateOffset);
+
+  // Update after window size changes
+  useEventListener(() => window, 'resize', updateOffset, false);
+
+  // Update after window scroll
+  useEventListener(() => window, 'scroll', debounce(updateOffset, 100), false);
 
   return offset;
 }
@@ -38,7 +76,7 @@ function useOffset(mountRef: React.RefObject<HTMLDivElement>) {
  * @param container
  */
 function useContainerOffset(container) {
-  const [offset, setOffset] = useState<Offset>(null);
+  const [offset, setOffset] = useState<Offset | null>(null);
 
   useEffect(() => {
     const node = typeof container === 'function' ? container() : container;
@@ -54,7 +92,7 @@ function useContainerOffset(container) {
  * @param containerOffset
  * @param props
  */
-function useFixed(offset: Offset, containerOffset: Offset, props: AffixProps) {
+function useFixed(offset: Offset | null, containerOffset: Offset | null, props: AffixProps) {
   const { top, onChange } = props;
   const [fixed, setFixed] = useState<boolean>(false);
 
@@ -65,76 +103,79 @@ function useFixed(offset: Offset, containerOffset: Offset, props: AffixProps) {
     const scrollY = window.scrollY || window.pageYOffset;
 
     // When the scroll distance exceeds the element's top value, it is fixed.
-    let nextFixed = scrollY - (offset.top - top) >= 0;
+    let nextFixed = scrollY - (Number(offset?.top) - Number(top)) >= 0;
 
     // If the current element is specified in the container,
     // add to determine whether the current container is in the window range.
     if (containerOffset) {
-      nextFixed = nextFixed && scrollY < containerOffset.top + containerOffset.height;
+      nextFixed =
+        nextFixed && scrollY < Number(containerOffset.top) + Number(containerOffset.height);
     }
 
     if (nextFixed !== fixed) {
       setFixed(nextFixed);
       onChange?.(nextFixed);
     }
-  }, [fixed, offset, containerOffset, onChange, top]);
+  }, [offset, top, containerOffset, fixed, onChange]);
 
   // Add scroll event to window
-  useEventListener(window, 'scroll', handleScroll, false);
+  useEventListener(() => window, 'scroll', handleScroll, false);
 
   return fixed;
 }
 
-const Affix: RsRefForwardingComponent<'div', AffixProps> = React.forwardRef(
-  (props: AffixProps, ref) => {
-    const {
-      as: Component = 'div',
-      classPrefix = 'affix',
-      className,
-      children,
-      container,
-      top = 0,
-      onChange,
-      ...rest
-    } = props;
+/**
+ * Components such as navigation, buttons, etc. can be fixed in the visible range.
+ * Commonly used for pages with long content, fixed the specified elements in the visible range of the page to assist in quick operation.
+ *
+ * @see https://rsuitejs.com/components/affix/
+ */
+const Affix = forwardRef<'div', AffixProps>((props: AffixProps, ref) => {
+  const { propsWithDefaults } = useCustom('Affix', props);
+  const {
+    as,
+    classPrefix = 'affix',
+    className,
+    children,
+    container,
+    top = 0,
+    onChange,
+    onOffsetChange,
+    ...rest
+  } = propsWithDefaults;
 
-    const mountRef = useRef(null);
-    const offset = useOffset(mountRef);
-    const containerOffset = useContainerOffset(container);
-    const fixed = useFixed(offset, containerOffset, { top, onChange });
+  const mountRef = useRef(null);
+  const offset = useOffset(mountRef, onOffsetChange);
+  const containerOffset = useContainerOffset(container);
 
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, {
-      [withClassPrefix()]: fixed
-    });
+  const fixed = useFixed(offset, containerOffset, { top, onChange });
 
-    const placeholderStyles = fixed ? { width: offset.width, height: offset.height } : undefined;
-    const fixedStyles: React.CSSProperties = {
-      position: 'fixed',
-      top,
-      left: offset?.left,
-      width: offset?.width,
-      zIndex: 10
-    };
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const classes = merge(className, {
+    [withPrefix()]: fixed
+  });
 
-    const affixStyles = fixed ? fixedStyles : null;
+  const { width, height } = offset || {};
+  const placeholderStyles = fixed ? { width, height } : undefined;
+  const fixedStyles: React.CSSProperties = {
+    position: 'fixed',
+    top,
+    width,
+    zIndex: 10
+  };
 
-    return (
-      <Component {...rest} ref={mergeRefs(mountRef, ref)}>
-        <div className={classes} style={affixStyles}>
-          {children}
-        </div>
-        {fixed && <div aria-hidden style={placeholderStyles}></div>}
-      </Component>
-    );
-  }
-);
+  const affixStyles = fixed ? fixedStyles : undefined;
+
+  return (
+    <Box as={as} {...rest} ref={mergeRefs(mountRef, ref)}>
+      <div className={classes} style={affixStyles}>
+        {children}
+      </div>
+      {fixed && <div aria-hidden style={placeholderStyles}></div>}
+    </Box>
+  );
+});
 
 Affix.displayName = 'Affix';
-Affix.propTypes = {
-  top: PropTypes.number,
-  onChange: PropTypes.func,
-  container: PropTypes.oneOfType([PropTypes.any, PropTypes.func])
-};
 
 export default Affix;

@@ -12,7 +12,7 @@
   "dependencies": {
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "rsuite": "4.0.1-beta"
+    "rsuite": "4.11.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.0",

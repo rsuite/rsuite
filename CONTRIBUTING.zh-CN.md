@@ -1,51 +1,45 @@
-# Contributing to RSUITE
+# 参与贡献到 RSUITE
 
 RSUITE 在提供给开发者服务的同时也希望能得到社区的帮助。本篇文章介绍您如何帮助 RSUITE 做的更好，贡献自己的一份力量。
 
 ## 开发
 
-您可以通过 [Projects](https://github.com/rsuite/rsuite/projects) 查看我们的开发计划，同时希望您能参与其中。
+Fork 此仓库到你的命名空间并克隆至本地机器。
 
-### 测试驱动开发（TDD）
+    $ git clone git@github.com:<YOUR NAME>/rsuite.git
+    $ cd rsuite
 
-1. Fork `https://github.com/rsuite/rsuite` 这个仓库。
+在根目录和 `docs/` 目录中安装依赖。
 
-```bash
-$ git clone git@github.com:<YOUR NAME>/rsuite.git
-$ cd rsuite
+    $ npm i && npm i --prefix docs
+
+现在你可以在 `docs/` 目录中运行 `npm run dev` 来启动开发服务器。
+它默认运行在 http://127.0.0.1:3000/ 。
+
+    $ npm run dev --prefix docs
+
+### 测试
+
+多数时候，你都应当确保你的变更没有破坏测试。
+在根目录中执行 `npm run tdd` 来运行单元测试脚本。
+
+    $ npm run tdd
+
+你也可以通过设置环境变量 `M` 来仅运行一个指定组件下的单元测试。
+
+    # only run tests in src/Button directory
+    $ M=Button npm run tdd
+
+或者多个指定组件下的单元测试。`M` 支持任意 glob 模式。
+
+    # run tests in src/Button and src/ButtonGroup directories
+    $ M={Button,ButtonGroup} npm run tdd
+
+当编写测试用例时，我们统一使用 [BDD 断言风格](https://www.chaijs.com/api/bdd/)。
+
+```ts
+expect(instance).to.have.class('class-in');
 ```
-
-2. 安装并运行
-
-```bash
-$ npm i
-$ npm run tdd
-```
-
-3. 运行单个组件
-
-```bash
-$ M=Button npm run tdd
-```
-
-### UI 驱动开发
-
-1. Fork `https://github.com/rsuite/rsuite` 这个仓库。
-
-```bash
-$ git clone git@github.com:<YOUR NAME>/rsuite.git
-```
-
-2. 安装并运行
-
-```bash
-$ npm i
-$ npm run dev
-```
-
-3. 您可以开始访问了， 在浏览器输入 http://127.0.0.1:3000/
-
-Gitee 用户访问地址: https://gitee.com/rsuite/rsuite
 
 ## Bug 反馈
 
@@ -74,6 +68,8 @@ cd rsuite
 ```bash
 git fetch upstream
 ```
+
+- 使用 Node.js 22 或 24 开发和测试 RSuite。
 
 - 安装项目依赖，在项目根目录执行:
 

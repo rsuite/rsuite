@@ -1,45 +1,46 @@
-import React from 'react';
-import { Nav, Button, Row, Col, Slider } from 'rsuite';
-import DefaultPage from '@/components/Page';
-import ResponsiveNav from '@rsuite/responsive-nav';
+import { Nav, Button, Row, Col, Slider, VStack, Box, SelectPicker } from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
 import Link from 'next/link';
-import Home from '@rsuite/icons/legacy/Home';
-import FacebookSquare from '@rsuite/icons/legacy/FacebookSquare';
-import GithubAlt from '@rsuite/icons/legacy/GithubAlt';
-import Circle from '@rsuite/icons/legacy/Circle';
-import Chrome from '@rsuite/icons/legacy/Chrome';
-import EllipsisH from '@rsuite/icons/legacy/EllipsisH';
-import Dropbox from '@rsuite/icons/legacy/Dropbox';
-import Firefox from '@rsuite/icons/legacy/Firefox';
-import Gitlab from '@rsuite/icons/legacy/Gitlab';
-import Linux from '@rsuite/icons/legacy/Linux';
-import More from '@rsuite/icons/More';
-import Star from '@rsuite/icons/legacy/Star';
+import {
+  MdSettings,
+  MdHelp,
+  MdNotifications,
+  MdExitToApp,
+  MdHome,
+  MdMessage
+} from 'react-icons/md';
+
+const sandboxDependencies = {
+  '@rsuite/responsive-nav': 'latest'
+};
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['Nav']} />
+};
 
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         Nav,
         Button,
         Row,
         Col,
         Slider,
-        ResponsiveNav,
-        Home,
+        VStack,
+        Box,
+        SelectPicker,
         Link,
-        FacebookSquare,
-        GithubAlt,
-        Circle,
-        Chrome,
-        EllipsisH,
-        Dropbox,
-        Firefox,
-        Gitlab,
-        Linux,
-        More,
-        Star
+        MdHome,
+        MdMessage,
+        MdSettings,
+        MdHelp,
+        MdNotifications,
+        MdExitToApp
       }}
+      sandboxDependencies={sandboxDependencies}
     />
   );
 }

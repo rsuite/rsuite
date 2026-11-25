@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Button, ButtonToolbar } from 'rsuite';
+
+const App = () => (
   <ButtonToolbar>
     <Button appearance="default" disabled>
       Default
@@ -18,12 +20,9 @@ const instance = (
     <Button appearance="ghost" disabled>
       Ghost
     </Button>
-    <IconButton icon={<StarIcon />} disabled>
-      Icon Button
-    </IconButton>
   </ButtonToolbar>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

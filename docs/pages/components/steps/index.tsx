@@ -1,23 +1,28 @@
-import React from 'react';
-import { Steps, ButtonGroup, Button, Panel } from 'rsuite';
-import DefaultPage from '@/components/Page';
-import PencilSquare from '@rsuite/icons/legacy/PencilSquare';
-import Book from '@rsuite/icons/legacy/Book';
-import Wechat from '@rsuite/icons/Wechat';
-import SteamSquare from '@rsuite/icons/legacy/SteamSquare';
+import { Steps, ButtonGroup,  Button, Panel,Tag,Box, Placeholder } from 'rsuite';
+import { FaShoppingCart, FaTruck, FaCheckCircle, FaBoxOpen } from 'react-icons/fa';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['Steps']} />
+};
 
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         Steps,
         ButtonGroup,
         Button,
         Panel,
-        PencilSquare,
-        Book,
-        Wechat,
-        SteamSquare
+        Tag,
+        Box,
+        Placeholder,
+        FaShoppingCart,
+        FaTruck,
+        FaCheckCircle,
+        FaBoxOpen
       }}
     />
   );

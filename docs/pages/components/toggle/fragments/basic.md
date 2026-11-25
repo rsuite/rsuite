@@ -1,13 +1,16 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Toggle, HStack } from 'rsuite';
+
+const App = () => (
+  <HStack>
     <Toggle />
     <Toggle defaultChecked />
-  </div>
+  </HStack>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,0 +1,67 @@
+{
+  "Stack": {
+    "props": {
+      "as": {
+        "type": "React.ElementType",
+        "isRequired": false,
+        "description": "Custom component for the root element"
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class",
+        "defaultValue": "stack"
+      },
+      "direction": {
+        "type": "[ResponsiveCSSProperty<'flexDirection'>][rcp]",
+        "isRequired": false,
+        "description": "The direction of the children in the stack"
+      },
+      "divider": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Add an element between each child"
+      },
+      "wrap": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Define whether the children are forced onto a single line"
+      }
+    }
+  },
+  "HStack": {
+    "props": {
+      "align": {
+        "type": "[ResponsiveCSSProperty<'alignItems'>][rcp]",
+        "isRequired": false,
+        "description": "Align items on the cross axis",
+        "defaultValue": "center"
+      },
+      "reverse": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Reverse the order of children"
+      }
+    }
+  },
+  "VStack": {
+    "props": {
+      "align": {
+        "type": "[ResponsiveCSSProperty<'alignItems'>][rcp]",
+        "isRequired": false,
+        "description": "Align items on the cross axis",
+        "defaultValue": "flex-start"
+      },
+      "divider": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Add an element between each child"
+      },
+      "reverse": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Reverse the order of children"
+      }
+    }
+  }
+}

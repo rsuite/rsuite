@@ -1,35 +1,32 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
-    <label>Disabled: </label>
-    <TagInput
-      disabled
-      defaultValue={['Julius']}
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
-    />
+import { TagInput, VStack, HStack, Text, Divider } from 'rsuite';
 
-    <hr />
-    <label>Read only: </label>
-    <TagInput
-      readOnly
-      defaultValue={['Julius']}
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
-    />
-    <hr />
-    <label>Plaintext: </label>
-    <TagInput
-      plaintext
-      defaultValue={['Julius']}
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
-    />
-  </div>
+const App = () => (
+  <VStack divider={<Divider />}>
+    <HStack>
+      <Text muted w={80}>
+        Disabled
+      </Text>
+      <TagInput disabled defaultValue={['Julius']} w={300} />
+    </HStack>
+    <HStack>
+      <Text muted w={80}>
+        ReadOnly
+      </Text>
+      <TagInput readOnly defaultValue={['Julius']} w={300} />
+    </HStack>
+    <HStack>
+      <Text muted w={80}>
+        Plaintext
+      </Text>
+      <TagInput plaintext defaultValue={['Julius']} w={300} />
+    </HStack>
+  </VStack>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

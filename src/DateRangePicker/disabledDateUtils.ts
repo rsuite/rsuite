@@ -1,5 +1,6 @@
-import { composeFunctions, DateUtils } from '../utils';
+import { composeFunctions } from '@/internals/utils';
 import { DisabledDateFunction } from './types';
+import * as DateUtils from '@/internals/utils/date';
 
 function isAfterDay(date1: Date, date2: Date): boolean {
   return DateUtils.isAfter(
@@ -46,7 +47,7 @@ export function allowedMaxDays(days: number): DisabledDateFunction {
 }
 
 /**
- Only allowed days are specified, other dates are disabled.
+ * Only allowed days are specified, other dates are disabled.
  */
 export function allowedDays(days: number): DisabledDateFunction {
   return (date, selectValue, selectedDone, target): boolean => {

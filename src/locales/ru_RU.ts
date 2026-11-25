@@ -1,6 +1,7 @@
-import ru from 'date-fns/locale/ru';
+import type { CalendarLocaleLabels } from './types';
+import { ru } from 'date-fns/locale/ru';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Вс',
   monday: 'Пн',
   tuesday: 'Вт',
@@ -11,23 +12,55 @@ const Calendar = {
   ok: 'ОК',
   today: 'Сегодня',
   yesterday: 'Вчера',
+  now: 'Сейчас',
   hours: 'Часов',
   minutes: 'Минут',
   seconds: 'Секунд',
   formattedMonthPattern: 'MMM, yyyy',
-  formattedDayPattern: 'MMM dd, yyyy',
+  formattedDayPattern: 'dd MMM yyyy',
+  shortDateFormat: 'dd.MM.yyyy',
+  shortTimeFormat: 'HH:mm',
   dateLocale: ru as any
 };
 
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Предыдущий месяц',
+  nextMonth: 'Следующий месяц',
+  selectMonth: 'Выбрать месяц',
+  selectTime: 'Выбрать время'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Открыть окно выбора'
+};
+
+const Combobox = {
+  noResultsText: 'Результаты не найдены',
+  placeholder: 'Выбрать',
+  searchPlaceholder: 'Поиск',
+  checkAll: 'Все'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Новый',
+  createOption: 'Создать опцию "{0}"'
+};
+
 export default {
+  code: 'ru-RU',
   common: {
     loading: 'Загрузка...',
-    emptyMessage: 'Данные не найдены'
+    emptyMessage: 'Данные не найдены',
+    remove: 'Удалять',
+    clear: 'Прозрачный'
   },
   Plaintext: {
     unfilled: 'незаполненной',
-    notSelected: 'Није изабран',
-    notUploaded: 'Није отпремљено'
+    notSelected: 'Не выбрано',
+    notUploaded: 'Не загружено'
   },
   Pagination: {
     more: 'Больше',
@@ -37,42 +70,50 @@ export default {
     last: 'Последняя',
     limit: '{0} / страниц',
     total: 'всего: {0}',
-    skip: 'Идти к{0}'
+    skip: 'Перейти к {0}'
   },
+  DateTimeFormats,
   Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  DatePicker,
   DateRangePicker: {
-    ...Calendar,
+    ...DatePicker,
     last7Days: 'Последние 7 дней'
   },
-  Picker: {
-    noResultsText: 'Результаты не найдены',
-    placeholder: 'Выбрать',
-    searchPlaceholder: 'Поиск',
-    checkAll: 'Все'
-  },
-  InputPicker: {
-    newItem: 'Новый',
-    createOption: 'Создать опцию "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Начало',
-    progress: 'Выгрузка',
+    progress: 'Загрузка',
     error: 'Ошибка',
-    complete: 'Завершенно',
+    complete: 'Завершено',
     emptyFile: 'Пусто',
-    upload: 'Загрузить'
+    upload: 'Загрузить',
+    removeFile: 'Удалить файл'
   },
   CloseButton: {
-    closeLabel: 'неисправность'
+    closeLabel: 'Закрыть'
   },
   Breadcrumb: {
     expandText: 'Показать путь'
   },
+  Carousel: {
+    carouselRoleDescription: 'карусель',
+    slideRoleDescription: 'слайд',
+    slidePosition: '{0} из {1}',
+    startRotation: 'Начать автоматическую смену слайдов',
+    stopRotation: 'Остановить автоматическую смену слайдов',
+    selectSlide: 'Выбрать слайд',
+    slideLabel: 'Слайд {0} из {1}'
+  },
   Toggle: {
     on: 'Вкл',
     off: 'Выкл'
+  },
+  Dialog: {
+    alert: 'Предупреждение',
+    confirm: 'Подтвердить',
+    ok: 'OK',
+    cancel: 'Отмена'
   }
 };

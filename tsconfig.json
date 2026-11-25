@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "strict": true,
     "declaration": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
@@ -8,10 +9,18 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "sourceMap": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "target": "esnext",
+    "module": "esnext",
     "jsx": "react",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@test/*": ["./test/*"],
+      "@/internals/*": ["./src/internals/*"],
+      "@/*": ["./src/*"],
+      "@/storybook/*": ["./storybook/*"]
+    }
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }

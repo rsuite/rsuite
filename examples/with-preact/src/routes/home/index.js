@@ -1,20 +1,39 @@
-import style from './style';
-import { Button, Notification, Placeholder } from 'rsuite';
-import React from 'preact/compat';
+import React from 'react';
+import PageLayout from '../../components/PageLayout';
 
-const { Paragraph } = Placeholder;
-function open(funcName) {
-  Notification[funcName]({
-    title: funcName,
-    description: <Paragraph style={{ width: 320 }} rows={3} />
-  });
-}
-const Home = () => (
-	<div class={style.home}>
-		<h1>Home</h1>
-		<p>This is the Home component.</p>
-    <Button appearance="primary" onClick={() => open('success')}> Button </Button>
-	</div>
-);
+const Home = () => {
+  const cards = [
+    {
+      title: 'RSuite Docs',
+      href: 'https://rsuitejs.com/guide/introduction/',
+      description: 'Learn about React Suite features and API.'
+    },
+    {
+      title: 'Components',
+      href: 'https://rsuitejs.com/components/overview/',
+      description: 'Explore RSuite components and patterns.'
+    },
+    {
+      title: 'Vite',
+      href: 'https://vite.dev/guide/',
+      description: 'Fast build tool and dev server for modern web apps.'
+    },
+    {
+      title: 'GitHub',
+      href: 'https://github.com/rsuite/rsuite',
+      description: 'Source code, issues and contribution guide.'
+    }
+  ];
+
+  return (
+    <PageLayout
+      activeKey="home"
+      codePath="src/routes/home/index.js"
+      title="Create Preact App"
+      subtitle="Vite + Preact (compat) + React Suite"
+      cards={cards}
+    />
+  );
+};
 
 export default Home;

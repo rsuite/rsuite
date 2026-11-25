@@ -1,14 +1,16 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Checkbox, HStack } from 'rsuite';
+
+const App = () => (
+  <HStack spacing={20}>
     <Checkbox />
-    <Checkbox> Default</Checkbox>
-    <Checkbox defaultChecked> Checked</Checkbox>
-  </div>
+    <Checkbox>Label</Checkbox>
+    <Checkbox defaultChecked>Checked</Checkbox>
+  </HStack>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

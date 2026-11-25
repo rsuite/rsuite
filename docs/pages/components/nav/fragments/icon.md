@@ -1,21 +1,39 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Nav } from 'rsuite';
+import {
+  MdHome,
+  MdMessage,
+  MdSettings,
+  MdHelp,
+  MdNotifications,
+  MdExitToApp
+} from 'react-icons/md';
+
+const App = () => (
   <Nav>
-    <Nav.Item icon={<FacebookSquare />}>facebook</Nav.Item>
-    <Nav.Item icon={<GithubAlt />}>github</Nav.Item>
-    <Nav.Item icon={<Circle />}>amazon</Nav.Item>
-    <Nav.Item icon={<Chrome />}>chrome</Nav.Item>
-    <Nav.Dropdown icon={<EllipsisH />} title="more...">
-      <Nav.Dropdown.Item icon={<Dropbox />}>dropbox</Nav.Dropdown.Item>
-      <Nav.Dropdown.Item icon={<Firefox />}>firefox</Nav.Dropdown.Item>
-      <Nav.Dropdown.Item icon={<Gitlab />}>gitlab</Nav.Dropdown.Item>
-      <Nav.Dropdown.Item icon={<Linux />}>linux</Nav.Dropdown.Item>
-    </Nav.Dropdown>
+    <Nav.Item icon={<MdHome />} eventKey="home">
+      Home
+    </Nav.Item>
+    <Nav.Item icon={<MdMessage />} eventKey="messages">
+      Messages
+    </Nav.Item>
+    <Nav.Menu title="Settings" icon={<MdSettings />}>
+      <Nav.Item icon={<MdHelp />} eventKey="help-center">
+        Help Center
+      </Nav.Item>
+      <Nav.Item icon={<MdNotifications />} eventKey="notifications">
+        Notifications
+      </Nav.Item>
+      <Nav.Item icon={<MdExitToApp />} eventKey="logout">
+        Logout
+      </Nav.Item>
+    </Nav.Menu>
   </Nav>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

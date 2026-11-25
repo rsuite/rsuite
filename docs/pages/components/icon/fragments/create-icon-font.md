@@ -10,7 +10,7 @@ const IconFont = createIconFont({
 <!--start-code-->
 
 ```js
-// import { createIconFont } from '@rsuite/icons';
+import { createIconFont } from '@rsuite/icons';
 
 const IconFont = createIconFont({
   scriptUrl: '//at.alicdn.com/t/font_2144422_r174s9i1orl.js',
@@ -20,10 +20,8 @@ const IconFont = createIconFont({
   }
 });
 
-const styles = {};
-
-const instance = (
-  <div className="icon-example-list">
+const App = () => (
+  <div style={{ display: 'flex', gap: 10 }}>
     <IconFont icon="rs-iconuser-badge" />
     <IconFont icon="rs-iconmember" />
     <IconFont icon="rs-icongear-16" spin />
@@ -37,7 +35,8 @@ const instance = (
     <IconFont icon="rs-iconemail" />
   </div>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

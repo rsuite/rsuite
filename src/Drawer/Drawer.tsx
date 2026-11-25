@@ -1,102 +1,72 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Slide from '../Animation/Slide';
-import Modal, {
-  ModalProps,
-  ModalBodyProps,
-  ModalHeaderProps,
-  ModalFooterProps,
-  ModalTitleProps
-} from '../Modal';
-import { TypeAttributes, RsRefForwardingComponent } from '../@types/common';
-import { useClassNames } from '../utils';
-import deprecateComponent from '../utils/deprecateComponent';
+import Modal, { ModalProps } from '../Modal';
+import DrawerBody from './DrawerBody';
+import DrawerHeader from './DrawerHeader';
+import DrawerActions from './DrawerActions';
+import DrawerFooter from './DrawerFooter';
+import DrawerTitle from './DrawerTitle';
+import { useStyles, useCustom } from '@/internals/hooks';
+import { forwardRef, deprecateComponent } from '@/internals/utils';
+import type { PlacementCardinal } from '@/internals/types';
 
-export interface DrawerProps extends ModalProps {
+export interface DrawerProps extends Omit<ModalProps, 'overflow'> {
   /** The placement of Drawer */
-  placement?: TypeAttributes.Placement4;
+  placement?: PlacementCardinal;
+
+  /** Custom close button */
+  closeButton?: React.ReactNode | boolean;
 }
 
-const DrawerBody: RsRefForwardingComponent<'div', ModalBodyProps> = React.forwardRef(
-  (props, ref) => <Modal.Body classPrefix="drawer-body" {...props} ref={ref} />
-);
-
-const DrawerHeader: RsRefForwardingComponent<'div', ModalHeaderProps> = React.forwardRef(
-  (props, ref) => <Modal.Header classPrefix="drawer-header" {...props} ref={ref} />
-);
-
-const DrawerActions: RsRefForwardingComponent<'div', ModalFooterProps> = React.forwardRef(
-  (props, ref) => <Modal.Footer classPrefix="drawer-actions" {...props} ref={ref} />
-);
-
-const DrawerFooter: RsRefForwardingComponent<'div', ModalFooterProps> = React.forwardRef(
-  (props, ref) => <Modal.Footer classPrefix="drawer-footer" {...props} ref={ref} />
-);
-
-const DrawerTitle: RsRefForwardingComponent<'div', ModalTitleProps> = React.forwardRef(
-  (props, ref) => <Modal.Title classPrefix="drawer-title" {...props} ref={ref} />
-);
-
-interface DrawerComponent extends React.FC<DrawerProps> {
-  Body: typeof DrawerBody;
-  Header: typeof DrawerHeader;
-  Actions: typeof DrawerActions;
-  Title: typeof DrawerTitle;
+const Subcomponents = {
+  Body: DrawerBody,
+  Header: DrawerHeader,
+  Actions: DrawerActions,
+  Title: DrawerTitle,
   /**
    * @deprecated use <Drawer.Actions> instead
    */
-  Footer: typeof DrawerFooter;
-}
+  Footer: deprecateComponent(
+    DrawerFooter,
+    '<Drawer.Footer> has been deprecated, use <Drawer.Actions> instead.'
+  )
+};
 
-const Drawer: DrawerComponent = React.forwardRef((props: DrawerProps, ref) => {
+/**
+ * The Drawer component is used to display extra content from a main content.
+ * @see https://rsuitejs.com/components/drawer
+ */
+const Drawer = forwardRef<'div', DrawerProps, typeof Subcomponents>((props, ref) => {
+  const { propsWithDefaults } = useCustom('Drawer', props);
   const {
     className,
     placement = 'right',
     classPrefix = 'drawer',
     animation = Slide,
+    closeButton = true,
     ...rest
-  } = props;
-  const { merge, prefix } = useClassNames(classPrefix);
+  } = propsWithDefaults;
+
+  const { merge, prefix } = useStyles(classPrefix);
   const classes = merge(className, prefix(placement));
 
-  const animationProps = {
-    placement
-  };
+  const animationProps = { placement };
 
   return (
     <Modal
       {...rest}
       ref={ref}
-      drawer
+      overflow={false}
       classPrefix={classPrefix}
       className={classes}
       animation={animation}
       animationProps={animationProps}
+      isDrawer={true}
+      closeButton={closeButton}
     />
   );
-}) as unknown as DrawerComponent;
-
-DrawerBody.displayName = 'DrawerBody';
-DrawerHeader.displayName = 'DrawerHeader';
-DrawerActions.displayName = 'DrawerActions';
-DrawerFooter.displayName = 'DrawerFooter';
-DrawerTitle.displayName = 'DrawerTitle';
-
-Drawer.Body = DrawerBody;
-Drawer.Header = DrawerHeader;
-Drawer.Actions = DrawerActions;
-Drawer.Footer = deprecateComponent(
-  DrawerFooter,
-  '<Drawer.Footer> has been deprecated, use <Drawer.Actions> instead.'
-);
-Drawer.Title = DrawerTitle;
+}, Subcomponents);
 
 Drawer.displayName = 'Drawer';
-Drawer.propTypes = {
-  classPrefix: PropTypes.string,
-  placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
-  children: PropTypes.node,
-  className: PropTypes.string
-};
 
 export default Drawer;

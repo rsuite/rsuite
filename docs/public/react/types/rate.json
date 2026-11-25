@@ -1,0 +1,82 @@
+{
+  "Rate": {
+    "props": {
+      "allowHalf": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to support half option",
+        "defaultValue": "false"
+      },
+      "character": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "custom character"
+      },
+      "cleanable": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether clear is supported",
+        "defaultValue": "true"
+      },
+      "defaultValue": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The default value (uncontrolled)",
+        "defaultValue": "0"
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Disabled，Cannot interact when value is true",
+        "defaultValue": "false"
+      },
+      "max": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Maximum score",
+        "defaultValue": "5"
+      },
+      "renderCharacter": {
+        "type": "(value: number) => ReactNode",
+        "isRequired": false,
+        "description": "Customize the render character function"
+      },
+      "readOnly": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether it is read-only, if true, no interaction is possible"
+      },
+      "size": {
+        "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl' | number | string",
+        "isRequired": false,
+        "description": "Set component size"
+      },
+      "color": {
+        "type": "'red' | 'orange' | 'yellow' | 'green' | 'cyan' | 'blue' | 'violet' | CSSProperties['color']",
+        "isRequired": false,
+        "description": "Set component color. Supports preset theme colors and custom colors (hex, rgb, etc.)"
+      },
+      "value": {
+        "type": "number",
+        "isRequired": false,
+        "description": "The current value (controlled)"
+      },
+      "vertical": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "direction when half select",
+        "defaultValue": "false"
+      },
+      "onChange": {
+        "type": "(value: number, event) => void",
+        "isRequired": false,
+        "description": "Callback function that changes value"
+      },
+      "onChangeActive": {
+        "type": "(value: number, event) => void",
+        "isRequired": false,
+        "description": "Callback function that is fired when the hover state changes."
+      }
+    }
+  }
+}

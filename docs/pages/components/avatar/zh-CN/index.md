@@ -4,7 +4,7 @@
 
 ## 获取组件
 
-<!--{include:(components/avatar/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## 演示
 
@@ -12,19 +12,15 @@
 
 <!--{include:`basic.md`}-->
 
-### 文字
-
-您可以使用 `style` 来改变 `<Avatar>` 的背景色和文字颜色。
+### 字符头像
 
 <!--{include:`text.md`}-->
 
-### 图标
+### 图标头像
 
 <!--{include:`icon.md`}-->
 
-### 图片
-
-您可以为 `<Avatar>` 设置 `alt` 以确保当图片加载失败时，依然可以显示文字版本的头像
+### 图片头像
 
 <!--{include:`image.md`}-->
 
@@ -32,7 +28,28 @@
 
 <!--{include:`size.md`}-->
 
-### 徽标
+### 带边框
+
+<!--{include:`bordered.md`}-->
+
+### 颜色
+
+<!--{include:`color.md`}-->
+
+### 头像后备
+
+如果加载头像的 src 时出现错误，有 2 个后备方案：
+
+1. 如果有 alt 属性，将会渲染 alt 属性的值。
+2. 如果没有 alt 属性，将会渲染一个默认的头像。
+
+<!--{include:`fallback.md`}-->
+
+### 堆积的头像组
+
+<!--{include:`stack.md`}-->
+
+### 带有徽标的头像
 
 <!--{include:`badge.md`}-->
 
@@ -40,14 +57,31 @@
 
 ### `<Avatar>`
 
-| 属性名称    | 类型`(默认值)`                                    | 描述                                                    |
-| ----------- | ------------------------------------------------- | ------------------------------------------------------- |
-| alt         | string                                            | 图片头像加载失败时的替代文案                            |
-| children    | string &#124; Element<typeof Icon>                | 内容（可以是文字或图标）                                |
-| circle      | boolean                                           | 以圆形显示                                              |
-| classPrefix | string `('avatar')`                               | 组件 CSS 类的前缀                                       |
-| imgProps    | object                                            | 如果该组件用于显示图像，则应用于`img`元素的属性。       |
-| size        | enum: 'lg'&#124;'md'&#124;'sm'&#124;'xs' `('md')` | 设置头像尺寸                                            |
-| sizes       | string                                            | img 元素的 sizes 属性。                                 |
-| src         | string                                            | img 元素的 src 属性, 设置头像图片地址。                 |
-| srcSet      | string                                            | img 元素的 srcSet 属性。 使用此属性进行响应式图像显示。 |
+| 属性名称    | 类型`(默认值)`                                        | 描述                                                    | 版本        |
+| ----------- | ----------------------------------------------------- | ------------------------------------------------------- | ----------- |
+| alt         | string                                                | 图片头像加载失败时的替代文案。                          |             |
+| bordered    | boolean                                               | 是否显示边框。                                          | ![][5.59.0] |
+| children    | string \| Element<typeof Icon>                        | 内容（可以是文字或图标）。                              |             |
+| circle      | boolean                                               | 以圆形显示。                                            |             |
+| classPrefix | string `('avatar')`                                   | 组件 CSS 类的前缀。                                     |             |
+| color       | [ColorScheme][color-scheme] \| CSSProperties['color'] | 设置头像的背景颜色                                      | ![][5.59.0] |
+| imgProps    | object                                                | 如果该组件用于显示图像，则应用于`img`元素的属性。       |             |
+| onError     | (event) => void                                       | 图片加载失败时的回调函数。                              | ![][5.59.0] |
+| size        | [Size][size] \| `('md')`                              | 设置头像尺寸。                                          |             |
+| sizes       | string                                                | img 元素的 sizes 属性。                                 |             |
+| src         | string                                                | img 元素的 src 属性, 设置头像图片地址。                 |             |
+| srcSet      | string                                                | img 元素的 srcSet 属性。 使用此属性进行响应式图像显示。 |             |
+
+### `<AvatarGroup>`
+
+| 属性名称 | 类型`(默认值)` | 描述                         |
+| -------- | -------------- | ---------------------------- |
+| size     | [Size][size]   | 为一组的头像设置尺寸。       |
+| spacing  | number         | 为一组的头像设置间距。       |
+| stack    | boolean        | 把一组头像以堆栈的方式显示。 |
+
+<!--{include:(_common/types/color-scheme.md)}-->
+<!--{include:(_common/types/size.md)}-->
+
+[color-scheme]: #code-ts-color-scheme-code
+[size]: #code-ts-size-code

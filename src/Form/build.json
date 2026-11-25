@@ -1,0 +1,11 @@
+{
+  "proxy": false,
+  "components": {
+    "FormGroup": "Form/FormGroup",
+    "FormControl": "Form/FormControl",
+    "FormControlLabel": "Form/FormControlLabel",
+    "FormErrorMessage": "Form/FormErrorMessage",
+    "FormErrorSummary": "Form/FormErrorSummary",
+    "FormHelpText": "Form/FormHelpText"
+  }
+}

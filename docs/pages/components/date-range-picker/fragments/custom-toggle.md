@@ -3,14 +3,17 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { DateRangePicker } from 'rsuite';
+
+const App = () => (
+  <>
     <DateRangePicker toggleAs={Button} />
     <hr />
     <DateRangePicker block toggleAs={Button} />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

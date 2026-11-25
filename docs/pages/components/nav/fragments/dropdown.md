@@ -1,28 +1,27 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
-    <Nav>
-      <Nav.Item active>Item A</Nav.Item>
-      <Nav.Item>Item B</Nav.Item>
-      <Nav.Item>Item C</Nav.Item>
-      <Nav.Item>Item D</Nav.Item>
-      <Nav.Dropdown title="Item E">
-        <Nav.Dropdown.Item>Item E-1</Nav.Dropdown.Item>
-        <Nav.Dropdown.Item>Item E-2</Nav.Dropdown.Item>
-        <Nav.Dropdown.Item>Item E-3</Nav.Dropdown.Item>
-        <Nav.Dropdown.Item>Item E-4</Nav.Dropdown.Item>
-        <Nav.Dropdown.Menu title="Item E-4">
-          <Nav.Dropdown.Item>Item E-4-1</Nav.Dropdown.Item>
-          <Nav.Dropdown.Item active>Item E-4-2</Nav.Dropdown.Item>
-          <Nav.Dropdown.Item>Item E-4-3</Nav.Dropdown.Item>
-        </Nav.Dropdown.Menu>
-      </Nav.Dropdown>
-    </Nav>
-  </div>
+import { Nav } from 'rsuite';
+
+const App = () => (
+  <Nav>
+    <Nav.Item eventKey="products">Products</Nav.Item>
+    <Nav.Menu title="Resources">
+      <Nav.Item>Documentation</Nav.Item>
+      <Nav.Item>Tutorials</Nav.Item>
+      <Nav.Item>API Reference</Nav.Item>
+      <Nav.Item>FAQ</Nav.Item>
+      <Nav.Menu title="Community">
+        <Nav.Item>Forum</Nav.Item>
+        <Nav.Item>Blog</Nav.Item>
+        <Nav.Item>GitHub</Nav.Item>
+      </Nav.Menu>
+    </Nav.Menu>
+    <Nav.Item eventKey="services">Services</Nav.Item>
+  </Nav>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,25 +1,34 @@
 <!--start-code-->
 
 ```js
-/**
- * import { Rate } from 'rsuite'
- */
-const instance = (
-  <div>
-    <label>Disabled: </label>
-    <Rate disabled defaultValue={2.5} allowHalf />
+import { Rate, HStack, Text, Divider, VStack } from 'rsuite';
 
-    <hr />
-    <label>Read only: </label>
-    <Rate readOnly defaultValue={2.5} allowHalf />
+const App = () => (
+  <VStack divider={<Divider />}>
+    <HStack>
+      <Text muted w={80}>
+        Disabled
+      </Text>
+      <Rate disabled defaultValue={2.5} allowHalf />
+    </HStack>
 
-    <hr />
-    <label>Plaintext: </label>
-    <Rate plaintext defaultValue={2.5} allowHalf />
-  </div>
+    <HStack>
+      <Text muted w={80}>
+        ReadOnly
+      </Text>
+      <Rate readOnly defaultValue={2.5} allowHalf />
+    </HStack>
+
+    <HStack>
+      <Text muted w={80}>
+        Plaintext
+      </Text>
+      <Rate plaintext defaultValue={2.5} allowHalf />
+    </HStack>
+  </VStack>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

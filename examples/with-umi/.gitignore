@@ -1,18 +1,7 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
 /node_modules
-/npm-debug.log*
-/yarn-error.log
-/yarn.lock
-/package-lock.json
-
-# production
+/.env.local
+/.umirc.local.ts
+/config/config.local.ts
+/src/.umi
+/src/.umi-production
 /dist
-
-# misc
-.DS_Store
-
-# umi
-.umi
-.umi-production

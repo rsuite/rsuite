@@ -1,15 +1,32 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div className="avatar-group">
-    <Avatar>RS</Avatar>
-    <Avatar style={{ background: '#7B1FA2' }}>RS</Avatar>
-    <Avatar style={{ background: '#edfae1', color: '#4caf50' }}>RS</Avatar>
-  </div>
+import { AvatarGroup, Avatar } from 'rsuite';
+
+const App = () => (
+  <>
+    <AvatarGroup spacing={6}>
+      <Avatar color="green">R</Avatar>
+      <Avatar bg="linear-gradient(45deg, #4CAF50, #2196F3)">X</Avatar>
+      <Avatar color="blue">👍</Avatar>
+    </AvatarGroup>
+
+    <hr />
+    <AvatarGroup spacing={6}>
+      <Avatar circle color="green">
+        R
+      </Avatar>
+      <Avatar circle bg="linear-gradient(45deg, #4CAF50, #2196F3)">
+        X
+      </Avatar>
+      <Avatar circle color="blue">
+        👍
+      </Avatar>
+    </AvatarGroup>
+  </>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

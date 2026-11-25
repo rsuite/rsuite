@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-
 const util = require('util');
 const fs = require('fs');
 const { resolve } = require('path');
 const algoliaSearch = require('algoliasearch');
-const components = require('../utils/component.config.json');
+const components = require('../component.config.json');
 
 const items = components.filter(item => !item.group && item.id !== 'overview' && !item.target);
 const readFile = util.promisify(fs.readFile);
@@ -18,11 +16,22 @@ async function getIndices(locale) {
       resolve(__dirname, `../pages/components/${item.id}/${locale}/index.md`),
       'utf8'
     );
-    const text = doc.match(/(?<=#[\S\ ]+\n\n)[\S\ ]+/gi);
+    let text = doc.match(/(?<=#[\S\ ]+\n\n)[\S\ ]+/gi);
+
     let content = '';
 
     if (Array.isArray(text)) {
-      content = text[0];
+      text = text.filter(t => {
+        // Filter out the sample code.
+        if (t.match(/<!--{(\S+)}-->/) || t.indexOf('```') >= 0) {
+          return false;
+        } else if (t.indexOf('#') >= 0 || t.indexOf('| ') >= 0 || t.indexOf('- ') >= 0) {
+          return false;
+        }
+        return true;
+      });
+
+      content = text.join('\n');
     }
 
     indices.push({

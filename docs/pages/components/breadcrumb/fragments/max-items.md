@@ -1,22 +1,26 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Breadcrumb } from 'rsuite';
+
+const App = () => (
   <Breadcrumb
+    aria-label="breadcrumb"
     maxItems={5}
     onExpand={() => {
       console.log('call onExpand');
     }}
   >
-    <Breadcrumb.Item>Item A</Breadcrumb.Item>
-    <Breadcrumb.Item>Item B</Breadcrumb.Item>
-    <Breadcrumb.Item>Item C</Breadcrumb.Item>
-    <Breadcrumb.Item>Item D</Breadcrumb.Item>
-    <Breadcrumb.Item>Item E</Breadcrumb.Item>
-    <Breadcrumb.Item>Item F</Breadcrumb.Item>
+    <Breadcrumb.Item>Home</Breadcrumb.Item>
+    <Breadcrumb.Item>Library</Breadcrumb.Item>
+    <Breadcrumb.Item>Data</Breadcrumb.Item>
+    <Breadcrumb.Item>Computer Science</Breadcrumb.Item>
+    <Breadcrumb.Item>Programming Languages</Breadcrumb.Item>
+    <Breadcrumb.Item>JavaScript</Breadcrumb.Item>
   </Breadcrumb>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

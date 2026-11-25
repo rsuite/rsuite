@@ -1,25 +1,40 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { CheckPicker } from 'rsuite';
+import { mockUsers } from './mock';
 
-const instance = (
-  <div>
-    <CheckPicker sticky data={data} defaultValue={['Kenya', 'Julius']} style={{ width: 224 }} />
+/**
+ *  Data structure:
+ *  [
+ *    { firstLetter: 'A', name: 'Alan', firstName: 'Alan' },
+ *    { firstLetter: 'B', name: 'Benson', firstName: 'Benson' },
+ *  ]
+ */
+const data = mockUsers(100)
+  .map(item => {
+    const firstLetter = item.firstName[0].toUpperCase();
+    return { firstLetter, ...item };
+  })
+  .sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter));
+
+const App = () => (
+  <>
+    <CheckPicker sticky data={data} labelKey="firstName" valueKey="name" w={224} />
     <hr />
     <CheckPicker
       sticky
       data={data}
-      groupBy="role"
-      defaultValue={['Kenya', 'Julius']}
-      style={{ width: 224 }}
+      placeholder="Group by first letter"
+      groupBy="firstLetter"
+      labelKey="firstName"
+      valueKey="name"
+      w={224}
     />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

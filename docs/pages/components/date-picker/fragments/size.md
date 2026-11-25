@@ -1,16 +1,18 @@
 <!--start-code-->
 
 ```js
-const styles = { width: 200, display: 'block', marginBottom: 10 };
-const instance = (
-  <div>
-    <DatePicker size="lg" placeholder="Large" style={styles} />
-    <DatePicker size="md" placeholder="Medium" style={styles} />
-    <DatePicker size="sm" placeholder="Small" style={styles} />
-    <DatePicker size="xs" placeholder="Xsmall" style={styles} />
-  </div>
+import { DatePicker, Stack } from 'rsuite';
+
+const App = () => (
+  <Stack direction="column" spacing={8} alignItems="flex-start">
+    <DatePicker size="lg" placeholder="Large" />
+    <DatePicker size="md" placeholder="Medium" />
+    <DatePicker size="sm" placeholder="Small" />
+    <DatePicker size="xs" placeholder="Xsmall" />
+  </Stack>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

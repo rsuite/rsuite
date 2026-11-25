@@ -1,38 +1,32 @@
 <!--start-code-->
 
 ```js
-const styles = {
-  marginBottom: 50,
-};
+import { Nav, VStack } from 'rsuite';
 
-const CustomNav = ({ active, onSelect, ...props }) => {
+const Navbar = ({ active, onSelect, ...props }) => {
   return (
-    <Nav {...props} activeKey={active} onSelect={onSelect} style={styles}>
-      <Nav.Item eventKey="home" icon={<Home />}>
-        Home
-      </Nav.Item>
-      <Nav.Item eventKey="news">News</Nav.Item>
-      <Nav.Item eventKey="solutions">Solutions</Nav.Item>
+    <Nav {...props} activeKey={active} onSelect={onSelect}>
+      <Nav.Item eventKey="home">Home</Nav.Item>
       <Nav.Item eventKey="products">Products</Nav.Item>
-      <Nav.Item eventKey="about">About</Nav.Item>
+      <Nav.Item eventKey="services">Services</Nav.Item>
+      <Nav.Item eventKey="contact">Contact Us</Nav.Item>
     </Nav>
   );
 };
 
-const Demo = () => {
+const App = () => {
   const [active, setActive] = React.useState('home');
+
   return (
-    <div>
-      <CustomNav active={active} onSelect={setActive} />
-      <CustomNav appearance="tabs" active={active} onSelect={setActive} />
-      <CustomNav appearance="tabs" reversed active={active} onSelect={setActive} />
-      <CustomNav appearance="subtle" active={active} onSelect={setActive} />
-      <CustomNav appearance="subtle" reversed active={active} onSelect={setActive} />
-    </div>
+    <VStack spacing={30}>
+      <Navbar active={active} onSelect={setActive} />
+      <Navbar appearance="tabs" active={active} onSelect={setActive} />
+      <Navbar appearance="subtle" active={active} onSelect={setActive} />
+    </VStack>
   );
 };
 
-ReactDOM.render(<Demo />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

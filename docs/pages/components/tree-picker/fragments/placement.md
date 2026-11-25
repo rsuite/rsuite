@@ -1,72 +1,34 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { TreePicker } from 'rsuite';
+import { mockTreeData } from './mock';
+import PlacementContainer from '@/components/PlacementContainer';
 
-const CustomTreePicker = ({ placement }) => (
-  <TreePicker defaultExpandAll data={data} placement={placement} placeholder={placement} />
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.person[methodName[layer]]();
+  }
+});
+
+const App = () => (
+  <PlacementContainer>
+    {({ container, placement, preventOverflow }) => (
+      <TreePicker
+        w={224}
+        preventOverflow={preventOverflow}
+        data={data}
+        placement={placement}
+        container={preventOverflow ? container : undefined}
+        placeholder={`Will pop from ${placement}`}
+      />
+    )}
+  </PlacementContainer>
 );
 
-const instance = (
-  <div>
-    <table className="placement-table">
-      <tbody>
-        <tr>
-          <td />
-          <td>
-            <CustomTreePicker placement="topStart" />
-          </td>
-          <td>
-            <CustomTreePicker placement="topEnd" />
-          </td>
-          <td />
-        </tr>
-        <tr>
-          <td>
-            <CustomTreePicker placement="leftStart" />
-          </td>
-          <td />
-          <td />
-          <td>
-            <CustomTreePicker placement="rightStart" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <CustomTreePicker placement="leftEnd" />
-          </td>
-          <td />
-          <td />
-          <td>
-            <CustomTreePicker placement="rightEnd" />
-          </td>
-        </tr>
-        <tr>
-          <td />
-          <td>
-            <CustomTreePicker placement="bottomStart" />
-          </td>
-          <td>
-            <CustomTreePicker placement="bottomEnd" />
-          </td>
-          <td />
-        </tr>
-      </tbody>
-    </table>
-    <hr />
-    <CustomTreePicker placement="auto" />
-    <hr />
-    <CustomTreePicker placement="autoVerticalStart" />{' '}
-    <CustomTreePicker placement="autoVerticalEnd" />
-    <hr />
-    <CustomTreePicker placement="autoHorizontalStart" />{' '}
-    <CustomTreePicker placement="autoHorizontalEnd" />
-  </div>
-);
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

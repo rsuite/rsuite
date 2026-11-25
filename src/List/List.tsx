@@ -1,51 +1,82 @@
-import PropTypes from 'prop-types';
+/* @jsxRuntime classic */
 import React, { useMemo } from 'react';
 import useSortHelper, { SortConfig } from './helper/useSortHelper';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { mergeRefs, useClassNames } from '../utils';
 import ListContext, { ListContextType } from './ListContext';
 import ListItem from './ListItem';
+import Box, { BoxProps } from '@/internals/Box';
+import { useStyles, useCustom } from '@/internals/hooks';
+import { forwardRef, mergeRefs } from '@/internals/utils';
 
-export interface ListProps extends WithAsProps, SortConfig {
-  /* Size of list item */
-  size?: 'lg' | 'md' | 'sm';
+export interface ListProps extends Omit<BoxProps, 'transitionDuration'>, SortConfig {
+  /**
+   * Size of list item.
+   */
 
-  /* Bordered */
+  size?: 'lg' | 'md' | 'sm' | 'xs';
+
+  /**
+   * Whether the list is bordered.
+   */
   bordered?: boolean;
 
-  /* Animation when hover */
+  /**
+   * Whether the list is hoverable.
+   */
   hover?: boolean;
 
-  /* Sortable */
+  /**
+   * Whether the list is sortable.
+   */
   sortable?: boolean;
+
+  /**
+   * Whether to display a divider between items.
+   *
+   * @version 5.75.0
+   */
+  divider?: boolean;
 }
 
-export interface ListComponent extends RsRefForwardingComponent<'div', ListProps> {
-  Item: typeof ListItem;
-}
+const Subcomponents = {
+  Item: ListItem
+};
 
-const List: ListComponent = React.forwardRef((props: ListProps, ref: React.Ref<HTMLDivElement>) => {
+/**
+ * The `List` component is used to specify the layout of the list.
+ * @see https://rsuitejs.com/components/list
+ */
+const List = forwardRef<'div', ListProps, typeof Subcomponents>((props, ref) => {
+  const { propsWithDefaults } = useCustom('List', props);
   const {
-    as: Component = 'div',
+    as,
+    autoScroll = true,
+    bordered,
     classPrefix = 'list',
     className,
-    bordered,
+    children,
+    divider = true,
     hover,
     size = 'md',
     sortable,
-    autoScroll = true,
     pressDelay = 0,
     transitionDuration = 300,
-    children,
     onSort,
     onSortEnd,
     onSortMove,
     onSortStart,
     ...rest
-  } = props;
+  } = propsWithDefaults;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const { containerRef, register, sorting, handleEnd, handleStart } = useSortHelper({
+  const { withPrefix, merge } = useStyles(classPrefix);
+  const {
+    containerRef,
+    register,
+    sorting,
+    handleEnd,
+    handleStart,
+    handleTouchStart,
+    handleTouchEnd
+  } = useSortHelper({
     autoScroll,
     onSort,
     onSortEnd,
@@ -55,42 +86,35 @@ const List: ListComponent = React.forwardRef((props: ListProps, ref: React.Ref<H
     transitionDuration
   });
 
-  const classes = merge(className, withClassPrefix({ bordered, sortable, sorting, hover }));
+  const classes = merge(className, withPrefix());
+
   const contextValue = useMemo<ListContextType>(
     () => ({ bordered, size, register }),
     [bordered, register, size]
   );
+
   return (
-    <Component
+    <Box
+      as={as}
       role="list"
-      {...rest}
       ref={mergeRefs(containerRef, ref)}
       className={classes}
       onMouseDown={sortable ? handleStart : undefined}
       onMouseUp={sortable ? handleEnd : undefined}
+      onTouchStart={sortable ? handleTouchStart : undefined}
+      onTouchEnd={sortable ? handleTouchEnd : undefined}
+      data-bordered={bordered}
+      data-hover={hover}
+      data-sortable={sortable}
+      data-sorting={sorting}
+      data-divider={divider}
+      {...rest}
     >
       <ListContext.Provider value={contextValue}>{children}</ListContext.Provider>
-    </Component>
+    </Box>
   );
-}) as unknown as ListComponent;
-
-List.Item = ListItem;
+}, Subcomponents);
 
 List.displayName = 'List';
-List.propTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  bordered: PropTypes.bool,
-  hover: PropTypes.bool,
-  sortable: PropTypes.bool,
-  size: PropTypes.oneOf(['lg', 'md', 'sm']),
-  autoScroll: PropTypes.bool,
-  pressDelay: PropTypes.number,
-  transitionDuration: PropTypes.number,
-  onSortStart: PropTypes.func,
-  onSortMove: PropTypes.func,
-  onSortEnd: PropTypes.func,
-  onSort: PropTypes.func
-};
 
 export default List;

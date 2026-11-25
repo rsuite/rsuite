@@ -1,0 +1,33 @@
+{
+  "Affix": {
+    "props": {
+      "children": {
+        "type": "ReactNode",
+        "isRequired": false,
+        "description": "Fixed element."
+      },
+      "classPrefix": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The prefix of the component CSS class.",
+        "defaultValue": "affix"
+      },
+      "container": {
+        "type": "HTMLElement | (() => HTMLElement)",
+        "isRequired": false,
+        "description": "Specify the container. An element can only be fixed when the container is in the visible range."
+      },
+      "onChange": {
+        "type": "(fixed: boolean) => voide",
+        "isRequired": false,
+        "description": "Callback function when non-fixed and fixed state changes."
+      },
+      "top": {
+        "type": "number",
+        "isRequired": false,
+        "description": "Set the fixed top height.",
+        "defaultValue": "0"
+      }
+    }
+  }
+}

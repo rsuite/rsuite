@@ -1,28 +1,35 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
-    <Nav>
-      <Nav.Item>Default Item</Nav.Item>
-      <Nav.Item active>Active Item</Nav.Item>
-      <Nav.Item disabled>Disabled Item</Nav.Item>
-    </Nav>
-    <br />
-    <Nav appearance="tabs">
-      <Nav.Item>Default Item</Nav.Item>
-      <Nav.Item active>Active Item</Nav.Item>
-      <Nav.Item disabled>Disabled Item</Nav.Item>
-    </Nav>
-    <br />
-    <Nav appearance="subtle">
-      <Nav.Item>Default Item</Nav.Item>
-      <Nav.Item active>Active Item</Nav.Item>
-      <Nav.Item disabled>Disabled Item</Nav.Item>
-    </Nav>
-  </div>
-);
-ReactDOM.render(instance);
+import { Nav, SelectPicker } from 'rsuite';
+
+const App = () => {
+  const [appearance, setAppearance] = React.useState('default');
+  return (
+    <>
+      <SelectPicker
+        label="Appearance"
+        searchable={false}
+        cleanable={false}
+        data={[
+          { value: 'default', label: 'Default' },
+          { value: 'tabs', label: 'Tabs' },
+          { value: 'subtle', label: 'Subtle' },
+        ]}
+        value={appearance}
+        onChange={setAppearance}
+      />
+      <hr />
+      <Nav appearance={appearance}>
+        <Nav.Item active>Active</Nav.Item>
+        <Nav.Item disabled>Disabled</Nav.Item>
+        <Nav.Item>Normal</Nav.Item>
+      </Nav>
+    </>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

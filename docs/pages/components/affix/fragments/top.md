@@ -1,15 +1,18 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Affix, Button, Placeholder } from 'rsuite';
+
+const App = () => (
+  <>
     <Affix top={50}>
       <Button appearance="primary">Top 50</Button>
     </Affix>
-    <Paragraph rows={12} />
-  </div>
+    <Placeholder.Paragraph rows={12} />
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

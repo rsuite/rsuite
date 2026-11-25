@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Tooltip, Whisper } from 'rsuite';
+
+const App = () => (
   <Whisper speaker={<Tooltip> Tooltip!</Tooltip>}>
     <span>
       <Button disabled style={{ pointerEvents: 'none' }}>
@@ -10,7 +12,8 @@ const instance = (
     </span>
   </Whisper>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,30 +1,43 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
-    <label>Disabled:</label>
-    <Radio disabled> Radio</Radio>
-    <Radio checked disabled>
-      Checked Radio
-    </Radio>
+import { Radio, HStack, Text, Divider, VStack } from 'rsuite';
 
-    <hr />
-    <label>Read only:</label>
-    <Radio readOnly> Radio</Radio>
-    <Radio checked readOnly>
-      Checked Radio
-    </Radio>
+const App = () => (
+  <VStack divider={<Divider />}>
+    <HStack spacing={20}>
+      <Text muted w={80}>
+        Disabled
+      </Text>
+      <Radio disabled> Radio</Radio>
+      <Radio checked disabled>
+        Checked Radio
+      </Radio>
+    </HStack>
 
-    <hr />
-    <label>Plaintext:</label>
-    <Radio plaintext> Radio</Radio>
-    <Radio checked plaintext>
-      Checked Radio
-    </Radio>
-  </div>
+    <HStack spacing={20}>
+      <Text muted w={80}>
+        Read only
+      </Text>
+      <Radio readOnly> Radio</Radio>
+      <Radio checked readOnly>
+        Checked Radio
+      </Radio>
+    </HStack>
+
+    <HStack spacing={20}>
+      <Text muted w={80}>
+        Plaintext
+      </Text>
+      <Radio plaintext> Radio</Radio>
+      <Radio checked plaintext>
+        Checked Radio
+      </Radio>
+    </HStack>
+  </VStack>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

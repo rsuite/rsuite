@@ -62,16 +62,6 @@ Use the `aria-*` attribute in the form to make the form input components descrip
 - In order to let the screen reader skip the disabled component, the attribute `aria-disabled="true"` is added to the component, such as disabling a [Button][button].
 - Many components have a selection operation. We will add the attribute `aria-selected="true"` to the selected option. If the current option has sub-options, the attribute `aria-expanded` will be set to tell the screen reader whether the sub-option of the current option is Is unfolded. For example: [Tree][tree].
 
-### Pickers
-
-- Combo Box: https://www.w3.org/TR/wai-aria-practices/#combobox
-- Listbox: https://www.w3.org/TR/wai-aria-practices/#Listbox
-
-- The component has role `combobox`.
-- The component has the `aria-expanded` prop, the default value is `false`, and the value is `true` when the popup window is displayed.
-- The popup of the component has a `listbox` role.
-- When an `id` is set for a component, it will automatically generate an `id` for the popup, the value is `[id]-listbox`, and it will also set `aria-controls=[id]-listbox` and popup The id of the window is associated.
-
 [form.group]: /components/form#accessibility
 [slider]: /components/slider
 [tree]: /components/tree

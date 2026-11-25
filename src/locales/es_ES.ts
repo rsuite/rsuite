@@ -1,6 +1,7 @@
-import es from 'date-fns/locale/es';
+import type { CalendarLocaleLabels } from './types';
+import { es } from 'date-fns/locale/es';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'Do',
   monday: 'Lu',
   tuesday: 'Ma',
@@ -11,6 +12,7 @@ const Calendar = {
   ok: 'Aceptar',
   today: 'Hoy',
   yesterday: 'Ayer',
+  now: 'Ahora',
   hours: 'Horas',
   minutes: 'Minutos',
   seconds: 'Segundos',
@@ -20,13 +22,44 @@ const Calendar = {
    **/
   formattedMonthPattern: 'MMM yyyy',
   formattedDayPattern: 'dd MMM yyyy',
+  shortDateFormat: 'dd/MM/yyyy',
+  shortTimeFormat: 'HH:mm',
   dateLocale: es as any
 };
 
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Mes anterior',
+  nextMonth: 'Mes siguiente',
+  selectMonth: 'Seleccionar mes',
+  selectTime: 'Seleccionar hora'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Abrir selector'
+};
+
+const Combobox = {
+  noResultsText: 'No se encontraron resultados',
+  placeholder: 'Seleccionar',
+  searchPlaceholder: 'Buscar',
+  checkAll: 'Todos'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Nuevo',
+  createOption: 'Crear opción "{0}"'
+};
+
 export default {
+  code: 'es-ES',
   common: {
     loading: 'Cargando...',
-    emptyMessage: 'Sin datos'
+    emptyMessage: 'Sin datos',
+    remove: 'Eliminar',
+    clear: 'Claro'
   },
   Plaintext: {
     unfilled: 'Sin llenar',
@@ -43,31 +76,24 @@ export default {
     total: 'Total: {0}',
     skip: 'Ir{0}'
   },
+  DateTimeFormats,
   Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  DatePicker,
   DateRangePicker: {
-    ...Calendar,
+    ...DatePicker,
     last7Days: 'Últimos 7 días'
   },
-  Picker: {
-    noResultsText: 'No se encontraron resultados',
-    placeholder: 'Seleccionar',
-    searchPlaceholder: 'Buscar',
-    checkAll: 'Todos'
-  },
-  InputPicker: {
-    newItem: 'Nuevo',
-    createOption: 'Crear opción "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'Inicial',
     progress: 'Subiendo',
     error: 'Error',
     complete: 'Terminado',
     emptyFile: 'Vacío',
-    upload: 'Subir'
+    upload: 'Subir',
+    removeFile: 'Eliminar archivo'
   },
   CloseButton: {
     closeLabel: 'Apagar'
@@ -75,8 +101,23 @@ export default {
   Breadcrumb: {
     expandText: 'Mostrar ruta'
   },
+  Carousel: {
+    carouselRoleDescription: 'carrusel',
+    slideRoleDescription: 'diapositiva',
+    slidePosition: '{0} de {1}',
+    startRotation: 'Iniciar la rotación de diapositivas',
+    stopRotation: 'Detener la rotación de diapositivas',
+    selectSlide: 'Elegir diapositiva',
+    slideLabel: 'Diapositiva {0} de {1}'
+  },
   Toggle: {
     on: 'Encender',
     off: 'Apagar'
+  },
+  Dialog: {
+    alert: 'Alerta',
+    confirm: 'Confirmar',
+    ok: 'Aceptar',
+    cancel: 'Cancelar'
   }
 };

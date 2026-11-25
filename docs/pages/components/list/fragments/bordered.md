@@ -1,17 +1,18 @@
 <!--start-code-->
 
 ```js
-const data = ['Roses are red', 'Violets are blue', 'Sugar is sweet', 'And so are you'];
+import { List } from 'rsuite';
 
-ReactDOM.render(
+const App = () => (
   <List bordered>
-    {data.map((item, index) => (
-      <List.Item key={index} index={index}>
-        {item}
-      </List.Item>
-    ))}
+    <List.Item>Roses are red</List.Item>
+    <List.Item>Violets are blue</List.Item>
+    <List.Item>Sugar is sweet</List.Item>
+    <List.Item>And so are you</List.Item>
   </List>
 );
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

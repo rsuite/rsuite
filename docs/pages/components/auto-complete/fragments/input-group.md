@@ -1,59 +1,64 @@
 <!--start-code-->
 
 ```js
-/**
- * import { AutoComplete, InputGroup } from 'rsuite';
- * import SearchIcon from '@rsuite/icons/Search';
- * import MemberIcon from '@rsuite/icons/Member';
- */
-
-const styles = {
-  width: 300,
-  marginBottom: 10
-};
+import { AutoComplete, InputGroup, VStack } from 'rsuite';
+import SearchIcon from '@rsuite/icons/Search';
+import MemberIcon from '@rsuite/icons/Member';
 
 const data = [
-  'HYPER Advertiser',
-  'HYPER Web Analytics',
-  'HYPER Video Analytics',
-  'HYPER DMP',
-  'HYPER Ad Serving',
-  'HYPER Data Discovery'
+  'Eugenia',
+  'Bryan',
+  'Linda',
+  'Nancy',
+  'Lloyd',
+  'Alice',
+  'Julia',
+  'Albert',
+  'Louisa',
+  'Lester',
+  'Lola',
+  'Lydia',
+  'Hal',
+  'Hannah',
+  'Harriet',
+  'Hattie',
+  'Hazel',
+  'Hilda'
 ];
 
-const instance = (
-  <div>
-    <InputGroup style={styles}>
+const App = () => (
+  <VStack spacing={10} w={300}>
+    <InputGroup>
       <AutoComplete data={data} />
-      <InputGroup.Button>
+      <InputGroup.Button tabIndex={-1}>
         <SearchIcon />
       </InputGroup.Button>
     </InputGroup>
 
-    <InputGroup inside style={styles}>
+    <InputGroup inside>
       <AutoComplete data={data} />
-      <InputGroup.Button>
+      <InputGroup.Button tabIndex={-1}>
         <SearchIcon />
       </InputGroup.Button>
     </InputGroup>
 
-    <InputGroup inside style={styles}>
+    <InputGroup inside>
       <AutoComplete data={data} />
       <InputGroup.Addon>
         <SearchIcon />
       </InputGroup.Addon>
     </InputGroup>
 
-    <InputGroup inside style={styles}>
+    <InputGroup inside>
       <InputGroup.Addon>
         <MemberIcon />
       </InputGroup.Addon>
       <AutoComplete data={data} />
     </InputGroup>
-  </div>
+  </VStack>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

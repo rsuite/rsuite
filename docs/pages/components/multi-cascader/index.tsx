@@ -1,24 +1,56 @@
-import React from 'react';
-import { MultiCascader, Button, Toggle, RadioGroup, Radio } from 'rsuite';
-import DefaultPage from '@/components/Page';
-import PreventOverflowContainer from '@/components/PreventOverflowContainer';
-import useFetchData from '@/utils/useFetchData';
-import TagIcon from '@rsuite/icons/Tag';
+import { MultiCascader, Button, Toggle, RadioGroup, Radio, HStack, VStack, Box, Text, Divider } from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
+import PeoplesIcon from '@rsuite/icons/Peoples';
+import AdminIcon from '@rsuite/icons/Admin';
+import Simulation from '@/components/Simulation';
+import PlacementContainer from '@/components/PlacementContainer';
+import {
+  importFakerString,
+  mockAsyncData,
+  mockAsyncDataString,
+  mockTreeData,
+  mockTreeDataToString,
+  sandboxFakerVersion
+} from '@/utils/mock';
+
+const mockfile = {
+  name: 'mock.js',
+  content: [importFakerString, mockTreeDataToString, mockAsyncDataString].join('\n')
+};
+
+const sandboxDependencies = {
+  ...sandboxFakerVersion
+};
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['MultiCascader']} />,
+  'example-responsive': () => <Simulation example="responsive" componentName="multi-cascader" />
+};
 
 export default function Page() {
-  const { response: data } = useFetchData('province-simplified');
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         MultiCascader,
         Button,
         Toggle,
         RadioGroup,
         Radio,
-        TagIcon,
-        PreventOverflowContainer,
-        data
+        PeoplesIcon,
+        AdminIcon,
+        HStack,
+        VStack,
+        Box,
+        Text,
+        Divider,
+        PlacementContainer,
+        mockAsyncData,
+        mockTreeData
       }}
+      sandboxDependencies={sandboxDependencies}
+      sandboxFiles={[mockfile]}
     />
   );
 }

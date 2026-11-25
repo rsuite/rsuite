@@ -1,0 +1,119 @@
+import type { CalendarLocaleLabels } from './types';
+import { kk } from 'date-fns/locale/kk';
+
+const DateTimeFormats = {
+  sunday: 'Жк',
+  monday: 'Дс',
+  tuesday: 'Сс',
+  wednesday: 'Ср',
+  thursday: 'Бс',
+  friday: 'Жм',
+  saturday: 'Сн',
+  ok: 'ОК',
+  today: 'Бүгін',
+  yesterday: 'Кеше',
+  now: 'Қазір',
+  hours: 'Сағат',
+  minutes: 'Минут',
+  seconds: 'Секунд',
+  formattedMonthPattern: 'MMM, yyyy',
+  formattedDayPattern: 'MMM dd, yyyy',
+  shortDateFormat: 'dd.MM.yyyy',
+  shortTimeFormat: 'HH:mm',
+  dateLocale: kk as any
+};
+
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'Алдыңғы ай',
+  nextMonth: 'Келесі ай',
+  selectMonth: 'Айды таңдау',
+  selectTime: 'Уақытты таңдау'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'Таңдау терезесін ашу'
+};
+
+const Combobox = {
+  noResultsText: 'Нәтижелер жоқ',
+  placeholder: 'Таңдаңыз',
+  searchPlaceholder: 'Іздеу',
+  checkAll: 'Барлығын таңдау'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'Жаңа элемент',
+  createOption: 'Жаңа элемент "{0}" құру'
+};
+
+export default {
+  code: 'kk-KZ',
+  common: {
+    loading: 'Жүктелуде...',
+    emptyMessage: 'Мәліметтер жоқ',
+    remove: 'Жою',
+    clear: 'Таза'
+  },
+  Plaintext: {
+    unfilled: 'Мәліметтер жоқ',
+    notSelected: 'Таңдалмаған',
+    notUploaded: 'Жүктелмеген'
+  },
+  Pagination: {
+    more: 'Көбірек',
+    prev: 'Алдыңғы',
+    next: 'Келесі',
+    first: 'Бірінші',
+    last: 'Соңғы',
+    limit: '{0} / бет',
+    total: 'Барлығы: {0}',
+    skip: '{0}-бетке өтіңіз'
+  },
+  DateTimeFormats,
+  Calendar,
+  DatePicker,
+  DateRangePicker: {
+    ...DatePicker,
+    last7Days: 'Соңғы 7 күн'
+  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
+  Uploader: {
+    inited: 'Бастау',
+    progress: 'Жүктеу',
+    error: 'Қате',
+    complete: 'Жүктелді',
+    emptyFile: 'Бос',
+    upload: 'Жүктеу',
+    removeFile: 'Файлды жою'
+  },
+  CloseButton: {
+    closeLabel: 'Жабу'
+  },
+  Breadcrumb: {
+    expandText: 'Көрсету'
+  },
+  Carousel: {
+    carouselRoleDescription: 'карусель',
+    slideRoleDescription: 'слайд',
+    slidePosition: '{1} ішінен {0}',
+    startRotation: 'Слайдтарды автоматты ауыстыруды бастау',
+    stopRotation: 'Слайдтарды автоматты ауыстыруды тоқтату',
+    selectSlide: 'Слайдты таңдау',
+    slideLabel: '{1} слайдтың {0}-і'
+  },
+  Toggle: {
+    on: 'Қосу',
+    off: 'Өшіру'
+  },
+  Dialog: {
+    alert: 'Ескерту',
+    confirm: 'Растау',
+    ok: 'OK',
+    cancel: 'Болдырмау'
+  }
+};

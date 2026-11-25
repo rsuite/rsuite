@@ -1,0 +1,9 @@
+{
+  "components": {
+    "SidenavHeader": "Sidenav/SidenavHeader",
+    "SidenavBody": "Sidenav/SidenavBody",
+    "SidenavFooter": "Sidenav/SidenavFooter",
+    "SidenavToggle": "Sidenav/SidenavToggle",
+    "SidenavGroupLabel": "Sidenav/SidenavGroupLabel"
+  }
+}

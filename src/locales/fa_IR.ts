@@ -1,6 +1,7 @@
-import faIR from 'date-fns/locale/fa-IR';
+import type { CalendarLocaleLabels } from './types';
+import { faIR } from 'date-fns/locale/fa-IR';
 
-const Calendar = {
+const DateTimeFormats = {
   sunday: 'ی',
   monday: 'د',
   tuesday: 'س',
@@ -11,18 +12,50 @@ const Calendar = {
   ok: 'تایید',
   today: 'امروز',
   yesterday: 'دیروز',
+  now: 'هم  اکنون',
   hours: 'ساعت',
   minutes: 'دقیقه',
   seconds: 'ثانیه',
   formattedMonthPattern: 'MMM, yyyy',
   formattedDayPattern: 'MMM dd, yyyy',
+  shortDateFormat: 'yyyy/MM/dd',
+  shortTimeFormat: 'hh:mm aa',
   dateLocale: faIR as any
 };
 
+const Calendar: typeof DateTimeFormats & CalendarLocaleLabels = {
+  ...DateTimeFormats,
+  previousMonth: 'ماه قبل',
+  nextMonth: 'ماه بعد',
+  selectMonth: 'انتخاب ماه',
+  selectTime: 'انتخاب زمان'
+};
+
+const DatePicker: typeof Calendar & { openPicker?: string } = {
+  ...Calendar,
+  openPicker: 'باز کردن انتخابگر'
+};
+
+const Combobox = {
+  noResultsText: 'نتیجه ایی یافت نشد',
+  placeholder: 'انتخاب',
+  searchPlaceholder: 'جستجو',
+  checkAll: 'همه'
+};
+
+const CreatableComboBox = {
+  ...Combobox,
+  newItem: 'گزینه جدید',
+  createOption: 'ساخت گزینه "{0}"'
+};
+
 export default {
+  code: 'fa-IR',
   common: {
     loading: 'در حال بارگذاری...',
-    emptyMessage: 'داده ایی پیدا نشد'
+    emptyMessage: 'داده ایی پیدا نشد',
+    remove: 'برداشتن',
+    clear: 'پاک کردن'
   },
   Plaintext: {
     unfilled: 'خالی',
@@ -39,31 +72,24 @@ export default {
     total: 'مجموع ردیف ها: {0}',
     skip: 'برو به{0}'
   },
+  DateTimeFormats,
   Calendar,
-  DatePicker: {
-    ...Calendar
-  },
+  DatePicker,
   DateRangePicker: {
-    ...Calendar,
+    ...DatePicker,
     last7Days: '7 روز اخر'
   },
-  Picker: {
-    noResultsText: 'نتیجه ایی یافت نشد',
-    placeholder: 'انتخاب',
-    searchPlaceholder: 'جستجو',
-    checkAll: 'همه'
-  },
-  InputPicker: {
-    newItem: 'گزینه جدید',
-    createOption: 'ساخت گزینه "{0}"'
-  },
+  Combobox,
+  InputPicker: CreatableComboBox,
+  TagPicker: CreatableComboBox,
   Uploader: {
     inited: 'اولیه',
     progress: 'در حال اپلود',
     error: 'مشکل',
     complete: 'تمام شد',
     emptyFile: 'خالی',
-    upload: 'اپلود'
+    upload: 'اپلود',
+    removeFile: 'حذف فایل'
   },
   CloseButton: {
     closeLabel: 'بستن'
@@ -71,8 +97,23 @@ export default {
   Breadcrumb: {
     expandText: 'نمایش مسیر'
   },
+  Carousel: {
+    carouselRoleDescription: 'نمایش اسلاید',
+    slideRoleDescription: 'اسلاید',
+    slidePosition: '{0} از {1}',
+    startRotation: 'شروع چرخش اسلایدها',
+    stopRotation: 'توقف چرخش اسلایدها',
+    selectSlide: 'انتخاب اسلاید',
+    slideLabel: 'اسلاید {0} از {1}'
+  },
   Toggle: {
     on: 'باز کردن',
     off: 'بستن'
+  },
+  Dialog: {
+    alert: 'هشدار',
+    confirm: 'تایید',
+    ok: 'تایید',
+    cancel: 'انصراف'
   }
 };

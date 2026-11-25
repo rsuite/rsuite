@@ -1,31 +1,30 @@
 {
-  "private": true,
   "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --mode development --progress --hot",
-    "build": "rm -rf dist && webpack --mode production --progress  --display-modules"
+    "build": "rm -rf dist && webpack --mode production --progress  --color",
+    "dev": "webpack-dev-server --mode development --progress --color --hot"
   },
   "dependencies": {
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
-    "rsuite": "^4.0.5"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rsuite": "^5.16.3"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.0",
-    "css-loader": "^3.2.1",
-    "extract-text-webpack-plugin": "^4.0.0-beta.0",
-    "html-webpack-plugin": "^3.2.0",
+    "css-loader": "^6.7.1",
+    "css-minimizer-webpack-plugin": "^4.0.0",
+    "html-webpack-plugin": "^5.5.0",
     "less": "^3.8.1",
-    "less-loader": "^5.0.0",
+    "less-loader": "^11.0.0",
+    "mini-css-extract-plugin": "^2.6.1",
     "rtlcss": "^2.5.0",
-    "style-loader": "^0.20.3",
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.9",
-    "webpack-merge": "^4.2.2",
-    "webpack-multiple-themes-compile": "^1.1.1"
+    "rtlcss-webpack-plugin": "^4.0.7",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.3"
   }
 }

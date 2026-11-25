@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useReducer, useRef } from 'react';
 import omit from 'lodash/omit';
-import PropTypes from 'prop-types';
 import createTextMaskInputElement from './createTextMaskInputElement';
-import { MaskType, MaskFunctionType, ConfigType } from './types';
-import { mergeRefs } from '../utils';
+import { mergeRefs } from '@/internals/utils';
+import { useIsomorphicLayoutEffect } from '@/internals/hooks';
+import type { MaskType, MaskFunctionType, ConfigType } from './types';
 
 /**
  * https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#guide
@@ -51,6 +51,10 @@ export type TextMaskProps = TextMaskBaseProps &
 
 const defaultRender = (ref, props) => <input ref={ref} {...props} />;
 
+/**
+ * The `TextMask` component is used to format the user input data.
+ * @see https://rsuitejs.com/components/input/#masked-input
+ */
 const TextMask = React.forwardRef((props: TextMaskProps, ref: React.Ref<HTMLInputElement>) => {
   const {
     mask,
@@ -65,7 +69,8 @@ const TextMask = React.forwardRef((props: TextMaskProps, ref: React.Ref<HTMLInpu
   } = props;
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const textMaskInputElement = useRef<{ update: (value?: string | number) => void }>();
+  const textMaskInputElement = useRef<{ update: (value?: string | number) => void }>(null);
+  const [valueRevision, refreshValue] = useReducer(revision => revision + 1, 0);
 
   const initTextMask = useCallback(() => {
     textMaskInputElement.current = createTextMaskInputElement({
@@ -80,33 +85,25 @@ const TextMask = React.forwardRef((props: TextMaskProps, ref: React.Ref<HTMLInpu
     (event: React.ChangeEvent<HTMLInputElement>) => {
       textMaskInputElement.current?.update();
 
+      // Reconcile the controlled value even when the application rejects the edit.
+      if (value !== undefined) refreshValue();
+
       onChange?.(event);
     },
-    [onChange]
+    [onChange, value]
   );
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     initTextMask();
-  }, [guide, placeholderChar, showMask, pipe, mask, value, initTextMask]);
+  }, [guide, placeholderChar, showMask, pipe, mask, value, initTextMask, valueRevision]);
 
   return render(mergeRefs(inputRef, ref), {
+    ...omit(rest, ['keepCharPositions']),
     onChange: handleChange,
-    defaultValue: value,
-    ...omit(rest, ['keepCharPositions'])
+    defaultValue: value === undefined ? rest.defaultValue : value
   });
 });
 
 TextMask.displayName = 'TextMask';
-TextMask.propTypes = {
-  render: PropTypes.func,
-  onChange: PropTypes.func,
-  mask: PropTypes.oneOfType([PropTypes.array, PropTypes.func, PropTypes.bool]).isRequired,
-  guide: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  pipe: PropTypes.func,
-  placeholderChar: PropTypes.string,
-  keepCharPositions: PropTypes.bool,
-  showMask: PropTypes.bool
-};
 
 export default TextMask;

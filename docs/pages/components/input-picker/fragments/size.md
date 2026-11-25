@@ -1,21 +1,22 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { InputPicker, VStack } from 'rsuite';
 
-const styles = { width: 224, display: 'block', marginBottom: 10 };
-const instance = (
-  <div>
-    <InputPicker size="lg" placeholder="Large" data={data} style={styles} />
-    <InputPicker size="md" placeholder="Medium" data={data} style={styles} />
-    <InputPicker size="sm" placeholder="Small" data={data} style={styles} />
-    <InputPicker size="xs" placeholder="Xsmall" data={data} style={styles} />
-  </div>
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+  item => ({ label: item, value: item })
 );
-ReactDOM.render(instance);
+
+const App = () => (
+  <VStack w={224} spacing={10}>
+    <InputPicker size="lg" placeholder="Large" data={data} block />
+    <InputPicker size="md" placeholder="Medium" data={data} block />
+    <InputPicker size="sm" placeholder="Small" data={data} block />
+    <InputPicker size="xs" placeholder="Xsmall" data={data} block />
+  </VStack>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,59 +1,59 @@
 <!--start-code-->
 
 ```js
-const panelStyles = {
-  padding: '15px 20px',
-  color: '#aaa',
-};
+import DashboardIcon from '@rsuite/icons/Dashboard';
+import PeoplesIcon from '@rsuite/icons/Peoples';
+import SettingIcon from '@rsuite/icons/Setting';
+import PieChartIcon from '@rsuite/icons/PieChart';
+import DataAuthorizeIcon from '@rsuite/icons/DataAuthorize';
+import { Sidenav, Nav, HStack, VStack, Box } from 'rsuite';
+import { SiProtondb } from 'react-icons/si';
 
-const headerStyles = {
-  padding: 20,
-  fontSize: 16,
-  background: '#34c3ff',
-  color: ' #fff',
-};
+const Header = () => (
+  <VStack p="10px 10px 0 10px" spacing={12}>
+    <HStack>
+      <SiProtondb size={32} /> Brand
+    </HStack>
+  </VStack>
+);
 
-const instance = (
-  <div style={{ width: 240 }}>
+const App = () => (
+  <Box w={240}>
     <Sidenav defaultOpenKeys={['3', '4']}>
       <Sidenav.Header>
-        <div style={headerStyles}>Custom Sidenav</div>
+        <Header />
       </Sidenav.Header>
       <Sidenav.Body>
         <Nav>
-          <Nav.Item eventKey="1" active icon={<Dashboard />}>
-            Dashboard
+          <Nav.Item eventKey="1" icon={<DashboardIcon />}>
+            Overview
           </Nav.Item>
-          <Nav.Item eventKey="2" icon={<Group />}>
-            User Group
+          <Nav.Item eventKey="2" icon={<PeoplesIcon />}>
+            Customers
           </Nav.Item>
-          <Dropdown eventKey="3" title="Advanced" icon={<Magic />}>
-            <Dropdown.Item divider />
-            <Dropdown.Item panel style={panelStyles}>
-              Reports
-            </Dropdown.Item>
-            <Dropdown.Item eventKey="3-1">Geo</Dropdown.Item>
-            <Dropdown.Item eventKey="3-2">Devices</Dropdown.Item>
-            <Dropdown.Item eventKey="3-3">Loyalty</Dropdown.Item>
-            <Dropdown.Item eventKey="3-4">Visit Depth</Dropdown.Item>
-            <Dropdown.Item divider />
-            <Dropdown.Item panel style={panelStyles}>
-              Settings
-            </Dropdown.Item>
-            <Dropdown.Item eventKey="4-1">Applications</Dropdown.Item>
-            <Dropdown.Item eventKey="4-2">Channels</Dropdown.Item>
-            <Dropdown.Item eventKey="4-3">Versions</Dropdown.Item>
-            <Dropdown.Menu eventKey="4-5" title="Custom Action">
-              <Dropdown.Item eventKey="4-5-1">Action Name</Dropdown.Item>
-              <Dropdown.Item eventKey="4-5-2">Action Params</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          <Nav.Menu eventKey="3" title="Analytics" icon={<PieChartIcon />}>
+            <Nav.Item divider />
+            <Nav.Item panel>
+              <Sidenav.GroupLabel>Reports</Sidenav.GroupLabel>
+            </Nav.Item>
+            <Nav.Item eventKey="3-1">Geo</Nav.Item>
+            <Nav.Item eventKey="3-2">Devices</Nav.Item>
+            <Nav.Item eventKey="3-3">Loyalty</Nav.Item>
+            <Nav.Item eventKey="3-4">Visit Depth</Nav.Item>
+            <Nav.Item divider />
+            <Nav.Item panel>
+              <Sidenav.GroupLabel>Settings</Sidenav.GroupLabel>
+            </Nav.Item>
+            <Nav.Item eventKey="3-5">Applications</Nav.Item>
+            <Nav.Item eventKey="3-6">Channels</Nav.Item>
+            <Nav.Item eventKey="3-7">Versions</Nav.Item>
+          </Nav.Menu>
         </Nav>
       </Sidenav.Body>
     </Sidenav>
-  </div>
+  </Box>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

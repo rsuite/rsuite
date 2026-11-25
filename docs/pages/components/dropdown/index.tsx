@@ -1,33 +1,55 @@
-import React from 'react';
-import { Dropdown, Button, ButtonToolbar, IconButton, ButtonGroup, Popover, Whisper } from 'rsuite';
+import {
+  Menu,
+  Dropdown,
+  Button,
+  ButtonToolbar,
+  IconButton,
+  ButtonGroup,
+  Popover,
+  Whisper,
+  Stack,
+  Avatar,
+  Box
+} from 'rsuite';
 import Link from 'next/link';
-import DefaultPage from '@/components/Page';
-
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
 import PageIcon from '@rsuite/icons/Page';
-import FolderFillIcon from '@rsuite/icons/FolderFill';
+import IdInfoIcon from '@rsuite/icons/IdInfo';
 import DetailIcon from '@rsuite/icons/Detail';
 import FileDownloadIcon from '@rsuite/icons/FileDownload';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 import PlusIcon from '@rsuite/icons/Plus';
+import { PlacementCornerGrid } from '@/components/PlacementGrid';
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['Dropdown']} />
+};
 
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         ArrowDownIcon,
         PlusIcon,
         PageIcon,
-        FolderFillIcon,
+        IdInfoIcon,
         DetailIcon,
         FileDownloadIcon,
         Dropdown,
+        Menu,
         Button,
         ButtonToolbar,
         IconButton,
         ButtonGroup,
         Popover,
         Whisper,
-        Link
+        Link,
+        Stack,
+        Avatar,
+        Box,
+        PlacementCornerGrid
       }}
     />
   );

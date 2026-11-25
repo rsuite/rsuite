@@ -1,16 +1,18 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <Nav>
-    <Nav.Item icon={<Home />}>Home</Nav.Item>
-    <Nav.Item>News</Nav.Item>
-    <Nav.Item>Solutions</Nav.Item>
-    <Nav.Item>Products</Nav.Item>
-    <Nav.Item>About</Nav.Item>
+import { Nav } from 'rsuite';
+
+const App = () => (
+  <Nav defaultActiveKey="home">
+    <Nav.Item eventKey="home">Home</Nav.Item>
+    <Nav.Item eventKey="products">Products</Nav.Item>
+    <Nav.Item eventKey="services">Services</Nav.Item>
+    <Nav.Item eventKey="contact">Contact Us</Nav.Item>
   </Nav>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

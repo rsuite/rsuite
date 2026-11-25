@@ -1,36 +1,41 @@
 <!--start-code-->
 
 ```js
+import { Uploader, Button } from 'rsuite';
+
 const fileList = [
   {
-    name: 'a.png',
+    name: 'A puppy sleeping on its belly',
     fileKey: 1,
-    url:
-      'https://user-images.githubusercontent.com/1203827/47638792-92414e00-db9a-11e8-89c2-f8f430a23cd3.png'
+    url: 'https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?w=265'
   },
   {
-    name: 'b.png',
+    name: 'A puppy looking at me with big eyes',
     fileKey: 2,
-    url:
-      'https://user-images.githubusercontent.com/1203827/47638807-9d947980-db9a-11e8-9ee5-e0cc9cd7e8ad.png'
+    url: 'https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=300'
   }
 ];
-const instance = (
+const App = () => (
   <Uploader
     listType="picture-text"
     defaultFileList={fileList}
     action="//jsonplaceholder.typicode.com/posts/"
     renderFileInfo={(file, fileElement) => {
       return (
-        <div>
+        <VStack spacing="1">
           <span>File Name: {file.name}</span>
-          <p>File URL: {file.url}</p>
-        </div>
+          <span>
+            File URL: <a href={file.url}>{file.url}</a>
+          </span>
+        </VStack>
       );
     }}
-  />
+  >
+    <Button>Select files...</Button>
+  </Uploader>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

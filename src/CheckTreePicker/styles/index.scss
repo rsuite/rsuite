@@ -1,0 +1,20 @@
+@use '../../internals/Box/styles/index' as box;
+@use '../../internals/Picker/styles/index' as picker;
+@use '../../styles/colors/colors-base' as colors;
+@use '../../CheckTree/styles/index' as check-tree;
+
+// Check Tree Picker
+// ----------------------
+
+.rs-picker-popup {
+  display: flex;
+  flex-direction: column;
+
+  &.rs-check-tree-menu {
+    padding-top: var(--rs-picker-menu-padding);
+  }
+
+  .rs-check-tree-view {
+    padding: 2px 4px;
+  }
+}

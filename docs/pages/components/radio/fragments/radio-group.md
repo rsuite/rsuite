@@ -1,21 +1,18 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <Form.Group controlId="radioList">
-    <RadioGroup name="radioList">
-      <p>Group1</p>
-      <Radio value="A">Item A</Radio>
-      <Radio value="B">Item B</Radio>
-      <p>Group2</p>
-      <Radio value="C">Item C</Radio>
-      <Radio value="D" disabled>
-        Item D
-      </Radio>
-    </RadioGroup>
-  </Form.Group>
+import { Radio, RadioGroup } from 'rsuite';
+
+const App = () => (
+  <RadioGroup name="radio-group" defaultValue="A">
+    <Radio value="A">Radio A</Radio>
+    <Radio value="B">Radio B</Radio>
+    <Radio value="C">Radio C</Radio>
+    <Radio value="D">Radio D</Radio>
+  </RadioGroup>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

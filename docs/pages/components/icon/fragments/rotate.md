@@ -1,19 +1,21 @@
 <!--start-code-->
 
 ```js
-// import PieChartIcon from '@rsuite/icons/PieChartIcon';
+import { HStack } from 'rsuite';
+import PieChartIcon from '@rsuite/icons/PieChart';
 
-const instance = (
-  <div className="icon-example-list">
+const App = () => (
+  <HStack spacing={10}>
     <PieChartIcon style={{ fontSize: '2em' }} />
     <PieChartIcon rotate={90} style={{ fontSize: '2em' }} />
     <PieChartIcon rotate={180} style={{ fontSize: '2em' }} />
     <PieChartIcon rotate={270} style={{ fontSize: '2em' }} />
     <PieChartIcon flip="horizontal" style={{ fontSize: '2em' }} />
     <PieChartIcon flip="vertical" style={{ fontSize: '2em' }} />
-  </div>
+  </HStack>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,7 +1,16 @@
-import React from 'react';
-import { Affix, Button, ButtonToolbar } from 'rsuite';
-import DefaultPage from '@/components/Page';
+import { Affix, Button, ButtonToolbar, Placeholder } from 'rsuite';
+import DefaultPage from '@/components/layout/Page';
+import ImportGuide from '@/components/ImportGuide';
+
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['Affix']} />
+};
 
 export default function Page() {
-  return <DefaultPage dependencies={{ ButtonToolbar, Button, Affix }} />;
+  return (
+    <DefaultPage
+      inDocsComponents={inDocsComponents}
+      dependencies={{ ButtonToolbar, Button, Affix, Placeholder }}
+    />
+  );
 }

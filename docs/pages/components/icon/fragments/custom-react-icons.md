@@ -1,35 +1,24 @@
 ```js
-import {
-  FaCamera as FaCameraIcon,
-  FaReact as FaReactIcon,
-  FaAddressBook as FaAddressBookIcon,
-  FaSpinner as FaSpinnerIcon
-} from 'react-icons/fa';
+import { FaCamera, FaReact, FaAddressBook, FaSpinner } from 'react-icons/fa';
 ```
 
 <!--start-code-->
 
 ```js
-/** 
+import { HStack } from 'rsuite';
 import { Icon } from '@rsuite/icons';
-import {
-  FaCamera as FaCameraIcon,
-  FaReact as FaReactIcon,
-  FaAddressBook as FaAddressBookIcon,
-  FaSpinner as FaSpinnerIcon
-} from 'react-icons/fa';
-*/
+import { FaCamera, FaReact, FaAddressBook, FaSpinner } from 'react-icons/fa';
 
-const instance = (
-  <div className="icon-example-list">
-    <Icon as={FaSpinnerIcon} pulse size="2em" />
-    <Icon as={FaCameraIcon} size="2em" />
-    <Icon as={FaReactIcon} size="2em" style={{ color: '#61dafb' }} />
-    <Icon as={FaAddressBookIcon} size="2em" />
-  </div>
+const App = () => (
+  <HStack spacing={10}>
+    <Icon as={FaSpinner} pulse size="2em" />
+    <Icon as={FaCamera} size="2em" />
+    <Icon as={FaReact} size="2em" style={{ color: '#61dafb' }} />
+    <Icon as={FaAddressBook} size="2em" />
+  </HStack>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

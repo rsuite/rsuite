@@ -1,24 +1,17 @@
 <!--start-code-->
 
 ```js
-/**
- * .avatar-group{
- *   display: flex;
- *   align-items: flex-end;
- * }
- *
- * .avatar-group .rs-avatar {
- *   margin-left: 10px;
- * }
- */
-const instance = (
-  <div className="avatar-group">
-    <Avatar>RS</Avatar>
-    <Avatar circle>RS</Avatar>
-  </div>
+import { AvatarGroup, Avatar } from 'rsuite';
+
+const App = () => (
+  <AvatarGroup spacing={6}>
+    <Avatar src="https://i.pravatar.cc/150?u=1" />
+    <Avatar circle />
+    <Avatar src="https://i.pravatar.cc/150?u=2" circle />
+  </AvatarGroup>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

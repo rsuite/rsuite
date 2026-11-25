@@ -1,37 +1,61 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Grid, Row, Col, Center } from 'rsuite';
+
+const DecorativeBox = ({ children, ...rest }) => (
+  <Center bg="var(--rs-placeholder)" p={20} my={6} rounded="lg" {...rest}>
+    {children}
+  </Center>
+);
+
+const App = () => (
   <Grid fluid>
-    <Row className="show-grid">
-      <Col xs={12}>
-        <Row className="show-grid">
-          <Col xs={12}>
-            <Row className="show-grid">
-              <Col xs={12}>xs={12}</Col>
-              <Col xs={12}>xs={12}</Col>
+    <Row>
+      <Col span={12}>
+        <Row>
+          <Col span={12}>
+            <Row>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
+              </Col>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
+              </Col>
             </Row>
           </Col>
-          <Col xs={12}>
-            <Row className="show-grid">
-              <Col xs={12}>xs={12}</Col>
-              <Col xs={12}>xs={12}</Col>
+          <Col span={12}>
+            <Row>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
+              </Col>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
+              </Col>
             </Row>
           </Col>
         </Row>
       </Col>
-      <Col xs={12}>
-        <Row className="show-grid">
-          <Col xs={12}>
-            <Row className="show-grid">
-              <Col xs={12}>xs={12}</Col>
-              <Col xs={12}>xs={12}</Col>
+      <Col span={12}>
+        <Row>
+          <Col span={12}>
+            <Row>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
+              </Col>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
+              </Col>
             </Row>
           </Col>
-          <Col xs={12}>
-            <Row className="show-grid">
-              <Col xs={12}>xs={12}</Col>
-              <Col xs={12}>xs={12}</Col>
+          <Col span={12}>
+            <Row>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
+              </Col>
+              <Col span={12}>
+                <DecorativeBox>12</DecorativeBox>
+              </Col>
             </Row>
           </Col>
         </Row>
@@ -39,7 +63,8 @@ const instance = (
     </Row>
   </Grid>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

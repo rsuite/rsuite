@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Dropdown } from 'rsuite';
+
 const CustomDropdown = ({ ...props }) => (
   <Dropdown {...props}>
     <Dropdown.Item>New File</Dropdown.Item>
@@ -13,15 +15,15 @@ const CustomDropdown = ({ ...props }) => (
   </Dropdown>
 );
 
-const instance = (
+const App = () => (
   <ButtonToolbar>
     <CustomDropdown title="Hover" trigger="hover" />
     <CustomDropdown title="Click" trigger="click" />
-    <CustomDropdown title="Right Click" trigger="contextMenu" />
+    <CustomDropdown title="ContextMenu" trigger="contextMenu" />
     <CustomDropdown title="Click and Hover" trigger={['click', 'hover']} />
   </ButtonToolbar>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

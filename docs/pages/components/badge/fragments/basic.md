@@ -1,15 +1,15 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
-    <Badge>
-      <Button>New Message</Button>
-    </Badge>
-  </div>
+import { Avatar, Badge } from 'rsuite';
+
+const App = () => (
+  <Badge content={6}>
+    <Avatar src="https://i.pravatar.cc/150?u=1" />
+  </Badge>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

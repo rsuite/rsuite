@@ -1,6 +1,7 @@
 <!--start-code-->
 
 ```js
+import { Modal, Toggle, Button, ButtonToolbar, Placeholder } from 'rsuite';
 const App = () => {
   const [open, setOpen] = React.useState(false);
   const [overflow, setOverflow] = React.useState(true);
@@ -8,9 +9,10 @@ const App = () => {
   const handleClose = () => setOpen(false);
 
   return (
-    <div className="modal-container">
-      <span>Overflow </span>
-      <Toggle checked={overflow} onChange={checked => setOverflow(checked)} />
+    <>
+      <Toggle checked={overflow} onChange={checked => setOverflow(checked)}>
+        Overflow
+      </Toggle>
       <hr />
       <ButtonToolbar>
         <Button onClick={handleOpen}>Open</Button>
@@ -21,22 +23,22 @@ const App = () => {
           <Modal.Title>Modal Title</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Paragraph rows={80} />
+          <Placeholder.Paragraph rows={80} />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleClose} appearance="primary">
-            Ok
-          </Button>
           <Button onClick={handleClose} appearance="subtle">
             Cancel
           </Button>
+          <Button onClick={handleClose} appearance="primary">
+            Ok
+          </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

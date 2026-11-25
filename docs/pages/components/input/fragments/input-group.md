@@ -1,52 +1,51 @@
 <!--start-code-->
 
 ```js
-const styles = {
-  width: 300,
-  marginBottom: 10
-};
+import SearchIcon from '@rsuite/icons/Search';
+import { Input, InputGroup, VStack } from 'rsuite';
+import { FaRegUserCircle } from 'react-icons/fa';
 
-const instance = (
-  <div>
-    <InputGroup style={styles}>
+const App = () => (
+  <VStack w={300}>
+    <InputGroup>
       <InputGroup.Addon> @</InputGroup.Addon>
       <Input />
     </InputGroup>
 
-    <InputGroup style={styles}>
+    <InputGroup>
       <Input />
       <InputGroup.Addon>.com</InputGroup.Addon>
     </InputGroup>
 
-    <InputGroup style={styles}>
+    <InputGroup>
       <InputGroup.Addon>$</InputGroup.Addon>
       <Input />
       <InputGroup.Addon>.00</InputGroup.Addon>
     </InputGroup>
 
-    <InputGroup style={styles}>
+    <InputGroup>
       <Input />
       <InputGroup.Addon>to</InputGroup.Addon>
       <Input />
     </InputGroup>
 
-    <InputGroup style={styles}>
+    <InputGroup>
       <Input />
       <InputGroup.Addon>
         <SearchIcon />
       </InputGroup.Addon>
     </InputGroup>
 
-    <InputGroup style={styles}>
+    <InputGroup>
       <InputGroup.Addon>
-        <AvatarIcon />
+        <FaRegUserCircle />
       </InputGroup.Addon>
       <Input />
     </InputGroup>
-  </div>
+  </VStack>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
