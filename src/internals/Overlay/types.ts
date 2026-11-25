@@ -7,6 +7,7 @@ export type CursorPosition = {
 
 export interface PositionType {
   placement: Placement;
+  dir?: 'ltr' | 'rtl';
   positionLeft?: number;
   positionTop?: number;
   arrowOffsetLeft?: string;
@@ -39,6 +40,7 @@ export interface PositionChildProps {
   className?: string;
   dataAttributes?: Record<string, string>;
   placement: Placement;
+  dir?: string;
   left?: number;
   top?: number;
   /** Horizontal arrow offset as a CSS percentage. */

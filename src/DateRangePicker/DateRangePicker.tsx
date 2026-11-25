@@ -895,6 +895,10 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
       : undefined;
 
     const renderCalendarOverlay = (positionProps: PositionChildProps, speakerRef) => {
+      if (disabled) {
+        return <PickerPopup ref={mergeRefs(overlay, speakerRef)} />;
+      }
+
       const { className } = positionProps;
       const classes = merge(className, popupClassName, prefix('popup-daterange'));
       const panelClasses = prefix('daterange-panel', {
@@ -1093,6 +1097,7 @@ const DateRangePicker = forwardRef<'div', DateRangePickerProps, typeof StaticMet
         className={merge(className, { [prefix('error')]: invalidValue })}
         block={block}
         disabled={disabled}
+        closeOnDisable
         appearance={appearance}
         style={style}
         rootRef={root}

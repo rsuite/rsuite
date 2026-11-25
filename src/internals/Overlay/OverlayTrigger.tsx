@@ -15,7 +15,7 @@ import isUndefined from 'lodash/isUndefined';
 import contains from 'dom-lib/contains';
 import Overlay, { OverlayProps } from './Overlay';
 import { useOverlay } from './OverlayProvider';
-import { usePortal, useControlled } from '../hooks';
+import { usePortal, useControlled, useEventCallback } from '../hooks';
 import { createChainedFunction, isOneOf, mergeRefs } from '@/internals/utils';
 import { isFragment } from '@/internals/utils';
 import type {
@@ -140,6 +140,11 @@ export interface OverlayTriggerProps extends Omit<StandardProps, 'children'>, An
   onClose?: (cause?: OverlayCloseCause) => void;
 }
 
+interface InternalOverlayTriggerProps extends OverlayTriggerProps {
+  /** Hides the overlay and clears an uncontrolled open state while true. */
+  forceClosed?: boolean;
+}
+
 /**
  * The reason that triggers closing of an overlay
  * - Clicking outside of the overlay
@@ -177,7 +182,7 @@ const defaultTrigger = ['hover', 'focus'];
  * @private
  */
 const OverlayTrigger = React.forwardRef(
-  (props: OverlayTriggerProps, ref: React.Ref<OverlayTriggerHandle>) => {
+  (props: InternalOverlayTriggerProps, ref: React.Ref<OverlayTriggerHandle>) => {
     const { overlayContainer } = useOverlay();
     const {
       children,
@@ -186,6 +191,7 @@ const OverlayTrigger = React.forwardRef(
       defaultOpen,
       trigger = defaultTrigger,
       disabled,
+      forceClosed,
       followCursor,
       readOnly,
       plaintext,
@@ -221,7 +227,18 @@ const OverlayTrigger = React.forwardRef(
     const tooltipDescription = useContext(TooltipDescriptionContext);
     const triggerRef = tooltipDescription?.triggerRef ?? localTriggerRef;
     const overlayRef = useRef<PositionInstance>(null);
-    const [open, setOpen] = useControlled(openProp, defaultOpen);
+    const [requestedOpen, setOpen] = useControlled(openProp, defaultOpen);
+    const open = !forceClosed && requestedOpen;
+    const wasOpen = useRef(false);
+    const notifyForcedClose = useEventCallback(() => onClose?.(OverlayCloseCause.ImperativeHandle));
+
+    useEffect(() => {
+      const closedByForce = forceClosed && wasOpen.current;
+      wasOpen.current = !!open;
+
+      if (forceClosed && requestedOpen) setOpen(false);
+      if (closedByForce) notifyForcedClose();
+    }, [forceClosed, open, requestedOpen, setOpen, notifyForcedClose]);
     const [cursorPosition, setCursorPosition] = useState<CursorPosition | null>(null);
 
     // Delay the timer to close/open the overlay
@@ -254,8 +271,7 @@ const OverlayTrigger = React.forwardRef(
     const mouseEnter = useRef(false);
     const handleOpenChange = useCallback(
       (nextOpen: boolean, closeCause?: OverlayCloseCause) => {
-        // if the overlay open state is not changed, do not fire the event
-        if (nextOpen === open) return;
+        if (forceClosed || nextOpen === open) return;
 
         if (nextOpen) {
           onOpen?.();
@@ -264,7 +280,7 @@ const OverlayTrigger = React.forwardRef(
         }
         setOpen(nextOpen);
       },
-      [open, onOpen, onClose, setOpen]
+      [forceClosed, open, onOpen, onClose, setOpen]
     );
 
     const handleOpen = useCallback(
