@@ -5,7 +5,7 @@ import Input from '../Input';
 import Text from '../Text';
 import { forwardRef } from '@/internals/utils';
 import { VStack } from '../Stack';
-import { useCustom } from '@/internals/hooks';
+import { useCustom, useUniqueId } from '@/internals/hooks';
 import type { Color } from '@/internals/types';
 
 export interface DialogProps extends ModalProps {
@@ -18,6 +18,7 @@ export interface DialogProps extends ModalProps {
   defaultValue?: string;
   validate?: (value: string) => [isValid: boolean, errorMessage?: string];
   onClose?: (result?: any) => void;
+  onKeyDown?: React.KeyboardEventHandler<HTMLElement>;
 }
 
 const severityMap: Record<'info' | 'success' | 'warning' | 'error', Color> = {
@@ -40,12 +41,16 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
     defaultValue = '',
     validate,
     onClose,
+    onKeyDown,
     ...rest
   } = propsWithDefaults;
   const [isOpen, setIsOpen] = useState(true);
   const [validationError, setValidationError] = useState<string>();
   const inputRef = useRef<HTMLInputElement>(null);
+  const inputId = useUniqueId('rs-prompt-input-');
+  const errorId = `${inputId}-error`;
   const inputValue = useRef(defaultValue);
+  const isClosing = useRef(false);
   const showCancelButton = type === 'confirm' || type === 'prompt';
 
   useEffect(() => {
@@ -56,6 +61,9 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
 
   const handleCancel = useCallback(
     (result?: any) => {
+      if (isClosing.current) return;
+
+      isClosing.current = true;
       setIsOpen(false);
 
       setTimeout(() => {
@@ -66,6 +74,8 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
   );
 
   const handleConfirm = useCallback(() => {
+    if (isClosing.current) return;
+
     if (type === 'prompt') {
       const value = inputValue.current;
       if (validate) {
@@ -83,13 +93,51 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
 
   const handleClose = useCallback(() => handleCancel(false), [handleCancel]);
 
-  const handleInputKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key === 'Enter') {
-        handleConfirm();
+  const handleModalClose = useCallback(
+    (event?: React.SyntheticEvent) => {
+      const keyboardEvent = (event?.nativeEvent ?? event) as KeyboardEvent | undefined;
+
+      if (
+        keyboardEvent?.key === 'Escape' &&
+        (keyboardEvent.defaultPrevented ||
+          keyboardEvent.isComposing ||
+          keyboardEvent.keyCode === 229)
+      ) {
+        return;
       }
+
+      handleClose();
     },
-    [handleConfirm]
+    [handleClose]
+  );
+
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLElement>) => {
+      onKeyDown?.(event);
+
+      if (
+        event.key !== 'Enter' ||
+        event.defaultPrevented ||
+        event.nativeEvent.isComposing ||
+        event.keyCode === 229 ||
+        event.repeat ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey ||
+        event.shiftKey
+      ) {
+        return;
+      }
+
+      // Let buttons and custom content handle their own keyboard interactions.
+      if (event.target !== event.currentTarget && event.target !== inputRef.current) {
+        return;
+      }
+
+      event.preventDefault();
+      handleConfirm();
+    },
+    [handleConfirm, onKeyDown]
   );
 
   const handlePromptInputChange = useCallback(
@@ -101,7 +149,15 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
   );
 
   return (
-    <Modal ref={ref} open={isOpen} size="xs" backdrop="static" {...rest}>
+    <Modal
+      ref={ref}
+      open={isOpen}
+      size="xs"
+      backdrop="static"
+      {...rest}
+      onClose={handleModalClose}
+      onKeyDown={handleKeyDown}
+    >
       <Modal.Header closeButton={false}>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
@@ -109,17 +165,22 @@ const Dialog = forwardRef((props: DialogProps, ref) => {
         <VStack>
           {type === 'prompt' ? (
             <>
-              <label htmlFor="rs-prompt-input">{content}</label>
+              <label htmlFor={inputId}>{content}</label>
               <Input
                 w="100%"
                 required
                 ref={inputRef}
-                id="rs-prompt-input"
+                id={inputId}
+                aria-invalid={validationError ? true : undefined}
+                aria-describedby={validationError ? errorId : undefined}
                 defaultValue={defaultValue}
                 onChange={handlePromptInputChange}
-                onKeyDown={handleInputKeyDown}
               />
-              {validationError && <Text color="red">{validationError}</Text>}
+              {validationError && (
+                <Text id={errorId} role="alert" color="var(--rs-color-red, var(--rs-red-500))">
+                  {validationError}
+                </Text>
+              )}
             </>
           ) : (
             content

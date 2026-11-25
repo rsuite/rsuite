@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import isUndefined from 'lodash/isUndefined';
-import { shouldDisplay } from '../utils';
+import trim from 'lodash/trim';
+import matchesSearchKeyword from '../matchesSearchKeyword';
 
 interface SearchOptions<T> {
   labelKey: string;
@@ -29,29 +30,42 @@ function useSearch<T>(data: readonly T[], props: SearchOptions<T>): UseSearchRes
     setSearchKeyword('');
   }, []);
 
-  /**
-   * Index of keyword  in `label`
-   * @param {node} label
-   */
-  const checkShouldDisplay = useCallback(
-    (item: T, keyword?: string) => {
-      const checkValue = typeof item === 'object' ? item?.[labelKey] : String(item);
-      const _keyword = isUndefined(keyword) ? searchKeyword : keyword;
+  const createItemMatcher = useCallback(
+    (keyword: string) => {
+      // Trim only checks for whitespace. Spaces around a nonempty query are significant.
+      const normalizedKeyword =
+        typeof searchBy !== 'function' && trim(keyword) ? keyword.toLocaleLowerCase() : null;
 
-      if (typeof searchBy === 'function') {
-        return searchBy(_keyword, checkValue, item);
-      }
-      return shouldDisplay(checkValue, _keyword);
+      return (item: T) => {
+        const checkValue = typeof item === 'object' ? item?.[labelKey] : String(item);
+        if (typeof searchBy === 'function') {
+          return searchBy(keyword, checkValue, item);
+        }
+        return normalizedKeyword === null || matchesSearchKeyword(checkValue, normalizedKeyword);
+      };
     },
-    [labelKey, searchBy, searchKeyword]
+    [labelKey, searchBy]
+  );
+
+  const itemMatcher = useMemo(
+    () => createItemMatcher(searchKeyword),
+    [createItemMatcher, searchKeyword]
+  );
+
+  const checkShouldDisplay = useCallback(
+    (item: T, keyword?: string) =>
+      isUndefined(keyword) || keyword === searchKeyword
+        ? itemMatcher(item)
+        : createItemMatcher(keyword)(item),
+    [createItemMatcher, itemMatcher, searchKeyword]
   );
 
   const filteredData = useMemo(() => {
-    return data.filter(item => checkShouldDisplay(item, searchKeyword));
-  }, [checkShouldDisplay, data, searchKeyword]);
+    return data.filter(itemMatcher);
+  }, [data, itemMatcher]);
 
   const handleSearch = (searchKeyword: string, event: React.SyntheticEvent) => {
-    const filteredData = data.filter(item => checkShouldDisplay(item, searchKeyword));
+    const filteredData = data.filter(createItemMatcher(searchKeyword));
     setSearchKeyword(searchKeyword);
     callback?.(searchKeyword, filteredData, event);
   };

@@ -1,3 +1,4 @@
+/* @jsxRuntime classic */
 import React from 'react';
 import Close from '@rsuite/icons/Close';
 import IconButton from '../../IconButton';

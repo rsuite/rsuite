@@ -1,11 +1,11 @@
-import type { StoryObj, Meta } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import InputPicker from '../InputPicker';
 import { createMeta } from '@/storybook/utils';
 import { mockArrayData } from '@/storybook/mocks';
 import '../styles/index.scss';
 
 const data = mockArrayData();
-const meta = createMeta(InputPicker) as Meta<typeof InputPicker>;
+const meta = createMeta(InputPicker);
 
 export default {
   title: 'Components/InputPicker',

@@ -72,6 +72,8 @@
 
 演示如何对上传的文件进行格式、大小等校验，确保上传文件符合要求。
 
+如果 `shouldUpload` 返回的 Promise 被拒绝，本次上传会被跳过，文件保留在队列中以便重试。这不会触发 `onError`，也不会将文件加入 `onCompletion` 的失败列表；其余上传任务结束后，当前批次正常完成。如果待审批文件已被移除或上传组件已卸载，稍后返回的审批结果会被忽略。
+
 <!--{include:`check.md`}-->
 
 ## Props
@@ -80,8 +82,8 @@
 
 继承 [Button](/zh/components/button/) 组件的 Props。
 
-| 属性名称           | 类型 `(默认值)`                                                                                                      | 描述                                                                                                                          |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| 属性名称           | 类型 `(默认值)`                                                                                                      | 描述                                                                                                                          | 版本        |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | accept             | string                                                                                                               | 接受上传的文件类型，详见：[HTML attribute: accept](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)       |
 | action \*          | string                                                                                                               | 文件上传地址, 必选                                                                                                            |
 | autoUpload         | boolean `(true)`                                                                                                     | 选择文件后自动上传                                                                                                            |
@@ -105,6 +107,7 @@
 | onError            | (reason: Object, file: [FileType][file]) => void                                                                     | 上传出现错误的回调函数                                                                                                        |
 | onPreview          | (file: [FileType][file], event) => void                                                                              | 在文件列表中，点击已上传的文件的回调函数                                                                                      |
 | onProgress         | (percent: number, file: [FileType][file]) => void                                                                    | 上传进度发生变化的回调函数                                                                                                    |
+| onCompletion       | (completedFiles: [FileType][file][], failedFiles: [FileType][file][]) => void                                        | 当前批次所有文件上传完成（无论成功或失败）后的回调函数                                                                        | ![][6.2.0]  |
 | onRemove           | (file: [FileType][file]) => void                                                                                     | 在文件列表中，点击删除一个文件的回调函数                                                                                      |
 | onReupload         | (file: [FileType][file]) => void                                                                                     | 在文件列表中，对上传失败的文件，点击重新上传的回调函数                                                                        |
 | onSuccess          | (response: Object, file: [FileType][file]) => void                                                                   | 上传成功后的回调函数                                                                                                          |
@@ -113,7 +116,7 @@
 | renderFileInfo     | (file: [FileType][file], fileElement: ReactNode) => ReactNode                                                        | 自定义渲染文件信息                                                                                                            |
 | renderThumbnail    | (file: [FileType][file], thumbnail: ReactNode) => ReactNode                                                          | 自定义渲染缩略图                                                                                                              |
 | shouldQueueUpdate  | (fileList: [FileType][file][], newFile: [FileType][file][] \| [FileType][file]) => boolean \| Promise&lt;boolean&gt; | 允许更新队列。在选择文件后，更新上传文件队列前的校验函数，返回 false 则不更新                                                 |
-| shouldUpload       | (file: [FileType][file]) => boolean \| Promise&lt;boolean&gt;                                                        | 允许上传文件。在文件上传前的的校验函数，返回 false 则不上传                                                                   |
+| shouldUpload       | (file: [FileType][file]) => boolean \| Promise&lt;boolean&gt;                                                        | 上传前的校验函数。返回 false 或拒绝 Promise 则跳过本次上传。                                                                   |
 | timeout            | number                                                                                                               | 设置上传超时                                                                                                                  |
 | toggleAs           | ElementType ([Button](/zh/components/button/))                                                                       | 为组件自定义元素类型                                                                                                          |
 | withCredentials    | boolean                                                                                                              | 上传请求时是否携带 cookie                                                                                                     |

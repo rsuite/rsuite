@@ -1,5 +1,6 @@
 import React from 'react';
 import Slider from '../Slider';
+import CustomProvider from '../../CustomProvider';
 import { describe, expect, it, vi } from 'vitest';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/cases';
@@ -66,6 +67,32 @@ describe('Slider', () => {
     expect(onChange).not.toHaveBeenCalled();
     expect(onChangeCommitted).not.toHaveBeenCalled();
   });
+
+  it.each(['disabled', 'readOnly'] as const)(
+    'Should ignore keyboard value changes while %s and allow changes when unlocked',
+    lockedProp => {
+      const onChange = vi.fn();
+      const { rerender } = render(
+        <Slider defaultValue={10} onChange={onChange} {...{ [lockedProp]: true }} />
+      );
+      const handle = screen.getByTestId('slider-handle');
+      const input = screen.getByRole('slider');
+
+      ['ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft', 'Home', 'End'].forEach(key => {
+        fireEvent.keyDown(handle, { key });
+
+        expect(input).to.have.value('10');
+        expect(input).to.have.attr('aria-valuenow', '10');
+        expect(onChange).not.toHaveBeenCalled();
+      });
+
+      rerender(<Slider defaultValue={10} onChange={onChange} />);
+      fireEvent.keyDown(handle, { key: 'ArrowRight' });
+
+      expect(input).to.have.value('11');
+      expect(onChange).toHaveBeenCalledWith(11, expect.any(Object));
+    }
+  );
 
   it('Should custom render mark', () => {
     render(
@@ -160,6 +187,21 @@ describe('Slider', () => {
     fireEvent.keyDown(handle, { key: 'End' });
     expect(input).to.value('100');
     expect(input).to.have.attr('aria-valuenow', '100');
+  });
+
+  it('Should reverse horizontal keyboard direction in RTL', () => {
+    render(
+      <CustomProvider rtl>
+        <Slider defaultValue={10} />
+      </CustomProvider>
+    );
+    const handle = screen.getByTestId('slider-handle');
+
+    fireEvent.keyDown(handle, { key: 'ArrowLeft' });
+    expect(screen.getByRole('slider')).to.have.value('11');
+
+    fireEvent.keyDown(handle, { key: 'ArrowRight' });
+    expect(screen.getByRole('slider')).to.have.value('10');
   });
 
   it('Should call `onChangeCommitted` callback', () => {

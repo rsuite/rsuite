@@ -56,7 +56,7 @@
 
 ## 响应式
 
-在小屏幕设备上，选择列表将被转换为弹出式选择器。 为了不影响组件的搜索功能，只有在设置 `searchable={false}` 时，才会生效。
+默认仅在 `searchable={false}` 时，弹出层会在超小屏幕上转换为全宽 Drawer。设置 `responsive` 可强制启用支持搜索的 Drawer；设置 `responsive={false}` 则始终保持定位浮层。
 
 <!--{include:<example-responsive>}-->
 
@@ -64,7 +64,9 @@
 
 ### ARIA 属性
 
-- TagPicker 组件的 `role` 属性为 `combobox`。
+- 当 Picker 渲染可编辑输入框时，该输入框的 `role` 为 `combobox`，`id`、`tabIndex` 和 ARIA 属性应用于输入框；Picker handle 仍指向切换区域。设置 `searchable={false}` 时，切换区域为 combobox。
+- 使用方向键切换选项时，DOM 焦点保留在输入框，允许继续输入；`aria-activedescendant` 指向当前已渲染的高亮选项。
+- 使用响应式弹窗时，外部触发器的 `aria-haspopup` 为 `dialog`，弹窗内的搜索输入框控制列表框。
 - 有 `aria-haspopup="listbox"` 属性来指示 combobox 有一个弹出的列表框。
 - 有 `aria-expanded` 属性来指示列表框是否打开。
 - 有 `aria-controls` 属性来指示列表框元素的 ID。
@@ -74,10 +76,11 @@
 
 ### 键盘交互
 
-- <kbd>↓</kbd> - 移动焦点到下一个选项。
-- <kbd>↑</kbd> - 移动焦点到上一个选项。
+- <kbd>↓</kbd> - 高亮下一个选项。
+- <kbd>↑</kbd> - 高亮上一个选项。
 - <kbd>Enter</kbd> - 选择焦点选项。
 - <kbd>Esc</kbd> - 关闭列表框。
+- <kbd>Tab</kbd> - 关闭列表框并移动到下一个控件。输入框中的 Home、End 和左右方向键保留文本编辑行为。
 
 ## Props
 
@@ -126,6 +129,7 @@
 | renderOption       | (label: ReactNode, item: [Option][item]) => ReactNode                      | 自定义选项渲染函数             |
 | renderOptionGroup  | (groupTitle: ReactNode, item: [Option][item]) => ReactNode                 | 自定义选项组渲染函数           |
 | renderValue        | (value: string[], items: [Option][item][], tags: ReactNode[]) => ReactNode | 自定义选中项渲染函数           |
+| responsive         | boolean                                                                    | 控制响应式 Drawer；省略时默认为 `!searchable` |
 | searchable         | boolean `(true)`                                                           | 是否可以搜索                   |
 | searchBy           | (keyword: string, label: ReactNode, item: [Option][item]) => boolean       | 自定义搜索匹配函数             |
 | size               | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                      | 设置组件尺寸                   |

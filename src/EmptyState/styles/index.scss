@@ -1,0 +1,75 @@
+@use '../../internals/Box/styles/index' as box;
+
+.rs-empty-state {
+  --rs-empty-state-padding: 2rem;
+  --rs-empty-state-spacing: calc(var(--rs-spacing) * 3);
+  --rs-empty-state-icon-size: 3rem;
+  --rs-empty-state-title-font-size: var(--rs-font-size-lg);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--rs-empty-state-spacing);
+  padding: var(--rs-empty-state-padding);
+  text-align: center;
+  color: var(--rs-text-primary);
+
+  &[data-size='sm'] {
+    --rs-empty-state-padding: 1rem;
+    --rs-empty-state-icon-size: 2rem;
+    --rs-empty-state-title-font-size: var(--rs-font-size-md);
+  }
+
+  &[data-size='lg'] {
+    --rs-empty-state-padding: 3rem;
+    --rs-empty-state-icon-size: 4rem;
+    --rs-empty-state-title-font-size: var(--rs-font-size-xl);
+  }
+
+  &[data-align='start'] {
+    align-items: flex-start;
+    text-align: start;
+  }
+
+  &-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-inline-size: 100%;
+    font-size: var(--rs-empty-state-icon-size);
+    line-height: 1;
+    color: var(--rs-text-secondary);
+
+    > * {
+      max-inline-size: 100%;
+    }
+  }
+
+  &-title {
+    margin: 0;
+    max-inline-size: 100%;
+    font-size: var(--rs-empty-state-title-font-size);
+    font-weight: 600;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  &-description {
+    max-inline-size: min(100%, 36rem);
+    color: var(--rs-text-secondary);
+    overflow-wrap: anywhere;
+  }
+
+  &-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: calc(var(--rs-spacing) * 2);
+    max-inline-size: 100%;
+  }
+
+  &[data-align='start'] &-actions {
+    justify-content: flex-start;
+  }
+}

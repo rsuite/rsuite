@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import ProgressInfo from '../Progress/ProgressInfo';
 import ProgressCircleSections from './ProgressCircleSections';
 import useProgressCirclePath from './hooks/useProgressCirclePath';
@@ -54,6 +55,7 @@ export interface ProgressCircleProps extends BoxProps {
  */
 const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('ProgressCircle', props);
+  const { reduceMotion } = useContext(CustomContext);
   const {
     as,
     classPrefix = 'progress-circle',
@@ -107,6 +109,7 @@ const ProgressCircle = forwardRef<'div', ProgressCircleProps>((props, ref) => {
       className={classes}
       style={style}
       {...rest}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
     >
       {showInfo && (
         <ProgressInfo

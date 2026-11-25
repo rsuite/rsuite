@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Modal from '../Modal';
 import Button from '../../Button';
 import { createMeta } from '@/storybook/utils';

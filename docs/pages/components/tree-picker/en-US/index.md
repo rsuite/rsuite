@@ -72,6 +72,8 @@ Use `onlyLeafSelectable` to control the selection of leaf nodes.
 
 ## Responsive
 
+On extra-small screens, the popup is displayed as a full-width Drawer by default. Set `responsive={false}` to keep a positioned popup, such as when the picker is already inside a Modal or Drawer.
+
 <!--{include:<example-responsive>}-->
 
 ## Accessibility
@@ -159,6 +161,7 @@ Use `onlyLeafSelectable` to control the selection of leaf nodes.
 | renderTreeIcon          | (node: [TreeNode][node], expanded: boolean) => ReactNode                                      | Custom render tree node icon                               |            |
 | renderTreeNode          | (node: [TreeNode][node]) => ReactNode                                                         | Custom render tree node                                    |            |
 | renderValue             | (value: string, node:[TreeNode][node], selected:ReactNode) => ReactNode                       | Custom render selected value                               |            |
+| responsive              | boolean `(true)`                                                                              | Whether to display the popup as a full-width Drawer on extra-small screens |            |
 | searchable              | boolean `(true)`                                                                              | Whether to show the search box                             |            |
 | searchBy                | (keyword: string, label: ReactNode, node: [TreeNode][node]) => boolean                        | Custom search method                                       |            |
 | showIndentLine          | boolean                                                                                       | Whether to show the indent line                            |            |

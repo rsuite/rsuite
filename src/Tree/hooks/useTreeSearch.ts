@@ -26,7 +26,7 @@ export default function useTreeSearch<T>(props: TreeSearchProps<T>) {
             : shouldDisplay(item[labelKey], searchKeyword);
 
           if (isArray(item[childrenKey])) {
-            filterVisibleData(item[childrenKey], searchKeyword);
+            setVisible(item[childrenKey]);
             item[childrenKey].forEach((child: any) => {
               if (child.visible) {
                 item.visible = child.visible;
@@ -36,7 +36,8 @@ export default function useTreeSearch<T>(props: TreeSearchProps<T>) {
         });
 
       setVisible(data);
-      return data;
+      // Publish visibility changes even when data and keyword retain their identities.
+      return [...data];
     },
     [childrenKey, labelKey, searchBy]
   );

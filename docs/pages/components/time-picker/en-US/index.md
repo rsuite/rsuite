@@ -50,6 +50,8 @@ TimePicker is a component that allows users to select a time value.
 
 ## Responsive
 
+On extra-small screens, the popup is displayed as a full-width Drawer by default. Set `responsive={false}` to keep a positioned popup, such as when the picker is already inside a Modal or Drawer.
+
 <!--{include:<example-responsive>}-->
 
 ## Accessibility
@@ -103,6 +105,7 @@ Has all ARIA properties of the DateInput component by default.
 | preventOverflow     | boolean                                                         | Prevent floating element overflow                                                   |
 | ranges              | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code)) | Shortcut config                                                                     |
 | renderValue         | (date: Date, format: string) => string                          | Custom render value                                                                 |
+| responsive          | boolean `(true)`                                                | Whether to display the popup as a full-width Drawer on extra-small screens          |
 | shouldDisableHour   | (hour:number, date:Date) => boolean                             | Disabled hours                                                                      |
 | shouldDisableMinute | (minute:number, date:Date) => boolean                           | Disabled minutes                                                                    |
 | shouldDisableSecond | (second:number, date:Date) => boolean                           | Disabled seconds                                                                    |

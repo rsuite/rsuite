@@ -1,4 +1,4 @@
-import type { StoryObj } from '@storybook/react';
+import type { StoryObj } from '@/storybook/types';
 import Badge from '../Badge';
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.scss';

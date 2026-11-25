@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Box, { BoxProps } from '@/internals/Box';
+import { CustomContext } from '@/internals/Provider/CustomContext';
 import { forwardRef } from '@/internals/utils';
 import { useStyles, useCustom, useUniqueId } from '@/internals/hooks';
 import type { Size } from '@/internals/types';
@@ -33,6 +34,7 @@ export interface LoaderProps extends BoxProps {
  */
 const Loader = forwardRef<'div', LoaderProps>((props, ref) => {
   const { propsWithDefaults } = useCustom('Loader', props);
+  const { reduceMotion } = useContext(CustomContext);
   const {
     as,
     classPrefix = 'loader',
@@ -64,6 +66,7 @@ const Loader = forwardRef<'div', LoaderProps>((props, ref) => {
       data-direction={vertical ? 'vertical' : 'horizontal'}
       data-inverse={inverse}
       {...rest}
+      data-rs-motion={reduceMotion === undefined ? 'auto' : reduceMotion ? 'reduce' : 'allow'}
     >
       {backdrop && <div className={prefix('backdrop')} />}
       <div className={prefix('box')}>

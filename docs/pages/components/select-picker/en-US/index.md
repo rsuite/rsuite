@@ -77,6 +77,8 @@ Clicking a loading picker won't open its options menu.
 
 ## Responsive
 
+On extra-small screens, the popup is displayed as a full-width Drawer by default. Set `responsive={false}` to keep a positioned popup, such as when the picker is already inside a Modal or Drawer.
+
 <!--{include:<example-responsive>}-->
 
 ## Accessibility
@@ -144,6 +146,7 @@ Clicking a loading picker won't open its options menu.
 | renderOption       | (label: ReactNode, item: [Option][item]) => ReactNode                          | Custom render function for options                      |
 | renderOptionGroup  | (title: ReactNode, item: [Option][item]) => ReactNode                          | Custom render function for option groups                |
 | renderValue        | (value: [Value][value], item: [Option][item], selected:ReactNode) => ReactNode | Custom render function for selected value               |
+| responsive         | boolean `(true)`                                                               | Whether to display the popup as a full-width Drawer on extra-small screens |
 | searchable         | boolean `(true)`                                                               | Whether the component is searchable                     |
 | searchBy           | (keyword:string, label:ReactNode, item: [Option][item]) => boolean             | Custom search function                                  |
 | size               | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                          | Size of the component                                   |

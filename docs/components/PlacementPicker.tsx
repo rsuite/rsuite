@@ -1,4 +1,3 @@
-import React from 'react';
 import { SelectPicker, SelectPickerProps } from 'rsuite';
 
 const placements = [

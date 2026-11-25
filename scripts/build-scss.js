@@ -1,9 +1,9 @@
 const sass = require('sass');
 const fs = require('fs-extra');
 const path = require('path');
-const glob = require('glob');
+const { globSync } = require('tinyglobby');
 const postcss = require('postcss');
-const postcssPruneVar = require('postcss-prune-var');
+const pruneRuntimeColors = require('./postcss-prune-runtime-colors.cjs');
 const postcssDiscardEmpty = require('postcss-discard-empty');
 const postcssDiscardComments = require('postcss-discard-comments');
 const postcssMergeRules = require('postcss-merge-rules');
@@ -35,7 +35,7 @@ async function compileScss(
   // Add component-specific optimization plugins for component styles
   if (optimizeComponent) {
     postcssPlugins.push(
-      postcssPruneVar(), // Remove unused CSS variables
+      pruneRuntimeColors(), // Retain runtime palette tokens while removing unused variables
       postcssDiscardEmpty() // Remove empty rules
     );
   }
@@ -80,7 +80,7 @@ async function buildMainStyles() {
 
 // --- Each component style (supports CSS Modules) ---
 const buildComponentStyles = async () => {
-  const files = glob.sync('src/*/styles/index.scss');
+  const files = globSync('src/*/styles/index.scss').sort((a, b) => a.localeCompare(b, 'en'));
 
   for (const file of files) {
     const outputFile = file.replace('src/', `${componentOutDir}/`).replace(/\.scss$/, '.css');

@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Stack, Center } from 'rsuite';
 
 const DecorativeBox = ({ children, ...rest }) => (

@@ -2,8 +2,9 @@ import React from 'react';
 import InputPicker from '../InputPicker';
 import Button from '../../Button';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, vi } from 'vitest';
-import { render, fireEvent, screen, within } from '@testing-library/react';
+import MatchMediaMock from '@test/mocks/matchmedia-mock';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { render, fireEvent, screen, waitFor, within } from '@testing-library/react';
 import { mockGroupData } from '@test/mocks/data-mock';
 import { PickerHandle } from '@/internals/Picker';
 import {
@@ -15,14 +16,22 @@ import {
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
+const toggle = () => document.querySelector('.rs-picker-toggle') as HTMLElement;
+
 describe('InputPicker', () => {
   testStandardProps(<InputPicker data={data} />, {
     sizes: ['lg', 'md', 'sm', 'xs'],
     getUIElement: () => {
-      return screen.getByRole('combobox');
+      return toggle();
     }
   });
-  testPickers(InputPicker, { virtualized: true });
+  testPickers(InputPicker, {
+    virtualized: true,
+    responsiveByDefault: false,
+    responsiveSearchable: true,
+    getToggleElement: toggle,
+    responsiveSearchRole: 'combobox'
+  });
   testControlledUnControlled(InputPicker, {
     componentProps: { data, defaultOpen: true },
     value: 'Eugenia',
@@ -47,14 +56,73 @@ describe('InputPicker', () => {
   testFormControl(InputPicker, {
     value: 'Eugenia',
     componentProps: { data },
-    getUIElement: () => screen.getByRole('combobox')
+    getUIElement: toggle
+  });
+
+  describe('Responsive searchable popup', () => {
+    let matchMedia: MatchMediaMock;
+    let initialMatchMedia: typeof window.matchMedia;
+    let initialWidth: number;
+    let initialHeight: number;
+
+    const resizeWindow = (width: number, height = 1000) => {
+      Object.assign(window, {
+        innerWidth: width,
+        innerHeight: height,
+        outerWidth: width,
+        outerHeight: height
+      }).dispatchEvent(new window.Event('resize'));
+    };
+
+    beforeEach(() => {
+      initialWidth = window.innerWidth;
+      initialHeight = window.innerHeight;
+      initialMatchMedia = window.matchMedia;
+      matchMedia = new MatchMediaMock();
+      resizeWindow(575);
+    });
+
+    afterEach(() => {
+      resizeWindow(initialWidth, initialHeight);
+      matchMedia.clear();
+      Object.defineProperty(window, 'matchMedia', {
+        configurable: true,
+        writable: true,
+        value: initialMatchMedia
+      });
+    });
+
+    it('Should search and select an option in a forced responsive Drawer', async () => {
+      const onChange = vi.fn();
+      const onSearch = vi.fn();
+
+      render(<InputPicker data={data} responsive onChange={onChange} onSearch={onSearch} />);
+
+      const combobox = screen.getByRole('combobox');
+      fireEvent.click(combobox);
+
+      const searchbox = within(screen.getByRole('dialog')).getByRole('combobox');
+      await waitFor(() => expect(searchbox).to.have.focus);
+
+      fireEvent.change(searchbox, { target: { value: 'Lou' } });
+
+      expect(onSearch).toHaveBeenCalledWith('Lou', expect.any(Object));
+      expect(screen.queryByRole('option', { name: 'Eugenia' })).not.to.exist;
+      expect(screen.getByRole('option', { name: 'Louisa' })).to.exist;
+
+      fireEvent.keyDown(searchbox, { key: 'Enter' });
+
+      expect(onChange).toHaveBeenCalledWith('Louisa', expect.any(Object));
+      expect(combobox).to.have.text('Louisa');
+      await waitFor(() => expect(combobox).to.have.focus);
+    });
   });
 
   it('Should clean selected default value', () => {
     render(<InputPicker data={data} defaultValue={'Eugenia'} />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
-    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(toggle()).to.have.text('Select');
   });
 
   it('Should render with "default" appearance by default', () => {
@@ -68,7 +136,7 @@ describe('InputPicker', () => {
     render(<InputPicker data={data} value={'Eugenia'} />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
-    expect(screen.getByRole('combobox')).to.have.text('Eugenia');
+    expect(toggle()).to.have.text('Eugenia');
   });
 
   it('Should be plaintext', () => {
@@ -96,11 +164,11 @@ describe('InputPicker', () => {
       </div>
     );
 
-    fireEvent.focus(screen.getAllByRole('textbox')[0]);
-    fireEvent.focus(screen.getAllByRole('textbox')[1]);
+    fireEvent.focus(screen.getAllByRole('combobox')[0]);
+    fireEvent.focus(screen.getAllByRole('combobox')[1]);
 
     expect((input1Ref.current as PickerHandle).overlay).to.exist;
-    expect(screen.getAllByRole('textbox')[1]).to.have.attr('readonly');
+    expect(screen.getAllByRole('combobox')[1]).to.have.attr('readonly');
     expect(() => {
       (input2Ref.current as PickerHandle).overlay;
     }).to.throw('The overlay is not found. Please confirm whether the picker is open.');
@@ -109,7 +177,7 @@ describe('InputPicker', () => {
   it('Should output a button', () => {
     render(<InputPicker data={[]} toggleAs="button" />);
 
-    expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
+    expect(toggle()).to.have.tagName('BUTTON');
   });
 
   it('Should update display options when `data` is updated', () => {
@@ -128,7 +196,7 @@ describe('InputPicker', () => {
     const value = 'Louisa';
     render(<InputPicker defaultOpen data={data} value={value} />);
 
-    expect(screen.getByRole('combobox')).to.have.text(value);
+    expect(toggle()).to.have.text(value);
     expect(screen.getByRole('option', { name: value })).to.have.attr('aria-selected', 'true');
   });
 
@@ -136,7 +204,7 @@ describe('InputPicker', () => {
     const value = 'Louisa';
     render(<InputPicker defaultOpen data={data} defaultValue={value} />);
 
-    expect(screen.getByRole('combobox')).to.have.text(value);
+    expect(toggle()).to.have.text(value);
     expect(screen.getByRole('option', { name: value })).to.have.attr('aria-selected', 'true');
   });
 
@@ -163,7 +231,7 @@ describe('InputPicker', () => {
   it('Should have a placeholder', () => {
     render(<InputPicker data={[]} className="custom" placeholder="test" />);
 
-    expect(screen.getByRole('combobox')).to.have.text('test');
+    expect(toggle()).to.have.text('test');
   });
 
   it('Allow `label` to be an empty string', () => {
@@ -185,7 +253,7 @@ describe('InputPicker', () => {
       />
     );
 
-    expect(screen.getByRole('combobox')).to.have.text('foo-bar');
+    expect(toggle()).to.have.text('foo-bar');
   });
 
   it('Should output a value by renderValue()', () => {
@@ -200,24 +268,24 @@ describe('InputPicker', () => {
       />
     );
 
-    expect(screen.getByRole('combobox')).to.have.text(`1${placeholder}`);
+    expect(toggle()).to.have.text(`1${placeholder}`);
 
     // Invalid value
     rerender(<InputPicker renderValue={v => [v, placeholder]} data={[]} value={2} />);
 
-    expect(screen.getByRole('combobox')).to.have.text(`2${placeholder}`);
+    expect(toggle()).to.have.text(`2${placeholder}`);
   });
 
   it('Should not be call renderValue()', () => {
     render(<InputPicker data={[]} renderValue={() => 'value'} />);
 
-    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(toggle()).to.have.text('Select');
   });
 
   it('Should render a placeholder when value error', () => {
     render(<InputPicker data={[]} value={2} placeholder={'test'} />);
 
-    expect(screen.getByRole('combobox')).to.have.text('test');
+    expect(toggle()).to.have.text('test');
   });
 
   it('Should call `onChange` callback with correct value', () => {
@@ -234,8 +302,8 @@ describe('InputPicker', () => {
     const onSelect = vi.fn();
     render(<InputPicker defaultOpen data={data} onSelect={onSelect} defaultValue={'Kariane'} />);
 
-    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'ArrowDown' });
-    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
     // onSelect is called with (value, item, event)
     expect(onSelect).toHaveBeenCalledWith(
@@ -260,7 +328,7 @@ describe('InputPicker', () => {
     const onSearch = vi.fn();
     render(<InputPicker data={[]} defaultOpen onSearch={onSearch} />);
 
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('combobox');
 
     fireEvent.change(input, { target: { value: 'a' } });
 
@@ -271,7 +339,7 @@ describe('InputPicker', () => {
 
   it('Should focus item by key=ArrowDown ', () => {
     render(<InputPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
-    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
     expect(screen.getByRole('option', { name: 'Kariane' }).firstChild).to.have.class(
       'rs-picker-select-menu-item-focus'
@@ -280,7 +348,7 @@ describe('InputPicker', () => {
 
   it('Should focus item by key=ArrowUp ', () => {
     render(<InputPicker defaultOpen data={data} defaultValue={'Kariane'} />);
-    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'ArrowUp' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
 
     expect(screen.getByRole('option', { name: 'Eugenia' }).firstChild).to.have.class(
       'rs-picker-select-menu-item-focus'
@@ -291,15 +359,24 @@ describe('InputPicker', () => {
     const onChange = vi.fn();
     render(<InputPicker defaultOpen data={data} onChange={onChange} defaultValue={'Kariane'} />);
 
-    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
     expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('Should not call `onChange` when Enter is pressed during IME composition', () => {
+    const onChange = vi.fn();
+    render(<InputPicker defaultOpen data={data} onChange={onChange} defaultValue={'Kariane'} />);
+
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter', isComposing: true });
+
+    expect(onChange).not.toHaveBeenCalled();
   });
 
   it('Should call onBlur callback', () => {
     const onBlur = vi.fn();
     render(<InputPicker data={[]} onBlur={onBlur} />);
-    fireEvent.blur(screen.getByRole('textbox'));
+    fireEvent.blur(screen.getByRole('combobox'));
 
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
@@ -307,7 +384,7 @@ describe('InputPicker', () => {
   it('Should call onFocus callback', () => {
     const onFocus = vi.fn();
     render(<InputPicker data={[]} onFocus={onFocus} />);
-    fireEvent.focus(screen.getByRole('textbox'));
+    fireEvent.focus(screen.getByRole('combobox'));
 
     expect(onFocus).toHaveBeenCalled();
   });
@@ -315,7 +392,8 @@ describe('InputPicker', () => {
   it('Should render a button by toggleAs={Button}', () => {
     render(<InputPicker open data={data} toggleAs={Button} />);
 
-    expect(screen.getByRole('combobox')).to.have.class('rs-btn');
+    expect(toggle()).to.have.class('rs-btn');
+    expect(screen.getByRole('combobox')).to.have.tagName('INPUT');
   });
 
   it('Should render the specified menu content by `searchBy`', () => {
@@ -355,7 +433,7 @@ describe('InputPicker', () => {
     it('Should call `onClean` callback by keyDown', () => {
       const onClean = vi.fn();
       render(<InputPicker data={data} defaultOpen defaultValue={'Eugenia'} onClean={onClean} />);
-      fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Backspace' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Backspace' });
 
       expect(onClean).toHaveBeenCalledTimes(1);
     });
@@ -375,7 +453,7 @@ describe('InputPicker', () => {
         />
       );
 
-      const input = screen.getByRole('textbox');
+      const input = screen.getByRole('combobox');
 
       fireEvent.change(input, { target: { value: 'a' } });
 
@@ -403,23 +481,23 @@ describe('InputPicker', () => {
 
   it('Should call renderValue', () => {
     const { rerender } = render(<InputPicker data={[]} value={'Test'} renderValue={() => '1'} />);
-    expect(screen.getByRole('combobox')).to.have.text('1');
-    expect(screen.getByRole('combobox')).to.have.attr('data-has-value', 'true');
+    expect(toggle()).to.have.text('1');
+    expect(toggle()).to.have.attr('data-has-value', 'true');
 
     rerender(<InputPicker data={[]} value={'Test'} renderValue={() => null} />);
-    expect(screen.getByRole('combobox')).to.have.text('Select');
-    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
+    expect(toggle()).to.have.text('Select');
+    expect(toggle()).to.not.have.attr('data-has-value', 'true');
 
     rerender(<InputPicker data={[]} value={'Test'} renderValue={() => undefined} />);
-    expect(screen.getByRole('combobox')).to.have.text('Select');
-    expect(screen.getByRole('combobox')).to.not.have.attr('data-has-value', 'true');
+    expect(toggle()).to.have.text('Select');
+    expect(toggle()).to.not.have.attr('data-has-value', 'true');
   });
 
   it('Children should not be selected', () => {
     const data = [{ value: 1, label: 'A', children: [{ value: 2, label: 'B' }] }];
     const { container } = render(<InputPicker data={data} value={2} />);
 
-    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(toggle()).to.have.text('Select');
     expect(container.firstChild).to.not.have.class('rs-picker-has-value');
   });
 
@@ -431,7 +509,7 @@ describe('InputPicker', () => {
 
     fireEvent.focus((inputRef.current as PickerHandle).root as HTMLElement);
 
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('combobox');
 
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: 'Enter' });
@@ -460,7 +538,7 @@ describe('InputPicker', () => {
       />
     );
 
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Alice' } });
+    fireEvent.change(screen.getByRole('combobox'), { target: { value: 'Alice' } });
 
     expect(shouldDisplayCreateOption).toHaveBeenCalledWith('Alice', [{ label: 'Alice', value: 1 }]);
     expect(screen.queryByText(/^Create option/)).to.not.exist;
@@ -493,10 +571,15 @@ describe('InputPicker', () => {
 
     it('Should be the focus switch option via keyboard', () => {
       render(<InputPicker data={data} />);
+      fireEvent.focus(screen.getByRole('combobox'));
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
-      expect(document.activeElement).to.have.text('Eugenia');
+      expect(screen.getByRole('combobox')).to.have.focus;
+      expect(screen.getByRole('combobox')).to.have.attr(
+        'aria-activedescendant',
+        screen.getByRole('option', { name: 'Eugenia' }).id
+      );
     });
   });
 });

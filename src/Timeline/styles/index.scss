@@ -2,12 +2,14 @@
 @use '../../styles/mixins/utilities' as utils;
 @use '../../styles/mixins/color-modes' as color-modes;
 @use './mixin';
+@use './horizontal';
 
-//
 // Time lines
 // --------------------------------------------------
 
 .rs-timeline {
+  $root: &;
+
   // CSS Variables
   --rs-time-line-tail-min-height: 2.375rem; // 20px + 18px
   --rs-time-line-item-content-margin: 12px;
@@ -15,6 +17,7 @@
   --rs-time-line-alternate-time-offset: calc(
     var(--rs-time-line-dot-side-length) / 2 + var(--rs-time-line-item-content-margin)
   ); // 5px + 12px
+
   --rs-time-line-dot-center-gap: calc(var(--rs-time-line-dot-side-length) / 2);
   --rs-time-line-item-content-padding-bottom: 18px;
   --rs-time-line-tail-width: 2px;
@@ -85,6 +88,17 @@
   &-endless &-item:last-child &-item-tail {
     height: auto;
     min-height: var(--rs-time-line-tail-min-height);
+  }
+
+  @at-root #{$root}-reverse#{$root}-endless #{$root}-item:first-child #{$root}-item-tail {
+    top: 0;
+    bottom: 0;
+    height: auto;
+  }
+
+  @at-root #{$root}-reverse#{$root}-endless #{$root}-item:last-child #{$root}-item-tail {
+    height: calc(var(--rs-time-line-dot-center-gap) + var(--rs-time-line-dot-side-length));
+    min-height: 0;
   }
 
   &-item:only-child &-item-tail {
@@ -185,3 +199,5 @@
     padding-inline-start: var(--rs-time-line-alternate-time-offset);
   }
 }
+
+@include horizontal.timeline-horizontal;
